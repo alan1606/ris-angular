@@ -1,1 +1,38 @@
-<p>conceptos works!</p>
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-primary my-2" routerLink="/conceptos/form">Crear</button>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Concepto</th>
+                    <th>Area</th>
+                    <th>Dicom</th>
+                    <th>Instrucciones</th>
+                    <th>Requiere saber antecedentes</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let concepto of conceptos">
+                    <td>{{concepto.id}}</td>
+                    <td>{{concepto.concepto}}</td>
+                    <td>{{concepto.area.nombre}}</td>
+                    <td>{{concepto.dicom}}</td>
+                    <td>{{concepto.instrucciones.nombre}</td>
+                    <td>{{concepto.requiereSaberAntecedentes}}</td>
+                    <td><button class="btn btn-secondary btn-sm" [routerLink]="['/conceptos/form', concepto.id]">
+                            Editar
+                        </button></td>
+                    <td><button  class="btn btn-danger btn-sm" 
+                        (click) = "eliminar(concepto)">
+                            Eliminar
+                        </button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

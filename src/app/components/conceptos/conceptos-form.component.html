@@ -1,0 +1,50 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-secondary my-2" routerLink="/conceptos">Volver</button>
+
+        <form>
+            <div class="form-group">
+                <label for="concepto">Concepto</label>
+                <input type="text" name="concepto" id="concepto" class="form-control" 
+                [(ngModel)] = "concepto.concepto">
+                <div class="alert alert-danger" *ngIf="error?.concepto">
+                    {{error.concepto}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-check-label" for="area">Area</label>
+                <input type="text" name="area" id="area" class="form-control"
+                [(ngModel)] = "concepto.area.nombre">
+            </div>
+
+            <div class="form-check">
+                <label for="dicom">Dicom</label>
+                <input type="checkbox" name="dicom" id="dicom" class="form-check-input"
+                [(ngModel)] = "concepto.dicom">
+            </div>
+
+            <div class="form-group">
+                <label class="form-check-label" for="intrucciones">Instrucciones</label>
+                <input type="text" name="instrucciones" id="instrucciones" class="form-control"
+                [(ngModel)] = "concepto.instrucciones.nombre">
+            </div>
+
+            <div class="form-check">
+                <label for="requiereSaberAntecedentes">Requiere saber antecedentes</label>
+                <input type="checkbox" name="requiereSaberAntecedentes" id="requiereSaberAntecedentes" class="form-check-input"
+                [(ngModel)] = "concepto.requiereSaberAntecedentes">
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" 
+                (click) = "concepto.id ? editar() : crear()">
+                    {{ concepto.id ? 'Editar' : 'Crear' }}}
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
