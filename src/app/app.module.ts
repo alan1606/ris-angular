@@ -8,20 +8,27 @@ import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { LayoutModule } from './layout/layout.module';
 import { ConceptosFormComponent } from './components/conceptos/conceptos-form.component';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     PacientesComponent,
     ConceptosComponent,
-    ConceptosFormComponent
+    ConceptosFormComponent,
+    PacientesFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

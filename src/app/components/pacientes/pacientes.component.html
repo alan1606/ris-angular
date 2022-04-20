@@ -1,1 +1,55 @@
-<p>pacientes works!</p>
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-primary my-2" routerLink='/pacientes/form'>Crear</button>
+        <div class="alert alert-info" *ngIf="lista?.length==0">
+            No hay pacientes en el sistema.
+        </div>
+        <table class="table table-hover table-striped" *ngIf="lista?.length>0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Curp</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                    <th>Sexo</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>Activo</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+
+            <tbody *ngIf="lista?.length>0"> 
+                <tr *ngFor="let paciente of lista">
+                    <td>{{paciente.id}}</td>
+                    <td>{{paciente.curp}}</td>
+                    <td>{{paciente.nombreCompleto}}</td>
+                    <td>{{paciente.telefono}}</td>
+                    <td>{{paciente.email}}</td>
+                    <td>{{paciente.sexo == 1 ? "Mujer" : "Hombre"}}</td>
+                    <td>{{paciente.fechaNacimiento | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{paciente.activo}}</td>
+                    <td><button class="btn btn-secondary btn-sm" [routerLink]="['/pacientes/form', paciente.id]">
+                            Editar
+                        </button></td>
+                    <td><button class="btn btn-danger btn-sm" (click)="eliminar(paciente)">
+                            Eliminar
+                        </button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <mat-paginator [length]="totalRegistros" 
+        [pageSize]="totalPorPagina" 
+        [pageIndex]= "paginaActual"  
+        [pageSizeOptions]= "pageSizeOptions"
+        (page) = "paginar($event)"
+        showFirstLastButtons
+        class="float-left mx-2"
+        >
+        </mat-paginator>
+
+    </div>
+</div>

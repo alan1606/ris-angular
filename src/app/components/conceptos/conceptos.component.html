@@ -2,7 +2,10 @@
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
         <button class="btn btn-primary my-2" routerLink="/conceptos/form">Crear</button>
-        <table class="table table-hover table-striped">
+        <div class="alert alert-info" *ngIf="lista?.length==0">
+            No hay conceptos en el sistema.
+        </div>
+        <table class="table table-hover table-striped" *ngIf="lista?.length>0">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -16,8 +19,8 @@
                 </tr>
             </thead>
 
-            <tbody>
-                <tr *ngFor="let concepto of conceptos">
+            <tbody *ngIf="lista?.length>0"> 
+                <tr *ngFor="let concepto of lista">
                     <td>{{concepto.id}}</td>
                     <td>{{concepto.concepto}}</td>
                     <td>{{concepto.area.nombre}}</td>
@@ -27,12 +30,22 @@
                     <td><button class="btn btn-secondary btn-sm" [routerLink]="['/conceptos/form', concepto.id]">
                             Editar
                         </button></td>
-                    <td><button  class="btn btn-danger btn-sm" 
-                        (click) = "eliminar(concepto)">
+                    <td><button class="btn btn-danger btn-sm" (click)="eliminar(concepto)">
                             Eliminar
                         </button></td>
                 </tr>
             </tbody>
         </table>
+
+        <mat-paginator [length]="totalRegistros" 
+        [pageSize]="totalPorPagina" 
+        [pageIndex]= "paginaActual"  
+        [pageSizeOptions]= "pageSizeOptions"
+        (page) = "paginar($event)"
+        showFirstLastButtons
+        class="float-left mx-2"
+        >
+        </mat-paginator>
+
     </div>
 </div>

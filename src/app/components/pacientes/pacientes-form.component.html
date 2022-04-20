@@ -1,0 +1,72 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-secondary my-2" routerLink="/pacientes">Volver</button>
+
+        <form>
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" 
+                [(ngModel)] = "model.nombreCompleto">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Curp</label>
+                <input type="text" name="curp" id="curp" class="form-control" 
+                [(ngModel)] = "model.curp">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" name="telefono" id="telefono" class="form-control" 
+                [(ngModel)] = "model.telefono">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" 
+                [(ngModel)] = "model.email">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaNacimiento">Fecha de nacimiento</label>
+                <input type="text" name="fechaNacimiento" id="fechaNacimiento" class="form-control" 
+                [(ngModel)] = "model.fechaNacimiento">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="activo">Activo</label>
+                <input type="checkbox" name="activo" id="activo" class="form-check-input"
+                [(ngModel)] = "model.activo">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" 
+                (click) = "model.id ? editar() : crear()">
+                    {{ model.id ? 'Editar' : 'Crear' }}
+                </button>
+            </div>
+
+
+        </form>
+    </div>
+
+</div>

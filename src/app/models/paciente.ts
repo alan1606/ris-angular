@@ -1,4 +1,6 @@
-export class Paciente {
+import { Generic } from "./generic";
+
+export class Paciente implements Generic{
 
     id: number;
     curp: string;
