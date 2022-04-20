@@ -15,4 +15,5 @@ export class Paciente implements Generic{
     fechaRegistro: string;
     nombreCompleto: string;
     firmaId: number;
+    
 }

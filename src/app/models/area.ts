@@ -1,4 +1,6 @@
-export class Area {
+import { Generic } from "./generic";
+
+export class Area implements Generic{
 
     id: number;
     nombre: string;

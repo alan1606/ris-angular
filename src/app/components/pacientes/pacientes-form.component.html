@@ -7,7 +7,25 @@
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" class="form-control" 
-                [(ngModel)] = "model.nombreCompleto">
+                [(ngModel)] = "model.nombre">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="apellidoPaterno">Apellido paterno</label>
+                <input type="text" name="apellidoPaterno" id="apellidoPaterno" class="form-control" 
+                [(ngModel)] = "model.apellidoPaterno">
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="apellidoMaterno">Apellido materno</label>
+                <input type="text" name="apellidoMaterno" id="apellidoMaterno" class="form-control" 
+                [(ngModel)] = "model.apellidoMaterno">
                 <div class="alert alert-danger" *ngIf="error?.paciente">
                     {{error.paciente}}
                 </div>
@@ -41,8 +59,19 @@
             </div>
 
             <div class="form-group">
+                <label for="sexo">Sexo</label>
+                <select name="sexo" [(ngModel)] = "model.sexo">
+                    <option value="1">Fememnino</option>
+                    <option value="2">Masculino</option>
+                  </select>
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="fechaNacimiento">Fecha de nacimiento</label>
-                <input type="text" name="fechaNacimiento" id="fechaNacimiento" class="form-control" 
+                <input type="datetime-local" name="fechaNacimiento" id="fechaNacimiento" class="form-control" 
                 [(ngModel)] = "model.fechaNacimiento">
                 <div class="alert alert-danger" *ngIf="error?.paciente">
                     {{error.paciente}}
