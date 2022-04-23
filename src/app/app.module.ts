@@ -7,11 +7,13 @@ import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { LayoutModule } from './layout/layout.module';
 import { ConceptosFormComponent } from './components/conceptos/conceptos-form.component';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatPaginatorModule} from '@angular/material/paginator';
 import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
-
+import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { PacientesFormComponent } from './components/pacientes/pacientes-form.co
     PacientesComponent,
     ConceptosComponent,
     ConceptosFormComponent,
-    PacientesFormComponent
+    PacientesFormComponent,
+    VentaConceptosComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +31,9 @@ import { PacientesFormComponent } from './components/pacientes/pacientes-form.co
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,
     MatPaginatorModule
   ],
   providers: [],

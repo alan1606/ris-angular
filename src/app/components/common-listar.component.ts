@@ -50,11 +50,10 @@ export abstract class CommonListarComponent<E extends Generic, S extends CommonS
   public paginar(event: PageEvent): void {
     this.paginaActual = event.pageIndex;
     this.totalPorPagina = event.pageSize;
-
     this.calcularRangos();
   }
 
-  private calcularRangos(): void {
+  public calcularRangos(): void {
     this.service.listarPaginas(this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(p => {
       this.lista = p.content as E[];
       this.totalRegistros = p.totalElements as number;

@@ -1,0 +1,69 @@
+<mat-form-field>
+    <input matInput placeholder="Área"
+    [formControl] = "autocompleteControl"
+    [matAutocomplete]= "autocomplete">
+    <mat-autocomplete #autocomplete = "matAutocomplete">
+        <mat-option *ngFor="let area of areasFiltradas"
+        [value] = "area">
+            {{area.nombre}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <div class="alert alert-info" *ngIf="lista?.length==0">
+            No hay estudios en el sistema.
+        </div>
+        <table class="table table-hover table-striped" *ngIf="lista?.length>0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Paciente</th>
+                    <th>Estudio</th>
+                    <th>Estatus</th>
+                    <th>IdPacs</th>
+                    <th>Area</th>
+                    <th>IUID</th>
+                    <th>Ver</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+
+            <tbody *ngIf="lista?.length>0"> 
+                <tr *ngFor="let estudio of lista">
+                    <td>{{estudio.id}}</td>
+                    <td>{{estudio.paciente.nombreCompleto}}</td>
+                    <td>{{estudio.concepto.concepto}}</td>
+                    <td>{{estudio.estado}}</td>
+                    <td (click)="buscarEnPacs(estudio)"> {{estudio.idPacs}}</td>
+                    <td>{{estudio.equipoDicom.area.nombre}}</td>
+                    <td>{{estudio.iuid}}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" *ngIf="estudio.iuid?.length>0" (click)="ver(estudio)">
+                            Ver
+                        </button>
+                        <button class="btn btn-info btn-sm" *ngIf="!estudio.iuid?.length>0" (click)="buscarEnPacs(estudio)">
+                            Buscar
+                        </button></td>
+                    <td *ngIf="estudio.estado != 'CANCELADO' && estudio.estado != 'DEVUELTO'">
+                        <button class="btn btn-primary btn-sm" *ngIf="estudio.iuid?.length>0" (click)="abrirEnvio(estudio)">
+                          Enviar
+                     </button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <mat-paginator [length]="totalRegistros" 
+        [pageSize]="totalPorPagina" 
+        [pageIndex]= "paginaActual"  
+        [pageSizeOptions]= "pageSizeOptions"
+        (page) = "paginar($event)"
+        showFirstLastButtons
+        class="float-left mx-2"
+        >
+        </mat-paginator>
+
+    </div>
+</div>
