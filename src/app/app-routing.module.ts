@@ -14,6 +14,7 @@ const routes: Routes = [
   {path : 'pacientes/form/:id', component: PacientesFormComponent},
   {path : 'pacientes/form', component: PacientesFormComponent},
   {path : 'venta-conceptos', component: VentaConceptosComponent}
+
 ];
 
 @NgModule({

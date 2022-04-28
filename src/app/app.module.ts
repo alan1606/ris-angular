@@ -17,6 +17,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +31,13 @@ import { DatePipe } from '@angular/common';
     ConceptosComponent,
     ConceptosFormComponent,
     PacientesFormComponent,
-    VentaConceptosComponent
+    VentaConceptosComponent,
+    BuscarEstudioModalComponent,
+    EnviarEstudioModalComponent
+  ],
+  entryComponents:[
+    BuscarEstudioModalComponent,
+    EnviarEstudioModalComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +51,10 @@ import { DatePipe } from '@angular/common';
     ReactiveFormsModule,
     MatPaginatorModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

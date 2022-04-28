@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
 import { map, flatMap } from 'rxjs/operators';
 import { VIEWER } from 'src/app/config/app';
 import { Area } from 'src/app/models/area';
@@ -12,6 +13,8 @@ import { PacientesService } from 'src/app/services/pacientes.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
 import { CommonListarComponent } from '../common-listar.component';
+import { BuscarEstudioModalComponent } from '../studies/buscar-estudio-modal/buscar-estudio-modal.component';
+import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/enviar-estudio-modal.component';
 
 
 @Component({
@@ -31,7 +34,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
   constructor(service: VentaConceptosService,
     @Inject(AreasService) private areasService: AreasService,
     @Inject(PacientesService) private pacienteService: PacientesService,
-    private pipe: DatePipe) {
+    private pipe: DatePipe,
+    public dialog: MatDialog) {
     super(service);
     this.titulo = "Listado de estudios";
     this.nombreModel = "Estudio";
@@ -53,18 +57,6 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
 
   }
 
-  buscarEnPacs(estudio: VentaConceptos): void {
-    this.service.buscarEnPacs(estudio.id).subscribe(() => {
-      this.calcularRangos();
-    },
-      e => {
-        if (e.status === 404) {
-          Swal.fire(
-            'Error', 'No se encontró el esutudio', 'error'
-          );
-        }
-      });
-  }
 
   ver(estudio: VentaConceptos): void {
     window.open(`${VIEWER}/${estudio.iuid}`);
@@ -167,5 +159,45 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
       this.fechaFin = '';
     }
   }
+
+  buscarEstudioEnPacs(estudio: VentaConceptos): void {
+    this.service.buscarEnPacs(estudio.id).subscribe(() => {
+      console.log("Id pacs encontrado en el sistema");
+      Swal.fire('Encontrado', 'Se vinculó el estudio automáticamente', 'success');
+    },
+      e => {
+        if (e.status === 404) {
+          const modalRef = this.dialog.open(BuscarEstudioModalComponent,{
+            width: '1000px',
+            data: {"estudio": estudio}
+          });
+      
+          modalRef.afterClosed().subscribe(vinculado => {
+            console.log(vinculado);
+            if(vinculado){
+              Swal.fire('Vinculado', 'Se ha vinculado el estudio', 'success');
+            }
+          });
+
+        }
+      });
+    }
+
+    abrirEnvio(estudio: VentaConceptos): void{
+      const modalRef = this.dialog.open(EnviarEstudioModalComponent,{
+        width: '1000px',
+        data: {"estudio": estudio}
+      });
+  
+      modalRef.afterClosed().subscribe(enviado => {
+        console.log(enviado);
+        if(enviado){
+          Swal.fire('Enviado', 'Se ha enviado el estudio con éxito', 'success');
+        }
+      },
+      e =>{
+        Swal.fire('Error', 'No se ha podido enviar el estudio', 'error');
+      });
+    }
 
 }

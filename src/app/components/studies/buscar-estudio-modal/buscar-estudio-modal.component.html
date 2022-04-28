@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>Buscar {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
+<div mat-dialog-content>
+
+    <table mat-table [dataSource] = "estudios"  class = "mat-elevation-z8 m-3" style = "width: 75%;">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Id</th>
+            <td mat-cell *matCellDef="let estudio">{{estudio.id}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef>Fecha</th>
+            <td mat-cell *matCellDef="let estudio">{{estudio.createdTime | date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="paciente">
+            <th mat-header-cell *matHeaderCellDef>Paciente</th>
+            <td mat-cell *matCellDef="let estudio">{{estudio.patient.personName.familyName? estudio.patient.personName.familyName: "" 
+                + " " + estudio.patient.personName.givenName? estudio.patient.personName.givenName: "" }}</td>
+        </ng-container>
+        
+        
+        <ng-container matColumnDef="estudio">
+            <th mat-header-cell *matHeaderCellDef>Estudio</th>
+            <td mat-cell *matCellDef="let estudio">{{estudio?.studyDesc}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="idPacs">
+            <th mat-header-cell *matHeaderCellDef>Id Pacs</th>
+            <td mat-cell *matCellDef="let estudio">{{estudio.studyId}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="ver">
+            <th mat-header-cell *matHeaderCellDef>Ver</th>
+            <td mat-cell *matCellDef="let estudio">
+                <button mat-mini-fab color="primary" (click)="ver(estudio)">Ver</button>
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="vincular">
+            <th mat-header-cell *matHeaderCellDef>Vincular</th>
+            <td mat-cell *matCellDef="let estudio">
+                <button mat-mini-fab color="secondary"  [matDialogClose]="vinculado" (click)="vincular(estudio)">Vincular</button>
+            </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="mostrarColumnasEstudios"></tr>
+        <tr mat-row *matRowDef="let estudio; columns: mostrarColumnasEstudios;"></tr>
+        
+        </table>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button color="primary"  (click)="cancelar()">Cancelar</button>
+        </div>
+</div>

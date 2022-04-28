@@ -78,7 +78,7 @@
                     <td>{{estudio.concepto.concepto}}</td>
                     <td>{{estudio.fechaAsignado | date : 'dd/MM/yyyy'}} </td>
                     <td>{{estudio.estado}}</td>
-                    <td (click)="buscarEnPacs(estudio)"> {{estudio.idPacs}}</td>
+                    <td>{{estudio.idPacs}}</td>
                     <td>{{estudio.equipoDicom.area.nombre}}</td>
                     <td>{{estudio.iuid}}</td>
                     <td>
@@ -86,7 +86,7 @@
                             Ver
                         </button>
                         <button class="btn btn-info btn-sm" *ngIf="!estudio.iuid?.length>0"
-                            (click)="buscarEnPacs(estudio)">
+                            (click) = "buscarEstudioEnPacs(estudio)">
                             Buscar
                         </button>
                     </td>
@@ -95,6 +95,7 @@
                             (click)="abrirEnvio(estudio)">
                             Enviar
                         </button>
+                       
                     </td>
                 </tr>
             </tbody>
