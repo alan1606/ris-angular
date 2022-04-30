@@ -2,72 +2,103 @@
 <div mat-dialog-content>
 
 
-    <form>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    <!--
-    <table mat-table [dataSource] = "estudios"  class = "mat-elevation-z8 m-3" style = "width: 75%;">
+    <div class="card text-dark bg-light mb-3">
+        <div class="card-header">{{titulo}}</div>
+        <div class="card-body">
+            
+            <button class="btn btn-secondary my-2" (click)="cancelar()">Volver</button>
 
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>Id</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.id}}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef>Fecha</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.createdTime | date: 'dd/MM/yyyy'}} </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="paciente">
-            <th mat-header-cell *matHeaderCellDef>Paciente</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.patient.personName.familyName? estudio.patient.personName.familyName: "" 
-                + " " + estudio.patient.personName.givenName? estudio.patient.personName.givenName: "" }}</td>
-        </ng-container>
-        
-        
-        <ng-container matColumnDef="estudio">
-            <th mat-header-cell *matHeaderCellDef>Estudio</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio?.studyDesc}}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="idPacs">
-            <th mat-header-cell *matHeaderCellDef>Id Pacs</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.studyId}}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="ver">
-            <th mat-header-cell *matHeaderCellDef>Ver</th>
-            <td mat-cell *matCellDef="let estudio">
-                <button mat-mini-fab color="primary" (click)="ver(estudio)">Ver</button>
-            </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="vincular">
-            <th mat-header-cell *matHeaderCellDef>Vincular</th>
-            <td mat-cell *matCellDef="let estudio">
-                <button mat-mini-fab color="secondary"  [matDialogClose]="vinculado" (click)="vincular(estudio)">Vincular</button>
-            </td>
-        </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="mostrarColumnasEstudios"></tr>
-        <tr mat-row *matRowDef="let estudio; columns: mostrarColumnasEstudios;"></tr>
-        
-        </table>
--->
-        <div mat-dialog-actions>
-            <button mat-raised-button color="primary" (click)="enviar(estudio)">Enviar</button>
+            <form>
+                <div class="form-group">
+                    <label for="motivo">Motivo</label>
+                    <input type="text" name="motivo" id="motivo" class="form-control" readonly
+                        placeholder={{estudio.ordenVenta.motivo}}
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check-label" for="antecedentes">Antecedentes</label>
+                    <input type="text" name="antecedentes" id="antecedentes" class="form-control" readonly
+                        placeholder={{antecedentesJuntos}}>
+                </div>
+
+
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput placeholder="Medico radiólogo" [formControl]="autocompleteControlMedicoRadiologo"
+                            [matAutocomplete]="autocompleteRadiologo">
+                        <mat-autocomplete #autocompleteRadiologo="matAutocomplete" [displayWith]="mostrarNombreMedicoRadiologo"
+                            (optionSelected)="seleccionarMedicoRadiologo($event)">
+                            <mat-option *ngFor="let medicoRadiologo of medicosRadiologosFiltrados" [value]="medicoRadiologo">
+                                {{medicoRadiologo.nombres + ' ' +medicoRadiologo.apellidos}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group my-2" *ngIf="!estudio.concepto.dicom">
+                    <div class="input-group mb-3">
+
+                        <div class="custom-file">
+                            <input (change)="seleccionarPdf($event)" type="file" class="custom-file-input"
+                                id="inputGroupFile01">
+                            <label class="custom-file-label" for="inputGroupFile01">Seleccionar pdf</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <img [src]="imagePath + estudio.ordenVenta.id" class="img-thumbnail rounded"
+                        style="cursor: pointer;">
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
+                            [matAutocomplete]="autocompleteReferente">
+                        <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
+                            (optionSelected)="seleccionarMedicoReferente($event)">
+                            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente">
+                                {{medicoReferente.nombres + ' ' +medicoReferente.apellidos}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+
+
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput placeholder="Técnico" [formControl]="autocompleteControlTecnico"
+                            [matAutocomplete]="autocompleteTecnico">
+                        <mat-autocomplete #autocompleteTecnico="matAutocomplete" [displayWith]="mostrarNombreTecnico"
+                            (optionSelected)="seleccionarTecnico($event)">
+                            <mat-option *ngFor="let tecnico of tecnicosFiltrados" [value]="tecnico">
+                                {{tecnico.nombres + ' ' + tecnico.apellidos}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="emailPaciente">Email paciente</label>
+                    <input type="email" name="emailPaciente" id="emailPaciente" class="form-control" [ngModel] = "estudio.paciente.email">
+                </div>
+
+                <div class="form-group">
+                    <label for="mensaje">Mensaje</label>
+                    <textarea class="form-control" id="mensaje" name ="mensaje" rows="3" [value]="mensaje" (input)="mensaje = $event.target.value;"></textarea>
+                  </div>
+
+            </form>
         </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="enviar(estudio)">Enviar</button>
+    </div>
+
 </div>

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
+import { OrdenVenta } from '../models/orden-venta';
 import { VentaConceptos } from '../models/venta-conceptos';
 import { CommonService } from './common.service';
 
@@ -39,5 +40,6 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
   public filtrarRangoYPaciente(fechaInicio: string, fechaFin: string, idPaciente: number): Observable<VentaConceptos[]>{
     return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/desde/${fechaInicio}/hasta/${fechaFin}/paciente/${idPaciente}`);
   }
+
 
 }
