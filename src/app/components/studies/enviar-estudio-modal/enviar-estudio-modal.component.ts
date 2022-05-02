@@ -12,6 +12,7 @@ import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.service';
 import { MedicoService } from 'src/app/services/medico.service';
 import { MultimediaService } from 'src/app/services/multimedia.service';
+import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { SendMailService } from 'src/app/services/send-mail.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
@@ -38,7 +39,6 @@ export class EnviarEstudioModalComponent implements OnInit {
   titulo: 'Enviar estudio';
   imagePath = IMAGE_PATH;
   
-  mensaje: string;
 
   private pdf: File;
   private multimedia: Multimedia = new Multimedia();
@@ -50,7 +50,8 @@ export class EnviarEstudioModalComponent implements OnInit {
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
     private sendMailService: SendMailService,
-    private ventaConceptosService: VentaConceptosService) {}
+    private ventaConceptosService: VentaConceptosService,
+    private ordenVentaService: OrdenVentaService) {}
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -77,7 +78,7 @@ export class EnviarEstudioModalComponent implements OnInit {
       console.log(antecedente.antecedente.nombre);
     }));
 
-    this.mensaje = `DiagnoCons ha enviado un estudio de ${this.estudio.concepto.concepto} del paciente ${this.estudio.paciente.nombreCompleto} `;
+    this.estudio.mensaje = `DiagnoCons ha enviado un estudio de ${this.estudio.concepto.concepto} del paciente ${this.estudio.paciente.nombreCompleto} `;
   
   }
 
@@ -88,17 +89,22 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   enviar(estudio: VentaConceptos): void {
     this.actualizarEstudio();
+    this.actualizarOrdenVenta();
 
-    this.sendMailService.enviarCorreo(this.estudio, this.mensaje).subscribe(estado =>{
-      if(estado == 1){
-        Swal.fire('Enviado', 'El correo ha sido enviado', 'success')
-      }
-      else{
+    this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>
+        Swal.fire('Enviado', 'El correo ha sido enviado', 'success'),
+        e =>
         Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error')
-      }
-    });
+    );
+
+    this.modalRef.close();
 
   }
+
+  actualizarOrdenVenta(): void {
+    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => console.log(orden));
+  }
+
 
   actualizarEstudio() {
     this.ventaConceptosService.editar(this.estudio).subscribe(estudio => console.log(estudio),
