@@ -9,21 +9,21 @@
             <button class="btn btn-secondary my-2" (click)="cancelar()">Volver</button>
 
             <form>
-                <div class="form-group">
+                <div class="form-group my-5">
                     <label for="motivo">Motivo</label>
                     <input type="text" name="motivo" id="motivo" class="form-control" readonly
                         placeholder={{estudio.ordenVenta.motivo}}
                     >
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-3">
                     <label class="form-check-label" for="antecedentes">Antecedentes</label>
                     <input type="text" name="antecedentes" id="antecedentes" class="form-control" readonly
                         placeholder={{antecedentesJuntos}}>
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group my-3">
                     <mat-form-field>
                         <input matInput placeholder="Medico radiólogo" [formControl]="autocompleteControlMedicoRadiologo"
                             [matAutocomplete]="autocompleteRadiologo">
@@ -48,12 +48,12 @@
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group my-3">
                     <img [src]="imagePath + estudio.ordenVenta.id" class="img-thumbnail rounded"
                         style="cursor: pointer;">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-3">
                     <mat-form-field>
                         <input matInput placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
                             [matAutocomplete]="autocompleteReferente">
@@ -68,7 +68,7 @@
 
 
 
-                <div class="form-group">
+                <div class="form-group my-3">
                     <mat-form-field>
                         <input matInput placeholder="Técnico" [formControl]="autocompleteControlTecnico"
                             [matAutocomplete]="autocompleteTecnico">
@@ -82,12 +82,12 @@
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group my-3">
                     <label for="emailPaciente">Email paciente</label>
-                    <input type="email" name="emailPaciente" id="emailPaciente" class="form-control" [ngModel] = "estudio.paciente.email">
+                    <input type="email" name="emailPaciente" id="emailPaciente" class="form-control" [(ngModel)] = "estudio.paciente.email">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-3">
                     <label for="mensaje">Mensaje</label>
                     <textarea class="form-control" id="mensaje" name ="mensaje" rows="3" [value]="estudio.mensaje" (input)="estudio.mensaje= $event.target.value;"></textarea>
                   </div>

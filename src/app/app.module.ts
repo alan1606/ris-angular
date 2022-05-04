@@ -22,6 +22,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
+import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio
     PacientesFormComponent,
     VentaConceptosComponent,
     BuscarEstudioModalComponent,
-    EnviarEstudioModalComponent
+    EnviarEstudioModalComponent,
+    SubirFotoOrdenComponent
   ],
   entryComponents:[
     BuscarEstudioModalComponent,

@@ -4,6 +4,7 @@ import { ConceptosFormComponent } from './components/conceptos/conceptos-form.co
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 
 const routes: Routes = [
@@ -13,8 +14,8 @@ const routes: Routes = [
   {path : 'conceptos/form/:id', component: ConceptosFormComponent},
   {path : 'pacientes/form/:id', component: PacientesFormComponent},
   {path : 'pacientes/form', component: PacientesFormComponent},
-  {path : 'venta-conceptos', component: VentaConceptosComponent}
-
+  {path : 'venta-conceptos', component: VentaConceptosComponent},
+  {path : 'subir-foto-orden/:id', component: SubirFotoOrdenComponent}
 ];
 
 @NgModule({

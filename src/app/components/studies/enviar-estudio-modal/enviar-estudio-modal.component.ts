@@ -4,7 +4,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { flatMap, map } from 'rxjs';
 import { IMAGE_PATH } from 'src/app/config/app';
-import { AntecedenteEstudio } from 'src/app/models/antecedente-estudio';
 import { Medico } from 'src/app/models/medico';
 import { Multimedia } from 'src/app/models/multimedia';
 import { Tecnico } from 'src/app/models/tecnico';
@@ -13,6 +12,7 @@ import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.
 import { MedicoService } from 'src/app/services/medico.service';
 import { MultimediaService } from 'src/app/services/multimedia.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
+import { PacientesService } from 'src/app/services/pacientes.service';
 import { SendMailService } from 'src/app/services/send-mail.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
@@ -38,7 +38,6 @@ export class EnviarEstudioModalComponent implements OnInit {
   enviado: VentaConceptos;
   titulo: 'Enviar estudio';
   imagePath = IMAGE_PATH;
-  
 
   private pdf: File;
   private multimedia: Multimedia = new Multimedia();
@@ -51,7 +50,8 @@ export class EnviarEstudioModalComponent implements OnInit {
     private medicoService: MedicoService,
     private sendMailService: SendMailService,
     private ventaConceptosService: VentaConceptosService,
-    private ordenVentaService: OrdenVentaService) {}
+    private ordenVentaService: OrdenVentaService,
+    private pacienteService: PacientesService) {}
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -78,8 +78,13 @@ export class EnviarEstudioModalComponent implements OnInit {
       console.log(antecedente.antecedente.nombre);
     }));
 
-    this.estudio.mensaje = `DiagnoCons ha enviado un estudio de ${this.estudio.concepto.concepto} del paciente ${this.estudio.paciente.nombreCompleto} `;
-  
+    if(!this.estudio.mensaje || this.estudio.mensaje === '' ){
+      this.estudio.mensaje = `DiagnoCons ha enviado un estudio de ${this.estudio.concepto.concepto} del paciente ${this.estudio.paciente.nombreCompleto} `;
+    }
+
+      this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
+      this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
+      this.autocompleteControlTecnico.setValue(this.estudio.tecnico);
   }
 
   cancelar() {
@@ -90,6 +95,7 @@ export class EnviarEstudioModalComponent implements OnInit {
   enviar(estudio: VentaConceptos): void {
     this.actualizarEstudio();
     this.actualizarOrdenVenta();
+    this.actualizarPaciente();
 
     this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>
         Swal.fire('Enviado', 'El correo ha sido enviado', 'success'),
@@ -99,6 +105,12 @@ export class EnviarEstudioModalComponent implements OnInit {
 
     this.modalRef.close();
 
+  }
+
+  actualizarPaciente() {
+    this.pacienteService.editar(this.estudio.paciente).subscribe(paciente => console.log(paciente),
+      e => console.log("error")
+    );
   }
 
   actualizarOrdenVenta(): void {
