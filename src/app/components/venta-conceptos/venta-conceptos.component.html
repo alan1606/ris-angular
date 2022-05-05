@@ -91,7 +91,7 @@
                         </button>
                     </td>
                     <td *ngIf="estudio.estado != 'CANCELADO' && estudio.estado != 'DEVUELTO'">
-                        <button class="btn btn-primary btn-sm" *ngIf="estudio.iuid?.length>0"
+                        <button class="btn btn-primary btn-sm" *ngIf="estudio.iuid?.length>0 || !estudio.concepto.dicom"
                             (click)="abrirEnvio(estudio)">
                             Enviar
                         </button>
