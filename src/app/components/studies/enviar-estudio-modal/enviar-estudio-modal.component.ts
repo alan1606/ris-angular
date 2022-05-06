@@ -29,8 +29,8 @@ export class EnviarEstudioModalComponent implements OnInit {
   autocompleteControlMedicoRadiologo = new FormControl();
   autocompleteControlTecnico = new FormControl();
 
-  medicosReferentesFiltrados: Medico[] = []; 
-  medicosRadiologosFiltrados: Medico[] = []; 
+  medicosReferentesFiltrados: Medico[] = [];
+  medicosRadiologosFiltrados: Medico[] = [];
   tecnicosFiltrados: Tecnico[] = [];
 
   antecedentesJuntos: string = "";
@@ -51,7 +51,7 @@ export class EnviarEstudioModalComponent implements OnInit {
     private sendMailService: SendMailService,
     private ventaConceptosService: VentaConceptosService,
     private ordenVentaService: OrdenVentaService,
-    private pacienteService: PacientesService) {}
+    private pacienteService: PacientesService) { }
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -73,18 +73,18 @@ export class EnviarEstudioModalComponent implements OnInit {
       flatMap(valor => valor ? this.tecnicoService.filtrarPorNombre(valor) : [])
     ).subscribe(tecnicos => this.tecnicosFiltrados = tecnicos);
 
-    this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente =>{
+    this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
       this.antecedentesJuntos += `${antecedente.antecedente.nombre}, `;
       console.log(antecedente.antecedente.nombre);
     }));
 
-    if(!this.estudio.mensaje || this.estudio.mensaje === '' ){
+    if (!this.estudio.mensaje || this.estudio.mensaje === '') {
       this.estudio.mensaje = `DiagnoCons ha enviado un estudio de ${this.estudio.concepto.concepto} del paciente ${this.estudio.paciente.nombreCompleto} `;
     }
 
-      this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
-      this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
-      this.autocompleteControlTecnico.setValue(this.estudio.tecnico);
+    this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
+    this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
+    this.autocompleteControlTecnico.setValue(this.estudio.tecnico);
   }
 
   cancelar() {
@@ -97,14 +97,18 @@ export class EnviarEstudioModalComponent implements OnInit {
     this.actualizarOrdenVenta();
     this.actualizarPaciente();
 
-    this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>
-        Swal.fire('Enviado', 'El correo ha sido enviado', 'success'),
-        e =>
-        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error')
-    );
-
+    this.enviarCorreo();
+    
     this.modalRef.close();
 
+  }
+
+  enviarCorreo() {
+    this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>
+      Swal.fire('Enviado', 'El correo ha sido enviado', 'success'),
+      e =>
+        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error')
+    );
   }
 
   actualizarPaciente() {
@@ -120,7 +124,7 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   actualizarEstudio() {
     this.ventaConceptosService.editar(this.estudio).subscribe(estudio => console.log(estudio),
-      e =>{
+      e => {
         console.log("Error al actualizar estudio");
       }
     );
@@ -129,10 +133,10 @@ export class EnviarEstudioModalComponent implements OnInit {
   seleccionarPdf(event): void {
     this.pdf = event.target.files[0];
     console.info(this.pdf);
-    if(this.pdf.type.indexOf('pdf') < 0){
+    if (this.pdf.type.indexOf('pdf') < 0) {
       Swal.fire('Error', 'Solamente puede seleccionar un archivo pdf', 'error');
     }
-    else{
+    else {
       this.multimedia.ordenVenta = this.estudio.ordenVenta;
 
       this.multimediaService.subirPdf(this.multimedia, this.pdf).subscribe(multimedia =>

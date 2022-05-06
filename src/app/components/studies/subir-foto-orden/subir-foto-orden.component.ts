@@ -34,7 +34,7 @@ export class SubirFotoOrdenComponent extends CommonFormComponent<OrdenVenta, Ord
   seleccionarFoto(event): void {
     this.foto = event.target.files[0];
     console.info(this.foto);
-    if(this.foto.type.indexOf('png') < 0 && this.foto.type.indexOf('jpeg') < 0){
+    if(this.foto.type.indexOf('png') < 0 && this.foto.type.indexOf('jpeg') < 0 && this.foto.type.indexOf('jpg') < 0){
       Swal.fire('Error', 'Solamente puede seleccionar imágenes', 'error');
     }
     else{
