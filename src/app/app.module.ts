@@ -23,6 +23,8 @@ import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio
 import {MatDialogModule} from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
+import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
+
 
 
 @NgModule({
@@ -35,11 +37,13 @@ import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/s
     VentaConceptosComponent,
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
-    SubirFotoOrdenComponent
+    SubirFotoOrdenComponent,
+    InformacionEstudioModalComponent
   ],
   entryComponents:[
     BuscarEstudioModalComponent,
-    EnviarEstudioModalComponent
+    EnviarEstudioModalComponent,
+    InformacionEstudioModalComponent
   ],
   imports: [
     BrowserModule,

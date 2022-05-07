@@ -1,0 +1,23 @@
+<h1 mat-dialog-title> {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
+<div mat-dialog-content>
+
+
+    <div class="card text-dark bg-light mb-3">
+        <div class="card-header">{{titulo}}</div>
+        <div class="card-body">
+            
+            <button class="btn btn-secondary my-2" (click)="cancelar()">Volver</button>
+
+            <form>
+                <div class="form-group my-3" *ngFor="let foto of multimedia">
+                    <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded"
+                        style="cursor: pointer;"
+                        *ngIf="foto.tipo == 'IMAGEN'">
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+</div>

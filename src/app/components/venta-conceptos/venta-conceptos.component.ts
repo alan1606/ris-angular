@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { CommonListarComponent } from '../common-listar.component';
 import { BuscarEstudioModalComponent } from '../studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/enviar-estudio-modal.component';
+import { InformacionEstudioModalComponent } from '../studies/informacion-estudio-modal/informacion-estudio-modal.component';
 
 
 @Component({
@@ -188,7 +189,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
         width: '1000px',
         data: {"estudio": estudio}
       });
-  
+      
       modalRef.afterClosed().subscribe(enviado => {
         console.log(enviado);
         if(enviado){
@@ -199,5 +200,26 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
         Swal.fire('Error', 'No se ha podido enviar el estudio', 'error');
       });
     }
+
+    abrirInformacion(estudio: VentaConceptos): void{
+
+      const modalRef = this.dialog.open(InformacionEstudioModalComponent,{
+        width: '1000px',
+        data: {"estudio": estudio}
+      });
+
+
+      modalRef.afterClosed().subscribe(info => {
+        console.log(info);
+       /* if(info){
+          Swal.fire('Enviado', 'Se ha enviado el estudio con éxito', 'success');
+        }
+      },
+      e =>{
+        Swal.fire('Error', 'No se ha podido enviar el estudio', 'error');
+      });*/
+    });
+    }
+
 
 }

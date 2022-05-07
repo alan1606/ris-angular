@@ -27,4 +27,8 @@ export class MultimediaService extends CommonService<Multimedia>{
     formData.append('imagen', imagen);
     return this.http.post<Multimedia>(this.baseEndpoint +  '/imagen/orden-venta/' + multimedia.ordenVenta.id, formData);
   }
+
+  public buscarPorOrdenVentaId(id: number): Observable<Multimedia[]>{
+    return this.http.get<Multimedia[]>(`${this.baseEndpoint}/orden-venta/${id}`);
+  }
 }

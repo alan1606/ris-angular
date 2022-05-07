@@ -38,7 +38,7 @@ export class EnviarEstudioModalComponent implements OnInit {
   enviado: VentaConceptos;
   titulo: 'Enviar estudio';
   imagePath = IMAGE_PATH;
-
+s
   private pdf: File;
   private multimedia: Multimedia = new Multimedia();
 

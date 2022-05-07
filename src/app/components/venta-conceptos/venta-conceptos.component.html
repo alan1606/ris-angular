@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row justify-content-md-left" >
+    <div class="row justify-content-md-left">
 
         <div class="col-md-auto">
             <button class="btn btn-info btn-lg btn-block    " (click)="buscarEstudiosDeHoy()">
@@ -11,14 +11,13 @@
             <mat-form-field appearance="fill">
                 <mat-label>Rango de fechas:</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate placeholder="Inicio" #fechaInicio>
-                  <input matEndDate placeholder="Fin" #fechaFin
-                  (dateChange)="buscarPorFecha( fechaInicio, fechaFin)">
+                    <input matStartDate placeholder="Inicio" #fechaInicio>
+                    <input matEndDate placeholder="Fin" #fechaFin (dateChange)="buscarPorFecha( fechaInicio, fechaFin)">
                 </mat-date-range-input>
                 <mat-hint>YYYY-MM-DD / YYYY-MM-DD</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-              </mat-form-field>
+            </mat-form-field>
         </div>
 
         <div class="col-md-auto">
@@ -32,10 +31,11 @@
                 </mat-autocomplete>
             </mat-form-field>
         </div>
-       
+
         <div class="col-md-auto">
             <mat-form-field>
-                <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente" [matAutocomplete]="autocompletePaciente">
+                <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
+                    [matAutocomplete]="autocompletePaciente">
                 <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
                     (optionSelected)="seleccionarPaciente($event)">
                     <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
@@ -68,6 +68,7 @@
                     <th>IUID</th>
                     <th>Ver</th>
                     <th>Accion</th>
+                    <th>Datos</th>
                 </tr>
             </thead>
 
@@ -81,21 +82,29 @@
                     <td>{{estudio.idPacs}}</td>
                     <td>{{estudio.equipoDicom.area.nombre}}</td>
                     <td>{{estudio.iuid}}</td>
-                    <td>
+                    <td *ngIf="estudio.concepto.dicom">
                         <button class="btn btn-success btn-sm" *ngIf="estudio.iuid?.length>0" (click)="ver(estudio)">
                             Ver
                         </button>
                         <button class="btn btn-info btn-sm" *ngIf="!estudio.iuid?.length>0"
-                            (click) = "buscarEstudioEnPacs(estudio)">
+                            (click)="buscarEstudioEnPacs(estudio)">
                             Buscar
                         </button>
                     </td>
+                    <td *ngIf="!estudio.concepto.dicom"></td>
                     <td *ngIf="estudio.estado != 'CANCELADO' && estudio.estado != 'DEVUELTO'">
                         <button class="btn btn-primary btn-sm" *ngIf="estudio.iuid?.length>0 || !estudio.concepto.dicom"
                             (click)="abrirEnvio(estudio)">
                             Enviar
                         </button>
-                       
+
+                    </td>
+
+                    <td>
+                        <button class="btn btn-primary btn-sm"
+                            (click)="abrirInformacion(estudio)">
+                            Información
+                        </button>
                     </td>
                 </tr>
             </tbody>
