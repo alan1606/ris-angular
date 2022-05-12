@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
+import { AreaTotal } from '../models/area-total';
+import { EstudioHora } from '../models/estudio-hora';
 import { OrdenVenta } from '../models/orden-venta';
 import { VentaConceptos } from '../models/venta-conceptos';
 import { CommonService } from './common.service';
@@ -41,5 +43,12 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
     return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/desde/${fechaInicio}/hasta/${fechaFin}/paciente/${idPaciente}`);
   }
 
+  public encontrarTotalesAgendadosPorAreaFecha(fecha: String): Observable<AreaTotal[]>{
+    return this.http.get<AreaTotal[]>(`${this.baseEndpoint}/totales-agendados-por-area-fecha/${fecha}`);
+  }
+
+  public encontrarEstudiosAgendadosPorAreaFecha(areaId: number, fecha: string): Observable<EstudioHora[]>{
+    return this.http.get<EstudioHora[]>(`${this.baseEndpoint}/agendados-por-area-fecha/${areaId}/${fecha}`);
+  }
 
 }

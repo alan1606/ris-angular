@@ -24,7 +24,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { AgendaComponent } from './components/agenda/agenda.component';
+import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
 
 
 @NgModule({
@@ -38,12 +40,15 @@ import { InformacionEstudioModalComponent } from './components/studies/informaci
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
     SubirFotoOrdenComponent,
-    InformacionEstudioModalComponent
+    InformacionEstudioModalComponent,
+    AgendaComponent,
+    VerAgendadosModalComponent
   ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
-    InformacionEstudioModalComponent
+    InformacionEstudioModalComponent,
+    VerAgendadosModalComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +65,8 @@ import { InformacionEstudioModalComponent } from './components/studies/informaci
     MatNativeDateModule,
     MatTableModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule, 
+    PdfViewerModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

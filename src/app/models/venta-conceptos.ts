@@ -1,6 +1,7 @@
 import { Concepto } from "./concepto";
 import { EquipoDicom } from "./equipo-dicom";
 import { Generic } from "./generic";
+import { Institucion } from "./institucion";
 import { Medico } from "./medico";
 import { OrdenVenta } from "./orden-venta";
 import { Paciente } from "./paciente";
@@ -10,6 +11,7 @@ export class VentaConceptos implements Generic {
 
     id: number;
     paciente: Paciente;
+    institucion: Institucion;
     fechaVenta: string;
     concepto: Concepto;
     idPacs: string;
