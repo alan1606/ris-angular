@@ -1,32 +1,50 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img width="40" alt="Angular Logo"
-          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
-        DiagnoCons
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="#" routerLink="/pacientes"  routerLinkActive="active">Pacientes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" routerLink="/conceptos" routerLinkActive="active">Conceptos</a>
-          </li>
+<nav class="navbar navbar-expand-lg navbar-dark"  style='background-color: #4e4a63;'>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img width="40" alt="Angular Logo"
+        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
+      DiagnoCons
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="#" routerLink="/pacientes"
+            routerLinkActive="active">Pacientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/conceptos" routerLinkActive="active">Conceptos</a>
+        </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#" routerLink="/venta-conceptos" routerLinkActive="active">Estudios</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/venta-conceptos" routerLinkActive="active">Estudios</a>
+        </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#" routerLink="/agenda" routerLinkActive="active">Agenda</a>
-          </li>
-        </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/agenda" routerLinkActive="active">Agenda</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav navbar-right"></ul>
+      <li *ngIf="!authService.isAuthenticated()"><a routerLink="/login" class="btn btn-outline-primary">Sign in</a></li>
+
+
+
+        <mat-form-field *ngIf="authService.isAuthenticated()"  appearance="fill">
+          <mat-label> {{authService.usuario.username}}</mat-label>
+          <mat-select>
+            <mat-option (click)="logout()">
+              Sign out
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
   
-      </div>
+      
+
+    
     </div>
-  </nav>
+  </div>
+</nav>

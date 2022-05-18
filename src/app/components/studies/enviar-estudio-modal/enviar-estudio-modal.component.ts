@@ -98,16 +98,19 @@ s
     this.actualizarPaciente();
 
     this.enviarCorreo();
-    
-    this.modalRef.close();
 
+    this.modalRef.close();
   }
 
   enviarCorreo() {
-    this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>
-      Swal.fire('Enviado', 'El correo ha sido enviado', 'success'),
-      e =>
-        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error')
+    this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>{
+      this.estudio.estado = "INTERPRETANDO";
+      this.actualizarEstudio();
+      Swal.fire('Enviado', 'El correo ha sido enviado', 'success');
+    },
+      e =>{
+        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error');
+      }
     );
   }
 

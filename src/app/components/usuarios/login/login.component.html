@@ -1,0 +1,35 @@
+<mat-card class="contenedor">
+    <mat-card-header>
+        <mat-card-title>{{titulo}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Usuario</mat-label>
+                <input matInput required autofocus [(ngModel)]="usuario.username" >
+                <mat-hint>Usuario</mat-hint>
+            </mat-form-field>
+        </p>
+        
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Constraseña</mat-label>
+                <input matInput [type]="ocultar ? 'password' : 'text'" required [(ngModel)]="usuario.password">
+                <mat-hint>Contraseña</mat-hint>
+                <button mat-icon-button matSuffix (click)="ocultar = !ocultar" [attr.aria-label]="'Ocultar'" [attr.aria-pressed]="ocultar">
+                    <mat-icon>{{ocultar ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+            </mat-form-field>
+        </p>
+
+        <mat-divider></mat-divider>
+        <br>
+        <p>
+            <button mat-raised-button color="primary"
+            (click)="login()">
+                Entrar
+            </button>
+        </p>
+        
+    </mat-card-content>
+</mat-card>

@@ -27,6 +27,13 @@ import { InformacionEstudioModalComponent } from './components/studies/informaci
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
+import { LoginComponent } from './components/usuarios/login/login.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 
 @NgModule({
@@ -42,7 +49,8 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
     SubirFotoOrdenComponent,
     InformacionEstudioModalComponent,
     AgendaComponent,
-    VerAgendadosModalComponent
+    VerAgendadosModalComponent,
+    LoginComponent
   ],
   entryComponents:[
     BuscarEstudioModalComponent,
@@ -66,7 +74,12 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
     MatTableModule,
     MatButtonModule,
     MatDialogModule, 
-    PdfViewerModule
+    PdfViewerModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    MatSelectModule,
+    MatFormFieldModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

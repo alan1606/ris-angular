@@ -191,8 +191,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
       });
       
       modalRef.afterClosed().subscribe(enviado => {
-        console.log(enviado);
         if(enviado){
+          console.log(enviado);
           Swal.fire('Enviado', 'Se ha enviado el estudio con éxito', 'success');
         }
       },
@@ -221,5 +221,13 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     });
     }
 
+
+    actualizarEstudio(estudio: VentaConceptos) {
+      this.service.editar(estudio).subscribe(estudio => console.log(estudio),
+        e => {
+          console.log("Error al actualizar estudio");
+        }
+      );
+    }
 
 }
