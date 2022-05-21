@@ -3,8 +3,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Antecedente } from 'src/app/models/antecedente';
 import { AntecedenteConcepto } from 'src/app/models/antecedente-concepto';
+import { AntecedenteEstudio } from 'src/app/models/antecedente-estudio';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { AntecedenteConceptoService } from 'src/app/services/antecedente-concepto.service';
+import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.service';
 import { AntecedenteService } from 'src/app/services/antecedente.service';
 
 @Component({
@@ -19,11 +21,11 @@ export class AntecedentesEstudioModalComponent implements OnInit {
   antecedentes : Antecedente[] = [];
   mostrarColumnasAgenda = ['hora', 'estudio', 'paciente', 'institucion'];
   todosSeleccionados = new Map();
-    
+  anteriores: Antecedente[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   public modalRef: MatDialogRef<AntecedentesEstudioModalComponent>,
-  private antecedenteConceptoService: AntecedenteConceptoService,
+  private antecedenteEstudioService: AntecedenteEstudioService,
   private antecedenteService: AntecedenteService) { 
     this.estudio = this.data.estudio as VentaConceptos;
   }
@@ -31,7 +33,27 @@ export class AntecedentesEstudioModalComponent implements OnInit {
   ngOnInit(): void {
     this.encontrarAntecedentesConcepto();
     this.titulo = `Antecedentes de ${this.estudio.paciente.nombreCompleto}`;
+    this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(
+      antecedentes => {
+        this.anteriores = antecedentes.map(a => a.antecedente);
+        console.log(this.anteriores);
+      });
+    this.seleccionarAnteriores();
+  }
 
+  seleccionarAnteriores() {
+
+    this.antecedentes.forEach(antecedente =>{
+      if(this.anteriores.includes(antecedente)){
+        antecedente.seleccionado = true;
+      }
+
+      antecedente.hijos.forEach( hijo =>{
+        if(this.anteriores.includes(hijo)){
+          hijo.seleccionado = true;
+        }
+      });
+    });
   }
 
   encontrarAntecedentesConcepto() {
@@ -73,7 +95,41 @@ export class AntecedentesEstudioModalComponent implements OnInit {
   }
 
   actualizarTodosCompletos(antecedente: Antecedente){
+      antecedente.seleccionado = antecedente.hijos?.filter(h => h.seleccionado).length > 0
       this.todosSeleccionados.set(antecedente.id, antecedente.hijos != null && antecedente.hijos.every(h => h.seleccionado));
   }
 
+
+  guardar(){
+    let antecedentesEstudios: AntecedenteEstudio[] = [];
+    let antecedenteEstudio: AntecedenteEstudio;
+
+    this.antecedentes.forEach(antecedente =>{
+      if(antecedente.seleccionado){
+        antecedenteEstudio = new AntecedenteEstudio();
+         antecedenteEstudio.antecedente = antecedente;
+         antecedenteEstudio.ventaConcepto = this.estudio;
+         antecedentesEstudios.push(antecedenteEstudio);
+      }
+      antecedente.hijos.forEach(hijo =>{
+        if(hijo.seleccionado){
+          antecedenteEstudio = new AntecedenteEstudio()
+          antecedenteEstudio.antecedente = hijo;
+          antecedenteEstudio.ventaConcepto = this.estudio;
+          antecedentesEstudios.push(antecedenteEstudio);
+        }
+      })
+    });
+
+    console.log("Antes de enviar");
+    antecedentesEstudios.forEach(antecedente => {
+      console.log(antecedente);
+    });
+
+    console.log("recibido");
+    this.antecedenteEstudioService.crearTodos(antecedentesEstudios).subscribe(
+      respuesta => {
+        console.log(respuesta);
+      });
+  }
 }
