@@ -27,7 +27,8 @@ import { InformacionEstudioModalComponent } from './components/studies/informaci
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
-
+import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -42,13 +43,15 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
     SubirFotoOrdenComponent,
     InformacionEstudioModalComponent,
     AgendaComponent,
-    VerAgendadosModalComponent
+    VerAgendadosModalComponent,
+    AntecedentesEstudioModalComponent
   ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
     InformacionEstudioModalComponent,
-    VerAgendadosModalComponent
+    VerAgendadosModalComponent,
+    AntecedentesEstudioModalComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
     MatTableModule,
     MatButtonModule,
     MatDialogModule, 
-    PdfViewerModule
+    PdfViewerModule,
+    MatCheckboxModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

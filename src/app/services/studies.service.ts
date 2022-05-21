@@ -19,4 +19,8 @@ export class StudiesService extends CommonService<Study>{
    public buscarEstudiosPorApellidos(apellidos: string): Observable<Study[]>{
     return this.http.get<Study[]>(`${this.baseEndpoint}/person-name/${apellidos}`);
   }
+
+  public buscarLikeNombre(nombre: string): Observable<Study[]>{
+    return this.http.get<Study[]>(`${this.baseEndpoint}/person-name/${nombre}`);
+  }
 }

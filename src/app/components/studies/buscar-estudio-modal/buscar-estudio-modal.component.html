@@ -1,6 +1,14 @@
 <h1 mat-dialog-title>Buscar {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
 <div mat-dialog-content>
 
+
+    <form class="example-form mat-elevation-z8 m-3">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>ENTER PARA BUSCAR:</mat-label>
+          <input matInput placeholder="Buscar" name = 'nombreBuscar' (input)= "nombreBuscar=$event.target.value" [value]="nombreBuscar" (keyup.enter)="buscarEstudiosPorNombre()">
+        </mat-form-field>
+      </form>
+
     <table mat-table [dataSource] = "estudios"  class = "mat-elevation-z8 m-3" style = "width: 75%;">
 
         <ng-container matColumnDef="id">
