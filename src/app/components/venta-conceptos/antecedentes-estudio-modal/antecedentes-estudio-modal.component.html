@@ -8,7 +8,7 @@
   <section class="section">
     <span class="list-section" *ngFor="let antecedente of antecedentes">
       <mat-checkbox class="margin" (change)="ponerTodos($event.checked, antecedente)"
-      [checked]="todosSeleccionados.get(antecedente.id)"  [indeterminate]="algunosCompletos(antecedente)">
+      [checked]="antecedente.seleccionado"  [indeterminate]="algunosCompletos(antecedente)">
         {{antecedente.nombre}}
       </mat-checkbox>
       <ul *ngIf="antecedente.hijos">

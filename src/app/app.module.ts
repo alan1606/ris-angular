@@ -29,6 +29,7 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     InformacionEstudioModalComponent,
     AgendaComponent,
     VerAgendadosModalComponent,
-    AntecedentesEstudioModalComponent
+    AntecedentesEstudioModalComponent,
+    MedicoRadiologoComponent
   ],
   entryComponents:[
     BuscarEstudioModalComponent,
