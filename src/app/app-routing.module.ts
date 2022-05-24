@@ -7,6 +7,7 @@ import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 import { AgendaComponent } from './components/agenda/agenda.component';
+import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 
 const routes: Routes = [
   {path : 'pacientes', component: PacientesComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path : 'pacientes/form', component: PacientesFormComponent},
   {path : 'venta-conceptos', component: VentaConceptosComponent},
   {path : 'subir-foto-orden/:id', component: SubirFotoOrdenComponent},
-  {path: 'agenda', component: AgendaComponent}
+  {path: 'agenda', component: AgendaComponent},
+  {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent}
 ];
 
 @NgModule({

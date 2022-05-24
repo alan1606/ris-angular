@@ -30,6 +30,7 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-r
     MatButtonModule,
     MatDialogModule, 
     PdfViewerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSelectModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
