@@ -1,0 +1,96 @@
+<form>
+    <div class="form-group my-3">
+        <label for="nombre">Paciente</label>
+        <input type="text" name="paciente" id="paciente" class="form-control"
+            [(ngModel)]="estudio.paciente.nombreCompleto">
+    </div>
+
+    <div class="form-group my-3">
+        <label for="nombre">Estudio</label>
+        <input type="text" name="estudio" id="estudio" class="form-control" [(ngModel)]="estudio.concepto.concepto">
+    </div>
+
+    <div class="form-group my-3" *ngIf="estudio.ordenVenta.motivo">
+        <label for="nombre">Motivo</label>
+        <input type="text" name="motivo" id="motivo" class="form-control" [(ngModel)]="estudio.ordenVenta.motivo">
+    </div>
+
+    <div class="form-group my-3" *ngIf="antecedentes">
+        <label for="nombre">Antecedentes</label>
+        <textarea name="antecedentes" id="antecedentes" class="form-control" [(ngModel)]="antecedentes"> </textarea>
+    </div>
+
+    <div class="row my-4" *ngIf="estudio.iuid?.length>0">
+        <div class="col">
+            <button type="button" class="btn btn-primary btn-sm" (click)="ver(estudio)">
+                Ver estudio en línea
+            </button>
+        </div>
+
+        <div class="col">
+            <button type="button" class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">
+                Abrir estudio con weasis
+            </button>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-primary btn-sm" (click)="descargarZip(estudio)">
+                Descargar estudio en zip
+            </button>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-primary btn-sm" (click)="descargarWeasisWindows()">
+                Descargar weasis windows
+            </button>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-primary btn-sm" (click)="descargarWeasisMac()">
+                Descargar weasis mac
+            </button>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="!estudio.concepto.dicom && multimediaCargada | async ">
+        <div class="form-group my-3" *ngFor="let pdf of multimedia">
+            <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta" [render-text]="true"
+                [original-size]="false" style="width: 800px; height: 500px"></pdf-viewer>
+        </div>
+    </div>
+
+
+    <div class="form-group my-4">
+        <button *ngIf="!isDictando && isApiSoportada" mat-fab color="warn" class="my-2" (click)="dictar()">
+            <mat-icon>mic</mat-icon>
+        </button>
+
+
+        <button *ngIf="isDictando && isApiSoportada" mat-fab color="accent" class="my-2" (click)="parar()">
+            <mat-icon>mic_off</mat-icon>
+        </button>
+
+
+        <input [(ngModel)]="dictado.parcial" name="dictado.parcial" id="dictado.parcial" ngDefaultControl disabled="true"
+            class="sinborde mx-4">
+    </div>
+
+
+
+    <form [formGroup]="form">
+        <div class="editor">
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+            </ngx-editor-menu>
+            <ngx-editor name="ngEditor" [editor]="editor" formControlName="editorContent"></ngx-editor>
+        </div>
+    </form>
+
+
+    <button class="btn btn-success btn-lg my-4" (click)="guardar()">
+        Guardar
+    </button>
+
+
+</form>

@@ -134,4 +134,9 @@ export class MedicoRadiologoComponent implements OnInit {
         console.log(this.estudios);
       });
   }
+
+  ver(estudio: VentaConceptos){
+    this.router.navigate(['/dictador/' + estudio.id] );
+  }
+
 }

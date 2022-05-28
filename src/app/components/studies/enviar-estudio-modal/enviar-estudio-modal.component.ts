@@ -12,8 +12,6 @@ import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.
 import { MedicoService } from 'src/app/services/medico.service';
 import { MultimediaService } from 'src/app/services/multimedia.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
-import { PacientesService } from 'src/app/services/pacientes.service';
-import { SendMailService } from 'src/app/services/send-mail.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
@@ -38,7 +36,7 @@ export class EnviarEstudioModalComponent implements OnInit {
   enviado: VentaConceptos;
   titulo: 'Enviar estudio';
   imagePath = IMAGE_PATH;
-s
+
   private pdf: File;
   private multimedia: Multimedia = new Multimedia();
 
@@ -48,10 +46,8 @@ s
     private multimediaService: MultimediaService,
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
-    private sendMailService: SendMailService,
     private ventaConceptosService: VentaConceptosService,
-    private ordenVentaService: OrdenVentaService,
-    private pacienteService: PacientesService) { }
+    private ordenVentaService: OrdenVentaService) { }
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -79,7 +75,7 @@ s
     }));
 
     if (!this.estudio.mensaje || this.estudio.mensaje === '') {
-      this.estudio.mensaje = `DiagnoCons ha enviado un estudio de ${this.estudio.concepto.concepto} del paciente ${this.estudio.paciente.nombreCompleto} `;
+
     }
 
     this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
@@ -94,38 +90,30 @@ s
 
   enviar(estudio: VentaConceptos): void {
     this.actualizarEstudio();
-    this.actualizarOrdenVenta();
-    this.actualizarPaciente();
-
-    this.enviarCorreo();
     
+  }
+
+
+  actualizarOrdenVenta(): void {
+    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => {
+      Swal.fire("Enviado", "El estudio ha sido enviado", "success");
+    }, 
+    e =>{
+      Swal.fire("Error", "Ha ocurrido un error", "error");
+        console.log(e);
+    });
     this.modalRef.close();
 
   }
 
-  enviarCorreo() {
-    this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>
-      Swal.fire('Enviado', 'El correo ha sido enviado', 'success'),
-      e =>
-        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error')
-    );
-  }
-
-  actualizarPaciente() {
-    this.pacienteService.editar(this.estudio.paciente).subscribe(paciente => console.log(paciente),
-      e => console.log("error")
-    );
-  }
-
-  actualizarOrdenVenta(): void {
-    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => console.log(orden));
-  }
-
 
   actualizarEstudio() {
-    this.ventaConceptosService.editar(this.estudio).subscribe(estudio => console.log(estudio),
+    this.estudio.estado = "INTERPRETANDO";
+    this.ventaConceptosService.editar(this.estudio).subscribe(estudio => this.actualizarOrdenVenta(),
       e => {
-        console.log("Error al actualizar estudio");
+        Swal.fire("Error", "Ha ocurrido un error", "error");
+        console.log(e);
+        this.modalRef.close();
       }
     );
   }

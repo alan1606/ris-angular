@@ -31,6 +31,10 @@ import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import {MatSelectModule} from '@angular/material/select';
+import { NgxEditorModule } from 'ngx-editor';
+import { DictadorComponent } from './components/dictador/dictador.component';
+import { MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
@@ -47,8 +51,8 @@ import {MatSelectModule} from '@angular/material/select';
     AgendaComponent,
     VerAgendadosModalComponent,
     AntecedentesEstudioModalComponent,
-    MedicoRadiologoComponent
-  ],
+    MedicoRadiologoComponent,
+    DictadorComponent  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
@@ -74,8 +78,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatDialogModule, 
     PdfViewerModule,
     MatCheckboxModule,
-    MatSelectModule
-  ],
+    MatSelectModule,
+    NgxEditorModule,
+    MatIconModule
+    ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
 })

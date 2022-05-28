@@ -65,7 +65,7 @@
                     <td>{{estudio.id}}</td>
                     <td>{{estudio.concepto.concepto}}</td>
                     <td>{{estudio.paciente.nombreCompleto}}</td>
-                    <td>{{estudio.fechaAsignado}}</td>
+                    <td>{{estudio.fechaAsignado | date: 'dd/MM/yyyy'}}</td>
                     <td *ngIf="estudio.estado!='INTERPRETADO'">
                         <p class="pendiente">Pendiente</p>
                     </td>

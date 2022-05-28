@@ -17,6 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "moment-business",
+							"ng2-pdf-viewer",
+							"pdfjs-dist/build/pdf",
+							"pdfjs-dist/web/pdf_viewer"
+            ],
             "outputPath": "dist/ris",
             "index": "src/index.html",
             "main": "src/main.ts",
