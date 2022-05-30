@@ -5,6 +5,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { flatMap, map } from 'rxjs';
+import { BASE_ENDPOINT } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -136,7 +137,7 @@ export class MedicoRadiologoComponent implements OnInit {
   }
 
   ver(estudio: VentaConceptos){
-    this.router.navigate(['/dictador/' + estudio.id] );
+    window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${estudio.id}/pdf`);
   }
 
 }

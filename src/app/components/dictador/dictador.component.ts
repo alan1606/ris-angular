@@ -45,8 +45,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
   form = new FormGroup({
     editorContent: new FormControl(
-      { value: initJsonDoc, disabled: false },
-      Validators.required()
+      { value: initJsonDoc, disabled: false }
     ),
   });
 
@@ -168,14 +167,15 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   hacerReemplazos() {
-    this.dictado.final = this.dictado.final.replace(/iniciar conclusión/g, '<br><br><b>CONCLUSIÓN<br>');
+    this.dictado.final = this.dictado.final.replace(/iniciar conclusión/g, '<br></br><br></br><b>CONCLUSIÓN<br></br>');
     this.dictado.final = this.dictado.final.replace(/ finalizar conclusión/g, '.</b>');
-    this.dictado.final = this.dictado.final.replace(/nueva línea/g, '<br>');
+    this.dictado.final = this.dictado.final.replace(/nueva línea/g, '<br></br>');
     this.dictado.final = this.dictado.final.replace(/ punto y coma/g, ';');
-    this.dictado.final = this.dictado.final.replace(/ punto y aparte/g, '.<br><br>');
+    this.dictado.final = this.dictado.final.replace(/ punto y aparte/g, '.<br></br><br><br/>');
     this.dictado.final = this.dictado.final.replace(/ punto y seguido/g, '.');
     this.dictado.final = this.dictado.final.replace(/ punto/g, '.');
     this.dictado.final = this.dictado.final.replace(/ coma/g, ',');
+    this.dictado.final = this.dictado.final.replace(/<br>/g, '<br></br>');
   }
 
 
