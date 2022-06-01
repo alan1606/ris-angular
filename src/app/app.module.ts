@@ -34,6 +34,10 @@ import { MatSelectModule} from '@angular/material/select';
 import { NgxEditorModule } from 'ngx-editor';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { MatIconModule} from '@angular/material/icon';
+import { ResultadosComponent } from './components/resultados/resultados.component';
+import {MatCardModule} from '@angular/material/card';
+import { QrComponent } from './components/qr/qr.component';
+import  {QRCodeModule}  from 'angular2-qrcode';
 
 
 @NgModule({
@@ -52,7 +56,9 @@ import { MatIconModule} from '@angular/material/icon';
     VerAgendadosModalComponent,
     AntecedentesEstudioModalComponent,
     MedicoRadiologoComponent,
-    DictadorComponent  ],
+    DictadorComponent,
+    ResultadosComponent,
+    QrComponent  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
@@ -80,7 +86,9 @@ import { MatIconModule} from '@angular/material/icon';
     MatCheckboxModule,
     MatSelectModule,
     NgxEditorModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    QRCodeModule
     ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

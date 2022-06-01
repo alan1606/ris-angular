@@ -75,7 +75,7 @@
 
             <tbody *ngIf="lista?.length>0">
                 <tr *ngFor="let estudio of lista">
-                    <td>{{estudio.id}}</td>
+                    <td  (click)="abrirQr(estudio)">{{estudio.id}}</td>
                     <td>{{estudio.paciente.nombreCompleto}}</td>
                     <td>{{estudio.concepto.concepto}}</td>
                     <td>{{estudio.fechaAsignado | date : 'dd/MM/yyyy'}} </td>

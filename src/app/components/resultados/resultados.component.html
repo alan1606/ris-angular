@@ -1,0 +1,102 @@
+<mat-card>
+
+<h1 mat-card-title> {{titulo}} </h1>
+<div mat-card-content>
+
+
+    <div class="card text-dark bg-light mb-3">
+        <div class="card-body">
+
+            <form >
+                <div class="row my-4" *ngIf="estudio.iuid==null || estudio.iuid.length==0">
+                    <p style='font-size: x-large;  color: #FF0000;' >El estudio aún no ha sido tomado</p>
+                </div>
+
+
+                <div class="row my-4" *ngIf="interpretacion == null">
+                    <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido interpretado</p>
+                </div>
+
+
+                <div class="row my-4" *ngIf="estudio.iuid?.length>0">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary btn-md" (click)="ver(estudio)">
+                            Ver estudio en línea
+                        </button>
+                    </div>
+            
+                    <div class="col">
+                        <button type="button" class="btn btn-primary btn-md" (click)="abrirConWeasis(estudio)">
+                            Abrir estudio con weasis
+                        </button>
+                    </div>
+            
+                    <div class="col">
+                        <button class="btn btn-primary btn-md" (click)="descargarZip(estudio)">
+                            Descargar estudio en zip
+                        </button>
+                    </div>
+            
+                    <div class="col">
+                        <button class="btn btn-primary btn-md" (click)="descargarWeasisWindows()">
+                            Descargar weasis windows
+                        </button>
+                    </div>
+            
+                    <div class="col">
+                        <button class="btn btn-primary btn-md" (click)="descargarWeasisMac()">
+                            Descargar weasis mac
+                        </button>
+                    </div>
+                </div>
+
+               
+                <div class="row my-4" *ngIf="interpretacion != null ">
+                    <div class="col">
+                        <button type="button" class="btn btn-danger btn-lg" (click)="verInterpretacion(estudio)">
+                            Ver interpretacion
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="form-group my-2">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control" 
+                    [(ngModel)] = "estudio.paciente.nombreCompleto" disabled>
+                </div>
+
+                <div class="form-group my-2" *ngIf="estudio.ordenVenta.motivo != '' && estudio.ordenVenta.motivo != null">
+                    <label for="motivo">Motivo</label>
+                    <input type="text" name="motivo" id="motivo" class="form-control" 
+                        value={{estudio.ordenVenta.motivo}} disabled
+                    >
+                </div>
+
+                <div class="form-group my-2" *ngIf="antecedentesJuntos != '' && antecedentesJuntos != null">
+                    <label class="form-check-label" for="antecedentes">Antecedentes</label>
+                    <input type="text" name="antecedentes" id="antecedentes" class="form-control" 
+                        value={{antecedentesJuntos}} disabled>
+                </div>
+
+                <hr>
+                <div class="form-group my-3" *ngFor="let foto of multimedia">
+                    <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded" style="cursor: pointer;"
+                        *ngIf="foto.tipo == 'IMAGEN'">
+                </div>
+                <hr>
+                <div class="form-group my-3" *ngFor="let pdf of multimedia">
+                    <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta" [render-text]="true" [original-size]="false"
+                        style="width: 800px; height: 500px"></pdf-viewer>
+                </div>
+
+            
+
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+</mat-card>

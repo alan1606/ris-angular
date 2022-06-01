@@ -9,6 +9,8 @@ import { VentaConceptosComponent } from './components/venta-conceptos/venta-conc
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
+import { ResultadosComponent } from './components/resultados/resultados.component';
+import { QrComponent } from './components/qr/qr.component';
 
 const routes: Routes = [
   {path : 'pacientes', component: PacientesComponent},
@@ -21,7 +23,10 @@ const routes: Routes = [
   {path : 'subir-foto-orden/:id', component: SubirFotoOrdenComponent},
   {path: 'agenda', component: AgendaComponent},
   {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent},
-  {path: 'dictador/:idVentaConcepto', component: DictadorComponent}
+  {path: 'dictador/:idVentaConcepto', component: DictadorComponent},
+  {path: 'resultados/:idPacs', component: ResultadosComponent},
+  {path: 'qr/:idPacs', component: QrComponent},
+
 ];
 
 @NgModule({

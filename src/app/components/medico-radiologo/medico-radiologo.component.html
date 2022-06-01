@@ -70,7 +70,7 @@
                         <p class="pendiente">Pendiente</p>
                     </td>
                     <td *ngIf="estudio.estado=='INTERPRETADO'">
-                        <p class="terminado">Terminado</p>
+                        <p class="terminado" (click)="abrirDictador(estudio)">Terminado</p>
                     </td>
                     <td>
                         <button *ngIf="estudio.estado!='INTERPRETADO'" class="btn btn-primary btn-sm"

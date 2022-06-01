@@ -140,4 +140,7 @@ export class MedicoRadiologoComponent implements OnInit {
     window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${estudio.id}/pdf`);
   }
 
+  abrirDictador(estudio: VentaConceptos){
+    this.router.navigate([`/dictador/${estudio.id}`]);
+  }
 }

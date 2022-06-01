@@ -24,6 +24,10 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
     return this.http.get<void>(`${this.baseEndpoint}/buscar-iuid-en-pacs/${id}`);
   }
 
+public buscarPorIdPacs(idPacs: string): Observable<VentaConceptos>{
+    return this.http.get<VentaConceptos>(`${this.baseEndpoint}/id-pacs/${idPacs}`);
+}
+
   public filtrarDiaDeHoy(): Observable<VentaConceptos[]>{
     return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/hoy`);
   }

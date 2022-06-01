@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { map, flatMap } from 'rxjs/operators';
 import { VIEWER } from 'src/app/config/app';
 import { Area } from 'src/app/models/area';
@@ -37,7 +38,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     @Inject(AreasService) private areasService: AreasService,
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router: Router) {
     super(service);
     this.titulo = "Listado de estudios";
     this.nombreModel = "Estudio";
@@ -229,4 +231,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     });
     }
 
+
+    abrirQr(estudio: VentaConceptos){
+      this.router.navigate(['/qr/' + estudio.idPacs]);
+    }
 }
