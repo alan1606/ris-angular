@@ -5,7 +5,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { map, flatMap } from 'rxjs/operators';
-import { VIEWER } from 'src/app/config/app';
+import { BASE_ENDPOINT, VIEWER } from 'src/app/config/app';
 import { Area } from 'src/app/models/area';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -233,6 +233,9 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
 
 
     abrirQr(estudio: VentaConceptos){
-      this.router.navigate(['/qr/' + estudio.idPacs]);
+      this.service.verEtiqueta(estudio.id).subscribe(res =>{
+        const fileURL = URL.createObjectURL(res);
+        window.open(fileURL, '_blank');
+      });
     }
 }

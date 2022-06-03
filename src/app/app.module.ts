@@ -36,7 +36,6 @@ import { DictadorComponent } from './components/dictador/dictador.component';
 import { MatIconModule} from '@angular/material/icon';
 import { ResultadosComponent } from './components/resultados/resultados.component';
 import {MatCardModule} from '@angular/material/card';
-import { QrComponent } from './components/qr/qr.component';
 import  {QRCodeModule}  from 'angular2-qrcode';
 
 
@@ -57,8 +56,7 @@ import  {QRCodeModule}  from 'angular2-qrcode';
     AntecedentesEstudioModalComponent,
     MedicoRadiologoComponent,
     DictadorComponent,
-    ResultadosComponent,
-    QrComponent  ],
+    ResultadosComponent  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
