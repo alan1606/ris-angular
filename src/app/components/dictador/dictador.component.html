@@ -53,6 +53,11 @@
     </div>
 
 
+    <div *ngIf="multimediaCargada | async ">
+        <div class="form-group my-3" *ngFor="let img of multimedia">
+            <img *ngIf="img.tipo == 'IMAGEN'"  class="img-fluid" [src]="filesPath + img.ruta" >
+        </div>
+    </div>
 
     <div *ngIf="!estudio.concepto.dicom && multimediaCargada | async ">
         <div class="form-group my-3" *ngFor="let pdf of multimedia">

@@ -54,7 +54,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     ['underline', 'strike'],
     ['code', 'blockquote'],
     ['ordered_list', 'bullet_list'],
-    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    [{ heading: ['h5', 'h6'] }],
     ['link', 'image'],
     ['text_color', 'background_color'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
@@ -176,6 +176,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.dictado.final = this.dictado.final.replace(/ punto/g, '.');
     this.dictado.final = this.dictado.final.replace(/ coma/g, ',');
     this.dictado.final = this.dictado.final.replace(/<br>/g, '<br></br>');
+    this.dictado.final = this.dictado.final.replace(/\u00a0/g, " ");
+     this.dictado.final = this.dictado.final.replace(/\xA0/g,' ');
   }
 
 
@@ -234,8 +236,13 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   guardar() {
-    const interpretacionHtml = toHTML(this.doc.value);
+    let interpretacionHtml = toHTML(this.doc.value);
+
+     interpretacionHtml = interpretacionHtml.replace(/\u00a0/g, " ");
+     interpretacionHtml = interpretacionHtml.replace(/\xA0/g,' ');
+
     console.log(interpretacionHtml);
+
 
     this.interpretacion.interpretacion = interpretacionHtml;
     this.interpretacionService.crear(this.interpretacion).subscribe(interpretacion => {
