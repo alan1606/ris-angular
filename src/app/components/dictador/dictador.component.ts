@@ -78,7 +78,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         this.ventaConceptosService.ver(idVentaConcepto).subscribe(estudio => {
           this.estudio = estudio;
           this.interpretacion.estudio = this.estudio;
-          this.cargarAntecedentes();
+          this.cargarAntecedentesInicial();
           this.cargarInterpretacionAnterior();
           this.cargarMultimedia();
           
@@ -97,30 +97,25 @@ export class DictadorComponent implements OnInit, OnDestroy {
     const jsonDoc = (toDoc(`Antecedentes: ${this.antecedentes}
     <br></br>
     <strong>*RITMO Y MEDICIONES*</strong>
-    <br></br>
-    Ritmo:[  ], Frecuencia Cardiaca:[  ], Latidos por minuto.
-    <br></br>
-    Onda P:[  ]ms, [  ]mm. 
-    <br></br>
-    Intervalo PR:[  ]ms, QRS:[  ]ms, Eje Eléctrico (AQRS)[  ], 
-    <br></br>
-    Onda T:[  ].
-    <br></br>
-    Segmento ST:[  ].
-    <br></br>
-    Qt:[  ]ms, QTc:[  ]ms
-    <br></br>
+
+    <strong>Ritmo:</strong>[  ], Frecuencia Cardiaca:[  ], Latidos por minuto.
+
+    <strong>Onda P:</strong>[  ]ms, [  ]mm. 
+    
+    <strong>Intervalo PR:</strong>[  ]ms, QRS:[  ]ms, Eje Eléctrico (AQRS)[  ], 
+
+    <strong>Onda T:</strong>[  ].
+ 
+    <strong>Segmento ST:</strong>[  ].
+
+    <strong>Qt:</strong>[  ]ms, QTc:[  ]ms
+
+
     <br></br>
     <strong>OBSERVACIONES:</strong>
-    
-    
-    <br></br>
-    <br></br>
-    <br></br>
     <strong>INTERPRETACION:</strong> 
     <br></br>
-    <br></br>
-    <br></br>
+    <p><strong>El electrocardiograma es una herramienta diagnóstica que requiere la correlación clínica por parte del médico tratante</strong></p>
     `));
     this.form.get('editorContent').setValue(jsonDoc);
   }
@@ -229,6 +224,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
         const jsonDoc = (toDoc(interpretacion[0].interpretacion));
         this.form.get('editorContent').setValue(jsonDoc);
       }
+      else{
+        this.cargarAntecedentes();
+      }
     });
 
   }
@@ -244,11 +242,18 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
 
   cargarAntecedentes() {
+    this.antecedentes = '';
     this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
       this.antecedentes += `${antecedente.antecedente.nombre} \n`;
       if(this.estudio.concepto.area.nombre == 'CARDIOLOGIA'){
         this.cargarPlantillaCardio();
       }
+    }));
+  }
+
+  cargarAntecedentesInicial() {
+    this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
+      this.antecedentes += `${antecedente.antecedente.nombre} \n`;
     }));
 
   }
