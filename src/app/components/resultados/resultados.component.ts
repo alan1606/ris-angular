@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BASE_ENDPOINT, DOWNLOAD_WEASIS_MAC_LINK, DOWNLOAD_WEASIS_WINDOWS_LINK, FILES_PATH, VIEWER, WEASIS_VIEWER_PATH, ZIP_STUDIES_PATH } from 'src/app/config/app';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { Multimedia } from 'src/app/models/multimedia';
@@ -28,8 +28,9 @@ export class ResultadosComponent implements OnInit {
     private multimediaService: MultimediaService,
     private antecedenteEstudioService: AntecedenteEstudioService,
     private route: ActivatedRoute,
-    private interpretacionService: InterpretacionService) { }
-
+    private interpretacionService: InterpretacionService,
+    private router: Router) { }
+s
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const idPacs: string = params.get('idPacs');
@@ -89,7 +90,7 @@ export class ResultadosComponent implements OnInit {
   }
 
   verInterpretacion(estudio: VentaConceptos){
-    window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${estudio.id}/pdf`);
+    this.router.navigate([`/dictamen/${estudio.idPacs}`]);
   }
 
 }

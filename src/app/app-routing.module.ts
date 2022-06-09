@@ -10,6 +10,7 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
+import { DictamenComponent } from './components/resultados/dictamen.component';
 
 const routes: Routes = [
   {path : 'pacientes', component: PacientesComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'agenda', component: AgendaComponent},
   {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent},
   {path: 'dictador/:idVentaConcepto', component: DictadorComponent},
-  {path: 'resultados/:idPacs', component: ResultadosComponent}
+  {path: 'resultados/:idPacs', component: ResultadosComponent},
+  {path: 'dictamen/:idPacs', component: DictamenComponent}
 
 ];
 

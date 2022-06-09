@@ -37,6 +37,7 @@ import { MatIconModule} from '@angular/material/icon';
 import { ResultadosComponent } from './components/resultados/resultados.component';
 import {MatCardModule} from '@angular/material/card';
 import  {QRCodeModule}  from 'angular2-qrcode';
+import { DictamenComponent } from './components/resultados/dictamen.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import  {QRCodeModule}  from 'angular2-qrcode';
     AntecedentesEstudioModalComponent,
     MedicoRadiologoComponent,
     DictadorComponent,
-    ResultadosComponent  ],
+    ResultadosComponent,
+    DictamenComponent  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,

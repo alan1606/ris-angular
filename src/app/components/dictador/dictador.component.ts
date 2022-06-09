@@ -54,7 +54,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     ['underline', 'strike'],
     ['code', 'blockquote'],
     ['ordered_list', 'bullet_list'],
-    [{ heading: ['h5', 'h6'] }],
+    [{ heading: ['h6', 'h5'] }],
     ['link', 'image'],
     ['text_color', 'background_color'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
@@ -81,6 +81,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
           this.cargarAntecedentes();
           this.cargarInterpretacionAnterior();
           this.cargarMultimedia();
+          
           console.log(estudio);
         }, error => {
           //this.router.navigate(['/agenda']);
@@ -89,6 +90,39 @@ export class DictadorComponent implements OnInit, OnDestroy {
     });
 
     this.inicialzarDictador();
+  }
+
+  cargarPlantillaCardio(): void {
+    console.log(this.antecedentes);
+    const jsonDoc = (toDoc(`Antecedentes: ${this.antecedentes}
+    <br></br>
+    <strong>*RITMO Y MEDICIONES*</strong>
+    <br></br>
+    Ritmo:[  ], Frecuencia Cardiaca:[  ], Latidos por minuto.
+    <br></br>
+    Onda P:[  ]ms, [  ]mm. 
+    <br></br>
+    Intervalo PR:[  ]ms, QRS:[  ]ms, Eje Eléctrico (AQRS)[  ], 
+    <br></br>
+    Onda T:[  ].
+    <br></br>
+    Segmento ST:[  ].
+    <br></br>
+    Qt:[  ]ms, QTc:[  ]ms
+    <br></br>
+    <br></br>
+    <strong>OBSERVACIONES:</strong>
+    
+    
+    <br></br>
+    <br></br>
+    <br></br>
+    <strong>INTERPRETACION:</strong> 
+    <br></br>
+    <br></br>
+    <br></br>
+    `));
+    this.form.get('editorContent').setValue(jsonDoc);
   }
 
   ngOnDestroy(): void {
@@ -212,7 +246,11 @@ export class DictadorComponent implements OnInit, OnDestroy {
   cargarAntecedentes() {
     this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
       this.antecedentes += `${antecedente.antecedente.nombre} \n`;
+      if(this.estudio.concepto.area.nombre == 'CARDIOLOGIA'){
+        this.cargarPlantillaCardio();
+      }
     }));
+
   }
 
   ver(estudio: VentaConceptos): void {
