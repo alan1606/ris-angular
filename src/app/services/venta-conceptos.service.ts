@@ -88,8 +88,6 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
       return new Blob([res.body], { type: 'application/pdf' });
     })
   );
-
-   
   }
 
  

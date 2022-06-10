@@ -77,7 +77,12 @@
     <div *ngIf="!estudio.concepto.dicom && multimediaCargada | async ">
         <div class="form-group my-3" *ngFor="let pdf of multimedia">
             <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta" [render-text]="true"
-                [original-size]="false" style="width: 1100px; height: 700px"></pdf-viewer>
+                [original-size]="false" style="width: 1100px; height: 700px">
+            </pdf-viewer>
+
+            <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm" (click)="expandir(pdf)">
+                Expandir
+            </button>
         </div>
     </div>
 

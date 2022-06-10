@@ -30,7 +30,7 @@ export class ResultadosComponent implements OnInit {
     private route: ActivatedRoute,
     private interpretacionService: InterpretacionService,
     private router: Router) { }
-s
+  
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const idPacs: string = params.get('idPacs');
@@ -89,8 +89,15 @@ s
     window.open(DOWNLOAD_WEASIS_MAC_LINK);
   }
 
-  verInterpretacion(estudio: VentaConceptos){
+  verInterpretacion(estudio: VentaConceptos) {
     this.router.navigate([`/dictamen/${estudio.idPacs}`]);
   }
 
+
+  expandir(multimedia: Multimedia) {
+    this.multimediaService.verDocumento(multimedia).subscribe(res => {
+      const fileURL = URL.createObjectURL(res);
+      window.open(fileURL, '_blank');
+    });
+  }
 }

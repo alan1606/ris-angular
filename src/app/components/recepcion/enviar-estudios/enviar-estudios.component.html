@@ -2,7 +2,7 @@
     <div class="row justify-content-md-left">
 
         <div class="col-md-auto">
-            <button class="btn btn-info btn-lg btn-block    " (click)="buscarEstudiosDeHoy()">
+            <button class="btn btn-info btn-lg btn-block" (click)="buscarEstudiosDeHoy()">
                 Hoy
             </button>
         </div>
@@ -63,61 +63,24 @@
                     <th>Paciente</th>
                     <th>Estudio</th>
                     <th>Fecha</th>
-                    <th>Estatus</th>
-                    <th>IdPacs</th>
                     <th>Area</th>
-                    <th>IUID</th>
-                    <th>Ver</th>
-                    <th>Accion</th>
-                    <th>Datos</th>
-                    <th>Antecedentes</th>
+                    <th>Médico</th>
+                    <th>Enviar</th>
                 </tr>
             </thead>
 
             <tbody *ngIf="lista?.length>0">
                 <tr *ngFor="let estudio of lista">
-                    <td  (click)="abrirQr(estudio)">{{estudio.id}}</td>
+                    <td>{{estudio.id}}</td>
                     <td>{{estudio.paciente.nombreCompleto}}</td>
                     <td>{{estudio.concepto.concepto}}</td>
                     <td>{{estudio.fechaAsignado | date : 'dd/MM/yyyy'}} </td>
-                    <td *ngIf="estudio.estado === 'INTERPRETANDO' || estudio.estado === 'INTERPRETADO'">
-                        <p class="terminado">{{estudio.estado}}</p>
-                    </td>
-                    <td *ngIf="estudio.estado !== 'INTERPRETANDO' && estudio.estado !== 'INTERPRETADO'">
-                        <p  class="pendiente">{{estudio.estado}}</p>
-                    </td>
-                    <td>{{estudio.idPacs}}</td>
                     <td>{{estudio.equipoDicom.area.nombre}}</td>
-                    <td (click)="desvincular(estudio)" *ngIf="estudio.iuid?.length>0">{{estudio.iuid}}</td>
-                    <td *ngIf="!estudio.iuid?.length>0"></td>
-                    <td *ngIf="estudio.concepto.dicom">
-                        <button class="btn btn-success btn-sm" *ngIf="estudio.iuid?.length>0" (click)="ver(estudio)">
-                            Ver
-                        </button>
-                        <button class="btn btn-info btn-sm" *ngIf="!estudio.iuid?.length>0"
-                            (click)="buscarEstudioEnPacs(estudio)">
-                            Buscar
-                        </button>
-                    </td>
-                    <td *ngIf="!estudio.concepto.dicom"></td>
-                    <td *ngIf="estudio.estado != 'CANCELADO' && estudio.estado != 'DEVUELTO'">
-                        <button class="btn btn-primary btn-sm" *ngIf="estudio.iuid?.length>0 || !estudio.concepto.dicom"
-                            (click)="abrirEnvio(estudio)">
+                    <td>{{estudio.medicoRadiologo.nombres + " " + estudio.medicoRadiologo.apellidos}}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm"
+                            (click)="enviar(estudio)">
                             Enviar
-                        </button>
-                    </td>
-
-                    <td>
-                        <button class="btn btn-primary btn-sm"
-                            (click)="abrirInformacion(estudio)">
-                            Información
-                        </button>
-                    </td>
-
-                    <td>
-                        <button class="btn btn-primary btn-sm"
-                            (click)="abrirAntecedentes(estudio)">
-                            Antecedentes
                         </button>
                     </td>
                 </tr>

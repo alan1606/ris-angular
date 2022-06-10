@@ -94,25 +94,19 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
   cargarPlantillaCardio(): void {
     console.log(this.antecedentes);
-    const jsonDoc = (toDoc(`Antecedentes: ${this.antecedentes}
-    <br></br>
-    <strong>*RITMO Y MEDICIONES*</strong>
+    const jsonDoc = (toDoc(`<strong>Antecedentes:</strong> ${this.antecedentes}
+    <br><br>
+    <strong>*RITMO Y MEDICIONES*</strong><br>
 
-    <strong>Ritmo:</strong>[  ], Frecuencia Cardiaca:[  ], Latidos por minuto.
-
-    <strong>Onda P:</strong>[  ]ms, [  ]mm. 
-    
-    <strong>Intervalo PR:</strong>[  ]ms, QRS:[  ]ms, Eje Eléctrico (AQRS)[  ], 
-
-    <strong>Onda T:</strong>[  ].
- 
-    <strong>Segmento ST:</strong>[  ].
-
-    <strong>Qt:</strong>[  ]ms, QTc:[  ]ms
+    <strong>Ritmo:</strong>[  ], Frecuencia Cardiaca:[  ], Latidos por minuto.<br>
+    <strong>Onda P:</strong>[  ]ms, [  ]mm. <br>
+    <strong>Intervalo PR:</strong>[  ]ms, QRS:[  ]ms, Eje Eléctrico (AQRS)[  ], <br>
+    <strong>Onda T:</strong>[  ].<br>
+    <strong>Segmento ST:</strong>[  ].<br>
+    <strong>Qt:</strong>[  ]ms, QTc:[  ]ms<br><br>
 
 
-    <br></br>
-    <strong>OBSERVACIONES:</strong>
+    <strong>OBSERVACIONES:</strong><br><br>
     <strong>INTERPRETACION:</strong> 
     <br></br>
     <p><strong>El electrocardiograma es una herramienta diagnóstica que requiere la correlación clínica por parte del médico tratante</strong></p>
@@ -308,6 +302,13 @@ export class DictadorComponent implements OnInit, OnDestroy {
       console.log("Estudio actualizado");
     }, e => {
       console.log("Error al actualizar estudio");
+    });
+  }
+
+  expandir(multimedia: Multimedia ){
+    this.multimediaService.verDocumento(multimedia).subscribe(res =>{
+      const fileURL = URL.createObjectURL(res);
+      window.open(fileURL, '_blank');
     });
   }
 

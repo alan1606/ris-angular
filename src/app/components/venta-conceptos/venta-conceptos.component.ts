@@ -122,7 +122,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
       }
     );
 
-    this.autocompleteControl.setValue('');
+    this.autocompleteControlPaciente.setValue('');
     event.option.deselect();
     event.option.focus();
   }
@@ -238,4 +238,27 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
         window.open(fileURL, '_blank');
       });
     }
+
+    desvincular(estudio: VentaConceptos){
+      Swal.fire({
+        title: '¿Desea desvincular el estudio?',
+        showDenyButton: true,
+        confirmButtonText: 'Sí',
+        denyButtonText: 'No'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire('Éxito', 'El estudio ha sido desvinculado', 'success');
+          estudio.iuid = '';
+          this.actualizarEstudio(estudio);
+        }
+      })
+    }
+
+  actualizarEstudio(estudio: VentaConceptos) {
+    this.service.editar(estudio).subscribe(actualizado => {
+      console.log('Actualizado');
+    }, error => {
+      Swal.fire('Error', 'Ocurrió un error al desvincular\nVuelva a intentarlo' , "error");
+    });
+  }
 }

@@ -11,6 +11,8 @@ import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-r
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
 import { DictamenComponent } from './components/resultados/dictamen.component';
+import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
+import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
 
 const routes: Routes = [
   {path : 'pacientes', component: PacientesComponent},
@@ -25,8 +27,9 @@ const routes: Routes = [
   {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent},
   {path: 'dictador/:idVentaConcepto', component: DictadorComponent},
   {path: 'resultados/:idPacs', component: ResultadosComponent},
-  {path: 'dictamen/:idPacs', component: DictamenComponent}
-
+  {path: 'dictamen/:idPacs', component: DictamenComponent},
+  {path: 'recepcion/enviar-estudios', component: EnviarEstudiosComponent},
+  {path: 'recepcion/enviar-estudio/:idPacs', component: EnviarEstudioComponent}
 ];
 
 @NgModule({

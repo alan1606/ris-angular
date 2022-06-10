@@ -38,6 +38,8 @@ import { ResultadosComponent } from './components/resultados/resultados.componen
 import {MatCardModule} from '@angular/material/card';
 import  {QRCodeModule}  from 'angular2-qrcode';
 import { DictamenComponent } from './components/resultados/dictamen.component';
+import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
+import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import { DictamenComponent } from './components/resultados/dictamen.component';
     MedicoRadiologoComponent,
     DictadorComponent,
     ResultadosComponent,
-    DictamenComponent  ],
+    DictamenComponent,
+    EnviarEstudiosComponent,
+    EnviarEstudioComponent  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
