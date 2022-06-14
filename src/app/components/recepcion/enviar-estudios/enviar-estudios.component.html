@@ -76,7 +76,16 @@
                     <td>{{estudio.concepto.concepto}}</td>
                     <td>{{estudio.fechaAsignado | date : 'dd/MM/yyyy'}} </td>
                     <td>{{estudio.equipoDicom.area.nombre}}</td>
-                    <td>{{estudio.medicoRadiologo.nombres + " " + estudio.medicoRadiologo.apellidos}}</td>
+                    <td *ngIf="estudio.estado === 'INTERPRETADO'">
+                        <p class="terminado">
+                            {{estudio.medicoRadiologo.nombres + " " + estudio.medicoRadiologo.apellidos}}
+                        </p>
+                    </td>
+                    <td *ngIf="estudio.estado !== 'INTERPRETADO'" >
+                        <p class="pendiente">
+                            {{estudio.medicoRadiologo.nombres + " " + estudio.medicoRadiologo.apellidos}}
+                        </p>
+                    </td>
                     <td>
                         <button class="btn btn-primary btn-sm"
                             (click)="enviar(estudio)">

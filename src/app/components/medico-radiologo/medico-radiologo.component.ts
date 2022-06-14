@@ -49,7 +49,6 @@ export class MedicoRadiologoComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.titulo = "Lista de estudios";
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
 
@@ -59,6 +58,7 @@ export class MedicoRadiologoComponent implements OnInit {
       if (token) {
         this.service.encontrarRadiologoPorToken(token).subscribe(medico => {
           this.medico = medico;
+          this.titulo = `Lista de estudios, médico: ${medico.nombres} ${medico.apellidos}`;
           this.cargarEstudios();
         }, error => {
           //this.router.navigate(['/agenda']);

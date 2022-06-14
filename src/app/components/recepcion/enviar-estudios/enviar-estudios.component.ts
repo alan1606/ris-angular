@@ -67,7 +67,7 @@ export class EnviarEstudiosComponent extends CommonListarComponent<VentaConcepto
   }
 
   buscarEstudiosDeHoy(): void {
-    this.service.filtrarDiaDeHoy().subscribe(estudios => this.lista = estudios.filter(estudio => estudio.estado == 'INTERPRETADO'),
+    this.service.filtrarDiaDeHoy().subscribe(estudios => this.lista = estudios,
       e => {
         if (e.status === 404) {
           this.lista = [];
@@ -83,7 +83,7 @@ export class EnviarEstudiosComponent extends CommonListarComponent<VentaConcepto
     }
   
     this.service.filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id).subscribe(estudios => {
-      this.lista = estudios.filter(estudio => estudio.estado == 'INTERPRETADO');
+      this.lista = estudios;
     },
       e => {
         if (e.status === 404) {
@@ -105,7 +105,7 @@ export class EnviarEstudiosComponent extends CommonListarComponent<VentaConcepto
     }
   
     this.service.filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id).subscribe(estudios => {
-      this.lista = estudios.filter(estudio => estudio.estado == 'INTERPRETADO');
+      this.lista = estudios;
     },
       e => {
         if (e.status === 404) {
@@ -144,7 +144,7 @@ export class EnviarEstudiosComponent extends CommonListarComponent<VentaConcepto
       console.log(this.fechaInicio + " " + this.fechaFin)
 
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(estudios => 
-        this.lista = estudios.filter(estudio => estudio.estado == 'INTERPRETADO'),
+        this.lista = estudios,
         e => {
           if (e.status === 404) {
             this.lista = [];
