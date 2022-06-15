@@ -13,6 +13,7 @@ import { ResultadosComponent } from './components/resultados/resultados.componen
 import { DictamenComponent } from './components/resultados/dictamen.component';
 import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
+import { WorklistComponent } from './components/worklist/worklist.component';
 
 const routes: Routes = [
   {path : 'pacientes', component: PacientesComponent},
@@ -29,7 +30,9 @@ const routes: Routes = [
   {path: 'resultados/:idPacs', component: ResultadosComponent},
   {path: 'dictamen/:idPacs', component: DictamenComponent},
   {path: 'recepcion/enviar-estudios', component: EnviarEstudiosComponent},
-  {path: 'recepcion/enviar-estudio/:idPacs', component: EnviarEstudioComponent}
+  {path: 'recepcion/enviar-estudio/:idPacs', component: EnviarEstudioComponent},
+  {path: 'worklist', component: WorklistComponent},
+
 ];
 
 @NgModule({

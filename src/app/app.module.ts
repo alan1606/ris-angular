@@ -40,6 +40,7 @@ import  {QRCodeModule}  from 'angular2-qrcode';
 import { DictamenComponent } from './components/resultados/dictamen.component';
 import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
+import { WorklistComponent } from './components/worklist/worklist.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.co
     ResultadosComponent,
     DictamenComponent,
     EnviarEstudiosComponent,
-    EnviarEstudioComponent  ],
+    EnviarEstudioComponent,
+    WorklistComponent  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
