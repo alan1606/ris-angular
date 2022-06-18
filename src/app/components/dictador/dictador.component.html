@@ -12,12 +12,14 @@
 
     <div class="form-group my-3">
         <label for="procedencia">Procedencia</label>
-        <input type="text" name="procedencia" id="procedencia" class="form-control" [(ngModel)]="estudio.institucion.nombre">
+        <input type="text" name="procedencia" id="procedencia" class="form-control"
+            [(ngModel)]="estudio.institucion.nombre">
     </div>
 
     <div class="form-group my-3">
         <label for="medico">Medico</label>
-        <input type="text" name="medico" id="medico" class="form-control" [(ngModel)]="estudio.ordenVenta.medicoReferente.nombres">
+        <input type="text" name="medico" id="medico" class="form-control"
+            [(ngModel)]="estudio.ordenVenta.medicoReferente.nombres">
     </div>
 
     <div class="form-group my-3" *ngIf="estudio.ordenVenta.motivo">
@@ -70,7 +72,7 @@
 
     <div *ngIf="multimediaCargada | async ">
         <div class="form-group my-3" *ngFor="let img of multimedia">
-            <img *ngIf="img.tipo == 'IMAGEN'"  class="img-fluid" [src]="filesPath + img.ruta" >
+            <img *ngIf="img.tipo == 'IMAGEN'" class="img-fluid" [src]="filesPath + img.ruta">
         </div>
     </div>
 
@@ -80,7 +82,8 @@
                 [original-size]="false" style="width: 1100px; height: 700px">
             </pdf-viewer>
 
-            <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm" (click)="expandir(pdf)">
+            <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm"
+                (click)="expandir(pdf)">
                 Expandir
             </button>
         </div>
@@ -98,11 +101,12 @@
         </button>
 
 
-        <input [(ngModel)]="dictado.parcial" name="dictado.parcial" id="dictado.parcial" ngDefaultControl disabled="true"
-            class="sinborde mx-4">
+        <input [(ngModel)]="dictado.parcial" name="dictado.parcial" id="dictado.parcial" ngDefaultControl
+            disabled="true" class="sinborde mx-4">
     </div>
 
 
+    
 
     <form [formGroup]="form">
         <div class="editor">
@@ -113,9 +117,13 @@
     </form>
 
 
+
     <button class="btn btn-success btn-lg my-4" (click)="guardar()">
         Guardar
     </button>
 
+    <button class="btn btn-danger btn-sm my-4 mx-5" (click)="mayus()">
+        Mayúsculas
+    </button>
 
 </form>

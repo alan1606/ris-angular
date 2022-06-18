@@ -63,6 +63,7 @@
                     <th>Paciente</th>
                     <th>Estudio</th>
                     <th>Fecha</th>
+                    <th>Hora</th>
                     <th>Area</th>
                     <th>Procesar</th>
                 </tr>
@@ -74,6 +75,7 @@
                     <td>{{estudio.paciente.nombreCompleto}}</td>
                     <td>{{estudio.concepto.concepto}}</td>
                     <td>{{estudio.fechaAsignado | date : 'dd/MM/yyyy'}} </td>
+                    <td>{{estudio.horaAsignado.substring(0,5)}} </td>
                     <td>{{estudio.equipoDicom.area.nombre}}</td>
                     <td>
                         <button class="btn btn-primary btn-sm"

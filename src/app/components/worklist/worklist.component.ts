@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { map, flatMap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { VentaConceptos } from '../../models/venta-conceptos';
-import { WorklistService } from '../../services/worklist.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -34,8 +33,7 @@ export class WorklistComponent implements OnInit {
     @Inject(AreasService) private areasService: AreasService,
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
-    public dialog: MatDialog,
-    private worklistService: WorklistService) {
+    public dialog: MatDialog) {
     this.titulo = "Listado de estudios";
     }
 
@@ -155,7 +153,7 @@ export class WorklistComponent implements OnInit {
   }
 
   enviar(estudio: VentaConceptos): void{
-    this.worklistService.procesarEstudio(estudio.id).subscribe(respuesta =>{
+    this.service.procesarEstudioEnWorklist(estudio.id).subscribe(respuesta =>{
       Swal.fire('Éxito', 'Procesado correctamente', "success");
     },error =>{
       console.log(error);

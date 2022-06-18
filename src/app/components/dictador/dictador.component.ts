@@ -27,6 +27,7 @@ declare const webkitSpeechRecognition: any;
 
 export class DictadorComponent implements OnInit, OnDestroy {
 
+  ingresarAperturaMayus = true;
   speechRecognition: any;
   interpretacion: Interpretacion = new Interpretacion();
   estudio: VentaConceptos;
@@ -81,7 +82,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
           this.cargarAntecedentesInicial();
           this.cargarInterpretacionAnterior();
           this.cargarMultimedia();
-          
+
           console.log(estudio);
         }, error => {
           //this.router.navigate(['/agenda']);
@@ -200,7 +201,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.dictado.final = this.dictado.final.replace(/ coma/g, ',');
     this.dictado.final = this.dictado.final.replace(/<br>/g, '<br></br>');
     this.dictado.final = this.dictado.final.replace(/\u00a0/g, " ");
-     this.dictado.final = this.dictado.final.replace(/\xA0/g,' ');
+    this.dictado.final = this.dictado.final.replace(/\xA0/g, ' ');
   }
 
 
@@ -218,7 +219,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         const jsonDoc = (toDoc(interpretacion[0].interpretacion));
         this.form.get('editorContent').setValue(jsonDoc);
       }
-      else{
+      else {
         this.cargarAntecedentes();
       }
     });
@@ -239,7 +240,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.antecedentes = '';
     this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
       this.antecedentes += `${antecedente.antecedente.nombre} \n`;
-      if(this.estudio.concepto.area.nombre == 'CARDIOLOGIA'){
+      if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
         this.cargarPlantillaCardio();
       }
     }));
@@ -275,8 +276,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
   guardar() {
     let interpretacionHtml = toHTML(this.doc.value);
 
-     interpretacionHtml = interpretacionHtml.replace(/\u00a0/g, " ");
-     interpretacionHtml = interpretacionHtml.replace(/\xA0/g,' ');
+    interpretacionHtml = interpretacionHtml.replace(/\u00a0/g, " ");
+    interpretacionHtml = interpretacionHtml.replace(/\xA0/g, ' ');
 
     console.log(interpretacionHtml);
 
@@ -294,7 +295,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
     }, error => {
       Swal.fire("Error", "Ha ocurrido un error al guardar el reporte", "error");
     });
-
   }
 
   actualizarEstudio() {
@@ -305,11 +305,59 @@ export class DictadorComponent implements OnInit, OnDestroy {
     });
   }
 
-  expandir(multimedia: Multimedia ){
-    this.multimediaService.verDocumento(multimedia).subscribe(res =>{
+  expandir(multimedia: Multimedia) {
+    this.multimediaService.verDocumento(multimedia).subscribe(res => {
       const fileURL = URL.createObjectURL(res);
       window.open(fileURL, '_blank');
     });
   }
+
+  mayus(): void {
+    const interpretacionHtml = toHTML(this.doc.value);
+    console.log(interpretacionHtml);
+    if (this.ingresarAperturaMayus) {
+      this.editor.commands
+        .insertText('MAYUS#')
+        .focus()
+        .scrollIntoView()
+        .exec();
+    }
+    else {
+      this.editor.commands
+        .insertText('#MAYUS')
+        .focus()
+        .scrollIntoView()
+        .exec();
+
+        this.reemplazarMayus();
+    }
+    this.ingresarAperturaMayus = !this.ingresarAperturaMayus;
+  }
+
+
+reemplazarMayus(): void {
+  let interpretacionHtml = toHTML(this.doc.value);
+  interpretacionHtml = interpretacionHtml.replace(/&nbsp;/g, " ");
+
+
+  const inicio = interpretacionHtml.indexOf("MAYUS#");
+  const fin = interpretacionHtml.indexOf("#MAYUS");
+
+  const izquierda = interpretacionHtml.substring(0, inicio + "MAYUS#".length);
+  let substring = interpretacionHtml.substring(inicio + "MAYUS#".length, fin);
+  const derecha = interpretacionHtml.substring(fin, interpretacionHtml.length);
+
+  substring = substring.toUpperCase();
+
+  interpretacionHtml = izquierda + substring + derecha;
+  interpretacionHtml = interpretacionHtml.replace(/MAYUS#/g, '');
+  interpretacionHtml = interpretacionHtml.replace(/#MAYUS/g, '');
+
+  console.log(substring);
+  const jsonDoc = (toDoc(interpretacionHtml));
+  this.form.get('editorContent').setValue(jsonDoc);
+
+}
+
 
 }

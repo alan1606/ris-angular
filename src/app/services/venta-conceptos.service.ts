@@ -90,6 +90,8 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
   );
   }
 
- 
+ public procesarEstudioEnWorklist(idEstudio: number): Observable<void>{
+  return this.http.get<void>(`${this.baseEndpoint}/procesar-worklist/${idEstudio}`);
+ }
 
 }
