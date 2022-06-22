@@ -15,6 +15,7 @@ import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
+import { SendMailService } from '../../../services/send-mail.service';
 
 @Component({
   selector: 'app-enviar-estudio-modal',
@@ -47,7 +48,8 @@ export class EnviarEstudioModalComponent implements OnInit {
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
     private ventaConceptosService: VentaConceptosService,
-    private ordenVentaService: OrdenVentaService) { }
+    private ordenVentaService: OrdenVentaService,
+    private mailService: SendMailService) { }
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -90,26 +92,37 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   enviar(estudio: VentaConceptos): void {
     this.actualizarEstudio();
-    
+    this.modalRef.close();
   }
 
 
   actualizarOrdenVenta(): void {
     this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => {
-      Swal.fire("Enviado", "El estudio ha sido enviado", "success");
+      this.enviarCorreo();
     }, 
     e =>{
       Swal.fire("Error", "Ha ocurrido un error", "error");
-        console.log(e);
+      console.log(e);
     });
-    this.modalRef.close();
 
+  }
+
+  enviarCorreo(): void{
+    this.mailService.enviarCorreoInterpretar(this.estudio).subscribe(correo =>{
+      Swal.fire("Éxito", "El correo ha sido enviado correctamente", "success");
+    }, e =>{
+      Swal.fire("Error", "Ha ocurrido un error", "error");
+      console.log(e);
+    });
   }
 
 
   actualizarEstudio() {
     this.estudio.estado = "INTERPRETANDO";
-    this.ventaConceptosService.editar(this.estudio).subscribe(estudio => this.actualizarOrdenVenta(),
+    this.ventaConceptosService.editar(this.estudio).subscribe(estudio => {
+      this.estudio = estudio;
+      this.actualizarOrdenVenta();
+    },
       e => {
         Swal.fire("Error", "Ha ocurrido un error", "error");
         console.log(e);

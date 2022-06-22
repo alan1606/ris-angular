@@ -136,11 +136,11 @@ export class MedicoRadiologoComponent implements OnInit {
       });
   }
 
-  ver(estudio: VentaConceptos){
+  ver(estudio: VentaConceptos): void{
     this.router.navigate([`/dictamen/${estudio.idPacs}`]);
   }
 
-  abrirDictador(estudio: VentaConceptos){
+  abrirDictador(estudio: VentaConceptos): void{
     this.router.navigate([`/dictador/${estudio.id}`]);
   }
 }

@@ -15,8 +15,11 @@ export class SendMailService {
     
   }
 
-  public enviarCorreo(estudio: VentaConceptos): Observable<void>{
-    return this.http.get<void>(`${this.baseEndpoint}/venta-concepto/${estudio.id}`);
+  public enviarCorreoInterpretar(estudio: VentaConceptos): Observable<void>{
+    return this.http.get<void>(`${this.baseEndpoint}/venta-concepto/interpretar/${estudio.id}`);
   }
 
+  public enviarCorreoResultados(estudio: VentaConceptos): Observable<void>{
+    return this.http.get<void>(`${this.baseEndpoint}/venta-concepto/resultados/${estudio.id}`);
+  }
 }
