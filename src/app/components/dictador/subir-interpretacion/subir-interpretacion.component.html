@@ -1,0 +1,42 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+
+        <form>
+
+            <div class="form-group my-2">
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input (change)="seleccionarArchivo($event)" type="file" class="custom-file-input" id="archivo">
+                        <label class="custom-file-label" for="archivo">Seleccionar archivo</label>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="archivosCargados | async">
+
+                <div class="form-group my-3" *ngFor="let interpretacion of archivos">
+                    <pdf-viewer  [src]="filesPath + interpretacion.ruta" [render-text]="true"
+                        [original-size]="false" style="width: 1100px; height: 700px">
+                    </pdf-viewer>
+        
+                    <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(interpretacion)">
+                        Eliminar
+                    </button>
+
+                    <button  type="button" class="btn btn-primary btn-sm mx-4"
+                        (click)="expandir(interpretacion)">
+                        Expandir
+                    </button>
+                   
+                </div>
+
+              
+                   
+                 
+            </div>
+
+        </form>
+    </div>
+
+</div>

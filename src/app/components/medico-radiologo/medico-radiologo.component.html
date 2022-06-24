@@ -57,6 +57,7 @@
                     <th>Fecha</th>
                     <th>Estado</th>
                     <th>Dictamen</th>
+                    <th>PDF</th>
                 </tr>
             </thead>
 
@@ -80,6 +81,12 @@
                         <button *ngIf="estudio.estado=='INTERPRETADO'" class="btn btn-primary btn-sm"
                             (click)="ver(estudio)">
                             Ver
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm"
+                            [routerLink]="['/dictador/subir-pdf/', estudio.idPacs]">
+                            Subir interpretación externa
                         </button>
                     </td>
                 </tr>

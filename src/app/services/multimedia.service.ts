@@ -40,4 +40,10 @@ export class MultimediaService extends CommonService<Multimedia>{
      })
    );
    }
+
+   public subirInterpretacionPdf(multimedia: Multimedia, pdf: File): Observable<Multimedia>{
+    const formData = new FormData();
+    formData.append('documento', pdf);
+    return this.http.post<Multimedia>(this.baseEndpoint +  '/interpretacion/orden-venta/' + multimedia.ordenVenta.id, formData);
+  }
 }

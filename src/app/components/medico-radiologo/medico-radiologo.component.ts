@@ -61,7 +61,7 @@ export class MedicoRadiologoComponent implements OnInit {
           this.titulo = `Lista de estudios, médico: ${medico.nombres} ${medico.apellidos}`;
           this.cargarEstudios();
         }, error => {
-          //this.router.navigate(['/agenda']);
+          this.router.navigate(['/']);
         });
       }
     });

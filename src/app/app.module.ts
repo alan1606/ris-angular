@@ -41,6 +41,7 @@ import { DictamenComponent } from './components/resultados/dictamen.component';
 import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
+import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { WorklistComponent } from './components/worklist/worklist.component';
     DictamenComponent,
     EnviarEstudiosComponent,
     EnviarEstudioComponent,
-    WorklistComponent  ],
+    WorklistComponent,
+    SubirInterpretacionComponent  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
