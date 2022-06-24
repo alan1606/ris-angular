@@ -16,6 +16,7 @@ import { VentaConceptosService } from '../../services/venta-conceptos.service';
 import Swal from 'sweetalert2';
 import initJsonDoc from './doc';
 import { Dictado } from './dictado';
+import { SendMailService } from '../../services/send-mail.service';
 declare const webkitSpeechRecognition: any;
 
 @Component({
@@ -66,7 +67,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
     private antecedenteEstudioService: AntecedenteEstudioService,
     private router: Router,
     private interpretacionService: InterpretacionService,
-    private multimediaService: MultimediaService) {
+    private multimediaService: MultimediaService,
+    private mailService: SendMailService) {
     this.inicializarEstudioVacio();
   }
 
@@ -288,6 +290,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
       console.log(this.interpretacion);
       Swal.fire("Finalizado", "El reporte ha sido creado", "success");
 
+      this.enviarAvisoInterpretacionHechaACorreo();
+
       this.estudio.estado = "INTERPRETADO";
       this.actualizarEstudio();
 
@@ -296,6 +300,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
       Swal.fire("Error", "Ha ocurrido un error al guardar el reporte", "error");
     });
   }
+  
 
   actualizarEstudio() {
     this.ventaConceptosService.editar(this.estudio).subscribe(std => {
@@ -357,6 +362,14 @@ reemplazarMayus(): void {
   const jsonDoc = (toDoc(interpretacionHtml));
   this.form.get('editorContent').setValue(jsonDoc);
 
+}
+
+private enviarAvisoInterpretacionHechaACorreo(): void  {
+  this.mailService.enviarAvisoInterpretacionHecha(this.estudio).subscribe(res =>{
+    console.log("Correo enviado");
+  },error =>{
+    console.log("Ha ocurrido un error al enviar el correo");
+  });
 }
 
 

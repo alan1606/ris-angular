@@ -22,4 +22,8 @@ export class SendMailService {
   public enviarCorreoResultados(estudio: VentaConceptos): Observable<void>{
     return this.http.get<void>(`${this.baseEndpoint}/venta-concepto/resultados/${estudio.id}`);
   }
+
+  public enviarAvisoInterpretacionHecha(estudio: VentaConceptos): Observable<void>{
+    return this.http.get<void>(`${this.baseEndpoint}/aviso-interpretado/${estudio.id}`);
+  }
 }
