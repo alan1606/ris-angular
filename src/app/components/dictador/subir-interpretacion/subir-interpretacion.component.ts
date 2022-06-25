@@ -89,7 +89,11 @@ export class SubirInterpretacionComponent implements OnInit {
 
 
           //Si longitud de arreglo  = 0, entonces poner estado de estudio en interpretando
-
+          if(this.archivos.length === 0){
+            console.log('No hay ningún archivo pdf subido');
+            this.estudio.estado = 'INTERPRETANDO';
+            this.actualizarEstudio();
+          }
 
 
 
