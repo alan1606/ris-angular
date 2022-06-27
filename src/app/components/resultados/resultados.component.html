@@ -13,7 +13,7 @@
                 </div>
 
 
-                <div class="row my-4" *ngIf="interpretacion == null">
+                <div class="row my-4" *ngIf="(interpretacionExterna | async) == false && interpretacion == null ">
                     <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido interpretado</p>
                 </div>
 
@@ -51,7 +51,7 @@
                 </div>
 
                
-                <div class="row my-4" *ngIf="interpretacion != null ">
+                <div class="row my-4" *ngIf="(interpretacionExterna | async) == true || interpretacion != null">
                     <div class="col">
                         <button type="button" class="btn btn-danger btn-lg" (click)="verInterpretacion(estudio)">
                             Ver interpretacion

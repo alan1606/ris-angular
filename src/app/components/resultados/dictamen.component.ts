@@ -18,7 +18,7 @@ export class DictamenComponent implements OnInit {
   estudio: VentaConceptos;
   titulo: string = '';
   interpretacion: Interpretacion;
-  enlacePdf: String;
+  enlacePdf: String= '';
   private multimedia: Multimedia = new Multimedia();
   archivosCargados: Promise<Boolean>;
   archivos: Multimedia[] = [];
@@ -38,7 +38,6 @@ export class DictamenComponent implements OnInit {
           this.titulo = `${this.estudio.institucion.nombre}: ${this.estudio.concepto.concepto} de ${this.estudio.paciente.nombreCompleto}`;
           this.cargarInterpretacion();
           this.cargarInterpretacionesPdf();
-          this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${estudio.id}/pdf`;
         });
       }
     });
@@ -46,8 +45,12 @@ export class DictamenComponent implements OnInit {
 
   cargarInterpretacion(): void{
     this.interpretacionService.encontrarPorEstudioId(this.estudio.id).subscribe(interpretacion => {
-      this.interpretacion = interpretacion[0];
+      if(interpretacion.length>0){
+        this.interpretacion = interpretacion[0];
+        this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`;
+      }
     });
+    
   }
 
   descargarPdf(): void{
@@ -60,9 +63,16 @@ export class DictamenComponent implements OnInit {
 
   cargarInterpretacionesPdf(): void {
     this.multimediaService.buscarPorOrdenVentaId(this.estudio.ordenVenta.id).subscribe(multimedia => {
-      this.archivos = multimedia.filter(foto => foto.tipo == 'INTERPRETACION');;
-      this.archivosCargados = Promise.resolve(true);
+      this.archivos = multimedia.filter(foto => foto.tipo == 'INTERPRETACION');
+      if(this.archivos.length >0){
+        this.archivosCargados = Promise.resolve(true);
+      }
+     else{
+      this.archivosCargados = Promise.resolve(false);
+     }
       console.log(multimedia);
+    },error =>{
+      this.archivosCargados = Promise.resolve(false);
     }
     );
   }

@@ -23,6 +23,7 @@ export class ResultadosComponent implements OnInit {
   filesPath = FILES_PATH;
   antecedentesJuntos: string = "";
   interpretacion: Interpretacion;
+  interpretacionExterna: Promise<boolean>;
 
   constructor(private service: VentaConceptosService,
     private multimediaService: MultimediaService,
@@ -41,6 +42,7 @@ export class ResultadosComponent implements OnInit {
           this.cargarMultimedia();
           this.cargarAntecedentes();
           this.cargarInterpretacion();
+          this.cargarInterpretacionesPdf();
         });
       }
     });
@@ -59,6 +61,20 @@ export class ResultadosComponent implements OnInit {
       e => {
         Swal.fire("Error", "Error al obtener la multimedia", "error");
       }
+    );
+  }
+
+  cargarInterpretacionesPdf(): void {
+    this.multimediaService.buscarPorOrdenVentaId(this.estudio.ordenVenta.id).subscribe(multimedia => {
+      let archivos: Multimedia[] = multimedia.filter(doc => doc.tipo == 'INTERPRETACION');
+      if(archivos.length>0){
+        this.interpretacionExterna = Promise.resolve(true);
+      }
+      else{
+        this.interpretacionExterna = Promise.resolve(false);
+      }
+      console.log(multimedia);
+    }
     );
   }
 
