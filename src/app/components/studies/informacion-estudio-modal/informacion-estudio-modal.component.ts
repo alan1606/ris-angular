@@ -47,4 +47,28 @@ export class InformacionEstudioModalComponent implements OnInit {
     this.modalRef.close();
   }
 
+  eliminar(archivo: Multimedia){
+    Swal.fire({
+      title: '¿Seguro que desea eliminar el archivo?',
+      showDenyButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.multimediaService.eliminar(archivo.id).subscribe(res => {
+          Swal.fire('Éxito', 'El archivo ha sido eliminado', 'success');
+        }, error =>{
+          Swal.fire('Error', 'No se ha podido eliminar el archivo', 'error');
+        });
+      }
+    })
+  }
+
+  expandir(multimedia: Multimedia) {
+    this.multimediaService.verDocumento(multimedia).subscribe(res => {
+      const fileURL = URL.createObjectURL(res);
+      window.open(fileURL, '_blank');
+    });
+  }
+
 }

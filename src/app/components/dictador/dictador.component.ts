@@ -178,13 +178,14 @@ export class DictadorComponent implements OnInit, OnDestroy {
   logicaResultado() {
     this.speechRecognition.addEventListener('result', (e: any) => {
       this.dictado.parcial = "";
+      this.dictado.final = "";
       this.isDictando = true;
 
       for (let i = e.resultIndex; i < e.results.length; ++i) {
         if (e.results[i].isFinal) {
-          this.dictado.final += e.results[i][0].transcript;
+          this.dictado.final = e.results[i][0].transcript;
         } else {
-          this.dictado.parcial += e.results[i][0].transcript;
+          this.dictado.parcial = e.results[i][0].transcript;
           console.log(this.dictado.parcial);
         }
       }
@@ -193,14 +194,24 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   hacerReemplazos() {
-    this.dictado.final = this.dictado.final.replace(/iniciar conclusión/g, '<br></br><br></br><b>CONCLUSIÓN<br></br>');
+    this.dictado.final = this.dictado.final.replace(/ iniciar conclusión/g, '<br></br><br></br><b>CONCLUSIÓN<br></br>');
     this.dictado.final = this.dictado.final.replace(/ finalizar conclusión/g, '.</b>');
-    this.dictado.final = this.dictado.final.replace(/nueva línea/g, '<br></br>');
     this.dictado.final = this.dictado.final.replace(/ punto y coma/g, ';');
     this.dictado.final = this.dictado.final.replace(/ punto y aparte/g, '.<br></br><br><br/>');
     this.dictado.final = this.dictado.final.replace(/ punto y seguido/g, '.');
     this.dictado.final = this.dictado.final.replace(/ punto/g, '.');
     this.dictado.final = this.dictado.final.replace(/ coma/g, ',');
+    this.dictado.final = this.dictado.final.replace(/ nueva línea/g, '<br></br>');
+
+    this.dictado.final = this.dictado.final.replace(/iniciar conclusión/g, '<br></br><br></br><b>CONCLUSIÓN<br></br>');
+    this.dictado.final = this.dictado.final.replace(/finalizar conclusión/g, '.</b>');
+    this.dictado.final = this.dictado.final.replace(/punto y coma/g, ';');
+    this.dictado.final = this.dictado.final.replace(/punto y aparte/g, '.<br></br><br><br/>');
+    this.dictado.final = this.dictado.final.replace(/punto y seguido/g, '.');
+    this.dictado.final = this.dictado.final.replace(/punto/g, '.');
+    this.dictado.final = this.dictado.final.replace(/coma/g, ',');
+    this.dictado.final = this.dictado.final.replace(/nueva línea/g, '<br></br>');
+
     this.dictado.final = this.dictado.final.replace(/<br>/g, '<br></br>');
     this.dictado.final = this.dictado.final.replace(/\u00a0/g, " ");
     this.dictado.final = this.dictado.final.replace(/\xA0/g, ' ');
