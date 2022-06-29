@@ -37,6 +37,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
   html;
   multimedia: Multimedia[] = [];
   multimediaCargada: Promise<Boolean>;
+  estudiosDeOrden: VentaConceptos[]
 
   filesPath = FILES_PATH;
 
@@ -84,7 +85,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
           this.cargarAntecedentesInicial();
           this.cargarInterpretacionAnterior();
           this.cargarMultimedia();
-
+          this.cargarEstudiosDeOrden();
           console.log(estudio);
         }, error => {
           //this.router.navigate(['/agenda']);
@@ -383,5 +384,12 @@ private enviarAvisoInterpretacionHechaACorreo(): void  {
   });
 }
 
+cargarEstudiosDeOrden(): void {
+  this.ventaConceptosService.encontrarPorOrdenVentaId(this.estudio.ordenVenta.id).subscribe(estudios => {
+    this.estudiosDeOrden = estudios.filter(estudio => estudio.ordenVenta.medicoReferente.id === this.estudio.ordenVenta.medicoReferente.id);
+  }, error =>{
+    console.log("Ha ocurrido un error al cargar estudios de la órden en cuestión");
+  });
+}
 
 }

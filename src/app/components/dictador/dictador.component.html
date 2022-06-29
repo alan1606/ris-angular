@@ -37,37 +37,41 @@
         <textarea name="antecedentes" id="antecedentes" class="form-control" [(ngModel)]="antecedentes"> </textarea>
     </div>
 
-    <div class="row my-4" *ngIf="estudio.iuid?.length>0">
-        <div class="col">
-            <button type="button" class="btn btn-primary btn-sm" (click)="ver(estudio)">
-                Ver estudio en línea
-            </button>
-        </div>
-
-        <div class="col">
-            <button type="button" class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">
-                Abrir estudio con weasis
-            </button>
-        </div>
-
-        <div class="col">
-            <button class="btn btn-primary btn-sm" (click)="descargarZip(estudio)">
-                Descargar estudio en zip
-            </button>
-        </div>
-
-        <div class="col">
-            <button class="btn btn-primary btn-sm" (click)="descargarWeasisWindows()">
-                Descargar weasis windows
-            </button>
-        </div>
-
-        <div class="col">
-            <button class="btn btn-primary btn-sm" (click)="descargarWeasisMac()">
-                Descargar weasis mac
-            </button>
+    <div *ngFor="let estudio of estudiosDeOrden">
+        <div class="row my-4" *ngIf="estudio.iuid?.length>0">
+            <h3><b>{{estudio.concepto.concepto}}</b></h3>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" (click)="ver(estudio)">
+                    Ver estudio en línea
+                </button>
+            </div>
+    
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">
+                    Abrir estudio con weasis
+                </button>
+            </div>
+    
+            <div class="col">
+                <button class="btn btn-primary btn-sm" (click)="descargarZip(estudio)">
+                    Descargar estudio en zip
+                </button>
+            </div>
+    
+            <div class="col">
+                <button class="btn btn-primary btn-sm" (click)="descargarWeasisWindows()">
+                    Descargar weasis windows
+                </button>
+            </div>
+    
+            <div class="col">
+                <button class="btn btn-primary btn-sm" (click)="descargarWeasisMac()">
+                    Descargar weasis mac
+                </button>
+            </div>
         </div>
     </div>
+   
 
 
     <div *ngIf="multimediaCargada | async ">

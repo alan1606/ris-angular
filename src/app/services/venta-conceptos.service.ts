@@ -94,4 +94,8 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
   return this.http.get<void>(`${this.baseEndpoint}/procesar-worklist/${idEstudio}`);
  }
 
+ public encontrarPorOrdenVentaId(ordenVentaId: number): Observable<VentaConceptos[]>{
+  return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/orden-venta/${ordenVentaId}`);
+ }
+
 }

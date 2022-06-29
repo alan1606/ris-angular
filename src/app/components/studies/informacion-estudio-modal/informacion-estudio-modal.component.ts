@@ -57,6 +57,7 @@ export class InformacionEstudioModalComponent implements OnInit {
       if (result.isConfirmed) {
         this.multimediaService.eliminar(archivo.id).subscribe(res => {
           Swal.fire('Éxito', 'El archivo ha sido eliminado', 'success');
+          //this.multimedia = this.multimedia.filter();
         }, error =>{
           Swal.fire('Error', 'No se ha podido eliminar el archivo', 'error');
         });
