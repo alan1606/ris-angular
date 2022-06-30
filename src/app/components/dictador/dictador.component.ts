@@ -88,7 +88,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
           this.cargarEstudiosDeOrden();
           console.log(estudio);
         }, error => {
-          //this.router.navigate(['/agenda']);
+          this.router.navigate(['/']);
         });
       }
     });
@@ -292,6 +292,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
     interpretacionHtml = interpretacionHtml.replace(/\u00a0/g, " ");
     interpretacionHtml = interpretacionHtml.replace(/\xA0/g, ' ');
+    interpretacionHtml = interpretacionHtml.replace(/\<p\>\<\/p\>/g, "<br></br>");
 
     console.log(interpretacionHtml);
 
@@ -304,18 +305,23 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
       this.enviarAvisoInterpretacionHechaACorreo();
 
-      this.estudio.estado = "INTERPRETADO";
-      this.actualizarEstudio();
+      this.marcarEstudiosDeOrdenInterpretados();
 
       this.router.navigate(['/medico-radiologo/' + this.estudio.medicoRadiologo.token]);
     }, error => {
       Swal.fire("Error", "Ha ocurrido un error al guardar el reporte", "error");
     });
   }
-  
 
-  actualizarEstudio() {
-    this.ventaConceptosService.editar(this.estudio).subscribe(std => {
+  private marcarEstudiosDeOrdenInterpretados() {
+    this.estudiosDeOrden.forEach(estudio => {
+      estudio.estado = "INTERPRETADO";
+      this.actualizarEstudio(estudio);
+    });
+  }
+  
+  actualizarEstudio(estudio: VentaConceptos) {
+    this.ventaConceptosService.editar(estudio).subscribe(std => {
       console.log("Estudio actualizado");
     }, e => {
       console.log("Error al actualizar estudio");

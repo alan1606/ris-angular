@@ -15,6 +15,7 @@ import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/
 import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
+import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
 
 const routes: Routes = [
   {path : 'pacientes', component: PacientesComponent},
@@ -34,7 +35,7 @@ const routes: Routes = [
   {path: 'recepcion/enviar-estudio/:idPacs', component: EnviarEstudioComponent},
   {path: 'worklist', component: WorklistComponent},
   {path: 'dictador/subir-pdf/:idPacs', component: SubirInterpretacionComponent},
-
+  {path: 'resultados/orden/:ordenId/:pacienteId', component: OrdenVentaComponent},
 ];
 
 @NgModule({
