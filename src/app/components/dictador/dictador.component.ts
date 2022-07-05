@@ -392,7 +392,7 @@ private enviarAvisoInterpretacionHechaACorreo(): void  {
 
 cargarEstudiosDeOrden(): void {
   this.ventaConceptosService.encontrarPorOrdenVentaId(this.estudio.ordenVenta.id).subscribe(estudios => {
-    this.estudiosDeOrden = estudios.filter(estudio => estudio.ordenVenta.medicoReferente.id === this.estudio.ordenVenta.medicoReferente.id);
+    this.estudiosDeOrden = estudios.filter(estudio => estudio.medicoRadiologo.id === this.estudio.medicoRadiologo.id);
   }, error =>{
     console.log("Ha ocurrido un error al cargar estudios de la órden en cuestión");
   });

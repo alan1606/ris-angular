@@ -37,6 +37,10 @@
         <textarea name="antecedentes" id="antecedentes" class="form-control" [(ngModel)]="antecedentes"> </textarea>
     </div>
 
+    <h2 *ngIf="estudiosDeOrden.length > 1">
+        <b style = "color: red;">Favor de interpretar todos los estudios en este reporte</b>
+    </h2>
+
     <div *ngFor="let estudio of estudiosDeOrden">
         <div class="row my-4" *ngIf="estudio.iuid?.length>0">
             <h3><b>{{estudio.concepto.concepto}}</b></h3>
