@@ -165,9 +165,10 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
   }
 
   buscarEstudioEnPacs(estudio: VentaConceptos): void {
-    this.service.buscarEnPacs(estudio.id).subscribe(() => {
+    this.service.buscarEnPacs(estudio.id).subscribe(estudioConIuid => {
       console.log("Id pacs encontrado en el sistema");
       Swal.fire('Encontrado', 'Se vinculó el estudio automáticamente', 'success');
+      estudio = estudioConIuid;
     },
       e => {
         if (e.status === 404) {

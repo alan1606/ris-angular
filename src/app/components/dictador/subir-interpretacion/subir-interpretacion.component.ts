@@ -6,6 +6,7 @@ import { VentaConceptosService } from '../../../services/venta-conceptos.service
 import { Router, ActivatedRoute } from '@angular/router';
 import { MultimediaService } from '../../../services/multimedia.service';
 import { VentaConceptos } from '../../../models/venta-conceptos';
+import { SendMailService } from 'src/app/services/send-mail.service';
 
 @Component({
   selector: 'app-subir-interpretacion',
@@ -26,7 +27,8 @@ export class SubirInterpretacionComponent implements OnInit {
   constructor(private service: VentaConceptosService,
     private router: Router,
     private route: ActivatedRoute,
-    private multimediaService: MultimediaService) {
+    private multimediaService: MultimediaService,
+    private mailService: SendMailService) {
       this.route.paramMap.subscribe(params => {
         const idPacs: string = params.get('idPacs');
         if(idPacs){
@@ -58,6 +60,9 @@ export class SubirInterpretacionComponent implements OnInit {
         this.estudio.estado = 'INTERPRETADO';
         this.actualizarEstudio();
         this.router.navigate([`/medico-radiologo/${this.estudio.medicoRadiologo.token}`]);
+
+        this.enviarAvisoInterpretacionHechaACorreo();
+
       },
         e =>
           Swal.fire('Error', 'No se pudo subir la interpretación', 'error'),
@@ -68,7 +73,7 @@ export class SubirInterpretacionComponent implements OnInit {
 
   cargarArchivos(): void {
     this.multimediaService.buscarPorOrdenVentaId(this.estudio.ordenVenta.id).subscribe(multimedia => {
-      this.archivos = multimedia.filter(foto => foto.tipo == 'INTERPRETACION');;
+      this.archivos = multimedia.filter(foto => foto.tipo == 'INTERPRETACION');
       this.archivosCargados = Promise.resolve(true);
       console.log(multimedia);
     }
@@ -118,4 +123,16 @@ export class SubirInterpretacionComponent implements OnInit {
       console.log('No se pudo actualizar el estado del estudio');
     });
   }
+
+
+  private enviarAvisoInterpretacionHechaACorreo(): void  {
+    this.mailService.enviarAvisoInterpretacionHecha(this.estudio).subscribe(res =>{
+      console.log("Correo enviado");
+    },error =>{
+      console.log("Ha ocurrido un error al enviar el correo");
+    });
+  }
+
+
+
 }

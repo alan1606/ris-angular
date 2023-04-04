@@ -118,7 +118,7 @@ export class EnviarEstudioModalComponent implements OnInit {
 
 
   actualizarEstudio() {
-    this.estudio.estado = "INTERPRETANDO";
+    this.estudio.estado = this.estudio.estado == "INTERPRETADO" ? this.estudio.estado : "INTERPRETANDO";
     this.ventaConceptosService.editar(this.estudio).subscribe(estudio => {
       this.estudio = estudio;
       this.actualizarOrdenVenta();

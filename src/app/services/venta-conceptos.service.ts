@@ -20,8 +20,8 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
     super(http);
   }
 
-  public buscarEnPacs(id: number): Observable<void> {
-    return this.http.get<void>(`${this.baseEndpoint}/buscar-iuid-en-pacs/${id}`);
+  public buscarEnPacs(id: number): Observable<VentaConceptos> {
+    return this.http.get<VentaConceptos>(`${this.baseEndpoint}/buscar-iuid-en-pacs/${id}`);
   }
 
   public buscarPorIdPacs(idPacs: string): Observable<VentaConceptos> {
