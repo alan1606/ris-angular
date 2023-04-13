@@ -43,6 +43,7 @@ import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.co
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
+import { RecepcionModule } from './modules/recepcion/recepcion.module';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { OrdenVentaComponent } from './components/resultados/orden-venta.compone
     NgxEditorModule,
     MatIconModule,
     MatCardModule,
-    QRCodeModule
+    QRCodeModule,
+    RecepcionModule
     ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

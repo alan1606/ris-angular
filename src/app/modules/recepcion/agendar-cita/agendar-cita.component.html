@@ -1,0 +1,49 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+    
+        <form>
+            <div class="col-md-auto">
+                <mat-form-field>
+                    <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
+                        [matAutocomplete]="autocompletePaciente">
+                    <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
+                        (optionSelected)="seleccionarPaciente($event)">
+                        <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+                            {{paciente.nombreCompleto}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <button type="button" class="btn btn-success mx-4 rounded-circle" 
+                (click) = "abrirModalRegistrarPaciente()">
+                    +
+                </button>
+            </div>
+        
+
+
+            <div class="form-group">
+                <mat-form-field>
+                    <mat-label>Convenio</mat-label>
+                    <mat-select>
+                      <mat-option *ngFor="let institucion of instituciones" [value]="institucion">
+                        {{institucion.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" 
+                (click) = "agendar()">
+                    Agendar
+                </button>
+            </div>
+
+
+        </form>
+    </div>
+
+</div>
