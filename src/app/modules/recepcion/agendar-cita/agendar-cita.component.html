@@ -3,7 +3,7 @@
     <div class="card-body">
     
         <form>
-            <div class="col-md-auto">
+            <div class="form-group">
                 <mat-form-field>
                     <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
                         [matAutocomplete]="autocompletePaciente">
@@ -31,6 +31,20 @@
                         {{institucion.nombre}}
                       </mat-option>
                     </mat-select>
+                  </mat-form-field>
+            </div>
+
+
+
+            <div class="form-group">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha:</mat-label>
+                    <input matInput [matDatepicker]="picker"
+                        (dateChange)="seleccionarFecha(fecha)"
+                           #fecha>
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
             </div>
 
