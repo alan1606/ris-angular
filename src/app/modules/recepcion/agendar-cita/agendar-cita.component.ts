@@ -1,8 +1,6 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { flatMap, map } from 'rxjs';
 import { Institucion } from 'src/app/models/institucion';
 import { Paciente } from 'src/app/models/paciente';
@@ -18,8 +16,7 @@ export class AgendarCitaComponent implements OnInit {
 
   constructor(
     private pacienteService: PacientesService,
-    private institucionService: InstitucionService,
-    private pipe: DatePipe,
+    private institucionService: InstitucionService
   ) {   }
 
   titulo = "Agendar cita";
@@ -66,11 +63,5 @@ export class AgendarCitaComponent implements OnInit {
   }
 
 
-  seleccionarFecha(fecha: HTMLInputElement): void {
-    this.fecha = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
-    console.log(`quiero tu pitote: ${this.fecha}`);
-    
-
-   
-  }
+  
 }
