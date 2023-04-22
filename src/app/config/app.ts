@@ -12,3 +12,4 @@ export const DOWNLOAD_WEASIS_WINDOWS_LINK = 'https://github.com/nroduit/Weasis/r
 export const DOWNLOAD_WEASIS_MAC_LINK = 'https://github.com/nroduit/Weasis/releases/download/v3.7.0/Weasis-3.7.0.pkg';
 export const RESULTS_URL = 'https://ris.diagnocons.com:4222/ris/resultados/';
 export const DIRECCION_CORREO_CONS = 'diagnocons@gmail.com';
+export const URL_SUBIR_FOTO = 'https://ris.diagnocons.com/ris/subir-foto-orden/';

@@ -98,4 +98,6 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
   return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/orden-venta/${ordenVentaId}`);
  }
 
+
+
 }

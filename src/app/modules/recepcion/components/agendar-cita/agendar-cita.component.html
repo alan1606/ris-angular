@@ -1,7 +1,7 @@
 <div class="card text-dark bg-light">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
-    
+
         <form>
             <div class="flex">
                 <mat-form-field>
@@ -15,13 +15,13 @@
                     </mat-autocomplete>
                 </mat-form-field>
 
-                <button type="button" class="btn btn-success mx-4 rounded-circle btn-add" 
-                (click) = "abrirModalRegistrarPaciente()">
-                    +
+                <button type="button" class="btn btn-success mx-4 rounded-circle btn-add"
+                    (click)="abrirModalRegistrarPaciente()">
+                    {{this.paciente?.id ? "Editar" : "+"}} 
                 </button>
-                
+
             </div>
-        
+
 
             <div class="form-group">
                 <mat-form-field>
@@ -34,13 +34,11 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
-
-        
             </div>
 
             <div class="form-group">
                 <mat-form-field>
-                    <input matInput placeholder="Areas" [formControl]="autocompleteControlArea"
+                    <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
                         [matAutocomplete]="autocompleteArea">
                     <mat-autocomplete #autocompleteArea="matAutocomplete" [displayWith]="mostrarNombreArea"
                         (optionSelected)="seleccionarArea($event)">
@@ -64,28 +62,27 @@
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
-          
+
             <div class="form-group">
                 <mat-form-field>
                     <mat-label>Sala</mat-label>
-                    <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado">
-                      <mat-option *ngFor="let equipo of equiposDicom" [value]="equipo" >
-                        {{equipo.nombre}}
-                      </mat-option>
+                    <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado" >
+                        <mat-option *ngFor="let equipo of equiposDicom" [value]="equipo">
+                            {{equipo.nombre}}
+                        </mat-option>
                     </mat-select>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
 
 
             <div class="form-group">
-                <button type="button" class="btn btn-success rounded-circle" 
-                (click) = "agregarEstudio()">
+                <button type="button" class="btn btn-success rounded-circle" (click)="agregarEstudio()">
                     +
                 </button>
             </div>
-            
 
-            <div class = "table-responsive">
+
+            <div class="table-responsive">
                 <table class="table table-hover table-striped" *ngIf="estudios?.length>0; index as i">
                     <thead>
                         <tr>
@@ -97,7 +94,7 @@
                             <th>Quitar</th>
                         </tr>
                     </thead>
-        
+
                     <tbody *ngIf="estudios?.length>0">
                         <tr *ngFor="let estudio of estudios">
                             <td>{{estudio.id}}</td>
@@ -106,25 +103,46 @@
                             <td>{{estudio.institucion.nombre}}</td>
                             <td>{{estudio.equipoDicom.nombre}} </td>
                             <td>
-                                <button class="btn btn-danger btn-sm"
-                                    (click)="quitarEstudio(estudio.id)">
+                                <button class="btn btn-danger btn-md" (click)="quitarEstudio(estudio.id)">
                                     -
                                 </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                </div>
+            </div>
+
+
+            <div class="form-group my-3">
+                <mat-form-field>
+                    <input matInput placeholder="Médico referente" [formControl]="autocompleteControlMedicoReferente"
+                        [matAutocomplete]="autocompleteMedicoReferente">
+                    <mat-autocomplete #autocompleteMedicoReferente="matAutocomplete"
+                        [displayWith]="mostrarMedicoReferente" (optionSelected)="seleccionarMedicoReferente($event)">
+                        <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico">
+                            {{medico.nombres}} {{medico.apellidos}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
 
 
 
-            <div class="form-group flex  my-3" >
-                <button type="button" class="btn btn-primary" 
-                (click) = "agendar()">
+            <div class="form-group">
+                <mat-form-field [style.fontSize]='"18px"' appearance="fill">
+                    <mat-label>Motivo</mat-label>
+                    <textarea matInput [(ngModel)]="motivo" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="5" name = "motivo"></textarea>
+                </mat-form-field>
+            </div>
+
+
+            <div class="form-group flex  my-3" *ngIf="this.estudios?.length > 0">
+                <button type="button" class="btn btn-primary" (click)="agendar()">
                     Agendar
                 </button>
             </div>
-
+            
         </form>
     </div>
 
