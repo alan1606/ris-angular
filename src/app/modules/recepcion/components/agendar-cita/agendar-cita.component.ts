@@ -269,6 +269,9 @@ export class AgendarCitaComponent implements OnInit {
     this.ordenVenta.motivo = this.motivo;
 
     this.ordenVenta.paciente = this.paciente;
+    console.log("El paciente en la órden de venta es: ");
+    console.log(this.ordenVenta.paciente);
+
 
     this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
       estudios => {

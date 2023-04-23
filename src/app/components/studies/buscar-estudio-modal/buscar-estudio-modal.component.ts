@@ -15,7 +15,6 @@ import Swal from 'sweetalert2';
 export class BuscarEstudioModalComponent implements OnInit {
 
   estudio: VentaConceptos;
-  vinculado: VentaConceptos;
   estudios: Study[] = [];
   nombreBuscar: string;
   mostrarColumnasEstudios = ['id', 'fecha', 'paciente', 'estudio', 'idPacs', 'ver', 'vincular'];
