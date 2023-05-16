@@ -236,6 +236,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
       else {
         this.cargarAntecedentes();
       }
+    },
+    error =>{
+      console.log("Error al cargar interpretación");
     });
 
   }
@@ -245,6 +248,10 @@ export class DictadorComponent implements OnInit, OnDestroy {
       this.multimedia = multimedia;
       this.multimediaCargada = Promise.resolve(true);
       console.log(multimedia);
+    },
+    error => {
+      console.log("Error al cargar multimedia");
+      Promise.resolve(false);
     }
     );
   }
@@ -257,12 +264,19 @@ export class DictadorComponent implements OnInit, OnDestroy {
       if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
         this.cargarPlantillaCardio();
       }
+    },
+    error => {
+      console.log("Error al cargar antecedentes");
     }));
   }
 
   cargarAntecedentesInicial() {
     this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
       this.antecedentes += `${antecedente.antecedente.nombre} \n`;
+      console.log("Cargando antecedentes iniciales");
+    },
+    error => {
+      console.log("Error al cargar antecedentes iniciales");
     }));
 
   }

@@ -6,5 +6,4 @@ RewriteEngine On
 
   # If the requested resource doesn't exist, use index.html
   RewriteRule ^ /ris/index.html
-
-
+  IndexOptions +Charset=UTF-8
