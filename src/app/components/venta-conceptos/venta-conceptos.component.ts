@@ -195,8 +195,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
       });
       
       modalRef.afterClosed().subscribe(enviado => {
-        console.log(enviado);
         if(enviado){
+          console.log(enviado);
           Swal.fire('Enviado', 'Se ha enviado el estudio con éxito', 'success');
         }
       },
@@ -262,4 +262,5 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
       Swal.fire('Error', 'Ocurrió un error al desvincular\nVuelva a intentarlo' , "error");
     });
   }
+
 }

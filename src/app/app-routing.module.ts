@@ -17,7 +17,7 @@ import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
 import { AgendarCitaComponent } from './modules/recepcion/components/agendar-cita/agendar-cita.component';
-
+import { LoginComponent } from './components/usuarios/login/login.component';
 
 
 const routes: Routes = [
@@ -30,7 +30,7 @@ const routes: Routes = [
   {path : 'venta-conceptos', component: VentaConceptosComponent},
   {path : 'subir-foto-orden/:id', component: SubirFotoOrdenComponent},
   {path: 'agenda', component: AgendaComponent},
-  {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent},
+  {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent}>>>>>>> master,
   {path: 'dictador/:idVentaConcepto', component: DictadorComponent},
   {path: 'resultados/:idPacs', component: ResultadosComponent},
   {path: 'dictamen/:idPacs', component: DictamenComponent},
@@ -40,6 +40,7 @@ const routes: Routes = [
   {path: 'dictador/subir-pdf/:idPacs', component: SubirInterpretacionComponent},
   {path: 'resultados/orden/:ordenId/:pacienteId', component: OrdenVentaComponent},
   {path: 'recepcion/agendar-cita', component: AgendarCitaComponent},
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({

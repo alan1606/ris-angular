@@ -44,6 +44,12 @@ import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
 import { RecepcionModule } from './modules/recepcion/recepcion.module';
+import { LoginComponent } from './components/usuarios/login/login.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 @NgModule({
@@ -69,7 +75,9 @@ import { RecepcionModule } from './modules/recepcion/recepcion.module';
     EnviarEstudioComponent,
     WorklistComponent,
     SubirInterpretacionComponent,
-    OrdenVentaComponent ],
+    OrdenVentaComponent,
+    LoginComponent
+  ],
   entryComponents:[
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
@@ -102,6 +110,12 @@ import { RecepcionModule } from './modules/recepcion/recepcion.module';
     QRCodeModule,
     RecepcionModule
     ],
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    MatSelectModule,
+    MatFormFieldModule
+  ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
 })
