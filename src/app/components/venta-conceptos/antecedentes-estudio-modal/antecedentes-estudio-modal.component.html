@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>{{titulo}}</h1>
+<div mat-dialog-content>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="secondary" (click)="cancelar()">Cancelar</button>
+  </div>
+<br><br>
+  <section class="section">
+    <span class="list-section" *ngFor="let antecedente of antecedentes">
+      <mat-checkbox class="margin" (change)="ponerTodos($event.checked, antecedente)"
+      [checked]="antecedente.seleccionado"  [indeterminate]="algunosCompletos(antecedente)">
+        {{antecedente.nombre}}
+      </mat-checkbox>
+      <ul *ngIf="antecedente.hijos">
+        <li *ngFor="let hijo of antecedente.hijos">
+          <mat-checkbox [(ngModel)]="hijo.seleccionado" (ngModelChange)="actualizarTodosCompletos(antecedente)">
+            {{hijo.nombre}}
+          </mat-checkbox>
+        </li>
+      </ul>
+    </span>
+
+  </section>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+  </div>
+</div>

@@ -19,4 +19,10 @@ export class AntecedenteEstudioService extends CommonService<AntecedenteEstudio>
   public filtrarPorVentaConceptosId(ventaConceptosId: number): Observable<AntecedenteEstudio[]>{
     return this.http.get<AntecedenteEstudio[]>(`${this.baseEndpoint}/venta-conceptos/${ventaConceptosId}`);
   }
+
+  public crearTodos(antecedentes: AntecedenteEstudio[]): Observable<AntecedenteEstudio[]>{
+    return this.http.post<AntecedenteEstudio[]>(`${this.baseEndpoint}/crear-todos`, antecedentes, 
+                                                                      {headers: this.cabeceras});
+  }
+
 }

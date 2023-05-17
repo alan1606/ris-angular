@@ -1,0 +1,24 @@
+:host ::ng-deep .mat-datepicker-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    border: none;
+    background: transparent;
+  }
+
+  :host ::ng-deep .mat-datepicker-toggle .mat-icon-button {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  :host ::ng-deep .mat-datepicker-toggle .mat-icon {
+    font-size: 24px; /* ajusta el tamaño del ícono según sea necesario */
+  }
+
+  .mat-dialog-content {
+    max-height: 700px !important;  /* Establecer la altura máxima deseada */
+    overflow-y: auto !important;  /* Permitir el desplazamiento vertical si el contenido excede la altura máxima */
+  }

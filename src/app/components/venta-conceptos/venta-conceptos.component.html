@@ -1,4 +1,4 @@
-<div class="container">
+
     <div class="row justify-content-md-left">
 
         <div class="col-md-auto">
@@ -46,15 +46,16 @@
         </div>
 
     </div>
-</div>
 
 
-<div class="card text-dark bg-light mb-3">
+
+<div class="card text-dark bg-light mb-3"> 
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
         <div class="alert alert-info" *ngIf="lista?.length==0">
             No hay estudios en el sistema.
         </div>
+        <div class = "table-responsive">
         <table class="table table-hover table-striped" *ngIf="lista?.length>0">
             <thead>
                 <tr>
@@ -69,19 +70,26 @@
                     <th>Ver</th>
                     <th>Accion</th>
                     <th>Datos</th>
+                    <th>Antecedentes</th>
                 </tr>
             </thead>
 
             <tbody *ngIf="lista?.length>0">
                 <tr *ngFor="let estudio of lista">
-                    <td>{{estudio.id}}</td>
+                    <td  (click)="abrirQr(estudio)">{{estudio.id}}</td>
                     <td>{{estudio.paciente.nombreCompleto}}</td>
                     <td>{{estudio.concepto.concepto}}</td>
                     <td>{{estudio.fechaAsignado | date : 'dd/MM/yyyy'}} </td>
-                    <td>{{estudio.estado}}</td>
+                    <td *ngIf="estudio.estado === 'INTERPRETANDO' || estudio.estado === 'INTERPRETADO'">
+                        <p class="terminado">{{estudio.estado}}</p>
+                    </td>
+                    <td *ngIf="estudio.estado !== 'INTERPRETANDO' && estudio.estado !== 'INTERPRETADO'">
+                        <p  class="pendiente">{{estudio.estado}}</p>
+                    </td>
                     <td>{{estudio.idPacs}}</td>
                     <td>{{estudio.equipoDicom.area.nombre}}</td>
-                    <td>{{estudio.iuid}}</td>
+                    <td (click)="desvincular(estudio)" *ngIf="estudio.iuid?.length>0">{{estudio.iuid}}</td>
+                    <td *ngIf="!estudio.iuid?.length>0"></td>
                     <td *ngIf="estudio.concepto.dicom">
                         <button class="btn btn-success btn-sm" *ngIf="estudio.iuid?.length>0" (click)="ver(estudio)">
                             Ver
@@ -97,7 +105,6 @@
                             (click)="abrirEnvio(estudio)">
                             Enviar
                         </button>
-
                     </td>
 
                     <td>
@@ -106,10 +113,17 @@
                             Información
                         </button>
                     </td>
+
+                    <td>
+                        <button class="btn btn-primary btn-sm"
+                            (click)="abrirAntecedentes(estudio)">
+                            Antecedentes
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-
+        </div>
 
     </div>
 </div>

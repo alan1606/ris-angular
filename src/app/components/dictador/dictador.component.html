@@ -1,0 +1,137 @@
+<form>
+    <div class="form-group my-3">
+        <label for="paciente">Paciente</label>
+        <input type="text" name="paciente" id="paciente" class="form-control"
+            [(ngModel)]="estudio.paciente.nombreCompleto">
+    </div>
+
+    <div class="form-group my-3">
+        <label for="estudio">Estudio</label>
+        <input type="text" name="estudio" id="estudio" class="form-control" [(ngModel)]="estudio.concepto.concepto">
+    </div>
+
+    <div class="form-group my-3">
+        <label for="procedencia">Procedencia</label>
+        <input type="text" name="procedencia" id="procedencia" class="form-control"
+            [(ngModel)]="estudio.institucion.nombre">
+    </div>
+
+    <div class="form-group my-3">
+        <label for="medico">Medico</label>
+        <input type="text" name="medico" id="medico" class="form-control"
+            [(ngModel)]="estudio.ordenVenta.medicoReferente.nombres">
+    </div>
+
+    <div class="form-group my-3" *ngIf="estudio.ordenVenta.motivo">
+        <label for="motivo">Motivo</label>
+        <input type="text" name="motivo" id="motivo" class="form-control" [(ngModel)]="estudio.ordenVenta.motivo">
+    </div>
+
+    <div class="form-group my-3" *ngIf="estudio.mensaje">
+        <label for="mensaje">Mensaje</label>
+        <input type="text" name="mensaje" id="mensaje" class="form-control" [(ngModel)]="estudio.mensaje">
+    </div>
+
+    <div class="form-group my-3" *ngIf="antecedentes">
+        <label for="antecedentes">Antecedentes</label>
+        <textarea name="antecedentes" id="antecedentes" class="form-control" [(ngModel)]="antecedentes"> </textarea>
+    </div>
+
+    <h2 *ngIf="estudiosDeOrden.length > 1">
+        <b style = "color: red;">Favor de interpretar todos los estudios en este reporte</b>
+    </h2>
+
+    <div *ngFor="let estudio of estudiosDeOrden">
+        <div class="row my-4" *ngIf="estudio.iuid?.length>0">
+            <h3><b>{{estudio.concepto.concepto}}</b></h3>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" (click)="ver(estudio)">
+                    Ver estudio en línea
+                </button>
+            </div>
+    
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">
+                    Abrir estudio con weasis
+                </button>
+            </div>
+    
+            <div class="col">
+                <button class="btn btn-primary btn-sm" (click)="descargarZip(estudio)">
+                    Descargar estudio en zip
+                </button>
+            </div>
+    
+            <div class="col">
+                <button class="btn btn-primary btn-sm" (click)="descargarWeasisWindows()">
+                    Descargar weasis windows
+                </button>
+            </div>
+    
+            <div class="col">
+                <button class="btn btn-primary btn-sm" (click)="descargarWeasisMac()">
+                    Descargar weasis mac
+                </button>
+            </div>
+        </div>
+    </div>
+   
+
+
+    <div *ngIf="multimediaCargada | async ">
+        <div class="form-group my-3" *ngFor="let img of multimedia">
+            <img *ngIf="img.tipo == 'IMAGEN'" class="img-fluid" [src]="filesPath + img.ruta">
+        </div>
+    </div>
+
+    <div *ngIf="!estudio.concepto.dicom && multimediaCargada | async ">
+        <div class="form-group my-3" *ngFor="let pdf of multimedia">
+            <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta" [render-text]="true"
+                [original-size]="false" style="width: 1100px; height: 700px">
+            </pdf-viewer>
+
+            <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm"
+                (click)="expandir(pdf)">
+                Expandir
+            </button>
+        </div>
+    </div>
+
+
+    <div class="form-group my-4">
+        <button *ngIf="!isDictando && isApiSoportada" mat-fab color="warn" class="my-2" (click)="dictar()">
+            <mat-icon>mic</mat-icon>
+        </button>
+
+
+        <button *ngIf="isDictando && isApiSoportada" mat-fab color="accent" class="my-2" (click)="parar()">
+            <mat-icon>mic_off</mat-icon>
+        </button>
+
+
+        <input [(ngModel)]="dictado.parcial" name="dictado.parcial" id="dictado.parcial" ngDefaultControl
+            disabled="true" class="sinborde mx-4">
+    </div>
+
+
+    
+
+    <form [formGroup]="form">
+        <div class="editor">
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+            </ngx-editor-menu>
+            <ngx-editor name="ngEditor" [editor]="editor" formControlName="editorContent"></ngx-editor>
+        </div>
+    </form>
+
+
+
+    <button class="btn btn-success btn-lg my-4" (click)="guardar()">
+        Guardar
+    </button>
+
+    <button class="btn btn-danger btn-sm my-4 mx-5" (click)="mayus()">
+        Mayúsculas
+    </button>
+
+</form>

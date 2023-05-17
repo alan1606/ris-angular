@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BASE_ENDPOINT } from '../config/app';
+import { BASE_ENDPOINT, FILES_PATH } from '../config/app';
 import { Multimedia } from '../models/multimedia';
 import { CommonService } from './common.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,19 @@ export class MultimediaService extends CommonService<Multimedia>{
 
   public buscarPorOrdenVentaId(id: number): Observable<Multimedia[]>{
     return this.http.get<Multimedia[]>(`${this.baseEndpoint}/orden-venta/${id}`);
+  }
+
+  public verDocumento(multimedia: Multimedia)  {
+    return this.http.get(`${FILES_PATH}/${multimedia.ruta}`, { responseType: 'blob', observe: 'response'}).pipe(
+     map((res: any) => {
+       return new Blob([res.body], { type: 'application/pdf' });
+     })
+   );
+   }
+
+   public subirInterpretacionPdf(multimedia: Multimedia, pdf: File): Observable<Multimedia>{
+    const formData = new FormData();
+    formData.append('documento', pdf);
+    return this.http.post<Multimedia>(this.baseEndpoint +  '/interpretacion/orden-venta/' + multimedia.ordenVenta.id, formData);
   }
 }

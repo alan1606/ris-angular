@@ -7,18 +7,21 @@
             <div class="form-group my-2">
                 <div class="input-group mb-3">
                     <div class="custom-file">
-                        <input (change)="seleccionarFoto($event)" type="file" class="custom-file-input"
-                            id="foto">
+                        <input (change)="seleccionarFoto($event)" type="file" class="custom-file-input" id="foto">
                         <label class="custom-file-label" for="foto">Seleccionar foto</label>
                     </div>
                 </div>
             </div>
-          
-            <div class="form-group my-3">
-                <img [src]="imagePath + model.id" class="img-thumbnail rounded"
-                    style="cursor: pointer;">
-            </div>
 
+            <div *ngIf="fotosCargadas | async">
+                <div class="form-group my-3" *ngFor="let foto of fotos">
+                    <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded" style="cursor: pointer;">
+                    <button type="button" class="btn btn-danger btn-lg" (click)="eliminar(foto)">
+                        Eliminar
+                    </button>
+                    <br><br>
+                </div>
+            </div>
 
         </form>
     </div>

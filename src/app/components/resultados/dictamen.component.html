@@ -1,0 +1,35 @@
+<mat-card>
+
+    <h1 mat-card-title> {{titulo}} </h1>
+    <div mat-card-content>
+
+
+        <div class="card text-dark bg-light mb-3" *ngIf="enlacePdf !== ''" >
+            <div class="card-body">
+                <pdf-viewer [src]="enlacePdf" [render-text]="true" [original-size]="false"
+                    style="width: 1100px; height: 700px"></pdf-viewer>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-success btn-lg my-4" (click)="descargarPdf()">
+                    Descargar
+                </button>
+            </div>
+        </div>
+
+
+        <div class="card text-dark bg-light mb-3" *ngIf="archivosCargados | async">
+            <div class="card-body" *ngFor="let interpretacion of archivos">
+                <pdf-viewer [src]="filesPath + interpretacion.ruta" [render-text]="true" [original-size]="false"
+                    style="width: 1100px; height: 700px">
+                </pdf-viewer>
+                <div  class="card-body">
+                    <button class="btn btn-success btn-lg my-4"
+                        (click)="descargarPdfExterno(filesPath + interpretacion.ruta)">
+                        Descargar
+                    </button>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card>

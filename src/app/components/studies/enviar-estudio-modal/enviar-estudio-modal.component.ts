@@ -12,11 +12,10 @@ import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.
 import { MedicoService } from 'src/app/services/medico.service';
 import { MultimediaService } from 'src/app/services/multimedia.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
-import { PacientesService } from 'src/app/services/pacientes.service';
-import { SendMailService } from 'src/app/services/send-mail.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
+import { SendMailService } from '../../../services/send-mail.service';
 
 @Component({
   selector: 'app-enviar-estudio-modal',
@@ -38,7 +37,7 @@ export class EnviarEstudioModalComponent implements OnInit {
   enviado: VentaConceptos;
   titulo: 'Enviar estudio';
   imagePath = IMAGE_PATH;
-s
+
   private pdf: File;
   private multimedia: Multimedia = new Multimedia();
 
@@ -48,10 +47,9 @@ s
     private multimediaService: MultimediaService,
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
-    private sendMailService: SendMailService,
     private ventaConceptosService: VentaConceptosService,
     private ordenVentaService: OrdenVentaService,
-    private pacienteService: PacientesService) { }
+    private mailService: SendMailService) { }
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -79,7 +77,7 @@ s
     }));
 
     if (!this.estudio.mensaje || this.estudio.mensaje === '') {
-      this.estudio.mensaje = `DiagnoCons ha enviado un estudio de ${this.estudio.concepto.concepto} del paciente ${this.estudio.paciente.nombreCompleto} `;
+
     }
 
     this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
@@ -94,6 +92,8 @@ s
 
   enviar(estudio: VentaConceptos): void {
     this.actualizarEstudio();
+    this.modalRef.close();
+  
     this.actualizarOrdenVenta();
     this.actualizarPaciente();
 
@@ -114,21 +114,38 @@ s
     );
   }
 
-  actualizarPaciente() {
-    this.pacienteService.editar(this.estudio.paciente).subscribe(paciente => console.log(paciente),
-      e => console.log("error")
-    );
-  }
 
   actualizarOrdenVenta(): void {
-    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => console.log(orden));
+    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => {
+      this.enviarCorreo();
+    }, 
+    e =>{
+      Swal.fire("Error", "Ha ocurrido un error", "error");
+      console.log(e);
+    });
+
+  }
+
+  enviarCorreo(): void{
+    this.mailService.enviarCorreoInterpretar(this.estudio).subscribe(correo =>{
+      Swal.fire("Éxito", "El correo ha sido enviado correctamente", "success");
+    }, e =>{
+      Swal.fire("Error", "Ha ocurrido un error", "error");
+      console.log(e);
+    });
   }
 
 
   actualizarEstudio() {
-    this.ventaConceptosService.editar(this.estudio).subscribe(estudio => console.log(estudio),
+    this.estudio.estado = this.estudio.estado == "INTERPRETADO" ? this.estudio.estado : "INTERPRETANDO";
+    this.ventaConceptosService.editar(this.estudio).subscribe(estudio => {
+      this.estudio = estudio;
+      this.actualizarOrdenVenta();
+    },
       e => {
-        console.log("Error al actualizar estudio");
+        Swal.fire("Error", "Ha ocurrido un error", "error");
+        console.log(e);
+        this.modalRef.close();
       }
     );
   }

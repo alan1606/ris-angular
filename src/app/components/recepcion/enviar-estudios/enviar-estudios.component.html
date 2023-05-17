@@ -1,0 +1,101 @@
+
+    <div class="row justify-content-md-left">
+
+        <div class="col-md-auto">
+            <button class="btn btn-info btn-lg btn-block" (click)="buscarEstudiosDeHoy()">
+                Hoy
+            </button>
+        </div>
+
+        <div class="col-md-auto">
+            <mat-form-field appearance="fill">
+                <mat-label>Rango de fechas:</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Inicio" #fechaInicio>
+                    <input matEndDate placeholder="Fin" #fechaFin (dateChange)="buscarPorFecha( fechaInicio, fechaFin)">
+                </mat-date-range-input>
+                <mat-hint>YYYY-MM-DD / YYYY-MM-DD</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-auto">
+            <mat-form-field>
+                <input matInput placeholder="Área" [formControl]="autocompleteControl" [matAutocomplete]="autocomplete">
+                <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="mostrarNombre"
+                    (optionSelected)="seleccionarArea($event)">
+                    <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+                        {{area.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-auto">
+            <mat-form-field>
+                <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
+                    [matAutocomplete]="autocompletePaciente">
+                <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
+                    (optionSelected)="seleccionarPaciente($event)">
+                    <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+                        {{paciente.nombreCompleto}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+
+
+<div class="card text-dark bg-light mb-3"> 
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <div class="alert alert-info" *ngIf="lista?.length==0">
+            No hay estudios en el sistema.
+        </div>
+        <div class = "table-responsive">
+        <table class="table table-hover table-striped" *ngIf="lista?.length>0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Paciente</th>
+                    <th>Estudio</th>
+                    <th>Fecha</th>
+                    <th>Area</th>
+                    <th>Médico</th>
+                    <th>Enviar</th>
+                </tr>
+            </thead>
+
+            <tbody *ngIf="lista?.length>0">
+                <tr *ngFor="let estudio of lista">
+                    <td>{{estudio.id}}</td>
+                    <td>{{estudio.paciente.nombreCompleto}}</td>
+                    <td>{{estudio.concepto.concepto}}</td>
+                    <td>{{estudio.fechaAsignado | date : 'dd/MM/yyyy'}} </td>
+                    <td>{{estudio.equipoDicom.area.nombre}}</td>
+                    <td *ngIf="estudio.estado === 'INTERPRETADO'">
+                        <p class="terminado">
+                            {{estudio.medicoRadiologo.nombres + " " + estudio.medicoRadiologo.apellidos}}
+                        </p>
+                    </td>
+                    <td *ngIf="estudio.estado !== 'INTERPRETADO'" >
+                        <p class="pendiente">
+                            {{estudio.medicoRadiologo.nombres + " " + estudio.medicoRadiologo.apellidos}}
+                        </p>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm"
+                            (click)="enviar(estudio)">
+                            Enviar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+</div>

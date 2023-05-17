@@ -1,0 +1,66 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-secondary my-2" routerLink="/recepcion/enviar-estudios">Volver</button>
+
+        <form>
+            <div class="form-group">
+                <div class="form-group my-3">
+                    <label for="paciente">Paciente</label>
+                    <input type="text" name="paciente" id="paciente" class="form-control"
+                        [(ngModel)]="estudio.paciente.nombreCompleto">
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="estudio">Estudio</label>
+                    <input type="text" name="estudio" id="estudio" class="form-control"
+                        [(ngModel)]="estudio.concepto.concepto">
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="procedencia">Procedencia</label>
+                    <input type="text" name="procedencia" id="procedencia" class="form-control"
+                        [(ngModel)]="estudio.institucion.nombre">
+                </div>
+
+                <div class="form-group my-3">
+                    <mat-form-field>
+                        <input matInput  placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
+                            [matAutocomplete]="autocompleteReferente">
+                        <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
+                            (optionSelected)="seleccionarMedicoReferente($event)">
+                            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente">
+                                {{medicoReferente.nombres + ' ' +medicoReferente.apellidos}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group my-3" >
+                    <label for="correo">Correo médico referente</label>
+                    <input type="email" name="correo" id="correo" class="form-control"
+                        [(ngModel)]="correoMedico">
+                </div>
+
+                <div class="form-group my-3" >
+                    <label for="correoPaciente">Correo paciente</label>
+                    <input type="email" name="correoPaciente" id="correoPaciente" class="form-control"
+                        [(ngModel)]="correoPaciente">
+                </div>
+
+                <div class="form-group my-3" >
+                    <label for="mensaje">Mensaje</label>
+                    <input type="text" name="mensaje" id="mensaje" class="form-control" [(ngModel)]="mensaje">
+                </div>
+
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" (click)="enviarCorreo()">
+                        Enviar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

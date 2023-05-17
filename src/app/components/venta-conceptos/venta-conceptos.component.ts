@@ -3,8 +3,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { map, flatMap } from 'rxjs/operators';
-import { VIEWER } from 'src/app/config/app';
+import { BASE_ENDPOINT, VIEWER } from 'src/app/config/app';
 import { Area } from 'src/app/models/area';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -16,6 +17,7 @@ import { CommonListarComponent } from '../common-listar.component';
 import { BuscarEstudioModalComponent } from '../studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from '../studies/informacion-estudio-modal/informacion-estudio-modal.component';
+import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 
 
 @Component({
@@ -36,7 +38,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     @Inject(AreasService) private areasService: AreasService,
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router: Router) {
     super(service);
     this.titulo = "Listado de estudios";
     this.nombreModel = "Estudio";
@@ -119,7 +122,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
       }
     );
 
-    this.autocompleteControl.setValue('');
+    this.autocompleteControlPaciente.setValue('');
     event.option.deselect();
     event.option.focus();
   }
@@ -162,9 +165,10 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
   }
 
   buscarEstudioEnPacs(estudio: VentaConceptos): void {
-    this.service.buscarEnPacs(estudio.id).subscribe(() => {
+    this.service.buscarEnPacs(estudio.id).subscribe(estudioConIuid => {
       console.log("Id pacs encontrado en el sistema");
       Swal.fire('Encontrado', 'Se vinculó el estudio automáticamente', 'success');
+      estudio = estudioConIuid;
     },
       e => {
         if (e.status === 404) {
@@ -211,23 +215,52 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
 
       modalRef.afterClosed().subscribe(info => {
         console.log(info);
-       /* if(info){
-          Swal.fire('Enviado', 'Se ha enviado el estudio con éxito', 'success');
-        }
-      },
-      e =>{
-        Swal.fire('Error', 'No se ha podido enviar el estudio', 'error');
-      });*/
     });
     }
 
 
-    actualizarEstudio(estudio: VentaConceptos) {
-      this.service.editar(estudio).subscribe(estudio => console.log(estudio),
-        e => {
-          console.log("Error al actualizar estudio");
-        }
-      );
+    abrirAntecedentes(estudio: VentaConceptos): void{
+
+      const modalRef = this.dialog.open(AntecedentesEstudioModalComponent,{
+        width: '1000px',
+        data: {"estudio": estudio}
+      });
+
+
+      modalRef.afterClosed().subscribe(info => {
+        console.log(info);
+    });
     }
+
+
+    abrirQr(estudio: VentaConceptos){
+      this.service.verEtiqueta(estudio.id).subscribe(res =>{
+        const fileURL = URL.createObjectURL(res);
+        window.open(fileURL, '_blank');
+      });
+    }
+
+    desvincular(estudio: VentaConceptos){
+      Swal.fire({
+        title: '¿Desea desvincular el estudio?',
+        showDenyButton: true,
+        confirmButtonText: 'Sí',
+        denyButtonText: 'No'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire('Éxito', 'El estudio ha sido desvinculado', 'success');
+          estudio.iuid = '';
+          this.actualizarEstudio(estudio);
+        }
+      })
+    }
+
+  actualizarEstudio(estudio: VentaConceptos) {
+    this.service.editar(estudio).subscribe(actualizado => {
+      console.log('Actualizado');
+    }, error => {
+      Swal.fire('Error', 'Ocurrió un error al desvincular\nVuelva a intentarlo' , "error");
+    });
+  }
 
 }

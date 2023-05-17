@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
 import { Antecedente } from '../models/antecedente';
 import { CommonService } from './common.service';
@@ -15,5 +16,9 @@ export class AntecedenteService extends CommonService<Antecedente>{
     super(http);
   }
 
+
+  public encontrarPorConceptoId(conceptoId: number): Observable<Antecedente[]>{
+      return this.http.get<Antecedente[]>(`${this.baseEndpoint}/concepto/${conceptoId}`);
+  }
   
 }
