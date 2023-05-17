@@ -1,149 +1,156 @@
 <div class="card text-dark bg-light">
-    <div class="card-header">{{titulo}}</div>
-    <div class="card-body">
+  <div class="card-header">{{titulo}}</div>
+  <div class="card-body">
 
-        <form>
-            <div class="flex">
-                <mat-form-field>
-                    <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
-                        [matAutocomplete]="autocompletePaciente" class="mat-input-long">
-                    <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
-                        (optionSelected)="seleccionarPaciente($event)">
-                        <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
-                            {{paciente.nombreCompleto}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
+    <form>
+      <div class="flex">
+        <mat-form-field>
+          <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
+            [matAutocomplete]="autocompletePaciente" class="mat-input-long">
+          <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
+            (optionSelected)="seleccionarPaciente($event)">
+            <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+              {{paciente.nombreCompleto}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-                <button type="button" class="btn btn-success mx-4 rounded-circle btn-add"
-                    (click)="abrirModalRegistrarPaciente()">
-                    {{this.paciente?.id ? "Editar" : "+"}} 
+        <button type="button" class="btn btn-success mx-4 rounded-circle btn-add"
+          (click)="abrirModalRegistrarPaciente()">
+          {{this.paciente?.id ? "Editar" : "+"}}
+        </button>
+
+      </div>
+
+
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Convenio" [formControl]="autocompleteControlConvenio"
+            [matAutocomplete]="autocompleteConvenio" class="mat-input-long">
+          <mat-autocomplete #autocompleteConvenio="matAutocomplete" [displayWith]="mostrarNombreConvenio"
+            (optionSelected)="seleccionarInstitucion($event)">
+            <mat-option *ngFor="let convenio of conveniosFiltrados" [value]="convenio">
+              {{convenio.nombre}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
+            [matAutocomplete]="autocompleteArea">
+          <mat-autocomplete #autocompleteArea="matAutocomplete" [displayWith]="mostrarNombreArea"
+            (optionSelected)="seleccionarArea($event)">
+            <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+              {{area.nombre}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Estudio" [formControl]="autocompleteControlConcepto"
+            [matAutocomplete]="autocompleteConcepto">
+          <mat-autocomplete #autocompleteConcepto="matAutocomplete" [displayWith]="mostrarNombreConcepto"
+            (optionSelected)="seleccionarConcepto($event)">
+            <mat-option *ngFor="let concepto of conceptosFiltrados" [value]="concepto">
+              {{concepto.concepto}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Sala</mat-label>
+          <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado">
+            <mat-option *ngFor="let equipo of equiposDicom" [value]="equipo">
+              {{equipo.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div class="form-group">
+        <button type="button" class="btn btn-success rounded-circle" (click)="agregarEstudio()">
+          +
+        </button>
+      </div>
+
+
+      <div class="table-responsive">
+        <table class="table table-hover table-striped" *ngIf="estudios?.length>0; index as i">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>Estudio</th>
+              <th>Area</th>
+              <th>Convenio</th>
+              <th>Sala</th>
+              <th>Quitar</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="estudios?.length>0">
+            <tr *ngFor="let estudio of estudios">
+              <td>{{estudio.id}}</td>
+              <td>{{estudio.concepto.concepto}}</td>
+              <td>{{estudio.concepto.area.nombre}}</td>
+              <td>{{estudio.institucion.nombre}}</td>
+              <td>{{estudio.equipoDicom.nombre}} </td>
+              <td>
+                <button class="btn btn-danger btn-md" (click)="quitarEstudio(estudio.id)">
+                  -
                 </button>
-
-            </div>
-
-
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput placeholder="Convenio" [formControl]="autocompleteControlConvenio"
-                        [matAutocomplete]="autocompleteConvenio" class="mat-input-long">
-                    <mat-autocomplete #autocompleteConvenio="matAutocomplete" [displayWith]="mostrarNombreConvenio"
-                        (optionSelected)="seleccionarInstitucion($event)">
-                        <mat-option *ngFor="let convenio of conveniosFiltrados" [value]="convenio">
-                            {{convenio.nombre}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
-                        [matAutocomplete]="autocompleteArea">
-                    <mat-autocomplete #autocompleteArea="matAutocomplete" [displayWith]="mostrarNombreArea"
-                        (optionSelected)="seleccionarArea($event)">
-                        <mat-option *ngFor="let area of areasFiltradas" [value]="area">
-                            {{area.nombre}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
 
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput placeholder="Estudio" [formControl]="autocompleteControlConcepto"
-                        [matAutocomplete]="autocompleteConcepto">
-                    <mat-autocomplete #autocompleteConcepto="matAutocomplete" [displayWith]="mostrarNombreConcepto"
-                        (optionSelected)="seleccionarConcepto($event)">
-                        <mat-option *ngFor="let concepto of conceptosFiltrados" [value]="concepto">
-                            {{concepto.concepto}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-
-            <div class="form-group">
-                <mat-form-field>
-                    <mat-label>Sala</mat-label>
-                    <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado" >
-                        <mat-option *ngFor="let equipo of equiposDicom" [value]="equipo">
-                            {{equipo.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-
-            <div class="form-group">
-                <button type="button" class="btn btn-success rounded-circle" (click)="agregarEstudio()">
-                    +
-                </button>
-            </div>
-
-
-            <div class="table-responsive">
-                <table class="table table-hover table-striped" *ngIf="estudios?.length>0; index as i">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>Estudio</th>
-                            <th>Area</th>
-                            <th>Convenio</th>
-                            <th>Sala</th>
-                            <th>Quitar</th>
-                        </tr>
-                    </thead>
-
-                    <tbody *ngIf="estudios?.length>0">
-                        <tr *ngFor="let estudio of estudios">
-                            <td>{{estudio.id}}</td>
-                            <td>{{estudio.concepto.concepto}}</td>
-                            <td>{{estudio.concepto.area.nombre}}</td>
-                            <td>{{estudio.institucion.nombre}}</td>
-                            <td>{{estudio.equipoDicom.nombre}} </td>
-                            <td>
-                                <button class="btn btn-danger btn-md" (click)="quitarEstudio(estudio.id)">
-                                    -
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div class="form-group my-3">
-                <mat-form-field>
-                    <input matInput placeholder="Médico referente" [formControl]="autocompleteControlMedicoReferente"
-                        [matAutocomplete]="autocompleteMedicoReferente">
-                    <mat-autocomplete #autocompleteMedicoReferente="matAutocomplete"
-                        [displayWith]="mostrarMedicoReferente" (optionSelected)="seleccionarMedicoReferente($event)">
-                        <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico">
-                            {{medico.nombres}} {{medico.apellidos}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
+      <div class="form-group my-3">
+        <mat-form-field>
+          <input matInput placeholder="Médico referente" [formControl]="autocompleteControlMedicoReferente"
+            [matAutocomplete]="autocompleteMedicoReferente">
+          <mat-autocomplete #autocompleteMedicoReferente="matAutocomplete" [displayWith]="mostrarMedicoReferente"
+            (optionSelected)="seleccionarMedicoReferente($event)">
+            <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico">
+              {{medico.nombres}} {{medico.apellidos}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
 
 
 
-            <div class="form-group">
-                <mat-form-field [style.fontSize]='"18px"' appearance="fill">
-                    <mat-label>Motivo</mat-label>
-                    <textarea matInput [(ngModel)]="motivo" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-                        cdkAutosizeMaxRows="5" name = "motivo"></textarea>
-                </mat-form-field>
-            </div>
+      <div class="form-group">
+        <mat-form-field [style.fontSize]='"18px"' appearance="fill">
+          <mat-label>Motivo</mat-label>
+          <textarea matInput [(ngModel)]="motivo" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" name="motivo"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="from-froup" *ngIf="institucion?.nombre === 'SALUD PARRAL'">
+        <mat-form-field class="example-full-width">
+          <mat-label>Folio</mat-label>
+          <input matInput placeholder="Folio" name="folio" [(ngModel)]="folio" required>
+        </mat-form-field>
+      </div>
 
 
-            <div class="form-group flex  my-3" *ngIf="this.estudios?.length > 0">
-                <button type="button" class="btn btn-primary" (click)="agendar()">
-                    Agendar
-                </button>
-            </div>
-            
-        </form>
-    </div>
+      <div class="form-group flex  my-3" *ngIf="this.estudios?.length > 0">
+        <button type="button" class="btn btn-primary" (click)="agendar()">
+          Agendar
+        </button>
+      </div>
+
+    </form>
+  </div>
 
 </div>

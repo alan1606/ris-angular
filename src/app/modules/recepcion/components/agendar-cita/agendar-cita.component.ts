@@ -69,6 +69,8 @@ export class AgendarCitaComponent implements OnInit {
 
   fecha: String;
 
+  folio: number;
+
   ngOnInit(): void {
 
     this.cargarReferenteVacio();
@@ -80,7 +82,7 @@ export class AgendarCitaComponent implements OnInit {
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
       if(this.estudios?.length>0){
-        this.pacientesFiltrados = []; 
+        this.pacientesFiltrados = [];
       }
     });
 
@@ -142,7 +144,7 @@ export class AgendarCitaComponent implements OnInit {
 
   seleccionarArea(event: MatAutocompleteSelectedEvent){
     this.area = event.option.value as Area;
-   
+
     event.option.deselect();
     event.option.focus();
 
@@ -158,7 +160,7 @@ export class AgendarCitaComponent implements OnInit {
 
   seleccionarConcepto(event: MatAutocompleteSelectedEvent): void {
     this.concepto = event.option.value as Concepto;
-    
+
     event.option.deselect();
     event.option.focus();
   }
@@ -210,9 +212,10 @@ export class AgendarCitaComponent implements OnInit {
 
     this.limpiarCampos();
 
-   
+
   }
- 
+
+
   private limpiarCampos(): void {
     this.area = null;
     this.concepto = null;
@@ -220,12 +223,12 @@ export class AgendarCitaComponent implements OnInit {
 
     this.autocompleteControlArea.setValue("");
     this.autocompleteControlConcepto.setValue("");
-    
+
   }
 
   private reiniciarFormulario() {
     this.limpiarCampos();
-    
+
     this.paciente = null;
     this.concepto = null;
     this.estudios = [];
@@ -273,6 +276,16 @@ export class AgendarCitaComponent implements OnInit {
     console.log(this.ordenVenta.paciente);
 
 
+    if(this.institucion.nombre !== 'SALUD PARRAL'){
+      this.agendaNormal();
+      return;
+    }
+
+    this.agendaSaludParral();
+  }
+
+
+  private agendaNormal(): void{
     this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
       estudios => {
         this.estudios = estudios;
@@ -288,19 +301,36 @@ export class AgendarCitaComponent implements OnInit {
     );
   }
 
- 
+
+  private agendaSaludParral(): void{
+    this.ordenVentaService.venderConceptosSaludParral(this.estudios, this.ordenVenta, this.folio).subscribe(
+      estudios => {
+        this.estudios = estudios;
+        this.ordenVenta = this.estudios[0].ordenVenta;
+        this.mostrarModalQrImagenes();
+        this.reiniciarFormulario();
+        Swal.fire("Procesado", "La orden se ha procesado", "success")
+      },
+      err => {
+        console.log(err);
+        Swal.fire("Error", "Ha ocurrido un error al procesar la venta", "error")
+      }
+    );
+  }
+
 
   abrirModalRegistrarPaciente(){
-    const modalRef = this.dialog.open(RegistrarPacienteComponent, 
+    const modalRef = this.dialog.open(RegistrarPacienteComponent,
       {
         width: "1000px",
         data: {paciente: this.paciente?.id ? this.paciente: null}
       });
-  
+
       modalRef.afterClosed().subscribe(model =>{
 
       });
   }
+
 
   private cargarReferenteVacio(): void{
     this.medicoService.listar().subscribe(medicos => {
@@ -316,17 +346,17 @@ export class AgendarCitaComponent implements OnInit {
           this.conveniosFiltrados = instituciones.filter(institucion => institucion.nombre === "PARTICULAR");
           this.institucion = this.conveniosFiltrados[0];
           this.autocompleteControlConvenio.setValue(this.institucion);
-        
+
     });
   }
 
   private mostrarModalQrImagenes() {
-    const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent, 
+    const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent,
       {
-        width: "300px", 
+        width: "300px",
         data: {orden: this.ordenVenta}
       });
-  
+
       modalRef.afterClosed().subscribe(something =>{console.log(something)});
   }
 

@@ -13,7 +13,7 @@ export class OrdenVentaService extends CommonService<OrdenVenta>{
 
   protected override baseEndpoint = BASE_ENDPOINT +  '/ris/ordenes-venta';
 
-  constructor(http: HttpClient) { 
+  constructor(http: HttpClient) {
     super(http);
   }
 
@@ -22,9 +22,17 @@ export class OrdenVentaService extends CommonService<OrdenVenta>{
   }
 
   public venderConceptos(estudios: VentaConceptos[], orden: OrdenVenta){
-    const objetos = { estudios: estudios, orden: orden };    
+    const objetos = { estudios: estudios, orden: orden };
     console.log(objetos);
     return this.http.post<VentaConceptos[]>(`${this.baseEndpoint}/procesar/`, JSON.stringify(objetos),
+    { headers: this.cabeceras });
+   }
+
+
+   public venderConceptosSaludParral(estudios: VentaConceptos[], orden: OrdenVenta, folio: number){
+    const objetos = { estudios: estudios, orden: orden };
+    console.log(objetos);
+    return this.http.post<VentaConceptos[]>(`${this.baseEndpoint}/procesar/salud-parral/${folio}`, JSON.stringify(objetos),
     { headers: this.cabeceras });
    }
 
