@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { APP_PASSWORD, APP_USER, BASE_ENDPOINT } from '../config/app';
+//import { APP_PASSWORD, APP_USER, BASE_ENDPOINT } from '../config/app';
 import { Usuario } from '../models/usuario';
+import { BASE_ENDPOINT } from '../config/app';
 
 @Injectable({
   providedIn: 'root'
@@ -36,11 +37,11 @@ export class AuthService {
       return null;
   }
 
-  login(usuario: Usuario): Observable<any>{
+  /*login(usuario: Usuario): Observable<any>{
     const credenciales = btoa(`${APP_USER}:${APP_PASSWORD}`);
 
     const httpHeaders = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': 'Basic ' + credenciales 
+    'Authorization': 'Basic ' + credenciales
     });
 
     let params = new URLSearchParams();
@@ -97,5 +98,5 @@ export class AuthService {
     sessionStorage.removeItem('usuario');
     sessionStorage.removeItem('token');
   }
-
+*/
 }

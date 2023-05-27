@@ -93,46 +93,27 @@ export class EnviarEstudioModalComponent implements OnInit {
   enviar(estudio: VentaConceptos): void {
     this.actualizarEstudio();
     this.modalRef.close();
-  
-    this.actualizarOrdenVenta();
-    this.actualizarPaciente();
-
-    this.enviarCorreo();
-
-    this.modalRef.close();
   }
 
-  enviarCorreo() {
-    this.sendMailService.enviarCorreo(this.estudio).subscribe(result =>{
-      this.estudio.estado = "INTERPRETANDO";
-      this.actualizarEstudio();
-      Swal.fire('Enviado', 'El correo ha sido enviado', 'success');
-    },
-      e =>{
-        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error');
-      }
-    );
-  }
-
-
-  actualizarOrdenVenta(): void {
-    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => {
-      this.enviarCorreo();
-    }, 
-    e =>{
-      Swal.fire("Error", "Ha ocurrido un error", "error");
-      console.log(e);
-    });
-
-  }
 
   enviarCorreo(): void{
     this.mailService.enviarCorreoInterpretar(this.estudio).subscribe(correo =>{
       Swal.fire("Éxito", "El correo ha sido enviado correctamente", "success");
     }, e =>{
+      Swal.fire("Error", "Ha ocurrido un error al enviar el correo", "error");
+      console.log(e);
+    });
+  }
+
+  actualizarOrdenVenta(): void {
+    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => {
+      this.enviarCorreo();
+    },
+    e =>{
       Swal.fire("Error", "Ha ocurrido un error", "error");
       console.log(e);
     });
+
   }
 
 

@@ -49,25 +49,25 @@
                     Ver estudio en línea
                 </button>
             </div>
-    
+
             <div class="col">
                 <button type="button" class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">
                     Abrir estudio con weasis
                 </button>
             </div>
-    
+
             <div class="col">
                 <button class="btn btn-primary btn-sm" (click)="descargarZip(estudio)">
                     Descargar estudio en zip
                 </button>
             </div>
-    
+
             <div class="col">
                 <button class="btn btn-primary btn-sm" (click)="descargarWeasisWindows()">
                     Descargar weasis windows
                 </button>
             </div>
-    
+
             <div class="col">
                 <button class="btn btn-primary btn-sm" (click)="descargarWeasisMac()">
                     Descargar weasis mac
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-   
+
 
 
     <div *ngIf="multimediaCargada | async ">
@@ -98,40 +98,12 @@
     </div>
 
 
-    <div class="form-group my-4">
-        <button *ngIf="!isDictando && isApiSoportada" mat-fab color="warn" class="my-2" (click)="dictar()">
-            <mat-icon>mic</mat-icon>
-        </button>
-
-
-        <button *ngIf="isDictando && isApiSoportada" mat-fab color="accent" class="my-2" (click)="parar()">
-            <mat-icon>mic_off</mat-icon>
-        </button>
-
-
-        <input [(ngModel)]="dictado.parcial" name="dictado.parcial" id="dictado.parcial" ngDefaultControl
-            disabled="true" class="sinborde mx-4">
+    <div>
+      <app-subir-interpretacion [idPacs]="this.estudio.idPacs"></app-subir-interpretacion>
     </div>
-
-
-    
-
-    <form [formGroup]="form">
-        <div class="editor">
-            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-            </ngx-editor-menu>
-            <ngx-editor name="ngEditor" [editor]="editor" formControlName="editorContent"></ngx-editor>
-        </div>
-    </form>
-
-
 
     <button class="btn btn-success btn-lg my-4" (click)="guardar()">
         Guardar
-    </button>
-
-    <button class="btn btn-danger btn-sm my-4 mx-5" (click)="mayus()">
-        Mayúsculas
     </button>
 
 </form>

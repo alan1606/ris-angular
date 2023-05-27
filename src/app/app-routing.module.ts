@@ -30,7 +30,7 @@ const routes: Routes = [
   {path : 'venta-conceptos', component: VentaConceptosComponent},
   {path : 'subir-foto-orden/:id', component: SubirFotoOrdenComponent},
   {path: 'agenda', component: AgendaComponent},
-  {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent}>>>>>>> master,
+  {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent},
   {path: 'dictador/:idVentaConcepto', component: DictadorComponent},
   {path: 'resultados/:idPacs', component: ResultadosComponent},
   {path: 'dictamen/:idPacs', component: DictamenComponent},

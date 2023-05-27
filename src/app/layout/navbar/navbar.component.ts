@@ -18,11 +18,11 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logout(): void{
+  /*logout(): void{
     const usuario = this.authService.usuario;
     this.authService.logout();
     Swal.fire('Logout', `Hola ${usuario.username} has cerrado sesión con éxito`, 'success');
     this.router.navigate(['/login']);
-  }
+  }*/
 
 }

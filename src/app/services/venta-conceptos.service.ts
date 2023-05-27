@@ -4,7 +4,6 @@ import { map, Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
 import { AreaTotal } from '../models/area-total';
 import { EstudioHora } from '../models/estudio-hora';
-import { OrdenVenta } from '../models/orden-venta';
 import { Paciente } from '../models/paciente';
 import { VentaConceptos } from '../models/venta-conceptos';
 import { CommonService } from './common.service';

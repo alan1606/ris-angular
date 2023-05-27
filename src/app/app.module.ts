@@ -30,12 +30,9 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
-import { MatSelectModule} from '@angular/material/select';
 import { NgxEditorModule } from 'ngx-editor';
 import { DictadorComponent } from './components/dictador/dictador.component';
-import { MatIconModule} from '@angular/material/icon';
 import { ResultadosComponent } from './components/resultados/resultados.component';
-import {MatCardModule} from '@angular/material/card';
 import  {QRCodeModule}  from 'angular2-qrcode';
 import { DictamenComponent } from './components/resultados/dictamen.component';
 import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
@@ -100,7 +97,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatNativeDateModule,
     MatTableModule,
     MatButtonModule,
-    MatDialogModule, 
+    MatDialogModule,
     PdfViewerModule,
     MatCheckboxModule,
     MatSelectModule,
@@ -108,8 +105,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatIconModule,
     MatCardModule,
     QRCodeModule,
-    RecepcionModule
-    ],
+    RecepcionModule,
     MatCardModule,
     MatDividerModule,
     MatIconModule,

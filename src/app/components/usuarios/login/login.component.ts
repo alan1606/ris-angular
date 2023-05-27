@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  
+
   ocultar = true;
   titulo= 'Inicie sesión';
   usuario: Usuario;
@@ -21,11 +21,15 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    if(this.authService.isAuthenticated()){
+    /*if(this.authService.isAuthenticated()){
       this.router.navigate(['/venta-conceptos']);
       Swal.fire('Login', 'Ya estás autenticado', 'info');
-    }
+    }*/
   }
+
+
+
+  /*
 
   login(): void{
     console.log(this.usuario.username);
@@ -63,5 +67,5 @@ export class LoginComponent implements OnInit {
     }
     return true;
   }
-
+*/
 }
