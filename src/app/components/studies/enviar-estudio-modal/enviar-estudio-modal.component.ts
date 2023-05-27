@@ -24,6 +24,8 @@ import { SendMailService } from '../../../services/send-mail.service';
 })
 export class EnviarEstudioModalComponent implements OnInit {
 
+  titulo: 'Enviar estudio';
+
   autocompleteControlMedicoReferente = new FormControl();
   autocompleteControlMedicoRadiologo = new FormControl();
   autocompleteControlTecnico = new FormControl();
@@ -33,9 +35,10 @@ export class EnviarEstudioModalComponent implements OnInit {
   tecnicosFiltrados: Tecnico[] = [];
 
   antecedentesJuntos: string = "";
+
   estudio: VentaConceptos;
   enviado: VentaConceptos;
-  titulo: 'Enviar estudio';
+
   imagePath = IMAGE_PATH;
 
   private pdf: File;
@@ -90,43 +93,22 @@ export class EnviarEstudioModalComponent implements OnInit {
   }
 
 
+
   enviar(estudio: VentaConceptos): void {
-    this.actualizarEstudio();
-    this.modalRef.close();
+    this.enviarAInterpretar();
   }
 
 
-  enviarCorreo(): void{
-    this.mailService.enviarCorreoInterpretar(this.estudio).subscribe(correo =>{
-      Swal.fire("Éxito", "El correo ha sido enviado correctamente", "success");
-    }, e =>{
-      Swal.fire("Error", "Ha ocurrido un error al enviar el correo", "error");
-      console.log(e);
-    });
-  }
-
-  actualizarOrdenVenta(): void {
-    this.ordenVentaService.actualizarOrdenVenta(this.estudio.ordenVenta).subscribe(orden => {
-      this.enviarCorreo();
-    },
-    e =>{
-      Swal.fire("Error", "Ha ocurrido un error", "error");
-      console.log(e);
-    });
-
-  }
-
-
-  actualizarEstudio() {
-    this.estudio.estado = this.estudio.estado == "INTERPRETADO" ? this.estudio.estado : "INTERPRETANDO";
-    this.ventaConceptosService.editar(this.estudio).subscribe(estudio => {
-      this.estudio = estudio;
-      this.actualizarOrdenVenta();
-    },
-      e => {
-        Swal.fire("Error", "Ha ocurrido un error", "error");
-        console.log(e);
+  private enviarAInterpretar(): void{
+    this.ventaConceptosService.enviarAInterpretar(this.estudio).subscribe(
+      estudio => {
+        this.estudio = estudio;
+        this.modalRef.close(this.estudio);
+      },
+      error => {
+        Swal.fire('Error', 'Ha ocurrido un error al enviar el estudio', 'error');
         this.modalRef.close();
+        console.log(error);
       }
     );
   }

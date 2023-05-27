@@ -89,7 +89,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     if(this.errorEnFechas()){
       this.crearRangoDeDosMesesEnBaseAHoy();
     }
-  
+
     this.service.filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id).subscribe(estudios => {
       this.lista = estudios;
     },
@@ -111,7 +111,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     if(this.errorEnFechas()){
       this.crearRangoDeDosMesesEnBaseAHoy();
     }
-  
+
     this.service.filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id).subscribe(estudios => {
       this.lista = estudios;
     },
@@ -143,7 +143,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     return this.pipe.transform(sumada, 'yyyy-MM-dd');
   }
 
- 
+
   buscarPorFecha(fechaInicio: HTMLInputElement, fechaFin: HTMLInputElement): void {
     if (fechaInicio.value !== '' && fechaFin.value !== '') {
       this.fechaInicio = this.pipe.transform(new Date(fechaInicio.value), 'yyyy-MM-dd');
@@ -176,7 +176,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
             width: '1000px',
             data: {"estudio": estudio}
           });
-      
+
           modalRef.afterClosed().subscribe(vinculado => {
             console.log(vinculado);
             if(vinculado){
@@ -193,15 +193,14 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
         width: '1000px',
         data: {"estudio": estudio}
       });
-      
+
       modalRef.afterClosed().subscribe(enviado => {
         if(enviado){
-          console.log(enviado);
           Swal.fire('Enviado', 'Se ha enviado el estudio con éxito', 'success');
+          estudio.estado = enviado.estado;
         }
       },
       e =>{
-        Swal.fire('Error', 'No se ha podido enviar el estudio', 'error');
       });
     }
 

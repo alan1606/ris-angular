@@ -97,6 +97,9 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
   return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/orden-venta/${ordenVentaId}`);
  }
 
-
+ public enviarAInterpretar(estudio: VentaConceptos): Observable<VentaConceptos> {
+  return this.http.post<VentaConceptos>(`${this.baseEndpoint}/enviar-a-interpretar/${estudio.id}`, estudio,
+    { headers: this.cabeceras });
+}
 
 }
