@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Area } from 'src/app/models/area';
 import { AreaTotal } from 'src/app/models/area-total';
@@ -18,8 +18,8 @@ export class AgendaComponent implements OnInit {
   titulo: string;
   fecha: string;
 
-  date = new FormControl(new Date());
-  serializedDate = new FormControl(new Date().toISOString());
+  date = new UntypedFormControl(new Date());
+  serializedDate = new UntypedFormControl(new Date().toISOString());
 
   constructor(private pipe: DatePipe,
     private ventaConceptosService: VentaConceptosService,

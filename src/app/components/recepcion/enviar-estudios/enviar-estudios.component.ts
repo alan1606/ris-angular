@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Area } from '../../../models/area';
 import { Paciente } from '../../../models/paciente';
 import { VentaConceptosService } from '../../../services/venta-conceptos.service';
@@ -23,8 +23,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 })
 export class EnviarEstudiosComponent extends CommonListarComponent<VentaConceptos, VentaConceptosService> implements OnInit  {
 
-  autocompleteControl = new FormControl();
-  autocompleteControlPaciente = new FormControl();
+  autocompleteControl = new UntypedFormControl();
+  autocompleteControlPaciente = new UntypedFormControl();
   areasFiltradas: Area[] = [];
   pacientesFiltrados: Paciente[] = [];
   fechaInicio = '';

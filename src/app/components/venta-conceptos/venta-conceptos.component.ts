@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -27,8 +27,8 @@ import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/
 })
 export class VentaConceptosComponent extends CommonListarComponent<VentaConceptos, VentaConceptosService> implements OnInit {
 
-  autocompleteControl = new FormControl();
-  autocompleteControlPaciente = new FormControl();
+  autocompleteControl = new UntypedFormControl();
+  autocompleteControlPaciente = new UntypedFormControl();
   areasFiltradas: Area[] = [];
   pacientesFiltrados: Paciente[] = [];
   fechaInicio = '';
