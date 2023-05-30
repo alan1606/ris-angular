@@ -10,17 +10,17 @@ import { ConceptosFormComponent } from './components/conceptos/conceptos-form.co
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
+import {MatLegacyAutocompleteModule as MatAutocompleteModule} from '@angular/material/legacy-autocomplete';
+import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DatePipe } from '@angular/common';
-import {MatTableModule} from '@angular/material/table';
-import { MatButtonModule} from '@angular/material/button';
+import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
+import { MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
 import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
-import { MatDialogModule} from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
@@ -28,7 +28,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
-import { MatCheckboxModule} from '@angular/material/checkbox';
+import { MatLegacyCheckboxModule as MatCheckboxModule} from '@angular/material/legacy-checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
@@ -41,11 +41,11 @@ import { SubirInterpretacionComponent } from './components/dictador/subir-interp
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
 import { RecepcionModule } from './modules/recepcion/recepcion.module';
 import { LoginComponent } from './components/usuarios/login/login.component';
-import {MatCardModule} from '@angular/material/card';
+import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
-import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatLegacySelectModule as MatSelectModule} from '@angular/material/legacy-select';
+import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/legacy-form-field';
 
 
 @NgModule({

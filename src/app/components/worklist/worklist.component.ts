@@ -6,10 +6,10 @@ import { VentaConceptosService } from '../../services/venta-conceptos.service';
 import { AreasService } from '../../services/areas.service';
 import { PacientesService } from '../../services/pacientes.service';
 import { DatePipe } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { map, flatMap } from 'rxjs';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { VentaConceptos } from '../../models/venta-conceptos';
 import Swal from 'sweetalert2';
 
