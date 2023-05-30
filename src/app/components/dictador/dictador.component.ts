@@ -13,6 +13,9 @@ import Swal from 'sweetalert2';
 import { SendMailService } from '../../services/send-mail.service';
 declare const webkitSpeechRecognition: any;
 
+
+
+
 @Component({
   selector: 'app-dictador',
   templateUrl: './dictador.component.html',
@@ -28,7 +31,17 @@ export class DictadorComponent implements OnInit {
   multimediaCargada: Promise<Boolean>;
   estudiosDeOrden: VentaConceptos[]
 
+  mostrarSubidaExterna: boolean = true;
+  medicoLocal: boolean = false;
+
   filesPath = FILES_PATH;
+
+
+  editorConfig = {
+    base_url: '/tinymce',
+    suffix: '.min',
+    plugins: 'lists link image table wordcount'
+  };
 
   constructor(private route: ActivatedRoute,
     private ventaConceptosService: VentaConceptosService,
@@ -49,6 +62,8 @@ export class DictadorComponent implements OnInit {
           this.cargarAntecedentesInicial();
           this.cargarMultimedia();
           this.cargarEstudiosDeOrden();
+          this.medicoLocal = this.estudio.medicoRadiologo.local;
+          this.mostrarSubidaExterna = !this.medicoLocal;
           console.log(estudio);
         }, error => {
           this.router.navigate(['/']);

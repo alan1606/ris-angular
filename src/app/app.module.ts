@@ -30,7 +30,6 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
-import { NgxEditorModule } from 'ngx-editor';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
 import  {QRCodeModule}  from 'angular2-qrcode';
@@ -101,7 +100,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     PdfViewerModule,
     MatCheckboxModule,
     MatSelectModule,
-    NgxEditorModule,
     MatIconModule,
     MatCardModule,
     QRCodeModule,
@@ -112,7 +110,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatSelectModule,
     MatFormFieldModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -91,7 +91,7 @@ export class SubirInterpretacionComponent implements OnInit {
       .buscarPorOrdenVentaId(this.estudio.ordenVenta.id)
       .subscribe((multimedia) => {
         this.archivos = multimedia.filter(
-          (foto) => foto.tipo == 'INTERPRETACION'
+          (archivo) => archivo.tipo == 'INTERPRETACION'
         );
         this.archivosCargados = Promise.resolve(true);
         console.log(multimedia);

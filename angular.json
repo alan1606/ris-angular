@@ -107,6 +107,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
+
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -117,6 +118,7 @@
               "./node_modules/jquery/dist/jquery.slim.min.js",
               "./node_modules/popper.js/dist/umd/popper.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+
             ]
           }
         }

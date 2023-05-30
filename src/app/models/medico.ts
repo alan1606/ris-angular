@@ -13,5 +13,5 @@ export class Medico implements Generic {
     whastapp: string;
     token: string;
     radiologo: boolean;
-
+    local: boolean;
 }

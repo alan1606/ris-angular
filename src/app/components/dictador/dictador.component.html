@@ -98,9 +98,30 @@
     </div>
 
 
-    <div>
+
+    <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="flex-center">
+      <button class="btn-success btn-sm my-2"  (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir pdf</button>
+    </div>
+
+    <div *ngIf="medicoLocal && mostrarSubidaExterna" class="flex-center">
+      <button class="btn-danger btn-sm my-2" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Usar dictador</button>
+    </div>
+
+
+
+
+    <div *ngIf="medicoLocal && !mostrarSubidaExterna">
+
+
+<h1>aaaa</h1>
+
+
+    </div>
+
+    <div *ngIf="mostrarSubidaExterna">
       <app-subir-interpretacion [idPacs]="this.estudio.idPacs"></app-subir-interpretacion>
     </div>
+
 
     <button class="btn btn-success btn-lg my-4" (click)="guardar()">
         Guardar
