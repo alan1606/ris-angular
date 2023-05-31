@@ -29,7 +29,6 @@
     "jquery": "^3.6.0",
     "jspdf": "^2.5.1",
     "ng2-pdf-viewer": "^9.0.0",
-    "ngx-editor": "^12.4.1",
     "popper.js": "^1.16.1",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.4.8",

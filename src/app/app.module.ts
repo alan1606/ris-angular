@@ -109,7 +109,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatIconModule,
     MatSelectModule,
     MatFormFieldModule
-  ],
+    ],
   providers: [
     DatePipe,
   ],

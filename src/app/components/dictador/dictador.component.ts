@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOWNLOAD_WEASIS_MAC_LINK, DOWNLOAD_WEASIS_WINDOWS_LINK, VIEWER, WEASIS_VIEWER_PATH, ZIP_STUDIES_PATH, FILES_PATH } from '../../config/app';
 import { Multimedia } from '../../models/multimedia';
@@ -37,11 +37,6 @@ export class DictadorComponent implements OnInit {
   filesPath = FILES_PATH;
 
 
-  editorConfig = {
-    base_url: '/tinymce',
-    suffix: '.min',
-    plugins: 'lists link image table wordcount'
-  };
 
   constructor(private route: ActivatedRoute,
     private ventaConceptosService: VentaConceptosService,
@@ -51,6 +46,7 @@ export class DictadorComponent implements OnInit {
     private multimediaService: MultimediaService,
     private mailService: SendMailService) {
   }
+
 
   ngOnInit(): void {
 
