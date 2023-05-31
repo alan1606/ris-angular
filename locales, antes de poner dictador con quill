@@ -1,0 +1,421 @@
+[33mcommit d2febdaa899f02974f22992b49455780bac8f26b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Wed May 31 15:07:18 2023 -0600
+
+    Nada jala
+
+[33mcommit 4fac664629a96c4e9d72955f12178c73819891fe[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Wed May 31 12:20:24 2023 -0600
+
+    Actualizado a angular 14
+
+[33mcommit d07cb096eac6dcb9a940496705c32965e244105e[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Wed May 31 12:18:18 2023 -0600
+
+    Antes de actualizar a angular 14
+
+[33mcommit d7c676427f269f8f727b5bad8630d9e7631e98ad[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 19:41:11 2023 -0600
+
+    Regreso a cuando sí funcionaba
+
+[33mcommit 49863000917c9b52c1cf0a335ac51928d4d49c5c[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 18:06:40 2023 -0600
+
+    angularx-qrcode
+
+[33mcommit 9384a8a282bc5bf11b5d38fdee9f1b77669b6114[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 18:00:06 2023 -0600
+
+    Todo angular 16
+
+[33mcommit 0968210b0a83e07b68eb43d68ace0d54daae7357[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 17:56:57 2023 -0600
+
+    CDK y material a la 15
+
+[33mcommit fae6c1064a182b45bbfaf8d56dc8a150fb37f846[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 17:53:50 2023 -0600
+
+    A angular 16
+
+[33mcommit 0ff774b2b417b8272757878e178d04731053bd77[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 17:52:08 2023 -0600
+
+    ACtualizado cdk
+
+[33mcommit 8bb546c5c11d439cd4512290e98cc90c6b26f8f4[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 17:33:36 2023 -0600
+
+    Angular 15
+
+[33mcommit a6fd6744fbad5382a54dc893fe31fabe51164eee[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 17:00:48 2023 -0600
+
+    Actualizado angular cli 14
+
+[33mcommit 5e7d5680d1fe28237d1a4c2d54f4806e1e03461e[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 16:55:44 2023 -0600
+
+    Actualizado angular core 14
+
+[33mcommit 8c948d48df6e0957b47dd4aa255c743aacf04b49[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 30 16:46:46 2023 -0600
+
+    Medicos locales, antes de poner dictador con quill
+
+[33mcommit db4e764dd70d31f19a4b98fee092579e3363a350[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Sat May 27 16:22:58 2023 -0600
+
+    Lógica de envío a interpretar al backend
+
+[33mcommit 6ee5da8dd5204b2dc0e5b322021aa010e341df1e[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Fri May 26 19:05:00 2023 -0600
+
+    Cancelado dictador y puesta subida de archivos en su lugar
+
+[33mcommit b254cd80df4efdf8813172cefb213eb6588ad4c7[m
+Merge: 33f3657 2c530b5
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Wed May 17 14:42:21 2023 -0600
+
+    Merge pull request #1 from alan1606/sinSeguridad
+    
+    Sin seguridad hizo merge
+
+[33mcommit 2c530b5b9ac84e33e79ddc6ab9bd5e71bffd609a[m[33m ([m[1;31morigin/sinSeguridad[m[33m, [m[1;32msinSeguridad[m[33m)[m
+Merge: 0cac727 33f3657
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Wed May 17 14:41:56 2023 -0600
+
+    Merge branch 'master' into sinSeguridad
+
+[33mcommit 0cac727e44fdd5f295256f62d0abaa05a57b9fb4[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Wed May 17 13:52:57 2023 -0600
+
+    Agregado folio cuando se trata de salud parral
+
+[33mcommit 0cc4e5b6b33d5c93d85a7ab7f17ff39f088ef413[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue May 16 16:41:18 2023 -0600
+
+    Agregados logs en el dictador por error (era problema de la db)
+
+[33mcommit 988c12f707cb1a540ebef2c661bf7f8af3dd7b6d[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sat Apr 22 21:04:08 2023 -0600
+
+    Curita a producción
+
+[33mcommit 26f8ad8260484922ec328dcbda27cc95efeaf1b5[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Sat Apr 22 15:09:26 2023 -0600
+
+    Terminado curita
+
+[33mcommit 77a7258f893dfa8c05dceea7d1ec5983f45c860a[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Fri Apr 14 19:30:51 2023 -0600
+
+    Avance a formulario de agendar cita
+
+[33mcommit 6f166e092f248a1958285ded129cd28bddd83948[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Thu Apr 13 16:53:46 2023 -0600
+
+    Quité la fecha en el curita de recepción
+
+[33mcommit 69e09bec2d09061f21a3aae6fc2f9ffca9b8b5c0[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Thu Apr 13 16:52:05 2023 -0600
+
+    Agregada fecha en curita de recepción
+
+[33mcommit 3551e2dca3edbf9f598a4bbd9fffc53eb84e811c[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Thu Apr 13 15:19:22 2023 -0600
+
+    Creado módulo de recepción, componente agendar cita y clases para mostrar instituciones
+
+[33mcommit 30013fc5d09bb4520999761bec4f608f5fda0134[m
+Author: alan1606 <62415210+alan1606@users.noreply.github.com>
+Date:   Tue Apr 4 15:14:55 2023 -0600
+
+    Aviso de interpretado cuando se sube interpretación externa, no cambia de estado al reasignar estudio al médico cuando ha sido interpretado, recarga en vivo de concepto al vincularse con pacs
+
+[33mcommit e933f79cefd243f736687841a53af4a4b0533119[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sun Mar 26 19:36:39 2023 -0600
+
+    Cambio de dominio y redirección hacia /ris/ en base href
+
+[33mcommit 85157059de44734d9d406922de893ee6621f1410[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Mon Jul 4 18:11:15 2022 -0600
+
+    Se le indica al médico que interprete todos los estudios
+
+[33mcommit 200c25e58cb5e3360612cb49f7fbe84af7fcc475[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Wed Jun 29 18:17:11 2022 -0600
+
+    Agregado enlace a resultados por orden de venta
+
+[33mcommit b8c49b0614c044c6527cb7a4635a359683fe70ea[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Tue Jun 28 19:32:38 2022 -0600
+
+    Se muestran todos los estudios asignados al medico en su dictador por orden venta
+
+[33mcommit cdd0b61f1157a1803d18224fd0a37e22389865ef[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Mon Jun 27 19:35:39 2022 -0600
+
+    Arreglos al dictador, expandir y eliminar pdfs de estudios no dicom en información
+
+[33mcommit c6a12a671f382a7849ca79a0f7e468f1f7cfdd03[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Mon Jun 27 09:12:51 2022 -0600
+
+    Corregidos bugs en la muestra de dictámenes
+
+[33mcommit 52d76829d30103cdc98df428277810516a7e079a[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sun Jun 26 21:32:23 2022 -0600
+
+    Agregada visualización de pdf externo en resultados
+
+[33mcommit ea7d73d37ee6f1d60993237290f5bebecb80331d[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Fri Jun 24 19:31:09 2022 -0600
+
+    Cuando se quitan los archivos el estado del estudio cambia a pendiente de interpretar
+
+[33mcommit fc6e698d8103d20834e5db8f080ab9d5b6fec4e0[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Thu Jun 23 19:29:03 2022 -0600
+
+    Avance a subida de interpretaciones no hechas con dictador propio
+
+[33mcommit 95ca85317b16d907a3fe24d304c6f0997148235d[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Thu Jun 23 18:18:31 2022 -0600
+
+    Agregado aviso cuando se finaliza interpretación
+
+[33mcommit 2ee7f61e6ed102b56b75126eb301f7163cdb092f[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Tue Jun 21 18:45:11 2022 -0600
+
+    Envío de correo resultados y aviso para interpretar
+
+[33mcommit 619b229a476c22aeed6891fa14a37da948b0129b[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sat Jun 18 14:18:08 2022 -0600
+
+    Mayusculas
+
+[33mcommit 15b9d8381a04b30d04907fe37b6ff83d21c8d8a1[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Tue Jun 14 19:17:57 2022 -0600
+
+    Intento fallido de conexión con api worklist
+
+[33mcommit 6ff5ec928c064e2d57593bb601363f5e2ba42afa[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Mon Jun 13 19:13:56 2022 -0600
+
+    Envío de estudios
+
+[33mcommit c9105f1cd11bb4b7a7010bd3733a920e7e7d4d10[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Fri Jun 10 19:44:42 2022 -0600
+
+    Eliminación de fotos en upload
+
+[33mcommit ccd3ce00269565d36dd2b3f622a66417cb67be46[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Thu Jun 9 19:37:20 2022 -0600
+
+    Dictador de cardio mejorado, datos extra a resultados, colores en venta-conceptos, inicio de envío de estudios
+
+[33mcommit 68fa71834523950b1841b3b78870d2d2e513c01d[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Thu Jun 9 12:23:12 2022 -0600
+
+    Negritas en dictador cardio y carga de resultados anteriores
+
+[33mcommit 00bd9171bb80e7e373b884e35a9e8f52e7f0ab7d[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Wed Jun 8 19:03:16 2022 -0600
+
+    Agregado mensaje, institución, médico en dictador, plantilla de cardio, visualización de dictamen sin descargar
+
+[33mcommit 223fb2f92d2382d5063cc90d082f1040ac3756d6[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Wed Jun 8 12:16:24 2022 -0600
+
+    Agregadas imagenes al dictador, solo stitulos y subtitulos al editor y sustitución de espacios en blanco
+
+[33mcommit 03fa99fe8c20d35dd1e63420e37d4e50f69bf3cb[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Thu Jun 2 19:07:19 2022 -0600
+
+    Generación de etiquetas
+
+[33mcommit 39066db6728e596b2e78e92808c7956e24bd41d0[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Tue May 31 19:38:23 2022 -0600
+
+    Primera version a prod
+    
+    Falta cambiar la orientacion del qr
+
+[33mcommit 3a3b3242d653323517f710afca15e8a43ac5ddda[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sun May 29 22:12:30 2022 -0600
+
+    Descarga de reporte en PDF
+
+[33mcommit 7d2e8f9a32d9bcfa32aad399a935d4d0b1f999f5[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sat May 28 13:57:43 2022 -0600
+
+    Dictador
+
+[33mcommit 68145764b8618d5ce376726c26deb9621878d241[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Tue May 24 16:44:54 2022 -0600
+
+    Terminada ventana que ven médicos radiólogos
+
+[33mcommit f57780e35006e5cbf8b59ab04a5a60f29efdbfb6[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Mon May 23 17:38:02 2022 -0600
+
+    Terminado antecedentes, creado medico radiologo
+
+[33mcommit 0465d44190328c8f71716dca0edb34e66c59c82b[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sat May 21 15:15:25 2022 -0600
+
+    Antecedente estudio
+
+[33mcommit 46f45951c0d029a8965f9f6fc453605ca721bc3e[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Fri May 20 19:40:20 2022 -0600
+
+    Buscar estudios en el pacs por texto usuario, modal de antecedentes
+
+[33mcommit 33f365725f978647adaed8d0cd5e6596500d331c[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Wed May 18 17:42:59 2022 -0600
+
+    Avance con el login
+
+[33mcommit 1029d05c3bb329ab73b8c59c129a541590a5c9f9[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Wed May 11 18:16:35 2022 -0600
+
+    Instituciones, vista de agenda
+
+[33mcommit 686a7d0a9ae9e7d3c07241759b3991078ab61e8f[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sat May 7 13:43:09 2022 -0600
+
+    Iniciada creación de modal información
+
+[33mcommit f083fd7fde5f9fba76a7248e9461d51064224c22[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Fri May 6 17:14:46 2022 -0600
+
+    Conexión http con api, se permite subir jpg
+
+[33mcommit 0b7d792a6b4167ba89ac302ad6dec6a3d359f30d[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Thu May 5 13:52:42 2022 -0600
+
+    intento de compilar por ing emmanuel ramirez
+    
+    intento de compilar
+
+[33mcommit 447e123b9f4ebd80d0d86949a1c96919aabb73f9[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Tue May 3 19:26:16 2022 -0600
+
+    Subir fotos de órden
+
+[33mcommit 769cac0983bdc285a23cfd205b91d603e96c03b8[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sun May 1 20:20:18 2022 -0600
+
+    Terminado envío de correo
+
+[33mcommit ceaad48fee73254c04128981f95f35cf0303f7be[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sat Apr 30 15:18:18 2022 -0600
+
+    Agregadas clases para antecedentes y multimedia, avance en envío de estudios
+
+[33mcommit 577f23fb7e1b4949227186a0cfcbbec07118cbbb[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Wed Apr 27 19:35:39 2022 -0600
+
+    Creado modal para vincular con pacs, iniciado modal de envío
+
+[33mcommit 40f0b1e8f4a7df8a745362bcb9ce6763c815c310[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Sat Apr 23 15:18:22 2022 -0600
+
+    Agregados filtros para estudios por area y paciente, rango de fechas
+
+[33mcommit c2dae742230900123bd3f7f5af5c4f9a34463e7e[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Fri Apr 22 19:27:28 2022 -0600
+
+    Agregado servicio de areas, componente de venta conceptos
+
+[33mcommit 2e8328e3721906ac439a92a2ffd002a24b2bb0a9[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Wed Apr 20 17:13:30 2022 -0600
+
+    Terminados models
+
+[33mcommit c4010720fc4e884ca4dd095812c1819063c13e32[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Tue Apr 19 20:49:06 2022 -0600
+
+    Creadas clases comunes
+
+[33mcommit cd6b3b07d2f299008269326b6a9c5451b7677a86[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Mon Apr 18 20:05:38 2022 -0600
+
+    Creado componente conceptos y conceptos form inicial
+
+[33mcommit 18f0f693302d82bb8cbb78dd8661d0afd35b4da3[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Mon Apr 18 14:52:25 2022 -0600
+
+    Primer commit ris angular
+
+[33mcommit 1865cb3e1393343c2ec660e8ed8063a769eda51b[m
+Author: alan1606 <mauri.ar3@gmail.com>
+Date:   Fri Apr 15 16:15:35 2022 -0600
+
+    initial commit

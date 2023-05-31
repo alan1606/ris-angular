@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,9 +23,9 @@ export class MedicoRadiologoComponent implements OnInit {
   medico: Medico;
   estudios: VentaConceptos[] = [];
   fecha: string;
-  date = new UntypedFormControl(new Date());
-  serializedDate = new UntypedFormControl(new Date().toISOString());
-  autocompleteControlPaciente = new UntypedFormControl();
+  date = new FormControl(new Date());
+  serializedDate = new FormControl(new Date().toISOString());
+  autocompleteControlPaciente = new FormControl();
   pacientesFiltrados: Paciente[] = [];
   estado = 'INTERPRETANDO';
 

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Area } from '../../models/area';
 import { Paciente } from '../../models/paciente';
 import { VentaConceptosService } from '../../services/venta-conceptos.service';
@@ -21,8 +21,8 @@ import Swal from 'sweetalert2';
 export class WorklistComponent implements OnInit {
 
   lista: VentaConceptos[];
-  autocompleteControl = new UntypedFormControl();
-  autocompleteControlPaciente = new UntypedFormControl();
+  autocompleteControl = new FormControl();
+  autocompleteControlPaciente = new FormControl();
   areasFiltradas: Area[] = [];
   pacientesFiltrados: Paciente[] = [];
   fechaInicio = '';

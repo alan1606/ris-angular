@@ -17,27 +17,31 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
-    declarations: [
-        AgendarCitaComponent,
-        QrSubirFotoOrdenModalComponent,
-        RegistrarPacienteComponent
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        NgxQRCodeModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatNativeDateModule
-    ],
-    exports: [
-        AgendarCitaComponent
-    ],
-    providers: [DatePipe],
-    bootstrap: [AppComponent]
+  declarations: [
+    AgendarCitaComponent,
+    QrSubirFotoOrdenModalComponent,
+    RegistrarPacienteComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    NgxQRCodeModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
+  exports: [
+    AgendarCitaComponent
+  ],
+  entryComponents: [
+    QrSubirFotoOrdenModalComponent,
+    RegistrarPacienteComponent
+  ],
+  providers: [DatePipe],
+  bootstrap: [AppComponent]
 })
 export class RecepcionModule { }

@@ -8,13 +8,12 @@ import { AntecedenteEstudioService } from '../../services/antecedente-estudio.se
 import { InterpretacionService } from '../../services/interpretacion.service';
 import { MultimediaService } from '../../services/multimedia.service';
 import { VentaConceptosService } from '../../services/venta-conceptos.service';
+import Swal from 'sweetalert2';
 
 import { SendMailService } from '../../services/send-mail.service';
 declare const webkitSpeechRecognition: any;
 
 
-
-import {FormControl, FormGroup} from '@angular/forms'
 
 
 
@@ -39,6 +38,11 @@ export class DictadorComponent implements OnInit {
   filesPath = FILES_PATH;
 
 
+  editorConfig = {
+    base_url: '/tinymce',
+    suffix: '.min',
+    plugins: 'lists link image table wordcount'
+  };
 
   constructor(private route: ActivatedRoute,
     private ventaConceptosService: VentaConceptosService,
@@ -47,8 +51,7 @@ export class DictadorComponent implements OnInit {
     private interpretacionService: InterpretacionService,
     private multimediaService: MultimediaService,
     private mailService: SendMailService) {
-    }
-
+  }
 
   ngOnInit(): void {
 

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { AreasService } from 'src/app/services/areas.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+import Swal from 'sweetalert2';
 import { CommonListarComponent } from '../common-listar.component';
 import { BuscarEstudioModalComponent } from '../studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/enviar-estudio-modal.component';
@@ -27,8 +27,8 @@ import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/
 })
 export class VentaConceptosComponent extends CommonListarComponent<VentaConceptos, VentaConceptosService> implements OnInit {
 
-  autocompleteControl = new UntypedFormControl();
-  autocompleteControlPaciente = new UntypedFormControl();
+  autocompleteControl = new FormControl();
+  autocompleteControlPaciente = new FormControl();
   areasFiltradas: Area[] = [];
   pacientesFiltrados: Paciente[] = [];
   fechaInicio = '';
