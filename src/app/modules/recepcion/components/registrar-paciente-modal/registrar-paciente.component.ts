@@ -7,7 +7,7 @@ import { ENTIDADES } from './entidades';
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import {curp, ESTADO, getPersona, GENERO, generar} from 'curp';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-registrar-paciente',
@@ -16,7 +16,7 @@ import { FormControl } from '@angular/forms';
 })
 export class RegistrarPacienteComponent implements OnInit {
 
-  fechaNacimientoControl = new FormControl();
+  fechaNacimientoControl = new UntypedFormControl();
 
   model: Paciente = new Paciente();
   titulo: string = "Crear paciente";

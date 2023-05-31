@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { flatMap, map } from 'rxjs';
@@ -26,9 +26,9 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   titulo: 'Enviar estudio';
 
-  autocompleteControlMedicoReferente = new FormControl();
-  autocompleteControlMedicoRadiologo = new FormControl();
-  autocompleteControlTecnico = new FormControl();
+  autocompleteControlMedicoReferente = new UntypedFormControl();
+  autocompleteControlMedicoRadiologo = new UntypedFormControl();
+  autocompleteControlTecnico = new UntypedFormControl();
 
   medicosReferentesFiltrados: Medico[] = [];
   medicosRadiologosFiltrados: Medico[] = [];
