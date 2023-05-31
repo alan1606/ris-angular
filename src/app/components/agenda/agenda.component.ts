@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Area } from 'src/app/models/area';
 import { AreaTotal } from 'src/app/models/area-total';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
@@ -18,8 +18,8 @@ export class AgendaComponent implements OnInit {
   titulo: string;
   fecha: string;
 
-  date = new UntypedFormControl(new Date());
-  serializedDate = new UntypedFormControl(new Date().toISOString());
+  date = new FormControl(new Date());
+  serializedDate = new FormControl(new Date().toISOString());
 
   constructor(private pipe: DatePipe,
     private ventaConceptosService: VentaConceptosService,

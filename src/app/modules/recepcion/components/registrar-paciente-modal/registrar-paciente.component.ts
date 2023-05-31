@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
@@ -7,7 +7,7 @@ import { ENTIDADES } from './entidades';
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import {curp, ESTADO, getPersona, GENERO, generar} from 'curp';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-registrar-paciente',
@@ -16,7 +16,7 @@ import { UntypedFormControl } from '@angular/forms';
 })
 export class RegistrarPacienteComponent implements OnInit {
 
-  fechaNacimientoControl = new UntypedFormControl();
+  fechaNacimientoControl = new FormControl();
 
   model: Paciente = new Paciente();
   titulo: string = "Crear paciente";

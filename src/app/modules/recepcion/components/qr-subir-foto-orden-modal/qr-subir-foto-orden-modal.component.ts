@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxQrcodeElementTypes } from '@techiediaries/ngx-qrcode';
 import { URL_SUBIR_FOTO } from 'src/app/config/app';
 import { OrdenVenta } from 'src/app/models/orden-venta';

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
 import { flatMap, map } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';
@@ -44,11 +44,11 @@ export class AgendarCitaComponent implements OnInit {
 
   titulo = "Agendar cita";
 
-  autocompleteControlPaciente = new UntypedFormControl();
-  autocompleteControlConvenio = new UntypedFormControl();
-  autocompleteControlArea = new UntypedFormControl();
-  autocompleteControlConcepto = new UntypedFormControl();
-  autocompleteControlMedicoReferente= new UntypedFormControl();
+  autocompleteControlPaciente = new FormControl();
+  autocompleteControlConvenio = new FormControl();
+  autocompleteControlArea = new FormControl();
+  autocompleteControlConcepto = new FormControl();
+  autocompleteControlMedicoReferente= new FormControl();
 
 
   pacientesFiltrados: Paciente[] = [];

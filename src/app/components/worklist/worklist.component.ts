@@ -1,15 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Area } from '../../models/area';
 import { Paciente } from '../../models/paciente';
 import { VentaConceptosService } from '../../services/venta-conceptos.service';
 import { AreasService } from '../../services/areas.service';
 import { PacientesService } from '../../services/pacientes.service';
 import { DatePipe } from '@angular/common';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { map, flatMap } from 'rxjs';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { VentaConceptos } from '../../models/venta-conceptos';
 import Swal from 'sweetalert2';
 
@@ -21,8 +21,8 @@ import Swal from 'sweetalert2';
 export class WorklistComponent implements OnInit {
 
   lista: VentaConceptos[];
-  autocompleteControl = new UntypedFormControl();
-  autocompleteControlPaciente = new UntypedFormControl();
+  autocompleteControl = new FormControl();
+  autocompleteControlPaciente = new FormControl();
   areasFiltradas: Area[] = [];
   pacientesFiltrados: Paciente[] = [];
   fechaInicio = '';
