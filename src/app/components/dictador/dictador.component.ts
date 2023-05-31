@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOWNLOAD_WEASIS_MAC_LINK, DOWNLOAD_WEASIS_WINDOWS_LINK, VIEWER, WEASIS_VIEWER_PATH, ZIP_STUDIES_PATH, FILES_PATH } from '../../config/app';
 import { Multimedia } from '../../models/multimedia';
@@ -8,11 +8,13 @@ import { AntecedenteEstudioService } from '../../services/antecedente-estudio.se
 import { InterpretacionService } from '../../services/interpretacion.service';
 import { MultimediaService } from '../../services/multimedia.service';
 import { VentaConceptosService } from '../../services/venta-conceptos.service';
-import Swal from 'sweetalert2';
 
 import { SendMailService } from '../../services/send-mail.service';
 declare const webkitSpeechRecognition: any;
 
+
+
+import {FormControl, FormGroup} from '@angular/forms'
 
 
 
@@ -45,7 +47,7 @@ export class DictadorComponent implements OnInit {
     private interpretacionService: InterpretacionService,
     private multimediaService: MultimediaService,
     private mailService: SendMailService) {
-  }
+    }
 
 
   ngOnInit(): void {

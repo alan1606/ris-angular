@@ -12,7 +12,7 @@ import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { AreasService } from 'src/app/services/areas.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { CommonListarComponent } from '../common-listar.component';
 import { BuscarEstudioModalComponent } from '../studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/enviar-estudio-modal.component';
