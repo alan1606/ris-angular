@@ -100,7 +100,7 @@
 
 
     <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="flex-center">
-      <button class="btn btn-success btn-sm my-2"  (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir pdf</button>
+      <button class=" btn btn-success btn-sm my-2"  (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir pdf</button>
     </div>
 
     <div *ngIf="medicoLocal && mostrarSubidaExterna" class="flex-center">
@@ -112,8 +112,9 @@
 
     <div *ngIf="medicoLocal && !mostrarSubidaExterna">
 
-
-<h1>aaaa</h1>
+      <form [formGroup]="templateForm">
+        <quill-editor  [styles]="{height: '400px', backgroundColor:'#faf8f8'}" formControlName="textEditor"></quill-editor>
+      </form>
 
 
     </div>

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VentaConceptosService } from '../../services/venta-conceptos.service';
 import { VentaConceptos } from '../../models/venta-conceptos';
 import { DIRECCION_CORREO_CONS, RESULTS_URL } from 'src/app/config/app';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { map } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { MedicoService } from '../../services/medico.service';
@@ -28,7 +28,7 @@ export class EnviarEstudioComponent implements OnInit {
   correoPaciente: string = '';
   mensaje: string = '';
 
-  autocompleteControlMedicoReferente = new FormControl();
+  autocompleteControlMedicoReferente = new UntypedFormControl();
   medicosReferentesFiltrados: Medico[] = [];
 
 
