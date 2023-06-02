@@ -15,7 +15,10 @@ declare const webkitSpeechRecognition: any;
 
 import {FormControl, FormGroup} from '@angular/forms'
 
+import Quill from 'quill'
+import BlotFormatter from 'quill-blot-formatter'
 
+Quill.register('modules/blotFormatter', BlotFormatter)
 
 @Component({
   selector: 'app-dictador',
@@ -45,6 +48,9 @@ export class DictadorComponent implements OnInit {
     plugins: 'lists link image table wordcount'
   };
 
+  quillEditorModules = {};
+
+
   constructor(private route: ActivatedRoute,
     private ventaConceptosService: VentaConceptosService,
     private antecedenteEstudioService: AntecedenteEstudioService,
@@ -55,6 +61,10 @@ export class DictadorComponent implements OnInit {
       this.templateForm = new FormGroup({
         textEditor: new FormControl(""),
       });
+
+      this.quillEditorModules = {
+        blotFormatter: {}
+      }
   }
 
   ngOnInit(): void {

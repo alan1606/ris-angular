@@ -113,7 +113,10 @@
     <div *ngIf="medicoLocal && !mostrarSubidaExterna">
 
       <form [formGroup]="templateForm">
-        <quill-editor  [styles]="{height: '400px', backgroundColor:'#faf8f8'}" formControlName="textEditor"></quill-editor>
+        <quill-editor  
+        [styles]="{height: '400px', backgroundColor:'#faf8f8'}" 
+        [modules]="quillEditorModules"
+        formControlName="textEditor"></quill-editor>
       </form>
 
 
