@@ -47,6 +47,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { QuillModule } from 'ngx-quill';
+import { InterpretacionComponent } from './components/dictador/interpretacion/interpretacion.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { QuillModule } from 'ngx-quill';
         WorklistComponent,
         SubirInterpretacionComponent,
         OrdenVentaComponent,
-        LoginComponent
+        LoginComponent,
+        InterpretacionComponent
     ],
     imports: [
         BrowserModule,

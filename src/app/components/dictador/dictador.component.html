@@ -114,9 +114,14 @@
 
       <form [formGroup]="templateForm">
         <quill-editor  
-        [styles]="{height: '400px', backgroundColor:'#faf8f8'}" 
-        [modules]="quillEditorModules"
-        formControlName="textEditor"></quill-editor>
+            [styles]="{height: '400px', backgroundColor:'#faf8f8'}" 
+            [modules]="quillEditorModules"
+            formControlName="textEditor"
+        >
+        </quill-editor>
+
+        <app-interpretacion [interpretacion] = "this.templateForm.value.textEditor"></app-interpretacion>
+       
       </form>
 
 

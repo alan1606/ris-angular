@@ -42,11 +42,6 @@ export class DictadorComponent implements OnInit {
 
   templateForm: FormGroup;
 
-  editorConfig = {
-    base_url: '/tinymce',
-    suffix: '.min',
-    plugins: 'lists link image table wordcount'
-  };
 
   quillEditorModules = {};
 
@@ -222,5 +217,6 @@ cargarEstudiosDeOrden(): void {
     console.log("Ha ocurrido un error al cargar estudios de la órden en cuestión");
   });
 }
+
 
 }
