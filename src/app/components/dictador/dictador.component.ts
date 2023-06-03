@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DOWNLOAD_WEASIS_MAC_LINK, DOWNLOAD_WEASIS_WINDOWS_LINK, VIEWER, WEASIS_VIEWER_PATH, ZIP_STUDIES_PATH, FILES_PATH } from '../../config/app';
+import { DOWNLOAD_WEASIS_MAC_LINK, DOWNLOAD_WEASIS_WINDOWS_LINK, VIEWER, WEASIS_VIEWER_PATH, ZIP_STUDIES_PATH, FILES_PATH, BASE_ENDPOINT } from '../../config/app';
 import { Multimedia } from '../../models/multimedia';
 
 import { VentaConceptos } from '../../models/venta-conceptos';
@@ -17,6 +17,7 @@ import {FormControl, FormGroup} from '@angular/forms'
 
 import Quill from 'quill'
 import BlotFormatter from 'quill-blot-formatter'
+import { Interpretacion } from 'src/app/models/interpretacion';
 
 Quill.register('modules/blotFormatter', BlotFormatter)
 
@@ -28,6 +29,10 @@ Quill.register('modules/blotFormatter', BlotFormatter)
 
 
 export class DictadorComponent implements OnInit {
+
+  interpretacion: Interpretacion;
+  enlacePdf: string = "";
+
 
   estudio: VentaConceptos;
   antecedentes: string = '';
@@ -169,12 +174,26 @@ export class DictadorComponent implements OnInit {
   }
 
   guardar() {
+      this.interpretacion = new Interpretacion();
+      this.enlacePdf = "";
+      this.interpretacion.estudio = this.estudio;
+      this.interpretacion.interpretacion = this.templateForm.value.textEditor;
 
-      this.enviarAvisoInterpretacionHechaACorreo();
+      this.interpretacionService.crear(this.interpretacion).subscribe(
+        interpretacion => {
+          this.interpretacion = interpretacion;
+          this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`;
+        },
+        () => {
+          console.log("Error creando la interpretación");
+        }
+      );
 
-      this.marcarEstudiosDeOrdenInterpretados();
+      //this.enviarAvisoInterpretacionHechaACorreo();
 
-      this.router.navigate(['/medico-radiologo/' + this.estudio.medicoRadiologo.token]);
+    // this.marcarEstudiosDeOrdenInterpretados();
+
+      //this.router.navigate(['/medico-radiologo/' + this.estudio.medicoRadiologo.token]);
 
   }
 
@@ -219,4 +238,7 @@ cargarEstudiosDeOrden(): void {
 }
 
 
+  descargarPdf(): void{
+    window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`);
+  }
 }

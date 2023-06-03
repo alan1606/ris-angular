@@ -19,4 +19,5 @@ export class InterpretacionService extends CommonService<Interpretacion>{
   public encontrarPorEstudioId(estudioId: number): Observable<Interpretacion[]>{
     return this.http.get<Interpretacion[]>(`${this.baseEndpoint}/estudio/${estudioId}`);
   }
+
 }
