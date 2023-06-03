@@ -78,3 +78,38 @@
   display: flex;
   justify-content: center;
 }
+
+
+pdf-viewer {
+  width: 100%;
+  height: auto;
+}
+
+.pdf{
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  pdf-viewer {
+    width: 50%;
+    height: 400px;
+  }
+
+  .pdf {
+    width: 50%;
+    height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  pdf-viewer {
+    width: 400px;
+    height: 500px;
+  }
+
+  .pdf{
+    width: 400px;
+    height: 500px;
+  }
+}

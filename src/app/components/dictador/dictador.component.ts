@@ -241,4 +241,5 @@ cargarEstudiosDeOrden(): void {
   descargarPdf(): void{
     window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`);
   }
+
 }
