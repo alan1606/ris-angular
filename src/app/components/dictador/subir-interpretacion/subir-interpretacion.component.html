@@ -15,11 +15,11 @@
 
             <div *ngIf="archivosCargados | async">
 
-                <div class="form-group my-3" *ngFor="let interpretacion of archivos">
+                <div class="form-group my-3 pdf" *ngFor="let interpretacion of archivos">
                     <pdf-viewer  [src]="filesPath + interpretacion.ruta" [render-text]="true"
-                        [original-size]="false" style="width: 1100px; height: 700px">
+                        [original-size]="false" style="width: 400px; height: 500px">
                     </pdf-viewer>
-        
+
                     <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(interpretacion)">
                         Eliminar
                     </button>
@@ -28,7 +28,7 @@
                         (click)="expandir(interpretacion)">
                         Expandir
                     </button>
-                   
+
                 </div>
             </div>
 

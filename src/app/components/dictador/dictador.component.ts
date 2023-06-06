@@ -84,7 +84,12 @@ export class DictadorComponent implements OnInit {
             this.medicoLocal = this.estudio.medicoRadiologo.local;
             this.mostrarSubidaExterna = !this.medicoLocal;
             console.log(estudio);
-            this.cargarPlantillaCardio();
+
+            if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
+              this.cargarPlantillaCardio();
+            }
+
+            this.cargarInterpretacionAnterior();
           },
           (error) => {
             this.router.navigate(['/']);
@@ -95,8 +100,6 @@ export class DictadorComponent implements OnInit {
   }
 
   cargarPlantillaCardio(): void {
-    
-    console.log(this.antecedentes);
     this.templateForm.get('textEditor').setValue(
     `<strong>Antecedentes:</strong> ${this.antecedentes}
     <br><br>
@@ -132,25 +135,6 @@ export class DictadorComponent implements OnInit {
           console.log('Error al cargar multimedia');
           Promise.resolve(false);
         }
-      );
-  }
-
-  cargarAntecedentes() {
-    this.antecedentes = '';
-    this.antecedenteEstudioService
-      .filtrarPorVentaConceptosId(this.estudio.id)
-      .subscribe((a) =>
-        a.forEach(
-          (antecedente) => {
-            this.antecedentes += `${antecedente.antecedente.nombre} \n`;
-            if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
-              this.cargarPlantillaCardio();
-            }
-          },
-          (error) => {
-            console.log('Error al cargar antecedentes');
-          }
-        )
       );
   }
 
@@ -268,12 +252,28 @@ export class DictadorComponent implements OnInit {
 
     this.marcarEstudiosDeOrdenInterpretados();
 
-    this.router.navigate([
-      '/medico-radiologo/' + this.estudio.medicoRadiologo.token,
-    ]);
+    this.regresar();
+  }
+
+  private cargarInterpretacionAnterior(): void{
+    this.interpretacionService.encontrarPorEstudioId(this.estudio.id).subscribe(
+      interpretacionResponse => {
+        const interpretacion: Interpretacion = interpretacionResponse.length > 0 ? interpretacionResponse[0] : new Interpretacion;
+        this.templateForm.get('textEditor').setValue(interpretacion?.interpretacion);
+      },
+      () => {
+        console.log("Error al cargar interpretación anterior");
+      }
+    );
   }
 
   /*descargarPdf(): void{
     window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`);
   }*/
+
+  regresar(): void{
+    this.router.navigate([
+      '/medico-radiologo/' + this.estudio.medicoRadiologo.token,
+    ]);
+  }
 }

@@ -79,16 +79,16 @@
   justify-content: center;
 }
 
+.pdf{
+  width: 100%;
+  height: auto;
+}
 
 pdf-viewer {
   width: 100%;
   height: auto;
 }
 
-.pdf{
-  width: 100%;
-  height: auto;
-}
 
 @media (min-width: 768px) {
   pdf-viewer {
@@ -102,14 +102,14 @@ pdf-viewer {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 999px) {
   pdf-viewer {
-    width: 400px;
-    height: 500px;
+    width: 1000px;
+    height: 700px;
   }
 
   .pdf{
-    width: 400px;
-    height: 500px;
+    width: 1000px;
+    height: 700px;
   }
 }
