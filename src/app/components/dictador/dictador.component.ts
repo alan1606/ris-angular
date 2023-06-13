@@ -46,6 +46,7 @@ export class DictadorComponent implements OnInit {
 
   mostrarSubidaExterna: boolean = true;
   medicoLocal: boolean = false;
+  
 
   filesPath = FILES_PATH;
 
@@ -275,5 +276,38 @@ export class DictadorComponent implements OnInit {
     this.router.navigate([
       '/medico-radiologo/' + this.estudio.medicoRadiologo.token,
     ]);
+  }
+
+
+
+formatearConclusion(): void {
+    let interpretacionHtml = this.templateForm.value.textEditor;
+
+    const regex = /conclusi[oóÓn]/i;
+
+    let ultimoIndice = -1;
+    let desplazamiento = 0;
+    let indice;
+    
+    while ((indice = interpretacionHtml.slice(desplazamiento).search(regex)) !== -1) {
+      ultimoIndice = indice + desplazamiento;
+      desplazamiento += indice + 1;
+    }
+    
+
+    if(ultimoIndice == -1){
+      console.log("No se encontraron coincidencias");
+      return;
+    }
+
+    let textoAnterior:string = interpretacionHtml.substring(0, ultimoIndice);
+    let textoPosterior:string = interpretacionHtml.substring(ultimoIndice);
+
+
+    textoPosterior = textoPosterior.toUpperCase();
+    textoAnterior += "<strong>";
+    textoPosterior += "</strong>";
+
+   this.templateForm.get('textEditor').setValue(textoAnterior+textoPosterior);
   }
 }
