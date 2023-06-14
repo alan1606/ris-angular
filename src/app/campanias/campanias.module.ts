@@ -5,6 +5,7 @@ import { VerCampaniasComponent } from './components/ver-campanias/ver-campanias.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CampaniasRoutingModule } from './campanias-routing.module';
 
 
 
@@ -15,6 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   ],
   imports: [
     CommonModule,
+    CampaniasRoutingModule,
     FormsModule,
     MatInputModule,
     MatDatepickerModule,

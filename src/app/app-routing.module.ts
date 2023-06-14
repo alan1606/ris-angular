@@ -40,7 +40,8 @@ const routes: Routes = [
   {path: 'dictador/subir-pdf/:idPacs', component: SubirInterpretacionComponent},
   {path: 'resultados/orden/:ordenId/:pacienteId', component: OrdenVentaComponent},
   {path: 'recepcion/agendar-cita', component: AgendarCitaComponent},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'campanias', loadChildren: () => import('./campanias/campanias.module').then( m => m.CampaniasModule) },
 ];
 
 @NgModule({
