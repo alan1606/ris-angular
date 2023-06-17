@@ -46,7 +46,7 @@ export class DictadorComponent implements OnInit {
 
   mostrarSubidaExterna: boolean = true;
   medicoLocal: boolean = false;
-  
+
 
   filesPath = FILES_PATH;
 
@@ -288,12 +288,12 @@ formatearConclusion(): void {
     let ultimoIndice = -1;
     let desplazamiento = 0;
     let indice;
-    
+
     while ((indice = interpretacionHtml.slice(desplazamiento).search(regex)) !== -1) {
       ultimoIndice = indice + desplazamiento;
       desplazamiento += indice + 1;
     }
-    
+
 
     if(ultimoIndice == -1){
       console.log("No se encontraron coincidencias");
@@ -305,9 +305,14 @@ formatearConclusion(): void {
 
 
     textoPosterior = textoPosterior.toUpperCase();
+
     textoAnterior += "<strong>";
     textoPosterior += "</strong>";
 
-   this.templateForm.get('textEditor').setValue(textoAnterior+textoPosterior);
+    let interpretacionFinal: string = textoAnterior+textoPosterior;
+
+    interpretacionFinal = interpretacionFinal.replace(/&nbsp;/gi, ' ');
+
+   this.templateForm.get('textEditor').setValue(interpretacionFinal);
   }
 }
