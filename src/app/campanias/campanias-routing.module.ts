@@ -6,7 +6,8 @@ import { VerCampaniasComponent } from './components/ver-campanias/ver-campanias.
 const routes: Routes =[
     { path: "", component: VerCampaniasComponent},
     { path: "form", component: CrearCampaniaComponent},
-    { path: "form/:id", component: VerCampaniasComponent}
+    { path: "form/:id", component: CrearCampaniaComponent},
+    { path: "**", redirectTo: ""}
 ];
 
 @NgModule({

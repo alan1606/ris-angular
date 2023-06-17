@@ -2,17 +2,18 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Campania } from '../models/campania';
+import { BASE_ENDPOINT } from 'src/app/config/app';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampaniaService {
 
-  protected baseEndpoint: string;
+  private baseEndpoint: string = BASE_ENDPOINT + '/campanias/campanias';;
 
-  protected cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
-  constructor(protected http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   public ver(id: number): Observable<Campania> {
     return this.http.get<Campania>(`${this.baseEndpoint}/${id}`);
@@ -31,5 +32,14 @@ export class CampaniaService {
   public eliminar(id: number): Observable<void>{
     return this.http.delete<void>(`${this.baseEndpoint}/${id}`);
   }
+
+
+  public buscarTodo(page: string, size: string): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<any>(`${this.baseEndpoint}`, { params: params });
+  }
+
 
 }

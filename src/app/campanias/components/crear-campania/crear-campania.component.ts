@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 export class CrearCampaniaComponent implements OnInit {
 
   titulo = "Crear campaña";
-  campania: Campania;
+  campania: Campania = new Campania();
   error: any;
 
   fechaInicioControl = new FormControl();
@@ -25,15 +25,30 @@ export class CrearCampaniaComponent implements OnInit {
     private pipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    this.campania.activa = true;
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id: number = +params.get('id');
       if(id){
-        this.service.ver(id).subscribe(campania =>this.campania = campania)
+        this.service.ver(id).subscribe(
+            campania => {
+              this.campania = campania;
+
+              this.fechaInicioControl.setValue(this.fechaSqlADate(campania.fechaInicio));
+              this.fechaFinControl.setValue(this.fechaSqlADate(campania.fechaFin));
+            },
+            () => this.router.navigate(['/campanias'])
+          );
       }
     });
+  }
+
+  private fechaSqlADate(fecha:string): Date{
+    const partesFecha = fecha.split('-');
+    return new Date(+partesFecha[0], +partesFecha[1] - 1, +partesFecha[2]);
   }
 
 
@@ -44,7 +59,7 @@ export class CrearCampaniaComponent implements OnInit {
     this.service.editar(this.campania).subscribe(concepto =>{
       console.log(concepto);
       Swal.fire('Modificado: ' , `Campaña actualizada con éxito`, "success");
-      //this.router.navigate([this.redirect]);
+      this.router.navigate(['/campanias']);
     }, err => {
       if(err.status === 400){
         this.error = err.error;
@@ -61,7 +76,7 @@ export class CrearCampaniaComponent implements OnInit {
     this.service.crear(this.campania).subscribe(model =>{
           console.log(model);
           Swal.fire('Nuevo:' , `Campaña creada con éxito`, 'success');
-          //this.router.navigate([this.redirect]);
+          this.router.navigate(['/campanias']);
         }, err => {
           if(err.status === 400){
             this.error = err.error;

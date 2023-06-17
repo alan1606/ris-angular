@@ -4,72 +4,74 @@
         <button class="btn btn-secondary my-2" routerLink="/campanias">Volver</button>
 
         <form>
-            <div class="form-group">
+            <div class="form-group my-3">
                 <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" 
+                <input type="text" name="nombre" id="nombre" class="form-control"
                 [(ngModel)] = "campania.nombre">
                 <div class="alert alert-danger" *ngIf="error?.nombre">
                     {{error.nombre}}
                 </div>
             </div>
 
-             <div class="form-group my-2">
+             <div class="form-group my-3">
                     <mat-form-field appearance="fill">
                         <mat-label>Fecha de inicio: </mat-label>
-                        <input matInput [matDatepicker]="picker"
+                        <input matInput [matDatepicker]="inicio"
                             (dateChange)="seleccionarFechaInicio(fechaInicio)"
                                #fechaInicio [formControl]="fechaInicioControl">
                         <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-datepicker-toggle matIconSuffix [for]="inicio"></mat-datepicker-toggle>
+                        <mat-datepicker #inicio></mat-datepicker>
                       </mat-form-field>
                       <div class="alert alert-danger" *ngIf="error?.fechaNacimiento">
                         {{error.fechaNacimiento}}
                     </div>
                 </div>
 
-                <div class="form-group my-2">
+                <div class="form-group my-3">
                     <mat-form-field appearance="fill">
                         <mat-label>Fecha de fin: </mat-label>
-                        <input matInput [matDatepicker]="picker"
+                        <input matInput [matDatepicker]="fin"
                             (dateChange)="seleccionarFechaFin(fechaFin)"
                                #fechaFin [formControl]="fechaFinControl">
                         <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
+                        <mat-datepicker #fin></mat-datepicker>
                       </mat-form-field>
                       <div class="alert alert-danger" *ngIf="error?.fechaNacimiento">
                         {{error.fechaNacimiento}}
                     </div>
                 </div>
 
-            <div class="form-group">
+            <div class="form-group my-3">
                 <label for="nombre">Código</label>
-                <input type="text" name="curp" id="curp" class="form-control" 
+                <input type="text" name="curp" id="curp" class="form-control"
                 [(ngModel)] = "campania.codigo">
                 <div class="alert alert-danger" *ngIf="error?.codigo">
                     {{error.codigo}}
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-3">
                 <label for="telefono">Descripción</label>
-                <input type="text" name="telefono" id="telefono" class="form-control" 
+                <input type="text" name="telefono" id="telefono" class="form-control"
                 [(ngModel)] = "campania.descripcion">
                 <div class="alert alert-danger" *ngIf="error?.descripcion">
                     {{error.descripcion}}
                 </div>
             </div>
-        
-          
-            <div class="form-group">
+
+
+            <div class="form-check my-3">
                 <label for="activo">Activa</label>
                 <input type="checkbox" name="activo" id="activo" class="form-check-input"
                 [(ngModel)] = "campania.activa">
             </div>
 
+
+
             <div class="form-group">
-                <button type="button" class="btn btn-primary" 
+                <button type="button" class="btn btn-primary"
                 (click) = "campania.id ? editar() : crear()">
                     {{ campania.id ? 'Editar' : 'Crear' }}
                 </button>
