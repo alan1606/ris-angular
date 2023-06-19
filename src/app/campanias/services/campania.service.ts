@@ -42,4 +42,38 @@ export class CampaniaService {
   }
 
 
+  public buscarPorNombre(nombre:string, page: string, size: string): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<any>(`${this.baseEndpoint}/nombre/${nombre}`, { params: params });
+  }
+
+  public activas(page: string, size: string): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<any>(`${this.baseEndpoint}/activas`, { params: params });
+  }
+
+  public inactivas(page: string, size: string): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<any>(`${this.baseEndpoint}/inactivas`, { params: params });
+  }
+
+  public activasPorNombre(nombre: string, page: string, size: string): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<any>(`${this.baseEndpoint}/activas/nombre/${nombre}`, { params: params });
+  }
+
+  public inactivasPorNombre(nombre:string, page: string, size: string): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<any>(`${this.baseEndpoint}/inactivas/nombre/${nombre}`, { params: params });
+  }
 }

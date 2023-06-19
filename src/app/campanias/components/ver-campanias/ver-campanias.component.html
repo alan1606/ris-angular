@@ -1,24 +1,30 @@
-<div class="row justify-content-md-left mb-3">
-  <div class="col-md-auto">
+<div class="row justify-content-md-left align-items-end">
+
+  <div class="col-md-auto mb-4">
     <label for="nombre">Nombre:</label>
-    <input type="text" class="form-control" id="nombre">
+    <input type="text" class="form-control" id="nombre" (keyup.enter)="buscar()" #nombreBuscar>
   </div>
+
+
   <div class="col-md-auto">
-      <mat-form-field>
+      <mat-form-field class="form-control borderless">
           <mat-label>Estado</mat-label>
-          <mat-select [(ngModel)]="estado" name="estado">
+          <mat-select [(ngModel)]="estado" name="estado" (selectionChange)="buscar()">
               <mat-option *ngFor="let estado of estados" [value]="estado">
                   {{estado}}
               </mat-option>
           </mat-select>
       </mat-form-field>
   </div>
+
 </div>
 
 
 
 <div class="card text-dark bg-light mb-3">
-  <div class="card-header">{{titulo}}</div>
+  <div class="card-header">
+    <button type="button" class="btn btn-success" [routerLink]="['/campanias/form']">Nueva</button>
+  </div>
   <div class="card-body">
     <div class="alert alert-info" *ngIf="lista?.length==0">
       No hay campañas en el sistema.
