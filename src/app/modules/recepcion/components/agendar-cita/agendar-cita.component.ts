@@ -21,6 +21,10 @@ import { PacientesService } from 'src/app/services/pacientes.service';
 import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
 import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registrar-paciente.component';
 import Swal from 'sweetalert2';
+import { CampaniaService } from 'src/app/campanias/services/campania.service';
+import { Campania } from 'src/app/campanias/models/campania';
+import { error } from 'console';
+import { CampaniaOrden } from 'src/app/campanias/models/campaniaOrden';
 
 @Component({
   selector: 'app-agendar-cita',
@@ -30,6 +34,7 @@ import Swal from 'sweetalert2';
 export class AgendarCitaComponent implements OnInit {
 
   motivo: string;
+  codigoPromocion: string = "";
 
   constructor(
     private dialog: MatDialog,
@@ -39,7 +44,8 @@ export class AgendarCitaComponent implements OnInit {
     private conceptoService: ConceptosService,
     private equipoDicomService: EquipoDicomService,
     private medicoService: MedicoService,
-    private ordenVentaService: OrdenVentaService
+    private ordenVentaService: OrdenVentaService,
+    private campaniasService: CampaniaService
   ) {}
 
   titulo = "Agendar cita";
@@ -70,6 +76,8 @@ export class AgendarCitaComponent implements OnInit {
   fecha: String;
 
   folio: number;
+
+  campania: Campania = new Campania();
 
   ngOnInit(): void {
 
@@ -229,11 +237,12 @@ export class AgendarCitaComponent implements OnInit {
   private reiniciarFormulario() {
     this.limpiarCampos();
 
-    this.paciente = null;
-    this.concepto = null;
+    this.paciente = new Paciente();
+    this.concepto = new Concepto();
     this.estudios = [];
-    this.ordenVenta = null;
+    this.ordenVenta = new OrdenVenta();
     this.motivo = "";
+    this.campania = new Campania();
 
     this.cargarReferenteVacio();
     this.cargarConvenioParticularPorDefecto();
@@ -290,6 +299,7 @@ export class AgendarCitaComponent implements OnInit {
       estudios => {
         this.estudios = estudios;
         this.ordenVenta = this.estudios[0].ordenVenta;
+        this.aplicarPromocionAOrden();
         this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
         Swal.fire("Procesado", "La orden se ha procesado", "success")
@@ -307,6 +317,7 @@ export class AgendarCitaComponent implements OnInit {
       estudios => {
         this.estudios = estudios;
         this.ordenVenta = this.estudios[0].ordenVenta;
+        this.aplicarPromocionAOrden();
         this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
         Swal.fire("Procesado", "La orden se ha procesado", "success")
@@ -360,6 +371,33 @@ export class AgendarCitaComponent implements OnInit {
       modalRef.afterClosed().subscribe(something =>{console.log(something)});
   }
 
+  buscarCodigoPromocional(): void{
+    if(this.codigoPromocion){
+      this.campaniasService.buscarPorCodigo(this.codigoPromocion).subscribe(
+        campania => {
+          this.campania = campania;
+          Swal.fire("Aplicado", `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`, "success")
+        },
+        () => {
+          Swal.fire("No encontrado", "No se ha podido encontrar la campaña", "error");
+
+        }
+      );
+    }
+  }
+
+
+  private aplicarPromocionAOrden(): void{
+    const campaniaOrden: CampaniaOrden = new CampaniaOrden();
+    campaniaOrden.campania = this.campania;
+    campaniaOrden.ordenId = this.ordenVenta.id;
+    this.campaniasService.registrarCampaniaOrden(campaniaOrden).subscribe(campaniaOrden => {
+      console.log("Promoción contada");
+    },
+    () =>{
+      console.log("Promoción no contada");
+    });
+  }
 }
 
 

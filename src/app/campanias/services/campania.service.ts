@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Campania } from '../models/campania';
 import { BASE_ENDPOINT } from 'src/app/config/app';
+import { CampaniaOrden } from '../models/campaniaOrden';
 
 @Injectable({
   providedIn: 'root'
@@ -76,4 +77,15 @@ export class CampaniaService {
       .set('size', size);
     return this.http.get<any>(`${this.baseEndpoint}/inactivas/nombre/${nombre}`, { params: params });
   }
+
+  public buscarPorCodigo(codigo: string): Observable<Campania>{
+    console.log(codigo);
+    return this.http.get<Campania>(`${this.baseEndpoint}/codigo/${codigo}`);
+  }
+
+  public registrarCampaniaOrden(campaniaOrden: CampaniaOrden): Observable<CampaniaOrden> {
+    return this.http.post<CampaniaOrden>(`${this.baseEndpoint}/canjear`, campaniaOrden,
+      { headers: this.cabeceras });
+  }
+
 }
