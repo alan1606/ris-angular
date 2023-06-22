@@ -40,6 +40,7 @@
             <th>Descripcion</th>
             <th>Código</th>
             <th>Editar</th>
+            <th>Detalles</th>
           </tr>
         </thead>
 
@@ -52,8 +53,13 @@
             <td>{{campania.descripcion}}</td>
             <td>{{campania.codigo}}</td>
             <td>
-              <button class="btn btn-success btn-sm" [routerLink]="['/campanias/form', campania.id]">
+              <button class="btn btn-info btn-sm" [routerLink]="['/campanias/form', campania.id]">
                 Editar
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-primary btn-sm" (click)="abrirModalDetalles(campania.id)">
+                Detalles
               </button>
             </td>
           </tr>

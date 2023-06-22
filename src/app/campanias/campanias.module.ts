@@ -8,13 +8,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CampaniasRoutingModule } from './campanias-routing.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DetallesCampaniaModalComponent } from './components/detalles-campania-modal/detalles-campania-modal.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 
 @NgModule({
   declarations: [
     CrearCampaniaComponent,
-    VerCampaniasComponent
+    VerCampaniasComponent,
+    DetallesCampaniaModalComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatDatepickerModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    MatCardModule
+  ],
+  entryComponents: [
+    DetallesCampaniaModalComponent
   ]
 })
 export class CampaniasModule { }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,7 +23,6 @@ import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registra
 import Swal from 'sweetalert2';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
-import { error } from 'console';
 import { CampaniaOrden } from 'src/app/campanias/models/campaniaOrden';
 
 @Component({
@@ -380,7 +379,6 @@ export class AgendarCitaComponent implements OnInit {
         },
         () => {
           Swal.fire("No encontrado", "No se ha podido encontrar la campaña", "error");
-
         }
       );
     }
