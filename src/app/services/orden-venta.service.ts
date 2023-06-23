@@ -28,11 +28,15 @@ export class OrdenVentaService extends CommonService<OrdenVenta>{
     { headers: this.cabeceras });
    }
 
-
    public venderConceptosSaludParral(estudios: VentaConceptos[], orden: OrdenVenta, folio: number){
     const objetos = { estudios: estudios, orden: orden };
     console.log(objetos);
     return this.http.post<VentaConceptos[]>(`${this.baseEndpoint}/procesar/salud-parral/${folio}`, JSON.stringify(objetos),
+    { headers: this.cabeceras });
+   }
+
+   public enviarInformacionSaludParral(): Observable<void>{
+    return this.http.post<void>(`${this.baseEndpoint}/enviar-informacion-salud-parral`, JSON.stringify(objetos),
     { headers: this.cabeceras });
    }
 
