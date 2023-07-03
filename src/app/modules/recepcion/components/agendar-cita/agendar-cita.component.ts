@@ -242,6 +242,7 @@ export class AgendarCitaComponent implements OnInit {
     this.ordenVenta = new OrdenVenta();
     this.motivo = "";
     this.campania = new Campania();
+    this.codigoPromocion = '';
 
     this.cargarReferenteVacio();
     this.cargarConvenioParticularPorDefecto();

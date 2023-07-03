@@ -9,11 +9,11 @@ export abstract class CommonService<E extends Generic> {
   protected baseEndpoint: string;
 
   protected cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-  
+
   constructor(protected http: HttpClient) { }
 
   public listar(): Observable<E[]> {
-    return this.http.get<E[]>(this.baseEndpoint)
+    return this.http.get<E[]>(this.baseEndpoint);
   }
 
   public listarPaginas(page: string, size: string): Observable<any>{

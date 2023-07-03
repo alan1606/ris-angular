@@ -26,6 +26,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
+import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -61,7 +62,8 @@ export class DictadorComponent implements OnInit {
     private router: Router,
     private interpretacionService: InterpretacionService,
     private multimediaService: MultimediaService,
-    private mailService: SendMailService
+    private mailService: SendMailService,
+    private ordenVentaService: OrdenVentaService
   ) {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
@@ -253,6 +255,8 @@ export class DictadorComponent implements OnInit {
 
     this.marcarEstudiosDeOrdenInterpretados();
 
+    this.enviarInformacionSaludParral();
+
     this.regresar();
   }
 
@@ -273,12 +277,11 @@ export class DictadorComponent implements OnInit {
   }*/
 
   regresar(): void{
+    this.enviarInformacionSaludParral();
     this.router.navigate([
       '/medico-radiologo/' + this.estudio.medicoRadiologo.token,
     ]);
   }
-
-
 
 formatearConclusion(): void {
     let interpretacionHtml = this.templateForm.value.textEditor;
@@ -314,5 +317,15 @@ formatearConclusion(): void {
     interpretacionFinal = interpretacionFinal.replace(/&nbsp;/gi, ' ');
 
    this.templateForm.get('textEditor').setValue(interpretacionFinal);
+  }
+
+
+  private enviarInformacionSaludParral() {
+    this.ordenVentaService.enviarInformacionSaludParral(this.estudio.ordenVenta.id).subscribe(() =>{
+      console.log("Información salud Parral enviada");
+    },
+    () => {
+      console.log("Error al enviar informaición salud Parral");
+    });
   }
 }
