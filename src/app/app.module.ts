@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
@@ -47,6 +47,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { QuillModule } from 'ngx-quill';
+import { AuthorizedComponent } from './components/authorized/authorized.component';
+import { ResourceInterceptor } from './interceptors/resource.interceptor';
 
 
 @NgModule({
@@ -73,7 +75,8 @@ import { QuillModule } from 'ngx-quill';
         WorklistComponent,
         SubirInterpretacionComponent,
         OrdenVentaComponent,
-        LoginComponent
+        LoginComponent,
+        AuthorizedComponent
     ],
     imports: [
         BrowserModule,
@@ -108,6 +111,7 @@ import { QuillModule } from 'ngx-quill';
     ],
     providers: [
         DatePipe,
+        {provide: HTTP_INTERCEPTORS, useClass: ResourceInterceptor, multi: true}
     ],
     bootstrap: [AppComponent]
 })

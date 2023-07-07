@@ -12,3 +12,16 @@ export const DOWNLOAD_WEASIS_MAC_LINK = 'https://github.com/nroduit/Weasis/relea
 export const RESULTS_URL = 'https://ris.diagnocons.com/ris/resultados/';
 export const DIRECCION_CORREO_CONS = 'diagnocons@gmail.com';
 export const URL_SUBIR_FOTO = 'https://ris.diagnocons.com/ris/subir-foto-orden/';
+
+
+export const authorize_uri = 'http://172.17.200.172:8080/auth/realms/rispacs/protocol/openid-connect/auth?';
+export const client_id = 'angular';
+export const redirect_uri = 'http://localhost:4200/authorized?method=get';
+export const scope = 'openid profile';
+export const response_type = 'code';
+//export const response_mode = 'form_post';
+export const code_challenge_method = 'S256';
+export const code_challenge = '_PgRBuxzokOwxLP3yq3dq3YzNdtlCi4FIOridBphnPc';
+export const code_verifier = 'ciWjgv0br2BiPu0XsEPJ_gTcxsgujo7oa6_xpgXd69g';
+export const token_url = 'http://172.17.200.172:8080/auth/realms/rispacs/protocol/openid-connect/token';
+export const grant_type = 'authorization_code';
