@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { client_id, code_verifier, grant_type, redirect_uri, scope, token_url } from '../config/app';
+import { client_id, grant_type, redirect_uri, scope, token_url } from '../config/app';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getToken(code: string): Observable<any>{
+  public getToken(code: string, code_verifier: string): Observable<any>{
     let body = new URLSearchParams();
     body.set("grant_type", grant_type);
     body.set("client_id", client_id);
