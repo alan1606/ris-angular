@@ -19,6 +19,7 @@ import { OrdenVentaComponent } from './components/resultados/orden-venta.compone
 import { AgendarCitaComponent } from './modules/recepcion/components/agendar-cita/agendar-cita.component';
 import { LoginComponent } from './components/usuarios/login/login.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'campanias', loadChildren: () => import('./campanias/campanias.module').then( m => m.CampaniasModule) },
   {path: 'authorized', component: AuthorizedComponent},
+  {path: 'logout', component: LogoutComponent},
 ];
 
 @NgModule({

@@ -49,7 +49,12 @@ export class TokenService {
     }
 
     const token = this.getAccessToken();
-    const payload = token!.split('.')[1];
+
+    if(!token){
+      return of(false);
+    }
+
+    const payload = token.split('.')[1];
 
     const payloadDecoded = atob(payload);
     const values = JSON.parse(payloadDecoded);

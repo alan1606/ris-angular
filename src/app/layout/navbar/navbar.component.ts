@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { authorize_uri, client_id, code_challenge_method, redirect_uri, response_type, scope } from 'src/app/config/app';
+import { authorize_uri, client_id, code_challenge_method, logour_uri, post_logout_redirect_uri, redirect_uri, response_type, scope } from 'src/app/config/app';
 import { HttpParams } from '@angular/common/http';
 import { TokenService } from 'src/app/services/token.service';
 import * as CryptoJS from 'crypto-js';
@@ -16,13 +16,19 @@ export class NavbarComponent implements OnInit {
 
 
   authorize_url = authorize_uri;
+  logout_url = logour_uri;
 
-  params: any = {
+  loginParams: any = {
     client_id : client_id,
     redirect_uri : redirect_uri,
     scope : scope,
     response_type : response_type,
     code_challenge_method : code_challenge_method
+  };
+
+  logoutParams: any = {
+    client_id: client_id,
+    post_logout_redirect_uri: post_logout_redirect_uri
   };
 
   isLogged: boolean = false;
@@ -43,8 +49,8 @@ export class NavbarComponent implements OnInit {
     const code_verifier = this.generateCodeVerifier();
     this.tokenService.setVerifier(code_verifier);
 
-    this.params.code_challenge = this.generateCodeChallenge(code_verifier);
-    const httpParams = new HttpParams({fromObject: this.params});
+    this.loginParams.code_challenge = this.generateCodeChallenge(code_verifier);
+    const httpParams = new HttpParams({fromObject: this.loginParams});
     const codeUrl = this.authorize_url + httpParams.toString();
     console.log(codeUrl);
     location.href = codeUrl;
@@ -52,8 +58,11 @@ export class NavbarComponent implements OnInit {
 
 
   onLogout(): void{
-    this.tokenService.logOut();
-    this.router.navigate(['/agenda']);
+    const httpParams = new HttpParams({fromObject: this.logoutParams});
+    this.logoutParams.refresh_token = this.tokenService.getRefreshToken();
+    const codeUrl = this.logout_url + httpParams.toString();
+    console.log(codeUrl);
+    location.href = codeUrl;
   }
 
   getLogged(): void{

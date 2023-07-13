@@ -15,6 +15,9 @@ export const URL_SUBIR_FOTO = 'https://ris.diagnocons.com/ris/subir-foto-orden/'
 
 
 export const authorize_uri = 'http://172.17.200.172:8080/auth/realms/rispacs/protocol/openid-connect/auth?';
+export const logour_uri = 'http://172.17.200.172:8080/auth/realms/rispacs/protocol/openid-connect/logout?';
+export const post_logout_redirect_uri = 'http://localhost:4200/logout';
+
 export const client_id = 'angular';
 export const redirect_uri = 'http://localhost:4200/authorized?method=get';
 export const scope = 'openid profile';

@@ -49,6 +49,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { QuillModule } from 'ngx-quill';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { ResourceInterceptor } from './interceptors/resource.interceptor';
+import { LogoutComponent } from './components/logout/logout.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { ResourceInterceptor } from './interceptors/resource.interceptor';
         SubirInterpretacionComponent,
         OrdenVentaComponent,
         LoginComponent,
-        AuthorizedComponent
+        AuthorizedComponent,
+        LogoutComponent
     ],
     imports: [
         BrowserModule,
