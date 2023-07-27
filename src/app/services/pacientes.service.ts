@@ -18,21 +18,12 @@ export class PacientesService extends CommonService<Paciente>{
     super(http);
    }
 
-   private isNoAutorizado(e): boolean{
-      if(e){
-        this.router.navigate(['/login']);
-        console.log("redirigir al login");
-        return true;
-      }
-      return false;
-   }
-
 
   public filtrarPorNombre(nombre: string, ): Observable<Paciente[]>{
     return this.http.get<Paciente[]>(`${this.baseEndpoint}/nombre/${nombre}`);
 
   }
- 
+
   public filtrarPorNombreYRadiologoId(nombre: string, idMedicoRadiologo: number): Observable<Paciente[]>{
     return this.http.get<Paciente[]>(`${this.baseEndpoint}/nombre/${nombre}/medico-radiologo/${idMedicoRadiologo}`);
   }

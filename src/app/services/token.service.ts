@@ -58,7 +58,7 @@ export class TokenService {
 
     const payloadDecoded = atob(payload);
     const values = JSON.parse(payloadDecoded);
-    const roles = values.realm_access.roles;
+    const roles = values.resource_access.rispacs.roles;
     if(roles.indexOf('ADMIN') < 0){
       return of(false);
     }
