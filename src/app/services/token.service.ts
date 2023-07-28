@@ -43,15 +43,30 @@ export class TokenService {
 
 
   isAdmin():  Observable<boolean>{
+   return of(this.isRole('ADMIN'));
+  }
 
+  isReceptionist(): Observable<boolean>{
+    return of(this.isRole('RECEPCIONISTA'));
+  }
+
+  isRadiologicPhysician(): Observable<boolean>{
+    return of(this.isRole('MEDICO_RADIOLOGO'));
+  }
+
+  isTechnician(): Observable<boolean>{
+    return of(this.isRole('TECNICO'));
+  }
+
+  private isRole(role: string) : boolean{
     if(!this.isLogged()){
-      return of(false);
+      return false;
     }
 
     const token = this.getAccessToken();
 
     if(!token){
-      return of(false);
+      return false;
     }
 
     const payload = token.split('.')[1];
@@ -59,13 +74,13 @@ export class TokenService {
     const payloadDecoded = atob(payload);
     const values = JSON.parse(payloadDecoded);
     const roles = values.resource_access.rispacs.roles;
-    if(roles.indexOf('ADMIN') < 0){
-      return of(false);
+    if(roles.indexOf(role) < 0){
+      return false;
     }
 
-    return of(true);
-
+    return true;
   }
+
 
   setVerifier(codeVerifier: string): void{
     if(localStorage.getItem(CODE_VERIFIER)){

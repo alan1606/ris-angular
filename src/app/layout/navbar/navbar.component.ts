@@ -33,6 +33,9 @@ export class NavbarComponent implements OnInit {
 
   isLogged: boolean = false;
   isAdmin: boolean = false;
+  isReceptionist: boolean = false;
+  isRadiologicPhysician: boolean = false;
+  isTechnician: boolean = false;
 
   constructor(
     private tokenService: TokenService,
@@ -68,7 +71,12 @@ export class NavbarComponent implements OnInit {
   getLogged(): void{
     this.tokenService.isLogged().subscribe(logged => this.isLogged = logged);
     this.tokenService.isAdmin().subscribe(admin => this.isAdmin = admin);
+    this.tokenService.isReceptionist().subscribe(receptionist => this.isReceptionist = receptionist);
+    this.tokenService.isRadiologicPhysician().subscribe(physiscian => this.isRadiologicPhysician = physiscian);
+    this.tokenService.isTechnician().subscribe(technician => this.isTechnician = technician);
   }
+
+
 
 
   generateCodeVerifier(): string{
@@ -93,11 +101,45 @@ export class NavbarComponent implements OnInit {
     return code_challenge;
   }
 
-  /*logout(): void{
-    const usuario = this.authService.usuario;
-    this.authService.logout();
-    Swal.fire('Logout', `Hola ${usuario.username} has cerrado sesión con éxito`, 'success');
-    this.router.navigate(['/login']);
-  }*/
+  puedeAbrirAgenda(): boolean{
+    if(this.isAdmin || this.isReceptionist){
+      return true;
+    }
+    return false;
+  }
 
+  puedeAbrirAgendados(): boolean{
+    if(this.isAdmin || this.isReceptionist){
+      return true;
+    }
+    return false;
+  }
+
+  puedeAbrirEnvioDeEstudios(): boolean{
+    if(this.isAdmin || this.isReceptionist){
+      return true;
+    }
+    return false;
+  }
+
+  puedeAbrirVentaConceptos(): boolean{
+    if(this.isAdmin || this.isTechnician ){
+      return true;
+    }
+    return false;
+  }
+
+  puedeAbrirWorklist(): boolean{
+    if(this.isAdmin || this.isTechnician){
+      return true;
+    }
+    return false;
+  }
+
+  puedeAbrirCampanias(): boolean{
+    if(this.isAdmin){
+      return true;
+    }
+    return false;
+  }
 }
