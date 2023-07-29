@@ -3,16 +3,19 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { TokenService } from '../services/token.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ResourceInterceptor implements HttpInterceptor {
 
   constructor(
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -21,6 +24,17 @@ export class ResourceInterceptor implements HttpInterceptor {
     if(token !=null ){
       intReq = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + token) });
     }
-    return next.handle(intReq);
+    return next.handle(intReq).pipe(
+      catchError((err: HttpErrorResponse) => {
+
+        if (err.status === 401) {
+          this.router.navigateByUrl('/logout');
+        }
+
+        return throwError(err);
+
+      })
+    )
+    ;
   }
 }

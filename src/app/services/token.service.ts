@@ -36,26 +36,26 @@ export class TokenService {
     localStorage.removeItem(REFRESH_TOKEN);
   }
 
-  isLogged(): Observable<boolean>{
+  isLogged(): boolean{
     let result: boolean = localStorage.getItem(ACCESS_TOKEN) != null;
-    return of(result);
+    return result;
   }
 
 
-  isAdmin():  Observable<boolean>{
-   return of(this.isRole('ADMIN'));
+  isAdmin():  boolean{
+   return this.isRole('ADMIN');
   }
 
-  isReceptionist(): Observable<boolean>{
-    return of(this.isRole('RECEPCIONISTA'));
+  isReceptionist(): boolean{
+    return this.isRole('RECEPCIONISTA');
   }
 
-  isRadiologicPhysician(): Observable<boolean>{
-    return of(this.isRole('MEDICO_RADIOLOGO'));
+  isRadiologicPhysician(): boolean{
+    return this.isRole('MEDICO_RADIOLOGO');
   }
 
-  isTechnician(): Observable<boolean>{
-    return of(this.isRole('TECNICO'));
+  isTechnician(): boolean{
+    return this.isRole('TECNICO');
   }
 
   private isRole(role: string) : boolean{

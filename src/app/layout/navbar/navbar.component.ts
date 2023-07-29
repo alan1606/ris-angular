@@ -69,11 +69,11 @@ export class NavbarComponent implements OnInit {
   }
 
   getLogged(): void{
-    this.tokenService.isLogged().subscribe(logged => this.isLogged = logged);
-    this.tokenService.isAdmin().subscribe(admin => this.isAdmin = admin);
-    this.tokenService.isReceptionist().subscribe(receptionist => this.isReceptionist = receptionist);
-    this.tokenService.isRadiologicPhysician().subscribe(physiscian => this.isRadiologicPhysician = physiscian);
-    this.tokenService.isTechnician().subscribe(technician => this.isTechnician = technician);
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isReceptionist = this.tokenService.isReceptionist();
+    this.isRadiologicPhysician = this.tokenService.isRadiologicPhysician();
+    this.isTechnician = this.tokenService.isTechnician();
   }
 
 

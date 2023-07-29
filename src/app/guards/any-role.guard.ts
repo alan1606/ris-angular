@@ -6,15 +6,17 @@ import { TokenService } from '../services/token.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class AnyRoleGuard implements CanActivate {
+
   constructor(
     private tokenService: TokenService){
   }
 
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
-    return of(this.tokenService.isAdmin());
+    return of(this.tokenService.isLogged());
   }
   
 }

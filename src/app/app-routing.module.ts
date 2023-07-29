@@ -20,34 +20,115 @@ import { AgendarCitaComponent } from './modules/recepcion/components/agendar-cit
 import { LoginComponent } from './components/usuarios/login/login.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { ConceptosGuard } from './guards/conceptos.guard';
+import { VentaConceptosGuard } from './guards/venta-conceptos.guard';
+import { RecepcionGuard } from './guards/recepcion.guard';
+import { DictadorGuard } from './guards/dictador.guard';
+import { AnyRoleGuard } from './guards/any-role.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 
 const routes: Routes = [
-  {path : 'pacientes', component: PacientesComponent},
-  {path : 'conceptos', component: ConceptosComponent},
-  {path : 'conceptos/form', component: ConceptosFormComponent},
-  {path : 'conceptos/form/:id', component: ConceptosFormComponent},
-  {path : 'pacientes/form/:id', component: PacientesFormComponent},
-  {path : 'pacientes/form', component: PacientesFormComponent},
-  {path : 'venta-conceptos', component: VentaConceptosComponent},
-  {path : 'subir-foto-orden/:id', component: SubirFotoOrdenComponent},
-  {path: 'agenda', component: AgendaComponent},
-  {path: 'medico-radiologo/:token', component: MedicoRadiologoComponent},
-  {path: 'dictador/:idVentaConcepto', component: DictadorComponent},
-  {path: 'resultados/:idPacs', component: ResultadosComponent},
-  {path: 'dictamen/:idPacs', component: DictamenComponent},
-  {path: 'recepcion/enviar-estudios', component: EnviarEstudiosComponent},
-  {path: 'recepcion/enviar-estudio/:idPacs', component: EnviarEstudioComponent},
-  {path: 'worklist', component: WorklistComponent},
-  {path: 'dictador/subir-pdf/:idPacs', component: SubirInterpretacionComponent},
-  {path: 'resultados/orden/:ordenId/:pacienteId', component: OrdenVentaComponent},
-  {path: 'recepcion/agendar-cita', component: AgendarCitaComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'campanias', loadChildren: () => import('./campanias/campanias.module').then( m => m.CampaniasModule),
-        canActivate : [ AdminGuard] },
-  {path: 'authorized', component: AuthorizedComponent},
-  {path: 'logout', component: LogoutComponent},
+  //{path : 'pacientes', component: PacientesComponent},
+  {
+    path : 'conceptos', 
+    component: ConceptosComponent, 
+    canActivate : [ConceptosGuard]
+  },
+  {
+    path : 'conceptos/form', 
+    component: ConceptosFormComponent, 
+    canActivate : [ConceptosGuard]
+  },
+  {
+    path : 'conceptos/form/:id', 
+    component: ConceptosFormComponent, 
+    canActivate : [ConceptosGuard]
+  },
+  //{path : 'pacientes/form/:id', component: PacientesFormComponent},
+  //{path : 'pacientes/form', component: PacientesFormComponent},
+
+  {
+    path : 'venta-conceptos', 
+    component: VentaConceptosComponent, 
+    canActivate : [VentaConceptosGuard]
+  },
+  {
+    path : 'subir-foto-orden/:id', 
+    component: SubirFotoOrdenComponent, 
+    canActivate : [RecepcionGuard]
+  },
+  {
+    path: 'agenda', 
+    component: AgendaComponent, 
+    canActivate : [RecepcionGuard]
+  },
+  {
+    path: 'medico-radiologo/:token', 
+    component: MedicoRadiologoComponent, 
+    canActivate : [DictadorGuard]
+  },
+  {
+    path: 'dictador/:idVentaConcepto', 
+    component: DictadorComponent, 
+    canActivate : [DictadorGuard]
+  },
+  {
+    path: 'resultados/:idPacs', 
+    component: ResultadosComponent, 
+    canActivate : []
+  },
+  {
+    path: 'dictamen/:idPacs',
+     component: DictamenComponent, 
+     canActivate : []
+  },
+  {
+    path: 'recepcion/enviar-estudios', 
+    component: EnviarEstudiosComponent, 
+    canActivate : [RecepcionGuard]
+  },
+  {
+    path: 'recepcion/enviar-estudio/:idPacs', 
+    component: EnviarEstudioComponent, 
+    canActivate : [RecepcionGuard]
+  },
+  {
+    path: 'worklist', 
+    component: WorklistComponent, 
+    canActivate : [VentaConceptosGuard]
+  },
+  {
+    path: 'dictador/subir-pdf/:idPacs', 
+    component: SubirInterpretacionComponent, 
+    canActivate : [DictadorGuard]
+  },
+  {
+    path: 'resultados/orden/:ordenId/:pacienteId', 
+    component: OrdenVentaComponent, 
+    canActivate : []
+  },
+  {
+    path: 'recepcion/agendar-cita', 
+    component: AgendarCitaComponent, 
+    canActivate : [RecepcionGuard]
+  },
+  //{path: 'login', component: LoginComponent},
+  {
+    path: 'campanias', 
+      loadChildren: () => import('./campanias/campanias.module').then( m => m.CampaniasModule),
+      canActivate : [ AdminGuard ] 
+  },
+  {
+    path: 'authorized', 
+    component: AuthorizedComponent, 
+    canActivate : []
+  },
+  {
+    path: 'logout', 
+    component: LogoutComponent, 
+    canActivate : [AnyRoleGuard]
+  },
 ];
 
 @NgModule({
