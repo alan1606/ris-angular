@@ -142,4 +142,11 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+  puedeAbrirDictador(): boolean{
+    if(this.isRadiologicPhysician){
+      return true;
+    }
+    return false;
+  }
 }

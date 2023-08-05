@@ -14,4 +14,5 @@ export class Medico implements Generic {
     token: string;
     radiologo: boolean;
     local: boolean;
+    usuario: String
 }

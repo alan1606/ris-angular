@@ -64,6 +64,11 @@ const routes: Routes = [
     canActivate : [RecepcionGuard]
   },
   {
+    path: 'medico-radiologo', 
+    component: MedicoRadiologoComponent, 
+    canActivate : [DictadorGuard]
+  },
+  {
     path: 'medico-radiologo/:token', 
     component: MedicoRadiologoComponent, 
     canActivate : [DictadorGuard]

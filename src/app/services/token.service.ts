@@ -81,6 +81,26 @@ export class TokenService {
     return true;
   }
 
+  getUsername(): string {
+    if(!this.isLogged()){
+      return '';
+    }
+
+    const token = this.getAccessToken();
+
+    if(!token){
+      return '';
+    }
+
+    const payload = token.split('.')[1];
+
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const username = values.preferred_username;
+
+    return username;
+  }
+
 
   setVerifier(codeVerifier: string): void{
     if(localStorage.getItem(CODE_VERIFIER)){
@@ -100,4 +120,59 @@ export class TokenService {
   deleteVerifier(): void{
     localStorage.removeItem(CODE_VERIFIER);
   }
+
+
+
+
+  
+  isAccessTokenExpired(): boolean {
+    const accessToken = this.getAccessToken();
+    if (!accessToken) {
+      return true;
+    }
+
+    const payload = this.decodeTokenPayload(accessToken);
+    if (!payload || !payload.exp) {
+      return true;
+    }
+
+    // La fecha de expiración está en segundos, convertimos a milisegundos
+    const expirationDate = new Date(payload.exp * 1000);
+    const now = new Date();
+    return expirationDate.getTime() < now.getTime();
+  }
+
+  isRefreshTokenExpired(): boolean {
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) {
+      return true;
+    }
+
+    const payload = this.decodeTokenPayload(refreshToken);
+    if (!payload || !payload.exp) {
+      return true;
+    }
+
+    // La fecha de expiración está en segundos, convertimos a milisegundos
+    const expirationDate = new Date(payload.exp * 1000);
+    const now = new Date();
+    return expirationDate.getTime() < now.getTime();
+  }
+
+  private decodeTokenPayload(token: string): any {
+    if (!token) {
+      return null;
+    }
+
+    const payloadBase64 = token.split('.')[1];
+    try {
+      const payloadDecoded = atob(payloadBase64);
+      return JSON.parse(payloadDecoded);
+    } catch (error) {
+      console.error("Error decoding token payload:", error);
+      return null;
+    }
+  }
+
+
 }

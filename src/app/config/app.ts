@@ -27,4 +27,5 @@ export const response_type = 'code';
 export const code_challenge_method = 'S256';
 export const token_url = BASE_SERVER_ADDRESS + 'token';
 export const grant_type = 'authorization_code';
+export const grant_type_refresh = 'refresh_token'
 export const secret_pkce = 'secret';

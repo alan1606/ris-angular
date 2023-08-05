@@ -6,35 +6,95 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError } from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class ResourceInterceptor implements HttpInterceptor {
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
     private tokenService: TokenService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    let intReq = request;
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token =  this.tokenService.getAccessToken();
     if(token !=null ){
-      intReq = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + token) });
+      request = this.addToken(request, token);
     }
-    return next.handle(intReq).pipe(
+    return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
 
-        if (err.status === 401) {
-          this.router.navigateByUrl('/logout');
+        if (err instanceof HttpErrorResponse && err.status === 401) {
+          return this.handle401Error(request, next);
         }
-
         return throwError(err);
 
       })
-    )
-    ;
+    );
   }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    // Verificar si el token de acceso ha expirado
+    if (!this.isRefreshing && this.tokenService.isAccessTokenExpired()) {
+      // El token de acceso ha expirado, verificamos el refresh token
+      const refreshToken = this.tokenService.getRefreshToken();
+
+      if (!refreshToken || this.tokenService.isRefreshTokenExpired()) {
+        // Si no hay un refresh token o el refresh token también ha expirado,
+        // redirigimos al usuario a la página de cierre de sesión.
+        this.router.navigate(['/logout']);
+        this.tokenService.logOut();
+        return throwError("Token expirado. Usuario desconectado.");
+      }
+  
+      // Si llegamos aquí, significa que el refresh token aún es válido,
+      // así que intentamos actualizar el token de acceso.
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+      console.log("refrescando token");
+
+      return this.authService.refreshToken().pipe(
+        switchMap(({ access_token, refresh_token }) => {
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(access_token);
+          this.tokenService.setTokens(access_token, refresh_token);
+          return next.handle(this.addToken(request, access_token));
+        }),
+        catchError((err: any) => {
+          this.isRefreshing = false;
+          this.router.navigate(['/logout']);
+          return throwError("Error al actualizar el token. Usuario desconectado.");
+        })
+      );
+  
+    } else {
+      // Si el token de acceso no ha expirado o ya estamos actualizando el token,
+      // continuamos con la solicitud original con el token actual.
+      return this.refreshTokenSubject.pipe(
+        filter(token => token != null),
+        take(1),
+        switchMap(jwt => {
+          return next.handle(this.addToken(request, jwt));
+        })
+      );
+    }
+  }
+
+  private addToken(request: HttpRequest<any>, token: string) {
+    return request.clone({
+      setHeaders: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+  }
+
+
+
+
 }

@@ -18,8 +18,11 @@ export class LogoutComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(data =>{
       this.tokenService.logOut();
-      this.router.navigate(['']);
+      this.router.navigate(['/']);  
     });
+
+    this.tokenService.logOut();
+    this.router.navigate(['/']);
   }
 w
 }
