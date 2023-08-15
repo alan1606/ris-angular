@@ -118,10 +118,14 @@ const routes: Routes = [
     component: AgendarCitaComponent, 
     canActivate : [RecepcionGuard]
   },
-  //{path: 'login', component: LoginComponent},
   {
     path: 'campanias', 
       loadChildren: () => import('./campanias/campanias.module').then( m => m.CampaniasModule),
+      canActivate : [ AdminGuard ] 
+  },
+  {
+    path: 'precios', 
+      loadChildren: () => import('./precios/precios.module').then( m => m.PreciosModule),
       canActivate : [ AdminGuard ] 
   },
   {

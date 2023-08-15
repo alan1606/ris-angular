@@ -1,0 +1,63 @@
+
+<div class="row justify-content-md-left">
+    <div class="col-md-auto mb-4">
+        <label for="nombre">Nombre:</label>
+        <input type="text" class="form-control" id="nombre" (keyup.enter)="buscarPorNombre()" #nombreBuscar>
+      </div>
+    
+    
+      <div class="col-md-auto">
+        <mat-form-field>
+            <input matInput placeholder="Área" [formControl]="autocompleteControl" [matAutocomplete]="autocomplete">
+            <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="mostrarNombre"
+                (optionSelected)="seleccionarArea($event)">
+                <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+                    {{area.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+</div>
+
+
+
+<div class="card text-dark bg-light mb-3"> 
+<div class="card-header">{{titulo}}</div>
+<div class="card-body">
+    <div class="alert alert-info" *ngIf="lista?.length==0">
+        No hay conceptos en el sistema.
+    </div>
+    <div class = "table-responsive">
+    <table class="table table-hover table-striped" *ngIf="lista?.length>0">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Área</th>
+                <th>Precio</th>
+                <th>Modificar</th>
+            </tr>
+        </thead>
+
+        <tbody *ngIf="lista?.length>0">
+            <tr *ngFor="let concepto of lista">
+                <td>{{concepto.id}}</td>
+                <td>{{concepto.area.nombre}}</td>
+                <td>{{concepto.precio}} </td>
+                <td >
+                    <button class="btn btn-success btn-sm">
+                        Cambiar precio
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
+    [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-left mx-2">
+    </mat-paginator>
+
+    </div>
+
+</div>
+</div>
