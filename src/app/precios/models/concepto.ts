@@ -1,8 +1,8 @@
+import { Concepto } from "src/app/models/concepto";
 import { Generic } from "src/app/models/generic";
-import { Area } from "./area";
 
-export class Concepto implements Generic{
+export class ConceptoPrecio implements Generic{
     id: number;
-    area: Area;
+    concepto: Concepto;
     precio: number;
 }

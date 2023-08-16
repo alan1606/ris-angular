@@ -41,8 +41,8 @@
 
         <tbody *ngIf="lista?.length>0">
             <tr *ngFor="let concepto of lista">
-                <td>{{concepto.id}}</td>
-                <td>{{concepto.area.nombre}}</td>
+                <td>{{concepto.concepto.id}}</td>
+                <td>{{concepto.concepto.area.nombre}}</td>
                 <td>{{concepto.precio}} </td>
                 <td >
                     <button class="btn btn-success btn-sm">

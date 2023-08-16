@@ -1,20 +1,23 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonListarComponent } from 'src/app/components/common-listar.component';
-import { Concepto } from '../../models/concepto';
 import { PreciosService } from '../../services/precios.service';
 import { Area } from 'src/app/models/area';
 import { FormControl } from '@angular/forms';
 import { AreasService } from 'src/app/services/areas.service';
 import { map, flatMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ConceptoPrecio } from '../../models/concepto';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.css']
 })
-export class PrincipalComponent extends CommonListarComponent<Concepto, PreciosService>{
+export class PrincipalComponent{
 
+  lista: ConceptoPrecio[];
+  titulo: string;
   area: Area;
   areasFiltradas: Area[] = [];
   private nombreConcepto = "";
@@ -22,19 +25,23 @@ export class PrincipalComponent extends CommonListarComponent<Concepto, PreciosS
   buscarPorArea = false;
 
   @ViewChild('nombreBuscar') nombreBuscar: ElementRef;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   autocompleteControl = new FormControl();
 
+  totalRegistros = 0;
+  paginaActual = 0;
+  totalPorPagina = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
   constructor(
-    service: PreciosService,
+    private service: PreciosService,
     private areasService: AreasService
   ) { 
-    super(service);
     this.titulo = "Tabulador de precios";
   }
 
-  public override ngOnInit(): void {
+  public ngOnInit(): void {
     this.calcularRangos();
 
     this.autocompleteControl.valueChanges.pipe(
@@ -44,13 +51,20 @@ export class PrincipalComponent extends CommonListarComponent<Concepto, PreciosS
 
   }
 
-  public override calcularRangos(): void {
+  public paginar(event: PageEvent): void {
+    this.paginaActual = event.pageIndex;
+    this.totalPorPagina = event.pageSize;
+    this.calcularRangos();
+  }
+
+
+  public  calcularRangos(): void {
   //Se me ocurre que aquí puedo poner ifs para saber hacia qué service paginar
 
   if(this.nombreConcepto && this.nombreConcepto != "" && !this.buscarPorArea ){
     console.log(["Buscando por nombre", this.nombreConcepto]);
-    //buscarPorNombre(nombreBuscar);
-    //this.nombreBuscar.nativeElement.value = "";
+    this.buscarPreciosPorNombre(this.nombreConcepto);
+
     return;
   }
 
@@ -58,13 +72,6 @@ export class PrincipalComponent extends CommonListarComponent<Concepto, PreciosS
     console.log(["Buscando por área", this.area]);
     //buscarPorArea(area);
   }
-/*
-    this.service.listarPaginas(this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(p => {
-      this.lista = p.content as E[];
-      this.totalRegistros = p.totalElements as number;
-      this.paginator._intl.itemsPerPageLabel = 'Registros:';
-    });*/
-
 
   }
 
@@ -94,5 +101,13 @@ export class PrincipalComponent extends CommonListarComponent<Concepto, PreciosS
     this.nombreConcepto = this.nombreBuscar?.nativeElement.value;
 
     this.calcularRangos();
+  }
+
+  private buscarPreciosPorNombre(nombreBuscar: string){
+    this.service.buscarPorNombre(nombreBuscar, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(p => {
+      this.lista = p.content as ConceptoPrecio[];
+      this.totalRegistros = p.totalElements as number;
+      this.paginator._intl.itemsPerPageLabel = 'Registros:';
+    });
   }
 }
