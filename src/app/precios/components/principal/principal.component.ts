@@ -70,7 +70,8 @@ export class PrincipalComponent{
 
   if(this.area && this.buscarPorArea){
     console.log(["Buscando por área", this.area]);
-    //buscarPorArea(area);
+    this.buscarPreciosPorArea(this.area.id);
+    return;
   }
 
   }
@@ -108,6 +109,16 @@ export class PrincipalComponent{
       this.lista = p.content as ConceptoPrecio[];
       this.totalRegistros = p.totalElements as number;
       this.paginator._intl.itemsPerPageLabel = 'Registros:';
+      console.log(this.lista);
+    });
+  }
+
+  private buscarPreciosPorArea(areaId: number){
+    this.service.buscarPorArea(areaId, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(p =>{
+      this.lista = p.content as ConceptoPrecio[];
+      this.totalRegistros = p.totalElements as number;
+      this.paginator._intl.itemsPerPageLabel = 'Registros:';
+      console.log(this.lista);
     });
   }
 }
