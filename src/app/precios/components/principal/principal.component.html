@@ -40,13 +40,13 @@
         </thead>
 
         <tbody *ngIf="lista?.length>0">
-            <tr *ngFor="let concepto of lista">
-                <td>{{concepto.concepto.id}}</td>
-                <td>{{concepto.concepto.concepto}}</td>
-                <td>{{concepto.concepto.area.nombre}}</td>
-                <td>{{concepto.precio}} </td>
+            <tr *ngFor="let conceptoPrecio of lista">
+                <td>{{conceptoPrecio.concepto.id}}</td>
+                <td>{{conceptoPrecio.concepto.concepto}}</td>
+                <td>{{conceptoPrecio.concepto.area.nombre}}</td>
+                <td>{{conceptoPrecio.precio}} </td>
                 <td >
-                    <button class="btn btn-success btn-sm">
+                    <button class="btn btn-success btn-sm" (click)="cambiarPrecio(conceptoPrecio.id)">
                         Cambiar precio
                     </button>
                 </td>

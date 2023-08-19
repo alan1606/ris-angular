@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConceptoPrecio } from '../../models/concepto';
+import { PreciosService } from '../../services/precios.service';
+
 
 @Component({
   selector: 'app-modificar-precio-modal',
@@ -7,7 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModificarPrecioModalComponent implements OnInit {
 
-  constructor() { }
+  conceptoPrecio: ConceptoPrecio = new ConceptoPrecio;
+
+  constructor(
+    public dialogRef: MatDialogRef<ModificarPrecioModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private preciosService: PreciosService
+  ) {
+    preciosService.ver(data.id).subscribe(
+      concepto => {
+        this.conceptoPrecio = concepto;
+        console.log(concepto);
+      },
+      () => dialogRef.close()
+    );
+  }
 
   ngOnInit(): void {
   }

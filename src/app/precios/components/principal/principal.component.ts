@@ -8,6 +8,8 @@ import { map, flatMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ConceptoPrecio } from '../../models/concepto';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { ModificarPrecioModalComponent } from '../modificar-precio-modal/modificar-precio-modal.component';
 
 @Component({
   selector: 'app-principal',
@@ -36,7 +38,8 @@ export class PrincipalComponent{
 
   constructor(
     private service: PreciosService,
-    private areasService: AreasService
+    private areasService: AreasService,
+    public dialog: MatDialog
   ) { 
     this.titulo = "Tabulador de precios";
   }
@@ -121,4 +124,17 @@ export class PrincipalComponent{
       console.log(this.lista);
     });
   }
+
+  cambiarPrecio(conceptoPrecioId: number): void{
+    const dialogRef = this.dialog.open(ModificarPrecioModalComponent, {
+      width: "400px",
+      data: {id: conceptoPrecioId}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      //this.animal = result;
+    });
+  }
+
 }

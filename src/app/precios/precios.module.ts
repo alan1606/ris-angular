@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PreciosRoutingModule } from './precios-routing.module';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -26,7 +28,12 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     ReactiveFormsModule,
     PreciosRoutingModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule
+  ],
+  entryComponents: [
+    ModificarPrecioModalComponent
   ]
 })
 export class PreciosModule { }
