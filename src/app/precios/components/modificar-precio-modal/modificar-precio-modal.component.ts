@@ -21,13 +21,11 @@ export class ModificarPrecioModalComponent implements OnInit {
     preciosService.ver(data.id).subscribe(
       concepto => {
         this.conceptoPrecio = concepto;
-        console.log(concepto);
       },
       () => dialogRef.close()
     );
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

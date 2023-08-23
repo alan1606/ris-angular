@@ -125,15 +125,26 @@ export class PrincipalComponent{
     });
   }
 
-  cambiarPrecio(conceptoPrecioId: number): void{
+  cambiarPrecio(conceptoPrecio: ConceptoPrecio): void{
     const dialogRef = this.dialog.open(ModificarPrecioModalComponent, {
       width: "400px",
-      data: {id: conceptoPrecioId}
+      data: {id: conceptoPrecio.id}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //this.animal = result;
+      //Si hay que actualizar el precio
+      if(result !== conceptoPrecio.precio && result){
+        this.actualizarPrecio(conceptoPrecio, result);
+      }
+    });
+  }
+
+  private actualizarPrecio(conceptoPrecio: ConceptoPrecio, precioNuevo: number): void{
+    this.service.actualizarPrecio(conceptoPrecio, precioNuevo).subscribe(nuevo =>{
+      
+      console.log(["nuevo", nuevo]);
+      conceptoPrecio = nuevo;
+      
     });
   }
 

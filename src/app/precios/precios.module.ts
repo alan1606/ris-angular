@@ -11,6 +11,7 @@ import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autoco
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -30,7 +31,8 @@ import { MatButtonModule } from '@angular/material/button';
     PreciosRoutingModule,
     MatInputModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ],
   entryComponents: [
     ModificarPrecioModalComponent

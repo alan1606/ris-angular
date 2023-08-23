@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BASE_ENDPOINT } from 'src/app/config/app';
 import { Observable } from 'rxjs';
 import { ConceptoPrecio } from '../models/concepto';
+import { Concepto } from 'src/app/models/concepto';
 
 @Injectable({
   providedIn: 'root'
@@ -34,4 +35,14 @@ export class PreciosService{
     return this.http.get<ConceptoPrecio>(`${this.baseEndpoint}/${conceptoPrecioId}`);
   }
 
+
+  public actualizarPrecio(conceptoPrecio: ConceptoPrecio, precioNuevo: number): Observable<ConceptoPrecio>{
+    //Aquí voy a hacer el cambio de precio
+    conceptoPrecio.precio = precioNuevo;
+    return this.http.put<ConceptoPrecio>(`${this.baseEndpoint}/${conceptoPrecio.id}`, conceptoPrecio, {headers: this.cabeceras});
+  }
+
+  public buscarPrecioDeConcepto(concepto: Concepto): Observable<ConceptoPrecio>{
+    return this.http.get<ConceptoPrecio>(`${this.baseEndpoint}/concepto/${concepto.id}`);
+  }
 }

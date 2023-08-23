@@ -14,8 +14,8 @@ export const DIRECCION_CORREO_CONS = 'diagnocons@gmail.com';
 export const URL_SUBIR_FOTO = 'https://ris.diagnocons.com/ris/subir-foto-orden/';
 
 
-//const BASE_SERVER_ADDRESS = 'https://auth.diagnocons.com/realms/diagnocons/protocol/openid-connect/';
-const BASE_SERVER_ADDRESS = 'http://localhost:8080/realms/diagnocons/protocol/openid-connect/';
+const BASE_SERVER_ADDRESS = 'https://auth.diagnocons.com/realms/diagnocons/protocol/openid-connect/';
+//const BASE_SERVER_ADDRESS = 'http://localhost:8080/realms/diagnocons/protocol/openid-connect/';
 
 
 export const authorize_uri = BASE_SERVER_ADDRESS + 'auth?';

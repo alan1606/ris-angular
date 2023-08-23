@@ -48,8 +48,8 @@ export class ResourceInterceptor implements HttpInterceptor {
       if (!refreshToken || this.tokenService.isRefreshTokenExpired()) {
         // Si no hay un refresh token o el refresh token también ha expirado,
         // redirigimos al usuario a la página de cierre de sesión.
-        this.router.navigate(['/logout']);
         this.tokenService.logOut();
+        this.router.navigate(['/']);
         return throwError("Token expirado. Usuario desconectado.");
       }
   
@@ -69,7 +69,8 @@ export class ResourceInterceptor implements HttpInterceptor {
         catchError((err: any) => {
           this.isRefreshing = false;
           console.log(err);
-          //this.router.navigate(['/logout']);
+          this.tokenService.logOut();
+          this.router.navigate(['/']);
           return throwError("Error al actualizar el token. Usuario desconectado.");
         })
       );
