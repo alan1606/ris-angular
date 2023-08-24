@@ -297,6 +297,10 @@ export class AgendarCitaComponent implements OnInit {
     console.log(this.ordenVenta.paciente);
 
 
+    
+    this.total = 0;
+    this.estudios.precios = [];
+
     if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
       return;
