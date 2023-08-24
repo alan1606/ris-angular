@@ -33,6 +33,7 @@ import { PreciosService } from 'src/app/precios/services/precios.service';
 })
 export class AgendarCitaComponent implements OnInit {
 
+  total: number;
   motivo: string;
   codigoPromocion: string = "";
 
@@ -231,6 +232,7 @@ export class AgendarCitaComponent implements OnInit {
   }
 
 
+
   private limpiarCampos(): void {
     this.area = null;
     this.concepto = null;
@@ -279,7 +281,8 @@ export class AgendarCitaComponent implements OnInit {
 
   quitarEstudio(id: number, i: number): void{
     this.estudios.ventas = this.estudios.ventas.filter(estudio => estudio.id !== id);
-    this.estudios.precios.splice(i,1)
+    this.estudios.precios.splice(i,1);
+    this.calcularTotal();
   }
 
   agendar(){
@@ -410,6 +413,7 @@ export class AgendarCitaComponent implements OnInit {
   private obtenerPrecio(estudio: VentaConceptos){
     this.conceptoPrecioService.buscarPrecioDeConcepto(estudio.concepto).subscribe(cPrecio => {
       this.estudios.precios.push(cPrecio.precio);
+      this.calcularTotal();
     },
       err => {
         console.log(err);
@@ -417,6 +421,13 @@ export class AgendarCitaComponent implements OnInit {
     );
   }
 
+
+  private calcularTotal() {
+    let total: number = 0;
+    this.estudios.precios.forEach(precio => total += precio);
+
+    this.total = total;
+  }
 
 }
 

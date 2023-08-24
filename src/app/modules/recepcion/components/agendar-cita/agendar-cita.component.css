@@ -38,3 +38,11 @@
     justify-content: center;
     align-items: center;
   }
+
+  .mitad{
+    max-width: 90%;
+  }
+
+  .verde{
+    color: green;
+  }

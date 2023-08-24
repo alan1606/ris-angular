@@ -122,6 +122,11 @@
         </table>
       </div>
 
+      <div class="my-2" *ngIf="estudios?.ventas.length > 0 && institucion.nombre == 'PARTICULAR'">
+        <mat-card class="mitad verde final">
+          <mat-card-content >{{'$' + total}}</mat-card-content>
+        </mat-card>
+      </div>
 
       <div class="form-group my-3">
         <mat-form-field>
