@@ -10,6 +10,7 @@ import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { MedicoService } from 'src/app/services/medico.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
+import { TokenService } from 'src/app/services/token.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 
 @Component({
@@ -42,7 +43,8 @@ export class MedicoRadiologoComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private pipe: DatePipe,
-    private pacienteService: PacientesService) {
+    private pacienteService: PacientesService,
+    private tokenService: TokenService) {
 
   }
 
@@ -50,6 +52,23 @@ export class MedicoRadiologoComponent implements OnInit {
 
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
+
+    const usuario = this.tokenService.getUsername();
+
+    if(usuario == ''){
+      this.router.navigate(['/']);
+    }
+
+    console.log(usuario);
+    this.service.encontrarMedicoPorTokenPorUsuario(usuario).subscribe(
+      ( { token } ) => {
+        this.router.navigate([`/medico-radiologo/${token}`]);
+      },
+      error => {
+        console.log(error);
+        this.router.navigate(['/']);
+      }
+    );
 
     //Se encuentra el medico dado el token en la ruta
     this.route.paramMap.subscribe(params => {

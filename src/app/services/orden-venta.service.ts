@@ -24,7 +24,7 @@ export class OrdenVentaService extends CommonService<OrdenVenta>{
   public venderConceptos(estudios: VentaConceptos[], orden: OrdenVenta){
     const objetos = { estudios: estudios, orden: orden };
     console.log(objetos);
-    return this.http.post<VentaConceptos[]>(`${this.baseEndpoint}/procesar/`, JSON.stringify(objetos),
+    return this.http.post<VentaConceptos[]>(`${this.baseEndpoint}/procesar`, JSON.stringify(objetos),
     { headers: this.cabeceras });
    }
 

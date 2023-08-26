@@ -27,6 +27,8 @@ import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
+import { TokenService } from 'src/app/services/token.service';
+import { MedicoService } from 'src/app/services/medico.service';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -63,7 +65,9 @@ export class DictadorComponent implements OnInit {
     private interpretacionService: InterpretacionService,
     private multimediaService: MultimediaService,
     private mailService: SendMailService,
-    private ordenVentaService: OrdenVentaService
+    private ordenVentaService: OrdenVentaService,
+    private tokenService: TokenService,
+    private medicoService: MedicoService
   ) {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
@@ -77,28 +81,42 @@ export class DictadorComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const idVentaConcepto: number = +params.get('idVentaConcepto');
-      if (idVentaConcepto) {
-        this.ventaConceptosService.ver(idVentaConcepto).subscribe(
-          (estudio) => {
-            this.estudio = estudio;
-            this.cargarAntecedentesInicial();
-            this.cargarMultimedia();
-            this.cargarEstudiosDeOrden();
-            this.medicoLocal = this.estudio.medicoRadiologo.local;
-            this.mostrarSubidaExterna = !this.medicoLocal;
-            console.log(estudio);
 
-            if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
-              this.cargarPlantillaCardio();
-            }
-
-            this.cargarInterpretacionAnterior();
-          },
-          (error) => {
+      if (!idVentaConcepto) {
+        this.router.navigate(['/']);
+      }
+      this.ventaConceptosService.ver(idVentaConcepto).subscribe(
+        (estudio) => {
+          console.log({"El médico asignado al estudio es: ": estudio.medicoRadiologo.usuario});
+          const usuario = this.tokenService.getUsername();
+          if(!usuario ||  usuario == ''){
             this.router.navigate(['/']);
           }
-        );
-      }
+
+          if(estudio.medicoRadiologo.usuario != usuario){
+            this.router.navigate(['/']);
+          }
+
+          this.estudio = estudio;
+          this.cargarAntecedentesInicial();
+          this.cargarMultimedia();
+          this.cargarEstudiosDeOrden();
+          this.medicoLocal = this.estudio.medicoRadiologo.local;
+          this.mostrarSubidaExterna = !this.medicoLocal;
+
+          if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
+            this.cargarPlantillaCardio();
+          }
+
+          this.cargarInterpretacionAnterior();
+        },
+        (error) => {
+          console.log(error);
+          this.router.navigate(['/']);
+        }
+      );
+
+
     });
   }
 

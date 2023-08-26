@@ -12,3 +12,27 @@ export const DOWNLOAD_WEASIS_MAC_LINK = 'https://github.com/nroduit/Weasis/relea
 export const RESULTS_URL = 'https://ris.diagnocons.com/ris/resultados/';
 export const DIRECCION_CORREO_CONS = 'diagnocons@gmail.com';
 export const URL_SUBIR_FOTO = 'https://ris.diagnocons.com/ris/subir-foto-orden/';
+
+
+const BASE_SERVER_ADDRESS = 'https://auth.diagnocons.com/realms/diagnocons/protocol/openid-connect/';
+//const BASE_SERVER_ADDRESS = 'http://localhost:8080/realms/diagnocons/protocol/openid-connect/';
+
+
+export const authorize_uri = BASE_SERVER_ADDRESS + 'auth?';
+export const logour_uri =  BASE_SERVER_ADDRESS + 'logout?';
+
+export const post_logout_redirect_uri = 'http://localhost:4200/logout'; //Este
+//export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
+
+export const client_id = 'rispacs';
+
+export const redirect_uri = 'http://localhost:4200/authorized?method=get'; //Este
+//export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
+
+export const scope = 'openid profile';
+export const response_type = 'code';
+export const code_challenge_method = 'S256';
+export const token_url = BASE_SERVER_ADDRESS + 'token';
+export const grant_type = 'authorization_code';
+export const grant_type_refresh = 'refresh_token'
+export const secret_pkce = 'secret';

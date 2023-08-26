@@ -28,4 +28,8 @@ export class MedicoService extends CommonService<Medico>{
     return this.http.get<Medico>((`${this.baseEndpoint}/radiologo/token/${token}`));
   }
   
+  public encontrarMedicoPorTokenPorUsuario(usuario: string): Observable<Medico>{
+    return this.http.get<Medico>(`${this.baseEndpoint}/token/usuario/${usuario}`);
+  }
+
 }

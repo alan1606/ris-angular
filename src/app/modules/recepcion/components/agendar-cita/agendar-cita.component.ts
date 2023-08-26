@@ -24,6 +24,7 @@ import Swal from 'sweetalert2';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
 import { CampaniaOrden } from 'src/app/campanias/models/campaniaOrden';
+import { PreciosService } from 'src/app/precios/services/precios.service';
 
 @Component({
   selector: 'app-agendar-cita',
@@ -32,6 +33,7 @@ import { CampaniaOrden } from 'src/app/campanias/models/campaniaOrden';
 })
 export class AgendarCitaComponent implements OnInit {
 
+  total: number;
   motivo: string;
   codigoPromocion: string = "";
 
@@ -44,8 +46,12 @@ export class AgendarCitaComponent implements OnInit {
     private equipoDicomService: EquipoDicomService,
     private medicoService: MedicoService,
     private ordenVentaService: OrdenVentaService,
-    private campaniasService: CampaniaService
-  ) {}
+    private campaniasService: CampaniaService,
+    private conceptoPrecioService: PreciosService
+  ) { 
+    this.estudios.ventas = [];
+    this.estudios.precios = [];
+  }
 
   titulo = "Agendar cita";
 
@@ -61,7 +67,7 @@ export class AgendarCitaComponent implements OnInit {
   areasFiltradas: Area[] = [];
   conceptosFiltrados: Concepto[] = [];
   equiposDicom: EquipoDicom[] = [];
-  estudios: VentaConceptos[] = [];
+  estudios: VentaConceptosPrecio = new VentaConceptosPrecio();
   medicosFiltrados: Medico[] = [];
 
   paciente: Paciente;
@@ -88,7 +94,7 @@ export class AgendarCitaComponent implements OnInit {
       flatMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
-      if(this.estudios?.length>0){
+      if(this.estudios.ventas?.length>0){
         this.pacientesFiltrados = [];
       }
     });
@@ -202,25 +208,29 @@ export class AgendarCitaComponent implements OnInit {
     }
 
 
-    if(this.estudios.length > 0 && this.estudios[0].paciente.id != this.paciente.id){
-      this.estudios = [];
+    if(this.estudios.ventas.length > 0 && this.estudios.ventas[0].paciente.id != this.paciente.id){
+      this.estudios.ventas = [];
       return;
     }
 
     const estudio = new VentaConceptos;
-    estudio.id = this.estudios?.length < 1 ? 1 : this.estudios[this.estudios.length-1].id + 1;
+    estudio.id = this.estudios?.ventas.length < 1 ? 1 : this.estudios.ventas[this.estudios.ventas.length-1].id + 1;
     estudio.concepto = this.concepto;
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
     estudio.institucion = this.institucion;
     estudio.paciente = this.paciente;
 
-    this.estudios.push(estudio);
+    this.estudios.ventas.push(estudio);
+
+    this.obtenerPrecio(estudio);
+
 
     this.limpiarCampos();
 
 
   }
+
 
 
   private limpiarCampos(): void {
@@ -238,7 +248,7 @@ export class AgendarCitaComponent implements OnInit {
 
     this.paciente = new Paciente();
     this.concepto = new Concepto();
-    this.estudios = [];
+    this.estudios.ventas = [];
     this.ordenVenta = new OrdenVenta();
     this.motivo = "";
     this.campania = new Campania();
@@ -269,8 +279,10 @@ export class AgendarCitaComponent implements OnInit {
     return true;
   }
 
-  quitarEstudio(id: number): void{
-    this.estudios = this.estudios.filter(estudio => estudio.id !== id);
+  quitarEstudio(id: number, i: number): void{
+    this.estudios.ventas = this.estudios.ventas.filter(estudio => estudio.id !== id);
+    this.estudios.precios.splice(i,1);
+    this.calcularTotal();
   }
 
   agendar(){
@@ -285,6 +297,10 @@ export class AgendarCitaComponent implements OnInit {
     console.log(this.ordenVenta.paciente);
 
 
+    
+    this.total = 0;
+    this.estudios.precios = [];
+
     if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
       return;
@@ -295,10 +311,10 @@ export class AgendarCitaComponent implements OnInit {
 
 
   private agendaNormal(): void{
-    this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
+    this.ordenVentaService.venderConceptos(this.estudios.ventas, this.ordenVenta).subscribe(
       estudios => {
-        this.estudios = estudios;
-        this.ordenVenta = this.estudios[0].ordenVenta;
+        this.estudios.ventas = estudios;
+        this.ordenVenta = this.estudios.ventas[0].ordenVenta;
         this.aplicarPromocionAOrden();
         this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
@@ -313,10 +329,10 @@ export class AgendarCitaComponent implements OnInit {
 
 
   private agendaSaludParral(): void{
-    this.ordenVentaService.venderConceptosSaludParral(this.estudios, this.ordenVenta, this.folio).subscribe(
+    this.ordenVentaService.venderConceptosSaludParral(this.estudios.ventas, this.ordenVenta, this.folio).subscribe(
       estudios => {
-        this.estudios = estudios;
-        this.ordenVenta = this.estudios[0].ordenVenta;
+        this.estudios.ventas = estudios;
+        this.ordenVenta = this.estudios.ventas[0].ordenVenta;
         this.aplicarPromocionAOrden();
         this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
@@ -397,7 +413,31 @@ export class AgendarCitaComponent implements OnInit {
       console.log("Promoción no contada");
     });
   }
+
+  private obtenerPrecio(estudio: VentaConceptos){
+    this.conceptoPrecioService.buscarPrecioDeConcepto(estudio.concepto).subscribe(cPrecio => {
+      this.estudios.precios.push(cPrecio.precio);
+      this.calcularTotal();
+    },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+
+  private calcularTotal() {
+    let total: number = 0;
+    this.estudios.precios.forEach(precio => total += precio);
+
+    this.total = total;
+  }
+
 }
 
+class VentaConceptosPrecio{
+  ventas: VentaConceptos[];
+  precios: number[];
 
+}
 
