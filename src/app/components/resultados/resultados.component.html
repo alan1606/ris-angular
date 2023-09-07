@@ -79,12 +79,6 @@
                         value={{antecedentesJuntos}} disabled>
                 </div>
 
-                <div class="form-group my-2" *ngIf="estudio.mensaje != '' && estudio.mensaje != null">
-                    <label class="form-check-label" for="mensaje">Mensaje</label>
-                    <input type="text" name="mensaje" id="mensaje" class="form-control" 
-                        value={{estudio.mensaje}} disabled>
-                </div>
-
                 <hr>
                 <div class="form-group my-3" *ngFor="let foto of multimedia">
                     <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded" style="cursor: pointer;"

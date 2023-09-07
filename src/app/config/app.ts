@@ -3,6 +3,10 @@ export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
 
 export const VIEWER = 'http://ns1.diagnocons.com/sistema/viewer.php/viewer';
 export const ZIP_STUDIES_PATH = 'https://ns1.diagnocons.com:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies';
+export const JPG_STUDIES_PATH = 'https://ris.diagnocons.com:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies/{studyInstanceUid}/series/{seriesNumber}/instances/{}/thumbnail';
+//Series generalmente es el 1 en rx, en tac es el topograma, instances es 1 o 2 en rx, en tac son muchas jaja
+//https://ris.diagnocons.com:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies/1.2.410.200067.100.1.202105271113050290.29133/series/1.2.410.200067.100.2.202105271113050290.32740.1/instances/1/thumbnail
+
 export const IMAGE_PATH = BASE_ENDPOINT + '/ris/multimedia/imagen/orden-venta/';
 export const PDF_PATH = BASE_ENDPOINT + '/ris/multimedia/documento/orden-venta/';
 export const FILES_PATH = BASE_ENDPOINT + '/ris/multimedia/archivo/'
