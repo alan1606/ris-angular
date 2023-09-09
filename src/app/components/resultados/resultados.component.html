@@ -17,6 +17,16 @@
                     <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido interpretado</p>
                 </div>
 
+                
+              <!--
+                <div class="row my-4" *ngIf="true" >Aquí voy a preguntar si es un DX o RX o OT
+                    <div class="col">
+                        <button type="button" class="btn btn-success btn-lg" (click)="verInterpretacion(estudio)">
+                            Descargar imágenes
+                        </button>
+                    </div>
+                </div>
+            -->
 
                 <div class="row my-4" *ngIf="estudio.iuid?.length>0">
                     <div class="col">
@@ -97,6 +107,7 @@
             
 
             </form>
+
         </div>
 
     </div>
