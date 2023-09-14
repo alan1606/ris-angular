@@ -23,4 +23,8 @@ export class StudiesService extends CommonService<Study>{
   public buscarLikeNombre(nombre: string): Observable<Study[]>{
     return this.http.get<Study[]>(`${this.baseEndpoint}/person-name/${nombre}`);
   }
+
+  public buscarUrlsJpg(iuid: string): Observable<string[]>{
+    return this.http.get<string[]>(`${this.baseEndpoint}/iuid/${iuid}/images`);
+  }
 }

@@ -17,6 +17,19 @@
                     <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido interpretado</p>
                 </div>
 
+                
+              
+                <div class="row my-4" *ngIf="estudio.iuid &&
+                                             (estudio.equipoDicom.modalidad === 'DX' || 
+                                             estudio.equipoDicom.modalidad === 'CR' || 
+                                             estudio.equipoDicom.modalidad === 'OT' )" >    
+                    <div class="col">
+                        <button type="button" class="btn btn-success btn-lg" (click)="descargarImagenes(estudio.iuid)">
+                            Descargar imágenes
+                        </button>
+                    </div>
+                </div>
+            
 
                 <div class="row my-4" *ngIf="estudio.iuid?.length>0">
                     <div class="col">
@@ -79,12 +92,6 @@
                         value={{antecedentesJuntos}} disabled>
                 </div>
 
-                <div class="form-group my-2" *ngIf="estudio.mensaje != '' && estudio.mensaje != null">
-                    <label class="form-check-label" for="mensaje">Mensaje</label>
-                    <input type="text" name="mensaje" id="mensaje" class="form-control" 
-                        value={{estudio.mensaje}} disabled>
-                </div>
-
                 <hr>
                 <div class="form-group my-3" *ngFor="let foto of multimedia">
                     <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded" style="cursor: pointer;"
@@ -103,6 +110,7 @@
             
 
             </form>
+
         </div>
 
     </div>

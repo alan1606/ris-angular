@@ -1,8 +1,12 @@
-export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
-//export const BASE_ENDPOINT = 'http://localhost:8090/api'
+//export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
+export const BASE_ENDPOINT = 'http://localhost:8090/api'
 
 export const VIEWER = 'http://ns1.diagnocons.com/sistema/viewer.php/viewer';
 export const ZIP_STUDIES_PATH = 'https://ns1.diagnocons.com:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies';
+export const JPG_STUDIES_PATH = 'https://ris.diagnocons.com:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies/{studyInstanceUid}/series/{seriesNumber}/instances/{}/thumbnail';
+//Series generalmente es el 1 en rx, en tac es el topograma, instances es 1 o 2 en rx, en tac son muchas jaja
+//https://ris.diagnocons.com:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies/1.2.410.200067.100.1.202105271113050290.29133/series/1.2.410.200067.100.2.202105271113050290.32740.1/instances/1/thumbnail
+
 export const IMAGE_PATH = BASE_ENDPOINT + '/ris/multimedia/imagen/orden-venta/';
 export const PDF_PATH = BASE_ENDPOINT + '/ris/multimedia/documento/orden-venta/';
 export const FILES_PATH = BASE_ENDPOINT + '/ris/multimedia/archivo/'
@@ -21,13 +25,13 @@ const BASE_SERVER_ADDRESS = 'https://auth.diagnocons.com/realms/diagnocons/proto
 export const authorize_uri = BASE_SERVER_ADDRESS + 'auth?';
 export const logour_uri =  BASE_SERVER_ADDRESS + 'logout?';
 
-//export const post_logout_redirect_uri = 'http://localhost:4200/logout'; //Este
-export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
+export const post_logout_redirect_uri = 'http://localhost:4200/logout'; //Este
+//export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
 
 export const client_id = 'rispacs';
 
-//export const redirect_uri = 'http://localhost:4200/authorized?method=get'; //Este
-export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
+export const redirect_uri = 'http://localhost:4200/authorized?method=get'; //Este
+//export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
 
 export const scope = 'openid profile';
 export const response_type = 'code';
