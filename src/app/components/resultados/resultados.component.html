@@ -18,15 +18,18 @@
                 </div>
 
                 
-              <!--
-                <div class="row my-4" *ngIf="true" >Aquí voy a preguntar si es un DX o RX o OT
+              
+                <div class="row my-4" *ngIf="estudio.iuid &&
+                                             (estudio.equipoDicom.modalidad === 'DX' || 
+                                             estudio.equipoDicom.modalidad === 'CR' || 
+                                             estudio.equipoDicom.modalidad === 'OT' )" >    
                     <div class="col">
-                        <button type="button" class="btn btn-success btn-lg" (click)="verInterpretacion(estudio)">
+                        <button type="button" class="btn btn-success btn-lg" (click)="descargarImagenes(estudio.iuid)">
                             Descargar imágenes
                         </button>
                     </div>
                 </div>
-            -->
+            
 
                 <div class="row my-4" *ngIf="estudio.iuid?.length>0">
                     <div class="col">

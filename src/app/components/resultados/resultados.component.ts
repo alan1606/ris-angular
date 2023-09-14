@@ -8,6 +8,9 @@ import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.
 import { InterpretacionService } from 'src/app/services/interpretacion.service';
 import { MultimediaService } from 'src/app/services/multimedia.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
+import { StudiesService } from 'src/app/services/studies.service';
+import { HttpClient } from '@angular/common/http';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -30,7 +33,9 @@ export class ResultadosComponent implements OnInit {
     private antecedenteEstudioService: AntecedenteEstudioService,
     private route: ActivatedRoute,
     private interpretacionService: InterpretacionService,
-    private router: Router) { }
+    private studiesService: StudiesService, 
+    private router: Router,
+    private http: HttpClient) { }
   
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -116,4 +121,40 @@ export class ResultadosComponent implements OnInit {
       window.open(fileURL, '_blank');
     });
   }
+
+  descargarImagenes(iuid: string){
+    this.studiesService.buscarUrlsJpg(iuid).subscribe(urls => {
+      for(let i=0; i<urls.length; i++){
+        this.descargar(urls[i], i);
+      }
+    });
+  }
+
+ 
+  descargar(img, i){
+    const imgUrl = img;
+    const imgName = `${this.estudio.paciente.nombre} ${this.estudio.concepto.concepto} ${i+1}`;
+    this.http.get(imgUrl, {responseType: 'blob' as 'json'})
+      .subscribe((res: any) => {
+        const file = new Blob([res], {type: res.type});
+
+        const blob = window.URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = blob;
+        link.download = imgName;
+
+        // Version link.click() to work at firefox
+        link.dispatchEvent(new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        }));
+
+        setTimeout(() => { // firefox
+          window.URL.revokeObjectURL(blob);
+          link.remove();
+        }, 100);
+      });
+  }
+
 }
