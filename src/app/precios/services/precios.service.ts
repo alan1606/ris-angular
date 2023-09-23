@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BASE_ENDPOINT } from 'src/app/config/app';
 import { Observable } from 'rxjs';
-import { ConceptoPrecio } from '../models/concepto';
+import { ConceptoPrecio } from '../models/concepto-precio';
 import { Concepto } from 'src/app/models/concepto';
 
 @Injectable({

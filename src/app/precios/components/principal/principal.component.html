@@ -24,6 +24,7 @@
 <div class="card text-dark bg-light mb-3"> 
 <div class="card-header">{{titulo}}</div>
 <div class="card-body">
+    <button class="btn btn-primary my-2" routerLink="/precios/conceptos/form">Crear</button>
     <div class="alert alert-info" *ngIf="lista?.length==0">
         No hay conceptos en el sistema.
     </div>
@@ -33,9 +34,10 @@
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
-                <th>Área</th>
+                <th>Cambiar</th>
                 <th>Precio</th>
-                <th>Modificar</th>
+                <th>Área</th>
+                <th>Editar</th>
             </tr>
         </thead>
 
@@ -43,11 +45,16 @@
             <tr *ngFor="let conceptoPrecio of lista">
                 <td>{{conceptoPrecio.id}}</td>
                 <td>{{conceptoPrecio.concepto.concepto}}</td>
-                <td>{{conceptoPrecio.concepto.area.nombre}}</td>
-                <td>{{conceptoPrecio.precio}} </td>
                 <td >
                     <button class="btn btn-success btn-sm" (click)="cambiarPrecio(conceptoPrecio)">
                         Cambiar precio
+                    </button>
+                </td>
+                <td>{{conceptoPrecio.precio}} </td>
+                <td>{{conceptoPrecio.concepto.area.nombre}}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm"  [routerLink]="['/precios/conceptos/form', conceptoPrecio.concepto.id]">
+                        Editar
                     </button>
                 </td>
             </tr>

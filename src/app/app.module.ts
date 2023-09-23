@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { LayoutModule } from './layout/layout.module';
-import { ConceptosFormComponent } from './components/conceptos/conceptos-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
@@ -57,7 +56,6 @@ import { LogoutComponent } from './components/logout/logout.component';
         AppComponent,
         PacientesComponent,
         ConceptosComponent,
-        ConceptosFormComponent,
         PacientesFormComponent,
         VentaConceptosComponent,
         BuscarEstudioModalComponent,
