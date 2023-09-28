@@ -91,7 +91,7 @@ export class ResultadosComponent implements OnInit {
   }
 
   ver(estudio: VentaConceptos): void {
-    window.open(`${VIEWER}/${estudio.iuid}`);
+    window.open(`${VIEWER}${estudio.iuid}`);
   }
 
   descargarZip(estudio: VentaConceptos): void {

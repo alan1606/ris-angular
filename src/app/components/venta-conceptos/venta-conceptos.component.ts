@@ -63,7 +63,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
 
 
   ver(estudio: VentaConceptos): void {
-    window.open(`${VIEWER}/${estudio.iuid}`);
+    window.open(`${VIEWER}${estudio.iuid}`);
   }
 
   mostrarNombre(area?: Area): string {
