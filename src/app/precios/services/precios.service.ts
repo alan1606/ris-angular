@@ -16,6 +16,11 @@ export class PreciosService{
 
   constructor(private http: HttpClient) {}
 
+  public crear(conceptoPrecio: ConceptoPrecio): Observable<ConceptoPrecio>{
+    return this.http.post<ConceptoPrecio>(this.baseEndpoint, conceptoPrecio,
+      { headers: this.cabeceras });
+  }
+
   public buscarPorNombre(nombre:string, page: string, size: string): Observable<any> {
     const params = new HttpParams()
       .set('page', page)

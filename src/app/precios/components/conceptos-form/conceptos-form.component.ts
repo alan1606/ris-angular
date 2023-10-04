@@ -10,6 +10,7 @@ import { flatMap, map, mergeMap } from 'rxjs';
 import { AreasService } from 'src/app/services/areas.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PreciosService } from '../../services/precios.service';
+import { ConceptoPrecio } from '../../models/concepto-precio';
 
 @Component({
   selector: 'app-conceptos-form',
@@ -65,7 +66,15 @@ export class ConceptosFormComponent  {
 
 
   public crear() : void{
-    this.service.crear(this.model).subscribe(model =>{
+    if(!this.precio){
+      this.precio = 0;
+    }
+
+    let conceptoPrecio: ConceptoPrecio = new ConceptoPrecio;
+    conceptoPrecio.concepto = this.model;
+    conceptoPrecio.precio = this.precio; 
+
+    this.preciosService.crear(conceptoPrecio).subscribe(model =>{
       console.log(model);
       Swal.fire('Nuevo:' , `${this.nombreModel} creado con éxito`, 'success');
       this.router.navigate([this.redirect]);
@@ -78,7 +87,15 @@ export class ConceptosFormComponent  {
   }
 
   public editar() : void{
-    this.service.editar(this.model).subscribe(concepto =>{
+    if(!this.precio){
+      this.precio = 0;
+    }
+
+    let conceptoPrecio: ConceptoPrecio = new ConceptoPrecio;
+    conceptoPrecio.concepto = this.model;
+    conceptoPrecio.precio = this.precio; 
+
+    this.preciosService.editar(conceptoPrecio).subscribe(concepto =>{
       console.log(concepto);
       Swal.fire('Modificado: ' , `${this.nombreModel} actualizado con éxito`, "success");
       this.router.navigate([this.redirect]);
