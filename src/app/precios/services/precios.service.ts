@@ -21,6 +21,11 @@ export class PreciosService{
       { headers: this.cabeceras });
   }
 
+  public editar(conceptoPrecio: ConceptoPrecio): Observable<ConceptoPrecio> {
+    return this.http.put<ConceptoPrecio>(`${this.baseEndpoint}/${conceptoPrecio.concepto.id}`, conceptoPrecio,
+      { headers: this.cabeceras });
+  }
+
   public buscarPorNombre(nombre:string, page: string, size: string): Observable<any> {
     const params = new HttpParams()
       .set('page', page)
