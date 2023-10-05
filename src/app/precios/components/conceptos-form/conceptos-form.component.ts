@@ -46,15 +46,6 @@ export class ConceptosFormComponent  {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id: number = +params.get('id');
-      if(id){
-        this.service.ver(id).subscribe(model => {
-          this.model = model;
-          this.buscarPrecio();
-        });
-      }
-    });
 
     this.autocompleteControlArea.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombre),
@@ -62,6 +53,19 @@ export class ConceptosFormComponent  {
     ).subscribe(areas => {
       this.areasFiltradas = areas;
     });
+
+    this.route.paramMap.subscribe(params => {
+      const id: number = +params.get('id');
+      if(id){
+        this.service.ver(id).subscribe(model => {
+          this.model = model;
+          this.autocompleteControlArea.setValue(model.area);
+          this.buscarPrecio();
+        });
+      }
+    });
+
+   
   }
 
 
@@ -109,6 +113,8 @@ export class ConceptosFormComponent  {
 
   seleccionarArea(event: MatAutocompleteSelectedEvent){
     this.area = event.option.value as Area;
+
+    this.model.area = this.area;
 
     event.option.deselect();
     event.option.focus();
