@@ -12,13 +12,15 @@ import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ConceptosFormComponent } from './components/conceptos-form/conceptos-form.component';
 
 
 
 @NgModule({
   declarations: [
     PrincipalComponent,
-    ModificarPrecioModalComponent
+    ModificarPrecioModalComponent,
+    ConceptosFormComponent
   ],
   imports: [
     CommonModule, 
@@ -33,7 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     MatButtonModule,
     MatDialogModule
-  ],
+    ],
   entryComponents: [
     ModificarPrecioModalComponent
   ]

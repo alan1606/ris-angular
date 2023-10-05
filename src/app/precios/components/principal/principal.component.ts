@@ -6,10 +6,11 @@ import { FormControl } from '@angular/forms';
 import { AreasService } from 'src/app/services/areas.service';
 import { map, flatMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ConceptoPrecio } from '../../models/concepto';
+import { ConceptoPrecio } from '../../models/concepto-precio';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { ModificarPrecioModalComponent } from '../modificar-precio-modal/modificar-precio-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -39,7 +40,8 @@ export class PrincipalComponent{
   constructor(
     private service: PreciosService,
     private areasService: AreasService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { 
     this.titulo = "Tabulador de precios";
   }

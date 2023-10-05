@@ -1,0 +1,55 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-secondary my-2" routerLink="/precios">Volver</button>
+
+        <form>
+            <div class="form-group my-2">
+                <label for="concepto">Concepto</label>
+                <input type="text" name="concepto" id="concepto" class="form-control" 
+                [(ngModel)] = "model.concepto">
+                <div class="alert alert-danger" *ngIf="error?.concepto">
+                    {{error.concepto}}
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <mat-form-field>
+                  <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
+                    [matAutocomplete]="autocompleteArea">
+                  <mat-autocomplete #autocompleteArea="matAutocomplete" [displayWith]="mostrarNombreArea"
+                    (optionSelected)="seleccionarArea($event)">
+                    <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+                      {{area.nombre}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+            <div class="form-group my-2">
+                <label for="precio">Precio</label>
+                <input type="text" name="precio" id="precio" class="form-control" 
+                [(ngModel)] = "precio">
+                <div class="alert alert-danger" *ngIf="error?.precio">
+                    {{error.precio}}
+                </div>
+            </div>
+
+            <div class="form-check my-2">
+                <label for="dicom">Dicom</label>
+                <input type="checkbox" name="dicom" id="dicom" class="form-check-input"
+                [(ngModel)] = "model.dicom">
+            </div>
+
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" 
+                (click) = "model?.id ? editar() : crear()">
+                    {{ model.id ? 'Editar' : 'Crear' }}
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BASE_ENDPOINT } from 'src/app/config/app';
 import { Observable } from 'rxjs';
-import { ConceptoPrecio } from '../models/concepto';
+import { ConceptoPrecio } from '../models/concepto-precio';
 import { Concepto } from 'src/app/models/concepto';
 
 @Injectable({
@@ -15,6 +15,16 @@ export class PreciosService{
   protected cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient) {}
+
+  public crear(conceptoPrecio: ConceptoPrecio): Observable<ConceptoPrecio>{
+    return this.http.post<ConceptoPrecio>(this.baseEndpoint, conceptoPrecio,
+      { headers: this.cabeceras });
+  }
+
+  public editar(conceptoPrecio: ConceptoPrecio): Observable<ConceptoPrecio> {
+    return this.http.put<ConceptoPrecio>(`${this.baseEndpoint}/${conceptoPrecio.concepto.id}`, conceptoPrecio,
+      { headers: this.cabeceras });
+  }
 
   public buscarPorNombre(nombre:string, page: string, size: string): Observable<any> {
     const params = new HttpParams()
