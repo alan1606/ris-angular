@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, retry, switchMap, take, throwError } from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -60,6 +60,7 @@ export class ResourceInterceptor implements HttpInterceptor {
       console.log("refrescando token");
 
       return this.authService.refreshToken().pipe(
+        retry(3),
         switchMap(({ access_token, refresh_token }) => {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(access_token);

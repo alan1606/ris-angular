@@ -149,4 +149,16 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+  private logoutIfTokenExpired(): void {
+    if (this.tokenService.isLogged && !this.tokenService.isAccessTokenExpired() &&  !this.tokenService.isRefreshTokenExpired()) {
+      // Los tokens no han expirado, no hace falta hacer logout.
+      return;
+    }
+  
+    // Al menos uno de los tokens ha expirado, se hace logout.
+    console.log('Los tokens han expirado. Cerrando sesión...');
+    this.tokenService.logOut();
+    this.router.navigate(['/']);
+  }
 }

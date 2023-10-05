@@ -37,7 +37,7 @@ export class TokenService {
   }
 
   isLogged(): boolean{
-    let result: boolean = localStorage.getItem(ACCESS_TOKEN) != null;
+    let result: boolean = localStorage.getItem(ACCESS_TOKEN) != null && localStorage.getItem(REFRESH_TOKEN) != null;
     return result;
   }
 
