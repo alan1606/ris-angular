@@ -150,6 +150,15 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
+
+  puedeAbrirTabulador(): boolean{
+    if(this.isAdmin){
+      return true;
+    }
+    return false;
+  }
+
+
   private logoutIfTokenExpired(): void {
     if (this.tokenService.isLogged && !this.tokenService.isAccessTokenExpired() &&  !this.tokenService.isRefreshTokenExpired()) {
       // Los tokens no han expirado, no hace falta hacer logout.

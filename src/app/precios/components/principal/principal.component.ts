@@ -11,6 +11,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { ModificarPrecioModalComponent } from '../modificar-precio-modal/modificar-precio-modal.component';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-principal',
@@ -115,6 +116,13 @@ export class PrincipalComponent{
       this.totalRegistros = p.totalElements as number;
       this.paginator._intl.itemsPerPageLabel = 'Registros:';
       console.log(this.lista);
+      this.nombreBuscar.nativeElement.value = "";
+    },
+    error =>{
+      if(error.status == 404){
+        Swal.fire('No encontrado', 'No existe el estudio ' + nombreBuscar, 'error');
+        this.nombreBuscar.nativeElement.value = "";
+      }
     });
   }
 
