@@ -39,7 +39,7 @@ export class BuscarEstudioModalComponent implements OnInit {
   }
 
   ver(estudio: Study): void {
-    window.open(`${VIEWER}/${estudio.studyIuid}`);
+    window.open(`${VIEWER}${estudio.studyIuid}`);
   }
 
   vincular(estudio: Study): void {

@@ -24,7 +24,7 @@ export class ResourceInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token =  this.tokenService.getAccessToken();
-    if(token !=null ){
+    if(token !=null){
       request = this.addToken(request, token);
     }
     return next.handle(request).pipe(

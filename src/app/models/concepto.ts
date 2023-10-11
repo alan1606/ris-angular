@@ -10,5 +10,5 @@ export class Concepto implements Generic{
     dicom: boolean;
     instrucciones: Instrucciones;
     requiereSaberAntecedentes: boolean;
-
+    precio: number;
 }
