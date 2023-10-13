@@ -7,11 +7,10 @@ import { CampaniaService } from '../../services/campania.service';
 import Swal from 'sweetalert2';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Area } from 'src/app/models/area';
-import { Concepto } from 'src/app/models/concepto';
-import { flatMap, map, mergeMap } from 'rxjs';
+import { Concepto } from '../../models/concepto';
+import { map, mergeMap } from 'rxjs';
 import { AreasService } from 'src/app/services/areas.service';
 import { ConceptosService } from 'src/app/services/conceptos.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -40,10 +39,6 @@ export class CrearCampaniaComponent implements OnInit {
   conceptosFiltrados: Concepto[] = [];
   estudios: Concepto[] = [];
 
-  total: number = 0;
-  pesos: number;
-  porcentaje: number;
-  totalCobrar: number;
 
   constructor(
     private service: CampaniaService,
@@ -174,7 +169,6 @@ export class CrearCampaniaComponent implements OnInit {
     this.conceptoService.ver(this.concepto.id).subscribe(concepto => {
       this.concepto = concepto;
       this.estudios = this.unirConceptos(this.estudios, [this.concepto]);
-      this.calcularTotal();
     });
 
 
@@ -207,7 +201,6 @@ export class CrearCampaniaComponent implements OnInit {
     if (seleccionado) {
       this.conceptoService.listar().subscribe(conceptos => {
         this.estudios = this.unirConceptos(this.estudios, conceptos);
-        this.calcularTotal();
       });
     }
   }
@@ -219,14 +212,12 @@ export class CrearCampaniaComponent implements OnInit {
     if (seleccionado) {
       this.conceptoService.buscarPorArea(this.area).subscribe(conceptos => {
         this.estudios = this.unirConceptos(this.estudios, conceptos);
-        this.calcularTotal();
       });
     }
   }
 
   quitar(concepto: Concepto) {
     this.estudios = this.estudios.filter(estudio => estudio.id != concepto.id);
-    this.calcularTotal();
   }
 
   private unirConceptos(conceptos: Concepto[], conceptosUnir: Concepto[]): Concepto[] {
@@ -234,63 +225,46 @@ export class CrearCampaniaComponent implements OnInit {
     return res;
   }
 
-  private calcularTotal(): void {
-    this.total = 0;
-    this.estudios.forEach(({precio}) => {
-      this.total += precio;
-    });
-    this.calcularTotalCobrar();
-    this.cambioPesos(this.pesos);
-  }
-
-  cambiarPorcentaje(event){
-    const porcentaje = event.target.value;
-    this.cambioPorcentaje(porcentaje);
-  }
-
-  private cambioPorcentaje(porcentaje: number){
-    if(isNaN(porcentaje) || porcentaje == null){
-      this.pesos=0;
+  ingresarPorcentaje(event, index: number){
+    const valor = parseInt((event.target as HTMLInputElement).value);
+    if(isNaN(valor) || valor == null){
+      this.estudios[index].porcentajeDescuento = 0;
+      this.estudios[index].montoDescuento = 0;
+      this.estudios[index].precioDespuesDescuento = this.estudios[index].precio;
       return;
     }
-    if(porcentaje <= 0 || porcentaje>100){
-      this.pesos=0;
+    if(valor < 0 || valor > 100){
+      this.estudios[index].porcentajeDescuento = 0;
+      this.estudios[index].montoDescuento = 0;
+      this.estudios[index].precioDespuesDescuento = this.estudios[index].precio;
       return;
     }
-    console.log(porcentaje);
-    this.pesos = this.total * (this.porcentaje) / 100;
-    this.calcularTotalCobrar();
+
+    this.estudios[index].porcentajeDescuento = this.redondear(valor);
+    this.estudios[index].montoDescuento = this.redondear(this.estudios[index].precio * (valor) / 100);
+    this.estudios[index].precioDespuesDescuento = this.redondear(this.estudios[index].precio * (100-valor) / 100);
+  }
+   
+  ingresarMonto(event, index: number){
+    const valor = parseFloat((event.target as HTMLInputElement).value);
+    if(isNaN(valor) || valor == null){
+      this.estudios[index].porcentajeDescuento = 0;
+      this.estudios[index].montoDescuento = 0;
+      this.estudios[index].precioDespuesDescuento = this.estudios[index].precio;
+      return;
+    }
+    if(valor < 0 || valor > this.estudios[index].precio){
+      this.estudios[index].porcentajeDescuento = 0;
+      this.estudios[index].montoDescuento = 0;
+      this.estudios[index].precioDespuesDescuento = this.estudios[index].precio;
+      return;
+    }
+    this.estudios[index].porcentajeDescuento =  this.redondear(100 * (valor) / this.estudios[index].precio);
+    this.estudios[index].montoDescuento = this.redondear(valor);
+    this.estudios[index].precioDespuesDescuento = this.redondear(this.estudios[index].precio - valor);
   }
 
-  cambiarPesos(event){
-    const pesos = event.target.value;
-    this.cambioPesos(pesos);
+  private redondear(numero: number): number{
+    return Math.round(numero*100) / 100;
   }
-
-  private cambioPesos(pesos: number){
-    if(isNaN(pesos) || pesos == null){
-      this.porcentaje=0;
-      return;
-    }
-    if(pesos < 0 || pesos>this.total){
-      this.porcentaje=0;
-      return;
-    }    
-    if(this.total == 0){
-      return;
-    }
-    this.porcentaje = pesos * (100) / this.total;
-    this.calcularTotalCobrar();
-  }
-
-  private calcularTotalCobrar(): void{
-    if(this.porcentaje == null || this.porcentaje == 0){
-      return;
-    }
-    if(this.pesos == null){
-      return;
-    }
-    this.totalCobrar = this.total - this.pesos;
-  }
-
 }

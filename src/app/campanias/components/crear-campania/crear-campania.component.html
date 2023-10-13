@@ -180,15 +180,48 @@
               <th>Estudio</th>
               <th>Area</th>
               <th>Precio</th>
+              <th>% descuento</th>
+              <th>Monto descuento</th>
+              <th>Precio</th>
               <th>Quitar</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngFor="let estudio of estudios">
+            <tr *ngFor="let estudio of estudios; index as i">
               <td>{{ estudio.concepto }}</td>
               <td>{{ estudio.area.nombre }}</td>
               <td>{{ estudio.precio }}</td>
+              <td>
+                <input
+                  type="text"
+                  name="porcentajeDescuento{{i}}"
+                  id="porcentajeDescuento{{i}}"
+                  class="form-control"
+                  (input)="ingresarPorcentaje($event, i)"
+                  [(ngModel)]="estudio.porcentajeDescuento"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="montoDescuento{{i}}"
+                  id="montoDescuento{{i}}"
+                  class="form-control"
+                  (input)="ingresarMonto($event, i)"
+                  [(ngModel)]="estudio.montoDescuento"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="precioDespuesDescuento{{i}}"
+                  id="precioDespuesDescuento{{i}}"
+                  class="form-control"
+                  disabled
+                  [(ngModel)]="estudio.precioDespuesDescuento"
+                />
+              </td>
               <td>
                 <button class="btn btn-danger btn-md" (click)="quitar(estudio)">
                   -
@@ -197,55 +230,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="form-group my-3" *ngIf="estudios?.length > 0">
-        <label for="nombre">Total</label>
-        <input
-          type="text"
-          name="total"
-          id="total"
-          class="form-control"
-          disabled
-          [(ngModel)]="total"
-        />
-      </div>
-
-      <div class="form-group my-3" *ngIf="estudios?.length > 0">
-        <label for="nombre">Descuento en %</label>
-        <input
-          type="text"
-          name="porcentaje"
-          id="porcentaje"
-          class="form-control"
-          (keyup)="cambiarPorcentaje($event)"
-          [(ngModel)]="porcentaje"
-        />
-      </div>
-
-
-      <div class="form-group my-3" *ngIf="estudios?.length > 0">
-        <label for="nombre">Descuento en pesos</label>
-        <input
-          type="text"
-          name="pesos"
-          id="pesos"
-          class="form-control"
-          (keyup)="cambiarPesos($event)"
-          [(ngModel)]="pesos"
-        />
-      </div>
-
-      <div class="form-group my-3" *ngIf="estudios?.length > 0">
-        <label for="nombre">Total a cobrar</label>
-        <input
-          type="text"
-          name="totalCobrar"
-          id="totalCobrar"
-          class="form-control"
-          disabled
-          [(ngModel)]="totalCobrar"
-        />
       </div>
 
       <div class="form-group">
