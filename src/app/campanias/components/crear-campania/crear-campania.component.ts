@@ -95,6 +95,11 @@ export class CrearCampaniaComponent implements OnInit {
 
 
   editar(): void {
+    this.campania.conceptos = this.estudios;
+    if(!this.datosValidos()){
+      Swal.fire("Error", "Complete todos los descuentos antes de continuar", "error");
+      return;
+    }
     this.service.editar(this.campania).subscribe(concepto => {
       console.log(concepto);
       Swal.fire('Modificado: ', `Campaña actualizada con éxito`, "success");
@@ -102,6 +107,7 @@ export class CrearCampaniaComponent implements OnInit {
     }, err => {
       if (err.status === 400) {
         this.error = err.error;
+        console.log(this.error);
         if (this.error.detail)
           Swal.fire("Fechas", "No se puede poner una fecha de fin anterior a la de inicio", "error");
       }
@@ -110,6 +116,11 @@ export class CrearCampaniaComponent implements OnInit {
   }
 
   crear(): void {
+    this.campania.conceptos = this.estudios;
+    if(!this.datosValidos()){
+      Swal.fire("Error", "Complete todos los descuentos antes de continuar", "error");
+      return;
+    }
     this.service.crear(this.campania).subscribe(model => {
       console.log(model);
       Swal.fire('Nuevo:', `Campaña creada con éxito`, 'success');
@@ -117,6 +128,7 @@ export class CrearCampaniaComponent implements OnInit {
     }, err => {
       if (err.status === 400) {
         this.error = err.error;
+        console.log(this.error);
         if (this.error.detail)
           Swal.fire("Fechas", "No se puede poner una fecha de fin anterior a la de inicio", "error");
       }
@@ -126,22 +138,16 @@ export class CrearCampaniaComponent implements OnInit {
 
 
   datosValidos(): boolean {
-    if (this.campania.nombre == '') {
-      return false;
+    let res:boolean = true;
+    if(this.estudios.length > 0){
+      this.estudios.forEach(estudio => {
+        if(!estudio.precio) {res= false;}
+        if(!estudio.porcentajeDescuento) {res = false;}
+        if(!estudio.precioDespuesDescuento) {res = false;}
+        if(!estudio.montoDescuento) {res = false;}
+      });
     }
-    if (this.campania.fechaInicio == '') {
-      return false;
-    }
-    if (this.campania.fechaFin == '') {
-      return false;
-    }
-    if (this.campania.codigo == '') {
-      return false;
-    }
-    if (this.campania.descripcion == '') {
-      return false;
-    }
-    return true;
+    return res;
   }
 
   seleccionarFechaInicio(fecha: HTMLInputElement): void {

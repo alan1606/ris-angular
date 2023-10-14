@@ -1,3 +1,5 @@
+import { Concepto } from "./concepto";
+
 export class Campania {
     id: number;
     nombre: string;
@@ -9,4 +11,5 @@ export class Campania {
     activa: boolean;
     cantidadUsado: number;
     ordenes: number[];
+    conceptos: Concepto[];
 }
