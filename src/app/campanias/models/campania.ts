@@ -12,4 +12,5 @@ export class Campania {
     cantidadUsado: number;
     ordenes: number[];
     conceptos: Concepto[];
+    limiteCanjeos: number;
 }

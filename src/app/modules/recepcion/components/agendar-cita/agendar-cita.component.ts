@@ -406,6 +406,7 @@ export class AgendarCitaComponent implements OnInit {
     const campaniaOrden: CampaniaOrden = new CampaniaOrden();
     campaniaOrden.campania = this.campania;
     campaniaOrden.ordenId = this.ordenVenta.id;
+    console.log(campaniaOrden);
     this.campaniasService.registrarCampaniaOrden(campaniaOrden).subscribe(campaniaOrden => {
       console.log("Promoción contada");
     },

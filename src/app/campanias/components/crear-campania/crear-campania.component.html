@@ -92,6 +92,23 @@
         </div>
       </div>
 
+      <div class="form-group my-3">
+        <label for="telefono">Límite de canjeos (0 sin límite)</label>
+        <input
+          type="number"
+          name="limite"
+          id="limite"
+          class="form-control"
+          min = "0"
+          max = "100000"
+          [(ngModel)]="campania.limiteCanjeos"
+        />
+        <div class="alert alert-danger" *ngIf="error?.descripcion">
+          {{ error.descripcion }}
+        </div>
+      </div>
+
+      
       <div class="form-check my-3">
         <label for="activo">Activa</label>
         <input
