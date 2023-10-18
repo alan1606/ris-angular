@@ -1,4 +1,4 @@
-import { Concepto } from "./concepto";
+import { Concepto } from "src/app/models/concepto";
 
 export class Campania {
     id: number;

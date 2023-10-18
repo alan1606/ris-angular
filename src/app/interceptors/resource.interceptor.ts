@@ -33,8 +33,9 @@ export class ResourceInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse && err.status === 401) {
           return this.handle401Error(request, next);
         }
-        return throwError(err);
-
+        else {
+          return this.handleGenericError(err);
+        }
       })
     );
   }
@@ -98,6 +99,13 @@ export class ResourceInterceptor implements HttpInterceptor {
   }
 
 
-
+  private handleGenericError(error: HttpErrorResponse) {
+    // Manejar cualquier otro error aquí de manera genérica
+    // Puedes redirigir a una página de error, mostrar un mensaje, etc.
+    console.error('Error occurred:', error);
+    // Por ejemplo, redirigir a una página de error
+    // this.router.navigate(['/error']);
+    return throwError('Ocurrió un error. Por favor, inténtelo de nuevo más tarde.');
+  }
 
 }

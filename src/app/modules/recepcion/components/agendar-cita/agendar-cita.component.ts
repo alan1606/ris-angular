@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { flatMap, map } from 'rxjs';
+import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
@@ -24,7 +24,6 @@ import Swal from 'sweetalert2';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
 import { CampaniaOrden } from 'src/app/campanias/models/campaniaOrden';
-import { PreciosService } from 'src/app/precios/services/precios.service';
 
 @Component({
   selector: 'app-agendar-cita',
@@ -47,10 +46,7 @@ export class AgendarCitaComponent implements OnInit {
     private medicoService: MedicoService,
     private ordenVentaService: OrdenVentaService,
     private campaniasService: CampaniaService,
-    private conceptoPrecioService: PreciosService
   ) { 
-    this.estudios.ventas = [];
-    this.estudios.precios = [];
   }
 
   titulo = "Agendar cita";
@@ -67,7 +63,7 @@ export class AgendarCitaComponent implements OnInit {
   areasFiltradas: Area[] = [];
   conceptosFiltrados: Concepto[] = [];
   equiposDicom: EquipoDicom[] = [];
-  estudios: VentaConceptosPrecio = new VentaConceptosPrecio();
+  estudios: VentaConceptos[] = [];
   medicosFiltrados: Medico[] = [];
 
   paciente: Paciente;
@@ -84,6 +80,8 @@ export class AgendarCitaComponent implements OnInit {
 
   campania: Campania = new Campania();
 
+  isCodigoPromocionalDisabled: boolean = false;
+
   ngOnInit(): void {
 
     this.cargarReferenteVacio();
@@ -91,29 +89,29 @@ export class AgendarCitaComponent implements OnInit {
 
     this.autocompleteControlPaciente.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
-      flatMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
+      mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
-      if(this.estudios.ventas?.length>0){
+      if(this.estudios.length > 0){
         this.pacientesFiltrados = [];
       }
     });
 
     this.autocompleteControlConvenio.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      flatMap(valor => valor ? this.institucionService.buscarLikeNombre(valor) : [])
+      mergeMap(valor => valor ? this.institucionService.buscarLikeNombre(valor) : [])
     ).subscribe(instituciones => this.conveniosFiltrados = instituciones);
 
     this.autocompleteControlConcepto.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.concepto),
-      flatMap(valor => valor && this.area?.id ?  this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id) : [])
+      mergeMap(valor => valor && this.area?.id ?  this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id) : [])
     ).subscribe(conceptos => {
       this.conceptosFiltrados = conceptos;
     });
 
     this.autocompleteControlArea.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      flatMap(valor => valor ? this.areaService.filtrarPorNombre(valor) : [])
+      mergeMap(valor => valor ? this.areaService.filtrarPorNombre(valor) : [])
     ).subscribe(areas => {
       this.areasFiltradas = areas;
       this.autocompleteControlConcepto.setValue("");
@@ -123,7 +121,7 @@ export class AgendarCitaComponent implements OnInit {
 
     this.autocompleteControlMedicoReferente.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombres),
-      flatMap(valor => valor ? this.medicoService.filtrarReferentesPorNombre(valor) : [])
+      mergeMap(valor => valor ? this.medicoService.filtrarReferentesPorNombre(valor) : [])
     ).subscribe(medicos => this.medicosFiltrados = medicos);
 
   }
@@ -201,34 +199,36 @@ export class AgendarCitaComponent implements OnInit {
     );
   }
 
-  agregarEstudio(): void{
-
-    if(!this.datosValidos()){
+  async agregarEstudio(): Promise<void> {
+    if (!this.datosValidos()) {
       return;
     }
-
-
-    if(this.estudios.ventas.length > 0 && this.estudios.ventas[0].paciente.id != this.paciente.id){
-      this.estudios.ventas = [];
+  
+    if (this.estudios.length > 0 && this.estudios[0].paciente.id != this.paciente.id) {
+      this.estudios = [];
       return;
     }
-
-    const estudio = new VentaConceptos;
-    estudio.id = this.estudios?.ventas.length < 1 ? 1 : this.estudios.ventas[this.estudios.ventas.length-1].id + 1;
-    estudio.concepto = this.concepto;
+  
+    const estudio = new VentaConceptos();
+  
+    try {
+      const concepto = await this.conceptoService.ver(this.concepto.id).toPromise();
+      estudio.concepto = concepto;
+    } catch (error) {
+      estudio.concepto = this.concepto;
+      estudio.concepto.precio = 0;
+    }
+  
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
     estudio.institucion = this.institucion;
     estudio.paciente = this.paciente;
-
-    this.estudios.ventas.push(estudio);
-
-    this.obtenerPrecio(estudio);
-
-
+  
+    this.estudios.push(estudio);
+  
+    this.calcularTotal();
+  
     this.limpiarCampos();
-
-
   }
 
 
@@ -248,7 +248,7 @@ export class AgendarCitaComponent implements OnInit {
 
     this.paciente = new Paciente();
     this.concepto = new Concepto();
-    this.estudios.ventas = [];
+    this.estudios = [];
     this.ordenVenta = new OrdenVenta();
     this.motivo = "";
     this.campania = new Campania();
@@ -258,6 +258,7 @@ export class AgendarCitaComponent implements OnInit {
     this.cargarConvenioParticularPorDefecto();
 
     this.autocompleteControlPaciente.setValue("");
+    this.isCodigoPromocionalDisabled = false;
   }
 
   datosValidos() : boolean {
@@ -279,9 +280,8 @@ export class AgendarCitaComponent implements OnInit {
     return true;
   }
 
-  quitarEstudio(id: number, i: number): void{
-    this.estudios.ventas = this.estudios.ventas.filter(estudio => estudio.id !== id);
-    this.estudios.precios.splice(i,1);
+  quitarEstudio(i: number): void{
+    this.estudios.splice(i,1);
     this.calcularTotal();
   }
 
@@ -296,10 +296,13 @@ export class AgendarCitaComponent implements OnInit {
     console.log("El paciente en la órden de venta es: ");
     console.log(this.ordenVenta.paciente);
 
+    if(this.campania){
+      this.ordenVenta.aplicarDescuento = true;
+      this.ordenVenta.codigoPromocional = this.campania.codigo;
+    }
 
     
     this.total = 0;
-    this.estudios.precios = [];
 
     if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
@@ -311,11 +314,10 @@ export class AgendarCitaComponent implements OnInit {
 
 
   private agendaNormal(): void{
-    this.ordenVentaService.venderConceptos(this.estudios.ventas, this.ordenVenta).subscribe(
+    this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
       estudios => {
-        this.estudios.ventas = estudios;
-        this.ordenVenta = this.estudios.ventas[0].ordenVenta;
-        this.aplicarPromocionAOrden();
+        this.estudios = estudios;
+        this.ordenVenta = this.estudios[0].ordenVenta;
         this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
         Swal.fire("Procesado", "La orden se ha procesado", "success")
@@ -329,11 +331,10 @@ export class AgendarCitaComponent implements OnInit {
 
 
   private agendaSaludParral(): void{
-    this.ordenVentaService.venderConceptosSaludParral(this.estudios.ventas, this.ordenVenta, this.folio).subscribe(
+    this.ordenVentaService.venderConceptosSaludParral(this.estudios, this.ordenVenta, this.folio).subscribe(
       estudios => {
-        this.estudios.ventas = estudios;
-        this.ordenVenta = this.estudios.ventas[0].ordenVenta;
-        this.aplicarPromocionAOrden();
+        this.estudios = estudios;
+        this.ordenVenta = this.estudios[0].ordenVenta;
         this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
         Swal.fire("Procesado", "La orden se ha procesado", "success")
@@ -387,12 +388,17 @@ export class AgendarCitaComponent implements OnInit {
       modalRef.afterClosed().subscribe(something =>{console.log(something)});
   }
 
-  buscarCodigoPromocional(): void{
+  buscarCodigoPromocional(event: KeyboardEvent): void{
+      event.preventDefault();
+      event.stopPropagation();
+
     if(this.codigoPromocion){
       this.campaniasService.buscarPorCodigo(this.codigoPromocion).subscribe(
         campania => {
           this.campania = campania;
-          Swal.fire("Aplicado", `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`, "success")
+          this.simularDescuento();
+          this.isCodigoPromocionalDisabled = true;
+          Swal.fire("Aplicado", `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`, "success");
         },
         () => {
           Swal.fire("No encontrado", "No se ha podido encontrar la campaña", "error");
@@ -402,43 +408,30 @@ export class AgendarCitaComponent implements OnInit {
   }
 
 
-  private aplicarPromocionAOrden(): void{
-    const campaniaOrden: CampaniaOrden = new CampaniaOrden();
-    campaniaOrden.campania = this.campania;
-    campaniaOrden.ordenId = this.ordenVenta.id;
-    console.log(campaniaOrden);
-    this.campaniasService.registrarCampaniaOrden(campaniaOrden).subscribe(campaniaOrden => {
-      console.log("Promoción contada");
-    },
-    () =>{
-      console.log("Promoción no contada");
-    });
+  private simularDescuento(): void{
+    for(let i=0; i<this.campania.conceptos.length; i++){
+      let concepto = this.campania.conceptos[i];
+      this.aplicarDescuento(concepto);
+    }
+    this.calcularTotal();
   }
 
-  private obtenerPrecio(estudio: VentaConceptos){
-    this.conceptoPrecioService.buscarPrecioDeConcepto(estudio.concepto).subscribe(cPrecio => {
-      this.estudios.precios.push(cPrecio.precio);
-      this.calcularTotal();
-    },
-      err => {
-        console.log(err);
+  private aplicarDescuento(concepto: Concepto){
+    for(let i=0; i<this.estudios.length; i++){
+      if(this.estudios[i].concepto.id == concepto.id){
+        this.estudios[i].concepto.precio = concepto.precioDespuesDescuento;
       }
-    );
+    }
   }
-
 
   private calcularTotal() {
     let total: number = 0;
-    this.estudios.precios.forEach(precio => total += precio);
+    this.estudios.forEach(estudio => total += estudio.concepto.precio);
 
     this.total = total;
   }
 
 }
 
-class VentaConceptosPrecio{
-  ventas: VentaConceptos[];
-  precios: number[];
 
-}
 

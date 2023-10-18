@@ -37,13 +37,6 @@
       </div>
 
 
-      <div class="from-group" *ngIf="this.institucion?.nombre == 'PARTICULAR'">
-        <mat-form-field class="example-full-width">
-          <mat-label>Código promocional</mat-label>
-          <input matInput placeholder="Código promocional" name="codigo" [(ngModel)]="codigoPromocion" (keyup.enter)="buscarCodigoPromocional()">
-        </mat-form-field>
-      </div>
-
       <div class="form-group">
         <mat-form-field>
           <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
@@ -91,7 +84,7 @@
 
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped" *ngIf="estudios?.ventas.length>0;">
+        <table class="table table-hover table-striped" *ngIf="estudios?.length>0;">
           <thead>
             <tr>
               <th>Id</th>
@@ -104,16 +97,16 @@
             </tr>
           </thead>
 
-          <tbody *ngIf="estudios?.ventas.length>0">
-            <tr *ngFor="let estudio of estudios.ventas; index as i">
-              <td>{{estudio.id}}</td>
+          <tbody *ngIf="estudios?.length>0">
+            <tr *ngFor="let estudio of estudios; index as i">
+              <td>{{i+1}}</td>
               <td>{{estudio.concepto.concepto}}</td>
               <td>{{estudio.concepto.area.nombre}}</td>
               <td>{{estudio.institucion.nombre}}</td>
               <td>{{estudio.equipoDicom.nombre}} </td>
-              <td>{{this.estudios.precios[i]}}</td>
+              <td>{{estudio.concepto.precio}}</td>
               <td>
-                <button class="btn btn-danger btn-md" (click)="quitarEstudio(estudio.id, i)">
+                <button type="button" class="btn btn-danger btn-md" (click)="quitarEstudio(i)">
                   -
                 </button>
               </td>
@@ -122,10 +115,18 @@
         </table>
       </div>
 
-      <div class="my-2" *ngIf="estudios?.ventas.length > 0 && institucion.nombre == 'PARTICULAR'">
+      <div class="my-2" *ngIf="estudios?.length > 0 && institucion.nombre == 'PARTICULAR'">
         <mat-card class="mitad verde final">
           <mat-card-content >{{'$' + total}}</mat-card-content>
         </mat-card>
+      </div>
+      
+      <div class="from-group" *ngIf="this.institucion?.nombre == 'PARTICULAR'">
+        <mat-form-field class="example-full-width">
+          <mat-label>Código promocional</mat-label>
+          <input matInput placeholder="Código promocional" name="codigo" [(ngModel)]="codigoPromocion" (keyup.enter)="buscarCodigoPromocional($event)"
+          [attr.disabled]="isCodigoPromocionalDisabled ? true : null">
+        </mat-form-field>
       </div>
 
       <div class="form-group my-3">
@@ -158,7 +159,7 @@
         </mat-form-field>
       </div>
 
-      <div class="form-group flex  my-3" *ngIf="this.estudios?.ventas.length > 0">
+      <div class="form-group flex  my-3" *ngIf="this.estudios?.length > 0">
         <button type="button" class="btn btn-primary" (click)="agendar()">
           {{this.institucion.nombre == 'PARTICULAR' ? 'PAGAR' : 'AGENDAR'}}
         </button>

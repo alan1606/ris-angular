@@ -17,6 +17,11 @@ export class ConceptosService extends CommonService<Concepto> {
     super(http);
   }
 
+
+  public override ver(id: number): Observable<Concepto> {
+    return this.http.get<Concepto>(`${this.baseEndpoint}/${id}`);
+  }
+
   public buscarLikeNombreEnArea(nombre: string, areaId: number): Observable<Concepto[]> {
     return this.http.get<Concepto[]>(`${this.baseEndpoint}/nombre/${nombre}/area/${areaId}`);
   }

@@ -11,4 +11,7 @@ export class Concepto implements Generic{
     instrucciones: Instrucciones;
     requiereSaberAntecedentes: boolean;
     precio: number;
+    porcentajeDescuento?: number;
+    montoDescuento?: number;
+    precioDespuesDescuento?: number;
 }

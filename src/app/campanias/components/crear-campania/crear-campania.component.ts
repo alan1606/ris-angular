@@ -7,10 +7,10 @@ import { CampaniaService } from '../../services/campania.service';
 import Swal from 'sweetalert2';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Area } from 'src/app/models/area';
-import { Concepto } from '../../models/concepto';
 import { map, mergeMap } from 'rxjs';
 import { AreasService } from 'src/app/services/areas.service';
 import { ConceptosService } from 'src/app/services/conceptos.service';
+import { Concepto } from 'src/app/models/concepto';
 
 
 @Component({
