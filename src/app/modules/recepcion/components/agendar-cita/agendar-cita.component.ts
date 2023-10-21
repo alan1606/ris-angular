@@ -296,7 +296,7 @@ export class AgendarCitaComponent implements OnInit {
     console.log("El paciente en la órden de venta es: ");
     console.log(this.ordenVenta.paciente);
 
-    if(this.campania){
+    if(this.campania.id){
       this.ordenVenta.aplicarDescuento = true;
       this.ordenVenta.codigoPromocional = this.campania.codigo;
     }
