@@ -61,6 +61,9 @@ export class CrearCampaniaComponent implements OnInit {
 
             this.fechaInicioControl.setValue(this.fechaSqlADate(campania.fechaInicio));
             this.fechaFinControl.setValue(this.fechaSqlADate(campania.fechaFin));
+
+            this.estudios = campania.conceptos;
+            console.log(campania);
           },
           () => this.router.navigate(['/campanias'])
         );
