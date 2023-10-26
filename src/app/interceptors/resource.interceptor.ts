@@ -71,9 +71,9 @@ export class ResourceInterceptor implements HttpInterceptor {
         catchError((err: any) => {
           this.isRefreshing = false;
           console.log(err);
-          this.tokenService.logOut();
-          this.router.navigate(['/']);
-          return throwError("Error al actualizar el token. Usuario desconectado.");
+          //this.tokenService.logOut();
+          //this.router.navigate(['/']);
+          return throwError("Error al actualizar el token");
         })
       );
   

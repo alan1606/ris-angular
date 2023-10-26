@@ -63,7 +63,6 @@ export class CrearCampaniaComponent implements OnInit {
             this.fechaFinControl.setValue(this.fechaSqlADate(campania.fechaFin));
 
             this.estudios = campania.conceptos;
-            console.log(campania);
           },
           () => this.router.navigate(['/campanias'])
         );
@@ -144,10 +143,10 @@ export class CrearCampaniaComponent implements OnInit {
     let res:boolean = true;
     if(this.estudios.length > 0){
       this.estudios.forEach(estudio => {
-        if(!estudio.precio) {res= false;}
-        if(!estudio.porcentajeDescuento) {res = false;}
-        if(!estudio.precioDespuesDescuento) {res = false;}
-        if(!estudio.montoDescuento) {res = false;}
+        if(!estudio.precio && estudio.precio != 0) {res= false;}
+        if(!estudio.porcentajeDescuento && estudio.porcentajeDescuento != 0) {res = false;}
+        if(!estudio.precioDespuesDescuento && estudio.precioDespuesDescuento != 0) {res = false;}
+        if(!estudio.montoDescuento && estudio.montoDescuento != 0) {res = false;}
       });
     }
     return res;
