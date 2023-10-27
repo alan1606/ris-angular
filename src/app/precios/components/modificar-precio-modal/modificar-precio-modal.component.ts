@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConceptoPrecio } from '../../models/concepto-precio';
 import { PreciosService } from '../../services/precios.service';
+import Swal from 'sweetalert2';
 
 
 @Component({

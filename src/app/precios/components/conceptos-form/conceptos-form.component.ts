@@ -107,6 +107,8 @@ export class ConceptosFormComponent  {
       if(err.status === 400){
         this.error = err.error;
         console.log(this.error);
+        Swal.fire("Error", err.error.detail, "error");
+        this.router.navigate([this.redirect]);
       }
     });
   }

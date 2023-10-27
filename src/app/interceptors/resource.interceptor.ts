@@ -105,7 +105,7 @@ export class ResourceInterceptor implements HttpInterceptor {
     console.error('Error occurred:', error);
     // Por ejemplo, redirigir a una página de error
     // this.router.navigate(['/error']);
-    return throwError('Ocurrió un error. Por favor, inténtelo de nuevo más tarde.');
+    return throwError(error);
   }
 
 }

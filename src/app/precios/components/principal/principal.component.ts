@@ -155,6 +155,11 @@ export class PrincipalComponent{
       console.log(["nuevo", nuevo]);
       conceptoPrecio = nuevo;
       
+    },
+    error =>{
+      if(error.status == 400){
+        Swal.fire("Error", error.error.detail, "error");
+      }
     });
   }
 
