@@ -19,26 +19,25 @@ export class AuthorizedComponent implements OnInit {
     private router: Router
     ) { }
 
-    async ngOnInit(): Promise<void> {
-      try {
-        this.activatedRoute.queryParams.subscribe(async (data) => {
-          this.code = data['code'];
-          const code_verifier = this.tokenService.getVerifier();
-          this.tokenService.deleteVerifier();
-          await this.getToken(this.code, code_verifier);
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  
-    async getToken(code: string, code_verifier: string): Promise<void> {
-      try {
-        const data = await this.authService.getToken(code, code_verifier).toPromise();
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(data =>{
+      this.code = data['code'];
+      const code_verifier = this.tokenService.getVerifier();
+      this.tokenService.deleteVerifier();
+      this.getToken(this.code, code_verifier);
+    });
+  }
+
+
+  getToken(code: string, code_verifier: string): void{
+    this.authService.getToken(code, code_verifier).subscribe(
+      data => {
         this.tokenService.setTokens(data.access_token, data.refresh_token);
         this.router.navigate(['']);
-      } catch (err) {
-        console.error(err);
+      },
+      err =>{
+        console.log(err);
       }
-    }
+    );
+  }
 }
