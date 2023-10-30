@@ -1,84 +1,263 @@
 <div class="card text-dark bg-light mb-3">
-    <div class="card-header">{{titulo}}</div>
-    <div class="card-body">
-        <button class="btn btn-secondary my-2" routerLink="/campanias">Volver</button>
+  <div class="card-header">{{ titulo }}</div>
+  <div class="card-body">
+    <button class="btn btn-secondary my-2" routerLink="/campanias">
+      Volver
+    </button>
 
-        <form>
-            <div class="form-group my-3">
-                <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control"
-                [(ngModel)] = "campania.nombre">
-                <div class="alert alert-danger" *ngIf="error?.nombre">
-                    {{error.nombre}}
-                </div>
-            </div>
+    <form>
+      <div class="form-group my-3">
+        <label for="nombre">Nombre</label>
+        <input
+          type="text"
+          name="nombre"
+          id="nombre"
+          class="form-control"
+          [(ngModel)]="campania.nombre"
+        />
+        <div class="alert alert-danger" *ngIf="error?.nombre">
+          {{ error.nombre }}
+        </div>
+      </div>
 
-             <div class="form-group my-3">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Fecha de inicio: </mat-label>
-                        <input matInput [matDatepicker]="inicio"
-                            (dateChange)="seleccionarFechaInicio(fechaInicio)"
-                               #fechaInicio [formControl]="fechaInicioControl">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="inicio"></mat-datepicker-toggle>
-                        <mat-datepicker #inicio></mat-datepicker>
-                      </mat-form-field>
-                      <div class="alert alert-danger" *ngIf="error?.fechaNacimiento">
-                        {{error.fechaNacimiento}}
-                    </div>
-                </div>
+      <div class="form-group my-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de inicio: </mat-label>
+          <input
+            matInput
+            [matDatepicker]="inicio"
+            (dateChange)="seleccionarFechaInicio(fechaInicio)"
+            #fechaInicio
+            [formControl]="fechaInicioControl"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="inicio"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #inicio></mat-datepicker>
+        </mat-form-field>
+        <div class="alert alert-danger" *ngIf="error?.fechaInicio">
+          {{ error.fechaInicio }}
+        </div>
+      </div>
 
-                <div class="form-group my-3">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Fecha de fin: </mat-label>
-                        <input matInput [matDatepicker]="fin"
-                            (dateChange)="seleccionarFechaFin(fechaFin)"
-                               #fechaFin [formControl]="fechaFinControl">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
-                        <mat-datepicker #fin></mat-datepicker>
-                      </mat-form-field>
-                      <div class="alert alert-danger" *ngIf="error?.fechaNacimiento">
-                        {{error.fechaNacimiento}}
-                    </div>
-                </div>
+      <div class="form-group my-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de fin: </mat-label>
+          <input
+            matInput
+            [matDatepicker]="fin"
+            (dateChange)="seleccionarFechaFin(fechaFin)"
+            #fechaFin
+            [formControl]="fechaFinControl"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="fin"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #fin></mat-datepicker>
+        </mat-form-field>
+        <div class="alert alert-danger" *ngIf="error?.fechaFin">
+          {{ error.fechaFin }}
+        </div>
+      </div>
 
-            <div class="form-group my-3">
-                <label for="nombre">Código</label>
-                <input type="text" name="curp" id="curp" class="form-control"
-                [(ngModel)] = "campania.codigo">
-                <div class="alert alert-danger" *ngIf="error?.codigo">
-                    {{error.codigo}}
-                </div>
-            </div>
+      <div class="form-group my-3">
+        <label for="nombre">Código</label>
+        <input
+          type="text"
+          name="curp"
+          id="curp"
+          class="form-control"
+          [(ngModel)]="campania.codigo"
+        />
+        <div class="alert alert-danger" *ngIf="error?.codigo">
+          {{ error.codigo }}
+        </div>
+      </div>
 
-            <div class="form-group my-3">
-                <label for="telefono">Descripción</label>
-                <input type="text" name="telefono" id="telefono" class="form-control"
-                [(ngModel)] = "campania.descripcion">
-                <div class="alert alert-danger" *ngIf="error?.descripcion">
-                    {{error.descripcion}}
-                </div>
-            </div>
+      <div class="form-group my-3">
+        <label for="telefono">Descripción</label>
+        <input
+          type="text"
+          name="telefono"
+          id="telefono"
+          class="form-control"
+          [(ngModel)]="campania.descripcion"
+        />
+        <div class="alert alert-danger" *ngIf="error?.descripcion">
+          {{ error.descripcion }}
+        </div>
+      </div>
 
+      <div class="form-group my-3">
+        <label for="telefono">Límite de canjeos (0 sin límite)</label>
+        <input
+          type="number"
+          name="limite"
+          id="limite"
+          class="form-control"
+          min = "0"
+          max = "100000"
+          [(ngModel)]="campania.limiteCanjeos"
+        />
+        <div class="alert alert-danger" *ngIf="error?.descripcion">
+          {{ error.descripcion }}
+        </div>
+      </div>
 
-            <div class="form-check my-3">
-                <label for="activo">Activa</label>
-                <input type="checkbox" name="activo" id="activo" class="form-check-input"
-                [(ngModel)] = "campania.activa">
-            </div>
+      
+      <div class="form-check my-3">
+        <label for="activo">Activa</label>
+        <input
+          type="checkbox"
+          name="activo"
+          id="activo"
+          class="form-check-input"
+          [(ngModel)]="campania.activa"
+        />
+      </div>
 
+      <div class="form-group" style="display: flex">
+        <mat-form-field style="width: 40%">
+          <input
+            matInput
+            placeholder="Área"
+            [formControl]="autocompleteControlArea"
+            [matAutocomplete]="autocompleteArea"
+            (keydown)="reiniciarArea()"
+          />
+          <mat-autocomplete
+            #autocompleteArea="matAutocomplete"
+            [displayWith]="mostrarNombreArea"
+            (optionSelected)="seleccionarArea($event)"
+          >
+            <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+              {{ area.nombre }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
+        <div class="form-check my-3" style="width: 60%">
+          <label for="todasAreas"
+            >Seleccionar todos los estudios del sistema</label
+          >
+          <input
+            type="checkbox"
+            name="todasAreas"
+            id="todasAreas"
+            class="form-check-input"
+            (click)="seleccionarTodosEstudios($event)"
+          />
+        </div>
+      </div>
 
-            <div class="form-group">
-                <button type="button" class="btn btn-primary"
-                (click) = "campania.id ? editar() : crear()">
-                    {{ campania.id ? 'Editar' : 'Crear' }}
+      <div class="form-group" style="display: flex" *ngIf="area">
+        <mat-form-field style="width: 40%">
+          <input
+            matInput
+            placeholder="Estudio"
+            [formControl]="autocompleteControlConcepto"
+            [matAutocomplete]="autocompleteConcepto"
+          />
+          <mat-autocomplete
+            #autocompleteConcepto="matAutocomplete"
+            [displayWith]="mostrarNombreConcepto"
+            (optionSelected)="seleccionarConcepto($event)"
+          >
+            <mat-option
+              *ngFor="let concepto of conceptosFiltrados"
+              [value]="concepto"
+            >
+              {{ concepto.concepto }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <div class="form-check my-3" style="width: 60%">
+          <label for="todosEstudios"
+            >Seleccionar todos los estudios de {{ area.nombre }}</label
+          >
+          <input
+            type="checkbox"
+            name="todosEstudios"
+            id="todosEstudios"
+            class="form-check-input"
+            (click)="seleccionarTodosEstudiosDeArea($event)"
+          />
+        </div>
+      </div>
+
+      <div class="table-responsive" *ngIf="estudios?.length > 0">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Estudio</th>
+              <th>Area</th>
+              <th>Precio</th>
+              <th>% descuento</th>
+              <th>Monto descuento</th>
+              <th>Precio</th>
+              <th>Quitar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let estudio of estudios; index as i">
+              <td>{{ estudio.concepto }}</td>
+              <td>{{ estudio.area.nombre }}</td>
+              <td>{{ estudio.precio }}</td>
+              <td>
+                <input
+                  type="text"
+                  name="porcentajeDescuento{{i}}"
+                  id="porcentajeDescuento{{i}}"
+                  class="form-control"
+                  (input)="ingresarPorcentaje($event, i)"
+                  [(ngModel)]="estudio.porcentajeDescuento"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="montoDescuento{{i}}"
+                  id="montoDescuento{{i}}"
+                  class="form-control"
+                  (input)="ingresarMonto($event, i)"
+                  [(ngModel)]="estudio.montoDescuento"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="precioDespuesDescuento{{i}}"
+                  id="precioDespuesDescuento{{i}}"
+                  class="form-control"
+                  disabled
+                  [(ngModel)]="estudio.precioDespuesDescuento"
+                />
+              </td>
+              <td>
+                <button class="btn btn-danger btn-md" (click)="quitar(estudio)">
+                  -
                 </button>
-            </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-
-        </form>
-    </div>
-
+      <div class="form-group">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="campania.id ? editar() : crear()"
+        >
+          {{ campania.id ? "Editar" : "Crear" }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

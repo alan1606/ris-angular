@@ -69,11 +69,23 @@ export class NavbarComponent implements OnInit {
   }
 
   getLogged(): void{
+
     this.isLogged = this.tokenService.isLogged();
     this.isAdmin = this.tokenService.isAdmin();
     this.isReceptionist = this.tokenService.isReceptionist();
     this.isRadiologicPhysician = this.tokenService.isRadiologicPhysician();
     this.isTechnician = this.tokenService.isTechnician();
+
+    if(this.isLogged && this.isTokensExipred()){
+      this.tokenService.logOut();
+      this.router.navigate(['/']);
+    }
+
+  }
+
+
+  private isTokensExipred() {
+    return this.tokenService.isAccessTokenExpired() && this.tokenService.isRefreshTokenExpired();
   }
 
 
@@ -149,4 +161,13 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+
+  puedeAbrirTabulador(): boolean{
+    if(this.isAdmin){
+      return true;
+    }
+    return false;
+  }
+
 }

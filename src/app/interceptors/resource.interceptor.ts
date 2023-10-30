@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, retry, switchMap, take, throwError } from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -24,7 +24,7 @@ export class ResourceInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token =  this.tokenService.getAccessToken();
-    if(token !=null ){
+    if(token !=null){
       request = this.addToken(request, token);
     }
     return next.handle(request).pipe(
@@ -33,8 +33,9 @@ export class ResourceInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse && err.status === 401) {
           return this.handle401Error(request, next);
         }
-        return throwError(err);
-
+        else {
+          return this.handleGenericError(err);
+        }
       })
     );
   }
@@ -60,6 +61,7 @@ export class ResourceInterceptor implements HttpInterceptor {
       console.log("refrescando token");
 
       return this.authService.refreshToken().pipe(
+        retry(3),
         switchMap(({ access_token, refresh_token }) => {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(access_token);
@@ -69,9 +71,9 @@ export class ResourceInterceptor implements HttpInterceptor {
         catchError((err: any) => {
           this.isRefreshing = false;
           console.log(err);
-          this.tokenService.logOut();
-          this.router.navigate(['/']);
-          return throwError("Error al actualizar el token. Usuario desconectado.");
+          //this.tokenService.logOut();
+          //this.router.navigate(['/']);
+          return throwError("Error al actualizar el token");
         })
       );
   
@@ -97,6 +99,13 @@ export class ResourceInterceptor implements HttpInterceptor {
   }
 
 
-
+  private handleGenericError(error: HttpErrorResponse) {
+    // Manejar cualquier otro error aquí de manera genérica
+    // Puedes redirigir a una página de error, mostrar un mensaje, etc.
+    console.error('Error occurred:', error);
+    // Por ejemplo, redirigir a una página de error
+    // this.router.navigate(['/error']);
+    return throwError(error);
+  }
 
 }

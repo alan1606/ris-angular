@@ -5,13 +5,14 @@ import { Paciente } from "./paciente";
 export class OrdenVenta implements Generic{
 
     id: number;
-    totalEi: number;
-    totelEl: number;
+    totalSinDescuento: number;
+    totalDespuesDescuento: number;
     paciente: Paciente;
     fechaVenta: string;
     medicoReferente: Medico;
     motivo: string;
     requiereFactura: boolean;
     pagado: boolean;
-    
+    aplicarDescuento: boolean;
+    codigoPromocional: string;
 }

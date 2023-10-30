@@ -15,12 +15,8 @@ export class TokenService {
   constructor() { }
 
   setTokens(accessToken: string, refresToken: string): void{
-    localStorage.removeItem(ACCESS_TOKEN);
     localStorage.setItem(ACCESS_TOKEN, accessToken);
-
-    localStorage.removeItem(REFRESH_TOKEN);
     localStorage.setItem(REFRESH_TOKEN, refresToken);
-
   }
 
   getAccessToken(): string | null{
@@ -37,7 +33,7 @@ export class TokenService {
   }
 
   isLogged(): boolean{
-    let result: boolean = localStorage.getItem(ACCESS_TOKEN) != null;
+    let result: boolean = localStorage.getItem(ACCESS_TOKEN) != null && localStorage.getItem(REFRESH_TOKEN) != null;
     return result;
   }
 
