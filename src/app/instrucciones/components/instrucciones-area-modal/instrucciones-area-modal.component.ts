@@ -13,6 +13,7 @@ export class InstruccionesAreaModalComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data.areaId);
+    
   }
 
 }
