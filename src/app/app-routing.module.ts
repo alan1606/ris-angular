@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
-import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
-import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 import { AgendaComponent } from './components/agenda/agenda.component';
@@ -16,7 +14,6 @@ import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
 import { AgendarCitaComponent } from './modules/recepcion/components/agendar-cita/agendar-cita.component';
-import { LoginComponent } from './components/usuarios/login/login.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ConceptosGuard } from './guards/conceptos.guard';
@@ -28,15 +25,11 @@ import { AdminGuard } from './guards/admin.guard';
 
 
 const routes: Routes = [
-  //{path : 'pacientes', component: PacientesComponent},
   {
     path : 'conceptos', 
     component: ConceptosComponent, 
     canActivate : [ConceptosGuard]
   },
-  //{path : 'pacientes/form/:id', component: PacientesFormComponent},
-  //{path : 'pacientes/form', component: PacientesFormComponent},
-
   {
     path : 'venta-conceptos', 
     component: VentaConceptosComponent, 

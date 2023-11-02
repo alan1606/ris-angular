@@ -1,12 +1,12 @@
-<div class="form-group">
-    <mat-form-field>
-      <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
-        [matAutocomplete]="autocompleteArea">
-      <mat-autocomplete #autocompleteArea="matAutocomplete" [displayWith]="mostrarNombreArea"
-        (optionSelected)="seleccionarArea($event)">
-        <mat-option *ngFor="let area of areasFiltradas" [value]="area">
-          {{area.nombre}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </div>
+
+<div class="d-flex justify-content-center">
+  <mat-form-field style="width: 80%;">
+    <mat-label>Area</mat-label>
+    <mat-select (selectionChange)="openDialog($event.value)">
+      <mat-option *ngFor="let area of areas" [value]="area.id">
+        {{area.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>

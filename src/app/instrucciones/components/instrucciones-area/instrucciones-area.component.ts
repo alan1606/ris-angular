@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { AreasService } from 'src/app/services/areas.service';
+import { InstruccionesAreaModalComponent } from '../instrucciones-area-modal/instrucciones-area-modal.component';
 
 @Component({
   selector: 'app-instrucciones-area',
@@ -12,32 +14,28 @@ import { AreasService } from 'src/app/services/areas.service';
 })
 export class InstruccionesAreaComponent implements OnInit {
 
-  autocompleteControlArea = new UntypedFormControl();
-  areasFiltradas: Area[] = [];
+  areas: Area[] = [];
   area: Area;
 
 
   constructor(
-    private areaService: AreasService
+    private areaService: AreasService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.autocompleteControlArea.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      mergeMap(valor => valor ? this.areaService.filtrarPorNombre(valor) : [])
-    ).subscribe(areas => {
-      this.areasFiltradas = areas;
+   this.areaService.listar().subscribe(areas => this.areas = areas);
+  }
+
+
+  openDialog(areaId: number): void {
+    const dialogRef = this.dialog.open(InstruccionesAreaModalComponent,{
+      data: {areaId}
     });
-  }
 
-  mostrarNombreArea(area?: Area): string {
-    return area ? area.nombre : '';
-  }
-
-  seleccionarArea(event: MatAutocompleteSelectedEvent){
-    this.area = event.option.value as Area;
-
-    event.option.deselect();
-    event.option.focus();
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+    });
   }
 }
