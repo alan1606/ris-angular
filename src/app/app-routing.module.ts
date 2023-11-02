@@ -118,6 +118,11 @@ const routes: Routes = [
       canActivate : [ AdminGuard ] 
   },
   {
+    path: 'instrucciones', 
+      loadChildren: () => import('./instrucciones/instrucciones.module').then( m => m.InstruccionesModule),
+      canActivate : [ AdminGuard ] 
+  },
+  {
     path: 'authorized', 
     component: AuthorizedComponent, 
     canActivate : []

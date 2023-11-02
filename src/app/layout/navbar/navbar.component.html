@@ -46,6 +46,17 @@
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/precios" routerLinkActive="active" *ngIf="puedeAbrirTabulador()">Tabulador</a>
         </li>
+        
+        <li class="nav-item" *ngIf="puedeAbrirInstrucciones()">
+            <a [matMenuTriggerFor]="menu" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Instrucciones
+            </a>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/instrucciones/concepto">Conceptos</button>
+            <button mat-menu-item routerLink="/instrucciones/institucion">Instituciones</button>
+            <button mat-menu-item routerLink="/instrucciones/area">Areas</button>
+          </mat-menu>
+        </li>
 
       </ul>
 
@@ -71,3 +82,5 @@
 
   </div>
 </nav>
+
+
