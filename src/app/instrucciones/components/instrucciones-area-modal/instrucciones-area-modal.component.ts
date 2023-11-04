@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Area } from 'src/app/models/area';
+import { AreasService } from 'src/app/services/areas.service';
 
 @Component({
   selector: 'app-instrucciones-area-modal',
@@ -8,12 +10,20 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class InstruccionesAreaModalComponent implements OnInit {
 
-  constructor( public dialogRef: MatDialogRef<InstruccionesAreaModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+  area: Area;
+
+  constructor( 
+    private areaService: AreasService,
+    public dialogRef: MatDialogRef<InstruccionesAreaModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) { }
 
   ngOnInit(): void {
-    console.log(this.data.areaId);
-    
+    if(this.data.areaId){
+      const id = this.data.areaId;
+      console.log(id);
+      this.areaService.ver(id).subscribe(area => this.area = area);
+    }
   }
 
 }

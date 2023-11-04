@@ -1,1 +1,5 @@
-<h1>Me corrooooooo</h1>
+<div class="form-group">
+    <label for="instrucciones">Instrucciones</label>
+    <textarea class="form-control" id="instrucciones" rows="6" [(ngModel)]="area.instrucciones"></textarea>
+</div>
+<button type="button" class="my-2 btn btn-primary" [mat-dialog-close]="area.instrucciones">Guardar</button>

@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { AreasService } from 'src/app/services/areas.service';
 import { InstruccionesAreaModalComponent } from '../instrucciones-area-modal/instrucciones-area-modal.component';
@@ -24,18 +21,28 @@ export class InstruccionesAreaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-   this.areaService.listar().subscribe(areas => this.areas = areas);
+    this.areaService.listar().subscribe(areas => this.areas = areas);
   }
 
 
   openDialog(areaId: number): void {
-    const dialogRef = this.dialog.open(InstruccionesAreaModalComponent,{
-      data: {areaId}
+    this.areaService.ver(areaId).subscribe(area => this.area= area);
+
+    const dialogRef = this.dialog.open(InstruccionesAreaModalComponent, {
+      data: { areaId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
+      if (result) {
+        this.area.instrucciones = result;
+        this.areaService.editar(this.area).subscribe(area => {
+          this.area = area;
+        },
+          err => {
+            console.log(err);
+          }
+        );
+      }
     });
   }
 }

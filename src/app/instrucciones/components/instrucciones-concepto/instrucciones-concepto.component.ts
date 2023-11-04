@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Concepto } from 'src/app/models/concepto';
+import { ConceptosService } from 'src/app/services/conceptos.service';
 
 @Component({
   selector: 'app-instrucciones-concepto',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InstruccionesConceptoComponent implements OnInit {
 
-  constructor() { }
+  conceptos: Concepto[] = [];
+  concepto: Concepto;
+
+
+  constructor(
+    private conceptoService: ConceptosService,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
+  }
+
+
+  openDialog(areaId: number): void {
+   //
   }
 
 }

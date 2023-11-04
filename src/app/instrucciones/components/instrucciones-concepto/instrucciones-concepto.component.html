@@ -1,0 +1,12 @@
+
+<div class="d-flex justify-content-center">
+    <mat-form-field style="width: 80%;">
+      <mat-label>Concepto</mat-label>
+      <mat-select (selectionChange)="openDialog($event.value)">
+        <mat-option *ngFor="let concepto of conceptos" [value]="concepto.id">
+          {{concepto.concepto}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+  </div>

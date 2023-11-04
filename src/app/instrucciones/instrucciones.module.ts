@@ -9,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { InstruccionesAreaModalComponent } from './components/instrucciones-area-modal/instrucciones-area-modal.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { InstruccionesInstitucionModalComponent } from './components/instrucciones-institucion-modal/instrucciones-institucion-modal.component';
+import { InstruccionesConceptoModalComponent } from './components/instrucciones-concepto-modal/instrucciones-concepto-modal.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     InstruccionesAreaComponent,
     InstruccionesConceptoComponent,
     InstruccionesInstitucionComponent,
-    InstruccionesAreaModalComponent
+    InstruccionesAreaModalComponent,
+    InstruccionesInstitucionModalComponent,
+    InstruccionesConceptoModalComponent
   ],
   imports: [
     CommonModule,

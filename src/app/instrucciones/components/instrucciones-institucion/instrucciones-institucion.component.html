@@ -1,0 +1,12 @@
+
+<div class="d-flex justify-content-center">
+    <mat-form-field style="width: 80%;">
+      <mat-label>Insititucion</mat-label>
+      <mat-select (selectionChange)="openDialog($event.value)">
+        <mat-option *ngFor="let institucion of instituciones" [value]="institucion.id">
+          {{institucion.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+  </div>

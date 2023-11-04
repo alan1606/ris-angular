@@ -7,5 +7,5 @@ export class Area implements Generic{
     horaInicio: string;
     horaFin: string;
     duracionMinutos: number;
-
+    instrucciones: string;
 }
