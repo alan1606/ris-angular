@@ -114,6 +114,10 @@ const routes: Routes = [
     path: 'instrucciones', 
       loadChildren: () => import('./instrucciones/instrucciones.module').then( m => m.InstruccionesModule),
       canActivate : [ AdminGuard ] 
+  },{
+    path: 'horarios', 
+      loadChildren: () => import('./horarios/horarios.module').then( m => m.HorariosModule),
+      canActivate : [ AdminGuard ] 
   },
   {
     path: 'authorized', 

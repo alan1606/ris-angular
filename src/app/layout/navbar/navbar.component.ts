@@ -176,4 +176,11 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+  puedeAbrirHorarios(): boolean{
+    if(this.isAdmin){
+      return true;
+    }
+    return false;
+  }
 }
