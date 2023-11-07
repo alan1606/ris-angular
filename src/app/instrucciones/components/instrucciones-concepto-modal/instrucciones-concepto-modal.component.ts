@@ -22,7 +22,9 @@ export class InstruccionesConceptoModalComponent implements OnInit {
     if(this.data.conceptoId){
       const id = this.data.conceptoId;
       console.log(id);
-      this.conceptoService.ver(id).subscribe(concepto => this.concepto = concepto);
+      this.conceptoService.ver(id).subscribe(concepto => {
+        this.concepto = concepto;
+      });
     }
   }
 

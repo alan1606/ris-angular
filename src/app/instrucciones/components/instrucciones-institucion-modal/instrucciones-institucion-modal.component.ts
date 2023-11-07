@@ -19,8 +19,8 @@ export class InstruccionesInstitucionModalComponent implements OnInit {
     { }
 
   ngOnInit(): void {
-    if(this.data.areaId){
-      const id = this.data.areaId;
+    if(this.data.institucionId){
+      const id = this.data.institucionId;
       console.log(id);
       this.institucionService.ver(id).subscribe(institucion => this.institucion = institucion);
     }
