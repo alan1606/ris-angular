@@ -4,6 +4,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from '../app-routing.module';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     CommonModule,
     AppRoutingModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatMenuModule,
+    MatIconModule
   ]
 })
 export class LayoutModule { }

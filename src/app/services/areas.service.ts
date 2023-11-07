@@ -9,6 +9,7 @@ import { CommonService } from './common.service';
   providedIn: 'root'
 })
 export class AreasService extends CommonService<Area> {
+  
 
   protected override baseEndpoint = BASE_ENDPOINT +  '/ris/areas';
 

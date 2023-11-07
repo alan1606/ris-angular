@@ -106,6 +106,7 @@ import { LogoutComponent } from './components/logout/logout.component';
         MatIconModule,
         MatSelectModule,
         MatFormFieldModule,
+    
         QuillModule.forRoot()
 
     ],

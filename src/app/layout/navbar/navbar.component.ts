@@ -170,4 +170,10 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
+  puedeAbrirInstrucciones(): boolean{
+    if(this.isAdmin){
+      return true;
+    }
+    return false;
+  }
 }

@@ -1,0 +1,22 @@
+
+<div class="d-flex justify-content-center flex-column">
+
+  <mat-form-field style="width: 80%;">
+    <mat-label>Area</mat-label>
+    <mat-select (selectionChange)="seleccionarArea($event.value)">
+      <mat-option *ngFor="let area of areas" [value]="area.id">
+        {{area.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+    <mat-form-field style="width: 80%;">
+      <mat-label>Concepto</mat-label>
+      <mat-select (selectionChange)="openDialog($event.value)">
+        <mat-option *ngFor="let concepto of conceptos" [value]="concepto.id">
+          {{concepto.concepto}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+  </div>

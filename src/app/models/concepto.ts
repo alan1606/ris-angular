@@ -1,6 +1,5 @@
 import { Area } from "./area";
 import { Generic } from "./generic";
-import { Instrucciones } from "./instrucciones";
 
 export class Concepto implements Generic{
 
@@ -8,10 +7,10 @@ export class Concepto implements Generic{
     concepto: string;
     area: Area;
     dicom: boolean;
-    instrucciones: Instrucciones;
     requiereSaberAntecedentes: boolean;
     precio: number;
     porcentajeDescuento?: number;
     montoDescuento?: number;
     precioDespuesDescuento?: number;
+    instrucciones: string;
 }
