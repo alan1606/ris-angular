@@ -16,7 +16,7 @@
   <div class="form-group">
     <mat-form-field style="width: 80%;">
       <mat-label>Sala</mat-label>
-      <mat-select (selectionChange)="hola($event.value)">
+      <mat-select (selectionChange)="buscarHorariosPorSala($event.value)">
         <mat-option *ngFor="let sala of salas" [value]="salas.id">
           {{sala.nombre}}
         </mat-option>
@@ -32,6 +32,7 @@
   <div class="card-header">Horarios</div>
 
   <div class="card-body" >
+    <button class="btn btn-primary my-2" routerLink="/horarios/form">Crear</button>
     <table class="table table-striped table-hover table-default my-4 ">
       <thead class="thead-dark">
         <tr>
@@ -44,11 +45,16 @@
       </thead>
       <tbody>
         <tr *ngFor="let horario of horarios">
-          <td>Mark</td>
-          <td>Otto</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>horario.dia</td>
+          <td>horario.horaInicio</td>
+          <td>horario.horaFin</td>
+          <td>hora.duracionMinutos</td>
+          <td> 
+            <button class="btn btn-primary btn-sm"
+            (click)="modificar(horario)">
+            Modificar
+          </button>
+        </td>
         </tr>
       </tbody>
     </table>

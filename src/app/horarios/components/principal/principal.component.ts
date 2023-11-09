@@ -4,8 +4,10 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
+import { Horario } from 'src/app/models/horario';
 import { AreasService } from 'src/app/services/areas.service';
 import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
+import { HorarioService } from 'src/app/services/horario.service';
 
 @Component({
   selector: 'app-principal',
@@ -17,11 +19,12 @@ export class PrincipalComponent implements OnInit {
   autocompleteControlArea = new FormControl();
   areasFiltradas: Area[] = [];
   salas: EquipoDicom[] = [];
-  horarios:[] = [];
+  horarios: Horario[] = [];
 
   constructor(
     private areasService: AreasService,
-    private equiposDicomService: EquipoDicomService
+    private equiposDicomService: EquipoDicomService,
+    private horariosService: HorarioService
   ) { }
 
   ngOnInit(): void { 
@@ -50,7 +53,17 @@ export class PrincipalComponent implements OnInit {
     this.equiposDicomService.filtrarPorArea(areaId).subscribe(salas => this.salas = salas);
   }
 
-  hola(id: number){
-
+  buscarHorariosPorSala(id: number){
+    this.horariosService.filtrarPorSalaId(id).subscribe(
+      horarios => {
+        this.horarios = horarios
+      },
+      err => {console.error(err)}
+    );
   }
+
+  modificar(horario: Horario){
+    console.log(horario);
+  }
+
 }
