@@ -4,6 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
+import { Horario } from 'src/app/models/horario';
 import { AreasService } from 'src/app/services/areas.service';
 import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
 import { HorarioService } from 'src/app/services/horario.service';
@@ -19,7 +20,12 @@ export class HorarioFormComponent implements OnInit {
   areasFiltradas: Area[] = [];
   salas: EquipoDicom[] = [];
 
-  dias = [
+  horaInicio: string;
+  horaFin: string;
+
+  horario: Horario;
+
+  dias: string[] = [
     'LUNES',
     'MARTES',
     'MIERCOLES',
@@ -29,11 +35,15 @@ export class HorarioFormComponent implements OnInit {
     'DOMINGO'
   ];
 
+  diaSelected:string;
+
   constructor(
     private areasService: AreasService,
     private equiposDicomService: EquipoDicomService,
     private horariosService: HorarioService
-  ) { }
+  ) {
+    this.horario = new Horario();
+   }
 
   ngOnInit(): void {
     this.autocompleteControlArea.valueChanges.pipe(
@@ -59,6 +69,16 @@ export class HorarioFormComponent implements OnInit {
 
   cargarEquiposDicomDeAreaSeleccionada(areaId: number): void{
     this.equiposDicomService.filtrarPorArea(areaId).subscribe(salas => this.salas = salas);
+  }
+
+  editar(){
+
+  }
+
+  crear(){
+    console.log(this.horaInicio);
+    console.log(this.horaFin);
+    console.log(this.diaSelected);
   }
 
 }

@@ -1,57 +1,68 @@
 <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Registrar horario</div>
-    <div class="card-body">
-        <button class="btn btn-secondary my-2" routerLink="/horarios">Volver</button>
+  <div class="card-header">Registrar horario</div>
+  <div class="card-body">
+    <button class="btn btn-secondary my-2" routerLink="/horarios">Volver</button>
 
-        <form>
-            <div class="form-group">
-            <mat-form-field style="width: 80%;">
-                <input matInput placeholder="Área" [formControl]="autocompleteControlArea" [matAutocomplete]="autocomplete">
-                <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="mostrarNombreArea"
-                  (optionSelected)="seleccionarArea($event)">
-                  <mat-option *ngFor="let area of areasFiltradas" [value]="area">
-                    {{area.nombre}}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </div>
-          
-            <div class="form-group">
-              <mat-form-field style="width: 80%;">
-                <mat-label>Sala</mat-label>
-                <mat-select>
-                  <mat-option *ngFor="let sala of salas" [value]="salas.id">
-                    {{sala.nombre}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+    <form>
+      <div class="form-group">
+        <mat-form-field style="width: 80%;">
+          <input matInput placeholder="Área" [formControl]="autocompleteControlArea" [matAutocomplete]="autocomplete">
+          <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="mostrarNombreArea"
+            (optionSelected)="seleccionarArea($event)">
+            <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+              {{area.nombre}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
 
-            <mat-form-field style="width: 80%;">
-                <mat-label>Día</mat-label>
-                <mat-select>
-                  <mat-option *ngFor="let dia of dias" [value]="dia">
-                    {{dia}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+      <div class="form-group">
+        <mat-form-field style="width: 80%;">
+          <mat-label>Sala</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let sala of salas" [value]="salas.id">
+              {{sala.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field style="width: 80%;">
+        <mat-label>Día</mat-label>
+        <mat-select  [(ngModel)]="diaSelected">
+          <mat-option *ngFor="let dia of dias" [value]="dia">
+            {{dia}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
-              <mat-form-field style="width: 80%;">
-                <mat-label>Duración en minutos</mat-label>
-                <input matInput placeholder="1" type="number">
-              </mat-form-field>
-              
-          <!--
-            <div class="form-group">
-                <button type="button" class="btn btn-primary" 
-                (click) = "horario?.id ? editar() : crear()">
-                    {{ horario.id ? 'Editar' : 'Crear' }}
-                </button>
-            </div>
--->
+      <mat-form-field style="width: 80%;">
+        <mat-label>Duración en minutos</mat-label>
+        <input matInput placeholder="1" type="number" min="1">
+      </mat-form-field>
 
-        </form>
-    </div>
+
+      <div class="form-group" style="width: 80%;" class="my-3">
+        <label for="horaInicio" class="lbl-hora">Hora de inicio:</label>
+        <input type="time" id="horaInicio" name="horaInicio" min="07:00" max="20:00" required
+          [(ngModel)]="horaInicio" />
+      </div>
+
+      <div class="form-group" style="width: 80%;" class="my-3">
+        <label for="horaFin" class="lbl-hora">Hora de fin:</label>
+        <input type="time" id="horaFin" name="horaFin" min="07:00" max="20:00" required [(ngModel)]="horaFin" />
+      </div>
+
+
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" (click)="horario?.id ? editar() : crear()">
+          {{ horario.id ? 'Editar' : 'Crear' }}
+        </button>
+      </div>
+
+
+    </form>
+  </div>
 
 </div>
