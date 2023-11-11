@@ -44,7 +44,6 @@ export class PrincipalComponent implements OnInit {
     ).subscribe(areas => this.areasFiltradas = areas);
 
     this.formulario.get('salaControl').valueChanges.subscribe(value => {
-      console.log(value);
       this.buscarHorariosPorSala(value);
     });
 
@@ -69,7 +68,6 @@ export class PrincipalComponent implements OnInit {
   }
 
   buscarHorariosPorSala(id: any) {
-    console.log(id);
     this.horariosService.filtrarPorSalaId(id).subscribe(
       horarios => {
         this.horarios = horarios;

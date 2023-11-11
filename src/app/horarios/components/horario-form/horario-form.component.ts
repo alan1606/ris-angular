@@ -38,7 +38,8 @@ export class HorarioFormComponent implements OnInit {
     private areasService: AreasService,
     private equiposDicomService: EquipoDicomService,
     private horariosService: HorarioService,
-    protected  route: ActivatedRoute
+    private  route: ActivatedRoute,
+    private router: Router
     ) {
     this.horario = new Horario();
    }
@@ -52,7 +53,16 @@ export class HorarioFormComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id: number = +params.get('id');
       if(id){
-        this.horariosService.ver(id).subscribe(horario =>this.horario = horario)
+        this.horariosService.ver(id).subscribe(horario =>
+          {
+            this.horario = horario;
+            this.equiposDicomService.ver(this.horario.salaId).subscribe(sala => {
+              this.salas.push(sala);
+              this.autocompleteControlArea.setValue(sala.area);
+            });
+          },() => {
+
+          });
       }
     });
   }
@@ -117,9 +127,8 @@ export class HorarioFormComponent implements OnInit {
 
   registrarHorario(): void{
     this.horariosService.crear(this.horario).subscribe(
-      horario => {
+      ()  => {
         Swal.fire("Registrado", "El horario ha sido registrado", "success");
-        console.log(horario);
       },
       error => {
         Swal.fire("Error", "Error", "error");
@@ -129,7 +138,13 @@ export class HorarioFormComponent implements OnInit {
   }
 
   editarHorario(): void{
-
+    this.horariosService.editar(this.horario).subscribe(modificado => {
+      Swal.fire("Modificado", "El horario se ha modificado satisfactoriamente", "success");
+      this.router.navigate(['horarios']);
+    }, error => {
+      Swal.fire("Error", "Ha ocurrido un error al modificar el horario", "error");
+      console.log(error);
+    });
   }
 
 }
