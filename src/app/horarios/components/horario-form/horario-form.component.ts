@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
@@ -8,6 +9,7 @@ import { Horario } from 'src/app/models/horario';
 import { AreasService } from 'src/app/services/areas.service';
 import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
 import { HorarioService } from 'src/app/services/horario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-horario-form',
@@ -20,11 +22,7 @@ export class HorarioFormComponent implements OnInit {
   areasFiltradas: Area[] = [];
   salas: EquipoDicom[] = [];
 
-  horaInicio: string;
-  horaFin: string;
-
   horario: Horario;
-
   dias: string[] = [
     'LUNES',
     'MARTES',
@@ -35,13 +33,13 @@ export class HorarioFormComponent implements OnInit {
     'DOMINGO'
   ];
 
-  diaSelected:string;
 
   constructor(
     private areasService: AreasService,
     private equiposDicomService: EquipoDicomService,
-    private horariosService: HorarioService
-  ) {
+    private horariosService: HorarioService,
+    protected  route: ActivatedRoute
+    ) {
     this.horario = new Horario();
    }
 
@@ -50,7 +48,13 @@ export class HorarioFormComponent implements OnInit {
       map(valor => typeof valor === 'string' ? valor : valor.nombre),
       mergeMap(valor => valor ? this.areasService.filtrarPorNombre(valor) : [])
     ).subscribe(areas => this.areasFiltradas = areas);
-  
+
+    this.route.paramMap.subscribe(params => {
+      const id: number = +params.get('id');
+      if(id){
+        this.horariosService.ver(id).subscribe(horario =>this.horario = horario)
+      }
+    });
   }
 
 
@@ -72,13 +76,60 @@ export class HorarioFormComponent implements OnInit {
   }
 
   editar(){
-
+    if(this.datosValidos()){
+      this.editarHorario();
+    }
+    else{
+      Swal.fire("Revise los campos", "Asegúrese de llenar correctamente los datos", "error");
+    }
   }
 
   crear(){
-    console.log(this.horaInicio);
-    console.log(this.horaFin);
-    console.log(this.diaSelected);
+    if(this.datosValidos()){
+      this.registrarHorario();
+    }
+    else{
+      Swal.fire("Revise los campos", "Asegúrese de llenar correctamente los datos", "error");
+    }
+  }
+
+
+  datosValidos(): boolean{
+    console.log(this.horario.duracionMinutos);
+
+    if(!this.horario?.salaId){
+      return false;
+    }
+    if(!this.horario?.dia){
+      return false;
+    }
+    if(!this.horario?.duracionMinutos){
+      return false;
+    }
+    if(!this.horario?.horaInicio){
+      return false;
+    }
+    if(!this.horario?.horaFin){
+      return false;
+    }
+    return true;
+  }
+
+  registrarHorario(): void{
+    this.horariosService.crear(this.horario).subscribe(
+      horario => {
+        Swal.fire("Registrado", "El horario ha sido registrado", "success");
+        console.log(horario);
+      },
+      error => {
+        Swal.fire("Error", "Error", "error");
+        console.log(error);
+      }
+    );
+  }
+
+  editarHorario(): void{
+
   }
 
 }

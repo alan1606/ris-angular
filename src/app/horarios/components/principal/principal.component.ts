@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
@@ -21,17 +22,31 @@ export class PrincipalComponent implements OnInit {
   salas: EquipoDicom[] = [];
   horarios: Horario[] = [];
 
+  formulario: FormGroup;
+
+
   constructor(
     private areasService: AreasService,
     private equiposDicomService: EquipoDicomService,
-    private horariosService: HorarioService
-  ) { }
+    private horariosService: HorarioService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
+    this.formulario = this.fb.group({
+      salaControl: new FormControl('')
+    });
+  }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.autocompleteControlArea.valueChanges.pipe(
-    map(valor => typeof valor === 'string' ? valor : valor.nombre),
-    mergeMap(valor => valor ? this.areasService.filtrarPorNombre(valor) : [])
-  ).subscribe(areas => this.areasFiltradas = areas);
+      map(valor => typeof valor === 'string' ? valor : valor.nombre),
+      mergeMap(valor => valor ? this.areasService.filtrarPorNombre(valor) : [])
+    ).subscribe(areas => this.areasFiltradas = areas);
+
+    this.formulario.get('salaControl').valueChanges.subscribe(value => {
+      console.log(value);
+      this.buscarHorariosPorSala(value);
+    });
 
   }
 
@@ -49,21 +64,19 @@ export class PrincipalComponent implements OnInit {
     return area ? area.nombre : '';
   }
 
-  cargarEquiposDicomDeAreaSeleccionada(areaId: number): void{
+  cargarEquiposDicomDeAreaSeleccionada(areaId: number): void {
     this.equiposDicomService.filtrarPorArea(areaId).subscribe(salas => this.salas = salas);
   }
 
-  buscarHorariosPorSala(id: number){
+  buscarHorariosPorSala(id: any) {
+    console.log(id);
     this.horariosService.filtrarPorSalaId(id).subscribe(
       horarios => {
-        this.horarios = horarios
+        this.horarios = horarios;
       },
-      err => {console.error(err)}
+      err => { console.error(err) }
     );
   }
 
-  modificar(horario: Horario){
-    console.log(horario);
-  }
 
 }

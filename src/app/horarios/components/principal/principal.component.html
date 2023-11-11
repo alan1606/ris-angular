@@ -13,11 +13,11 @@
     </mat-form-field>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" [formGroup]="formulario">
     <mat-form-field style="width: 80%;">
       <mat-label>Sala</mat-label>
-      <mat-select (selectionChange)="buscarHorariosPorSala($event.value)">
-        <mat-option *ngFor="let sala of salas" [value]="salas.id">
+      <mat-select formControlName="salaControl">
+        <mat-option *ngFor="let sala of salas" [value]="sala.id">
           {{sala.nombre}}
         </mat-option>
       </mat-select>
@@ -45,13 +45,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let horario of horarios">
-          <td>horario.dia</td>
-          <td>horario.horaInicio</td>
-          <td>horario.horaFin</td>
-          <td>hora.duracionMinutos</td>
+          <td>{{horario.dia}}</td>
+          <td>{{horario.horaInicio}}</td>
+          <td>{{horario.horaFin}}</td>
+          <td>{{horario.duracionMinutos}}</td>
           <td> 
             <button class="btn btn-primary btn-sm"
-            (click)="modificar(horario)">
+            [routerLink]="['/horarios/form', horario.id]">
             Modificar
           </button>
         </td>

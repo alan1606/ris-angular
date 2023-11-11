@@ -19,8 +19,8 @@
       <div class="form-group">
         <mat-form-field style="width: 80%;">
           <mat-label>Sala</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let sala of salas" [value]="salas.id">
+          <mat-select [(ngModel)]="horario.salaId" name="sala">
+            <mat-option *ngFor="let sala of salas" [value]="sala.id">
               {{sala.nombre}}
             </mat-option>
           </mat-select>
@@ -29,7 +29,7 @@
 
       <mat-form-field style="width: 80%;">
         <mat-label>Día</mat-label>
-        <mat-select  [(ngModel)]="diaSelected">
+        <mat-select  [(ngModel)]="horario.dia" name="diaSelect">
           <mat-option *ngFor="let dia of dias" [value]="dia">
             {{dia}}
           </mat-option>
@@ -39,19 +39,19 @@
 
       <mat-form-field style="width: 80%;">
         <mat-label>Duración en minutos</mat-label>
-        <input matInput placeholder="1" type="number" min="1">
+        <input matInput placeholder="1" type="number" min="1" [(ngModel)]="horario.duracionMinutos" name = "duracion">
       </mat-form-field>
 
 
       <div class="form-group" style="width: 80%;" class="my-3">
         <label for="horaInicio" class="lbl-hora">Hora de inicio:</label>
         <input type="time" id="horaInicio" name="horaInicio" min="07:00" max="20:00" required
-          [(ngModel)]="horaInicio" />
+          [(ngModel)]="horario.horaInicio" />
       </div>
 
       <div class="form-group" style="width: 80%;" class="my-3">
         <label for="horaFin" class="lbl-hora">Hora de fin:</label>
-        <input type="time" id="horaFin" name="horaFin" min="07:00" max="20:00" required [(ngModel)]="horaFin" />
+        <input type="time" id="horaFin" name="horaFin" min="07:00" max="20:00" required [(ngModel)]="horario.horaFin" />
       </div>
 
 
