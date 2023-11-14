@@ -49,16 +49,32 @@
                 </div>
 
                 <div class="form-group my-3" >
+                    <label for="correoPaciente">Whatsapp paciente</label>
+                    <input type="text" name="whatsappPaciente" id="whatsappPaciente" class="form-control"
+                        [(ngModel)]="whatsappPaciente">
+                </div>
+
+                <div class="form-group my-3" >
                     <label for="mensaje">Mensaje</label>
                     <input type="text" name="mensaje" id="mensaje" class="form-control" [(ngModel)]="mensaje">
                 </div>
 
 
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary" (click)="enviarCorreo()">
-                        Enviar
-                    </button>
+                <div class="botonera">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" (click)="enviarCorreo()">
+                            Enviar
+                        </button>
+                    </div>
+    
+                    <div class="form-group mx-3">
+                        <button type="button" class="btn btn-primary" (click)="enviarWhatsapp()">
+                            Enviar whatsapp
+                        </button>
+                    </div>
                 </div>
+               
+                
             </div>
         </form>
     </div>

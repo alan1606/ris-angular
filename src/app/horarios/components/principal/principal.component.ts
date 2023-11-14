@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
@@ -9,6 +10,9 @@ import { Horario } from 'src/app/models/horario';
 import { AreasService } from 'src/app/services/areas.service';
 import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
 import { HorarioService } from 'src/app/services/horario.service';
+import { GenerarCitasModalComponent } from '../generar-citas-modal/generar-citas-modal.component';
+import { CitaService } from 'src/app/services/cita.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-principal',
@@ -30,7 +34,9 @@ export class PrincipalComponent implements OnInit {
     private equiposDicomService: EquipoDicomService,
     private horariosService: HorarioService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
+    public citaService: CitaService
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl('')
@@ -74,6 +80,24 @@ export class PrincipalComponent implements OnInit {
       },
       err => { console.error(err) }
     );
+  }
+
+  abrirGenerarCitas(): void {
+    const dialogRef = this.dialog.open(GenerarCitasModalComponent);
+
+    dialogRef.afterClosed().subscribe(({fechaInicio, fechaFin}) => {
+      if(!fechaInicio || !fechaFin){
+        return;
+      }
+      console.log(fechaInicio,fechaFin);
+      Swal.fire("Espere un momento", "Favor de esperar un momento en esta pantalla para que se terminen de generar las citas", "warning");
+      this.citaService.generar(fechaInicio,fechaFin).subscribe(() => {
+        Swal.fire("Generado", "Citas generadas exitosamente", "success");
+      },
+      () => {
+        Swal.fire("Error", "Ocurrió un error al generar las citas", "error");
+      });
+    });
   }
 
 

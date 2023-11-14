@@ -31,4 +31,5 @@ export class HorarioService {
   public filtrarPorSalaId(salaId: number): Observable<Horario[]>{
     return this.http.get<Horario[]>(`${this.baseEndpoint}/sala/${salaId}`);
   }
+
 }

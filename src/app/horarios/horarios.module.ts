@@ -9,12 +9,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {  MatCardModule } from '@angular/material/card';
+import { GenerarCitasModalComponent } from './components/generar-citas-modal/generar-citas-modal.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     PrincipalComponent,
-    HorarioFormComponent
+    HorarioFormComponent,
+    GenerarCitasModalComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,9 @@ import {  MatCardModule } from '@angular/material/card';
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
+  
   ]
 })
 export class HorariosModule { }
