@@ -94,8 +94,9 @@ export class PrincipalComponent implements OnInit {
       this.citaService.generar(fechaInicio,fechaFin).subscribe(() => {
         Swal.fire("Generado", "Citas generadas exitosamente", "success");
       },
-      () => {
+      (error) => {
         Swal.fire("Error", "Ocurrió un error al generar las citas", "error");
+        console.log(error);
       });
     });
   }
