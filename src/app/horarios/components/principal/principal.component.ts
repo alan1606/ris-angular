@@ -25,6 +25,7 @@ export class PrincipalComponent implements OnInit {
   areasFiltradas: Area[] = [];
   salas: EquipoDicom[] = [];
   horarios: Horario[] = [];
+  sala: EquipoDicom;
 
   formulario: FormGroup;
 
@@ -34,7 +35,6 @@ export class PrincipalComponent implements OnInit {
     private equiposDicomService: EquipoDicomService,
     private horariosService: HorarioService,
     private fb: FormBuilder,
-    private router: Router,
     public dialog: MatDialog,
     public citaService: CitaService
   ) {
@@ -51,6 +51,8 @@ export class PrincipalComponent implements OnInit {
 
     this.formulario.get('salaControl').valueChanges.subscribe(value => {
       this.buscarHorariosPorSala(value);
+      this.equiposDicomService.ver(value).subscribe(sala => this.sala = sala,
+        err => console.log(err));
     });
 
   }
@@ -77,6 +79,9 @@ export class PrincipalComponent implements OnInit {
     this.horariosService.filtrarPorSalaId(id).subscribe(
       horarios => {
         this.horarios = horarios;
+        if(this.horarios.length == 0){
+          Swal.fire("Sin registros", "No se han registrado horarios para esa sala, agréguelos en el botón de +", "info");
+        }
       },
       err => { console.error(err) }
     );
@@ -95,11 +100,29 @@ export class PrincipalComponent implements OnInit {
         Swal.fire("Generado", "Citas generadas exitosamente", "success");
       },
       (error) => {
-        Swal.fire("Error", "Ocurrió un error al generar las citas", "error");
+        Swal.fire("Error", error.error.detail, "error");
         console.log(error);
       });
     });
   }
 
+  abrirGenerarCitasPorSala(): void {
+    const dialogRef = this.dialog.open(GenerarCitasModalComponent);
+
+    dialogRef.afterClosed().subscribe(({fechaInicio, fechaFin}) => {
+      if(!fechaInicio || !fechaFin){
+        return;
+      }
+      console.log(fechaInicio,fechaFin);
+      Swal.fire("Espere un momento", "Favor de esperar un momento en esta pantalla para que se terminen de generar las citas", "warning");
+      this.citaService.generarPorSala(this.sala.id, fechaInicio,fechaFin).subscribe(() => {
+        Swal.fire("Generado", "Citas generadas exitosamente", "success");
+      },
+      (error) => {
+        Swal.fire("Error", error.error.detail, "error");
+        console.log(error);
+      });
+    });
+  }
 
 }

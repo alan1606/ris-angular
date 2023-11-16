@@ -18,4 +18,9 @@ export class CitaService {
       { headers: this.cabeceras });
   }
 
+  public generarPorSala(salaId:number, fechaInicio: string, fechaFin: string): Observable<void> {
+    return this.http.post<void>(`${this.baseEndpoint}/generar`, {fechaInicio, fechaFin, salaId},
+      { headers: this.cabeceras });
+  }
+
 }
