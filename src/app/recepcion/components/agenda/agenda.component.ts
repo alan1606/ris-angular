@@ -19,7 +19,6 @@ export class AgendaComponent implements OnInit {
   fecha: string;
 
   date = new UntypedFormControl(new Date());
-  serializedDate = new UntypedFormControl(new Date().toISOString());
 
   constructor(private pipe: DatePipe,
     private ventaConceptosService: VentaConceptosService,

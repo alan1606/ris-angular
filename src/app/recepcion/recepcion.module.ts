@@ -10,9 +10,9 @@ import { QrSubirFotoOrdenModalComponent } from './components/qr-subir-foto-orden
 import { RegistrarPacienteComponent } from './components/registrar-paciente-modal/registrar-paciente.component';
 import { AppComponent } from 'src/app/app.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
-import { UrgenciaComponent } from './components/agendar-cita/urgencia.component';
+import { UrgenciaComponent } from './components/urgencia/urgencia.component';
 import { RecepcionRoutingModule } from './recepcion-routing.module';
 import { EnviarEstudiosComponent } from './components/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estudio.component';
@@ -21,8 +21,8 @@ import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-mo
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { MatTableModule } from '@angular/material/table';
 import { QRCodeModule } from 'angular2-qrcode';
-
-
+import { AgendarComponent } from './components/agendar/agendar.component';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -35,7 +35,8 @@ import { QRCodeModule } from 'angular2-qrcode';
         SubirFotoOrdenComponent,
         QrSubirFotoOrdenModalComponent,
         VerAgendadosModalComponent,
-        AgendaComponent
+        AgendaComponent,
+        AgendarComponent
     ],
     imports: [
         CommonModule,
@@ -56,7 +57,17 @@ import { QRCodeModule } from 'angular2-qrcode';
     exports: [
         UrgenciaComponent
     ],
-    providers: [DatePipe],
+    providers: [DatePipe,
+        {provide: MAT_DATE_LOCALE, useValue: 'es-MX'},
+        // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+        // `MatMomentDateModule` in your applications root module. We provide it at the component level
+        // here, due to limitations of our example generation script.
+        {
+          provide: DateAdapter,
+          useClass: MomentDateAdapter,
+          deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+        {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},],
     bootstrap: [AppComponent]
 })
 export class RecepcionModule { }

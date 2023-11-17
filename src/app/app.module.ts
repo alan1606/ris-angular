@@ -95,7 +95,6 @@ import { RecepcionModule } from './recepcion/recepcion.module';
         MatSelectModule,
         MatFormFieldModule,
         QuillModule.forRoot()
-
     ],
     providers: [
         DatePipe,

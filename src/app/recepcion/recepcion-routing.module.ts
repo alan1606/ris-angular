@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UrgenciaComponent } from './components/agendar-cita/urgencia.component';
+import { UrgenciaComponent } from './components/urgencia/urgencia.component';
 import { RecepcionGuard } from '../guards/recepcion.guard';
 import { EnviarEstudiosComponent } from './components/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estudio.component';
 import { SubirFotoOrdenComponent } from './components/subir-foto-orden/subir-foto-orden.component';
 import { AgendaComponent } from './components/agenda/agenda.component';
+import { AgendarComponent } from './components/agendar/agendar.component';
 
 const routes: Routes =[
     {
@@ -31,6 +32,11 @@ const routes: Routes =[
       {
         path: 'agenda', 
         component: AgendaComponent, 
+        canActivate : [RecepcionGuard]
+      },
+      {
+        path: 'agendar', 
+        component: AgendarComponent, 
         canActivate : [RecepcionGuard]
       },
     { path: "**", redirectTo: ""}

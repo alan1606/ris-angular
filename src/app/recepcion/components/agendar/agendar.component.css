@@ -1,0 +1,15 @@
+.verde {
+  color: green;
+}
+
+@media (min-width:601px) {
+  mat-form-field {
+    width: 50%;
+  }
+}
+
+@media (max-width:600px) {
+  mat-form-field {
+    width: 100%;
+  }
+}
