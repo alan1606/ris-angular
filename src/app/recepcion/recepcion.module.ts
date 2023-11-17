@@ -16,6 +16,11 @@ import { UrgenciaComponent } from './components/agendar-cita/urgencia.component'
 import { RecepcionRoutingModule } from './recepcion-routing.module';
 import { EnviarEstudiosComponent } from './components/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estudio.component';
+import { SubirFotoOrdenComponent } from './components/subir-foto-orden/subir-foto-orden.component';
+import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
+import { AgendaComponent } from './components/agenda/agenda.component';
+import { MatTableModule } from '@angular/material/table';
+import { QRCodeModule } from 'angular2-qrcode';
 
 
 
@@ -27,6 +32,10 @@ import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estud
         RegistrarPacienteComponent,
         EnviarEstudiosComponent,
         EnviarEstudioComponent,
+        SubirFotoOrdenComponent,
+        QrSubirFotoOrdenModalComponent,
+        VerAgendadosModalComponent,
+        AgendaComponent
     ],
     imports: [
         CommonModule,
@@ -40,7 +49,9 @@ import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estud
         MatDatepickerModule,
         MatNativeDateModule,
         MatCardModule,
-        RecepcionRoutingModule
+        RecepcionRoutingModule,
+        MatTableModule,
+        QRCodeModule
     ],
     exports: [
         UrgenciaComponent

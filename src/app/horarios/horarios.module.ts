@@ -29,7 +29,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatInputModule,
     MatCardModule,
     MatDialogModule
-  
   ]
 })
 export class HorariosModule { }

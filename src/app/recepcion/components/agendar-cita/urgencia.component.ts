@@ -23,7 +23,6 @@ import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registra
 import Swal from 'sweetalert2';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
-import { CampaniaOrden } from 'src/app/campanias/models/campaniaOrden';
 
 @Component({
   selector: 'app-urgencia',

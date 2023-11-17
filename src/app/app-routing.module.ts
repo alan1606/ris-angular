@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
-import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
-import { AgendaComponent } from './components/agenda/agenda.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
@@ -31,16 +29,6 @@ const routes: Routes = [
     path : 'venta-conceptos', 
     component: VentaConceptosComponent, 
     canActivate : [VentaConceptosGuard]
-  },
-  {
-    path : 'subir-foto-orden/:id', 
-    component: SubirFotoOrdenComponent, 
-    canActivate : [RecepcionGuard]
-  },
-  {
-    path: 'agenda', 
-    component: AgendaComponent, 
-    canActivate : [RecepcionGuard]
   },
   {
     path: 'medico-radiologo', 

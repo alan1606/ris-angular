@@ -21,20 +21,14 @@ import { MatButtonModule} from '@angular/material/button';
 import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
-import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { AgendaComponent } from './components/agenda/agenda.component';
-import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
-import  {QRCodeModule}  from 'angular2-qrcode';
 import { DictamenComponent } from './components/resultados/dictamen.component';
-import { EnviarEstudiosComponent } from './recepcion/components/enviar-estudios/enviar-estudios.component';
-import { EnviarEstudioComponent } from './recepcion/components/enviar-estudio/enviar-estudio.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
@@ -60,10 +54,7 @@ import { RecepcionModule } from './recepcion/recepcion.module';
         VentaConceptosComponent,
         BuscarEstudioModalComponent,
         EnviarEstudioModalComponent,
-        SubirFotoOrdenComponent,
         InformacionEstudioModalComponent,
-        AgendaComponent,
-        VerAgendadosModalComponent,
         AntecedentesEstudioModalComponent,
         MedicoRadiologoComponent,
         DictadorComponent,
@@ -97,7 +88,6 @@ import { RecepcionModule } from './recepcion/recepcion.module';
         MatSelectModule,
         MatIconModule,
         MatCardModule,
-        QRCodeModule,
         RecepcionModule,
         MatCardModule,
         MatDividerModule,
