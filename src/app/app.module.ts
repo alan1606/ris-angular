@@ -33,12 +33,11 @@ import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
 import  {QRCodeModule}  from 'angular2-qrcode';
 import { DictamenComponent } from './components/resultados/dictamen.component';
-import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
-import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
+import { EnviarEstudiosComponent } from './recepcion/components/enviar-estudios/enviar-estudios.component';
+import { EnviarEstudioComponent } from './recepcion/components/enviar-estudio/enviar-estudio.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
-import { RecepcionModule } from './modules/recepcion/recepcion.module';
 import { LoginComponent } from './components/usuarios/login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
@@ -49,6 +48,7 @@ import { QuillModule } from 'ngx-quill';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { ResourceInterceptor } from './interceptors/resource.interceptor';
 import { LogoutComponent } from './components/logout/logout.component';
+import { RecepcionModule } from './recepcion/recepcion.module';
 
 
 @NgModule({
@@ -69,8 +69,6 @@ import { LogoutComponent } from './components/logout/logout.component';
         DictadorComponent,
         ResultadosComponent,
         DictamenComponent,
-        EnviarEstudiosComponent,
-        EnviarEstudioComponent,
         WorklistComponent,
         SubirInterpretacionComponent,
         OrdenVentaComponent,
@@ -106,7 +104,6 @@ import { LogoutComponent } from './components/logout/logout.component';
         MatIconModule,
         MatSelectModule,
         MatFormFieldModule,
-    
         QuillModule.forRoot()
 
     ],

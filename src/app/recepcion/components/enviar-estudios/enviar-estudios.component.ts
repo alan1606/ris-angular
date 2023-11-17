@@ -8,12 +8,10 @@ import { PacientesService } from '../../../services/pacientes.service';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CommonListarComponent } from '../../common-listar.component';
+import { CommonListarComponent } from '../../../components/common-listar.component';
 import { VentaConceptos } from '../../../models/venta-conceptos';
 import { map } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { VIEWER } from 'src/app/config/app';
-import Swal from 'sweetalert2';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({

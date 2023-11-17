@@ -26,11 +26,11 @@ import { Campania } from 'src/app/campanias/models/campania';
 import { CampaniaOrden } from 'src/app/campanias/models/campaniaOrden';
 
 @Component({
-  selector: 'app-agendar-cita',
-  templateUrl: './agendar-cita.component.html',
-  styleUrls: ['./agendar-cita.component.css']
+  selector: 'app-urgencia',
+  templateUrl: './urgencia.component.html',
+  styleUrls: ['./urgencia.component.css']
 })
-export class AgendarCitaComponent implements OnInit {
+export class UrgenciaComponent implements OnInit {
 
   total: number;
   motivo: string;

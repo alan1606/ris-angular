@@ -113,7 +113,7 @@ export class NavbarComponent implements OnInit {
     return code_challenge;
   }
 
-  puedeAbrirAgenda(): boolean{
+  puedeAbrirUrgencia(): boolean{
     if(this.isAdmin || this.isReceptionist){
       return true;
     }

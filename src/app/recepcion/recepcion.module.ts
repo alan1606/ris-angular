@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AgendarCitaComponent } from './components/agendar-cita/agendar-cita.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -13,15 +12,21 @@ import { AppComponent } from 'src/app/app.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { UrgenciaComponent } from './components/agendar-cita/urgencia.component';
+import { RecepcionRoutingModule } from './recepcion-routing.module';
+import { EnviarEstudiosComponent } from './components/enviar-estudios/enviar-estudios.component';
+import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estudio.component';
 
 
 
 
 @NgModule({
     declarations: [
-        AgendarCitaComponent,
+        UrgenciaComponent,
         QrSubirFotoOrdenModalComponent,
-        RegistrarPacienteComponent
+        RegistrarPacienteComponent,
+        EnviarEstudiosComponent,
+        EnviarEstudioComponent,
     ],
     imports: [
         CommonModule,
@@ -34,10 +39,11 @@ import { MatCardModule } from '@angular/material/card';
         MatDialogModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatCardModule
+        MatCardModule,
+        RecepcionRoutingModule
     ],
     exports: [
-        AgendarCitaComponent
+        UrgenciaComponent
     ],
     providers: [DatePipe],
     bootstrap: [AppComponent]

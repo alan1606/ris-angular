@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VentaConceptosService } from '../../services/venta-conceptos.service';
-import { VentaConceptos } from '../../models/venta-conceptos';
+import { VentaConceptosService } from '../../../services/venta-conceptos.service';
+import { VentaConceptos } from '../../../models/venta-conceptos';
 import { DIRECCION_CORREO_CONS, RESULTS_URL } from 'src/app/config/app';
 import { UntypedFormControl } from '@angular/forms';
 import { map } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { MedicoService } from '../../services/medico.service';
-import { Medico } from '../../models/medico';
+import { MedicoService } from '../../../services/medico.service';
+import { Medico } from '../../../models/medico';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { OrdenVentaService } from '../../services/orden-venta.service';
+import { OrdenVentaService } from '../../../services/orden-venta.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
-import { PacientesService } from '../../services/pacientes.service';
-import { SendMailService } from '../../services/send-mail.service';
+import { PacientesService } from '../../../services/pacientes.service';
+import { SendMailService } from '../../../services/send-mail.service';
 import Swal from 'sweetalert2';
 import { EnviarWhatsappService } from 'src/app/services/enviar-whatsapp.service';
 

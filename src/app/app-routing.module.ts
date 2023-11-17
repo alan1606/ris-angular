@@ -8,12 +8,9 @@ import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-r
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
 import { DictamenComponent } from './components/resultados/dictamen.component';
-import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
-import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
-import { AgendarCitaComponent } from './modules/recepcion/components/agendar-cita/agendar-cita.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ConceptosGuard } from './guards/conceptos.guard';
@@ -71,16 +68,6 @@ const routes: Routes = [
      canActivate : []
   },
   {
-    path: 'recepcion/enviar-estudios', 
-    component: EnviarEstudiosComponent, 
-    canActivate : [RecepcionGuard]
-  },
-  {
-    path: 'recepcion/enviar-estudio/:idPacs', 
-    component: EnviarEstudioComponent, 
-    canActivate : [RecepcionGuard]
-  },
-  {
     path: 'worklist', 
     component: WorklistComponent, 
     canActivate : [VentaConceptosGuard]
@@ -94,11 +81,6 @@ const routes: Routes = [
     path: 'resultados/orden/:ordenId/:pacienteId', 
     component: OrdenVentaComponent, 
     canActivate : []
-  },
-  {
-    path: 'recepcion/agendar-cita', 
-    component: AgendarCitaComponent, 
-    canActivate : [RecepcionGuard]
   },
   {
     path: 'campanias', 
@@ -118,6 +100,11 @@ const routes: Routes = [
     path: 'horarios', 
       loadChildren: () => import('./horarios/horarios.module').then( m => m.HorariosModule),
       canActivate : [ AdminGuard ] 
+  },
+  {
+    path: 'recepcion', 
+      loadChildren: () => import('./recepcion/recepcion.module').then( m => m.RecepcionModule),
+      canActivate : [ RecepcionGuard ] 
   },
   {
     path: 'authorized', 
