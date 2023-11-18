@@ -36,7 +36,7 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORM
         QrSubirFotoOrdenModalComponent,
         VerAgendadosModalComponent,
         AgendaComponent,
-        AgendarComponent
+        AgendarComponent,
     ],
     imports: [
         CommonModule,
@@ -52,7 +52,7 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORM
         MatCardModule,
         RecepcionRoutingModule,
         MatTableModule,
-        QRCodeModule
+        QRCodeModule,
     ],
     exports: [
         UrgenciaComponent

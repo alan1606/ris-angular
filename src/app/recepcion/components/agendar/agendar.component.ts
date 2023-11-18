@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +24,10 @@ import Swal from 'sweetalert2';
 import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registrar-paciente.component';
 import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
 import { DatePipe } from '@angular/common';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Cita } from 'src/app/models/cita';
+import { CitaService } from 'src/app/services/cita.service';
+
 
 @Component({
   selector: 'app-agendar',
@@ -49,13 +53,21 @@ export class AgendarComponent implements OnInit {
     private medicoService: MedicoService,
     private ordenVentaService: OrdenVentaService,
     private campaniasService: CampaniaService,
-    private fb: FormBuilder
-  ) { 
+    private citaService: CitaService,
+    private fb: FormBuilder,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+  ) {
     this.formulario = this.fb.group({
-      salaControl: new FormControl('')
+      salaControl: new FormControl(''),
+      citaControl: new FormControl('')
     });
 
     this.minDate = new Date();
+
+
+    this._locale = 'es';
+    this._adapter.setLocale(this._locale);
   }
 
   titulo = "Agendar cita";
@@ -64,7 +76,7 @@ export class AgendarComponent implements OnInit {
   autocompleteControlConvenio = new UntypedFormControl();
   autocompleteControlArea = new UntypedFormControl();
   autocompleteControlConcepto = new UntypedFormControl();
-  autocompleteControlMedicoReferente= new UntypedFormControl();
+  autocompleteControlMedicoReferente = new UntypedFormControl();
 
 
   pacientesFiltrados: Paciente[] = [];
@@ -74,6 +86,8 @@ export class AgendarComponent implements OnInit {
   equiposDicom: EquipoDicom[] = [];
   estudios: VentaConceptos[] = [];
   medicosFiltrados: Medico[] = [];
+  citas: Cita[] = [];
+  cita: Cita;
 
   paciente: Paciente;
   institucion: Institucion;
@@ -83,13 +97,11 @@ export class AgendarComponent implements OnInit {
   medicoReferente: Medico;
   ordenVenta: OrdenVenta;
 
-  fecha: String;
+  fecha: string;
 
   campania: Campania = new Campania();
 
   isCodigoPromocionalDisabled: boolean = false;
-
-  date = new UntypedFormControl(new Date());
 
   minDate: Date;
 
@@ -103,7 +115,7 @@ export class AgendarComponent implements OnInit {
       mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
-      if(this.estudios.length > 0){
+      if (this.estudios.length > 0) {
         this.pacientesFiltrados = [];
       }
     });
@@ -115,7 +127,7 @@ export class AgendarComponent implements OnInit {
 
     this.autocompleteControlConcepto.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.concepto),
-      mergeMap(valor => valor && this.area?.id ?  this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id) : [])
+      mergeMap(valor => valor && this.area?.id ? this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id) : [])
     ).subscribe(conceptos => {
       this.conceptosFiltrados = conceptos;
     });
@@ -136,10 +148,13 @@ export class AgendarComponent implements OnInit {
     ).subscribe(medicos => this.medicosFiltrados = medicos);
 
     this.formulario.get('salaControl').valueChanges.subscribe(value => {
-      //this.buscarHorariosPorSala(value);
-      console.log("Se seleccionó sala");
       this.equipoDicomService.ver(value).subscribe(sala => this.equipoDicom = sala,
         err => console.log(err));
+    });
+
+    this.formulario.get('citaControl').valueChanges.subscribe(value => {
+      this.cita = value;
+      this.agregarEstudio();
     });
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
@@ -159,21 +174,21 @@ export class AgendarComponent implements OnInit {
     return area ? area.nombre : '';
   }
 
-  mostrarNombreConcepto(concepto ?: Concepto): string {
+  mostrarNombreConcepto(concepto?: Concepto): string {
     return concepto ? concepto.concepto : '';
   }
 
-  mostrarMedicoReferente(medico ?: Medico): string {
+  mostrarMedicoReferente(medico?: Medico): string {
     return medico ? `${medico.nombres} ${medico.apellidos}` : '';
   }
 
-  seleccionarInstitucion(event: MatAutocompleteSelectedEvent){
+  seleccionarInstitucion(event: MatAutocompleteSelectedEvent) {
     this.institucion = event.option.value as Institucion;
     event.option.deselect();
     event.option.focus();
   }
 
-  seleccionarArea(event: MatAutocompleteSelectedEvent){
+  seleccionarArea(event: MatAutocompleteSelectedEvent) {
     this.area = event.option.value as Area;
 
     event.option.deselect();
@@ -212,9 +227,9 @@ export class AgendarComponent implements OnInit {
   }
 
 
-  private cargarEquiposDicom(): void{
+  private cargarEquiposDicom(): void {
     this.equipoDicomService.filtrarPorArea(this.area.id).subscribe(
-      equipos =>{
+      equipos => {
         this.equiposDicom = equipos;
       }
     );
@@ -224,31 +239,20 @@ export class AgendarComponent implements OnInit {
     if (!this.datosValidos()) {
       return;
     }
-  
-    if (this.estudios.length > 0 && this.estudios[0].paciente.id != this.paciente.id) {
-      this.estudios = [];
-      return;
-    }
-  
+
     const estudio = new VentaConceptos();
-  
-    try {
-      const concepto = await this.conceptoService.ver(this.concepto.id).toPromise();
-      estudio.concepto = concepto;
-    } catch (error) {
-      estudio.concepto = this.concepto;
-      estudio.concepto.precio = 0;
-    }
-  
+
+    estudio.concepto = this.concepto;
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
     estudio.institucion = this.institucion;
     estudio.paciente = this.paciente;
-  
+    estudio.cita = this.cita;
+
     this.estudios.push(estudio);
-  
+
     this.calcularTotal();
-  
+
     this.limpiarCampos();
   }
 
@@ -282,31 +286,28 @@ export class AgendarComponent implements OnInit {
     this.isCodigoPromocionalDisabled = false;
   }
 
-  datosValidos() : boolean {
-    if(this.paciente == null){
+  datosValidos(): boolean {
+    if (this.cita == null) {
       return false;
     }
-    if(this.institucion == null){
+    if (this.area == null) {
       return false;
     }
-    if(this.area == null){
+    if (this.estudios == null) {
       return false;
     }
-    if(this.estudios == null){
-      return false;
-    }
-    if(this.equipoDicom == null){
+    if (this.equipoDicom == null) {
       return false;
     }
     return true;
   }
 
-  quitarEstudio(i: number): void{
-    this.estudios.splice(i,1);
+  quitarEstudio(i: number): void {
+    this.estudios.splice(i, 1);
     this.calcularTotal();
   }
 
-  agendar(){
+  agendar() {
 
     this.ordenVenta = new OrdenVenta;
     this.ordenVenta.medicoReferente = this.medicoReferente;
@@ -317,18 +318,18 @@ export class AgendarComponent implements OnInit {
     console.log("El paciente en la órden de venta es: ");
     console.log(this.ordenVenta.paciente);
 
-    if(this.campania.id){
+    if (this.campania.id) {
       this.ordenVenta.aplicarDescuento = true;
       this.ordenVenta.codigoPromocional = this.campania.codigo;
     }
 
-    
+
     this.total = 0;
     this.agendaNormal();
   }
 
 
-  private agendaNormal(): void{
+  private agendaNormal(): void {
     this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
       estudios => {
         this.estudios = estudios;
@@ -346,20 +347,20 @@ export class AgendarComponent implements OnInit {
 
 
 
-  abrirModalRegistrarPaciente(){
+  abrirModalRegistrarPaciente() {
     const modalRef = this.dialog.open(RegistrarPacienteComponent,
       {
         width: "1000px",
-        data: {paciente: this.paciente?.id ? this.paciente: null}
+        data: { paciente: this.paciente?.id ? this.paciente : null }
       });
 
-      modalRef.afterClosed().subscribe(model =>{
+    modalRef.afterClosed().subscribe(model => {
 
-      });
+    });
   }
 
 
-  private cargarReferenteVacio(): void{
+  private cargarReferenteVacio(): void {
     this.medicoService.listar().subscribe(medicos => {
       this.medicosFiltrados = medicos.filter(medico => medico.nombres == "SIN MEDICO REFERENTE");
       this.medicoReferente = this.medicosFiltrados[0];
@@ -367,31 +368,31 @@ export class AgendarComponent implements OnInit {
     });
   }
 
-  private cargarConvenioParticularPorDefecto(): void{
+  private cargarConvenioParticularPorDefecto(): void {
     this.institucionService.listar().subscribe(
-        instituciones => {
-          this.conveniosFiltrados = instituciones.filter(institucion => institucion.nombre === "PARTICULAR");
-          this.institucion = this.conveniosFiltrados[0];
-          this.autocompleteControlConvenio.setValue(this.institucion);
+      instituciones => {
+        this.conveniosFiltrados = instituciones.filter(institucion => institucion.nombre === "PARTICULAR");
+        this.institucion = this.conveniosFiltrados[0];
+        this.autocompleteControlConvenio.setValue(this.institucion);
 
-    });
+      });
   }
 
   private mostrarModalQrImagenes() {
     const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent,
       {
         width: "300px",
-        data: {orden: this.ordenVenta}
+        data: { orden: this.ordenVenta }
       });
 
-      modalRef.afterClosed().subscribe(something =>{console.log(something)});
+    modalRef.afterClosed().subscribe(something => { console.log(something) });
   }
 
-  buscarCodigoPromocional(event: KeyboardEvent): void{
-      event.preventDefault();
-      event.stopPropagation();
+  buscarCodigoPromocional(event: KeyboardEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
 
-    if(this.codigoPromocion){
+    if (this.codigoPromocion) {
       this.campaniasService.buscarPorCodigo(this.codigoPromocion).subscribe(
         campania => {
           this.campania = campania;
@@ -407,17 +408,17 @@ export class AgendarComponent implements OnInit {
   }
 
 
-  private simularDescuento(): void{
-    for(let i=0; i<this.campania.conceptos.length; i++){
+  private simularDescuento(): void {
+    for (let i = 0; i < this.campania.conceptos.length; i++) {
       let concepto = this.campania.conceptos[i];
       this.aplicarDescuento(concepto);
     }
     this.calcularTotal();
   }
 
-  private aplicarDescuento(concepto: Concepto){
-    for(let i=0; i<this.estudios.length; i++){
-      if(this.estudios[i].concepto.id == concepto.id){
+  private aplicarDescuento(concepto: Concepto) {
+    for (let i = 0; i < this.estudios.length; i++) {
+      if (this.estudios[i].concepto.id == concepto.id) {
         this.estudios[i].concepto.precio = concepto.precioDespuesDescuento;
       }
     }
@@ -431,7 +432,20 @@ export class AgendarComponent implements OnInit {
   }
 
 
-  public actualizarFecha(fecha: HTMLInputElement){
-    this.fecha = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
+  public actualizarFecha(fecha: HTMLInputElement) {
+    const partes = fecha.value.split("/").reverse();
+    let fechaString = "";
+    for (let parte of partes) {
+      fechaString = fechaString + "/" + parte;
+    }
+    this.fecha = this.pipe.transform(new Date(fechaString), 'yyyy-MM-dd');
+
+    this.citaService.obtenerDisponiblesPorSalaYFecha(this.equipoDicom.id, this.fecha).subscribe(citas => {
+      this.citas = citas;
+    },
+      error => {
+        Swal.fire("No hay citas", error.error.detail, "info");
+        console.log(error);
+      });
   };
 }

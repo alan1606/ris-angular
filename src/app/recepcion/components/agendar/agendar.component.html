@@ -18,7 +18,7 @@
 
 
             <div class="form-group">
-                <mat-form-field >
+                <mat-form-field>
                     <input matInput placeholder="Estudio" [formControl]="autocompleteControlConcepto"
                         [matAutocomplete]="autocompleteConcepto">
                     <mat-autocomplete #autocompleteConcepto="matAutocomplete" [displayWith]="mostrarNombreConcepto"
@@ -30,15 +30,15 @@
                 </mat-form-field>
             </div>
 
-            <div class="form-group" >
-                <mat-form-field >
+            <div class="form-group">
+                <mat-form-field>
                     <input matInput placeholder="Precio" id="precio" name="precio" [value]="concepto?.precio"
                         class="verde">
                 </mat-form-field>
             </div>
 
             <div class="form-group" [formGroup]="formulario">
-                <mat-form-field >
+                <mat-form-field>
                     <mat-label>Sala</mat-label>
                     <mat-select formControlName="salaControl">
                         <mat-option *ngFor="let sala of equiposDicom" [value]="sala.id">
@@ -51,19 +51,24 @@
             <div class="form-group" *ngIf="equipoDicom">
                 <mat-form-field>
                     <mat-label>Seleccionar fecha</mat-label>
-                    <input [min]="minDate" matInput [matDatepicker]="picker1" [formControl]="date" #fechaSeleccionada (dateInput)="actualizarFecha(fechaSeleccionada)">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <input [min]="minDate" matInput [matDatepicker]="picker1" [formControl]="date" #fechaSeleccionada
+                        (dateInput)="actualizarFecha(fechaSeleccionada)">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
 
-            <div class="form-group">
-                <button type="button" class="btn btn-success rounded-circle" (click)="agregarEstudio()">
-                    +
-                </button>
-            </div>
 
+            <div class="form-group" [formGroup]="formulario">
+                <mat-form-field>
+                    <mat-label>Hora</mat-label>
+                    <mat-select formControlName="citaControl">
+                        <mat-option *ngFor="let cita of citas" [value]="cita">
+                            {{ cita.fechaYHora | date:'HH:mm' }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
             <div class="table-responsive">
                 <table class="table table-hover table-striped" *ngIf="estudios?.length>0;">
@@ -72,9 +77,10 @@
                             <th>Id</th>
                             <th>Estudio</th>
                             <th>Area</th>
-                            <th>Convenio</th>
                             <th>Sala</th>
                             <th>Precio</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
                             <th>Quitar</th>
                         </tr>
                     </thead>
@@ -84,9 +90,10 @@
                             <td>{{i+1}}</td>
                             <td>{{estudio.concepto.concepto}}</td>
                             <td>{{estudio.concepto.area.nombre}}</td>
-                            <td>{{estudio.institucion.nombre}}</td>
                             <td>{{estudio.equipoDicom.nombre}} </td>
                             <td>{{estudio.concepto.precio}}</td>
+                            <td>{{estudio.cita.fechaYHora | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{estudio.cita.fechaYHora | date: 'HH:mm'}}</td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-md" (click)="quitarEstudio(i)">
                                     -
