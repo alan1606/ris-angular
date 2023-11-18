@@ -154,7 +154,7 @@ export class AgendarComponent implements OnInit {
 
     this.formulario.get('citaControl').valueChanges.subscribe(value => {
       this.cita = value;
-      this.agregarEstudio();
+      this.apartarCita(this.cita);
     });
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
@@ -235,10 +235,7 @@ export class AgendarComponent implements OnInit {
     );
   }
 
-  async agregarEstudio(): Promise<void> {
-    if (!this.datosValidos()) {
-      return;
-    }
+   agregarEstudio() {
 
     const estudio = new VentaConceptos();
 
@@ -249,11 +246,26 @@ export class AgendarComponent implements OnInit {
     estudio.paciente = this.paciente;
     estudio.cita = this.cita;
 
+
     this.estudios.push(estudio);
 
     this.calcularTotal();
 
     this.limpiarCampos();
+  }
+
+  private apartarCita(cita: Cita) {
+    if (!this.datosValidos()) {
+      return;
+    }
+    this.citaService.apartarCita(cita.id).subscribe(() => {
+      this.agregarEstudio();
+    },
+    (error) => {
+      Swal.fire("Error", error.error.detail, "error");
+    });
+    this.citas = this.citas.filter(cita => cita.id != this.cita.id);
+
   }
 
 
@@ -262,10 +274,13 @@ export class AgendarComponent implements OnInit {
     this.area = null;
     this.concepto = null;
     this.equipoDicom = null;
+    this.equiposDicom = [];
+    this.citas = [];
 
     this.autocompleteControlArea.setValue("");
     this.autocompleteControlConcepto.setValue("");
-
+    this.formulario.get('citaControl').setValue("");
+    this.formulario.get('salaControl').setValue("");
   }
 
   private reiniciarFormulario() {
@@ -303,8 +318,14 @@ export class AgendarComponent implements OnInit {
   }
 
   quitarEstudio(i: number): void {
+    this.liberarCita(this.estudios[i].cita);
     this.estudios.splice(i, 1);
     this.calcularTotal();
+  }
+
+  private liberarCita(cita: Cita) {
+    this.citaService.liberarCita(cita.id).subscribe(()=>{},
+    error => console.log(error));
   }
 
   agendar() {

@@ -8,6 +8,7 @@ import { Cita } from '../models/cita';
   providedIn: 'root'
 })
 export class CitaService {
+
   private baseEndpoint: string = BASE_ENDPOINT +  '/citas';
 
   private cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
@@ -25,7 +26,14 @@ export class CitaService {
   }
 
   public obtenerDisponiblesPorSalaYFecha(salaId: number, fecha: string): Observable<Cita[]>{
-    return this.http.get<Cita[]>(`${this.baseEndpoint}/disponibles/sala/${salaId}/dia/${fecha}`, );
+    return this.http.get<Cita[]>(`${this.baseEndpoint}/disponibles/sala/${salaId}/dia/${fecha}`);
   }
 
+  public apartarCita(citaId: number): Observable<void>{
+    return this.http.put<void>(`${this.baseEndpoint}/apartar/${citaId}`, {});
+  }
+
+  liberarCita(citaId: number): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/liberar/${citaId}`, {});
+  }
 }
