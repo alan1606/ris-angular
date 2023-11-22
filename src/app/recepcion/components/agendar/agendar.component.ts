@@ -109,9 +109,6 @@ export class AgendarComponent implements OnInit {
       mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
-      if (this.estudios.length > 0) {
-        this.pacientesFiltrados = [];
-      }
     });
 
     this.autocompleteControlConvenio.valueChanges.pipe(
@@ -137,13 +134,20 @@ export class AgendarComponent implements OnInit {
     });
 
     this.formulario.get('salaControl').valueChanges.subscribe(value => {
-      this.equipoDicomService.ver(value).subscribe(sala => this.equipoDicom = sala,
+      this.equipoDicomService.ver(value).subscribe(sala => {
+        this.equipoDicom = sala;
+        this.citas = [];
+        this.formulario.get('citaControl').setValue('');
+      },
         err => console.log(err));
     });
 
     this.formulario.get('citaControl').valueChanges.subscribe(value => {
-      this.cita = value;
-      this.apartarCita(this.cita);
+      if(value){
+        this.cita = value;
+        this.apartarCita(this.cita);
+      }
+     
     });
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
@@ -220,7 +224,6 @@ export class AgendarComponent implements OnInit {
     estudio.concepto = this.concepto;
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
-    estudio.institucion = this.institucion;
     estudio.paciente = this.paciente;
     estudio.cita = this.cita;
 
@@ -309,10 +312,8 @@ export class AgendarComponent implements OnInit {
 
     this.ordenVenta = new OrdenVenta;
 
-    this.ordenVenta.motivo = this.motivo;
 
     this.ordenVenta.paciente = this.paciente;
-    console.log("El paciente en la órden de venta es: ");
     console.log(this.ordenVenta.paciente);
 
     if (this.campania.id) {
@@ -327,6 +328,10 @@ export class AgendarComponent implements OnInit {
 
 
   private agendaNormal(): void {
+    for(let estudio of this.estudios){
+      estudio.institucion = this.institucion;
+    }
+
     this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
       estudios => {
         this.estudios = estudios;
@@ -438,6 +443,8 @@ export class AgendarComponent implements OnInit {
     },
       error => {
         Swal.fire("No hay citas", error.error.detail, "info");
+        this.citas = [];
+        this.cita = null;
         console.log(error);
       });
   };
