@@ -70,7 +70,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive tabla">
                 <table class="table table-hover table-striped" *ngIf="estudios?.length>0;">
                     <thead>
                         <tr>
@@ -110,6 +110,18 @@
                 </mat-card>
             </div>
 
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Convenio" [formControl]="autocompleteControlConvenio"
+                        [matAutocomplete]="autocompleteConvenio" class="mat-input-long">
+                    <mat-autocomplete #autocompleteConvenio="matAutocomplete" [displayWith]="mostrarNombreConvenio"
+                        (optionSelected)="seleccionarInstitucion($event)">
+                        <mat-option *ngFor="let convenio of conveniosFiltrados" [value]="convenio">
+                            {{convenio.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
             <div class="from-group" *ngIf="this.institucion?.nombre == 'PARTICULAR'">
                 <mat-form-field class="example-full-width">
                     <mat-label>Código promocional</mat-label>
@@ -119,18 +131,6 @@
                 </mat-form-field>
             </div>
 
-            <div class="form-group my-3">
-                <mat-form-field>
-                    <input matInput placeholder="Médico referente" [formControl]="autocompleteControlMedicoReferente"
-                        [matAutocomplete]="autocompleteMedicoReferente">
-                    <mat-autocomplete #autocompleteMedicoReferente="matAutocomplete"
-                        [displayWith]="mostrarMedicoReferente" (optionSelected)="seleccionarMedicoReferente($event)">
-                        <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico">
-                            {{medico.nombres}} {{medico.apellidos}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
 
 
             <div class="flex">
@@ -145,29 +145,21 @@
                     </mat-autocomplete>
                 </mat-form-field>
 
-                <button type="button" class="btn btn-success mx-4 rounded-circle btn-add"
-                    (click)="abrirModalRegistrarPaciente()">
-                    {{this.paciente?.id ? "Editar" : "+"}}
+                <button type="button" class="btn btn-success mx-2 rounded-circle btn-add"
+                    (click)="abrirModalRegistrarPacienteParcial()">
+                    {{this.paciente?.id ? "Ver" : "+"}}
                 </button>
 
+                <button *ngIf="this.paciente?.id" type="button" class="btn btn-info mx-4 rounded-circle btn-add"
+                    (click)="limpiarPaciente()">
+                    {{this.paciente?.id ? "Limpiar" : ""}}
+                </button>
             </div>
 
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput placeholder="Convenio" [formControl]="autocompleteControlConvenio"
-                        [matAutocomplete]="autocompleteConvenio" class="mat-input-long">
-                    <mat-autocomplete #autocompleteConvenio="matAutocomplete" [displayWith]="mostrarNombreConvenio"
-                        (optionSelected)="seleccionarInstitucion($event)">
-                        <mat-option *ngFor="let convenio of conveniosFiltrados" [value]="convenio">
-                            {{convenio.nombre}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
 
             <div class="form-group flex  my-3" *ngIf="this.estudios?.length > 0">
                 <button type="button" class="btn btn-primary" (click)="agendar()">
-                    {{this.institucion.nombre == 'PARTICULAR' ? 'PAGAR' : 'AGENDAR'}}
+                    AGENDAR
                 </button>
             </div>
 

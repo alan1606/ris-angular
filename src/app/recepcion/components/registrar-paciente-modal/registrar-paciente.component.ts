@@ -3,10 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
-import { ENTIDADES } from './entidades';
 import { DatePipe } from '@angular/common';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import {curp, ESTADO, getPersona, GENERO, generar} from 'curp';
+import { ESTADO, getPersona, GENERO, generar} from 'curp';
 import { UntypedFormControl } from '@angular/forms';
 
 @Component({

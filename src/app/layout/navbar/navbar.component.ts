@@ -120,6 +120,14 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
+
+  puedeAbrirAgendarCitas(): boolean{
+    if(this.isAdmin || this.isReceptionist){
+      return true;
+    }
+    return false;
+  }
+
   puedeAbrirAgendados(): boolean{
     if(this.isAdmin || this.isReceptionist){
       return true;

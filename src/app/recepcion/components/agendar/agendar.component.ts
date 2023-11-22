@@ -9,7 +9,6 @@ import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
 import { Institucion } from 'src/app/models/institucion';
-import { Medico } from 'src/app/models/medico';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -17,16 +16,15 @@ import { AreasService } from 'src/app/services/areas.service';
 import { ConceptosService } from 'src/app/services/conceptos.service';
 import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
 import { InstitucionService } from 'src/app/services/institucion.service';
-import { MedicoService } from 'src/app/services/medico.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
-import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registrar-paciente.component';
 import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
 import { DatePipe } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Cita } from 'src/app/models/cita';
 import { CitaService } from 'src/app/services/cita.service';
+import { RegistrarPacienteParcialModalComponent } from '../registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
 
 
 @Component({
@@ -50,7 +48,6 @@ export class AgendarComponent implements OnInit {
     private areaService: AreasService,
     private conceptoService: ConceptosService,
     private equipoDicomService: EquipoDicomService,
-    private medicoService: MedicoService,
     private ordenVentaService: OrdenVentaService,
     private campaniasService: CampaniaService,
     private citaService: CitaService,
@@ -85,7 +82,6 @@ export class AgendarComponent implements OnInit {
   conceptosFiltrados: Concepto[] = [];
   equiposDicom: EquipoDicom[] = [];
   estudios: VentaConceptos[] = [];
-  medicosFiltrados: Medico[] = [];
   citas: Cita[] = [];
   cita: Cita;
 
@@ -94,7 +90,6 @@ export class AgendarComponent implements OnInit {
   area: Area;
   concepto: Concepto;
   equipoDicom: EquipoDicom;
-  medicoReferente: Medico;
   ordenVenta: OrdenVenta;
 
   fecha: string;
@@ -107,7 +102,6 @@ export class AgendarComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.cargarReferenteVacio();
     this.cargarConvenioParticularPorDefecto();
 
     this.autocompleteControlPaciente.valueChanges.pipe(
@@ -142,11 +136,6 @@ export class AgendarComponent implements OnInit {
       this.concepto = null;
     });
 
-    this.autocompleteControlMedicoReferente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombres),
-      mergeMap(valor => valor ? this.medicoService.filtrarReferentesPorNombre(valor) : [])
-    ).subscribe(medicos => this.medicosFiltrados = medicos);
-
     this.formulario.get('salaControl').valueChanges.subscribe(value => {
       this.equipoDicomService.ver(value).subscribe(sala => this.equipoDicom = sala,
         err => console.log(err));
@@ -176,10 +165,6 @@ export class AgendarComponent implements OnInit {
 
   mostrarNombreConcepto(concepto?: Concepto): string {
     return concepto ? concepto.concepto : '';
-  }
-
-  mostrarMedicoReferente(medico?: Medico): string {
-    return medico ? `${medico.nombres} ${medico.apellidos}` : '';
   }
 
   seleccionarInstitucion(event: MatAutocompleteSelectedEvent) {
@@ -214,13 +199,6 @@ export class AgendarComponent implements OnInit {
 
   seleccionarEquipoDicom(event): void {
     this.equipoDicom = event.value as EquipoDicom;
-
-    event.option.deselect();
-    event.option.focus();
-  }
-
-  seleccionarMedicoReferente(event): void {
-    this.medicoReferente = event.value as Medico;
 
     event.option.deselect();
     event.option.focus();
@@ -294,7 +272,6 @@ export class AgendarComponent implements OnInit {
     this.campania = new Campania();
     this.codigoPromocion = '';
 
-    this.cargarReferenteVacio();
     this.cargarConvenioParticularPorDefecto();
 
     this.autocompleteControlPaciente.setValue("");
@@ -331,7 +308,6 @@ export class AgendarComponent implements OnInit {
   agendar() {
 
     this.ordenVenta = new OrdenVenta;
-    this.ordenVenta.medicoReferente = this.medicoReferente;
 
     this.ordenVenta.motivo = this.motivo;
 
@@ -368,26 +344,22 @@ export class AgendarComponent implements OnInit {
 
 
 
-  abrirModalRegistrarPaciente() {
-    const modalRef = this.dialog.open(RegistrarPacienteComponent,
+  abrirModalRegistrarPacienteParcial() {
+    const modalRef = this.dialog.open(RegistrarPacienteParcialModalComponent,
       {
         width: "1000px",
         data: { paciente: this.paciente?.id ? this.paciente : null }
       });
 
-    modalRef.afterClosed().subscribe(model => {
-
+    modalRef.afterClosed().subscribe(paciente => {
+      if(paciente){
+        this.paciente = paciente;
+        this.autocompleteControlPaciente.setValue(this.paciente);
+      }
     });
   }
 
 
-  private cargarReferenteVacio(): void {
-    this.medicoService.listar().subscribe(medicos => {
-      this.medicosFiltrados = medicos.filter(medico => medico.nombres == "SIN MEDICO REFERENTE");
-      this.medicoReferente = this.medicosFiltrados[0];
-      this.autocompleteControlMedicoReferente.setValue(this.medicoReferente);
-    });
-  }
 
   private cargarConvenioParticularPorDefecto(): void {
     this.institucionService.listar().subscribe(
@@ -469,4 +441,9 @@ export class AgendarComponent implements OnInit {
         console.log(error);
       });
   };
+
+  limpiarPaciente(): void{
+    this.paciente = null;
+    this.autocompleteControlPaciente.setValue("");
+  }
 }

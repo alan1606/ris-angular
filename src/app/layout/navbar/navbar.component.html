@@ -15,7 +15,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/urgencia" routerLinkActive="active" *ngIf="puedeAbrirUrgencia()">Urgencia</a>
+          <a class="nav-link" href="#" routerLink="/recepcion/agendar" routerLinkActive="active" *ngIf="puedeAbrirAgendarCitas()">Citas</a>
         </li>
 
         <li class="nav-item">
@@ -60,6 +60,10 @@
 
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/horarios" routerLinkActive="active" *ngIf="puedeAbrirHorarios()">Horarios</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/recepcion/urgencia" routerLinkActive="active" *ngIf="puedeAbrirUrgencia()">Urgencia</a>
         </li>
 
       </ul>
