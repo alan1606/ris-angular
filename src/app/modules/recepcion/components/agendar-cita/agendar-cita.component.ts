@@ -184,7 +184,10 @@ export class AgendarCitaComponent implements OnInit {
   }
 
   seleccionarMedicoReferente(event): void {
-    this.medicoReferente = event.value as Medico;
+    console.log(event);
+    this.medicoReferente = event.option.value as Medico;
+
+    console.log(this.medicoReferente);
 
     event.option.deselect();
     event.option.focus();
@@ -286,7 +289,6 @@ export class AgendarCitaComponent implements OnInit {
   }
 
   agendar(){
-
     this.ordenVenta = new OrdenVenta;
     this.ordenVenta.medicoReferente = this.medicoReferente;
 
@@ -303,7 +305,8 @@ export class AgendarCitaComponent implements OnInit {
 
     
     this.total = 0;
-
+    console.log("referente                   aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    console.log(this.medicoReferente);
     if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
       return;
