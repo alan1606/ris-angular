@@ -14,6 +14,7 @@ import { OrdenVenta } from 'src/app/models/orden-venta';
 import { PacientesService } from '../../services/pacientes.service';
 import { SendMailService } from '../../services/send-mail.service';
 import Swal from 'sweetalert2';
+import { EnviarWhatsappService } from 'src/app/services/enviar-whatsapp.service';
 
 @Component({
   selector: 'app-enviar-estudio',
@@ -31,6 +32,7 @@ export class EnviarEstudioComponent implements OnInit {
   autocompleteControlMedicoReferente = new UntypedFormControl();
   medicosReferentesFiltrados: Medico[] = [];
 
+  whatsappPaciente: string = '';
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -38,7 +40,8 @@ export class EnviarEstudioComponent implements OnInit {
     private medicoService: MedicoService,
     private ordenVentaService: OrdenVentaService,
     private pacienteService: PacientesService,
-    private mailService: SendMailService
+    private mailService: SendMailService,
+    private whatsappService: EnviarWhatsappService
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +54,7 @@ export class EnviarEstudioComponent implements OnInit {
           this.correoMedico = estudio.ordenVenta.medicoReferente.correo;
           this.correoPaciente = estudio.paciente.email;
           this.titulo = `${this.estudio.institucion.nombre}: ${this.estudio.concepto.concepto} de ${this.estudio.paciente.nombreCompleto}`;
+          this.whatsappPaciente = estudio.paciente.telefono;
           this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
         });
       }
@@ -147,5 +151,34 @@ export class EnviarEstudioComponent implements OnInit {
 
   mostrarNombreMedicoReferente(medico?: Medico): string {
     return medico ? `${medico.nombres} ${medico.apellidos}` : '';
+  }
+
+  enviarWhatsapp(): void {
+    if (this.whatsappPaciente) {
+      if (this.estudio.paciente.telefono !== this.whatsappPaciente) {
+        console.log("Voy a actualizar al paciente");
+        this.estudio.paciente.telefono = this.whatsappPaciente;
+        this.pacienteService.editar(this.estudio.paciente).subscribe(() => this.enviarWhatsappBackend(),
+            () =>    Swal.fire('Error', 'No se ha podido actualizar el número de whatsapp', 'error')
+        );
+      }
+      else{
+        this.enviarWhatsappBackend();
+      }
+
+      this.router.navigate(['/recepcion/enviar-estudios']);
+
+    }
+
+
+  }
+
+
+  private enviarWhatsappBackend(){
+    this.whatsappService.enviarWhatsappResultados(this.estudio.ordenVenta.id, this.estudio.paciente.id).subscribe(res => {
+      Swal.fire('Enviado', 'Se ha enviado el whatsapp', 'success');
+    }, e => {
+      Swal.fire('Error', 'No se ha podido enviar el whatsapp', 'error');
+    });
   }
 }
