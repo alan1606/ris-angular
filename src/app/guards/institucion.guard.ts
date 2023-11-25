@@ -13,7 +13,7 @@ export class InstitucionGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean>{
-    return of(this.tokenService.isInstitution());
+    return of(this.tokenService.isInstitution() || this.tokenService.isAdmin());
   }
   
 }

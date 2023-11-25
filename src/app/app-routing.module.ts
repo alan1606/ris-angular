@@ -129,7 +129,7 @@ const routes: Routes = [
   {
     path: 'instituciones',
     loadChildren: () => import('./instituciones/instituciones.module').then( m => m.InstitucionesModule),
-    canActivate : [ AdminGuard, InstitucionGuard ] 
+    canActivate : [ InstitucionGuard ] 
   }
 ];
 

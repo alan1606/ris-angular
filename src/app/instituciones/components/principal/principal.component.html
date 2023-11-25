@@ -1,1 +1,74 @@
-<p>principal works!</p>
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Rango de fechas:</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input
+        (dateChange)="onStartDateChange($event)"
+        matStartDate
+        placeholder="Inicio"
+        #fechaInicio
+      />
+      <input
+        (dateChange)="onEndDateChange($event)"
+        matEndDate
+        placeholder="Fin"
+        #fechaFin
+      />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field class="example-form-field">
+    <mat-label>Nombre del pacente</mat-label>
+    <input matInput type="text" [(ngModel)]="value" />
+  </mat-form-field>
+
+  <div class="card text-dark bg-light mb-3">
+    <div class="card-header">Instituciones</div>
+    <div class="card-body">
+      <div class="alert alert-info" *ngIf="lista?.length == 0">
+        No hay estudios en el sistema.
+      </div>
+
+      <div class="table-responsive" *ngIf="lista?.length > 0">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Paciente</th>
+              <th>Estudios</th>
+              <th>Fecha</th>
+              <th>Ver</th>
+              <th>Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let orden of lista">
+              <td>{{orden.paciente}}</td>
+              <td>{{orden.estudios}}</td>
+              <td>{{orden.fecha}}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="verOrden(1, 343)"
+                >
+                  Ver estudio
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="enviarResultado(1, 1)"
+                >
+                  Enviar Resultado
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
