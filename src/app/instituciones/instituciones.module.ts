@@ -9,10 +9,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
+import { EnviarResultadosComponent } from './components/enviar-resultados/enviar-resultados.component';
+import { RegistrarMedicoModalComponent } from "./components/enviar-resultados/registrar-medico-modal/registrar-medico-modal.component";
 
 @NgModule({
   declarations: [
-    PrincipalComponent
+    PrincipalComponent,
+    EnviarResultadosComponent,
+    RegistrarMedicoModalComponent
     
   ],
   imports: [

@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { InstitucionService } from 'src/app/services/institucion.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -11,12 +11,15 @@ import { Route, Router } from '@angular/router';
   styleUrls: ['./principal.component.css'],
 })
 export class PrincipalComponent implements OnInit {
-  lista = [{"id":1,"paciente":"alan","estudios":"vaginal,anal,oral", "fecha": Date()}, {"id":1,"paciente":"juan","estudios":"anal", "fecha":new Date()},{"id":1,"paciente":"emmanuel","estudios":"oral", "fecha":new Date()}];
+  lista = [{"id":1,"paciente":"alan","estudios":"vaginal,anal,oral, fecal", "fecha": Date()}, {"id":1,"paciente":"juan","estudios":"anal", "fecha":new Date()},{"id":1,"paciente":"emmanuel","estudios":"oral", "fecha":new Date()}];
+  
   range = new FormGroup({
     start: new FormControl<Date>(new Date()),
     end: new FormControl<Date>(new Date()),
   });
-  value = '';
+  NombrePaciente = '';
+
+  
   constructor(
     private institucionService: InstitucionService,
     private router: Router
@@ -42,7 +45,7 @@ export class PrincipalComponent implements OnInit {
   }
 
   enviarResultado(ordenId: number, pacienteId: number): void {
-    this.router.navigate([`/resultados/orden/${ordenId}/${pacienteId}`]);
+    this.router.navigate([`/instituciones/enviar/${ordenId}`]);
   }
 
   buscarPaciente(id: number, idinstitucion: number): void {
