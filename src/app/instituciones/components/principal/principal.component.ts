@@ -20,30 +20,20 @@ import { PacientesService } from 'src/app/services/pacientes.service';
 export class PrincipalComponent implements OnInit {
   fechaInicio = '';
   fechaFin = '';
-
   institucion: Institucion;
-
   lista = [];
-  
   NombrePaciente = '';
-
-  
   totalRegistros = 0;
   paginaActual = 0;
   totalPorPagina = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-
   paciente: Paciente;
-
   autocompleteControlPaciente = new FormControl();
   pacientesFiltrados: Paciente[] = [];
-
   busquedaPorPaciente = false;
   busquedaPorFechas = true;
-
   constructor(
     private institucionService: InstitucionService,
     private router: Router,
@@ -103,8 +93,10 @@ export class PrincipalComponent implements OnInit {
     this.router.navigate([`/resultados/orden/${orden.id}/${orden.paciente.id}`]);
   }
 
-  enviarResultado(orden: OrdenVenta): void {
-    this.router.navigate([`/instituciones/enviar/${orden.id}`]);
+  enviarResultado(datos: OrdenVenta): void {
+    localStorage.setItem('datos', JSON.stringify(datos));
+    this.router.navigate([`/instituciones/enviar/${datos.id}`]);
+   
   }
 
 
@@ -130,7 +122,6 @@ export class PrincipalComponent implements OnInit {
 
 
   private buscarPorFechas(){
-
     this.institucionService.buscarOrdenesPorInstitucionYFechas(this.paginaActual.toString(), this.totalPorPagina.toString(), this.institucion.id, this.fechaInicio, this.fechaFin).subscribe(
       lista => {
         this.lista = lista.content as OrdenVenta[];
@@ -140,7 +131,6 @@ export class PrincipalComponent implements OnInit {
       error => console.log(error)
     );
   }
-
   mostrarNombrePaciente(paciente?: Paciente): string {
     return paciente ? paciente.nombreCompleto : '';
   }

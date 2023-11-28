@@ -6,6 +6,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OrdenVenta } from '../models/orden-venta';
 import { algo } from 'crypto-js';
+import { Medico } from '../models/medico';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +41,15 @@ export class InstitucionService extends CommonService<Institucion>{
   
   public buscarInstitucionPorUsuario(usuario: string): Observable<Institucion>{
     return this.http.get<Institucion>(`${this.baseEndpoint}/usuario/${usuario}`);
+  }
+
+  public editarMedico(id:number,medico):string{
+    // return this.http.put<Medico>(`/${this.baseEndpoint}/algo/${id}`, medico)
+    return "editado"
+
+  }
+  public crearMedico(medico){
+    // return this.http.post<Medico>(`${this.baseEndpoint}/algo`,medico)
+    return"creado"
   }
 }

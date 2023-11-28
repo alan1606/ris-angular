@@ -1,44 +1,47 @@
 <div>
-  <mat-form-field appearance="fill">
-    <mat-label>Rango de fechas:</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input
-        matStartDate
-        placeholder="Inicio"
-        #fechaInicio
-      />
-      <input
-        (dateChange)="onEndDateChange(fechaInicio, fechaFin)"
-        matEndDate
-        placeholder="Fin"
-        #fechaFin
-      />
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Paciente"
-      [formControl]="autocompleteControlPaciente"
-      [matAutocomplete]="autocompletePaciente"
-    />
-    <mat-autocomplete
-      #autocompletePaciente="matAutocomplete"
-      [displayWith]="mostrarNombrePaciente"
-      (optionSelected)="seleccionarPaciente($event)"
-    >
-      <mat-option
-        *ngFor="let paciente of pacientesFiltrados"
-        [value]="paciente"
-      >
-        {{ paciente.nombreCompleto }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-
+  <div class="filtros">
+    <mat-form-field appearance="fill">
+      <mat-label>Rango de fechas:</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input
+          matStartDate
+          placeholder="Inicio"
+          #fechaInicio
+        />
+        <input
+          (dateChange)="onEndDateChange(fechaInicio, fechaFin)"
+          matEndDate
+          placeholder="Fin"
+          #fechaFin
+        />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  
+      <mat-form-field>
+        <input class="buscar-paciente"
+          matInput
+          placeholder="Paciente"
+          [formControl]="autocompleteControlPaciente"
+          [matAutocomplete]="autocompletePaciente"
+        />
+        <mat-autocomplete
+          #autocompletePaciente="matAutocomplete"
+          [displayWith]="mostrarNombrePaciente"
+          (optionSelected)="seleccionarPaciente($event)"
+        >
+          <mat-option
+            *ngFor="let paciente of pacientesFiltrados"
+            [value]="paciente"
+          >
+            {{ paciente.nombreCompleto }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+  
+  </div>
   <div class="card text-dark bg-light mb-3">
     <div class="card-header">Instituciones</div>
     <div class="card-body">

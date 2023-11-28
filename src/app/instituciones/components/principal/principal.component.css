@@ -1,7 +1,3 @@
-.example-form-field {
-    width: 200px;
-    margin-left: 1rem;
-  }
-  table{
-    text-align: center;
-  }
+.filtros *{
+  margin: 2px;
+}

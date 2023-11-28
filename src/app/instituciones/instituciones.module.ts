@@ -13,6 +13,7 @@ import { EnviarResultadosComponent } from './components/enviar-resultados/enviar
 import { RegistrarMedicoModalComponent } from "./components/enviar-resultados/registrar-medico-modal/registrar-medico-modal.component";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     FormsModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSelectModule
   ]
 })
 export class InstitucionesModule { }
