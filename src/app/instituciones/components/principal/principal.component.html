@@ -3,13 +3,12 @@
     <mat-label>Rango de fechas:</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input
-        (dateChange)="onStartDateChange($event)"
         matStartDate
         placeholder="Inicio"
         #fechaInicio
       />
       <input
-        (dateChange)="onEndDateChange($event)"
+        (dateChange)="onEndDateChange(fechaInicio, fechaFin)"
         matEndDate
         placeholder="Fin"
         #fechaFin
@@ -19,9 +18,25 @@
     <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
 
-  <mat-form-field class="example-form-field">
-    <mat-label>Nombre del pacente</mat-label>
-    <input matInput type="text" [(ngModel)]="NombrePaciente" />
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Paciente"
+      [formControl]="autocompleteControlPaciente"
+      [matAutocomplete]="autocompletePaciente"
+    />
+    <mat-autocomplete
+      #autocompletePaciente="matAutocomplete"
+      [displayWith]="mostrarNombrePaciente"
+      (optionSelected)="seleccionarPaciente($event)"
+    >
+      <mat-option
+        *ngFor="let paciente of pacientesFiltrados"
+        [value]="paciente"
+      >
+        {{ paciente.nombreCompleto }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
 
   <div class="card text-dark bg-light mb-3">
@@ -44,14 +59,14 @@
           </thead>
           <tbody>
             <tr *ngFor="let orden of lista">
-              <td>{{ orden.paciente }}</td>
+              <td>{{ orden.paciente.nombreCompleto }}</td>
               <td>{{ orden.estudios }}</td>
-              <td>{{ orden.fecha }}</td>
+              <td>{{ orden.fechaVenta | date: "dd/MM/yyyy" }}</td>
               <td>
                 <button
                   type="button"
                   class="btn btn-success"
-                  (click)="verOrden(1, 343)"
+                  (click)="verOrden(orden)"
                 >
                   Ver estudio
                 </button>
@@ -60,7 +75,7 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  (click)="enviarResultado(1, 1)"
+                  (click)="enviarResultado(orden)"
                 >
                   Enviar
                 </button>
@@ -70,5 +85,9 @@
         </table>
       </div>
     </div>
+
+    <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
+    [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-left mx-2">
+</mat-paginator>
   </div>
 </div>

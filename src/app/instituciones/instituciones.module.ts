@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 import { EnviarResultadosComponent } from './components/enviar-resultados/enviar-resultados.component';
 import { RegistrarMedicoModalComponent } from "./components/enviar-resultados/registrar-medico-modal/registrar-medico-modal.component";
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { RegistrarMedicoModalComponent } from "./components/enviar-resultados/re
     MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
+    MatAutocompleteModule
   ]
 })
 export class InstitucionesModule { }

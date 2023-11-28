@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
 import { Institucion } from '../models/institucion';
 import { BASE_ENDPOINT } from '../config/app';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OrdenVenta } from '../models/orden-venta';
 import { algo } from 'crypto-js';
@@ -22,11 +22,22 @@ export class InstitucionService extends CommonService<Institucion>{
   public buscarLikeNombre(nombre: string): Observable<Institucion[]> {
       return this.http.get<Institucion[]>(`${this.baseEndpoint}/nombre/${nombre}`);
   }
-  public buscarPorPaciente(id:number, idInstitucion:number):Observable<OrdenVenta[]>{
-    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idInstitucion}/paciente/${id}`);
+
+  public buscarOrdenesPorInstitucionYPaciente(page, size, idPaciente:number, idInstitucion:number):any{
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idInstitucion}/paciente/${idPaciente}`, { params: params });
   }
-  public buscarPorFecha(fechaInicio, fechaFin):Observable<OrdenVenta[]>{
-    return this.http.get<OrdenVenta[]>("");
+
+  public buscarOrdenesPorInstitucionYFechas(page:string, size:string , idInstitucion:number, fechaInicio:string , fechaFin:string ):any{
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idInstitucion}/fechaInicio/${fechaInicio}/fechaFin/${fechaFin}`, { params: params });
   }
   
+  public buscarInstitucionPorUsuario(usuario: string): Observable<Institucion>{
+    return this.http.get<Institucion>(`${this.baseEndpoint}/usuario/${usuario}`);
+  }
 }

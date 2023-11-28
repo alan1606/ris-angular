@@ -8,7 +8,8 @@ const routes: Routes = [
   {
     path:"",component:PrincipalComponent
   },
-  {path:"enviar/:ordenId",component:EnviarResultadosComponent}
+  {path:"enviar/:ordenId",component:EnviarResultadosComponent},
+  {path: "**", redirectTo: ""}
 ];
 
 @NgModule({
