@@ -93,10 +93,8 @@ export class PrincipalComponent implements OnInit {
     this.router.navigate([`/resultados/orden/${orden.id}/${orden.paciente.id}`]);
   }
 
-  enviarResultado(datos: OrdenVenta): void {
-    localStorage.setItem('datos', JSON.stringify(datos));
-    this.router.navigate([`/instituciones/enviar/${datos.id}`]);
-   
+  enviarResultado(orden: OrdenVenta): void {
+    this.router.navigate([`/instituciones/enviar/${orden.id}`]);
   }
 
 

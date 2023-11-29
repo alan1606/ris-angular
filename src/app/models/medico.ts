@@ -10,9 +10,10 @@ export class Medico implements Generic {
     correo: string;
     direccion: string;
     fechaNacimiento: string;
-    whastapp: string;
+    whatsapp: string;
     token: string;
     radiologo: boolean;
     local: boolean;
-    usuario: String
+    usuario: string;
+    cedulaFederal: string;
 }

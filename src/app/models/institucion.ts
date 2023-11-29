@@ -5,4 +5,5 @@ export class Institucion implements Generic{
     nombre: string;
     limite: number;
     instrucciones: string;
+    usuario: string;
 }
