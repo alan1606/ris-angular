@@ -21,7 +21,7 @@
     <div class="form-group my-3" *ngIf="estudio?.ordenVenta?.medicoReferente">
         <label for="medico">Medico</label>
         <input type="text" name="medico" id="medico" class="form-control" 
-            [(ngModel)]="estudio?.ordenVenta?.medicoReferente.nombres">
+            [value]="estudio?.ordenVenta?.medicoReferente.nombres + ' ' +estudio?.ordenVenta?.medicoReferente.apellidos">
     </div>
 
 

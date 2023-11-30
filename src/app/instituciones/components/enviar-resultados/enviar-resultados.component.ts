@@ -11,7 +11,6 @@ import { MedicoService } from 'src/app/services/medico.service';
 import { InstitucionService } from 'src/app/services/institucion.service';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
-import { format } from 'date-fns-tz';
 
 
 @Component({

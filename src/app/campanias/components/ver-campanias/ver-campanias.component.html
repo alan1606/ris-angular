@@ -46,7 +46,7 @@
 
         <tbody>
           <tr *ngFor="let campania of lista">
-            <td>[ngClass]="campania?.activa ? 'verde': 'rojo'">{{campania.id}}</td>
+            <td [ngClass]="campania?.activa ? 'verde': 'rojo'"  >{{campania.id}}</td>
             <td>{{campania.nombre}}</td>
             <td>{{campania.fechaInicio | date : 'dd/MM/yyyy'}} </td>
             <td>{{campania.fechaFin | date : 'dd/MM/yyyy'}} </td>
