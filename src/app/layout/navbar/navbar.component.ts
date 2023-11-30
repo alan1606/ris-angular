@@ -36,6 +36,7 @@ export class NavbarComponent implements OnInit {
   isReceptionist: boolean = false;
   isRadiologicPhysician: boolean = false;
   isTechnician: boolean = false;
+  isInstitution: boolean = false;
 
   constructor(
     private tokenService: TokenService,
@@ -75,6 +76,7 @@ export class NavbarComponent implements OnInit {
     this.isReceptionist = this.tokenService.isReceptionist();
     this.isRadiologicPhysician = this.tokenService.isRadiologicPhysician();
     this.isTechnician = this.tokenService.isTechnician();
+    this.isInstitution = this.tokenService.isInstitution();
 
     if(this.isLogged && this.isTokensExipred()){
       this.tokenService.logOut();
@@ -172,6 +174,13 @@ export class NavbarComponent implements OnInit {
 
   puedeAbrirInstrucciones(): boolean{
     if(this.isAdmin){
+      return true;
+    }
+    return false;
+  }
+
+  puedeAbrirInstitucion(): boolean{
+    if(this.isInstitution){
       return true;
     }
     return false;

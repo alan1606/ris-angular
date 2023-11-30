@@ -305,8 +305,6 @@ export class AgendarCitaComponent implements OnInit {
 
     
     this.total = 0;
-    console.log("referente                   aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-    console.log(this.medicoReferente);
     if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
       return;

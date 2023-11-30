@@ -22,6 +22,7 @@ import { RecepcionGuard } from './guards/recepcion.guard';
 import { DictadorGuard } from './guards/dictador.guard';
 import { AnyRoleGuard } from './guards/any-role.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { InstitucionGuard } from './guards/institucion.guard';
 
 
 const routes: Routes = [
@@ -125,6 +126,11 @@ const routes: Routes = [
     component: LogoutComponent, 
     canActivate : [AnyRoleGuard]
   },
+  {
+    path: 'instituciones',
+    loadChildren: () => import('./instituciones/instituciones.module').then( m => m.InstitucionesModule),
+    canActivate : [ InstitucionGuard ] 
+  }
 ];
 
 @NgModule({

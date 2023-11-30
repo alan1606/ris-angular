@@ -1,0 +1,52 @@
+<button mat-dialog-close class="btn btn-secondary my-2" (click)="cerrar()">Volver</button>
+<div class="enviar-resultado">
+    <div>
+    <mat-form-field  class="example-form-field">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" [(ngModel)]="NombreMedico"/>
+    </mat-form-field>
+
+    <mat-form-field  class="example-form-field">
+        <mat-label>Apellidos</mat-label>
+        <input matInput type="text" [(ngModel)]="ApellidosMedico"/>
+    </mat-form-field>
+
+    <mat-form-field  class="example-form-field">
+        <mat-label>Cedula</mat-label>
+        <input matInput type="text" [(ngModel)]="CedulaMedico"/>
+    </mat-form-field>
+
+    <mat-form-field  class="example-form-field">
+        <mat-label>Correo</mat-label>
+        <input matInput type="text" [(ngModel)]="CorreoMedico"/>
+    </mat-form-field>
+
+    </div>
+    <div>
+        <mat-form-field  class="example-form-field">
+            <mat-label>Whatsapp</mat-label>
+            <input matInput  [(ngModel)]="WhatsappMedico"/>
+        </mat-form-field>
+    
+        <mat-form-field  class="example-form-field">
+            <mat-label>Direccion</mat-label>
+            <input matInput type="text" [(ngModel)]="DireccionMedico"/>
+        </mat-form-field>
+    
+        <mat-form-field  class="example-form-field">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput type="text" [(ngModel)]="FechaNacimientoMedico"/>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Sexo</mat-label>
+            <mat-select matInput type="text" [(ngModel)]="Sexo">
+              <mat-option value="0">Masculino</mat-option>
+              <mat-option value="1">Femenino</mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+        
+    </div>
+</div>
+<button class="btn btn-primary" (click)="this.data? editarMedico():crearMedico()">{{this.data ? "Editar" : "Crear"}}</button>
