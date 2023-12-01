@@ -25,6 +25,7 @@ import { AgendarComponent } from './components/agendar/agendar.component';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 import { RegistrarPacienteParcialModalComponent } from './components/registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
 import { RegistroCompletoPacienteComponent } from './components/registro-completo-paciente/registro-completo-paciente.component';
+import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paciente/confirmar-cita-paciente.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { RegistroCompletoPacienteComponent } from './components/registro-complet
         AgendarComponent,
         RegistrarPacienteParcialModalComponent,
         RegistroCompletoPacienteComponent,
+        ConfirmarCitaPacienteComponent,
     ],
     imports: [
         CommonModule,

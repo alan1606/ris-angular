@@ -8,6 +8,7 @@ import { SubirFotoOrdenComponent } from './components/subir-foto-orden/subir-fot
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { AgendarComponent } from './components/agendar/agendar.component';
 import { RegistroCompletoPacienteComponent } from './components/registro-completo-paciente/registro-completo-paciente.component';
+import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paciente/confirmar-cita-paciente.component';
 
 const routes: Routes =[
     {
@@ -43,6 +44,10 @@ const routes: Routes =[
       {
         path: ':idPaciente/:idOrden', 
         component: RegistroCompletoPacienteComponent
+      },
+      {
+        path: 'confimar/:idOrden/:idPaciente',
+        component: ConfirmarCitaPacienteComponent
       },
     { path: "**", redirectTo: ""}
 ];

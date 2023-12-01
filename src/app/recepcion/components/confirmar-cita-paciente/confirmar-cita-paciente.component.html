@@ -1,0 +1,11 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <div *ngFor="let estudio of estudios">
+            <p>{{estudio.concepto.area.area}} - {{estudio.concepto.concepto}}. Día {{estudio.diaAsignado  | date:'dd \'de\' MMMM \'del\' yyyy'}} hora {{estudio.horaAsignado | date:'h:mm a'}} </p>
+            <p *ngIf="estudio.concepto?.instrucciones">{{estudio.concepto.instrucciones}}</p>
+        </div>
+    </div>
+
+</div>
+
