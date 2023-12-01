@@ -7,6 +7,7 @@ import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estud
 import { SubirFotoOrdenComponent } from './components/subir-foto-orden/subir-foto-orden.component';
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { AgendarComponent } from './components/agendar/agendar.component';
+import { RegistroCompletoPacienteComponent } from './components/registro-completo-paciente/registro-completo-paciente.component';
 
 const routes: Routes =[
     {
@@ -38,6 +39,10 @@ const routes: Routes =[
         path: 'agendar', 
         component: AgendarComponent, 
         canActivate : [RecepcionGuard]
+      },
+      {
+        path: ':idPaciente/:idOrden', 
+        component: RegistroCompletoPacienteComponent
       },
     { path: "**", redirectTo: ""}
 ];

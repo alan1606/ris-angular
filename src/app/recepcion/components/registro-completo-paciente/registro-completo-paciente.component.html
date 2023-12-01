@@ -1,0 +1,128 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+
+        <form>
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" [(ngModel)]="model.nombre"
+                    (input)="mayusculasNombre()">
+                <div class="alert alert-danger" *ngIf="error?.nombre">
+                    {{error.nombre}}
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label for="apellidoPaterno">Apellido paterno</label>
+                <input type="text" name="apellidoPaterno" id="apellidoPaterno" class="form-control"
+                    [(ngModel)]="model.apellidoPaterno" (input)="mayusculasPaterno()">
+                <div class="alert alert-danger" *ngIf="error?.apellidoPaterno">
+                    {{error.apellidoPaterno}}
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label for="apellidoMaterno">Apellido materno</label>
+                <input type="text" name="apellidoMaterno" id="apellidoMaterno" class="form-control"
+                    [(ngModel)]="model.apellidoMaterno" (input)="mayusculasMaterno()">
+                <div class="alert alert-danger" *ngIf="error?.apellidoMaterno">
+                    {{error.apellidoMaterno}}
+                </div>
+            </div>
+
+
+            <div class="form-group my-2">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha de nacimiento: </mat-label>
+                    <input matInput [matDatepicker]="picker" (dateChange)="seleccionarFecha(fecha)" #fecha
+                        [formControl]="fechaNacimientoControl">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <div class="alert alert-danger" *ngIf="error?.fechaNacimiento">
+                    {{error.fechaNacimiento}}
+                </div>
+            </div>
+
+
+
+            <div class="form-group my-2">
+                <mat-form-field>
+                    <mat-label>País de orígen</mat-label>
+                    <mat-select [(ngModel)]="pais" name="pais">
+                        <mat-option *ngFor="let pais of paises" [value]="pais">
+                            {{pais}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+            <div class="form-group my-2" *ngIf="pais == 'MÉXICO'">
+                <mat-form-field>
+                    <mat-label>Entidad de nacimiento</mat-label>
+                    <mat-select [(ngModel)]="entidad" name="entidad">
+                        <mat-option *ngFor="let entidad of entidades" [value]="entidad">
+                            {{entidad}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="alert alert-danger" *ngIf="error?.paciente">
+                    {{error.paciente}}
+                </div>
+            </div>
+
+
+            <div class="form-group my-2">
+                <mat-form-field>
+                    <mat-label>Sexo</mat-label>
+                    <mat-select [(ngModel)]="sexo" name="sexo" (selectionChange)="seleccionarSexo()">
+                        <mat-option *ngFor="let sexo of sexos" [value]="sexo">
+                            {{sexo}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="alert alert-danger" *ngIf="error?.sexo">
+                    {{error.sexo}}
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" [(ngModel)]="model.email">
+                <div class="alert alert-danger" *ngIf="error?.email">
+                    {{error.email}}
+                </div>
+            </div>
+
+
+            <div class="form-group my-2">
+                <label for="telefono">Teléfono</label>
+                <input type="text" name="telefono" id="telefono" class="form-control" [(ngModel)]="model.telefono">
+                <div class="alert alert-danger" *ngIf="error?.telefono">
+                    {{error.telefono}}
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label for="nombre">Curp</label>
+                <input type="text" name="curp" id="curp" class="form-control" [(ngModel)]="model.curp"
+                    (input)="mayusculasCurp()">
+                <div class="alert alert-danger" *ngIf="error?.curp">
+                    {{error.curp}}
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <button type="button" class="btn btn-primary" (click)="model.id ? editar() : crear()">
+                    {{ model?.id ? 'Editar' : 'Crear' }}
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</div>

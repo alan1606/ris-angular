@@ -91,9 +91,8 @@ const routes: Routes = [
   },
   {
     path: 'recepcion', 
-      loadChildren: () => import('./recepcion/recepcion.module').then( m => m.RecepcionModule),
-      canActivate : [ RecepcionGuard ] 
-  },
+      loadChildren: () => import('./recepcion/recepcion.module').then( m => m.RecepcionModule)
+      },
   {
     path: 'authorized', 
     component: AuthorizedComponent, 

@@ -24,6 +24,7 @@ import { QRCodeModule } from 'angular2-qrcode';
 import { AgendarComponent } from './components/agendar/agendar.component';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 import { RegistrarPacienteParcialModalComponent } from './components/registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
+import { RegistroCompletoPacienteComponent } from './components/registro-completo-paciente/registro-completo-paciente.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { RegistrarPacienteParcialModalComponent } from './components/registrar-p
         AgendaComponent,
         AgendarComponent,
         RegistrarPacienteParcialModalComponent,
+        RegistroCompletoPacienteComponent,
     ],
     imports: [
         CommonModule,
