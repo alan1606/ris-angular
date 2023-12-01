@@ -336,7 +336,6 @@ export class AgendarComponent implements OnInit {
       estudios => {
         this.estudios = estudios;
         this.ordenVenta = this.estudios[0].ordenVenta;
-        this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
         Swal.fire("Procesado", "La orden se ha procesado", "success")
       },
@@ -376,15 +375,6 @@ export class AgendarComponent implements OnInit {
       });
   }
 
-  private mostrarModalQrImagenes() {
-    const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent,
-      {
-        width: "300px",
-        data: { orden: this.ordenVenta }
-      });
-
-    modalRef.afterClosed().subscribe(something => { console.log(something) });
-  }
 
   buscarCodigoPromocional(event: KeyboardEvent): void {
     event.preventDefault();

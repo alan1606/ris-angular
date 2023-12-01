@@ -1,3 +1,4 @@
+
 <div class="card text-dark bg-light mb-3">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
@@ -14,7 +15,7 @@
             </div>
 
             <div *ngIf="fotosCargadas | async">
-                <div class="form-group my-3" *ngFor="let foto of fotos">
+                <div class="form-group my-3 fotito" *ngFor="let foto of fotos">
                     <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded" style="cursor: pointer;">
                     <button type="button" class="btn btn-danger btn-lg" (click)="eliminar(foto)">
                         Eliminar
@@ -27,3 +28,4 @@
     </div>
 
 </div>
+
