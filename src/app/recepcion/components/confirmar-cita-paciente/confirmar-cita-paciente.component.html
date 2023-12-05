@@ -5,6 +5,14 @@
             <p>{{estudio.concepto.area.area}} - {{estudio.concepto.concepto}}. Día {{estudio.diaAsignado  | date:'dd \'de\' MMMM \'del\' yyyy'}} hora {{estudio.horaAsignado | date:'h:mm a'}} </p>
             <p *ngIf="estudio.concepto?.instrucciones">{{estudio.concepto.instrucciones}}</p>
         </div>
+
+        <div *ngIf="areas?.length > 0">
+            <p *ngFor="let area of areas">{{area.instrucciones}}</p>
+        </div>
+
+        <div *ngIf="estudios?.length >0">
+            <p>{{estudios[0].institucion.nombre}}: {{estudios[0].institucion.instrucciones}}</p>
+        </div>
     </div>
 
 </div>

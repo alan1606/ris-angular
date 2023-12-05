@@ -42,8 +42,8 @@ import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paci
         AgendarComponent,
         RegistrarPacienteParcialModalComponent,
         RegistroCompletoPacienteComponent,
-        ConfirmarCitaPacienteComponent,
-    ],
+        ConfirmarCitaPacienteComponent
+        ],
     imports: [
         CommonModule,
         FormsModule,

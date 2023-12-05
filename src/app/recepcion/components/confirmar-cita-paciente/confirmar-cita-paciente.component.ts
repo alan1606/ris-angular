@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
-import { switchMap, of, catchError, forkJoin, Observable} from 'rxjs';
+import { switchMap, catchError, tap, mergeMap, map } from 'rxjs/operators';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
+import { Area } from 'src/app/models/area';
+import { AreasService } from 'src/app/services/areas.service';
+import { of, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-confirmar-cita-paciente',
@@ -17,12 +20,15 @@ export class ConfirmarCitaPacienteComponent implements OnInit {
   orden: OrdenVenta;
   private pacienteId: number;
   estudios: VentaConceptos[] = [];
+  private areasIds: number[];
+  areas: Area[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private ordenVentaService: OrdenVentaService,
-    private ventaConceptosService: VentaConceptosService
+    private ventaConceptosService: VentaConceptosService,
+    private areasService: AreasService
   ) { }
 
   ngOnInit(): void {
@@ -39,13 +45,13 @@ export class ConfirmarCitaPacienteComponent implements OnInit {
     const ordenId = +params.get('idOrden');
     this.pacienteId = +params.get('idPaciente');
     if (!ordenId || !this.pacienteId) {
-      return of(null); // Retorna un observable nulo para evitar el anidamiento innecesario
+      return of(null);
     }
 
     return this.ordenVentaService.ver(ordenId).pipe(
       catchError((error) => {
         console.log(error);
-        return of(null); // Maneja el error y retorna un observable nulo
+        return of(null);
       })
     );
   }
@@ -58,21 +64,22 @@ export class ConfirmarCitaPacienteComponent implements OnInit {
       this.orden = orden;
       this.titulo = `Confirmar cita de ${this.orden.paciente.nombreCompleto}`;
 
-      // Utilizar forkJoin para manejar múltiples llamadas asíncronas
-      return forkJoin([
-        this.ventaConceptosService.encontrarPorOrdenVentaId(this.orden.id)
-      ]).pipe(
-        switchMap(([estudios]) => {
+      return this.ventaConceptosService.encontrarPorOrdenVentaId(this.orden.id).pipe(
+        tap(estudios => {
           this.estudios = estudios;
-          return of(null);
+          this.areasIds = estudios.map(estudio => estudio.concepto.area.id);
+        }),
+        mergeMap(() => this.areasService.obtenerAreasPorId(this.areasIds)),
+        tap(areas => {
+          this.areas = areas;
         }),
         catchError((error) => {
           console.log(error);
           return of(null);
-        })
+        }),
+        // Aquí se puede utilizar el operador map para devolver `void`
+        map(() => null)
       );
     }
   }
-  
-
 }
