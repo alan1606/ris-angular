@@ -25,6 +25,6 @@ export class AreasService extends CommonService<Area> {
   public obtenerAreasPorId(areasIds: number[]): Observable<Area[]> {
     const params = new HttpParams()
     .set('ids', areasIds.join(','));
-    return this.http.get<Area[]>(`${this.baseEndpoint}/`, {params: params});
+    return this.http.get<Area[]>(`${this.baseEndpoint}/ids`, {params: params});
   }
 }

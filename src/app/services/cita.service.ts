@@ -33,7 +33,10 @@ export class CitaService {
     return this.http.put<void>(`${this.baseEndpoint}/apartar/${citaId}`, {});
   }
 
-  liberarCita(citaId: number): Observable<void> {
+  public liberarCita(citaId: number): Observable<void> {
     return this.http.put<void>(`${this.baseEndpoint}/liberar/${citaId}`, {});
+  }
+  public confirmarCitas(idsVentaConceptos: number[]): Observable<void>{
+    return this.http.put<void>(`${this.baseEndpoint}/confirmar`, {idsVentaConceptos})
   }
 }

@@ -46,7 +46,7 @@ const routes: Routes =[
         component: RegistroCompletoPacienteComponent
       },
       {
-        path: 'confimar/:idOrden/:idPaciente',
+        path: 'confirmar/:idOrden/:idPaciente',
         component: ConfirmarCitaPacienteComponent
       },
     { path: "**", redirectTo: ""}

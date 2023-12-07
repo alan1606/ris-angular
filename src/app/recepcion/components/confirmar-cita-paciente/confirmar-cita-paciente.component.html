@@ -1,19 +1,28 @@
 <div class="card text-dark bg-light mb-3">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
-        <div *ngFor="let estudio of estudios">
-            <p>{{estudio.concepto.area.area}} - {{estudio.concepto.concepto}}. Día {{estudio.diaAsignado  | date:'dd \'de\' MMMM \'del\' yyyy'}} hora {{estudio.horaAsignado | date:'h:mm a'}} </p>
-            <p *ngIf="estudio.concepto?.instrucciones">{{estudio.concepto.instrucciones}}</p>
-        </div>
+        <ul class="list-group my-2">
+            <li class="list-group-item" *ngFor="let estudio of estudios">
+                {{estudio.concepto.area.nombre}} - {{estudio.concepto.concepto}}. 
+                Día <div class="en-linea rojo">{{estudio.fechaAsignado | date : "dd/MM/yyyy"  }}</div> hora 
+                <div class="en-linea verde">{{ parseHora(estudio.horaAsignado) | date: 'h:mm a'  }} </div>
+                <p *ngIf="estudio.concepto?.instrucciones">{{estudio.concepto.instrucciones}}</p>
+            </li> 
+        </ul>
 
-        <div *ngIf="areas?.length > 0">
-            <p *ngFor="let area of areas">{{area.instrucciones}}</p>
-        </div>
+        <ul class="list-group my-2" *ngIf="areas?.length > 0">
+            <li class="list-group-item" *ngFor="let area of areas" >
+                <div *ngIf="area?.instrucciones"> <div class="en-linea verde">{{area.nombre}}:</div> {{area.instrucciones}}</div>
+            </li>
+        </ul>
 
-        <div *ngIf="estudios?.length >0">
-            <p>{{estudios[0].institucion.nombre}}: {{estudios[0].institucion.instrucciones}}</p>
-        </div>
+        <ul  class="list-group my-2" *ngIf="estudios?.length >0">
+            <li class="list-group-item" *ngIf="estudios[0]?.institucion?.instrucciones">
+                <div><div class="en-linea rojo">{{estudios[0].institucion.nombre}}</div> {{estudios[0].institucion.instrucciones}}</div>
+            </li>
+        </ul>
+
+        <button type="button" class="btn btn-primary my-3" (click)="confirmar()">Confirmar</button>
     </div>
-
 </div>
 
