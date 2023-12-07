@@ -97,10 +97,12 @@ export class ConfirmarCitaPacienteComponent implements OnInit {
 
   confirmar(): void{
     const ids : number [] = this.estudios.map(estudio => estudio.id);
+    console.log('JSON a enviar:', { ids });  // Agrega esta línea para ver el JSON antes de enviarlo
+
     this.citasService.confirmarCitas(ids).subscribe(
       () => Swal.fire("Confirmado", "Las citas se han confirmado", "success"),
       (error) => {
-        Swal.fire("Error", "Ha ocurrido un error", "error");
+        Swal.fire("Error", error.error.detail, "error");
         console.log(error);
       }
     );
