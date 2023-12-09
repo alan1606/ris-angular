@@ -39,4 +39,8 @@ export class CitaService {
   public confirmarCitas(idsVentaConceptos: number[]): Observable<void>{
     return this.http.put<void>(`${this.baseEndpoint}/confirmar`, idsVentaConceptos)
   }
+
+  public mandarConfirmacionesDiaSiguiente(): Observable<void>{
+    return this.http.post<void>(`${this.baseEndpoint}/mandar-confirmaciones-dia-siguiente`, {});
+  }
 }

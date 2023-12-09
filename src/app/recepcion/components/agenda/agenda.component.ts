@@ -56,4 +56,6 @@ export class AgendaComponent implements OnInit {
     this.fecha = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
     this.buscarTotalesPorArea();
   };
+
+
 }
