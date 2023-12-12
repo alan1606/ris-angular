@@ -1,0 +1,169 @@
+<div class="card text-dark bg-light">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+
+        <form>
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
+                        [matAutocomplete]="autocompleteArea">
+                    <mat-autocomplete #autocompleteArea="matAutocomplete" [displayWith]="mostrarNombreArea"
+                        (optionSelected)="seleccionarArea($event)">
+                        <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+                            {{area.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Estudio" [formControl]="autocompleteControlConcepto"
+                        [matAutocomplete]="autocompleteConcepto">
+                    <mat-autocomplete #autocompleteConcepto="matAutocomplete" [displayWith]="mostrarNombreConcepto"
+                        (optionSelected)="seleccionarConcepto($event)">
+                        <mat-option *ngFor="let concepto of conceptosFiltrados" [value]="concepto">
+                            {{concepto.concepto}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Precio" id="precio" name="precio" [value]="concepto?.precio ? concepto?.precio : ''"
+                        class="verde">
+                </mat-form-field>
+            </div>
+
+            <div class="form-group" [formGroup]="formulario">
+                <mat-form-field>
+                    <mat-label>Sala</mat-label>
+                    <mat-select formControlName="salaControl">
+                        <mat-option *ngFor="let sala of equiposDicom" [value]="sala.id">
+                            {{sala.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group" *ngIf="equipoDicom">
+                <mat-form-field>
+                    <mat-label>Seleccionar fecha</mat-label>
+                    <input [min]="minDate" matInput [matDatepicker]="picker1" [formControl]="date" #fechaSeleccionada
+                        (dateInput)="actualizarFecha(fechaSeleccionada)">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+
+            <div class="form-group" [formGroup]="formulario" *ngIf="citas && citas?.length>0">
+                <mat-form-field>
+                    <mat-label>Hora</mat-label>
+                    <mat-select formControlName="citaControl">
+                        <mat-option *ngFor="let cita of citas" [value]="cita">
+                            {{ cita.fechaYHora | date:'HH:mm' }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="table-responsive tabla">
+                <table class="table table-hover table-striped" *ngIf="estudios?.length>0;">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Estudio</th>
+                            <th>Area</th>
+                            <th>Sala</th>
+                            <th>Precio</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Quitar</th>
+                        </tr>
+                    </thead>
+
+                    <tbody *ngIf="estudios?.length>0">
+                        <tr *ngFor="let estudio of estudios; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{estudio.concepto.concepto}}</td>
+                            <td>{{estudio.concepto.area.nombre}}</td>
+                            <td>{{estudio.equipoDicom.nombre}} </td>
+                            <td>{{estudio.concepto.precio}}</td>
+                            <td>{{estudio.cita.fechaYHora | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{estudio.cita.fechaYHora | date: 'HH:mm'}}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-md" (click)="quitarEstudio(i)">
+                                    -
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="my-2" *ngIf="estudios?.length > 0 && institucion.nombre == 'PARTICULAR'">
+                <mat-card class="mitad verde final">
+                    <mat-card-content>{{'$' + total}}</mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Convenio" [formControl]="autocompleteControlConvenio"
+                        [matAutocomplete]="autocompleteConvenio" class="mat-input-long">
+                    <mat-autocomplete #autocompleteConvenio="matAutocomplete" [displayWith]="mostrarNombreConvenio"
+                        (optionSelected)="seleccionarInstitucion($event)">
+                        <mat-option *ngFor="let convenio of conveniosFiltrados" [value]="convenio">
+                            {{convenio.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="from-group" *ngIf="this.institucion?.nombre == 'PARTICULAR'">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Código promocional</mat-label>
+                    <input matInput placeholder="Código promocional" name="codigo" [(ngModel)]="codigoPromocion"
+                        (keyup.enter)="buscarCodigoPromocional($event)"
+                        [attr.disabled]="isCodigoPromocionalDisabled ? true : null">
+                </mat-form-field>
+            </div>
+
+
+
+            <div class="flex">
+                <mat-form-field>
+                    <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
+                        [matAutocomplete]="autocompletePaciente" class="mat-input-long">
+                    <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
+                        (optionSelected)="seleccionarPaciente($event)">
+                        <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+                            {{paciente.nombreCompleto}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <button type="button" class="btn btn-success mx-2 rounded-circle btn-add"
+                    (click)="abrirModalRegistrarPacienteParcial()">
+                    {{this.paciente?.id ? "Ver" : "+"}}
+                </button>
+
+                <button *ngIf="this.paciente?.id" type="button" class="btn btn-info mx-4 rounded-circle btn-add"
+                    (click)="limpiarPaciente()">
+                    {{this.paciente?.id ? "Limpiar" : ""}}
+                </button>
+            </div>
+
+
+            <div class="form-group flex  my-3" *ngIf="this.estudios?.length > 0 && this.paciente">
+                <button type="button" class="btn btn-primary" (click)="agendar()">
+                    AGENDAR
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</div>

@@ -15,11 +15,16 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/agendar-cita" routerLinkActive="active" *ngIf="puedeAbrirAgenda()">Agendar</a>
+          <a class="nav-link dropdown-toggle"  routerLinkActive="active" *ngIf="puedeAbrirAgendarCitas()"
+          [matMenuTriggerFor]="menuCitas"  id="navbarDropdownMenuCitasLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Citas</a>
+          <mat-menu #menuCitas="matMenu">
+            <button mat-menu-item routerLink="/recepcion/agendar">Agendar</button>
+            <button mat-menu-item routerLink="/recepcion/confirmaciones">Confirmaciones</button>
+          </mat-menu>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/agenda" routerLinkActive="active" *ngIf="puedeAbrirAgendados()">Ver agendados</a>
+          <a class="nav-link" href="#" routerLink="/recepcion/agenda" routerLinkActive="active" *ngIf="puedeAbrirAgendados()">Ver agendados</a>
         </li>
 
         <li class="nav-item">
@@ -57,6 +62,16 @@
             <button mat-menu-item routerLink="/instrucciones/area">Areas</button>
           </mat-menu>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/horarios" routerLinkActive="active" *ngIf="puedeAbrirHorarios()">Horarios</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/recepcion/urgencia" routerLinkActive="active" *ngIf="puedeAbrirUrgencia()">Urgencia</a>
+        </li>
+
+
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/instituciones" routerLinkActive="active"  *ngIf="puedeAbrirInstitucion()">Instituciones</a>
         </li>

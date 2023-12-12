@@ -1,19 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
-import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
-import { AgendaComponent } from './components/agenda/agenda.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
 import { DictamenComponent } from './components/resultados/dictamen.component';
-import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
-import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
-import { AgendarCitaComponent } from './modules/recepcion/components/agendar-cita/agendar-cita.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ConceptosGuard } from './guards/conceptos.guard';
@@ -35,16 +30,6 @@ const routes: Routes = [
     path : 'venta-conceptos', 
     component: VentaConceptosComponent, 
     canActivate : [VentaConceptosGuard]
-  },
-  {
-    path : 'subir-foto-orden/:id', 
-    component: SubirFotoOrdenComponent, 
-    canActivate : [RecepcionGuard]
-  },
-  {
-    path: 'agenda', 
-    component: AgendaComponent, 
-    canActivate : [RecepcionGuard]
   },
   {
     path: 'medico-radiologo', 
@@ -72,16 +57,6 @@ const routes: Routes = [
      canActivate : []
   },
   {
-    path: 'recepcion/enviar-estudios', 
-    component: EnviarEstudiosComponent, 
-    canActivate : [RecepcionGuard]
-  },
-  {
-    path: 'recepcion/enviar-estudio/:idPacs', 
-    component: EnviarEstudioComponent, 
-    canActivate : [RecepcionGuard]
-  },
-  {
     path: 'worklist', 
     component: WorklistComponent, 
     canActivate : [VentaConceptosGuard]
@@ -97,11 +72,6 @@ const routes: Routes = [
     canActivate : []
   },
   {
-    path: 'recepcion/agendar-cita', 
-    component: AgendarCitaComponent, 
-    canActivate : [RecepcionGuard]
-  },
-  {
     path: 'campanias', 
       loadChildren: () => import('./campanias/campanias.module').then( m => m.CampaniasModule),
       canActivate : [ AdminGuard ] 
@@ -115,7 +85,15 @@ const routes: Routes = [
     path: 'instrucciones', 
       loadChildren: () => import('./instrucciones/instrucciones.module').then( m => m.InstruccionesModule),
       canActivate : [ AdminGuard ] 
+  },{
+    path: 'horarios', 
+      loadChildren: () => import('./horarios/horarios.module').then( m => m.HorariosModule),
+      canActivate : [ AdminGuard ] 
   },
+  {
+    path: 'recepcion', 
+      loadChildren: () => import('./recepcion/recepcion.module').then( m => m.RecepcionModule)
+      },
   {
     path: 'authorized', 
     component: AuthorizedComponent, 

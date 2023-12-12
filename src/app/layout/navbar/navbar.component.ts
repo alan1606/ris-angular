@@ -115,7 +115,15 @@ export class NavbarComponent implements OnInit {
     return code_challenge;
   }
 
-  puedeAbrirAgenda(): boolean{
+  puedeAbrirUrgencia(): boolean{
+    if(this.isAdmin || this.isReceptionist){
+      return true;
+    }
+    return false;
+  }
+
+
+  puedeAbrirAgendarCitas(): boolean{
     if(this.isAdmin || this.isReceptionist){
       return true;
     }
@@ -179,8 +187,8 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
-  puedeAbrirInstitucion(): boolean{
-    if(this.isInstitution){
+  puedeAbrirHorarios(): boolean{
+    if(this.isAdmin){
       return true;
     }
     return false;

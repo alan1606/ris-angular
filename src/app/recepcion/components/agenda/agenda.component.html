@@ -1,0 +1,43 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <div class="alert alert-info" *ngIf="areasConTotales?.length==0">
+            No hay registros en el sistema.
+        </div>
+
+
+            <div class="card-body" *ngIf="areasConTotales?.length>0">
+                <mat-form-field appearance="fill">
+                    <mat-label>Seleccionar fecha</mat-label>
+                    <input matInput [matDatepicker]="picker1" [formControl]="date" #fechaSeleccionada (dateInput)="actualizarFecha(fechaSeleccionada)">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+            </div>        
+
+        <table class="table table-hover table-striped" *ngIf="areasConTotales?.length>0">
+            <thead>
+                <tr>
+                    <th>Área</th>
+                    <th>Estudios</th>
+                    <th>Ver agenda</th>
+                </tr>
+            </thead>
+
+            <tbody *ngIf="areasConTotales?.length>0"> 
+                <tr *ngFor="let total of areasConTotales">
+                    <td>{{total.area.nombre}}</td>
+                    <td>{{total.total}}</td>
+                    <td><button class="btn btn-primary btn-sm" (click)="abrirAgenda(total.area, fecha)"
+                        *ngIf="total.total != 0">
+                            Ver
+                        </button></td>
+
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>

@@ -1,3 +1,4 @@
+import { Cita } from "./cita";
 import { Concepto } from "./concepto";
 import { EquipoDicom } from "./equipo-dicom";
 import { Generic } from "./generic";
@@ -25,5 +26,5 @@ export class VentaConceptos implements Generic {
     medicoRadiologo: Medico;
     iuid: string;
     mensaje: string;
-
+    cita: Cita;
 }

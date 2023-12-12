@@ -21,24 +21,17 @@ import { MatButtonModule} from '@angular/material/button';
 import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
-import { SubirFotoOrdenComponent } from './components/studies/subir-foto-orden/subir-foto-orden.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { AgendaComponent } from './components/agenda/agenda.component';
-import { VerAgendadosModalComponent } from './components/agenda/ver-agendados-modal/ver-agendados-modal.component';
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './components/resultados/resultados.component';
-import  {QRCodeModule}  from 'angular2-qrcode';
 import { DictamenComponent } from './components/resultados/dictamen.component';
-import { EnviarEstudiosComponent } from './components/recepcion/enviar-estudios/enviar-estudios.component';
-import { EnviarEstudioComponent } from './components/recepcion/enviar-estudio.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
-import { RecepcionModule } from './modules/recepcion/recepcion.module';
 import { LoginComponent } from './components/usuarios/login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
@@ -49,6 +42,7 @@ import { QuillModule } from 'ngx-quill';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { ResourceInterceptor } from './interceptors/resource.interceptor';
 import { LogoutComponent } from './components/logout/logout.component';
+import { RecepcionModule } from './recepcion/recepcion.module';
 
 
 @NgModule({
@@ -60,17 +54,12 @@ import { LogoutComponent } from './components/logout/logout.component';
         VentaConceptosComponent,
         BuscarEstudioModalComponent,
         EnviarEstudioModalComponent,
-        SubirFotoOrdenComponent,
         InformacionEstudioModalComponent,
-        AgendaComponent,
-        VerAgendadosModalComponent,
         AntecedentesEstudioModalComponent,
         MedicoRadiologoComponent,
         DictadorComponent,
         ResultadosComponent,
         DictamenComponent,
-        EnviarEstudiosComponent,
-        EnviarEstudioComponent,
         WorklistComponent,
         SubirInterpretacionComponent,
         OrdenVentaComponent,
@@ -99,16 +88,13 @@ import { LogoutComponent } from './components/logout/logout.component';
         MatSelectModule,
         MatIconModule,
         MatCardModule,
-        QRCodeModule,
         RecepcionModule,
         MatCardModule,
         MatDividerModule,
         MatIconModule,
         MatSelectModule,
         MatFormFieldModule,
-    
         QuillModule.forRoot()
-
     ],
     providers: [
         DatePipe,
