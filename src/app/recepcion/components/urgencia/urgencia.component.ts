@@ -285,7 +285,6 @@ export class UrgenciaComponent implements OnInit {
   }
 
   agendar(){
-
     this.ordenVenta = new OrdenVenta;
     this.ordenVenta.medicoReferente = this.medicoReferente;
 
@@ -302,7 +301,6 @@ export class UrgenciaComponent implements OnInit {
 
     
     this.total = 0;
-
     if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
       return;

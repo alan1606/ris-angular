@@ -15,4 +15,5 @@ export class OrdenVenta implements Generic{
     pagado: boolean;
     aplicarDescuento: boolean;
     codigoPromocional: string;
+    estudios:string;
 }

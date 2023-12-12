@@ -28,6 +28,7 @@ import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/
 export class VentaConceptosComponent extends CommonListarComponent<VentaConceptos, VentaConceptosService> implements OnInit {
 
   autocompleteControl = new FormControl();
+  
   autocompleteControlPaciente = new FormControl();
   areasFiltradas: Area[] = [];
   pacientesFiltrados: Paciente[] = [];
@@ -46,6 +47,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
   }
 
   override ngOnInit(): void {
+    
     this.buscarEstudiosDeHoy();
 
     this.autocompleteControl.valueChanges.pipe(

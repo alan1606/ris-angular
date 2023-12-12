@@ -54,6 +54,10 @@ export class TokenService {
     return this.isRole('TECNICO');
   }
 
+  isInstitution(): boolean{
+    return this.isRole("INSTITUCION");
+  }
+
   private isRole(role: string) : boolean{
     if(!this.isLogged()){
       return false;

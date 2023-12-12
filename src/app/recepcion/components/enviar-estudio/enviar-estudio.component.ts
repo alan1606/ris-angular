@@ -33,6 +33,7 @@ export class EnviarEstudioComponent implements OnInit {
   autocompleteControlMedicoReferente = new UntypedFormControl();
   medicosReferentesFiltrados: Medico[] = [];
 
+  whatsappPaciente: string = '';
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -55,6 +56,7 @@ export class EnviarEstudioComponent implements OnInit {
           this.correoPaciente = estudio.paciente.email;
           this.whatsappPaciente = estudio.paciente.telefono;
           this.titulo = `${this.estudio.institucion.nombre}: ${this.estudio.concepto.concepto} de ${this.estudio.paciente.nombreCompleto}`;
+          this.whatsappPaciente = estudio.paciente.telefono;
           this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
         });
       }
@@ -152,7 +154,6 @@ export class EnviarEstudioComponent implements OnInit {
   mostrarNombreMedicoReferente(medico?: Medico): string {
     return medico ? `${medico.nombres} ${medico.apellidos}` : '';
   }
-
 
   enviarWhatsapp(): void {
     if (this.whatsappPaciente) {
