@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RegistrarPacienteComponent } from 'src/app/modules/recepcion/components/registrar-paciente-modal/registrar-paciente.component';
+import { RegistrarPacienteComponent } from 'src/app/recepcion/components/registrar-paciente-modal/registrar-paciente.component';
 import { InstitucionService } from 'src/app/services/institucion.service';
 
 @Component({

@@ -46,16 +46,15 @@ export class PrincipalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const username : string= this.tokenService.getUsername();
-    if(!username){
+    const username: string = this.tokenService.getUsername();
+    if (!username) {
       this.router.navigate(['/']);
     }
-    
+
     this.institucionService.buscarInstitucionPorUsuario(username).subscribe(
-      institucion => 
-      {
+      institucion => {
         this.institucion = institucion;
-   
+
         this.buscarPorFechas();
       }
       ,
@@ -77,16 +76,37 @@ export class PrincipalComponent implements OnInit {
 
   onEndDateChange(fechaInicio: HTMLInputElement, fechaFin: HTMLInputElement): void {
     if (fechaInicio.value !== '' && fechaFin.value !== '') {
-      this.fechaInicio = this.datePipe.transform(new Date(fechaInicio.value), 'yyyy-MM-dd');
-      this.fechaFin = this.datePipe.transform(new Date(fechaFin.value), 'yyyy-MM-dd');
+      this.fechaInicio = this.convertirFormatoFecha(fechaInicio.value);
+      this.fechaFin = this.convertirFormatoFecha(fechaFin.value);
 
+      console.log(this.fechaInicio, this.fechaFin);
       this.busquedaPorFechas = true;
       this.buscar();
     }
-    else{
+    else {
       this.fechaInicio = '';
       this.fechaFin = '';
     }
+  }
+
+  private convertirFormatoFecha(fechaOriginal: string): string {
+    // Divide la fecha en día, mes y año
+    const partesFecha = fechaOriginal.split('/');
+
+    // Verifica que tenga el formato esperado
+    if (partesFecha.length !== 3) {
+      console.error('Formato de fecha no válido');
+      return null;
+    }
+
+    const dia = partesFecha[0].padStart(2, '0'); // Asegura dos dígitos, rellenando con ceros si es necesario
+    const mes = partesFecha[1].padStart(2, '0'); // Asegura dos dígitos, rellenando con ceros si es necesario
+    const anio = partesFecha[2];
+
+    // Formatea la fecha en el nuevo formato
+    const fechaFormateada = `${anio}-${mes}-${dia}`;
+
+    return fechaFormateada;
   }
 
   verOrden(orden: OrdenVenta): void {
@@ -101,17 +121,17 @@ export class PrincipalComponent implements OnInit {
   public paginar(event: PageEvent): void {
     this.paginaActual = event.pageIndex;
     this.totalPorPagina = event.pageSize;
-    
+
     this.buscar();
   }
 
-  private buscar(){
-  
-    if(this.busquedaPorPaciente){
+  private buscar() {
+
+    if (this.busquedaPorPaciente) {
       this.buscarPorPaciente();
       return;
     }
-   
+
     this.buscarPorFechas();
 
     this.busquedaPorFechas = false;
@@ -119,7 +139,7 @@ export class PrincipalComponent implements OnInit {
   }
 
 
-  private buscarPorFechas(){
+  private buscarPorFechas() {
     this.institucionService.buscarOrdenesPorInstitucionYFechas(this.paginaActual.toString(), this.totalPorPagina.toString(), this.institucion.id, this.fechaInicio, this.fechaFin).subscribe(
       lista => {
         this.lista = lista.content as OrdenVenta[];
@@ -145,7 +165,7 @@ export class PrincipalComponent implements OnInit {
     event.option.focus();
   }
 
-  private buscarPorPaciente(){
+  private buscarPorPaciente() {
     this.institucionService.buscarOrdenesPorInstitucionYPaciente(this.paginaActual.toString(), this.totalPorPagina.toString(), this.paciente.id, this.institucion.id).subscribe(
       lista => {
         this.lista = lista.content as OrdenVenta[];

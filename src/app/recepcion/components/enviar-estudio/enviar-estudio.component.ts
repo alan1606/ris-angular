@@ -33,7 +33,6 @@ export class EnviarEstudioComponent implements OnInit {
   autocompleteControlMedicoReferente = new UntypedFormControl();
   medicosReferentesFiltrados: Medico[] = [];
 
-  whatsappPaciente: string = '';
 
   constructor(private route: ActivatedRoute,
     private router: Router,

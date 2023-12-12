@@ -193,4 +193,11 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+  puedeAbrirInstitucion(): boolean{
+    if(this.isInstitution){
+      return true;
+    }
+    return false;
+  }
 }
