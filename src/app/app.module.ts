@@ -14,7 +14,7 @@ import {MatInputModule} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
 import { MatButtonModule} from '@angular/material/button';
@@ -43,6 +43,7 @@ import { AuthorizedComponent } from './components/authorized/authorized.componen
 import { ResourceInterceptor } from './interceptors/resource.interceptor';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RecepcionModule } from './recepcion/recepcion.module';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -98,6 +99,7 @@ import { RecepcionModule } from './recepcion/recepcion.module';
     ],
     providers: [
         DatePipe,
+        {provide: MAT_DATE_LOCALE, useValue: 'es-MX'},
         {provide: HTTP_INTERCEPTORS, useClass: ResourceInterceptor, multi: true}
     ],
     bootstrap: [AppComponent]

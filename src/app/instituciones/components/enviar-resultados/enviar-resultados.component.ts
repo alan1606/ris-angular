@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
 import { MedicoService } from 'src/app/services/medico.service';
 import { InstitucionService } from 'src/app/services/institucion.service';
 import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common';
+import { FechaService } from 'src/app/services/fecha.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class EnviarResultadosComponent implements OnInit {
     private router: Router,
     private medicoService: MedicoService,
     private institucionService: InstitucionService,
-    private pipe: DatePipe
+    private fechaService: FechaService
   ) {
     this.medico = new Medico();
   }
@@ -159,6 +159,6 @@ export class EnviarResultadosComponent implements OnInit {
   }
 
   public actualizarFecha(fecha: HTMLInputElement) {
-    this.medico.fechaNacimiento = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
+    this.medico.fechaNacimiento = this.fechaService.alistarFechaParaBackend(fecha.value);
   };
 }

@@ -8,6 +8,7 @@ import { flatMap, map } from 'rxjs';
 import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
+import { FechaService } from 'src/app/services/fecha.service';
 import { MedicoService } from 'src/app/services/medico.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -44,7 +45,8 @@ export class MedicoRadiologoComponent implements OnInit {
     private route: ActivatedRoute,
     private pipe: DatePipe,
     private pacienteService: PacientesService,
-    private tokenService: TokenService) {
+    private tokenService: TokenService,
+    private fechaService: FechaService) {
 
   }
 
@@ -125,7 +127,7 @@ export class MedicoRadiologoComponent implements OnInit {
   }
 
   buscarPorFecha(fecha: HTMLInputElement) {
-    this.fecha = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
+    this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
     this.buscar(this.fecha, this.estado, null);
   };
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BASE_ENDPOINT, DOWNLOAD_WEASIS_MAC_LINK, DOWNLOAD_WEASIS_WINDOWS_LINK, FILES_PATH, VIEWER, WEASIS_VIEWER_PATH, ZIP_STUDIES_PATH } from 'src/app/config/app';
+import {  DOWNLOAD_WEASIS_MAC_LINK, DOWNLOAD_WEASIS_WINDOWS_LINK, FILES_PATH, VIEWER, WEASIS_VIEWER_PATH, ZIP_STUDIES_PATH } from 'src/app/config/app';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { Multimedia } from 'src/app/models/multimedia';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';

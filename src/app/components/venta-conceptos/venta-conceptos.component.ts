@@ -18,6 +18,7 @@ import { BuscarEstudioModalComponent } from '../studies/buscar-estudio-modal/bus
 import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from '../studies/informacion-estudio-modal/informacion-estudio-modal.component';
 import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
+import { FechaService } from 'src/app/services/fecha.service';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
     public dialog: MatDialog,
-    private router: Router) {
+    private fechaService: FechaService
+  ) {
     super(service);
     this.titulo = "Listado de estudios";
     this.nombreModel = "Estudio";
@@ -148,8 +150,8 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
 
   buscarPorFecha(fechaInicio: HTMLInputElement, fechaFin: HTMLInputElement): void {
     if (fechaInicio.value !== '' && fechaFin.value !== '') {
-      this.fechaInicio = this.pipe.transform(new Date(fechaInicio.value), 'yyyy-MM-dd');
-      this.fechaFin = this.pipe.transform(new Date(fechaFin.value), 'yyyy-MM-dd');
+      this.fechaInicio = this.fechaService.alistarFechaParaBackend(fechaInicio.value);
+      this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
 
       console.log(this.fechaInicio + " " + this.fechaFin)
 

@@ -11,6 +11,7 @@ import { map, mergeMap } from 'rxjs';
 import { AreasService } from 'src/app/services/areas.service';
 import { ConceptosService } from 'src/app/services/conceptos.service';
 import { Concepto } from 'src/app/models/concepto';
+import { FechaService } from 'src/app/services/fecha.service';
 
 
 @Component({
@@ -42,11 +43,11 @@ export class CrearCampaniaComponent implements OnInit {
 
   constructor(
     private service: CampaniaService,
-    private pipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
     private areaService: AreasService,
-    private conceptoService: ConceptosService
+    private conceptoService: ConceptosService,
+    private fechaService: FechaService
   ) {
     this.campania.activa = true;
   }
@@ -153,13 +154,12 @@ export class CrearCampaniaComponent implements OnInit {
   }
 
   seleccionarFechaInicio(fecha: HTMLInputElement): void {
-    const fechaFormulario = this.pipe.transform(new Date(fecha.value), 'dd-MM-yyyy');
-    this.campania.fechaInicio = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
+    this.campania.fechaInicio = this.fechaService.alistarFechaParaBackend(fecha.value);
   }
 
   seleccionarFechaFin(fecha: HTMLInputElement): void {
-    const fechaFormulario = this.pipe.transform(new Date(fecha.value), 'dd-MM-yyyy');
-    this.campania.fechaFin = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
+
+    this.campania.fechaFin = this.fechaService.alistarFechaParaBackend(fecha.value);
   }
 
   seleccionarArea(event: MatAutocompleteSelectedEvent) {

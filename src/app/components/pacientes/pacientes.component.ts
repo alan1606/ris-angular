@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
-import { CommonListarComponent } from '../common-listar.component';
 
 @Component({
   selector: 'app-pacientes',

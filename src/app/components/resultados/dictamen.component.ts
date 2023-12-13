@@ -19,7 +19,6 @@ export class DictamenComponent implements OnInit {
   titulo: string = '';
   interpretacion: Interpretacion;
   enlacePdf: String= '';
-  private multimedia: Multimedia = new Multimedia();
   archivosCargados: Promise<Boolean>;
   archivos: Multimedia[] = [];
   filesPath: string = FILES_PATH;

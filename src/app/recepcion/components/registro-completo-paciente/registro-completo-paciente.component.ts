@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, EMPTY } from 'rxjs';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
+import { FechaService } from 'src/app/services/fecha.service';
 
 @Component({
   selector: 'app-registro-completo-paciente',
@@ -35,7 +36,8 @@ export class RegistroCompletoPacienteComponent implements OnInit {
     private route: ActivatedRoute,
     private ordenVentaService: OrdenVentaService,
     private pipe: DatePipe,
-    private router: Router
+    private router: Router,
+    private fechaService: FechaService
   ) {}
 
   ngOnInit(): void {
@@ -109,25 +111,12 @@ export class RegistroCompletoPacienteComponent implements OnInit {
   }
 
   seleccionarFecha(fecha: HTMLInputElement): void {
-    const fechaString = this.formatearFecha(fecha);
-    this.fecha = this.pipe.transform(new Date(fechaString), 'dd-MM-yyyy');
-
-    this.model.fechaNacimiento = this.pipe.transform(
-      new Date(fechaString),
-      'yyyy-MM-dd'
-    );
+    this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
+    this.model.fechaNacimiento = this.fecha;
     this.model.fechaNacimiento += 'T00:00:00';
   }
 
-  private formatearFecha(fecha: HTMLInputElement): string {
-    const partes = fecha.value.split('/').reverse();
-    let fechaString = '';
-    for (let parte of partes) {
-      fechaString = fechaString + '/' + parte;
-    }
-    fechaString = fechaString.substring(1);
-    return fechaString;
-  }
+
 
   seleccionarSexo(): void {
     this.model.sexo = this.sexo == 'MASCULINO' ? 2 : 1;

@@ -6,6 +6,8 @@ import { Area } from 'src/app/models/area';
 import { AreaTotal } from 'src/app/models/area-total';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { VerAgendadosModalComponent } from './ver-agendados-modal/ver-agendados-modal.component';
+import { FechaService } from 'src/app/services/fecha.service';
+
 
 @Component({
   selector: 'app-agenda',
@@ -22,7 +24,8 @@ export class AgendaComponent implements OnInit {
 
   constructor(private pipe: DatePipe,
     private ventaConceptosService: VentaConceptosService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private fechaService: FechaService) { }
 
   ngOnInit(): void {
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
@@ -53,7 +56,8 @@ export class AgendaComponent implements OnInit {
   }
 
   public actualizarFecha(fecha: HTMLInputElement){
-    this.fecha = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
+    this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
+    console.log(this.fecha);
     this.buscarTotalesPorArea();
   };
 

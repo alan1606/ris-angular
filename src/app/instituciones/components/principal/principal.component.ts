@@ -11,6 +11,7 @@ import { Paciente } from 'src/app/models/paciente';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, mergeMap } from 'rxjs';
 import { PacientesService } from 'src/app/services/pacientes.service';
+import { FechaService } from 'src/app/services/fecha.service';
 
 @Component({
   selector: 'app-principal',
@@ -39,7 +40,8 @@ export class PrincipalComponent implements OnInit {
     private router: Router,
     private tokenService: TokenService,
     private datePipe: DatePipe,
-    private pacienteService: PacientesService
+    private pacienteService: PacientesService,
+    private fechaService: FechaService
   ) {
     this.fechaInicio = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.fechaFin = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -76,8 +78,8 @@ export class PrincipalComponent implements OnInit {
 
   onEndDateChange(fechaInicio: HTMLInputElement, fechaFin: HTMLInputElement): void {
     if (fechaInicio.value !== '' && fechaFin.value !== '') {
-      this.fechaInicio = this.convertirFormatoFecha(fechaInicio.value);
-      this.fechaFin = this.convertirFormatoFecha(fechaFin.value);
+      this.fechaInicio = this.fechaService.alistarFechaParaBackend(fechaInicio.value);
+      this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
 
       console.log(this.fechaInicio, this.fechaFin);
       this.busquedaPorFechas = true;
@@ -89,25 +91,6 @@ export class PrincipalComponent implements OnInit {
     }
   }
 
-  private convertirFormatoFecha(fechaOriginal: string): string {
-    // Divide la fecha en día, mes y año
-    const partesFecha = fechaOriginal.split('/');
-
-    // Verifica que tenga el formato esperado
-    if (partesFecha.length !== 3) {
-      console.error('Formato de fecha no válido');
-      return null;
-    }
-
-    const dia = partesFecha[0].padStart(2, '0'); // Asegura dos dígitos, rellenando con ceros si es necesario
-    const mes = partesFecha[1].padStart(2, '0'); // Asegura dos dígitos, rellenando con ceros si es necesario
-    const anio = partesFecha[2];
-
-    // Formatea la fecha en el nuevo formato
-    const fechaFormateada = `${anio}-${mes}-${dia}`;
-
-    return fechaFormateada;
-  }
 
   verOrden(orden: OrdenVenta): void {
     this.router.navigate([`/resultados/orden/${orden.id}/${orden.paciente.id}`]);

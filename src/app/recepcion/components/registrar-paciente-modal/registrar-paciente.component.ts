@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { ESTADO, getPersona, GENERO, generar} from 'curp';
 import { UntypedFormControl } from '@angular/forms';
+import { FechaService } from 'src/app/services/fecha.service';
 
 @Component({
   selector: 'app-registrar-paciente',
@@ -24,14 +25,15 @@ export class RegistrarPacienteComponent implements OnInit {
   paises: string[] = ["MÉXICO","OTRO"];
   entidades = Object.keys(ESTADO);
   entidad: string = '';
-  fecha: String = '';
+  fecha: string = '';
   sexo: string = '';
 
   constructor(
     private service: PacientesService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public modalRef: MatDialogRef<RegistrarPacienteComponent>,
-    private pipe: DatePipe
+    private pipe: DatePipe,
+    private fechaService: FechaService
   ) { }
 
   ngOnInit(): void {
@@ -75,8 +77,8 @@ export class RegistrarPacienteComponent implements OnInit {
   }
 
   seleccionarFecha(fecha: HTMLInputElement): void {
-    this.fecha = this.pipe.transform(new Date(fecha.value), 'dd-MM-yyyy');
-    this.model.fechaNacimiento = this.pipe.transform(new Date(fecha.value), 'yyyy-MM-dd');
+    this.fecha = fecha.value;
+    this.model.fechaNacimiento = this.fechaService.alistarFechaParaBackend(this.fecha);
     this.model.fechaNacimiento += "T00:00:00";
   }
 

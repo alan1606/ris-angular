@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,12 +19,11 @@ import { InstitucionService } from 'src/app/services/institucion.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
-import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
 import { DatePipe } from '@angular/common';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Cita } from 'src/app/models/cita';
 import { CitaService } from 'src/app/services/cita.service';
 import { RegistrarPacienteParcialModalComponent } from '../registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
+import { FechaService } from 'src/app/services/fecha.service';
 
 
 @Component({
@@ -52,8 +51,7 @@ export class AgendarComponent implements OnInit {
     private campaniasService: CampaniaService,
     private citaService: CitaService,
     private fb: FormBuilder,
-    private _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private fechaService: FechaService
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
@@ -62,9 +60,6 @@ export class AgendarComponent implements OnInit {
 
     this.minDate = new Date();
 
-
-    this._locale = 'es';
-    this._adapter.setLocale(this._locale);
   }
 
   titulo = "Agendar cita";
@@ -421,12 +416,7 @@ export class AgendarComponent implements OnInit {
 
 
   public actualizarFecha(fecha: HTMLInputElement) {
-    const partes = fecha.value.split("/").reverse();
-    let fechaString = "";
-    for (let parte of partes) {
-      fechaString = fechaString + "/" + parte;
-    }
-    this.fecha = this.pipe.transform(new Date(fechaString), 'yyyy-MM-dd');
+    this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
 
     this.citaService.obtenerDisponiblesPorSalaYFecha(this.equipoDicom.id, this.fecha).subscribe(citas => {
       this.citas = citas;

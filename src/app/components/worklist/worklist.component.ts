@@ -12,6 +12,7 @@ import { map, flatMap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { VentaConceptos } from '../../models/venta-conceptos';
 import Swal from 'sweetalert2';
+import { FechaService } from 'src/app/services/fecha.service';
 
 @Component({
   selector: 'app-worklist',
@@ -33,7 +34,8 @@ export class WorklistComponent implements OnInit {
     @Inject(AreasService) private areasService: AreasService,
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private fechaService: FechaService) {
     this.titulo = "Listado de estudios";
     }
 
@@ -133,8 +135,8 @@ export class WorklistComponent implements OnInit {
  
   buscarPorFecha(fechaInicio: HTMLInputElement, fechaFin: HTMLInputElement): void {
     if (fechaInicio.value !== '' && fechaFin.value !== '') {
-      this.fechaInicio = this.pipe.transform(new Date(fechaInicio.value), 'yyyy-MM-dd');
-      this.fechaFin = this.pipe.transform(new Date(fechaFin.value), 'yyyy-MM-dd');
+      this.fechaInicio = this.fechaService.alistarFechaParaBackend(fechaInicio.value);
+      this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
 
       console.log(this.fechaInicio + " " + this.fechaFin)
 

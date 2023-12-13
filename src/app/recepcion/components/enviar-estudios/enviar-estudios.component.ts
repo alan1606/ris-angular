@@ -13,6 +13,7 @@ import { VentaConceptos } from '../../../models/venta-conceptos';
 import { map } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FechaService } from 'src/app/services/fecha.service';
 
 @Component({
   selector: 'app-enviar-estudios',
@@ -33,7 +34,9 @@ export class EnviarEstudiosComponent extends CommonListarComponent<VentaConcepto
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
     public dialog: MatDialog,
-    private router: Router) {
+    private router: Router,
+    private fechaService: FechaService
+    ) {
     super(service);
     this.titulo = "Listado de estudios";
     this.nombreModel = "Estudio";
@@ -136,8 +139,8 @@ export class EnviarEstudiosComponent extends CommonListarComponent<VentaConcepto
  
   buscarPorFecha(fechaInicio: HTMLInputElement, fechaFin: HTMLInputElement): void {
     if (fechaInicio.value !== '' && fechaFin.value !== '') {
-      this.fechaInicio = this.pipe.transform(new Date(fechaInicio.value), 'yyyy-MM-dd');
-      this.fechaFin = this.pipe.transform(new Date(fechaFin.value), 'yyyy-MM-dd');
+      this.fechaInicio = this.fechaService.alistarFechaParaBackend(fechaInicio.value);
+      this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
 
       console.log(this.fechaInicio + " " + this.fechaFin)
 

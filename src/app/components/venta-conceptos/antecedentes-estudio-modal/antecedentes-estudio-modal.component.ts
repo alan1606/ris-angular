@@ -1,11 +1,8 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Antecedente } from 'src/app/models/antecedente';
-import { AntecedenteConcepto } from 'src/app/models/antecedente-concepto';
 import { AntecedenteEstudio } from 'src/app/models/antecedente-estudio';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
-import { AntecedenteConceptoService } from 'src/app/services/antecedente-concepto.service';
 import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.service';
 import { AntecedenteService } from 'src/app/services/antecedente.service';
 import Swal from 'sweetalert2';

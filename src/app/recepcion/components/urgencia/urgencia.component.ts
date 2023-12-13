@@ -23,6 +23,8 @@ import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registra
 import Swal from 'sweetalert2';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
+import { FechaService } from 'src/app/services/fecha.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-urgencia',
@@ -45,6 +47,7 @@ export class UrgenciaComponent implements OnInit {
     private medicoService: MedicoService,
     private ordenVentaService: OrdenVentaService,
     private campaniasService: CampaniaService,
+    private fechaService: FechaService,
   ) { 
   }
 
@@ -72,8 +75,6 @@ export class UrgenciaComponent implements OnInit {
   equipoDicom: EquipoDicom;
   medicoReferente: Medico;
   ordenVenta: OrdenVenta;
-
-  fecha: String;
 
   folio: number;
 
@@ -222,7 +223,8 @@ export class UrgenciaComponent implements OnInit {
     estudio.equipoDicom = this.equipoDicom;
     estudio.institucion = this.institucion;
     estudio.paciente = this.paciente;
-  
+    estudio.fechaAsignado = this.fechaService.formatearFecha(new Date());
+
     this.estudios.push(estudio);
   
     this.calcularTotal();

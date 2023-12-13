@@ -14,8 +14,6 @@ import Swal from 'sweetalert2';
 })
 export class RegistrarPacienteParcialModalComponent implements OnInit {
 
-  fechaNacimientoControl = new UntypedFormControl();
-
   model: Paciente = new Paciente();
   titulo: string = "Crear paciente";
   error: any;

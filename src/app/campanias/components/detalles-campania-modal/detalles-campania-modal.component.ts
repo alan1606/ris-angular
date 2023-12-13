@@ -18,13 +18,7 @@ export class DetallesCampaniaModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private campaniaService: CampaniaService
   ) {
-    campaniaService.ver(data.idCampania).subscribe(
-      campania => {
-        this.campania = campania;
-        console.log(campania);
-      },
-      () => dialogRef.close()
-    );
+  
   }
 
   cerrar(): void {
@@ -32,6 +26,15 @@ export class DetallesCampaniaModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.campaniaService.ver(this.data.idCampania).subscribe(
+      campania => {
+        this.campania = campania;
+        console.log(campania);
+      },
+      () => this.dialogRef.close()
+    );
+
   }
 
 }
