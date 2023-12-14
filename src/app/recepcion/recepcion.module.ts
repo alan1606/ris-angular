@@ -27,6 +27,7 @@ import { RegistrarPacienteParcialModalComponent } from './components/registrar-p
 import { RegistroCompletoPacienteComponent } from './components/registro-completo-paciente/registro-completo-paciente.component';
 import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paciente/confirmar-cita-paciente.component';
 import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/confirmaciones-citas.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/
         RecepcionRoutingModule,
         MatTableModule,
         QRCodeModule,
+        MatPaginatorModule
     ],
     exports: [
         UrgenciaComponent

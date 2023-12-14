@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BASE_ENDPOINT } from '../config/app';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cita } from '../models/cita';
 
@@ -42,5 +42,13 @@ export class CitaService {
 
   public mandarConfirmacionesDiaSiguiente(): Observable<void>{
     return this.http.post<void>(`${this.baseEndpoint}/mandar-confirmaciones-dia-siguiente`, {});
+  }
+
+  public buscarPorFecha(fecha: string, page: string, size: string): Observable<any>{
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+
+    return this.http.get<any>(`${this.baseEndpoint}/fecha/${fecha}`, {params: params});
   }
 }
