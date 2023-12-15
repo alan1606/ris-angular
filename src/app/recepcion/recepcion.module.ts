@@ -28,6 +28,8 @@ import { RegistroCompletoPacienteComponent } from './components/registro-complet
 import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paciente/confirmar-cita-paciente.component';
 import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/confirmaciones-citas.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { CheckInComponent } from './components/check-in/check-in.component';
+import { PacienteOrdenesComponent } from './components/check-in/paciente-ordenes/paciente-ordenes.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         RegistrarPacienteParcialModalComponent,
         RegistroCompletoPacienteComponent,
         ConfirmarCitaPacienteComponent,
-        ConfirmacionesCitasComponent
+        ConfirmacionesCitasComponent,
+        CheckInComponent,
+        PacienteOrdenesComponent
         ],
     imports: [
         CommonModule,
