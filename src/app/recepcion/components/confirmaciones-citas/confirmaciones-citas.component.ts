@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Cita } from 'src/app/models/cita';
 import { CitaService } from 'src/app/services/cita.service';
 import { FechaService } from 'src/app/services/fecha.service';
@@ -24,6 +25,9 @@ export class ConfirmacionesCitasComponent implements OnInit {
   totalPorPagina = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+
   constructor(
     private fechaService: FechaService,
     private citaService: CitaService
@@ -32,17 +36,24 @@ export class ConfirmacionesCitasComponent implements OnInit {
     this.minDate = new Date();
    }
 
+
   ngOnInit(): void {
     const fechaString = this.fechaService.formatearFecha(this.date.value);
-    console.log(fechaString);
-    this.citaService.buscarPorFecha(fechaString, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
+    this.fecha = fechaString;
+    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
       citas => {
         if(citas.content){
-          this.citas = citas.content;
+          this.citas = citas.content as Cita[];
+          this.totalRegistros = citas.totalElements as number;
+          this.paginator._intl.itemsPerPageLabel = 'Registros:';
+        }
+        else{
+          this.citas = [];
         }
       },
       error => {
         console.log(error);
+        this.citas = [];
       }
     );
   }
@@ -50,7 +61,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
   public actualizarFecha(fecha: HTMLInputElement){
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
     console.log(this.fecha);
-    //Buscar citas dada fecha
+    this.buscar();
   };
 
   public mandarConfirmacionesManiania(){
@@ -71,6 +82,65 @@ export class ConfirmacionesCitasComponent implements OnInit {
               text: "Se están mandando los mensajes",
               icon: "success"
             });
+          },
+          () => {
+            Swal.fire({
+              title: "Error",
+              text: "Ha ocurrido un error",
+              icon: "error"
+            });
+          }
+        );
+        
+      }
+    });
+  }
+
+  public paginar(event: PageEvent): void {
+    this.paginaActual = event.pageIndex;
+    this.totalPorPagina = event.pageSize;
+
+    this.buscar();
+  }
+
+  private buscar(){
+    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
+      citas => {
+        if(citas.content){
+          this.citas = citas.content as Cita[];
+          this.totalRegistros = citas.totalElements as number;
+          this.paginator._intl.itemsPerPageLabel = 'Registros:';
+        }
+        else{
+          this.citas = [];
+        }
+      },
+      error => {
+        console.log(error);
+        this.citas = [];
+      }
+    );
+  }
+
+  cancelarCita(cita: Cita){
+    Swal.fire({
+      title: "¿Seguro que desea cancelar cita?",
+      text: "Esta acción no se puede revertir y se liberará el lugar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.citaService.cancelarCita(cita.id).subscribe(
+          () => {
+            Swal.fire({
+              title: "Éxito",
+              text: "Se ha cancelado la cita con éxito",
+              icon: "success"
+            });
+            this.citas = this.citas.filter(citaTemp => citaTemp.id != cita.id);
           },
           () => {
             Swal.fire({

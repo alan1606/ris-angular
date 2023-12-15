@@ -9,6 +9,7 @@ import { Cita } from '../models/cita';
 })
 export class CitaService {
 
+
   private baseEndpoint: string = BASE_ENDPOINT +  '/citas';
 
   private cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
@@ -50,5 +51,9 @@ export class CitaService {
     .set('size', size);
 
     return this.http.get<any>(`${this.baseEndpoint}/fecha/${fecha}`, {params: params});
+  }
+
+  public cancelarCita(id: number): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/cancelar/${id}`, {});
   }
 }

@@ -48,7 +48,7 @@
               <td>{{cita.fechaYHora | date: "h:mm a"}}</td>
               <td>{{cita.estado}}</td>
               <td>
-                <button type="button" class="btn btn-sm btn-success">
+                <button type="button" class="btn btn-sm btn-success" *ngIf="cita.estado == 'AGENDADA'">
                     Confirmar manual
                </button>
             </td>
@@ -58,7 +58,7 @@
                </button>
             </td>
             <td>
-                <button type="button" class="btn btn-sm btn-danger">
+                <button type="button" class="btn btn-sm btn-danger" (click)="cancelarCita(cita)">
                     Cancelar
                </button>
             </td>
