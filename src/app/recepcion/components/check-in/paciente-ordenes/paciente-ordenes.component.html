@@ -1,1 +1,29 @@
-<p>paciente-ordenes works!</p>
+<div>
+    
+    <div class="card text-dark bg-light mb-3">
+      <div class="card-header">
+        
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info" *ngIf="model == null">
+          No hay pacientes para hoy
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-striped" *ngIf="model">
+            <thead>
+              <tr>
+                <th>Ordenes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td><button class="btn btn-primary" (click)="verOrden(model.id)"> Ver Ordenes</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

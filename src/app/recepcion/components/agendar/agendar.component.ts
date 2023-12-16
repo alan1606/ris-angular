@@ -344,6 +344,7 @@ export class AgendarComponent implements OnInit {
 
 
   abrirModalRegistrarPacienteParcial() {
+    
     const modalRef = this.dialog.open(RegistrarPacienteParcialModalComponent,
       {
         width: "1000px",

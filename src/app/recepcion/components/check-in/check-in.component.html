@@ -1,19 +1,21 @@
 <div>
   <div class="busqueda">
     <form class="example-form">
-        <mat-form-field>
-            <input matInput [matAutocomplete]="auto" [formControl]="nombrePaciente" placeholder="Selecciona un objeto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option *ngFor="let objeto of pacientes" [value]="objeto">
-                {{ objeto.Nombre }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+      <mat-form-field class="custom-mat-form-field">
+        <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
+            [matAutocomplete]="autocompletePaciente" class="custom-mat-input">
+        <mat-autocomplete class="mat-autocomplete" #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
+            (optionSelected)="seleccionarPaciente($event)">
+            <mat-option class="mat-option" *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+                {{paciente.nombreCompleto}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
 
       
     </form>
     <button
-    (click)="buscarPacienteOrdenHoy()"
+    (click)="abrirModalPacienteOrdenes()"
       type="button"
       class="btn btn-success"
       data-mdb-ripple-init
@@ -31,34 +33,5 @@
         />
       </svg>
     </button>
-  </div>
-
-  <div>
-    <div class="card text-dark bg-light mb-3">
-      <div class="card-header">
-        
-      </div>
-      <div class="card-body">
-        <div class="alert alert-info" *ngIf="pacientes == null">
-          No hay pacientes para hoy
-        </div>
-        <div class="table-responsive">
-          <table class="table table-hover table-striped" *ngIf="pacientes">
-            <thead>
-              <tr>
-                <th>Pacientes hoy</th>
-                <th>orden</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let paciente of pacientes">
-                <td>{{ paciente.paciente.nombre}}</td>
-                <td><button class="btn btn-primary" (click)="verOrden(paciente.id)"> Ver Ordenes</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
