@@ -130,12 +130,12 @@ export class ConfirmacionesCitasComponent implements OnInit {
   cancelarCita(cita: Cita) {
     Swal.fire({
       title: "¿Seguro que desea cancelar cita?",
-      text: "Esta acción no se puede revertir y se liberará el lugar",
+      text: "Esta acción no se puede revertir y se cancelara toda la orden",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, cancelar",
+      confirmButtonText: "Sí, cancelar orden",
       cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -143,7 +143,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
           () => {
             Swal.fire({
               title: "Éxito",
-              text: "Se ha cancelado la cita con éxito",
+              text: "Se ha cancelado la orden con éxito",
               icon: "success"
             });
             this.citas = this.citas.filter(citaTemp => citaTemp.id != cita.id);
@@ -201,7 +201,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
             mensaje += estudios[0].institucion.instrucciones;
           }
           const titulo = `Confirmar cita de ${paciente.nombreCompleto}: ${paciente.telefono}`;
-          this.mostrarModalConfirmarCita(titulo, mensaje, estudiosIds);
+          this.mostrarModalConfirmarCita(titulo, mensaje, estudiosIds, cita);
         },
         error => {
           console.log(error);
@@ -211,7 +211,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
   }
 
 
-  private mostrarModalConfirmarCita(titulo: string, mensaje: string, idsVentas: number[]) {
+  private mostrarModalConfirmarCita(titulo: string, mensaje: string, idsVentas: number[], cita: Cita) {
     Swal.fire({
       title: titulo,
       icon: "warning",
@@ -227,6 +227,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
         const titular = idsVentas.length > 1 ? "Confirmadas": "Confirmada";
         this.citaService.confirmarCitas(idsVentas).subscribe(()=>{
           Swal.fire(titular, mensaje, 'success');
+          cita.estado = "CONFIRMADA";
         }, ()=>{
           Swal.fire("Error", "Ha ocurrido un error", "error");
         }
