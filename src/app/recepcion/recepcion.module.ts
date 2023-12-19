@@ -10,7 +10,7 @@ import { QrSubirFotoOrdenModalComponent } from './components/qr-subir-foto-orden
 import { RegistrarPacienteComponent } from './components/registrar-paciente-modal/registrar-paciente.component';
 import { AppComponent } from 'src/app/app.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { UrgenciaComponent } from './components/urgencia/urgencia.component';
 import { RecepcionRoutingModule } from './recepcion-routing.module';
@@ -22,12 +22,12 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { MatTableModule } from '@angular/material/table';
 import { QRCodeModule } from 'angular2-qrcode';
 import { AgendarComponent } from './components/agendar/agendar.component';
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 import { RegistrarPacienteParcialModalComponent } from './components/registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
 import { RegistroCompletoPacienteComponent } from './components/registro-completo-paciente/registro-completo-paciente.component';
 import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paciente/confirmar-cita-paciente.component';
 import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/confirmaciones-citas.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ReagendarCitaModalComponent } from './components/reagendar-cita-modal/reagendar-cita-modal.component';
 
 
 @NgModule({
@@ -45,7 +45,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         RegistrarPacienteParcialModalComponent,
         RegistroCompletoPacienteComponent,
         ConfirmarCitaPacienteComponent,
-        ConfirmacionesCitasComponent
+        ConfirmacionesCitasComponent,
+        ReagendarCitaModalComponent
         ],
     imports: [
         CommonModule,

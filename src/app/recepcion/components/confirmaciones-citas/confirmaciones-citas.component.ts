@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Cita } from 'src/app/models/cita';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -8,6 +9,7 @@ import { CitaService } from 'src/app/services/cita.service';
 import { FechaService } from 'src/app/services/fecha.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
+import { ReagendarCitaModalComponent } from '../reagendar-cita-modal/reagendar-cita-modal.component';
 
 @Component({
   selector: 'app-confirmaciones-citas',
@@ -35,7 +37,8 @@ export class ConfirmacionesCitasComponent implements OnInit {
     private fechaService: FechaService,
     private citaService: CitaService,
     private ventaConceptosService: VentaConceptosService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dialog: MatDialog
   ) {
     this.titulo = "Confirmaciones";
     this.minDate = new Date();
@@ -172,24 +175,24 @@ export class ConfirmacionesCitasComponent implements OnInit {
           estudios = estudiosResponse;
           const paciente = cita.estudio.paciente;
           let mensaje: string = '';
-          let instruccionesArea: string= '';
-          let instruccionesConceptos: string='';
+          let instruccionesArea: string = '';
+          let instruccionesConceptos: string = '';
 
           for (let estudio of estudios) {
             const fecha = this.datePipe.transform(new Date(estudio.fechaAsignado), "dd/MM/yyyy");
             const concepto = estudio.concepto;
             mensaje += `-${concepto.area.nombre}: ${concepto.concepto} día `;
-            mensaje += `${fecha} hora ${estudio.horaAsignado.substring(0,5)}<br>`;
-            if(concepto.area.instrucciones){
+            mensaje += `${fecha} hora ${estudio.horaAsignado.substring(0, 5)}<br>`;
+            if (concepto.area.instrucciones) {
               instruccionesArea += concepto.area.instrucciones;
             }
-            if(concepto.instrucciones){
+            if (concepto.instrucciones) {
               instruccionesConceptos += concepto.instrucciones;
             }
             estudiosIds.push(estudio.id);
           }
-          let total: number =  orden.totalSinDescuento;
-          if(orden.aplicarDescuento){
+          let total: number = orden.totalSinDescuento;
+          if (orden.aplicarDescuento) {
             total = orden.totalDespuesDescuento;
           }
 
@@ -197,7 +200,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
           mensaje += instruccionesArea + "<br>";
           mensaje += instruccionesConceptos + "<br>";
 
-          if(estudios[0].institucion?.instrucciones){
+          if (estudios[0].institucion?.instrucciones) {
             mensaje += estudios[0].institucion.instrucciones;
           }
           const titulo = `Confirmar cita de ${paciente.nombreCompleto}: ${paciente.telefono}`;
@@ -223,16 +226,59 @@ export class ConfirmacionesCitasComponent implements OnInit {
       html: mensaje
     }).then((result) => {
       if (result.isConfirmed) {
-        const mensaje = idsVentas.length > 1 ? "Se han confirmado las citas": "Se ha confirmado la cita";
-        const titular = idsVentas.length > 1 ? "Confirmadas": "Confirmada";
-        this.citaService.confirmarCitas(idsVentas).subscribe(()=>{
+        const mensaje = idsVentas.length > 1 ? "Se han confirmado las citas" : "Se ha confirmado la cita";
+        const titular = idsVentas.length > 1 ? "Confirmadas" : "Confirmada";
+        this.citaService.confirmarCitas(idsVentas).subscribe(() => {
           Swal.fire(titular, mensaje, 'success');
           cita.estado = "CONFIRMADA";
-        }, ()=>{
+        }, () => {
           Swal.fire("Error", "Ha ocurrido un error", "error");
         }
         );
       }
     });
   }
+
+
+  public reagendar(cita: Cita) {
+    const dialogRef = this.dialog.open(ReagendarCitaModalComponent, {
+      data: { cita: cita }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const nuevaCitaId: number = result as number;
+        Swal.fire({
+          title: "¿Seguro que desea reagendar?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Sí, seguro",
+          cancelButtonText: "Cancelar",
+          text: "¿Desea reagendar para esa hora?"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.confirmarReagendacion(cita.id, nuevaCitaId, cita);
+          }
+        });
+      }
+    });
+  }
+
+  private confirmarReagendacion(citaOrigenId: number, citaDestinoId: number, citaModificar: Cita) {
+    const mensaje = "Se han reagendado la cita";
+    const titular = "Reagendada";
+
+    this.citaService.reagendar(citaOrigenId, citaDestinoId).subscribe(cita => {
+      Swal.fire("Éxito", "Se ha reagendado correctamente la cita", "success");
+      this.citas = this.citas.filter(c => c.id != citaModificar.id);
+      cita.estudio = citaModificar.estudio;
+      this.citas.push(cita);
+    },
+      (error) => {
+        Swal.fire("Error", error.error.detail, "error");
+      });
+  }
+
 }

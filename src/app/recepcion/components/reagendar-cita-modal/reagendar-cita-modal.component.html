@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>{{titulo}}</h1>
+<div mat-dialog-content>
+
+    <mat-form-field>
+        <mat-label>Seleccionar fecha</mat-label>
+        <input [min]="minDate" matInput [matDatepicker]="picker1" #fechaSeleccionada
+            (dateInput)="actualizarFecha(fechaSeleccionada)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+
+    <div class="form-group" [formGroup]="formulario" *ngIf="citas && citas?.length>0">
+        <mat-form-field>
+            <mat-label>Hora</mat-label>
+            <mat-select formControlName="citaControl">
+                <mat-option *ngFor="let cita of citas" [value]="cita">
+                    {{ cita.fechaYHora | date:'HH:mm' }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="cita" cdkFocusInitial>Ok</button>
+</div>
