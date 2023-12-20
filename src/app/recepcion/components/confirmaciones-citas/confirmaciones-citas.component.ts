@@ -259,14 +259,14 @@ export class ConfirmacionesCitasComponent implements OnInit {
           text: "¿Desea reagendar para esa hora?"
         }).then((result) => {
           if (result.isConfirmed) {
-            this.confirmarReagendacion(cita.id, nuevaCitaId, cita);
+            this.mensajeReagendado(cita.id, nuevaCitaId, cita);
           }
         });
       }
     });
   }
 
-  private confirmarReagendacion(citaOrigenId: number, citaDestinoId: number, citaModificar: Cita) {
+  private mensajeReagendado(citaOrigenId: number, citaDestinoId: number, citaModificar: Cita) {
     const mensaje = "Se han reagendado la cita";
     const titular = "Reagendada";
 
