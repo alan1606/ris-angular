@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BASE_ENDPOINT } from '../config/app';
 import { Horario } from '../models/horario';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { EquipoDicom } from '../models/equipo-dicom';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,13 @@ export class HorarioService {
 
   public filtrarPorSalaId(salaId: number): Observable<Horario[]>{
     return this.http.get<Horario[]>(`${this.baseEndpoint}/sala/${salaId}`);
+  }
+
+  public marcarDiaInhabil(fechaInicio: string, fechaFin: string): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}`,{});
+  }
+  public marcarDiaInhabilEnSala(fechaInicio: string, fechaFin: string, salaId: number): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}/sala/${salaId}`,{});
   }
 
 }
