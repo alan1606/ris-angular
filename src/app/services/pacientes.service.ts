@@ -5,6 +5,7 @@ import { CommonService } from './common.service';
 import { BASE_ENDPOINT } from '../config/app';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { OrdenVenta } from '../models/orden-venta';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,8 @@ export class PacientesService extends CommonService<Paciente>{
   public filtrarPorNombreYRadiologoId(nombre: string, idMedicoRadiologo: number): Observable<Paciente[]>{
     return this.http.get<Paciente[]>(`${this.baseEndpoint}/nombre/${nombre}/medico-radiologo/${idMedicoRadiologo}`);
   }
-   buscarPacienteConOrdenVentaHoy(nombre:string){
-    return [{},{}]
+  public buscarPacienteConOrdenVentaHoy(idOrdenVenta:number): Observable<OrdenVenta[]>{
+    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/orden-venta/${idOrdenVenta}`)
 
   }
 }

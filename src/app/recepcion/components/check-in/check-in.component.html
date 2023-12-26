@@ -2,7 +2,7 @@
   <div class="busqueda">
     <form class="example-form">
       <mat-form-field class="custom-mat-form-field">
-        <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
+        <input matInput placeholder="Digite el nombre del paciente" [formControl]="autocompleteControlPaciente"
             [matAutocomplete]="autocompletePaciente" class="custom-mat-input">
         <mat-autocomplete class="mat-autocomplete" #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
             (optionSelected)="seleccionarPaciente($event)">
@@ -15,10 +15,11 @@
       
     </form>
     <button
-    (click)="abrirModalPacienteOrdenes()"
+      (click)="abrirModalPacienteOrdenes()"
       type="button"
       class="btn btn-success"
       data-mdb-ripple-init
+      [disabled]="this.paciente?false:true"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

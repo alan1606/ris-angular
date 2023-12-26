@@ -2,7 +2,7 @@
     
     <div class="card text-dark bg-light mb-3">
       <div class="card-header">
-        
+        <h2>{{model.nombreCompleto.toUpperCase()}}</h2>
       </div>
       <div class="card-body">
         <div class="alert alert-info" *ngIf="model == null">
@@ -12,14 +12,14 @@
           <table class="table table-hover table-striped" *ngIf="model">
             <thead>
               <tr>
-                <th>Ordenes</th>
+                <th>ORDENES</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td><button class="btn btn-primary" (click)="verOrden(model.id)"> Ver Ordenes</button></td>
+              <tr *ngFor="let orden of ordenes">
+                <td>{{orden.concepto.toUpperCase()}}</td>
+                <td><button class="btn btn-primary" (click)="abrirVerOrdenModal(ordenes.id)"> Ver Orden</button></td>
               </tr>
             </tbody>
           </table>

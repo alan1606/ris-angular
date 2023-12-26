@@ -19,13 +19,9 @@ export class CheckInComponent implements OnInit {
   constructor(
     private pacienteService:PacientesService, 
     private router:Router, 
-    private ventaConceptosService:VentaConceptosService,
     private dialog:MatDialog
     ) {}
-
-
   autocompleteControlPaciente = new UntypedFormControl('');
-
   ventaConceptos: VentaConceptos[] = null;
   pacientesFiltrados: Paciente[] = [];
   paciente:Paciente;
@@ -38,9 +34,9 @@ export class CheckInComponent implements OnInit {
     });
   }
 
-  verOrden(idPaciente:number){
-    this.router.navigate([`/recepcion/checkin/ver/${idPaciente}`])
-  }
+  // verOrden(idPaciente:number){
+  //   this.router.navigate([`/recepcion/checkin/ver/${idPaciente}`])
+  // }
 
   mostrarNombrePaciente(paciente: Paciente): string {
     return paciente && paciente.nombre ? paciente.nombreCompleto : '';

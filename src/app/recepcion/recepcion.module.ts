@@ -30,6 +30,7 @@ import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CheckInComponent } from './components/check-in/check-in.component';
 import { PacienteOrdenesComponent } from './components/check-in/paciente-ordenes/paciente-ordenes.component';
+import { VerOrdenModalComponent } from './components/check-in/ver-orden-modal/ver-orden-modal.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { PacienteOrdenesComponent } from './components/check-in/paciente-ordenes
         ConfirmarCitaPacienteComponent,
         ConfirmacionesCitasComponent,
         CheckInComponent,
-        PacienteOrdenesComponent
+        PacienteOrdenesComponent,
+        VerOrdenModalComponent
         ],
     imports: [
         CommonModule,
