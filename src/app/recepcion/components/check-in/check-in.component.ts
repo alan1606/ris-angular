@@ -21,7 +21,7 @@ export class CheckInComponent implements OnInit {
     private router:Router, 
     private dialog:MatDialog
     ) {}
-  autocompleteControlPaciente = new UntypedFormControl('');
+  autocompleteControlPaciente = new UntypedFormControl('');      
   ventaConceptos: VentaConceptos[] = null;
   pacientesFiltrados: Paciente[] = [];
   paciente:Paciente;
@@ -46,7 +46,6 @@ export class CheckInComponent implements OnInit {
     event.option.deselect();
     event.option.focus();
   }
-
   abrirModalPacienteOrdenes() {
     const modalRef = this.dialog.open(PacienteOrdenesComponent,
       {

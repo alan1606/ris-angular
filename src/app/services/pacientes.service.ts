@@ -28,8 +28,5 @@ export class PacientesService extends CommonService<Paciente>{
   public filtrarPorNombreYRadiologoId(nombre: string, idMedicoRadiologo: number): Observable<Paciente[]>{
     return this.http.get<Paciente[]>(`${this.baseEndpoint}/nombre/${nombre}/medico-radiologo/${idMedicoRadiologo}`);
   }
-  public buscarPacienteConOrdenVentaHoy(idOrdenVenta:number): Observable<OrdenVenta[]>{
-    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/orden-venta/${idOrdenVenta}`)
-
-  }
+  
 }
