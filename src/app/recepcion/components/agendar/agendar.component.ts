@@ -315,8 +315,6 @@ export class AgendarComponent implements OnInit {
       this.ordenVenta.aplicarDescuento = true;
       this.ordenVenta.codigoPromocional = this.campania.codigo;
     }
-
-
     this.total = 0;
     this.agendaNormal();
   }

@@ -8,7 +8,8 @@ import { VentaConceptosService } from 'src/app/services/venta-conceptos.service'
 import { PacienteOrdenesComponent } from './paciente-ordenes/paciente-ordenes.component';
 import { Paciente } from 'src/app/models/paciente';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { map, mergeMap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
+import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 
 @Component({
   selector: 'app-check-in',
@@ -18,8 +19,7 @@ import { map, mergeMap } from 'rxjs';
 export class CheckInComponent implements OnInit {
   constructor(
     private pacienteService:PacientesService, 
-    private router:Router, 
-    private dialog:MatDialog
+    private dialog:MatDialog,
     ) {}
   autocompleteControlPaciente = new UntypedFormControl('');      
   ventaConceptos: VentaConceptos[] = null;
@@ -27,17 +27,21 @@ export class CheckInComponent implements OnInit {
   paciente:Paciente;
   ngOnInit(): void {
     this.autocompleteControlPaciente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
-      mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
+      debounceTime(300), 
+      distinctUntilChanged(), 
+      switchMap(valor => {
+        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
+        return valor ? this.pacienteService.filtrarPorNombre(nombreCompleto) : [];
+      }),
+      catchError(error => {
+        console.error('Error en la búsqueda de pacientes:', error);
+        return [];
+      })
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
     });
   }
-
-  // verOrden(idPaciente:number){
-  //   this.router.navigate([`/recepcion/checkin/ver/${idPaciente}`])
-  // }
-
+  
   mostrarNombrePaciente(paciente: Paciente): string {
     return paciente && paciente.nombre ? paciente.nombreCompleto : '';
   }
@@ -46,6 +50,7 @@ export class CheckInComponent implements OnInit {
     event.option.deselect();
     event.option.focus();
   }
+  
   abrirModalPacienteOrdenes() {
     const modalRef = this.dialog.open(PacienteOrdenesComponent,
       {
@@ -55,7 +60,7 @@ export class CheckInComponent implements OnInit {
       
       modalRef.afterClosed().subscribe(paciente => {
         if(paciente){
-          this.paciente = paciente;
+          this.paciente = null;
           this.autocompleteControlPaciente.setValue(this.paciente);
         }
       });

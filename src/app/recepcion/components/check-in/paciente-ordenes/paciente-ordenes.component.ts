@@ -1,12 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { RegistrarPacienteComponent } from '../../registrar-paciente-modal/registrar-paciente.component';
-import { RegistrarPacienteParcialModalComponent } from '../../registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
 import { Paciente } from 'src/app/models/paciente';
-import { PacientesService } from 'src/app/services/pacientes.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
-import { error } from 'console';
 import { VerOrdenModalComponent } from '../ver-orden-modal/ver-orden-modal.component';
+import { OrdenVentaService } from 'src/app/services/orden-venta.service';
+
 @Component({
   selector: 'app-paciente-ordenes',
   templateUrl: './paciente-ordenes.component.html',
@@ -16,41 +14,51 @@ export class PacienteOrdenesComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public modalRef: MatDialogRef<PacienteOrdenesComponent>,
-    private pacientesService:PacientesService,
+    private ordenVentaService:OrdenVentaService,
     private dialog:MatDialog
   ) {}
 
   model: Paciente = null;
-  ordenes:any=[{"id":300, "concepto":"torax","precio":100},{"id":2, "concepto":"craneo","precio":100},{"id":3,"concepto":"pierna", "precio":100}];
-
+  ordenSeleccionadaHoy:OrdenVenta=null;
+  ordenes:OrdenVenta[];
+  ordenesHoy:OrdenVenta[]=null;
+  
   ngOnInit(): void {
     if (this.data?.paciente?.id) {
       this.model = this.data?.paciente as Paciente;
-      // this.buscarOrdenesVentaPacienteHoy(1)
+      this.buscarOrdenesVentaPacienteHoy(this.model.id)
     }
-
-    console.log(this.model);
   }
   buscarOrdenesVentaPacienteHoy(idOrdenVenta:number):void{
-    this.pacientesService.buscarPacienteConOrdenVentaHoy(idOrdenVenta).subscribe(data=>this.ordenes, error => error);
+    this.ordenVentaService.buscarOrdenVentaPorPacienteIdHoy(idOrdenVenta).subscribe(
+      ordenesData=>{
+        this.ordenesHoy= ordenesData as OrdenVenta[]
+        console.log(this.ordenesHoy)
+      }, error => error);
   }
-
-  seleccionarOrden():void{
-
+  esFechaDeHoy(fechaVenta: string): boolean {
+    const fechaOrden = fechaVenta;
+    const fechaHoy = "2023-12-16T09:19:37";
+    return (
+       fechaOrden === fechaHoy 
+    );
   }
-  abrirVerOrdenModal(id:number): void {
-    const ordenEncontrada=this.ordenes.find(orden => orden.id === id);
-    console.log(ordenEncontrada)
+  
+  abrirVerOrdenModal(orden:OrdenVenta): void {
+    this.ordenSeleccionadaHoy=orden;
     const modalRef = this.dialog.open(VerOrdenModalComponent,
       {
-        width: "1000px",
-        data: {ordenEncontrada}
+        width: "2000px",
+        data: {orden:this.ordenSeleccionadaHoy? this.ordenSeleccionadaHoy : null}
       });
-      
       modalRef.afterClosed().subscribe(paciente => {
         if(paciente){
           
         }
       });
+  }
+
+  cerrarModal():void{
+    this.dialog.closeAll();
   }
 }

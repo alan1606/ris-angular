@@ -1,19 +1,34 @@
 <div>
   <div class="busqueda">
     <form class="example-form">
-      <mat-form-field class="custom-mat-form-field">
-        <input matInput placeholder="Digite el nombre del paciente" [formControl]="autocompleteControlPaciente"
-            [matAutocomplete]="autocompletePaciente" class="custom-mat-input">
-        <mat-autocomplete class="mat-autocomplete" #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
-            (optionSelected)="seleccionarPaciente($event)">
-            <mat-option class="mat-option" *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
-                {{paciente.nombreCompleto}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+      <div>
+        <mat-form-field class="custom-mat-form-field">
+          <input matInput placeholder="Digite el nombre del paciente" [formControl]="autocompleteControlPaciente"
+              [matAutocomplete]="autocompletePaciente" class="custom-mat-input">
+          <mat-autocomplete class="mat-autocomplete" #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
+              (optionSelected)="seleccionarPaciente($event)">
+              <mat-option class="mat-option" *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+                  {{paciente.nombreCompleto}}
+              </mat-option>
+          </mat-autocomplete>
+      </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="custom-mat-form-field">
+          <input matInput placeholder="Digite el nombre del paciente" [formControl]="autocompleteControlPaciente"
+              [matAutocomplete]="autocompletePaciente" class="custom-mat-input">
+          <mat-autocomplete class="mat-autocomplete" #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
+              (optionSelected)="seleccionarPaciente($event)">
+              <mat-option class="mat-option" *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+                  {{paciente.nombreCompleto}}
+              </mat-option>
+          </mat-autocomplete>
+      </mat-form-field>
+      </div>
 
       
     </form>
+    <input type="checkbox" placeholder="buscar por paciente" >
     <button
       (click)="abrirModalPacienteOrdenes()"
       type="button"
