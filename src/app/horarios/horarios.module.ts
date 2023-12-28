@@ -11,13 +11,16 @@ import { MatInputModule } from '@angular/material/input';
 import {  MatCardModule } from '@angular/material/card';
 import { GenerarCitasModalComponent } from './components/generar-citas-modal/generar-citas-modal.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ApartarDiasComponent } from './components/apartar-dias/apartar-dias.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
   declarations: [
     PrincipalComponent,
     HorarioFormComponent,
-    GenerarCitasModalComponent
+    GenerarCitasModalComponent,
+    ApartarDiasComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +31,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     FormsModule,
     MatInputModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule
   ]
 })
 export class HorariosModule { }
