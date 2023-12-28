@@ -179,7 +179,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
           let instruccionesConceptos: string = '';
 
           for (let estudio of estudios) {
-            const fecha = this.datePipe.transform(new Date(estudio.fechaAsignado), "dd/MM/yyyy");
+            const fecha = this.datePipe.transform(estudio.fechaAsignado, "dd/MM/yyyy");
             const concepto = estudio.concepto;
             mensaje += `-${concepto.area.nombre}: ${concepto.concepto} día `;
             mensaje += `${fecha} hora ${estudio.horaAsignado.substring(0, 5)}<br>`;

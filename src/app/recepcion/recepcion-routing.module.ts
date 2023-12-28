@@ -10,6 +10,7 @@ import { AgendarComponent } from './components/agendar/agendar.component';
 import { RegistroCompletoPacienteComponent } from './components/registro-completo-paciente/registro-completo-paciente.component';
 import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paciente/confirmar-cita-paciente.component';
 import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/confirmaciones-citas.component';
+import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
 
 const routes: Routes =[
     {
@@ -53,6 +54,10 @@ const routes: Routes =[
       {
         path: 'confirmaciones',
         component: ConfirmacionesCitasComponent
+      },
+      {
+        path: 'qr-checkin/:idOrden/:idPaciente',
+        component: GenerarQrCheckinComponent
       },
     { path: "**", redirectTo: ""}
 ];

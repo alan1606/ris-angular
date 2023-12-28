@@ -28,6 +28,7 @@ import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paci
 import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/confirmaciones-citas.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReagendarCitaModalComponent } from './components/reagendar-cita-modal/reagendar-cita-modal.component';
+import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { ReagendarCitaModalComponent } from './components/reagendar-cita-modal/r
         RegistroCompletoPacienteComponent,
         ConfirmarCitaPacienteComponent,
         ConfirmacionesCitasComponent,
-        ReagendarCitaModalComponent
+        ReagendarCitaModalComponent,
+        GenerarQrCheckinComponent
         ],
     imports: [
         CommonModule,
