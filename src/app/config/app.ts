@@ -1,4 +1,4 @@
-//export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
+// export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
 export const BASE_ENDPOINT = 'http://localhost:8090/api'
 
 export const VIEWER = 'https://ris.diagnocons.com:3322/viewer?StudyInstanceUIDs=';

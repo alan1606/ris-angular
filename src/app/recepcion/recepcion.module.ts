@@ -27,6 +27,9 @@ import { RegistroCompletoPacienteComponent } from './components/registro-complet
 import { ConfirmarCitaPacienteComponent } from './components/confirmar-cita-paciente/confirmar-cita-paciente.component';
 import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/confirmaciones-citas.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { CheckInComponent } from './components/check-in/check-in.component';
+import { PacienteOrdenesComponent } from './components/check-in/paciente-ordenes/paciente-ordenes.component';
+import { VerOrdenModalComponent } from './components/check-in/ver-orden-modal/ver-orden-modal.component';
 import { ReagendarCitaModalComponent } from './components/reagendar-cita-modal/reagendar-cita-modal.component';
 import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
 
@@ -47,6 +50,9 @@ import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/gener
         RegistroCompletoPacienteComponent,
         ConfirmarCitaPacienteComponent,
         ConfirmacionesCitasComponent,
+        CheckInComponent,
+        PacienteOrdenesComponent,
+        VerOrdenModalComponent,
         ReagendarCitaModalComponent,
         GenerarQrCheckinComponent
         ],

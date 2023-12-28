@@ -1,0 +1,18 @@
+.busqueda{
+    display: flex;
+    height: 3rem;
+    width: 100%;
+}
+.custom-mat-form-field {
+    width: 400px;
+}
+
+/* .custom-mat-input {
+    width: 100%;
+} */
+/* .mat-autocomplete{
+    width: 400px;
+}
+.mat-option{
+    width: 450px;
+} */

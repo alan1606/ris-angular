@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { parse, format } from 'date-fns';
+import {parse,format} from "date-fns"
 import { es } from 'date-fns/locale';
 
 @Injectable({
