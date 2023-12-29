@@ -9,16 +9,17 @@ import { UntypedFormControl } from '@angular/forms';
 import { FechaService } from 'src/app/services/fecha.service';
 
 @Component({
-  selector: 'app-registrar-paciente',
-  templateUrl: './registrar-paciente.component.html',
-  styleUrls: ['./registrar-paciente.component.css']
+  selector: 'app-formulario-paciente',
+  templateUrl: './formulario-paciente.component.html',
+  styleUrls: ['./formulario-paciente.component.css']
 })
-export class RegistrarPacienteComponent implements OnChanges {
+export class FormularioPacienteComponent implements OnChanges {
 
   fechaNacimientoControl = new UntypedFormControl();
-  model: Paciente;
 
-  titulo: string = "Crear paciente";
+  @Input()
+  model: Paciente;
+  titulo: string = "Datos del paciente";
   error: any;
   sexos: string[] = ["MASCULINO", "FEMENINO"];
   pais: string = '';
@@ -30,20 +31,13 @@ export class RegistrarPacienteComponent implements OnChanges {
 
   constructor(
     private service: PacientesService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public modalRef: MatDialogRef<RegistrarPacienteComponent>,
     private pipe: DatePipe,
     private fechaService: FechaService
-  ) { 
-    console.log("Me encanta que me des por el culo");
+  ) {
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.data);
-    if (this.data?.paciente?.id) {
-      this.model = this.data?.paciente as Paciente;
-    }
     this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
     this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
     this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
@@ -54,7 +48,6 @@ export class RegistrarPacienteComponent implements OnChanges {
     this.service.crear(this.model).subscribe(model => {
       this.model = model;
       Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
-      this.modalRef.close();
     }, err => {
       if (err.status === 400) {
         this.error = err.error;
@@ -67,7 +60,6 @@ export class RegistrarPacienteComponent implements OnChanges {
     this.service.editar(this.model).subscribe(concepto => {
       console.log(concepto);
       Swal.fire('Modificado: ', `Paciente actualizado con éxito`, "success");
-      this.modalRef.close();
     }, err => {
       if (err.status === 400) {
         this.error = err.error;
@@ -76,10 +68,6 @@ export class RegistrarPacienteComponent implements OnChanges {
     });
   }
 
-
-  public cerrar() {
-    this.modalRef.close();
-  }
 
   seleccionarFecha(fecha: HTMLInputElement): void {
     this.fecha = fecha.value;

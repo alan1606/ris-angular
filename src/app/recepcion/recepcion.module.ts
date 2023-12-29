@@ -32,6 +32,7 @@ import { PacienteOrdenesComponent } from './components/check-in/paciente-ordenes
 import { VerOrdenModalComponent } from './components/check-in/ver-orden-modal/ver-orden-modal.component';
 import { ReagendarCitaModalComponent } from './components/reagendar-cita-modal/reagendar-cita-modal.component';
 import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
+import { FormularioPacienteComponent } from './components/formulario-paciente/formulario-paciente.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/gener
         PacienteOrdenesComponent,
         VerOrdenModalComponent,
         ReagendarCitaModalComponent,
-        GenerarQrCheckinComponent
+        GenerarQrCheckinComponent,
+        FormularioPacienteComponent
         ],
     imports: [
         CommonModule,

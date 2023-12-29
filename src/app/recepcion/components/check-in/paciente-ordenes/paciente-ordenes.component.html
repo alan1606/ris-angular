@@ -13,14 +13,14 @@
           <table class="table table-hover table-striped" *ngIf="model">
             <thead>
               <tr>
-                <th>Concepto</th>
-                <th></th>
+                <th>Estudios</th>
+                <th>Seleccionar</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let orden of ordenesHoy">
                 <td>{{orden.estudios}}</td>
-                <td><button class="btn btn-primary" (click)="abrirVerOrdenModal(orden)"> Ver Orden</button></td>
+                <td><button class="btn btn-primary" (click)="seleccionar(orden)">Seleccionar orden</button></td>
               </tr>
             </tbody>
           </table>

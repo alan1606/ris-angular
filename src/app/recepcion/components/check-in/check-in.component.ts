@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormControl} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {  Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Paciente } from 'src/app/models/paciente';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
+import { OrdenVenta } from 'src/app/models/orden-venta';
 
 @Component({
   selector: 'app-check-in',
@@ -25,6 +26,11 @@ export class CheckInComponent implements OnInit {
   ventaConceptos: VentaConceptos[] = null;
   pacientesFiltrados: Paciente[] = [];
   paciente:Paciente;
+  orden: OrdenVenta = null;
+  buscarPorPaciente: boolean = false;
+
+  @ViewChild('qr') textoQr: ElementRef;
+
   ngOnInit(): void {
     this.autocompleteControlPaciente.valueChanges.pipe(
       debounceTime(300), 
@@ -58,13 +64,18 @@ export class CheckInComponent implements OnInit {
         data: {paciente:this.paciente?.id ? this.paciente : null  }
       });
       
-      modalRef.afterClosed().subscribe(paciente => {
-        if(paciente){
-          this.paciente = null;
-          this.autocompleteControlPaciente.setValue(this.paciente);
+      modalRef.afterClosed().subscribe(orden => {
+        if(orden && orden?.id){
+          this.orden = orden;
+          console.log(this.orden);
         }
       });
 
     
+  }
+
+  buscarQr(){
+    const cuerpoCodigo = this.textoQr.nativeElement.value;
+    console.log(cuerpoCodigo);
   }
 }
