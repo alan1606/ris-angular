@@ -16,11 +16,12 @@
 
             <div *ngIf="fotosCargadas | async">
                 <div class="form-group my-3 fotito" *ngFor="let foto of fotos">
-                    <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded" style="cursor: pointer;">
+                    <img [src]="filesPath + foto.ruta" class="subir-imagen img-thumbnail rounded" >
+                </div>
+                <div>
                     <button type="button" class="btn btn-danger btn-lg" (click)="eliminar(foto)">
                         Eliminar
                     </button>
-                    <br><br>
                 </div>
             </div>
 

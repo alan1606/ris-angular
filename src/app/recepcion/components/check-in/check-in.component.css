@@ -1,3 +1,7 @@
+.contenedor-busqueda{
+    height: max-content;
+}
+
 .busqueda{
     display: flex;
     height: 3rem;
@@ -5,4 +9,29 @@
 }
 .custom-mat-form-field {
     width: 400px;
+}
+
+.formularioPaciente-subirFoto{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+}
+.subirFoto-pagar{
+    display: grid;
+    grid-template-rows: 2;
+    height: min-content;
+   
+}
+.subirFoto-pagar button{
+    font-size: larger;
+    text-align: center;
+    width: 50%;
+    height: min-content;
+}
+
+.cerrar{
+    text-align:end ;
+    justify-content: end;
+    align-items: end;
+    align-content: end;
 }

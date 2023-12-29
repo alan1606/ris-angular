@@ -34,10 +34,10 @@ export class SubirFotoOrdenComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("on init");
-    console.log(this.orden);
+    // console.log("on init");
+    // console.log(this.orden);
     this.titulo = `Subir foto de orden de ${this.orden.paciente.nombreCompleto}`;
-    console.log(this.titulo);
+    // console.log(this.titulo);
     this.cargarFotos();
   }
 
@@ -45,7 +45,7 @@ export class SubirFotoOrdenComponent implements OnChanges {
 
   seleccionarFoto(event): void {
     this.foto = event.target.files[0];
-    console.info(this.foto);
+    // console.info(this.foto);
     if (
       this.foto.type.indexOf('png') < 0 &&
       this.foto.type.indexOf('jpeg') < 0 &&
@@ -54,7 +54,7 @@ export class SubirFotoOrdenComponent implements OnChanges {
       Swal.fire('Error', 'Solamente puede seleccionar imágenes', 'error');
     } else {
       this.multimedia.ordenVenta = this.orden;
-      console.log(this.orden);
+      // console.log(this.orden);
 
       this.multimediaService.subirImagen(this.multimedia, this.foto).subscribe(
         (multimedia) => {
@@ -72,7 +72,7 @@ export class SubirFotoOrdenComponent implements OnChanges {
       .subscribe((multimedia) => {
         this.fotos = multimedia.filter((foto) => foto.tipo == 'IMAGEN');
         this.fotosCargadas = Promise.resolve(true);
-        console.log(multimedia);
+        // console.log(multimedia);
       });
   }
 

@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Paciente } from 'src/app/models/paciente';
 import { OrdenVenta } from 'src/app/models/orden-venta';
-import { VerOrdenModalComponent } from '../ver-orden-modal/ver-orden-modal.component';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 
 @Component({
@@ -15,7 +14,6 @@ export class PacienteOrdenesComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public modalRef: MatDialogRef<PacienteOrdenesComponent>,
     private ordenVentaService: OrdenVentaService,
-    private dialog: MatDialog
   ) { }
 
   model: Paciente = null;
@@ -33,7 +31,6 @@ export class PacienteOrdenesComponent implements OnInit {
     this.ordenVentaService.buscarOrdenVentaPorPacienteIdHoy(idOrdenVenta).subscribe(
       ordenesData => {
         this.ordenesHoy = ordenesData as OrdenVenta[]
-        console.log(this.ordenesHoy)
         if(this.ordenesHoy.length == 1){
           this.seleccionar(this.ordenesHoy[0]);
         }
@@ -45,6 +42,7 @@ export class PacienteOrdenesComponent implements OnInit {
   }
 
   seleccionar(orden: OrdenVenta){
+    console.log(orden)
     this.modalRef.close(orden);
   }
 }

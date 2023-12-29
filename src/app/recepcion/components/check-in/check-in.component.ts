@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormControl} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import {  Router } from '@angular/router';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
@@ -11,6 +10,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
+import { error } from 'console';
 
 @Component({
   selector: 'app-check-in',
@@ -19,6 +19,8 @@ import { OrdenVenta } from 'src/app/models/orden-venta';
 })
 export class CheckInComponent implements OnInit {
   constructor(
+    private ventaConceptosService:VentaConceptosService,
+    private ordenVentaService:OrdenVentaService,
     private pacienteService:PacientesService, 
     private dialog:MatDialog,
     ) {}
@@ -28,6 +30,7 @@ export class CheckInComponent implements OnInit {
   paciente:Paciente;
   orden: OrdenVenta = null;
   buscarPorPaciente: boolean = false;
+  listaDeEstudios:[]=null;
 
   @ViewChild('qr') textoQr: ElementRef;
 
@@ -51,7 +54,9 @@ export class CheckInComponent implements OnInit {
   mostrarNombrePaciente(paciente: Paciente): string {
     return paciente && paciente.nombre ? paciente.nombreCompleto : '';
   }
+
   seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
+    console.log(event)
     this.paciente = event.option.value as Paciente;
     event.option.deselect();
     event.option.focus();
@@ -63,19 +68,26 @@ export class CheckInComponent implements OnInit {
         width: "1000px",
         data: {paciente:this.paciente?.id ? this.paciente : null  }
       });
-      
       modalRef.afterClosed().subscribe(orden => {
         if(orden && orden?.id){
           this.orden = orden;
-          console.log(this.orden);
+          this.listaDeEstudios = orden.estudios.split(", ");
         }
       });
-
-    
   }
 
   buscarQr(){
     const cuerpoCodigo = this.textoQr.nativeElement.value;
     console.log(cuerpoCodigo);
+    this.paciente=cuerpoCodigo;
+    this.abrirModalPacienteOrdenes();
+    
+  }
+  pagar():void{
+    // this.ventaConceptosService.procesarEstudioEnWorklist(1);
+    console.log("pagado")
+  }
+  cerrar():void{
+    this.orden=null;
   }
 }
