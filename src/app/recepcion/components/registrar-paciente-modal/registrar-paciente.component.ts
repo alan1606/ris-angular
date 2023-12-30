@@ -13,10 +13,10 @@ import { FechaService } from 'src/app/services/fecha.service';
   templateUrl: './registrar-paciente.component.html',
   styleUrls: ['./registrar-paciente.component.css']
 })
-export class RegistrarPacienteComponent implements OnChanges {
+export class RegistrarPacienteComponent implements OnInit {
 
   fechaNacimientoControl = new UntypedFormControl();
-  model: Paciente;
+  model: Paciente = new Paciente();
 
   titulo: string = "Crear paciente";
   error: any;
@@ -34,19 +34,18 @@ export class RegistrarPacienteComponent implements OnChanges {
     public modalRef: MatDialogRef<RegistrarPacienteComponent>,
     private pipe: DatePipe,
     private fechaService: FechaService
-  ) { 
-    console.log("Me encanta que me des por el culo");
+  ) {
   }
 
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.data);
+  ngOnInit(): void {
     if (this.data?.paciente?.id) {
       this.model = this.data?.paciente as Paciente;
+      this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
+      this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
+      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
     }
-    this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
-    this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
-    this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+
   }
 
 
@@ -126,7 +125,8 @@ export class RegistrarPacienteComponent implements OnChanges {
     persona.apellidoPaterno = this.model.apellidoPaterno;
     persona.apellidoMaterno = this.model.apellidoMaterno;
     persona.genero = this.model.sexo == 2 ? GENERO.MASCULINO : GENERO.FEMENINO;
-    persona.fechaNacimiento = this.fecha;
+    persona.fechaNacimiento = this.fecha.replace(/\//g, "-");
+    console.log(persona.fechaNacimiento);
     persona.estado = this.pais == 'OTRO' ? ESTADO['NO_ESPECIFICADO'] : ESTADO[this.entidad];
     this.model.curp = generar(persona);
   }
