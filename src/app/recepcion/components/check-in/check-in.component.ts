@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, UntypedFormControl} from '@angular/forms';
+import { UntypedFormControl} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { PacientesService } from 'src/app/services/pacientes.service';
@@ -10,7 +10,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
-import { error } from 'console';
+import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-check-in',
@@ -25,14 +26,14 @@ export class CheckInComponent implements OnInit {
     private dialog:MatDialog,
     ) {}
   autocompleteControlPaciente = new UntypedFormControl('');      
-  ventaConceptos: VentaConceptos[] = null;
   pacientesFiltrados: Paciente[] = [];
   paciente:Paciente;
   orden: OrdenVenta = null;
   buscarPorPaciente: boolean = false;
-  listaDeEstudios:[]=null;
+  listaDeEstudios:VentaConceptos[] = [];
 
   @ViewChild('qr') textoQr: ElementRef;
+  private searchTimer: any;
 
   ngOnInit(): void {
     this.autocompleteControlPaciente.valueChanges.pipe(
@@ -56,7 +57,6 @@ export class CheckInComponent implements OnInit {
   }
 
   seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
-    console.log(event)
     this.paciente = event.option.value as Paciente;
     event.option.deselect();
     event.option.focus();
@@ -71,23 +71,110 @@ export class CheckInComponent implements OnInit {
       modalRef.afterClosed().subscribe(orden => {
         if(orden && orden?.id){
           this.orden = orden;
-          this.listaDeEstudios = orden.estudios.split(", ");
+          this.cargarOrdenVenta(this.orden.id, this.orden.paciente.id);
         }
       });
   }
 
   buscarQr(){
-    const cuerpoCodigo = this.textoQr.nativeElement.value;
+
+     // Limpiar el temporizador existente si existe
+     if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+
+    // Establecer un nuevo temporizador para ejecutar la búsqueda después de un retraso de 1000 ms (1 segundo)
+    this.searchTimer = setTimeout(() => {
+      this.realizarBusqueda();
+    }, 1000);
+  }
+
+  private realizarBusqueda(){
+    const cuerpoCodigo: string = this.textoQr.nativeElement.value;
     console.log(cuerpoCodigo);
-    this.paciente=cuerpoCodigo;
-    this.abrirModalPacienteOrdenes();
-    
+    if(cuerpoCodigo == ''){
+      return;
+    }
+
+    const ids = cuerpoCodigo.split(",");
+    if(ids.length != 2){
+      return;
+    }
+    const pacienteId = +ids[0];
+    const ordenId = +ids[1];
+
+    this.cargarOrdenVenta(ordenId, pacienteId);
   }
+  
   pagar():void{
-    // this.ventaConceptosService.procesarEstudioEnWorklist(1);
-    console.log("pagado")
+    this.ordenVentaService.pagar(this.orden.id).subscribe(
+      () =>{
+        Swal.fire("Éxito", "Se ha procesado la orden", "success");
+        this.reiniciar();
+      }, 
+      (error) =>{
+        Swal.fire("Error", "Ha ocurrido un error", "error");
+        console.log(error);
+        this.reiniciar();
+      }
+    );
   }
+
   cerrar():void{
     this.orden=null;
+  }
+
+  mostrarQrSubirFoto(){
+    const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent,
+      {
+        width: "1000px",
+        data: {orden:this.orden}
+      });
+      modalRef.afterClosed().subscribe();
+  }
+
+  
+  parseHora(horaString: string): Date {
+    if(!horaString){
+      return null;
+    }
+    const [horas, minutos, segundos] = horaString.split(':');
+    const fecha = new Date();
+    fecha.setHours(parseInt(horas, 10));
+    fecha.setMinutes(parseInt(minutos, 10));
+    fecha.setSeconds(parseInt(segundos, 10));
+    return fecha;
+  }
+
+  private cargarOrdenVenta(ordenId: number, pacienteId: number): void{
+    this.ordenVentaService.ver(ordenId).subscribe(
+      orden => {
+        if(orden.paciente.id === pacienteId){
+          this.orden = orden;
+          this.ventaConceptosService.encontrarPorOrdenVentaId(orden.id).subscribe(
+              estudios => {
+                this.listaDeEstudios = estudios;
+              },
+              error => console.log(error)
+          );
+        }
+        else{
+          this.orden = null;
+        }
+      },
+      error => {
+        console.log(error);
+        this.orden = null;
+      }
+    );    
+  }
+
+
+  private reiniciar(): void {
+    this.buscarPorPaciente = false;
+    this.orden = null;
+    this.paciente = null;
+    this.listaDeEstudios = [];
+    this.textoQr.nativeElement.value = '';
   }
 }

@@ -72,7 +72,6 @@ export class SubirFotoOrdenComponent implements OnChanges {
       .subscribe((multimedia) => {
         this.fotos = multimedia.filter((foto) => foto.tipo == 'IMAGEN');
         this.fotosCargadas = Promise.resolve(true);
-        // console.log(multimedia);
       });
   }
 

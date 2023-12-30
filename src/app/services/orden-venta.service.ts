@@ -41,7 +41,8 @@ export class OrdenVentaService extends CommonService<OrdenVenta>{
    public buscarOrdenVentaPorPacienteIdHoy(idPaciente:number): Observable<OrdenVenta[]>{
     return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/paciente/${idPaciente}/hoy`)
   }
-  public encontrarOrdenVentaPorId(id:number){
-    return "hola"
+
+  public pagar(idOrden: number): Observable<void>{
+    return this.http.put<void>(`${this.baseEndpoint}/pagar/${idOrden}`, {});
   }
 }
