@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Paciente } from 'src/app/models/paciente';
 import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registrar-paciente.component';

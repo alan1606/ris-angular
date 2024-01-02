@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
@@ -12,13 +18,12 @@ import Swal from 'sweetalert2';
   templateUrl: './subir-foto-orden.component.html',
   styleUrls: ['./subir-foto-orden.component.css'],
 })
-export class SubirFotoOrdenComponent implements OnChanges {
-
+export class SubirFotoOrdenComponent implements OnChanges, OnInit {
   titulo: string;
 
   @Input()
   orden: OrdenVenta;
-  
+
   private foto: File;
   private multimedia: Multimedia = new Multimedia();
   filesPath: string = FILES_PATH;
@@ -33,6 +38,25 @@ export class SubirFotoOrdenComponent implements OnChanges {
     private multimediaService: MultimediaService
   ) {}
 
+  ngOnInit(): void {
+    console.log('oninit');
+    this.route.paramMap.subscribe((params) => {
+      const idOrden: number = +params.get('id');
+
+      if (!idOrden) {
+        return;
+      }
+      this.service.ver(idOrden).subscribe(
+        (orden) => {
+          this.orden = orden;
+          this.titulo = `Subir foto de orden de ${this.orden.paciente.nombreCompleto}`;
+          this.cargarFotos();
+        },
+        (error) => console.log(error)
+      );
+    });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     // console.log("on init");
     // console.log(this.orden);
@@ -40,8 +64,6 @@ export class SubirFotoOrdenComponent implements OnChanges {
     // console.log(this.titulo);
     this.cargarFotos();
   }
-
- 
 
   seleccionarFoto(event): void {
     this.foto = event.target.files[0];
