@@ -125,6 +125,12 @@ export class RegistroCompletoPacienteComponent implements OnInit {
     }
   }
 
+  generar(){
+    if (this.datosListosParaGenerarCurp()) {
+      this.generarCurp();
+    }
+  }
+
   datosListosParaGenerarCurp(): boolean {
     if (this.model?.nombre == '') {
       return false;

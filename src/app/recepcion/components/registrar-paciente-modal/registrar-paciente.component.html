@@ -52,7 +52,7 @@
                 <div class="form-group my-2">
                     <mat-form-field>
                         <mat-label>País de orígen</mat-label>
-                        <mat-select [(ngModel)]="pais" name="pais">
+                        <mat-select [(ngModel)]="pais" name="pais" (selectionChange)="generar()">
                             <mat-option *ngFor="let pais of paises" [value]="pais">
                                 {{pais}}
                             </mat-option>
@@ -66,7 +66,7 @@
                 <div class="form-group my-2" *ngIf="pais == 'MÉXICO'">
                     <mat-form-field>
                         <mat-label>Entidad de nacimiento</mat-label>
-                        <mat-select [(ngModel)]="entidad" name="entidad">
+                        <mat-select [(ngModel)]="entidad" name="entidad" (selectionChange)="generar()">
                             <mat-option *ngFor="let entidad of entidades" [value]="entidad">
                                 {{entidad}}
                             </mat-option>
@@ -119,7 +119,7 @@
     
                 <div class="form-group my-2">
                     <button type="button" class="btn btn-primary" (click)="model.id ? editar() : crear()">
-                        {{ model?.id ? 'Editar' : 'Crear' }}
+                        {{ model?.id ? 'Guardar' : 'Crear' }}
                     </button>
                 </div>
     

@@ -118,6 +118,11 @@ export class RegistrarPacienteComponent implements OnInit {
     return true;
   }
 
+  generar(){
+    if (this.datosListosParaGenerarCurp()) {
+      this.generarCurp();
+    }
+  }
 
   generarCurp(): void {
     let persona = getPersona();
