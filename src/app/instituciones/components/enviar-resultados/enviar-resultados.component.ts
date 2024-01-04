@@ -123,9 +123,12 @@ export class EnviarResultadosComponent implements OnInit {
     this.institucionService.enviarResultadosAMedicoReferente(this.institucionId, this.orden.id, this.orden).subscribe(
       orden => {
         console.log(orden);
+        Swal.fire("Enviado", "Se ha enviado el estudio", "success");
+        this.router.navigate(['/instituciones']);
       },
       error => {
         console.log(error);
+        Swal.fire("Error", "Ha ocurrido un error al enviar el estudio", "error");
       }
     );
   }
