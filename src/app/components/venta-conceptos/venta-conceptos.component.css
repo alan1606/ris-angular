@@ -1,7 +1,14 @@
-.pendiente{
+.pagado{
     color: #fa0f0f;
 }
 
 .terminado{
     color: #21c429;
+}
+
+.agendado{
+    color: blue;
+}
+.interpretando{
+    color: orange;
 }

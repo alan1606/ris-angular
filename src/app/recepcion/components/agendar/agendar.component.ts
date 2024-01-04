@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { map, mergeMap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
 import { Campania } from 'src/app/campanias/models/campania';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Area } from 'src/app/models/area';
@@ -100,8 +100,16 @@ export class AgendarComponent implements OnInit {
     this.cargarConvenioParticularPorDefecto();
 
     this.autocompleteControlPaciente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
-      mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
+      debounceTime(300), 
+      distinctUntilChanged(), 
+      switchMap(valor => {
+        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
+        return valor ? this.pacienteService.filtrarPorNombre(nombreCompleto) : [];
+      }),
+      catchError(error => {
+        console.error('Error en la búsqueda de pacientes:', error);
+        return [];
+      })
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
     });

@@ -29,7 +29,6 @@ import { FechaService } from 'src/app/services/fecha.service';
 export class VentaConceptosComponent extends CommonListarComponent<VentaConceptos, VentaConceptosService> implements OnInit {
 
   autocompleteControl = new FormControl();
-  
   autocompleteControlPaciente = new FormControl();
   areasFiltradas: Area[] = [];
   pacientesFiltrados: Paciente[] = [];

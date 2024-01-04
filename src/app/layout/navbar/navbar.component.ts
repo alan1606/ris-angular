@@ -5,6 +5,7 @@ import { TokenService } from 'src/app/services/token.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 
+
 const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwkyz123456789';
 
 @Component({

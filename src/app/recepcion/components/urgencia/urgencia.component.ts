@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { map, mergeMap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
@@ -88,13 +88,18 @@ export class UrgenciaComponent implements OnInit {
     this.cargarConvenioParticularPorDefecto();
 
     this.autocompleteControlPaciente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
-      mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
+      debounceTime(250), 
+      distinctUntilChanged(), 
+      switchMap(valor => {
+        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
+        return valor ? this.pacienteService.filtrarPorNombre(nombreCompleto) : [];
+      }),
+      catchError(error => {
+        console.error('Error en la búsqueda de pacientes:', error);
+        return [];
+      })
     ).subscribe(pacientes => {
       this.pacientesFiltrados = pacientes;
-      if(this.estudios.length > 0){
-        this.pacientesFiltrados = [];
-      }
     });
 
     this.autocompleteControlConvenio.valueChanges.pipe(
@@ -164,7 +169,7 @@ export class UrgenciaComponent implements OnInit {
 
   seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
     this.paciente = event.option.value as Paciente;
-
+    console.log(this.paciente)
     event.option.deselect();
     event.option.focus();
   }
