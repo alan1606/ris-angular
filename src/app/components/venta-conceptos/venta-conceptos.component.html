@@ -130,14 +130,14 @@
             <td *ngIf="!estudio.iuid?.length > 0"></td>
             <td *ngIf="estudio.concepto.dicom">
               <button
-                class="btn btn-success btn-sm"
+                class="btn btn-success btn-md"
                 *ngIf="estudio.iuid?.length > 0"
                 (click)="ver(estudio)"
               >
               <i class="bi bi-eye"></i>
               </button>
               <button
-                class="btn btn-info btn-sm"
+                class="btn btn-info btn-md"
                 *ngIf="!estudio.iuid?.length > 0"
                 (click)="buscarEstudioEnPacs(estudio)"
               >
@@ -151,7 +151,7 @@
               "
             >
               <button
-                class="btn btn-primary btn-sm"
+                class="btn btn-success btn-md"
                 *ngIf="estudio.iuid?.length > 0 || !estudio.concepto.dicom"
                 (click)="abrirEnvio(estudio)"
               >
@@ -161,7 +161,7 @@
 
             <td>
               <button
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary btn-md"
                 (click)="abrirInformacion(estudio)"
               >
               <i class="bi bi-person-vcard-fill"></i>

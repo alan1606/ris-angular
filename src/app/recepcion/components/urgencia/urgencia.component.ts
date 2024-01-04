@@ -36,6 +36,7 @@ export class UrgenciaComponent implements OnInit {
   total: number;
   motivo: string;
   codigoPromocion: string = "";
+  botonDeshabilitado:boolean=false;
 
   constructor(
     private dialog: MatDialog,
@@ -292,7 +293,10 @@ export class UrgenciaComponent implements OnInit {
   }
 
   agendar(){
-    this.ordenVenta = new OrdenVenta;
+    this.botonDeshabilitado=true;
+
+    setTimeout(()=>{
+      this.ordenVenta = new OrdenVenta;
     this.ordenVenta.medicoReferente = this.medicoReferente;
 
     this.ordenVenta.motivo = this.motivo;
@@ -314,6 +318,9 @@ export class UrgenciaComponent implements OnInit {
     }
 
     this.agendaSaludParral();
+    this.botonDeshabilitado=false;
+    },2000);
+    
   }
 
 

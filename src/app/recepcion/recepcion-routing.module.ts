@@ -13,6 +13,7 @@ import { ConfirmacionesCitasComponent } from './components/confirmaciones-citas/
 import { CheckInComponent } from './components/check-in/check-in.component';
 import { PacienteOrdenesComponent } from './components/check-in/paciente-ordenes/paciente-ordenes.component';
 import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
+import { BuscarPacienteSubirFotoOrdenComponent } from './components/buscar-paciente-subir-foto-orden/buscar-paciente-subir-foto-orden.component';
 
 const routes: Routes =[
     {
@@ -68,6 +69,10 @@ const routes: Routes =[
       {
         path: 'qr-checkin/:idOrden/:idPaciente',
         component: GenerarQrCheckinComponent
+      },
+      {
+        path:"buscar-paciente-subir-foto-orden",
+        component:BuscarPacienteSubirFotoOrdenComponent
       },
     { path: "**", redirectTo: ""}
 ];

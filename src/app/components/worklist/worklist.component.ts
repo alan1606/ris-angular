@@ -73,9 +73,7 @@ export class WorklistComponent implements OnInit {
           this.lista = [];
         }
       });
-      for(let i of this.lista){
-        console.log(i.enWorklist)
-      }
+      
   }
 
   seleccionarArea(event: MatAutocompleteSelectedEvent): void {

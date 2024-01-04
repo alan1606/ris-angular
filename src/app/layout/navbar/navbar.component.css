@@ -1,4 +1,6 @@
-
+.contenedor-busqueda{
+  padding-bottom: 20px; 
+}
 .finalNavbar{
   align-items: flex-end;
 }

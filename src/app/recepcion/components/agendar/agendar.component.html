@@ -158,7 +158,7 @@
 
 
             <div class="form-group flex  my-3" *ngIf="this.estudios?.length > 0 && this.paciente">
-                <button type="button" class="btn btn-primary" (click)="agendar()">
+                <button type="button" class="btn btn-primary" (click)="agendar()" [disabled]="botonDeshabilitar">
                     AGENDAR
                 </button>
             </div>

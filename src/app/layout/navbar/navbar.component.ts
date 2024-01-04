@@ -201,4 +201,10 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+  puedeAbrirSubirFotoOrden():boolean{
+    if(this.isAdmin){
+      return true;
+    }
+    return false;
+  }
 }

@@ -35,3 +35,11 @@
     align-items: end;
     align-content: end;
 }
+
+.contenedor-boton-pagar{
+    padding-bottom: 30px;
+}
+
+.contenedor-boton-pagar button{
+    width: 50rem;
+}

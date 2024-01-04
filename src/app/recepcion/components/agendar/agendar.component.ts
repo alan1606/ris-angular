@@ -36,7 +36,7 @@ export class AgendarComponent implements OnInit {
   total: number;
   motivo: string;
   codigoPromocion: string = "";
-
+  botonDeshabilitar:boolean=false;
   formulario: FormGroup;
 
   constructor(
@@ -313,18 +313,24 @@ export class AgendarComponent implements OnInit {
 
   agendar() {
 
-    this.ordenVenta = new OrdenVenta;
+    this.botonDeshabilitar=true;
+    
+    setTimeout(()=>{
+      this.ordenVenta = new OrdenVenta;
 
 
-    this.ordenVenta.paciente = this.paciente;
-    console.log(this.ordenVenta.paciente);
+      this.ordenVenta.paciente = this.paciente;
+      console.log(this.ordenVenta.paciente);
+  
+      if (this.campania.id) {
+        this.ordenVenta.aplicarDescuento = true;
+        this.ordenVenta.codigoPromocional = this.campania.codigo;
+      }
+      this.total = 0;
+      this.agendaNormal();
 
-    if (this.campania.id) {
-      this.ordenVenta.aplicarDescuento = true;
-      this.ordenVenta.codigoPromocional = this.campania.codigo;
-    }
-    this.total = 0;
-    this.agendaNormal();
+    },2000);
+    this.botonDeshabilitar=true;
   }
 
 

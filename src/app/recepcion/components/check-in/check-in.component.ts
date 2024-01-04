@@ -25,6 +25,7 @@ export class CheckInComponent implements OnInit {
     private pacienteService:PacientesService, 
     private dialog:MatDialog,
     ) {}
+    botonDeshabilitado:boolean=false;
   autocompleteControlPaciente = new UntypedFormControl('');      
   pacientesFiltrados: Paciente[] = [];
   paciente:Paciente;
@@ -107,17 +108,23 @@ export class CheckInComponent implements OnInit {
   }
   
   pagar():void{
-    this.ordenVentaService.pagar(this.orden.id).subscribe(
-      () =>{
-        Swal.fire("Éxito", "Se ha procesado la orden", "success");
-        this.reiniciar();
-      }, 
-      (error) =>{
-        Swal.fire("Error", "Ha ocurrido un error", "error");
-        console.log(error);
-        this.reiniciar();
-      }
-    );
+
+    this.botonDeshabilitado=true;
+    setTimeout(()=>{
+      this.ordenVentaService.pagar(this.orden.id).subscribe(
+        () =>{
+          Swal.fire("Éxito", "Se ha procesado la orden", "success");
+          this.reiniciar();
+        }, 
+        (error) =>{
+          Swal.fire("Error", "Ha ocurrido un error", "error");
+          console.log(error);
+          this.reiniciar();
+        }
+      );
+      this.botonDeshabilitado=true;
+    },2000);
+    
   }
 
   cerrar():void{

@@ -33,6 +33,7 @@ import { VerOrdenModalComponent } from './components/check-in/ver-orden-modal/ve
 import { ReagendarCitaModalComponent } from './components/reagendar-cita-modal/reagendar-cita-modal.component';
 import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
 import { FormularioPacienteComponent } from './components/formulario-paciente/formulario-paciente.component';
+import { BuscarPacienteSubirFotoOrdenComponent } from './components/buscar-paciente-subir-foto-orden/buscar-paciente-subir-foto-orden.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { FormularioPacienteComponent } from './components/formulario-paciente/fo
         VerOrdenModalComponent,
         ReagendarCitaModalComponent,
         GenerarQrCheckinComponent,
-        FormularioPacienteComponent
+        FormularioPacienteComponent,
+        BuscarPacienteSubirFotoOrdenComponent
         ],
     imports: [
         CommonModule,
