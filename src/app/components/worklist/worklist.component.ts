@@ -8,7 +8,7 @@ import { PacientesService } from '../../services/pacientes.service';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { map, flatMap } from 'rxjs';
+import { map, flatMap, of } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { VentaConceptos } from '../../models/venta-conceptos';
 import Swal from 'sweetalert2';
@@ -41,6 +41,7 @@ export class WorklistComponent implements OnInit {
 
   ngOnInit(): void {
     this.buscarEstudiosDeHoy();
+    
 
     this.autocompleteControl.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombre),
@@ -64,12 +65,17 @@ export class WorklistComponent implements OnInit {
   }
 
   buscarEstudiosDeHoy(): void {
-    this.service.filtrarDiaDeHoy().subscribe(estudios => this.lista = estudios,
+    this.service.filtrarDiaDeHoy().subscribe(
+      estudios => 
+      this.lista = estudios,
       e => {
         if (e.status === 404) {
           this.lista = [];
         }
       });
+      for(let i of this.lista){
+        console.log(i.enWorklist)
+      }
   }
 
   seleccionarArea(event: MatAutocompleteSelectedEvent): void {

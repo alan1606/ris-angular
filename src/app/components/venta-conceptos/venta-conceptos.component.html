@@ -96,7 +96,7 @@
         </thead>
 
         <tbody *ngIf="lista?.length > 0">
-          <tr *ngFor="let estudio of lista">
+          <tr *ngFor="let estudio of lista" [ngClass]="{'table-success':estudio.estado=='INTERPRETADO','table-danger':estudio.estado=='PAGADO'}">
             <td (click)="abrirQr(estudio)">{{ estudio.id }}</td>
             <td>{{ estudio.paciente.nombreCompleto }}</td>
             <td>{{ estudio.concepto.concepto }}</td>
