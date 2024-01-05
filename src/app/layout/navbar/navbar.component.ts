@@ -207,4 +207,11 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+  puedeAbrirCrudMedicos():boolean{
+    if(this.isAdmin || this.isReceptionist){
+      return true;
+    }
+    return false;
+  }
 }

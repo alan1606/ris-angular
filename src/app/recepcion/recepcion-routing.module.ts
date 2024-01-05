@@ -74,6 +74,7 @@ const routes: Routes =[
         path:"buscar-paciente-subir-foto-orden",
         component:BuscarPacienteSubirFotoOrdenComponent
       },
+      
     { path: "**", redirectTo: ""}
 ];
 
