@@ -70,7 +70,12 @@
 </div>
 
 <div class="formularioPaciente-subirFoto">
-  <app-formulario-paciente *ngIf="orden?.id && orden?.paciente?.id" [model]="orden.paciente"></app-formulario-paciente>
+  <app-formulario-paciente 
+  *ngIf="orden?.id && orden?.paciente?.id" 
+  [model]="orden.paciente"
+  (botonGuardarPresionado)="presionadoBotonGuardar($event)"
+  >
+</app-formulario-paciente>
   
   <div class="subirFoto-pagar">
     <app-subir-foto-orden *ngIf="orden?.id" [orden]="orden"></app-subir-foto-orden>
@@ -88,8 +93,8 @@
   </div>
   
   
-  <div class="contenedor-boton-pagar">
-    <button *ngIf="orden?.id && orden?.paciente?.id" class="btn btn-success" (click)="pagar()" [disabled]="botonDeshabilitado">
+  <div class="contenedor-boton-pagar" *ngIf="guardarPresionado">
+    <button *ngIf="orden?.id && orden?.paciente?.id" class="btn btn-success" (click)="pagar()" [disabled]="botonHabilitado">
       <i class="bi bi-currency-dollar"></i>
       Pagar
     </button>

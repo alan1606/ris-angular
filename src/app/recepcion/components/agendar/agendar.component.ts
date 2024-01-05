@@ -277,6 +277,7 @@ export class AgendarComponent implements OnInit {
     this.motivo = "";
     this.campania = new Campania();
     this.codigoPromocion = '';
+    this.botonDeshabilitar=false;
 
     this.cargarConvenioParticularPorDefecto();
 
@@ -330,7 +331,6 @@ export class AgendarComponent implements OnInit {
       this.agendaNormal();
 
     },2000);
-    this.botonDeshabilitar=true;
   }
 
 

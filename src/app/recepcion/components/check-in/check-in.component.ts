@@ -25,13 +25,14 @@ export class CheckInComponent implements OnInit {
     private pacienteService:PacientesService, 
     private dialog:MatDialog,
     ) {}
-    botonDeshabilitado:boolean=false;
+  botonHabilitado:boolean=false;
   autocompleteControlPaciente = new UntypedFormControl('');      
   pacientesFiltrados: Paciente[] = [];
   paciente:Paciente;
   orden: OrdenVenta = null;
   buscarPorPaciente: boolean = false;
   listaDeEstudios:VentaConceptos[] = [];
+  guardarPresionado:boolean = false;
 
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
@@ -108,9 +109,8 @@ export class CheckInComponent implements OnInit {
   }
   
   pagar():void{
-
-    this.botonDeshabilitado=true;
     setTimeout(()=>{
+      this.botonHabilitado=true;
       this.ordenVentaService.pagar(this.orden.id).subscribe(
         () =>{
           Swal.fire("Éxito", "Se ha procesado la orden", "success");
@@ -122,9 +122,8 @@ export class CheckInComponent implements OnInit {
           this.reiniciar();
         }
       );
-      this.botonDeshabilitado=true;
     },2000);
-    
+
   }
 
   cerrar():void{
@@ -140,6 +139,9 @@ export class CheckInComponent implements OnInit {
       modalRef.afterClosed().subscribe();
   }
 
+  presionadoBotonGuardar(presionado){
+    this.guardarPresionado = presionado as boolean;
+  }
   
   parseHora(horaString: string): Date {
     if(!horaString){
@@ -158,6 +160,7 @@ export class CheckInComponent implements OnInit {
       orden => {
         if(orden.paciente.id === pacienteId){
           this.orden = orden;
+          Swal.fire("Guardar paciente", "Presione guardar paciente para poder pagar", "info");
           this.ventaConceptosService.encontrarPorOrdenVentaId(orden.id).subscribe(
               estudios => {
                 this.listaDeEstudios = estudios;
@@ -182,6 +185,10 @@ export class CheckInComponent implements OnInit {
     this.orden = null;
     this.paciente = null;
     this.listaDeEstudios = [];
-    this.textoQr.nativeElement.value = '';
+    this.guardarPresionado = false;
+    this.botonHabilitado = false;
+    if(!this.buscarPorPaciente){
+      this.textoQr.nativeElement.value = '';
+    }
   }
 }

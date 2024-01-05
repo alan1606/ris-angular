@@ -1,5 +1,4 @@
-import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, OnChanges, EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
@@ -28,6 +27,7 @@ export class FormularioPacienteComponent implements OnChanges {
   entidad: string = '';
   fecha: string = '';
   sexo: string = '';
+  @Output() botonGuardarPresionado = new EventEmitter<boolean>();
 
   constructor(
     private service: PacientesService,
@@ -48,6 +48,7 @@ export class FormularioPacienteComponent implements OnChanges {
     this.service.crear(this.model).subscribe(model => {
       this.model = model;
       Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
+      this.botonGuardarPresionado.emit(true);
     }, err => {
       if (err.status === 400) {
         this.error = err.error;
@@ -60,6 +61,8 @@ export class FormularioPacienteComponent implements OnChanges {
     this.service.editar(this.model).subscribe(concepto => {
       console.log(concepto);
       Swal.fire('Modificado: ', `Paciente actualizado con éxito`, "success");
+      this.botonGuardarPresionado.emit(true);
+      Swal.fire('Pagar', 'Presione el botón de pagar', "info");
     }, err => {
       if (err.status === 400) {
         this.error = err.error;

@@ -64,13 +64,16 @@ export class RegistroCompletoPacienteComponent implements OnInit {
               if (paciente) {
                 this.model = paciente;
                 this.sexo = this.model.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
-                this.fecha = this.pipe.transform(
-                  new Date(this.model.fechaNacimiento),
-                  'MM/dd/yyyy'
-                );
-                this.fechaNacimientoControl.setValue(
-                  new Date(this.model.fechaNacimiento)
-                );
+                if(this.model.fechaNacimiento){
+                  this.fecha = this.pipe.transform(
+                    new Date(this.model.fechaNacimiento),
+                    'MM/dd/yyyy'
+                  );
+                  this.fechaNacimientoControl.setValue(
+                    new Date(this.model.fechaNacimiento)
+                  );
+                }
+                Swal.fire("Información", "Llene sus datos y haga clic en guardar", "info");
               }
             },
             (error) => {

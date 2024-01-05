@@ -318,7 +318,6 @@ export class UrgenciaComponent implements OnInit {
     }
 
     this.agendaSaludParral();
-    this.botonDeshabilitado=false;
     },2000);
     
   }
@@ -331,11 +330,13 @@ export class UrgenciaComponent implements OnInit {
         this.ordenVenta = this.estudios[0].ordenVenta;
         this.mostrarModalQrImagenes();
         this.reiniciarFormulario();
-        Swal.fire("Procesado", "La orden se ha procesado", "success")
+        Swal.fire("Procesado", "La orden se ha procesado", "success");
+        this.botonDeshabilitado=false;
       },
       err => {
         console.log(err);
-        Swal.fire("Error", "Ha ocurrido un error al procesar la venta", "error")
+        Swal.fire("Error", "Ha ocurrido un error al procesar la venta", "error");
+        this.botonDeshabilitado=false;
       }
     );
   }
