@@ -202,7 +202,7 @@ export class NavbarComponent implements OnInit {
     return false;
   }
   puedeAbrirSubirFotoOrden():boolean{
-    if(this.isAdmin){
+    if(this.isAdmin || this.isReceptionist){
       return true;
     }
     return false;

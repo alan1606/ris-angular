@@ -34,7 +34,7 @@ const routes: Routes =[
       {
         path : 'subir-foto-orden/:id', 
         component: SubirFotoOrdenComponent, 
-        canActivate : [RecepcionGuard]
+        // canActivate : [RecepcionGuard]
       },
       {
         path: 'agenda', 
@@ -72,7 +72,8 @@ const routes: Routes =[
       },
       {
         path:"buscar-paciente-subir-foto-orden",
-        component:BuscarPacienteSubirFotoOrdenComponent
+        component:BuscarPacienteSubirFotoOrdenComponent,
+        canActivate : [RecepcionGuard]
       },
     { path: "**", redirectTo: ""}
 ];
