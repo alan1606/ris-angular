@@ -86,6 +86,11 @@ export class RegistroCompletoPacienteComponent implements OnInit {
   }
 
   public crear(): void {
+
+    if(!this.camposValidos()){
+      return;
+    }
+    
     this.service.crear(this.model).subscribe(
       (model) => {
         this.model = model;
@@ -100,6 +105,10 @@ export class RegistroCompletoPacienteComponent implements OnInit {
   }
 
   public editar(): void {
+    if(!this.camposValidos()){
+      return;
+    }
+
     this.service.editar(this.model).subscribe(
       (concepto) => {
         console.log(concepto);
@@ -114,12 +123,35 @@ export class RegistroCompletoPacienteComponent implements OnInit {
   }
 
   seleccionarFecha(fecha: HTMLInputElement): void {
-    this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
-    this.model.fechaNacimiento = this.fecha;
-    this.model.fechaNacimiento += 'T00:00:00';
+    const fechaValor = new Date(this.fechaNacimientoControl.value);
+    this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
+    this.model.fechaNacimiento += "T00:00:00";
   }
 
 
+  private camposValidos():boolean{
+    if(!this.model.nombre){
+      Swal.fire("Error", "Verifique el nombre", "error");
+      return false;
+    }
+    if(!this.model.apellidoPaterno){
+      Swal.fire("Error", "Verifique el apellido paterno", "error");
+      return false;
+    }
+    if(!this.model.apellidoMaterno){
+      Swal.fire("Error", "Verifique el apellido materno", "error");
+      return false;
+    }
+    if(!this.model.fechaNacimiento){
+      Swal.fire("Error", "Verifique la fecha de nacimiento", "error");
+      return false;
+    }
+    if(!this.model.sexo){
+      Swal.fire("Error", "Verifique el sexo", "error");
+      return false;
+    }
+    return true;
+  }
 
   seleccionarSexo(): void {
     this.model.sexo = this.sexo == 'MASCULINO' ? 2 : 1;

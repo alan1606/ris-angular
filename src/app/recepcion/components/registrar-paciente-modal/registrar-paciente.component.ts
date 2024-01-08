@@ -41,6 +41,8 @@ export class RegistrarPacienteComponent implements OnInit {
   ngOnInit(): void {
     if (this.data?.paciente?.id) {
       this.model = this.data?.paciente as Paciente;
+      this.model.sexo = 2;
+      this.sexo = 'MASCULINO';
       this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
       this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
       this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
@@ -50,6 +52,11 @@ export class RegistrarPacienteComponent implements OnInit {
 
 
   public crear(): void {
+
+    if(!this.camposValidos()){
+      return;
+    }
+
     this.service.crear(this.model).subscribe(model => {
       this.model = model;
       Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
@@ -63,6 +70,10 @@ export class RegistrarPacienteComponent implements OnInit {
   }
 
   public editar(): void {
+
+    if(!this.camposValidos()){
+      return;
+    }
     this.service.editar(this.model).subscribe(concepto => {
       console.log(concepto);
       Swal.fire('Modificado: ', `Paciente actualizado con éxito`, "success");
@@ -74,7 +85,30 @@ export class RegistrarPacienteComponent implements OnInit {
       }
     });
   }
-
+  
+  private camposValidos():boolean{
+    if(!this.model.nombre){
+      Swal.fire("Error", "Verifique el nombre", "error");
+      return false;
+    }
+    if(!this.model.apellidoPaterno){
+      Swal.fire("Error", "Verifique el apellido paterno", "error");
+      return false;
+    }
+    if(!this.model.apellidoMaterno){
+      Swal.fire("Error", "Verifique el apellido materno", "error");
+      return false;
+    }
+    if(!this.model.fechaNacimiento){
+      Swal.fire("Error", "Verifique la fecha de nacimiento", "error");
+      return false;
+    }
+    if(!this.model.sexo){
+      Swal.fire("Error", "Verifique el sexo", "error");
+      return false;
+    }
+    return true;
+  }
 
   public cerrar() {
     this.modalRef.close();

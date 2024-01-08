@@ -1,7 +1,27 @@
-<div>
-    <app-check-in></app-check-in>
+<div class="busqueda">
+   <form>
+    <mat-form-field class="custom-mat-form-field">
+        <input matInput placeholder="Digite el nombre del paciente" [formControl]="autocompleteControlPaciente"
+          [matAutocomplete]="autocompletePaciente" class="custom-mat-input">
+        <mat-autocomplete class="mat-autocomplete" #autocompletePaciente="matAutocomplete"
+          [displayWith]="mostrarNombrePaciente" (optionSelected)="seleccionarPaciente($event)">
+          <mat-option class="mat-option" *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+            {{paciente.nombreCompleto}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button (click)="abrirModalPacienteOrdenes()" type="button" class="btn btn-success" data-mdb-ripple-init
+          [disabled]="!this.paciente">
+          <i class="bi bi-search"></i>
+        </button>
+   </form> 
 </div>
 
+
 <div>
-    <app-subir-foto-orden></app-subir-foto-orden>
+    <app-subir-foto-orden *ngIf="orden?.id" [orden]="orden"></app-subir-foto-orden>
+    <button *ngIf="orden?.id && orden?.paciente?.id" class="btn btn-info" (click)="mostrarQrSubirFoto()">  
+        <i class="bi bi-qr-code-scan"></i>
+        Mostrar qr subir foto
+      </button>
 </div>

@@ -38,13 +38,22 @@ export class FormularioPacienteComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.model.sexo = 2;
     this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
-    this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
-    this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+    if(this.model.fechaNacimiento){
+      this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
+      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+    }
+  
   }
 
 
   public crear(): void {
+
+    if(!this.camposValidos()){
+      return;
+    }
+
     this.service.crear(this.model).subscribe(model => {
       this.model = model;
       Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
@@ -58,6 +67,10 @@ export class FormularioPacienteComponent implements OnChanges {
   }
 
   public editar(): void {
+    if(!this.camposValidos()){
+      return;
+    }
+
     this.service.editar(this.model).subscribe(concepto => {
       console.log(concepto);
       Swal.fire('Modificado: ', `Paciente actualizado con éxito`, "success");
@@ -72,9 +85,33 @@ export class FormularioPacienteComponent implements OnChanges {
   }
 
 
+  private camposValidos():boolean{
+    if(!this.model.nombre){
+      Swal.fire("Error", "Verifique el nombre", "error");
+      return false;
+    }
+    if(!this.model.apellidoPaterno){
+      Swal.fire("Error", "Verifique el apellido paterno", "error");
+      return false;
+    }
+    if(!this.model.apellidoMaterno){
+      Swal.fire("Error", "Verifique el apellido materno", "error");
+      return false;
+    }
+    if(!this.model.fechaNacimiento){
+      Swal.fire("Error", "Verifique la fecha de nacimiento", "error");
+      return false;
+    }
+    if(!this.model.sexo){
+      Swal.fire("Error", "Verifique el sexo", "error");
+      return false;
+    }
+    return true;
+  }
+
   seleccionarFecha(fecha: HTMLInputElement): void {
-    this.fecha = fecha.value;
-    this.model.fechaNacimiento = this.fechaService.alistarFechaParaBackend(this.fecha);
+    const fechaValor = new Date(this.fechaNacimientoControl.value);
+    this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
     this.model.fechaNacimiento += "T00:00:00";
   }
 
@@ -117,7 +154,10 @@ export class FormularioPacienteComponent implements OnChanges {
     persona.apellidoPaterno = this.model.apellidoPaterno;
     persona.apellidoMaterno = this.model.apellidoMaterno;
     persona.genero = this.model.sexo == 2 ? GENERO.MASCULINO : GENERO.FEMENINO;
+    this.fecha = this.pipe.transform(this.model.fechaNacimiento, 'dd-MM-yyyy');
+
     persona.fechaNacimiento = this.fecha;
+
     persona.estado = this.pais == 'OTRO' ? ESTADO['NO_ESPECIFICADO'] : ESTADO[this.entidad];
     this.model.curp = generar(persona);
   }
@@ -136,5 +176,11 @@ export class FormularioPacienteComponent implements OnChanges {
 
   mayusculasCurp(): void {
     this.model.curp = this.model.curp.toUpperCase();
+  }
+
+  generar(){
+    if (this.datosListosParaGenerarCurp()) {
+      this.generarCurp();
+    }
   }
 }
