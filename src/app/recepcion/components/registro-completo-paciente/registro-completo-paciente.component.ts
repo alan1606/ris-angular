@@ -123,9 +123,9 @@ export class RegistroCompletoPacienteComponent implements OnInit {
   }
 
   seleccionarFecha(fecha: HTMLInputElement): void {
-    this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
-    this.model.fechaNacimiento = this.fecha;
-    this.model.fechaNacimiento += 'T00:00:00';
+    const fechaValor = new Date(this.fechaNacimientoControl.value);
+    this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
+    this.model.fechaNacimiento += "T00:00:00";
   }
 
 
