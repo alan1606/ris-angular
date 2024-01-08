@@ -5,9 +5,9 @@
         <input
           class="custom-mat-input"
           matInput
-          placeholder="Digite el nombre del medico radiolgo"
+          placeholder="Digite el nombre del medico referente"
           [matAutocomplete]="autocompletePaciente"
-          [formControl]="autoCompleteControlMedicoRadiologo"
+          [formControl]="autoCompleteControlMedicoReferente"
         />
         <mat-autocomplete class="mat-autocomplete"
           #autocompletePaciente="matAutocomplete"
@@ -16,17 +16,17 @@
         >
           <mat-option
             class="mat-option"
-            *ngFor="let medico of medicosFiltradosRadiologo"
+            *ngFor="let medico of medicosFiltradosReferente"
             [value]="medico"
           >
-            {{ medico.nombres }}
+            {{ medico.nombres+ "" + medico.apellidos }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <button (click)="abrirModalFormularioMedico()" class="btn btn-success">
+        Nuevo medico <i class="bi bi-person-plus-fill"></i>
+      </button>
     </form>
-    <button (click)="abrirModalFormularioMedicos()" class="btn btn-success">
-      Nuevo medico <i class="bi bi-person-plus-fill"></i>
-    </button>
   </div>
 
   <div *ngIf="medico">
@@ -40,11 +40,11 @@
       <tbody>
         <tr>
           <th scope="row">NOMBRES</th>
-          <td>{{ medico.nombres.toUpperCase() }}</td>
+          <td>{{ medico.nombres }}</td>
         </tr>
         <tr>
           <th scope="row">APELLIDOS</th>
-          <td>{{ medico.apellidos.toUpperCase() }}</td>
+          <td>{{ medico.apellidos }}</td>
         </tr>
         <tr>
           <th scope="row">ESPECIALIDAD</th>
@@ -60,7 +60,7 @@
         </tr>
         <tr>
           <th scope="row">DIRECCION</th>
-          <td>{{ medico.direccion.toUpperCase() }}</td>
+          <td>{{ medico.direccion }}</td>
         </tr>
         <tr>
           <th scope="row">FECHA NACIMIENTO</th>
@@ -77,7 +77,7 @@
 
         <tr>
           <th scope="row">SEXO</th>
-          <td>{{ medico.sexo == 0 ? "MASCULINO" : "FEMENINO" }}</td>
+          <td>{{ medico.sexo == 1 ? "FEMENINO" : "MASCULINO" }}</td>
         </tr>
         <tr>
           <th scope="row">CEDULA FEDERAL</th>
@@ -89,7 +89,7 @@
         </tr>
         <tr>
           <th scope="row">EMPRESA</th>
-          <td>{{ medico.empresa.toUpperCase() }}</td>
+          <td>{{ medico.empresa }}</td>
         </tr>
       </tbody>
     </table>
@@ -98,7 +98,7 @@
   <div *ngIf="medico">
     <button
       class="btn btn-primary"
-      (click)="abrirModalFormularioMedicos(medico)"
+      (click)="abrirModalFormularioEditarMedico(medico)"
     >
       <i class="bi bi-pencil-square"></i> Editar a
       {{ medico.nombres + " " + medico.apellidos }}

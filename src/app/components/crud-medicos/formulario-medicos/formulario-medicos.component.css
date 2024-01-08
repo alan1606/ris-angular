@@ -1,0 +1,13 @@
+.cerrar {
+  display: flex;
+  justify-content: end;
+}
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.crear-editar {
+  display: flex;
+  width: max-content ;
+  justify-content: start;
+}
