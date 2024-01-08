@@ -1,13 +1,14 @@
 <mat-card>
 
     <h1 mat-card-title> {{titulo}} </h1>
+
+
     <div mat-card-content>
-
-
-        <div class="card text-dark bg-light mb-3" *ngIf="enlacePdf !== ''" >
+        <div class="card text-dark bg-light mb-3 contenedor-pdf-boton" *ngIf="enlacePdf !== ''" >
             <div class="card-body">
                 <pdf-viewer [src]="enlacePdf" [render-text]="true" [original-size]="false"
-                    style="width: 1100px; height: 700px"></pdf-viewer>
+                     class="pdf"></pdf-viewer>
+                     <!-- style="width: 1200px; height: 1200px" -->
             </div>
             <div class="card-body">
                 <button class="btn btn-success btn-lg my-4" (click)="descargarPdf()">

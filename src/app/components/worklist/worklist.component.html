@@ -70,7 +70,7 @@
             </thead>
 
             <tbody *ngIf="lista?.length>0">
-                <tr *ngFor="let estudio of lista" [ngClass]="{'table-danger':estudio.enWorklist==false}">
+                <tr *ngFor="let estudio of lista" [ngClass]="{'table-danger':estudio.enWorklist==false,'table-bg-light':estudio.enWorklist!=false}">
                     <td>{{estudio.id}}</td>
                     <td>{{estudio.paciente.nombreCompleto}}</td>
                     <td>{{estudio.concepto.concepto}}</td>

@@ -75,6 +75,7 @@ const routes: Routes =[
         component:BuscarPacienteSubirFotoOrdenComponent,
         canActivate : [RecepcionGuard]
       },
+      
     { path: "**", redirectTo: ""}
 ];
 

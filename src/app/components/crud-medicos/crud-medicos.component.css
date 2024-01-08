@@ -1,0 +1,11 @@
+/* .contenedor-medicos{
+    background-color: black;
+} */
+.busqueda{
+    display: flex;
+    height: 3rem;
+    width: 100%;
+}
+.custom-mat-form-field {
+    width: 400px;
+}

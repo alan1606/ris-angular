@@ -18,6 +18,8 @@ import { DictadorGuard } from './guards/dictador.guard';
 import { AnyRoleGuard } from './guards/any-role.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { InstitucionGuard } from './guards/institucion.guard';
+import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
+import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
 
 
 const routes: Routes = [
@@ -108,7 +110,11 @@ const routes: Routes = [
     path: 'instituciones',
     loadChildren: () => import('./instituciones/instituciones.module').then( m => m.InstitucionesModule),
     canActivate : [ InstitucionGuard ] 
-  }
+  },
+  {
+    path:"medicos",
+    component:CrudMedicosComponent
+  },
 ];
 
 @NgModule({

@@ -13,7 +13,10 @@ export class Medico implements Generic {
     whatsapp: string;
     token: string;
     radiologo: boolean;
+    sexo:any;
     local: boolean;
     usuario: string;
     cedulaFederal: string;
+    cedulaEstatal:String;
+    empresa:any;
 }

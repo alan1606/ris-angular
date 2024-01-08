@@ -44,6 +44,8 @@ import { ResourceInterceptor } from './interceptors/resource.interceptor';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RecepcionModule } from './recepcion/recepcion.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
+import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
         OrdenVentaComponent,
         LoginComponent,
         AuthorizedComponent,
-        LogoutComponent
+        LogoutComponent,
+        CrudMedicosComponent,
+        FormularioMedicosComponent,
     ],
     imports: [
         BrowserModule,

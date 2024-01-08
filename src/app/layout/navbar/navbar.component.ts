@@ -167,7 +167,7 @@ export class NavbarComponent implements OnInit {
   }
 
   puedeAbrirDictador(): boolean{
-    if(this.isRadiologicPhysician){
+    if(this.isRadiologicPhysician || this.isAdmin){
       return true;
     }
     return false;
@@ -202,6 +202,13 @@ export class NavbarComponent implements OnInit {
     return false;
   }
   puedeAbrirSubirFotoOrden():boolean{
+    if(this.isAdmin || this.isReceptionist){
+      return true;
+    }
+    return false;
+  }
+
+  puedeAbrirCrudMedicos():boolean{
     if(this.isAdmin || this.isReceptionist){
       return true;
     }

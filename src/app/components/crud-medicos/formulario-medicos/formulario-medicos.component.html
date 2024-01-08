@@ -1,0 +1,127 @@
+<div>
+    <div class="cerrar">
+        <button class="btn btn-danger" (click)="Cerrar()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <form [formGroup]="form" class="form">
+        <div>
+            <div>
+                <mat-form-field class="custom-mat-form-field">
+                    <input type="text"
+                    class="custom-mat-input"
+                    matInput
+                    placeholder="NOMBRES"
+                    formControlName="Nombres"
+                    autofocus
+                    >
+                </mat-form-field>
+            </div>
+        
+            <div>
+                <mat-form-field class="custom-mat-form-field">
+                    <input type="text"
+                    class="custom-mat-input"
+                    matInput
+                    placeholder="APELLIDOS"
+                    formControlName="Apellidos"
+                    >
+                </mat-form-field>
+            </div>
+        
+            <div>
+                <mat-form-field class="custom-mat-form-field">
+                    <input type="text"
+                    class="custom-mat-input"
+                    matInput
+                    placeholder="ESPECIALIDAD"
+                    formControlName="Especialidad"
+                    
+                    >
+                </mat-form-field>
+            </div>
+        
+            <div>
+                <mat-form-field class="custom-mat-form-field">
+                    <input type="text"
+                    class="custom-mat-input"
+                    matInput
+                    placeholder="TELEFONO"
+                    formControlName="Telefono"
+                    >
+                </mat-form-field>
+            </div>
+        
+            <div>
+                <mat-form-field class="custom-mat-form-field">
+                    <input type="text"
+                    class="custom-mat-input"
+                    type="email"
+                    matInput
+                    placeholder="CORREO"
+                    formControlName="Correo"
+                    >
+                </mat-form-field>
+            </div>
+        
+            <div>
+                <mat-form-field class="custom-mat-form-field">
+                    <input type="text"
+                    class="custom-mat-input"
+                    matInput
+                    placeholder="DIRECCION"
+                    formControlName="Direccion"
+                    
+                    >
+                </mat-form-field>
+            </div>
+        </div>
+
+        
+    
+       <div>
+        <div class="form-group my-2">
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de nacimiento: </mat-label>
+                <input matInput [matDatepicker]="picker"  (dateChange)="seleccionarFecha(fecha)" #fecha formControlName="FechaNacimiento">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <div class="alert alert-danger" *ngIf="error?.fechaNacimiento">
+                {{error.fechaNacimiento}}
+            </div>
+        </div>
+
+        <div>
+        <mat-form-field class="custom-mat-form-field">
+            <input type="text"
+            class="custom-mat-input"
+            matInput
+            placeholder="WHATSAPP"
+            formControlName="Whatsapp"
+            >
+        </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field class="custom-mat-form-field" >
+                <mat-select type="select"
+                 class="custom-mat-input"
+                 matInput
+                 placeholder="SEXO"
+                 formControlName="Sexo"
+                 >
+                 <mat-option *ngFor="let option of sexos" [value]="option.value">
+                    {{option.label}}
+                 </mat-option>
+                
+                 </mat-select>
+            </mat-form-field>
+            
+        </div>
+        
+       </div>
+    </form>
+    <div class="crear-editar">
+        <button class="btn btn-primary" (click)="!medico? Crear():Editar()">{{medico?"EDITAR":"CREAR"}} {{medico?.nombres}} {{medico?.apellidos}}</button>
+    </div>
+</div>
