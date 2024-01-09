@@ -1,6 +1,6 @@
 <div>
     <div class="cerrar">
-        <button class="btn btn-danger" (click)="Cerrar()"><i class="bi bi-x-lg"></i></button>
+        <button class="btn btn-danger" (click)="cerrar()"><i class="bi bi-x-lg"></i></button>
     </div>
     <form [formGroup]="form" class="form">
         <div>
@@ -10,7 +10,7 @@
                     class="custom-mat-input"
                     matInput
                     placeholder="NOMBRES"
-                    formControlName="Nombres"
+                    formControlName="nombres"
                     autofocus
                     >
                 </mat-form-field>
@@ -22,7 +22,7 @@
                     class="custom-mat-input"
                     matInput
                     placeholder="APELLIDOS"
-                    formControlName="Apellidos"
+                    formControlName="apellidos"
                     >
                 </mat-form-field>
             </div>
@@ -33,7 +33,7 @@
                     class="custom-mat-input"
                     matInput
                     placeholder="ESPECIALIDAD"
-                    formControlName="Especialidad"
+                    formControlName="especialidad"
                     
                     >
                 </mat-form-field>
@@ -45,7 +45,7 @@
                     class="custom-mat-input"
                     matInput
                     placeholder="TELEFONO"
-                    formControlName="Telefono"
+                    formControlName="telefono"
                     >
                 </mat-form-field>
             </div>
@@ -57,7 +57,7 @@
                     type="email"
                     matInput
                     placeholder="CORREO"
-                    formControlName="Correo"
+                    formControlName="correo"
                     >
                 </mat-form-field>
             </div>
@@ -68,7 +68,7 @@
                     class="custom-mat-input"
                     matInput
                     placeholder="DIRECCION"
-                    formControlName="Direccion"
+                    formControlName="direccion"
                     
                     >
                 </mat-form-field>
@@ -81,7 +81,7 @@
         <div class="form-group my-2">
             <mat-form-field appearance="fill">
                 <mat-label>Fecha de nacimiento: </mat-label>
-                <input matInput [matDatepicker]="picker"  (dateChange)="seleccionarFecha(fecha)" #fecha formControlName="FechaNacimiento">
+                <input matInput [matDatepicker]="picker"  (dateChange)="seleccionarFecha(fecha)" #fecha formControlName="fechaNacimiento">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -97,7 +97,7 @@
             class="custom-mat-input"
             matInput
             placeholder="WHATSAPP"
-            formControlName="Whatsapp"
+            formControlName="whatsapp"
             >
         </mat-form-field>
         </div>
@@ -108,7 +108,7 @@
                  class="custom-mat-input"
                  matInput
                  placeholder="SEXO"
-                 formControlName="Sexo"
+                 formControlName="sexo"
                  >
                  <mat-option *ngFor="let option of sexos" [value]="option.value">
                     {{option.label}}
@@ -122,6 +122,6 @@
        </div>
     </form>
     <div class="crear-editar">
-        <button class="btn btn-primary" (click)="!medico? Crear():Editar()">{{medico?"EDITAR":"CREAR"}} {{medico?.nombres}} {{medico?.apellidos}}</button>
+        <button class="btn btn-primary" (click)="!medico? crear():editar()">{{medico?"EDITAR":"CREAR"}} {{medico?.nombres}} {{medico?.apellidos}}</button>
     </div>
 </div>

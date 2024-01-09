@@ -17,6 +17,6 @@ export class Medico implements Generic {
     local: boolean;
     usuario: string;
     cedulaFederal: string;
-    cedulaEstatal:String;
-    empresa:any;
+    cedulaEstatal: string;
+    empresa: string;
 }

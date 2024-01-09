@@ -6,11 +6,11 @@
           class="custom-mat-input"
           matInput
           placeholder="Digite el nombre del medico referente"
-          [matAutocomplete]="autocompletePaciente"
+          [matAutocomplete]="autocompleteMedico"
           [formControl]="autoCompleteControlMedicoReferente"
         />
         <mat-autocomplete class="mat-autocomplete"
-          #autocompletePaciente="matAutocomplete"
+          #autocompleteMedico="matAutocomplete"
           [displayWith]="mostrarNombreMedico"
           (optionSelected)="seleccionarMedico($event)"
         >
@@ -64,7 +64,7 @@
         </tr>
         <tr>
           <th scope="row">FECHA NACIMIENTO</th>
-          <td>{{ medico.fechaNacimiento }}</td>
+          <td>{{ medico.fechaNacimiento | date: "dd/MM/yyyy"}}</td>
         </tr>
         <tr>
           <th scope="row">WHATSAPP</th>

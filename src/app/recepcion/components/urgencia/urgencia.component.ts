@@ -373,8 +373,8 @@ export class UrgenciaComponent implements OnInit {
 
 
   private cargarReferenteVacio(): void{
-    this.medicoService.listar().subscribe(medicos => {
-      this.medicosFiltrados = medicos.filter(medico => medico.nombres == "SIN MEDICO REFERENTE");
+    this.medicoService.filtrarReferentesPorNombre("SIN MEDICO REFERENTE").subscribe(medicos => {
+      this.medicosFiltrados = medicos;
       this.medicoReferente = this.medicosFiltrados[0];
       this.autocompleteControlMedicoReferente.setValue(this.medicoReferente);
     });

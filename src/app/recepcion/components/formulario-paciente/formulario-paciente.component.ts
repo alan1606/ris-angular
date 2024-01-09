@@ -179,7 +179,9 @@ export class FormularioPacienteComponent implements OnChanges {
   }
 
   generar(){
+    console.log("Tratando de generar");
     if (this.datosListosParaGenerarCurp()) {
+      console.log("Listo para generar");
       this.generarCurp();
     }
   }
