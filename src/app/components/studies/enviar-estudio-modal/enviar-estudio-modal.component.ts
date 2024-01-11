@@ -100,6 +100,7 @@ export class EnviarEstudioModalComponent implements OnInit {
 
 
   private enviarAInterpretar(): void{
+    console.log("Enviando a interpretar");
     this.ventaConceptosService.enviarAInterpretar(this.estudio).subscribe(
       estudio => {
         this.estudio = estudio;
