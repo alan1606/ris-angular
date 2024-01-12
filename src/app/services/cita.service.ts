@@ -60,4 +60,8 @@ export class CitaService {
     //retorna la nueva cita
     return this.http.put<Cita>(`${this.baseEndpoint}/reagendar/origen/${citaOrigenId}/destino/${citaDestinoId}`, {});
   }
+
+  public citasDeHoy(): Observable<Cita[]>{
+    return this.http.get<any>(`${this.baseEndpoint}/hoy`);
+  }
 }

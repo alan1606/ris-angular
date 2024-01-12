@@ -22,15 +22,11 @@ export class CheckInComponent implements OnInit {
   constructor(
     private ventaConceptosService:VentaConceptosService,
     private ordenVentaService:OrdenVentaService,
-    private pacienteService:PacientesService, 
     private dialog:MatDialog,
     ) {}
   botonHabilitado:boolean=false;
   autocompleteControlPaciente = new UntypedFormControl('');      
-  pacientesFiltrados: Paciente[] = [];
-  paciente:Paciente;
   orden: OrdenVenta = null;
-  buscarPorPaciente: boolean = false;
   listaDeEstudios:VentaConceptos[] = [];
   guardarPresionado:boolean = false;
 
@@ -38,45 +34,9 @@ export class CheckInComponent implements OnInit {
   private searchTimer: any;
 
   ngOnInit(): void {
-    this.autocompleteControlPaciente.valueChanges.pipe(
-      debounceTime(300), 
-      distinctUntilChanged(), 
-      switchMap(valor => {
-        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
-        return valor ? this.pacienteService.filtrarPorNombre(nombreCompleto) : [];
-      }),
-      catchError(error => {
-        console.error('Error en la búsqueda de pacientes:', error);
-        return [];
-      })
-    ).subscribe(pacientes => {
-      this.pacientesFiltrados = pacientes;
-    });
-  }
-  
-  mostrarNombrePaciente(paciente: Paciente): string {
-    return paciente && paciente.nombre ? paciente.nombreCompleto : '';
   }
 
-  seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
-    this.paciente = event.option.value as Paciente;
-    event.option.deselect();
-    event.option.focus();
-  }
-  
-  abrirModalPacienteOrdenes() {
-    const modalRef = this.dialog.open(PacienteOrdenesComponent,
-      {
-        width: "1000px",
-        data: {paciente:this.paciente?.id ? this.paciente : null  }
-      });
-      modalRef.afterClosed().subscribe(orden => {
-        if(orden && orden?.id){
-          this.orden = orden;
-          this.cargarOrdenVenta(this.orden.id, this.orden.paciente.id);
-        }
-      });
-  }
+
 
   buscarQr(){
 
@@ -181,14 +141,10 @@ export class CheckInComponent implements OnInit {
 
 
   private reiniciar(): void {
-    this.buscarPorPaciente = false;
     this.orden = null;
-    this.paciente = null;
     this.listaDeEstudios = [];
     this.guardarPresionado = false;
     this.botonHabilitado = false;
-    if(!this.buscarPorPaciente){
-      this.textoQr.nativeElement.value = '';
-    }
+
   }
 }
