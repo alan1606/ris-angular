@@ -12,6 +12,8 @@ import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
 import Swal from 'sweetalert2';
+import { Cita } from 'src/app/models/cita';
+import { CitaService } from 'src/app/services/cita.service';
 
 @Component({
   selector: 'app-check-in',
@@ -23,23 +25,30 @@ export class CheckInComponent implements OnInit {
     private ventaConceptosService:VentaConceptosService,
     private ordenVentaService:OrdenVentaService,
     private dialog:MatDialog,
+    private citaService: CitaService
     ) {}
   botonHabilitado:boolean=false;
   autocompleteControlPaciente = new UntypedFormControl('');      
   orden: OrdenVenta = null;
   listaDeEstudios:VentaConceptos[] = [];
   guardarPresionado:boolean = false;
+  citas: Cita[] = [];
 
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
 
   ngOnInit(): void {
+    this.citaService.citasDeHoy().subscribe(
+      citas => {
+        this.citas = citas;
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
-
-
   buscarQr(){
-
      // Limpiar el temporizador existente si existe
      if (this.searchTimer) {
       clearTimeout(this.searchTimer);
@@ -83,7 +92,6 @@ export class CheckInComponent implements OnInit {
         }
       );
     },2000);
-
   }
 
   cerrar():void{
@@ -113,6 +121,17 @@ export class CheckInComponent implements OnInit {
     fecha.setMinutes(parseInt(minutos, 10));
     fecha.setSeconds(parseInt(segundos, 10));
     return fecha;
+  }
+
+  seleccionar(cita: Cita): void {
+    this.ventaConceptosService.ver(cita.ventaConceptoId).subscribe(
+      estudio => {
+        this.cargarOrdenVenta(estudio.ordenVenta.id, estudio.paciente.id);
+      }, 
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   private cargarOrdenVenta(ordenId: number, pacienteId: number): void{

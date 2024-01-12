@@ -159,7 +159,8 @@ export class WorklistComponent implements OnInit {
   }
 
   enviar(estudio: VentaConceptos): void{
-    this.service.procesarEstudioEnWorklist(estudio.id).subscribe(respuesta =>{
+    this.service.procesarEstudioEnWorklist(estudio.id).subscribe(()=>{
+      estudio.enWorklist= true;
       Swal.fire('Éxito', 'Procesado correctamente', "success");
     },error =>{
       console.log(error);
