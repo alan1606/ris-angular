@@ -176,7 +176,7 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
       e => {
         if (e.status === 404) {
           const modalRef = this.dialog.open(BuscarEstudioModalComponent,{
-            width: '1000px',
+            width: '1500px',
             data: {"estudio": estudio}
           });
 

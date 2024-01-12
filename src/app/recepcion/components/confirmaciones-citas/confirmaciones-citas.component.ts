@@ -99,7 +99,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
             });
           }
         );
-
       }
     });
   }
@@ -107,7 +106,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
   public paginar(event: PageEvent): void {
     this.paginaActual = event.pageIndex;
     this.totalPorPagina = event.pageSize;
-
     this.buscar();
   }
 

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
@@ -20,8 +20,11 @@ export class StudiesService extends CommonService<Study>{
     return this.http.get<Study[]>(`${this.baseEndpoint}/person-name/${apellidos}`);
   }
 
-  public buscarLikeNombre(nombre: string): Observable<Study[]>{
-    return this.http.get<Study[]>(`${this.baseEndpoint}/person-name/${nombre}`);
+  public buscarLikeNombre(nombre: string, page:string, size:string): Observable<any>{
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.http.get<any>(`${this.baseEndpoint}/person-name/${nombre}`);
   }
 
   public buscarUrlsJpg(iuid: string): Observable<string[]>{

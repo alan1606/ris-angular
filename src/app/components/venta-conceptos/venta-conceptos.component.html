@@ -114,12 +114,14 @@
             </td>
             <td
               *ngIf="
-                estudio.estado !== 'INTERPRETANDO' &&
-                estudio.estado !== 'INTERPRETADO'
+                estudio.estado === 'PAGADO' ||
+                estudio.estado === 'AGENDADO' ||
+                estudio.estado === 'TOMADO'
               "
             >
               <p *ngIf="estudio.estado=='AGENDADO'" class="agendado">{{ estudio.estado }}</p>
               <p *ngIf="estudio.estado=='PAGADO'" class="pagado">{{ estudio.estado }}</p>
+              <p *ngIf="estudio.estado=='TOMADO'" class="tomado">{{ estudio.estado }}</p>
 
             </td>
             <td>{{ estudio.idPacs }}</td>
