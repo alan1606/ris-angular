@@ -1,5 +1,17 @@
 @import '~quill/dist/quill.bubble.css';
 
+.medico-referente{
+  display: flex;
+  flex-direction: row;
+}
+.input-medico{
+  width: 30%;
+}
+@media (max-width:768px){
+  .input-medico{
+    width: 60%;
+  }
+}
 .container {
     width: 100%;
     max-width: 900px;
@@ -96,6 +108,8 @@ pdf-viewer {
     height: 400px;
   }
 
+  
+
   .pdf {
     width: 50%;
     height: 400px;
@@ -112,4 +126,6 @@ pdf-viewer {
     width: 1000px;
     height: 700px;
   }
+
+  
 }

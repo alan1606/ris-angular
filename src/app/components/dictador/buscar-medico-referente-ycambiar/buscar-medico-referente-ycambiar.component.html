@@ -1,0 +1,19 @@
+<div class="form-group my-3 formulario">
+    <mat-form-field class="mat-form-field">
+        <input matInput placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
+            [matAutocomplete]="autocompleteReferente">
+        <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
+            (optionSelected)="seleccionarMedicoReferente($event)">
+            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente">
+                {{medicoReferente.nombres + ' ' +medicoReferente.apellidos}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+<div class="datos" *ngIf="medicoReferente" >
+    <h1>Datos:</h1>
+    <p>{{medicoReferente.nombreCompleto}}</p>
+    <p>{{medicoReferente.correo}}</p>
+    <p>{{medicoReferente.whatsapp}}</p>
+</div>
+<button class="btn btn-primary" (click)="guardarCambios()">Guardar cambio</button>

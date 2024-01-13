@@ -46,6 +46,7 @@ import { RecepcionModule } from './recepcion/recepcion.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
 import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
+import { BuscarMedicoReferenteYCambiarComponent } from './components/dictador/buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { FormularioMedicosComponent } from './components/crud-medicos/formulario
         LogoutComponent,
         CrudMedicosComponent,
         FormularioMedicosComponent,
+        BuscarMedicoReferenteYCambiarComponent,
     ],
     imports: [
         BrowserModule,

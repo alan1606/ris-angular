@@ -18,13 +18,17 @@
 
 
     
-    <div class="form-group my-3" *ngIf="estudio?.ordenVenta?.medicoReferente">
+    <div class="form-group my-3 " *ngIf="estudio?.ordenVenta?.medicoReferente">
         <label for="medico">Medico</label>
-        <input type="text" name="medico" id="medico" class="form-control" 
+        <div class="medico-referente">
+            <input type="text" name="medico" id="medico" class="form-control input-medico" 
             [value]="estudio?.ordenVenta?.medicoReferente.nombres + ' ' +estudio?.ordenVenta?.medicoReferente.apellidos">
+            <button class="btn btn-success" (click)="abrirMedicoReferenteYCambiar()">Cambiar</button>
+        </div>
     </div>
 
 
+    
     <div class="form-group my-3" *ngIf="estudio?.ordenVenta?.motivo">
         <label for="motivo">Motivo</label>
         <input type="text" name="motivo" id="motivo" class="form-control" [(ngModel)]="estudio?.ordenVenta.motivo">

@@ -1,0 +1,22 @@
+.cerrar {
+  display: flex;
+  justify-content: end;
+}
+.formulario {
+  display: flex;
+  width: max-content;
+  justify-content: start;
+  font-size: 20px;
+}
+.mat-form-field{
+  width: 500px;
+}
+.datos{
+  font-size: 20px;
+}
+
+@media (max-width:768px) {
+  .mat-form-field{
+    width: 200px;
+  }
+}
