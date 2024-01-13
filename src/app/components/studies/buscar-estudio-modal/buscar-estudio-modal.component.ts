@@ -74,7 +74,7 @@ export class BuscarEstudioModalComponent implements OnInit {
     console.log(this.nombreBuscar);
     this.studiesService.buscarLikeNombre(this.nombreBuscar, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
       (estudios) => {
-        this.estudios = estudios;
+        this.estudios = estudios.content;
         this.totalRegistros = estudios.totalElements as number;
         this.paginator._intl.itemsPerPageLabel = 'Registros:';
         console.log(estudios);

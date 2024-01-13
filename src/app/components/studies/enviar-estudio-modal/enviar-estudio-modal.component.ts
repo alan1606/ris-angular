@@ -11,11 +11,9 @@ import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.service';
 import { MedicoService } from 'src/app/services/medico.service';
 import { MultimediaService } from 'src/app/services/multimedia.service';
-import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
-import { SendMailService } from '../../../services/send-mail.service';
 
 @Component({
   selector: 'app-enviar-estudio-modal',
@@ -50,9 +48,7 @@ export class EnviarEstudioModalComponent implements OnInit {
     private multimediaService: MultimediaService,
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
-    private ventaConceptosService: VentaConceptosService,
-    private ordenVentaService: OrdenVentaService,
-    private mailService: SendMailService) { }
+    private ventaConceptosService: VentaConceptosService) { }
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
