@@ -39,6 +39,8 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   imagePath = IMAGE_PATH;
 
+  private contadorSiPulsado: number = 0;
+
   private pdf: File;
   private multimedia: Multimedia = new Multimedia();
 
@@ -95,8 +97,46 @@ export class EnviarEstudioModalComponent implements OnInit {
   }
 
 
-  private enviarAInterpretar(): void{
-    console.log("Enviando a interpretar");
+  private enviarAInterpretar(): void {
+    if (this.estudio.ordenVenta.medicoReferente.nombres == "SIN MEDICO REFERENTE") {
+      let miText: string= "¿Seguro "
+      for(let i=0; i<this.contadorSiPulsado; i++){
+        miText += "seguro ";
+      }
+
+      miText += "que desea mandar el estudio SIN MÉDICO REFERENTE?";
+
+      Swal.fire({
+        title: "SIN MEDICO REFERENTE",
+        text: miText,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, dejar sin médico referente",
+        cancelButtonText: "No, modificar el médico"
+      }).then((result) => {
+        if(result.isConfirmed){
+          this.contadorSiPulsado++;
+        }
+        if (result.isConfirmed && this.contadorSiPulsado == 3) {
+          Swal.fire("Ok", "Está bien, se va a enojar el doc, tú sabes", "warning");
+          this.envioBackend();
+        }
+        if(result.isConfirmed && this.contadorSiPulsado < 3){
+          this.enviarAInterpretar();
+        }
+      });
+    }
+    else{
+      Swal.fire("Enviando", "Se está procesando el envío", "info");
+      this.envioBackend();
+    }
+
+  }
+
+
+  private envioBackend() {
     this.ventaConceptosService.enviarAInterpretar(this.estudio).subscribe(
       estudio => {
         this.estudio = estudio;
