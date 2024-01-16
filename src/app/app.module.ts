@@ -47,6 +47,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
 import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
 import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
 import { BuscarMedicoReferenteYCambiarComponent } from './components/dictador/buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
+import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { BuscarMedicoReferenteYCambiarComponent } from './components/dictador/bu
         CrudMedicosComponent,
         FormularioMedicosComponent,
         BuscarMedicoReferenteYCambiarComponent,
+        NuevoMedicoSoloNombreComponent,
     ],
     imports: [
         BrowserModule,

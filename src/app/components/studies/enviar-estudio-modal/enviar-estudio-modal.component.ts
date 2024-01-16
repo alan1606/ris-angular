@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { flatMap, map } from 'rxjs';
 import { IMAGE_PATH } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';
@@ -14,6 +14,7 @@ import { MultimediaService } from 'src/app/services/multimedia.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
+import { NuevoMedicoSoloNombreComponent } from '../nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 
 @Component({
   selector: 'app-enviar-estudio-modal',
@@ -50,7 +51,8 @@ export class EnviarEstudioModalComponent implements OnInit {
     private multimediaService: MultimediaService,
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
-    private ventaConceptosService: VentaConceptosService) { }
+    private ventaConceptosService: VentaConceptosService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -207,5 +209,18 @@ export class EnviarEstudioModalComponent implements OnInit {
     console.log(tecnico);
     event.option.deselect();
     event.option.focus();
+  }
+
+  nuevoMedico(){
+    const dialogRef = this.dialog.open(NuevoMedicoSoloNombreComponent, {
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(medico => {
+      if(medico){
+        this.estudio.ordenVenta.medicoReferente = medico;
+        this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
+      }
+    });
   }
 }

@@ -38,7 +38,6 @@ export class FormularioPacienteComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.model.sexo = 2;
     this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
     if(this.model.fechaNacimiento){
       this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
