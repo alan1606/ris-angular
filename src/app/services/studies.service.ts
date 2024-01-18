@@ -24,7 +24,7 @@ export class StudiesService extends CommonService<Study>{
     const params = new HttpParams()
     .set('page', page)
     .set('size', size);
-    return this.http.get<any>(`${this.baseEndpoint}/person-name/${nombre}`);
+    return this.http.get<any>(`${this.baseEndpoint}/person-name/${nombre}`, { params: params } );
   }
 
   public buscarUrlsJpg(iuid: string): Observable<string[]>{

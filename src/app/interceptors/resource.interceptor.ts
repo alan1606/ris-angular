@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable, catchError, filter, retry, switchMap, take
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class ResourceInterceptor implements HttpInterceptor {
@@ -103,6 +104,9 @@ export class ResourceInterceptor implements HttpInterceptor {
     // Manejar cualquier otro error aquí de manera genérica
     // Puedes redirigir a una página de error, mostrar un mensaje, etc.
     console.error('Error occurred:', error);
+    if(error.status == 503){
+      Swal.fire("Error", "El servicio no se encuentra disponible actualmente, inténtelo más tarde", "warning");
+    }
     // Por ejemplo, redirigir a una página de error
     // this.router.navigate(['/error']);
     return throwError(error);

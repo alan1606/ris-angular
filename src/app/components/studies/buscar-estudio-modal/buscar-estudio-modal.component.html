@@ -1,68 +1,71 @@
 <div>
     <h1 mat-dialog-title>ENCONTRAR {{estudio.concepto.concepto}} DE {{estudio.paciente.nombreCompleto}}</h1>
-<div mat-dialog-content>
+    <div mat-dialog-content>
 
 
-    <form class="example-form mat-elevation-z8 m-3">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>ENTER PARA BUSCAR:</mat-label>
-          <input matInput placeholder="Buscar" name = 'nombreBuscar' (input)= "nombreBuscar=$event.target.value" [value]="nombreBuscar" (keyup.enter)="buscarEstudiosPorNombre()">
-        </mat-form-field>
-      </form>
+        <form class="example-form mat-elevation-z8 m-3">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>ENTER PARA BUSCAR:</mat-label>
+                <input matInput placeholder="Buscar" name='nombreBuscar' (input)="nombreBuscar=$event.target.value"
+                    [value]="nombreBuscar" (keyup.enter)="buscarEstudiosPorNombre()">
+            </mat-form-field>
+        </form>
 
-    <table mat-table [dataSource] = "estudios"  class = "mat-elevation-z8 m-3" style = "width: 100%;">
+        <table mat-table [dataSource]="estudios" class="mat-elevation-z8 m-3" style="width: 100%;">
 
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>Id</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.id}}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef>Fecha</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.createdTime | date: 'dd/MM/yyyy'}} </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="paciente">
-            <th mat-header-cell *matHeaderCellDef>Paciente</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.patient.personName.familyName? estudio.patient.personName.familyName: "" 
-                + " " + estudio.patient.personName.givenName? estudio.patient.personName.givenName: "" }}</td>
-        </ng-container>
-        
-        
-        <ng-container matColumnDef="estudio">
-            <th mat-header-cell *matHeaderCellDef>Estudio</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio?.studyDesc}}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="idPacs">
-            <th mat-header-cell *matHeaderCellDef>Id Pacs</th>
-            <td mat-cell *matCellDef="let estudio">{{estudio.studyId}}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="ver">
-            <th mat-header-cell *matHeaderCellDef>Ver</th>
-            <td mat-cell *matCellDef="let estudio">
-                <button mat-fab color="primary" (click)="ver(estudio)">Ver</button>
-            </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="vincular">
-            <th mat-header-cell *matHeaderCellDef>Vincular</th>
-            <td mat-cell *matCellDef="let estudio">
-                <button mat-fab color="secondary"  [matDialogClose]="this.estudio" (click)="vincular(estudio)">Vincular</button>
-            </td>
-        </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="mostrarColumnasEstudios"></tr>
-        <tr mat-row *matRowDef="let estudio; columns: mostrarColumnasEstudios;"></tr>
-        
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>Id</th>
+                <td mat-cell *matCellDef="let estudio">{{estudio.id}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                <td mat-cell *matCellDef="let estudio">{{estudio.createdTime | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="paciente">
+                <th mat-header-cell *matHeaderCellDef>Paciente</th>
+                <td mat-cell *matCellDef="let estudio">{{estudio.patient.personName.familyName?
+                    estudio.patient.personName.familyName: ""
+                    + " " + estudio.patient.personName.givenName? estudio.patient.personName.givenName: "" }}</td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="estudio">
+                <th mat-header-cell *matHeaderCellDef>Estudio</th>
+                <td mat-cell *matCellDef="let estudio">{{estudio?.studyDesc}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="idPacs">
+                <th mat-header-cell *matHeaderCellDef>Id Pacs</th>
+                <td mat-cell *matCellDef="let estudio">{{estudio.studyId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="ver">
+                <th mat-header-cell *matHeaderCellDef>Ver</th>
+                <td mat-cell *matCellDef="let estudio">
+                    <button mat-fab color="primary" (click)="ver(estudio)">Ver</button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="vincular">
+                <th mat-header-cell *matHeaderCellDef>Vincular</th>
+                <td mat-cell *matCellDef="let estudio">
+                    <button mat-fab color="secondary" [matDialogClose]="this.estudio"
+                        (click)="vincular(estudio)">Vincular</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="mostrarColumnasEstudios"></tr>
+            <tr mat-row *matRowDef="let estudio; columns: mostrarColumnasEstudios;"></tr>
+
         </table>
         <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
             [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-left mx-2">
         </mat-paginator>
 
         <div mat-dialog-actions>
-            <button mat-raised-button color="primary"  (click)="cancelar()">Cancelar</button>
+            <button mat-raised-button color="primary" (click)="cancelar()">Cancelar</button>
         </div>
-</div>
+    </div>
 </div>

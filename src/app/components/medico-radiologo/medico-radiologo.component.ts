@@ -79,7 +79,7 @@ export class MedicoRadiologoComponent implements OnInit {
         this.service.encontrarRadiologoPorToken(token).subscribe(medico => {
           this.medico = medico;
           this.titulo = `Lista de estudios, médico: ${medico.nombres} ${medico.apellidos}`;
-          this.cargarEstudios();
+          this.buscarPorEstado();
         }, error => {
           this.router.navigate(['/']);
         });
