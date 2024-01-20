@@ -209,7 +209,7 @@ export class NavbarComponent implements OnInit {
   }
 
   puedeAbrirCrudMedicos():boolean{
-    if(this.isReceptionist || this.isAdmin ){
+    if(this.isReceptionist || this.isAdmin || this.isTechnician ){
       return true;
     }
     return false;

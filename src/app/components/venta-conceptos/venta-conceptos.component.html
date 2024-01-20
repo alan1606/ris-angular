@@ -81,6 +81,7 @@
         <thead>
           <tr>
             <th>Id</th>
+            <th>Orden</th>
             <th>Paciente</th>
             <th>Estudio</th>
             <th>Fecha</th>
@@ -96,8 +97,15 @@
         </thead>
 
         <tbody *ngIf="lista?.length > 0">
-          <tr *ngFor="let estudio of lista" [ngClass]="{'table-success':estudio.estado=='INTERPRETADO','table-danger':estudio.estado=='PAGADO'}">
+          <tr
+            *ngFor="let estudio of lista"
+            [ngClass]="{
+              'table-success': estudio.estado == 'INTERPRETADO',
+              'table-danger': estudio.estado == 'PAGADO'
+            }"
+          >
             <td (click)="abrirQr(estudio)">{{ estudio.id }}</td>
+            <td><button class="btn btn-info"(click)="verQr(estudio)">Orden</button></td>
             <td>{{ estudio.paciente.nombreCompleto }}</td>
             <td>{{ estudio.concepto.concepto }}</td>
             <td>{{ estudio.fechaAsignado | date : "dd/MM/yyyy" }}</td>
@@ -107,10 +115,15 @@
                 estudio.estado === 'INTERPRETADO'
               "
             >
-              <p *ngIf="estudio.estado=='INTERPRETANDO'" class="interpretando">{{ estudio.estado }}</p>
-              <p *ngIf="estudio.estado=='INTERPRETADO'" class="terminado">{{ estudio.estado }}</p>
-
-
+              <p
+                *ngIf="estudio.estado == 'INTERPRETANDO'"
+                class="interpretando"
+              >
+                {{ estudio.estado }}
+              </p>
+              <p *ngIf="estudio.estado == 'INTERPRETADO'" class="terminado">
+                {{ estudio.estado }}
+              </p>
             </td>
             <td
               *ngIf="
@@ -119,10 +132,15 @@
                 estudio.estado === 'TOMADO'
               "
             >
-              <p *ngIf="estudio.estado=='AGENDADO'" class="agendado">{{ estudio.estado }}</p>
-              <p *ngIf="estudio.estado=='PAGADO'" class="pagado">{{ estudio.estado }}</p>
-              <p *ngIf="estudio.estado=='TOMADO'" class="tomado">{{ estudio.estado }}</p>
-
+              <p *ngIf="estudio.estado == 'AGENDADO'" class="agendado">
+                {{ estudio.estado }}
+              </p>
+              <p *ngIf="estudio.estado == 'PAGADO'" class="pagado">
+                {{ estudio.estado }}
+              </p>
+              <p *ngIf="estudio.estado == 'TOMADO'" class="tomado">
+                {{ estudio.estado }}
+              </p>
             </td>
             <td>{{ estudio.idPacs }}</td>
             <td>{{ estudio.equipoDicom.area.nombre }}</td>
@@ -136,14 +154,14 @@
                 *ngIf="estudio.iuid?.length > 0"
                 (click)="ver(estudio)"
               >
-              <i class="bi bi-eye"></i>
+                <i class="bi bi-eye"></i>
               </button>
               <button
                 class="btn btn-info btn-md"
                 *ngIf="!estudio.iuid?.length > 0"
                 (click)="buscarEstudioEnPacs(estudio)"
               >
-              <i class="bi bi-search"></i>
+                <i class="bi bi-search"></i>
               </button>
             </td>
             <td *ngIf="!estudio.concepto.dicom"></td>
@@ -157,7 +175,7 @@
                 *ngIf="estudio.iuid?.length > 0 || !estudio.concepto.dicom"
                 (click)="abrirEnvio(estudio)"
               >
-              <i class="bi bi-send-fill"></i>
+                <i class="bi bi-send-fill"></i>
               </button>
             </td>
 
@@ -166,7 +184,7 @@
                 class="btn btn-primary btn-md"
                 (click)="abrirInformacion(estudio)"
               >
-              <i class="bi bi-person-vcard-fill"></i>
+                <i class="bi bi-person-vcard-fill"></i>
               </button>
             </td>
 

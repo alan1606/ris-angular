@@ -20,6 +20,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { InstitucionGuard } from './guards/institucion.guard';
 import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
 import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
+import { MedicosGuard } from './guards/medicos.guard';
 
 
 const routes: Routes = [
@@ -113,7 +114,8 @@ const routes: Routes = [
   },
   {
     path:"medicos",
-    component:CrudMedicosComponent
+    component:CrudMedicosComponent,
+    canActivate:[MedicosGuard]
   },
 ];
 

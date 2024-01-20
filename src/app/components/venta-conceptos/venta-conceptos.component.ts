@@ -20,14 +20,15 @@ import { InformacionEstudioModalComponent } from '../studies/informacion-estudio
 import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
 
-
 @Component({
   selector: 'app-venta-conceptos',
   templateUrl: './venta-conceptos.component.html',
-  styleUrls: ['./venta-conceptos.component.css']
+  styleUrls: ['./venta-conceptos.component.css'],
 })
-export class VentaConceptosComponent extends CommonListarComponent<VentaConceptos, VentaConceptosService> implements OnInit {
-
+export class VentaConceptosComponent
+  extends CommonListarComponent<VentaConceptos, VentaConceptosService>
+  implements OnInit
+{
   autocompleteControl = new FormControl();
   autocompleteControlPaciente = new FormControl();
   areasFiltradas: Area[] = [];
@@ -35,35 +36,43 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
   fechaInicio = '';
   fechaFin = '';
 
-  constructor(service: VentaConceptosService,
+  constructor(
+    service: VentaConceptosService,
     @Inject(AreasService) private areasService: AreasService,
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
     public dialog: MatDialog,
-    private fechaService: FechaService
+    private fechaService: FechaService,
+    private router: Router
   ) {
     super(service);
-    this.titulo = "Listado de estudios";
-    this.nombreModel = "Estudio";
+    this.titulo = 'Listado de estudios';
+    this.nombreModel = 'Estudio';
   }
 
   override ngOnInit(): void {
-    
     this.buscarEstudiosDeHoy();
 
-    this.autocompleteControl.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      flatMap(valor => valor ? this.areasService.filtrarPorNombre(valor) : [])
-    ).subscribe(areas => this.areasFiltradas = areas);
+    this.autocompleteControl.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
+        flatMap((valor) =>
+          valor ? this.areasService.filtrarPorNombre(valor) : []
+        )
+      )
+      .subscribe((areas) => (this.areasFiltradas = areas));
 
-    this.autocompleteControlPaciente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
-      flatMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
-    ).subscribe(pacientes => this.pacientesFiltrados = pacientes);
-
-
+    this.autocompleteControlPaciente.valueChanges
+      .pipe(
+        map((valor) =>
+          typeof valor === 'string' ? valor : valor.nombreCompleto
+        ),
+        flatMap((valor) =>
+          valor ? this.pacienteService.filtrarPorNombre(valor) : []
+        )
+      )
+      .subscribe((pacientes) => (this.pacientesFiltrados = pacientes));
   }
-
 
   ver(estudio: VentaConceptos): void {
     window.open(`${VIEWER}${estudio.iuid}`);
@@ -77,31 +86,36 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
     return paciente ? paciente.nombreCompleto : '';
   }
 
-  buscarEstudiosDeHoy(): void {
-    this.service.filtrarDiaDeHoy().subscribe(estudios => this.lista = estudios,
-      e => {
-        if (e.status === 404) {
-          this.lista = [];
-        }
-      });
-  }
-
-  seleccionarArea(event: MatAutocompleteSelectedEvent): void {
-    const area = event.option.value as Area;
-
-    if(this.errorEnFechas()){
-      this.crearRangoDeDosMesesEnBaseAHoy();
-    }
-
-    this.service.filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id).subscribe(estudios => {
-      this.lista = estudios;
-    },
-      e => {
+  buscarEstudiosDeHoy(): any {
+    this.service.filtrarDiaDeHoy().subscribe(
+      (estudios) => (this.lista = estudios),
+      (e) => {
         if (e.status === 404) {
           this.lista = [];
         }
       }
     );
+  }
+
+  seleccionarArea(event: MatAutocompleteSelectedEvent): void {
+    const area = event.option.value as Area;
+
+    if (this.errorEnFechas()) {
+      this.crearRangoDeDosMesesEnBaseAHoy();
+    }
+
+    this.service
+      .filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id)
+      .subscribe(
+        (estudios) => {
+          this.lista = estudios;
+        },
+        (e) => {
+          if (e.status === 404) {
+            this.lista = [];
+          }
+        }
+      );
 
     this.autocompleteControl.setValue('');
     event.option.deselect();
@@ -111,158 +125,183 @@ export class VentaConceptosComponent extends CommonListarComponent<VentaConcepto
   seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
     const paciente = event.option.value as Paciente;
 
-    if(this.errorEnFechas()){
+    if (this.errorEnFechas()) {
       this.crearRangoDeDosMesesEnBaseAHoy();
     }
 
-    this.service.filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id).subscribe(estudios => {
-      this.lista = estudios;
-    },
-      e => {
-        if (e.status === 404) {
-          this.lista = [];
+    this.service
+      .filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id)
+      .subscribe(
+        (estudios) => {
+          this.lista = estudios;
+        },
+        (e) => {
+          if (e.status === 404) {
+            this.lista = [];
+          }
         }
-      }
-    );
+      );
 
     this.autocompleteControlPaciente.setValue('');
     event.option.deselect();
     event.option.focus();
   }
 
-  private errorEnFechas(): boolean{
+  private errorEnFechas(): boolean {
     return this.fechaInicio === '' || this.fechaFin === '';
   }
 
-  private crearRangoDeDosMesesEnBaseAHoy(): void{
+  private crearRangoDeDosMesesEnBaseAHoy(): void {
     this.fechaInicio = this.sumarMesesAFechaDeHoy(-1);
     this.fechaFin = this.sumarMesesAFechaDeHoy(1);
-    console.log(this.fechaInicio + " " + this.fechaFin);
+    console.log(this.fechaInicio + ' ' + this.fechaFin);
   }
 
-  private sumarMesesAFechaDeHoy(cantidad: number): string{
+  private sumarMesesAFechaDeHoy(cantidad: number): string {
     const hoy = new Date(Date.now());
-    const sumada = new Date(hoy.getFullYear(), hoy.getMonth() + cantidad, hoy.getDate());
+    const sumada = new Date(
+      hoy.getFullYear(),
+      hoy.getMonth() + cantidad,
+      hoy.getDate()
+    );
     return this.pipe.transform(sumada, 'yyyy-MM-dd');
   }
 
-
-  buscarPorFecha(fechaInicio: HTMLInputElement, fechaFin: HTMLInputElement): void {
+  buscarPorFecha(
+    fechaInicio: HTMLInputElement,
+    fechaFin: HTMLInputElement
+  ): void {
     if (fechaInicio.value !== '' && fechaFin.value !== '') {
-      this.fechaInicio = this.fechaService.alistarFechaParaBackend(fechaInicio.value);
+      this.fechaInicio = this.fechaService.alistarFechaParaBackend(
+        fechaInicio.value
+      );
       this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
 
-      console.log(this.fechaInicio + " " + this.fechaFin)
+      console.log(this.fechaInicio + ' ' + this.fechaFin);
 
-      this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(estudios => this.lista = estudios,
-        e => {
+      this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
+        (estudios) => (this.lista = estudios),
+        (e) => {
           if (e.status === 404) {
             this.lista = [];
           }
-        });
-    }
-    else{
+        }
+      );
+    } else {
       this.fechaInicio = '';
       this.fechaFin = '';
     }
   }
 
   buscarEstudioEnPacs(estudio: VentaConceptos): void {
-    this.service.buscarEnPacs(estudio.id).subscribe(estudioConIuid => {
-      console.log("Id pacs encontrado en el sistema");
-      Swal.fire('Encontrado', 'Se vinculó el estudio automáticamente', 'success');
-      estudio = estudioConIuid;
-    },
-      e => {
+    this.service.buscarEnPacs(estudio.id).subscribe(
+      (estudioConIuid) => {
+        console.log('Id pacs encontrado en el sistema');
+        Swal.fire(
+          'Encontrado',
+          'Se vinculó el estudio automáticamente',
+          'success'
+        );
+        estudio = estudioConIuid;
+      },
+      (e) => {
         if (e.status === 404) {
-          const modalRef = this.dialog.open(BuscarEstudioModalComponent,{
+          const modalRef = this.dialog.open(BuscarEstudioModalComponent, {
             width: '1500px',
-            data: {"estudio": estudio}
+            data: { estudio: estudio },
           });
 
-          modalRef.afterClosed().subscribe(vinculado => {
+          modalRef.afterClosed().subscribe((vinculado) => {
             console.log(vinculado);
-            if(vinculado){
+            if (vinculado) {
               Swal.fire('Vinculado', 'Se ha vinculado el estudio', 'success');
             }
           });
-
         }
-      });
-    }
+      }
+    );
+  }
 
-    abrirEnvio(estudio: VentaConceptos): void{
-      const modalRef = this.dialog.open(EnviarEstudioModalComponent,{
-        width: '1000px',
-        data: {"estudio": estudio}
-      });
+  abrirEnvio(estudio: VentaConceptos): void {
+    const modalRef = this.dialog.open(EnviarEstudioModalComponent, {
+      width: '1000px',
+      data: { estudio: estudio },
+    });
 
-      modalRef.afterClosed().subscribe(enviado => {
-        if(enviado){
+    modalRef.afterClosed().subscribe(
+      (enviado) => {
+        if (enviado) {
           Swal.fire('Enviado', 'Se ha enviado el estudio con éxito', 'success');
           estudio.estado = enviado.estado;
         }
       },
-      e =>{
-      });
-    }
+      (e) => {}
+    );
+  }
 
-    abrirInformacion(estudio: VentaConceptos): void{
-
-      const modalRef = this.dialog.open(InformacionEstudioModalComponent,{
-        width: '1000px',
-        data: {"estudio": estudio}
-      });
-
-
-      modalRef.afterClosed().subscribe(info => {
-        console.log(info);
+  abrirInformacion(estudio: VentaConceptos): void {
+    const modalRef = this.dialog.open(InformacionEstudioModalComponent, {
+      width: '1000px',
+      data: { estudio: estudio },
     });
-    }
 
-
-    abrirAntecedentes(estudio: VentaConceptos): void{
-
-      const modalRef = this.dialog.open(AntecedentesEstudioModalComponent,{
-        width: '1000px',
-        data: {"estudio": estudio}
-      });
-
-
-      modalRef.afterClosed().subscribe(info => {
-        console.log(info);
-    });
-    }
-
-
-    abrirQr(estudio: VentaConceptos){
-      this.service.verEtiqueta(estudio.id).subscribe(res =>{
-        const fileURL = URL.createObjectURL(res);
-        window.open(fileURL, '_blank');
-      });
-    }
-
-    desvincular(estudio: VentaConceptos){
-      Swal.fire({
-        title: '¿Desea desvincular el estudio?',
-        showDenyButton: true,
-        confirmButtonText: 'Sí',
-        denyButtonText: 'No'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Éxito', 'El estudio ha sido desvinculado', 'success');
-          estudio.iuid = '';
-          this.actualizarEstudio(estudio);
-        }
-      })
-    }
-
-  actualizarEstudio(estudio: VentaConceptos) {
-    this.service.editar(estudio).subscribe(actualizado => {
-      console.log('Actualizado');
-    }, error => {
-      Swal.fire('Error', 'Ocurrió un error al desvincular\nVuelva a intentarlo' , "error");
+    modalRef.afterClosed().subscribe((info) => {
+      console.log(info);
     });
   }
 
+  abrirAntecedentes(estudio: VentaConceptos): void {
+    const modalRef = this.dialog.open(AntecedentesEstudioModalComponent, {
+      width: '1000px',
+      data: { estudio: estudio },
+    });
+
+    modalRef.afterClosed().subscribe((info) => {
+      console.log(info);
+    });
+  }
+
+  abrirQr(estudio: VentaConceptos) {
+    this.service.verEtiqueta(estudio.id).subscribe((res) => {
+      console.log(res);
+      const fileURL = URL.createObjectURL(res);
+      window.open(fileURL, '_blank');
+    });
+  }
+
+  desvincular(estudio: VentaConceptos) {
+    Swal.fire({
+      title: '¿Desea desvincular el estudio?',
+      showDenyButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Éxito', 'El estudio ha sido desvinculado', 'success');
+        estudio.iuid = '';
+        this.actualizarEstudio(estudio);
+      }
+    });
+  }
+
+  actualizarEstudio(estudio: VentaConceptos) {
+    this.service.editar(estudio).subscribe(
+      (actualizado) => {
+        console.log('Actualizado');
+      },
+      (error) => {
+        Swal.fire(
+          'Error',
+          'Ocurrió un error al desvincular\nVuelva a intentarlo',
+          'error'
+        );
+      }
+    );
+  }
+  verQr(estudio: VentaConceptos):void {
+    let ordenVentaId = estudio.ordenVenta.id;
+    let pacienteId=estudio.paciente.id
+    let url=`https://ris.diagnocons.com/ris/resultados/orden/${ordenVentaId}/${pacienteId}`;
+    window.location.href=url
+  }
 }
