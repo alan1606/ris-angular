@@ -69,28 +69,14 @@ export class EnviarEstudioComponent implements OnInit {
 
   enviarCorreo(): void {
     if (this.correoMedicoReferenteIngresado() || this.correoPacienteIngresado()) {
-      if (this.estudio.paciente.email !== this.correoPaciente) {
-        console.log("Voy a actualizar al paciente");
-        this.estudio.paciente.email = this.correoPaciente;
-        this.actualizarPaciente();
-      }
-      if (this.estudio.ordenVenta.medicoReferente.correo !== this.correoMedico) {
-        console.log("Voy a actualizar al medico referente");
-        this.estudio.ordenVenta.medicoReferente.correo = this.correoMedico;
-        this.actualizarMedico();
-      }
       if (this.estudio.mensaje !== this.mensaje) {
         console.log("Voy a actualizar el estudio");
         this.estudio.mensaje = this.mensaje;
         this.actualizarEstudio();
+        return;
       }
-      this.mailService.enviarCorreoResultados(this.estudio).subscribe(res => {
-        Swal.fire('Enviado', 'Se ha enviado el correo', 'success');
-      }, e => {
-        Swal.fire('Error', 'No se ha podido enviar el correo', 'error');
-      });
+      this.enviarCorreoResultados();
       this.router.navigate(['/recepcion/enviar-estudios']);
-
     }
   }
 
@@ -136,18 +122,21 @@ export class EnviarEstudioComponent implements OnInit {
   }
 
   private actualizarEstudio(): void {
-    this.service.editar(this.estudio).subscribe(estudio => this.estudio = estudio,
+    this.service.editar(this.estudio).subscribe(estudio => {
+      this.estudio = estudio;
+      this.enviarCorreoResultados();
+    },
       e => console.log("Error actualizando estudio"));
   }
 
-  private actualizarMedico(): void {
-    this.medicoService.editar(this.estudio.ordenVenta.medicoReferente).subscribe(medico => console.log("Médico actualizado"),
-      e => console.log("Error actualizando médico"));
-  }
 
-  private actualizarPaciente(): void {
-    this.pacienteService.editar(this.estudio.paciente).subscribe(paciente => console.log("Paciente actualizado"),
-      e => console.log("Error al actualizar paciente"));
+  private enviarCorreoResultados() {
+    this.mailService.enviarCorreoResultados(this.estudio).subscribe(() => {
+      Swal.fire('Enviado', 'Se ha enviado el correo', 'success');
+    }, e => {
+      console.log(e);
+      Swal.fire('Error', 'No se ha podido enviar el correo', 'error');
+    });
   }
 
   mostrarNombreMedicoReferente(medico?: Medico): string {
@@ -160,10 +149,10 @@ export class EnviarEstudioComponent implements OnInit {
         console.log("Voy a actualizar al paciente");
         this.estudio.paciente.telefono = this.whatsappPaciente;
         this.pacienteService.editar(this.estudio.paciente).subscribe(() => this.enviarWhatsappBackend(),
-            () =>    Swal.fire('Error', 'No se ha podido actualizar el número de whatsapp', 'error')
+          () => Swal.fire('Error', 'No se ha podido actualizar el número de whatsapp', 'error')
         );
       }
-      else{
+      else {
         this.enviarWhatsappBackend();
       }
 
@@ -175,7 +164,7 @@ export class EnviarEstudioComponent implements OnInit {
   }
 
 
-  private enviarWhatsappBackend(){
+  private enviarWhatsappBackend() {
     this.whatsappService.enviarWhatsappResultados(this.estudio.ordenVenta.id, this.estudio.paciente.id).subscribe(res => {
       Swal.fire('Enviado', 'Se ha enviado el whatsapp', 'success');
     }, e => {
