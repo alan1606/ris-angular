@@ -50,6 +50,9 @@
 
 
   }
+  .img-fluid{ 
+    width: 1024px;
+  }
 
   .editor {
     border: 2px solid rgba(0, 0, 0, 0.2);
@@ -103,28 +106,36 @@ pdf-viewer {
 
 
 @media (min-width: 768px) {
-  pdf-viewer {
-    width: 50%;
-    height: 400px;
-  }
-
-  
 
   .pdf {
     width: 50%;
     height: 400px;
   }
 }
+@media (max-width: 768px) {
+
+  pdf-viewer {
+    width: 100%;
+    height: 400px;
+  }
+}
+@media (max-width: 999px) {
+
+  pdf-viewer {
+    width: 800px;
+    height: 1200px;
+  }
+}
 
 @media (min-width: 999px) {
   pdf-viewer {
     width: 1000px;
-    height: 700px;
+    height: 1350px;
   }
 
   .pdf{
     width: 1000px;
-    height: 700px;
+    height: 1000px;
   }
 
   

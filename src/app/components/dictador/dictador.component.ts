@@ -252,7 +252,13 @@ export class DictadorComponent implements OnInit {
         console.log('Error creando la interpretación');
       }
     );
+    const botonGuardar = document.getElementById('crearPDF'); // Reemplaza 'idDelBotonGuardar' con el ID real de tu botón
+    const posicionY = botonGuardar.offsetTop;
+    setTimeout(()=>{
+      window.scroll(0, posicionY + 100);
+    },200)
   }
+  
 
   private marcarEstudiosDeOrdenInterpretados() {
     this.estudiosDeOrden.forEach((estudio) => {

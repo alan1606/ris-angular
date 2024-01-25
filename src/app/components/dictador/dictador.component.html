@@ -85,7 +85,7 @@
 
 
 
-    <div *ngIf="multimediaCargada | async ">
+    <div class="contenedor-img-fluid" *ngIf="multimediaCargada | async ">
         <div class="form-group my-3" *ngFor="let img of multimedia">
             <img *ngIf="img.tipo == 'IMAGEN'" class="img-fluid" [src]="filesPath + img.ruta">
         </div>
@@ -131,24 +131,23 @@
             Formatear conclusión
         </button>
 
-        <br>
-
-        <button class="btn btn-success btn-lg my-4" (click)="guardar()">
+        <button id="crearPDF" class="btn btn-success btn-lg my-4 ms-4" (click)="guardar()">
           Crear PDF
         </button>
-
+        <center>
         <div class="pdf"  *ngIf="enlacePdf !== ''">
-            <pdf-viewer
+            
+                <pdf-viewer
+            class="pdf-generado"
               [src]="enlacePdf" [render-text]="true" [original-size]="false"
-              style="width: 400px; height: 500px;"
+              
             ></pdf-viewer>
-
                         <button class="btn btn-success btn-lg my-4" (click)="firmar()">
                             Firmar
                         </button>
-
+            
         </div>
-
+        </center>
       </form>
 
 
