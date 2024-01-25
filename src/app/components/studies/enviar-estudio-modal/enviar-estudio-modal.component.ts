@@ -94,7 +94,7 @@ export class EnviarEstudioModalComponent implements OnInit {
 
 
 
-  enviar(estudio: VentaConceptos): void {
+  enviar(): void {
     this.enviarAInterpretar();
   }
 
