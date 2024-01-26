@@ -49,6 +49,7 @@
           <thead>
             <tr>
               <th>Estudio</th>
+              <th>Sala</th>
               <th>Fecha</th>
               <th>Hora</th>
             </tr>
@@ -56,6 +57,7 @@
           <tbody>
             <tr *ngFor="let estudio of listaDeEstudios">
               <td>{{estudio.concepto?.concepto}}</td>
+              <td>{{estudio.equipoDicom?.nombre}}</td>
               <td>{{estudio.fechaAsignado | date : "dd/MM/yyyy" }}</td>
               <td>{{ parseHora(estudio.horaAsignado) | date: 'h:mm a' }}</td>
             </tr>
