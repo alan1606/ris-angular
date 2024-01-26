@@ -126,6 +126,7 @@ export class RegistroCompletoPacienteComponent implements OnInit {
     const fechaValor = new Date(this.fechaNacimientoControl.value);
     this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
     this.model.fechaNacimiento += "T00:00:00";
+
   }
 
 
