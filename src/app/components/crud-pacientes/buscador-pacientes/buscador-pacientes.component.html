@@ -1,0 +1,20 @@
+<mat-form-field>
+    <input class="buscar-paciente"
+      matInput
+      placeholder="Paciente"
+      [formControl]="autocompleteControlPaciente"
+      [matAutocomplete]="autocompletePaciente"
+    />
+    <mat-autocomplete
+      #autocompletePaciente="matAutocomplete"
+      [displayWith]="mostrarNombrePaciente"
+      (optionSelected)="seleccionarPaciente($event)"
+    >
+      <mat-option
+        *ngFor="let paciente of pacientesFiltrados"
+        [value]="paciente"
+      >
+        {{ paciente.nombreCompleto }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>

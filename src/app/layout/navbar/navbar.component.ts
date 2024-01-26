@@ -214,4 +214,12 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+  puedeAbrirCrudPacientes():boolean{
+    if(this.isReceptionist, this.isAdmin){
+      return true
+    }
+    return false
+  }
+
 }

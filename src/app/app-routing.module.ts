@@ -19,8 +19,9 @@ import { AnyRoleGuard } from './guards/any-role.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { InstitucionGuard } from './guards/institucion.guard';
 import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
-import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
+// import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
 import { MedicosGuard } from './guards/medicos.guard';
+import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 
 
 const routes: Routes = [
@@ -117,6 +118,11 @@ const routes: Routes = [
     component:CrudMedicosComponent,
     canActivate:[MedicosGuard]
   },
+  {
+    path:"pacientes",
+    component:CrudPacientesComponent,
+    canActivate:[RecepcionGuard]
+  }
 ];
 
 @NgModule({
