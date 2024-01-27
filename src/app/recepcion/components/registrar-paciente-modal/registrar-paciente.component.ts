@@ -164,8 +164,10 @@ export class RegistrarPacienteComponent implements OnInit {
     persona.apellidoPaterno = this.model.apellidoPaterno;
     persona.apellidoMaterno = this.model.apellidoMaterno;
     persona.genero = this.model.sexo == 2 ? GENERO.MASCULINO : GENERO.FEMENINO;
-    persona.fechaNacimiento = this.fecha.replace(/\//g, "-");
-    console.log(persona.fechaNacimiento);
+    this.fecha = this.pipe.transform(this.model.fechaNacimiento, 'dd-MM-yyyy');
+
+    persona.fechaNacimiento = this.fecha;
+
     persona.estado = this.pais == 'OTRO' ? ESTADO['NO_ESPECIFICADO'] : ESTADO[this.entidad];
     this.model.curp = generar(persona);
   }

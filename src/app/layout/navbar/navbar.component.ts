@@ -215,7 +215,7 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
-  puedeAbrirCrudPacientes():boolean{
+  puedeAbrirMembresias():boolean{
     if(this.isReceptionist, this.isAdmin){
       return true
     }

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Paciente } from 'src/app/models/paciente';
 import { ESTADO, getPersona, GENERO, generar } from 'curp';
 import { UntypedFormControl } from '@angular/forms';
-import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
 import { FechaService } from 'src/app/services/fecha.service';
+import { DatePipe } from '@angular/common';
+import { MembresiaService } from 'src/app/services/membresia.service';
+import { Membresia } from 'src/app/models/membresia';
 
 @Component({
   selector: 'app-crud-pacientes',
@@ -13,8 +15,9 @@ import { FechaService } from 'src/app/services/fecha.service';
 })
 export class CrudPacientesComponent implements OnInit {
   constructor(
-    private service: PacientesService,
-    private fechaService: FechaService
+    private fechaService: FechaService,
+    private pipe: DatePipe,
+    private membresiaService: MembresiaService
   ) {}
 
   fechaNacimientoControl = new UntypedFormControl();
@@ -27,10 +30,11 @@ export class CrudPacientesComponent implements OnInit {
   entidad: string = '';
   fecha: string = '';
   sexo: string = '';
+  codigoMembresia: string = '';
+
   ngOnInit(): void {}
 
   pacienteBuscado(event: any) {
-    console.log(event);
     this.model = event;
     this.fechaNacimientoControl.setValue(
       new Date(this.model.fechaNacimiento)
@@ -42,38 +46,24 @@ export class CrudPacientesComponent implements OnInit {
     if (!this.camposValidos()) {
       return;
     }
+    let membresia: Membresia = new Membresia();
+    membresia.codigoMembresia = this.codigoMembresia;
+    membresia.paciente = this.model;
 
-    this.service.crear(this.model).subscribe(
-      (model) => {
-        this.model = model;
-        Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
-      },
-      (err) => {
-        if (err.status === 400) {
-          this.error = err.error;
-          console.log(this.error);
-        }
-      }
-    );
-  }
-
-  public editar(): void {
-    if (!this.camposValidos()) {
-      return;
+    this.membresiaService.crear(membresia).subscribe(() => {
+      Swal.fire("Creado", "Membresia creada con éxito", "success");
+      this.model = new Paciente();
+      this.codigoMembresia = "";
+    },
+    e => {
+      Swal.fire("Error", "No se pudo crear la membresía", "error");
+      console.log(e);
     }
-    this.service.editar(this.model).subscribe(
-      (concepto) => {
-        console.log(concepto);
-        Swal.fire('Modificado: ', `Paciente actualizado con éxito`, 'success');
-      },
-      (err) => {
-        if (err.status === 400) {
-          this.error = err.error;
-          console.log(this.error);
-        }
-      }
     );
+
   }
+
+  
 
   private camposValidos(): boolean {
     if (!this.model.nombre) {
@@ -96,6 +86,9 @@ export class CrudPacientesComponent implements OnInit {
       Swal.fire('Error', 'Verifique el sexo', 'error');
       return false;
     }
+    if(!this.codigoMembresia){
+      Swal.fire('Error', 'Ingrese la membresía', 'error');
+    }
     return true;
   }
 
@@ -103,7 +96,7 @@ export class CrudPacientesComponent implements OnInit {
     const fechaValor = new Date(this.fechaNacimientoControl.value);
     this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
     this.model.fechaNacimiento += 'T00:00:00';
-    this.fecha = this.fechaService.formatearFecha(fechaValor);
+    this.fecha = this.pipe.transform(this.model.fechaNacimiento, 'dd-MM-yyyy');
 
   }
 
@@ -115,7 +108,6 @@ export class CrudPacientesComponent implements OnInit {
   }
 
   datosListosParaGenerarCurp(): boolean {
-    console.log(this.fecha)
     if (this.model?.nombre == '') {
       return false;
     }
@@ -141,7 +133,6 @@ export class CrudPacientesComponent implements OnInit {
    
     if (this.datosListosParaGenerarCurp()) {
       this.generarCurp();
-      console.log("pito")
     }
 
   }
@@ -152,10 +143,11 @@ export class CrudPacientesComponent implements OnInit {
     persona.apellidoPaterno = this.model.apellidoPaterno;
     persona.apellidoMaterno = this.model.apellidoMaterno;
     persona.genero = this.model.sexo == 2 ? GENERO.MASCULINO : GENERO.FEMENINO;
-    persona.fechaNacimiento = this.fecha.replace(/\//g, '-');
-    console.log(persona.fechaNacimiento);
-    persona.estado =
-      this.pais == 'OTRO' ? ESTADO['NO_ESPECIFICADO'] : ESTADO[this.entidad];
+    this.fecha = this.pipe.transform(this.model.fechaNacimiento, 'dd-MM-yyyy');
+
+    persona.fechaNacimiento = this.fecha;
+
+    persona.estado = this.pais == 'OTRO' ? ESTADO['NO_ESPECIFICADO'] : ESTADO[this.entidad];
     this.model.curp = generar(persona);
   }
 

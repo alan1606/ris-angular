@@ -119,7 +119,7 @@ const routes: Routes = [
     canActivate:[MedicosGuard]
   },
   {
-    path:"pacientes",
+    path:"membresias",
     component:CrudPacientesComponent,
     canActivate:[RecepcionGuard]
   }
