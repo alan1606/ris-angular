@@ -49,7 +49,7 @@ import { FormularioMedicosComponent } from './components/crud-medicos/formulario
 import { BuscarMedicoReferenteYCambiarComponent } from './components/dictador/buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
-import { BuscadorPacientesComponent } from './components/crud-pacientes/buscador-pacientes/buscador-pacientes.component';
+import { BuscadorPacientesComponent } from './components/buscador-pacientes/buscador-pacientes.component';
 
 
 @NgModule({

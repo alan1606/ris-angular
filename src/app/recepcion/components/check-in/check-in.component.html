@@ -1,13 +1,15 @@
-<div class="contenedor-busqueda">
+<div class="">
   <div class="busqueda">
-    <form class="example-form">
-      <div class="col-md-auto mb-4">
-        <label for="qr">Escanee el qr aquí:</label>
-        <input type="text" class="form-control" id="qr" (input)="buscarQr()" #qr>
+    
+      <div class="col-md-auto mb-4 contenedor-busqueda">
+        <input type="text" placeholder="Escanee el qr aqui" class="form-control buscar-qr" id="qr" (input)="buscarQr()" #qr>
+        <input type="text" class="form-control filtrar-areas" placeholder="Areas" [(ngModel)]="busqueda" (input)="filtrarAreas()">
       </div>
-    </form>
+    
   </div>
+    
 </div>
+
 
 <div class="table-responsive mt-4" *ngIf="!orden?.id && citas?.length > 0">
   <table class="table table-hover table-striped">
@@ -21,7 +23,7 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let cita of citas">
+      <tr *ngFor="let cita of citasFiltradas">
         <td>{{cita.estudio?.paciente?.nombreCompleto}}</td>
         <td>{{cita.estudio?.concepto?.concepto}}</td>
         <td>{{cita.fechaYHora | date: "h:mm a"}}</td>

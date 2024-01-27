@@ -1,45 +1,48 @@
-.contenedor-busqueda{
-    height: max-content;
+.contenedor-busqueda {
+  width: 50%;
+  display: flex;
+  height: max-content;
+}
+.buscar-qr{
+    width: 30%;
+}
+.filtrar-areas {
+    width: 40%;
+    margin-left: 3%;
 }
 
-.busqueda{
-    display: flex;
-    height: 3rem;
-    width: 100%;
-}
 .custom-mat-form-field {
-    width: 400px;
+  width: 400px;
 }
 
-.formularioPaciente-subirFoto{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 10px;
+.formularioPaciente-subirFoto {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
-.subirFoto-pagar{
-    display: grid;
-    grid-template-rows: 2;
-    height: min-content;
-   
+.subirFoto-pagar {
+  display: grid;
+  grid-template-rows: 2;
+  height: min-content;
 }
-.subirFoto-pagar button{
-    font-size: larger;
-    text-align: center;
-    width: 50%;
-    height: min-content;
-}
-
-.cerrar{
-    text-align:end ;
-    justify-content: end;
-    align-items: end;
-    align-content: end;
+.subirFoto-pagar button {
+  font-size: larger;
+  text-align: center;
+  width: 50%;
+  height: min-content;
 }
 
-.contenedor-boton-pagar{
-    padding-bottom: 30px;
+.cerrar {
+  text-align: end;
+  justify-content: end;
+  align-items: end;
+  align-content: end;
 }
 
-.contenedor-boton-pagar button{
-    width: 50rem;
+.contenedor-boton-pagar {
+  padding-bottom: 30px;
+}
+
+.contenedor-boton-pagar button {
+  width: 50rem;
 }
