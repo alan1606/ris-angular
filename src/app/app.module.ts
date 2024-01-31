@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
@@ -50,6 +50,7 @@ import { BuscarMedicoReferenteYCambiarComponent } from './components/dictador/bu
 import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { BuscadorPacientesComponent } from './components/buscador-pacientes/buscador-pacientes.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -107,7 +108,13 @@ import { BuscadorPacientesComponent } from './components/buscador-pacientes/busc
         MatIconModule,
         MatSelectModule,
         MatFormFieldModule,
-        QuillModule.forRoot()
+        QuillModule.forRoot(),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+          enabled: !isDevMode(),
+          // Register the ServiceWorker as soon as the application is stable
+          // or after 30 seconds (whichever comes first).
+          registrationStrategy: 'registerWhenStable:30000'
+        })
     ],
     providers: [
         DatePipe,
