@@ -51,6 +51,8 @@ import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medic
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { BuscadorPacientesComponent } from './components/buscador-pacientes/buscador-pacientes.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { QrFirmarPoliticasMembresiaComponent } from './components/qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 
 @NgModule({
@@ -80,6 +82,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         NuevoMedicoSoloNombreComponent,
         CrudPacientesComponent,
         BuscadorPacientesComponent,
+        QrFirmarPoliticasMembresiaComponent,
     ],
     imports: [
         BrowserModule,
@@ -90,6 +93,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         BrowserAnimationsModule,
         MatAutocompleteModule,
         MatInputModule,
+        NgxQRCodeModule,
         ReactiveFormsModule,
         MatPaginatorModule,
         MatDatepickerModule,

@@ -3,7 +3,7 @@
 </div>
 
 <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Pacientes</div>
+    <div class="card-header">Paciente</div>
     <div class="card-body">
         <!-- <button mat-dialog-close class="btn btn-secondary my-2" (click)="cerrar()">Volver</button> -->
 
@@ -128,6 +128,11 @@
             <div class="form-group my-2">
                 <button type="button" class="btn btn-primary" (click)="crear()">
                     {{ model?.id ? 'Guardar' : 'Crear' }}
+                </button>
+                <button *ngIf="codigoMembresia"
+                class="btn btn-info ms-2"
+                (click)="abrirQrFirmarPoliticasMembresiaModal()">
+                    Firmar membresia
                 </button>
             </div>
 
