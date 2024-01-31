@@ -456,7 +456,7 @@ export class AgendarComponent implements OnInit {
 
   private mostrarCitasPensionesUltrasonido() {
     this.dialog.open(MostrarCitasPorDiaPensionesComponent, {
-      data: {dia: this.fecha},
+      data: {dia: this.fecha, salaId: this.equipoDicom.id},
     });
   }
 

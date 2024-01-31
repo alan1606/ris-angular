@@ -102,8 +102,8 @@ export class VentaConceptosService extends CommonService<VentaConceptos> {
       { headers: this.cabeceras });
   }
 
-  public encontrarUltrasonidosDePensionesEnFecha(fecha: string): Observable<VentaConceptos[]> {
-    return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/pensiones/ultrasonidos/fecha/${fecha}`);
+  public encontrarUltrasonidosDePensionesEnFecha(fecha: string, salaId:number): Observable<VentaConceptos[]> {
+    return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/pensiones/ultrasonidos/fecha/${fecha}/sala/${salaId}`);
   }
 
 }

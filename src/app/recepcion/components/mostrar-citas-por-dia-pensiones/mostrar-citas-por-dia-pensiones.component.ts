@@ -21,7 +21,8 @@ export class MostrarCitasPorDiaPensionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.fecha = this.data.dia;
-    this.ventaConceptosService.encontrarUltrasonidosDePensionesEnFecha(this.fecha).subscribe(estudios =>{
+    const salaId: number = this.data.salaId;
+    this.ventaConceptosService.encontrarUltrasonidosDePensionesEnFecha(this.fecha, salaId).subscribe(estudios =>{
       this.estudios = estudios;
       console.log(estudios);
     },
