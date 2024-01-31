@@ -1,0 +1,30 @@
+<div class="card text-dark bg-light mb-3">
+    <div class="card-header">Ultrasonidos de pensiones del {{fecha | date :"dd/MM/yyyy"}}</div>
+    <div class="card-body">
+      <div class="alert alert-info" *ngIf="estudios?.length == 0">
+        No hay estudios en el sistema.
+      </div>
+      <div class="table-responsive" *ngIf="estudios?.length > 0">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Estudio</th>
+                <th>Hora</th>
+                <th>Fecha</th>
+            </tr>
+          </thead>
+  
+          <tbody *ngIf="estudios?.length > 0">
+            <tr *ngFor="let estudio of estudios">
+              <td>{{estudio?.paciente?.nombreCompleto}}</td>
+              <td>{{estudio?.concepto?.concepto}}</td>
+              <td>{{estudio?.horaAsignado}}</td>
+              <td>{{estudio?.fechaAsignado | date: "dd/MM/yyyy"}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

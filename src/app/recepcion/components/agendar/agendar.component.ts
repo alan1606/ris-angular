@@ -24,6 +24,7 @@ import { Cita } from 'src/app/models/cita';
 import { CitaService } from 'src/app/services/cita.service';
 import { RegistrarPacienteParcialModalComponent } from '../registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
+import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 
 
 @Component({
@@ -433,6 +434,9 @@ export class AgendarComponent implements OnInit {
 
     this.citaService.obtenerDisponiblesPorSalaYFecha(this.equipoDicom.id, this.fecha).subscribe(citas => {
       this.citas = citas;
+      if(this.hayQueMostrarLimitePensionesUltrasonido()){
+        this.mostrarCitasPensionesUltrasonido();
+      }
     },
       error => {
         Swal.fire("No hay citas", error.error.detail, "info");
@@ -441,6 +445,20 @@ export class AgendarComponent implements OnInit {
         console.log(error);
       });
   };
+
+
+  private hayQueMostrarLimitePensionesUltrasonido(): boolean {
+    if(this.institucion.nombre === "PENSIONES" && this.area.nombre == "ULTRASONIDO"){
+      return true;
+    }
+    return false;
+  }
+
+  private mostrarCitasPensionesUltrasonido() {
+    this.dialog.open(MostrarCitasPorDiaPensionesComponent, {
+      data: {dia: this.fecha},
+    });
+  }
 
   limpiarPaciente(): void{
     this.paciente = null;

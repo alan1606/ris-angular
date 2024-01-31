@@ -37,6 +37,19 @@
                 </mat-form-field>
             </div>
 
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Convenio" [formControl]="autocompleteControlConvenio"
+                        [matAutocomplete]="autocompleteConvenio" class="mat-input-long">
+                    <mat-autocomplete #autocompleteConvenio="matAutocomplete" [displayWith]="mostrarNombreConvenio"
+                        (optionSelected)="seleccionarInstitucion($event)">
+                        <mat-option *ngFor="let convenio of conveniosFiltrados" [value]="convenio">
+                            {{convenio.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
             <div class="form-group" [formGroup]="formulario">
                 <mat-form-field>
                     <mat-label>Sala</mat-label>
@@ -110,18 +123,7 @@
                 </mat-card>
             </div>
 
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput placeholder="Convenio" [formControl]="autocompleteControlConvenio"
-                        [matAutocomplete]="autocompleteConvenio" class="mat-input-long">
-                    <mat-autocomplete #autocompleteConvenio="matAutocomplete" [displayWith]="mostrarNombreConvenio"
-                        (optionSelected)="seleccionarInstitucion($event)">
-                        <mat-option *ngFor="let convenio of conveniosFiltrados" [value]="convenio">
-                            {{convenio.nombre}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
+     
             <div class="from-group" *ngIf="this.institucion?.nombre == 'PARTICULAR'">
                 <mat-form-field class="example-full-width">
                     <mat-label>Código promocional</mat-label>

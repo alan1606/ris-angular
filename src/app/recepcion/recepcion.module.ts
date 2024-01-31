@@ -34,6 +34,7 @@ import { ReagendarCitaModalComponent } from './components/reagendar-cita-modal/r
 import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
 import { FormularioPacienteComponent } from './components/formulario-paciente/formulario-paciente.component';
 import { BuscarPacienteSubirFotoOrdenComponent } from './components/buscar-paciente-subir-foto-orden/buscar-paciente-subir-foto-orden.component';
+import { MostrarCitasPorDiaPensionesComponent } from './components/mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { BuscarPacienteSubirFotoOrdenComponent } from './components/buscar-pacie
         ReagendarCitaModalComponent,
         GenerarQrCheckinComponent,
         FormularioPacienteComponent,
-        BuscarPacienteSubirFotoOrdenComponent
+        BuscarPacienteSubirFotoOrdenComponent,
+        MostrarCitasPorDiaPensionesComponent
         ],
     imports: [
         CommonModule,

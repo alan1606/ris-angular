@@ -11,7 +11,7 @@ import { CommonService } from './common.service';
 @Injectable({
   providedIn: 'root'
 })
-export class VentaConceptosService extends CommonService<VentaConceptos>{
+export class VentaConceptosService extends CommonService<VentaConceptos> {
 
   protected override baseEndpoint = BASE_ENDPOINT + '/ris/venta-conceptos';
 
@@ -81,25 +81,29 @@ export class VentaConceptosService extends CommonService<VentaConceptos>{
       { params: params });
   }
 
-  public verEtiqueta(idVentaConceptos: number)  {
-   return this.http.get(`${this.baseEndpoint}/etiqueta/${idVentaConceptos}`, { responseType: 'blob', observe: 'response'}).pipe(
-    map((res: any) => {
-      return new Blob([res.body], { type: 'application/pdf' });
-    })
-  );
+  public verEtiqueta(idVentaConceptos: number) {
+    return this.http.get(`${this.baseEndpoint}/etiqueta/${idVentaConceptos}`, { responseType: 'blob', observe: 'response' }).pipe(
+      map((res: any) => {
+        return new Blob([res.body], { type: 'application/pdf' });
+      })
+    );
   }
 
- public procesarEstudioEnWorklist(idEstudio: number): Observable<VentaConceptos>{
-  return this.http.get<VentaConceptos>(`${this.baseEndpoint}/procesar-worklist/${idEstudio}`);
- }
+  public procesarEstudioEnWorklist(idEstudio: number): Observable<VentaConceptos> {
+    return this.http.get<VentaConceptos>(`${this.baseEndpoint}/procesar-worklist/${idEstudio}`);
+  }
 
- public encontrarPorOrdenVentaId(ordenVentaId: number): Observable<VentaConceptos[]>{
-  return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/orden-venta/${ordenVentaId}`);
- }
+  public encontrarPorOrdenVentaId(ordenVentaId: number): Observable<VentaConceptos[]> {
+    return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/orden-venta/${ordenVentaId}`);
+  }
 
- public enviarAInterpretar(estudio: VentaConceptos): Observable<VentaConceptos> {
-  return this.http.post<VentaConceptos>(`${this.baseEndpoint}/enviar-a-interpretar/${estudio.id}`, estudio,
-    { headers: this.cabeceras });
-}
+  public enviarAInterpretar(estudio: VentaConceptos): Observable<VentaConceptos> {
+    return this.http.post<VentaConceptos>(`${this.baseEndpoint}/enviar-a-interpretar/${estudio.id}`, estudio,
+      { headers: this.cabeceras });
+  }
+
+  public encontrarUltrasonidosDePensionesEnFecha(fecha: string): Observable<VentaConceptos[]> {
+    return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/pensiones/ultrasonidos/fecha/${fecha}`);
+  }
 
 }
