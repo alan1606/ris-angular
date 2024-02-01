@@ -121,19 +121,21 @@
 
       <form [formGroup]="templateForm">
         <quill-editor
-            [styles]="{height: '400px', backgroundColor:'#faf8f8'}"
+            [styles]="{height: '400px',width:'100%', backgroundColor:'#faf8f8'}"
             [modules]="quillEditorModules"
             formControlName="textEditor"
         >
         </quill-editor>
 
-        <button class="btn btn-dark btn-sm my-4" (click)="formatearConclusion()">
-            Formatear conclusión
-        </button>
-
-        <button id="crearPDF" class="btn btn-success btn-lg my-4 ms-4" (click)="guardar()">
-          Crear PDF
-        </button>
+        <div>
+            <button class="btn btn-dark btn-sm my-4" (click)="formatearConclusion()">
+                Formatear conclusión
+            </button>
+    
+            <button id="crearPDF" class="btn btn-success btn-lg my-4 ms-4" (click)="guardar()">
+              Crear PDF
+            </button>
+        </div>
         <center>
         <div class="pdf"  *ngIf="enlacePdf !== ''">
             
