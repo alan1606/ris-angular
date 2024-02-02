@@ -142,6 +142,9 @@ export class AgendarComponent implements OnInit {
         this.equipoDicom = sala;
         this.citas = [];
         this.formulario.get('citaControl').setValue('');
+        if(this.fecha){
+          this.cargarCitas();
+        }
       },
         err => console.log(err));
     });
@@ -432,6 +435,11 @@ export class AgendarComponent implements OnInit {
   public actualizarFecha(fecha: HTMLInputElement) {
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
 
+    this.cargarCitas();
+  };
+
+
+  private cargarCitas(): void{
     this.citaService.obtenerDisponiblesPorSalaYFecha(this.equipoDicom.id, this.fecha).subscribe(citas => {
       this.citas = citas;
       if(this.hayQueMostrarLimitePensionesUltrasonido()){
@@ -444,8 +452,7 @@ export class AgendarComponent implements OnInit {
         this.cita = null;
         console.log(error);
       });
-  };
-
+  }
 
   private hayQueMostrarLimitePensionesUltrasonido(): boolean {
     if(this.institucion.nombre === "PENSIONES" && this.area.nombre == "ULTRASONIDO"){

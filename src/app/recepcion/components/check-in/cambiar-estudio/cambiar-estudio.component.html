@@ -1,0 +1,14 @@
+<div class="form-group">
+    <mat-form-field style="width: 100%;">
+        <input matInput placeholder="Estudio" [formControl]="autocompleteControlConcepto"
+            [matAutocomplete]="autocompleteConcepto">
+        <mat-autocomplete #autocompleteConcepto="matAutocomplete" [displayWith]="mostrarNombreConcepto"
+            (optionSelected)="seleccionarConcepto($event)">
+            <mat-option *ngFor="let concepto of conceptosFiltrados" [value]="concepto">
+                {{concepto.concepto}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <p *ngIf="concepto?.id" class="precio">{{concepto?.precio}}</p>
+    <button *ngIf="concepto?.id" type="button" (click)="guardar()" class="btn btn-primary">Guardar</button>
+</div>

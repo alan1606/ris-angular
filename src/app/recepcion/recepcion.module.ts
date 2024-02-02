@@ -35,6 +35,7 @@ import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/gener
 import { FormularioPacienteComponent } from './components/formulario-paciente/formulario-paciente.component';
 import { BuscarPacienteSubirFotoOrdenComponent } from './components/buscar-paciente-subir-foto-orden/buscar-paciente-subir-foto-orden.component';
 import { MostrarCitasPorDiaPensionesComponent } from './components/mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
+import { CambiarEstudioComponent } from './components/check-in/cambiar-estudio/cambiar-estudio.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { MostrarCitasPorDiaPensionesComponent } from './components/mostrar-citas
         GenerarQrCheckinComponent,
         FormularioPacienteComponent,
         BuscarPacienteSubirFotoOrdenComponent,
-        MostrarCitasPorDiaPensionesComponent
+        MostrarCitasPorDiaPensionesComponent,
+        CambiarEstudioComponent
         ],
     imports: [
         CommonModule,

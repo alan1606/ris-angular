@@ -9,6 +9,7 @@ import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-
 import Swal from 'sweetalert2';
 import { Cita } from 'src/app/models/cita';
 import { CitaService } from 'src/app/services/cita.service';
+import { CambiarEstudioComponent } from './cambiar-estudio/cambiar-estudio.component';
 
 @Component({
   selector: 'app-check-in',
@@ -179,4 +180,18 @@ export class CheckInComponent implements OnInit {
     this.guardarPresionado = false;
     this.botonHabilitado = false;
   }
+
+  cambiar(estudio: VentaConceptos): void{
+    const dialogRef = this.dialog.open(CambiarEstudioComponent, {
+      data: {estudio: estudio},
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(nuevoConcepto => {
+      if(nuevoConcepto){
+        estudio.concepto = nuevoConcepto;
+      }
+    });
+  }
+
 }

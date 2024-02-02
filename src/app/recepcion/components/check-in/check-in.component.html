@@ -54,6 +54,8 @@
               <th>Sala</th>
               <th>Fecha</th>
               <th>Hora</th>
+              <th>Precio</th>
+              <th>Cambiar</th>
             </tr>
           </thead>
           <tbody>
@@ -62,6 +64,8 @@
               <td>{{estudio.equipoDicom?.nombre}}</td>
               <td>{{estudio.fechaAsignado | date : "dd/MM/yyyy" }}</td>
               <td>{{ parseHora(estudio.horaAsignado) | date: 'h:mm a' }}</td>
+              <td>{{estudio.concepto?.precio}}</td>
+              <td><button type="button" class="btn btn-sm btn-success" (click)="cambiar(estudio)">Cambiar</button></td>
             </tr>
           </tbody>
         </table>
