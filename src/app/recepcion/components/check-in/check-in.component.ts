@@ -10,6 +10,9 @@ import Swal from 'sweetalert2';
 import { Cita } from 'src/app/models/cita';
 import { CitaService } from 'src/app/services/cita.service';
 import { CambiarEstudioComponent } from './cambiar-estudio/cambiar-estudio.component';
+import { AgregarEstudioComponent } from './agregar-estudio/agregar-estudio.component';
+import { CampaniaService } from 'src/app/campanias/services/campania.service';
+import { Campania } from 'src/app/campanias/models/campania';
 
 @Component({
   selector: 'app-check-in',
@@ -21,8 +24,10 @@ export class CheckInComponent implements OnInit {
     private ventaConceptosService: VentaConceptosService,
     private ordenVentaService: OrdenVentaService,
     private dialog: MatDialog,
-    private citaService: CitaService
-  ) {}
+    private citaService: CitaService,
+    private campaniasService: CampaniaService
+  ) { }
+
   botonHabilitado: boolean = false;
   autocompleteControlPaciente = new UntypedFormControl('');
   orden: OrdenVenta = null;
@@ -31,6 +36,7 @@ export class CheckInComponent implements OnInit {
   citas: Cita[] = [];
   busqueda: string = '';
   citasFiltradas: Cita[] = [];
+  codigoPromocion: string = '';
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
 
@@ -42,7 +48,7 @@ export class CheckInComponent implements OnInit {
     this.citaService.citasDeHoy().subscribe(
       (citas) => {
         this.citas = citas;
-        this.citasFiltradas=citas
+        this.citasFiltradas = citas
         console.log(this.citas[0].estudio.concepto.area.nombre);
       },
       (error) => {
@@ -55,9 +61,9 @@ export class CheckInComponent implements OnInit {
     this.citasFiltradas = !this.busqueda
       ? this.citas
       : this.citas.filter((cita) =>
-          cita.estudio.concepto.area.nombre.includes(this.busqueda.toUpperCase())
-        );
-        console.log(this.citasFiltradas)
+        cita.estudio.concepto.area.nombre.includes(this.busqueda.toUpperCase())
+      );
+    console.log(this.citasFiltradas)
   }
 
   buscarQr() {
@@ -92,7 +98,7 @@ export class CheckInComponent implements OnInit {
   pagar(): void {
     setTimeout(() => {
       this.botonHabilitado = true;
-      this.ordenVentaService.pagar(this.orden.id).subscribe(
+      this.ordenVentaService.pagar(this.orden, this.listaDeEstudios).subscribe(
         () => {
           Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
           this.reiniciar();
@@ -181,17 +187,51 @@ export class CheckInComponent implements OnInit {
     this.botonHabilitado = false;
   }
 
-  cambiar(estudio: VentaConceptos): void{
+  cambiar(estudio: VentaConceptos): void {
     const dialogRef = this.dialog.open(CambiarEstudioComponent, {
-      data: {estudio: estudio},
+      data: { estudio: estudio },
       width: '600px'
     });
 
     dialogRef.afterClosed().subscribe(nuevoConcepto => {
-      if(nuevoConcepto){
+      if (nuevoConcepto) {
         estudio.concepto = nuevoConcepto;
       }
     });
+  }
+
+
+  abrirAgregarEstudio(): void {
+    const dialogRef = this.dialog.open(AgregarEstudioComponent, {
+      width: "600px"
+    });
+
+    dialogRef.afterClosed().subscribe(venta => {
+      if (venta) {
+        console.log(venta);
+        this.listaDeEstudios.push(venta);
+      }
+    });
+  }
+
+  buscarCodigoPromocional(event: KeyboardEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.codigoPromocion) {
+      this.campaniasService.buscarPorCodigo(this.codigoPromocion).subscribe(
+        campania => {
+          if(campania.id){
+            this.orden.aplicarDescuento = true;
+            this.orden.codigoPromocional = campania.codigo;
+          }
+          Swal.fire("Aplicado", `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`, "success");
+        },
+        () => {
+          Swal.fire("No encontrado", "No se ha podido encontrar la campaña", "error");
+        }
+      );
+    }
   }
 
 }

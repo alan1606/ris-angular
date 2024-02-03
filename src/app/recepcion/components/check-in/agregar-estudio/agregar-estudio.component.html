@@ -1,0 +1,37 @@
+<div class="seleccionar-estudio-container">
+    <mat-form-field>
+        <input matInput placeholder="Área" [formControl]="autocompleteControlArea" [matAutocomplete]="autocompleteArea">
+        <mat-autocomplete #autocompleteArea="matAutocomplete" [displayWith]="mostrarNombreArea"
+            (optionSelected)="seleccionarArea($event)">
+            <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+                {{area.nombre}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <mat-label>Sala</mat-label>
+        <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado">
+            <mat-option *ngFor="let equipo of equiposDicom" [value]="equipo">
+                {{equipo.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <input matInput placeholder="Estudio" [formControl]="autocompleteControlConcepto"
+            [matAutocomplete]="autocompleteConcepto">
+        <mat-autocomplete #autocompleteConcepto="matAutocomplete" [displayWith]="mostrarNombreConcepto"
+            (optionSelected)="seleccionarConcepto($event)">
+            <mat-option *ngFor="let concepto of conceptosFiltrados" [value]="concepto">
+                {{concepto.concepto}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+
+
+
+</div>

@@ -41,8 +41,31 @@
 
 .contenedor-boton-pagar {
   padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
-.contenedor-boton-pagar button {
-  width: 50rem;
+
+.agregar-estudios-container{
+  display: flex;
+  flex-direction: column;
 }
+
+.boton-agregar-container{
+  display: flex;
+  justify-items: flex-end;
+  justify-content: flex-end;
+  width: 93%;
+  margin-top: 0.5rem;
+}
+
+.codigo-promocional-container{
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  justify-content: flex-start;
+  width: 80%;
+  margin-top: 0.5rem;
+}
+
+

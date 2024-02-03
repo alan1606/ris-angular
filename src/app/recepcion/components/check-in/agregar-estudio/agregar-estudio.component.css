@@ -1,0 +1,4 @@
+.seleccionar-estudio-container{
+    display: flex;
+    flex-direction: column;
+  }

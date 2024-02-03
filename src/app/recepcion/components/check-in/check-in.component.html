@@ -1,13 +1,15 @@
 <div class="">
   <div class="busqueda">
-    
-      <div class="col-md-auto mb-4 contenedor-busqueda">
-        <input type="text" placeholder="Escanee el qr aqui" class="form-control buscar-qr" id="qr" (input)="buscarQr()" #qr>
-        <input type="text" class="form-control filtrar-areas" placeholder="Areas" [(ngModel)]="busqueda" (input)="filtrarAreas()">
-      </div>
-    
+
+    <div class="col-md-auto mb-4 contenedor-busqueda">
+      <input type="text" placeholder="Escanee el qr aqui" class="form-control buscar-qr" id="qr" (input)="buscarQr()"
+        #qr>
+      <input type="text" class="form-control filtrar-areas" placeholder="Areas" [(ngModel)]="busqueda"
+        (input)="filtrarAreas()">
+    </div>
+
   </div>
-    
+
 </div>
 
 
@@ -36,7 +38,6 @@
     </tbody>
   </table>
 </div>
-
 
 <div *ngIf="orden?.id && orden?.paciente?.id">
   <div class="cerrar"><button type="button" class="btn btn-danger" (click)="cerrar()"><i
@@ -70,9 +71,26 @@
           </tbody>
         </table>
       </div>
+
+      <div class="agregar-estudios-container">
+        <div class="boton-agregar-container">
+          <button type="button" class="btn btn-success rounded-circle btn-lg" (click)="abrirAgregarEstudio()">
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="codigo-promocional-container" *ngIf="this.listaDeEstudios.length > 0 && this.listaDeEstudios[0]?.institucion?.nombre == 'PARTICULAR'">
+        <mat-form-field >
+          <mat-label>Código promocional</mat-label>
+          <input matInput placeholder="Código promocional" name="codigo" [(ngModel)]="codigoPromocion" (keyup.enter)="buscarCodigoPromocional($event)">
+        </mat-form-field>
+      </div>
+
     </div>
   </div>
 </div>
+
 
 <div class="formularioPaciente-subirFoto" *ngIf="orden?.id && orden?.paciente?.id">
   <app-formulario-paciente [model]="orden.paciente" (botonGuardarPresionado)="presionadoBotonGuardar($event)">
@@ -86,13 +104,11 @@
       Mostrar qr subir foto
     </button>
   </div>
+</div>
 
-
-  <div class="contenedor-boton-pagar" *ngIf="guardarPresionado">
-    <button class="btn btn-success" (click)="pagar()" [disabled]="botonHabilitado">
-      <i class="bi bi-currency-dollar"></i>
-      Pagar
-    </button>
-  </div>
-
+<div class="contenedor-boton-pagar" *ngIf="guardarPresionado">
+  <button class="btn btn-success" (click)="pagar()" [disabled]="botonHabilitado">
+    <i class="bi bi-currency-dollar"></i>
+    Pagar
+  </button>
 </div>

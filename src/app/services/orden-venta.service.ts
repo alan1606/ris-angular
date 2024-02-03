@@ -42,7 +42,8 @@ export class OrdenVentaService extends CommonService<OrdenVenta>{
     return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/paciente/${idPaciente}/hoy`)
   }
 
-  public pagar(idOrden: number): Observable<void>{
-    return this.http.put<void>(`${this.baseEndpoint}/pagar/${idOrden}`, {});
+  public pagar(orden: OrdenVenta, estudios: VentaConceptos[]): Observable<void>{
+    const objetos = { estudios: estudios, orden: orden };
+    return this.http.put<void>(`${this.baseEndpoint}/pagar/${orden.id}`, JSON.stringify(objetos), { headers: this.cabeceras });
   }
 }
