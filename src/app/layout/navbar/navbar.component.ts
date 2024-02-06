@@ -20,11 +20,11 @@ export class NavbarComponent implements OnInit {
   logout_url = logour_uri;
 
   loginParams: any = {
-    client_id : client_id,
-    redirect_uri : redirect_uri,
-    scope : scope,
-    response_type : response_type,
-    code_challenge_method : code_challenge_method
+    client_id: client_id,
+    redirect_uri: redirect_uri,
+    scope: scope,
+    response_type: response_type,
+    code_challenge_method: code_challenge_method
   };
 
   logoutParams: any = {
@@ -50,27 +50,27 @@ export class NavbarComponent implements OnInit {
 
 
 
-  onLogin(): void{
+  onLogin(): void {
     const code_verifier = this.generateCodeVerifier();
     this.tokenService.setVerifier(code_verifier);
 
     this.loginParams.code_challenge = this.generateCodeChallenge(code_verifier);
-    const httpParams = new HttpParams({fromObject: this.loginParams});
+    const httpParams = new HttpParams({ fromObject: this.loginParams });
     const codeUrl = this.authorize_url + httpParams.toString();
     console.log(codeUrl);
     location.href = codeUrl;
   }
 
 
-  onLogout(): void{
-    const httpParams = new HttpParams({fromObject: this.logoutParams});
+  onLogout(): void {
+    const httpParams = new HttpParams({ fromObject: this.logoutParams });
     this.logoutParams.refresh_token = this.tokenService.getRefreshToken();
     const codeUrl = this.logout_url + httpParams.toString();
     console.log(codeUrl);
     location.href = codeUrl;
   }
 
-  getLogged(): void{
+  getLogged(): void {
 
     this.isLogged = this.tokenService.isLogged();
     this.isAdmin = this.tokenService.isAdmin();
@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit {
     this.isTechnician = this.tokenService.isTechnician();
     this.isInstitution = this.tokenService.isInstitution();
 
-    if(this.isLogged && this.isTokensExipred()){
+    if (this.isLogged && this.isTokensExipred()) {
       this.tokenService.logOut();
       this.router.navigate(['/']);
     }
@@ -94,11 +94,11 @@ export class NavbarComponent implements OnInit {
 
 
 
-  generateCodeVerifier(): string{
+  generateCodeVerifier(): string {
     let result = '';
     const char_length = CHARACTERS.length;
 
-    for(let i=0; i<44; i++){
+    for (let i = 0; i < 44; i++) {
       result += CHARACTERS.charAt(Math.floor(Math.random() * char_length));
     }
 
@@ -106,117 +106,124 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  generateCodeChallenge(code_verifier: string): string{
+  generateCodeChallenge(code_verifier: string): string {
     const codeVerifierHash = CryptoJS.SHA256(code_verifier).toString(CryptoJS.enc.Base64);
     const code_challenge = codeVerifierHash
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
+      .replace(/=/g, '')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
 
     return code_challenge;
   }
 
-  puedeAbrirUrgencia(): boolean{
-    if(this.isAdmin || this.isReceptionist){
+  puedeAbrirUrgencia(): boolean {
+    if (this.isAdmin || this.isReceptionist) {
       return true;
     }
     return false;
   }
 
 
-  puedeAbrirAgendarCitas(): boolean{
-    if(this.isAdmin || this.isReceptionist){
+  puedeAbrirAgendarCitas(): boolean {
+    if (this.isAdmin || this.isReceptionist) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirAgendados(): boolean{
-    if(this.isAdmin || this.isReceptionist){
+  puedeAbrirAgendados(): boolean {
+    if (this.isAdmin || this.isReceptionist) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirEnvioDeEstudios(): boolean{
-    if(this.isAdmin || this.isReceptionist){
+  puedeAbrirEnvioDeEstudios(): boolean {
+    if (this.isAdmin || this.isReceptionist) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirVentaConceptos(): boolean{
-    if(this.isAdmin || this.isTechnician ){
+  puedeAbrirVentaConceptos(): boolean {
+    if (this.isAdmin || this.isTechnician) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirWorklist(): boolean{
-    if(this.isAdmin || this.isTechnician){
+  puedeAbrirWorklist(): boolean {
+    if (this.isAdmin || this.isTechnician) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirCampanias(): boolean{
-    if(this.isAdmin){
+  puedeAbrirCampanias(): boolean {
+    if (this.isAdmin) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirDictador(): boolean{
-    if(this.isRadiologicPhysician || this.isAdmin){
+  puedeAbrirDictador(): boolean {
+    if (this.isRadiologicPhysician || this.isAdmin) {
       return true;
     }
     return false;
   }
 
 
-  puedeAbrirTabulador(): boolean{
-    if(this.isAdmin){
+  puedeAbrirTabulador(): boolean {
+    if (this.isAdmin) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirInstrucciones(): boolean{
-    if(this.isAdmin){
+  puedeAbrirInstrucciones(): boolean {
+    if (this.isAdmin) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirHorarios(): boolean{
-    if(this.isAdmin){
+  puedeAbrirHorarios(): boolean {
+    if (this.isAdmin) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirInstitucion(): boolean{
-    if(this.isInstitution){
+  puedeAbrirInstitucion(): boolean {
+    if (this.isInstitution) {
       return true;
     }
     return false;
   }
-  puedeAbrirSubirFotoOrden():boolean{
-    if(this.isAdmin || this.isReceptionist){
-      return true;
-    }
-    return false;
-  }
-
-  puedeAbrirCrudMedicos():boolean{
-    if(this.isReceptionist || this.isAdmin || this.isTechnician ){
+  puedeAbrirSubirFotoOrden(): boolean {
+    if (this.isAdmin || this.isReceptionist) {
       return true;
     }
     return false;
   }
 
-  puedeAbrirMembresias():boolean{
-    if(this.isReceptionist, this.isAdmin){
+  puedeAbrirCrudMedicos(): boolean {
+    if (this.isReceptionist || this.isAdmin || this.isTechnician) {
+      return true;
+    }
+    return false;
+  }
+
+  puedeAbrirMembresias(): boolean {
+    if (this.isReceptionist, this.isAdmin) {
+      return true
+    }
+    return false
+  }
+
+  puedeAbrirMedicosReferentes(): boolean {
+    if (this.isAdmin) {
       return true
     }
     return false

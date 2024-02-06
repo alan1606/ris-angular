@@ -54,7 +54,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { QrFirmarPoliticasMembresiaComponent } from './components/qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
-
 @NgModule({
     declarations: [
         AppComponent,
