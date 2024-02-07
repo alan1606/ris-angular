@@ -63,7 +63,9 @@ export class RegistroCompletoPacienteComponent implements OnInit {
             (paciente) => {
               if (paciente) {
                 this.model = paciente;
-                this.sexo = this.model.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
+                if(this.model?.sexo){
+                  this.sexo = this.model.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
+                }
                 if(this.model.fechaNacimiento){
                   this.fecha = this.pipe.transform(
                     new Date(this.model.fechaNacimiento),

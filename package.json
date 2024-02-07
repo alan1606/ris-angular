@@ -21,7 +21,6 @@
     "@angular/platform-browser": "^15.2.10",
     "@angular/platform-browser-dynamic": "^15.2.10",
     "@angular/router": "^15.2.10",
-    "@angular/service-worker": "^15.2.10",
     "@syncfusion/ej2-angular-richtexteditor": "^20.1.57",
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "@types/crypto-js": "^4.1.1",
