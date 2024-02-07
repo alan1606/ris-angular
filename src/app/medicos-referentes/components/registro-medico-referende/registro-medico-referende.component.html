@@ -1,7 +1,39 @@
 <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Pito</div>
+    <div class="card-header">Registro</div>
     <div class="card-body">
-
+        <form action="" [formGroup]="form" class="form">
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Nombre usuario</mat-label>
+                    <input matInput  formControlName="Usuario" (input)="mostraUsuario($event)">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput  formControlName="Password">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Confirmar contraseña</mat-label>
+                    <input matInput  formControlName="ConfirmPassword">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Numero de telefono</mat-label>
+                    <input matInput  formControlName="Telefono">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Direccion</mat-label>
+                    <input matInput  formControlName="Direccion">
+                </mat-form-field>
+            </div>
+            <button class="btn btn success" type="submit" (click)="registrarUsuario()">Enviar</button>
+        </form>
     </div>
 
 </div>
