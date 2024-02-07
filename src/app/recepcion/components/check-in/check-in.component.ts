@@ -185,6 +185,7 @@ export class CheckInComponent implements OnInit {
     this.listaDeEstudios = [];
     this.guardarPresionado = false;
     this.botonHabilitado = false;
+    this.codigoPromocion = '';
   }
 
   cambiar(estudio: VentaConceptos): void {
