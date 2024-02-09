@@ -1,0 +1,22 @@
+<h2>Obtener código de {{campania?.nombre}}</h2>
+<p class="descripcion">{{campania?.descripcion}}</p>
+<hr>
+<form>
+    <div class="form-group mb-3">
+        <label for="nombre">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="persona.nombre" placeholder="Ingrese su nombre" required>
+    </div>
+    <div class="form-group mb-3">
+        <label for="email">Correo electrónico</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="persona.email" placeholder="Ingrese su email" required>
+    </div>
+    <div class="form-group mb-3">
+        <label for="whatsapp">Whatsapp</label>
+        <input type="text" class="form-control" id="whatsapp" name="whatsapp" [(ngModel)]="persona.whatsapp" placeholder="Ingrese su número de whatsapp" required>
+    </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="suscripcion" [(ngModel)]="persona.suscripcion" name="suscripcion">
+        <label class="form-check-label" for="suscripcion">Deseo recibir promociones de Diagnocons a mi correo</label>
+      </div>
+    <button type="submit" class="btn btn-primary" (click)="obtenerCodigo()">Obtener código</button>
+</form>

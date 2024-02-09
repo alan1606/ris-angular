@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DetallesCampaniaModalComponent } from './components/detalles-campania-modal/detalles-campania-modal.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ObtenerCodigoComponent } from './components/obtener-codigo/obtener-codigo.component';
 
 
 
@@ -19,7 +20,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   declarations: [
     CrearCampaniaComponent,
     VerCampaniasComponent,
-    DetallesCampaniaModalComponent
+    DetallesCampaniaModalComponent,
+    ObtenerCodigoComponent
   ],
   imports: [
     CommonModule,
