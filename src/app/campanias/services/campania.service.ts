@@ -90,7 +90,7 @@ export class CampaniaService {
   }
 
   public obtenerCodigo(codigoBase: string, persona: Persona): Observable<void> {
-    return this.http.put<void>(`${this.baseEndpoint}/codigo/${codigoBase}/clonar`, persona,
-    { headers: this.cabeceras });;
+    return this.http.post<void>(`${this.baseEndpoint}/codigo/${codigoBase}/clonar`, persona,
+    { headers: this.cabeceras });
   }
 }
