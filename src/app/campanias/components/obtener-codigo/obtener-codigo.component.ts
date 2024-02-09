@@ -48,6 +48,7 @@ export class ObtenerCodigoComponent implements OnInit {
     this.service.obtenerCodigo(this.campania.codigo, this.persona).subscribe(
       () => {
         Swal.fire("¡Felicidades!", "Se ha enviado el código a su correo y whatsapp, preséntelo en recepción para obtener el beneficio", "success");
+        this.limpiar();
       },
       () => {
         Swal.fire("Error", "Ha ocurrido un error, favor de reportar el fallo a Diagnocons", "error");
@@ -96,5 +97,12 @@ export class ObtenerCodigoComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  private limpiar(): void{
+    this.persona.nombre = "";
+    this.persona.email = "";
+    this.persona.suscripcion = true;
+    this.persona.whatsapp = "";
   }
 }
