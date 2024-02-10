@@ -1,0 +1,69 @@
+<mat-accordion>
+  <mat-expansion-panel
+    (opened)="panelOpenState1 = true"
+    (closed)="panelOpenState1 = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Ver mis estudios digitales </mat-panel-title>
+      <mat-panel-description>
+        Click {{ panelOpenState1 ? "cerrar" : "abrir" }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="contenido-1">
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/plnfIj7dkJE?si=DxESiHqIVrjjLwfg"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+<hr />
+<mat-accordion>
+  <mat-expansion-panel
+    (opened)="panelOpenState2 = true"
+    (closed)="panelOpenState2 = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Agendar una cita en linea </mat-panel-title>
+      <mat-panel-description>
+        Click {{ panelOpenState2 ? "cerrar" : "abrir" }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>
+<hr />
+<mat-accordion>
+  <mat-expansion-panel
+    (opened)="panelOpenState3 = true"
+    (closed)="panelOpenState3 = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Guardar mi disco en una memoria USB </mat-panel-title>
+      <mat-panel-description>
+        Click {{ panelOpenState3 ? "cerrar" : "abrir" }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>
+<hr />
+<mat-accordion>
+  <mat-expansion-panel
+    (opened)="panelOpenState4 = true"
+    (closed)="panelOpenState4 = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Abrir mi estudio guardado </mat-panel-title>
+      <mat-panel-description>
+        Click {{ panelOpenState4 ? "cerrar" : "abrir" }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>
