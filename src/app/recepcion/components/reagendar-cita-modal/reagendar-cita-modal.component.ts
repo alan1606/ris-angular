@@ -6,6 +6,7 @@ import { Cita } from 'src/app/models/cita';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { CitaService } from 'src/app/services/cita.service';
+import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
 import { FechaService } from 'src/app/services/fecha.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
@@ -21,11 +22,13 @@ export class ReagendarCitaModalComponent implements OnInit {
   cita: Cita;
   fecha: string;
   equipoDicom: EquipoDicom;
+  salaOriginal: EquipoDicom;
   citas: Cita[] = [];
   minDate: Date;
   formulario: FormGroup;
   estudio: VentaConceptos;
   nuevaCita: Cita;
+  equiposDicom: EquipoDicom[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ReagendarCitaModalComponent>,
@@ -34,9 +37,11 @@ export class ReagendarCitaModalComponent implements OnInit {
     private pipe: DatePipe,
     private fb: FormBuilder,
     private ventaConceptosService: VentaConceptosService,
+    private equipoDicomService: EquipoDicomService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.formulario = this.fb.group({
+      salaControl: new FormControl(''),
       citaControl: new FormControl('')
     });
     this.minDate = new Date();
@@ -48,12 +53,14 @@ export class ReagendarCitaModalComponent implements OnInit {
     this.ventaConceptosService.ver(this.cita.estudio.id).subscribe(
       venta => {
         this.equipoDicom = venta.equipoDicom;
+        this.salaOriginal = venta.equipoDicom;
         this.estudio = venta;
+        this.cargarEquiposDicom(venta.concepto.area.id);
       }
     );
 
     const { paciente, cita, concepto } = this.cita.estudio;
-    this.titulo = `Reagendar ${concepto.area.nombre} ${concepto.concepto} de ${paciente.nombreCompleto}`;
+    this.titulo = `Reagendar ${concepto.area.nombre} ${concepto.concepto} de ${paciente.nombreCompleto}: ${paciente.telefono}`;
     console.log(cita);
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
 
@@ -64,22 +71,37 @@ export class ReagendarCitaModalComponent implements OnInit {
       }
 
     });
+
+    this.formulario.get('salaControl').valueChanges.subscribe(value => {
+      this.equipoDicomService.ver(value).subscribe(sala => {
+        this.equipoDicom = sala;
+        console.log(sala);
+        this.citas = [];
+        this.formulario.get('citaControl').setValue('');
+        if(this.fecha){
+          this.cargarCitas();
+        }
+      },
+        err => console.log(err));
+    });
   }
 
   public actualizarFecha(fecha: HTMLInputElement) {
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
 
+   this.cargarCitas();
+  };
+
+  private cargarCitas(): void{
     this.citaService.obtenerDisponiblesPorSalaYFecha(this.equipoDicom.id, this.fecha).subscribe(citas => {
       this.citas = citas;
     },
       error => {
         Swal.fire("No hay citas", error.error.detail, "info");
         this.citas = [];
-        this.cita = null;
         console.log(error);
       });
-  };
-
+  }
 
   private reagendar(nuevaCita: Cita) {
     if (!this.datosValidos()) {
@@ -87,6 +109,14 @@ export class ReagendarCitaModalComponent implements OnInit {
     }
 
     this.dialogRef.close(nuevaCita.id);
+  }
+
+  private cargarEquiposDicom(areaId:number): void {
+    this.equipoDicomService.filtrarPorArea(areaId).subscribe(
+      equipos => {
+        this.equiposDicom = equipos;
+      }
+    );
   }
 
   datosValidos(): boolean {
@@ -98,5 +128,8 @@ export class ReagendarCitaModalComponent implements OnInit {
     }
     return true;
   }
+
+
+ 
 
 }

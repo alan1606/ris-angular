@@ -1,6 +1,20 @@
 <h1 mat-dialog-title>{{titulo}}</h1>
+<h2>Institución: {{estudio?.institucion?.nombre}}</h2>
+<h2>Sala agendado: {{salaOriginal.nombre}}</h2>
+<h2>Fecha: {{cita.fechaYHora | date: 'dd/MM/yyyy'}} a las {{cita.fechaYHora | date: "h:mm a"}}</h2>
 <div mat-dialog-content>
 
+    <div class="form-group" [formGroup]="formulario">
+        <mat-form-field>
+            <mat-label>Sala</mat-label>
+            <mat-select formControlName="salaControl">
+                <mat-option *ngFor="let sala of equiposDicom" [value]="sala.id">
+                    {{sala.nombre}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    
     <mat-form-field>
         <mat-label>Seleccionar fecha</mat-label>
         <input [min]="minDate" matInput [matDatepicker]="picker1" #fechaSeleccionada
