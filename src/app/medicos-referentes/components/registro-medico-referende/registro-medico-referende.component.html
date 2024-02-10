@@ -1,39 +1,96 @@
 <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Registro</div>
-    <div class="card-body">
-        <form action="" [formGroup]="form" class="form">
-            <div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Nombre usuario</mat-label>
-                    <input matInput  formControlName="Usuario" (input)="mostraUsuario($event)">
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Contraseña</mat-label>
-                    <input matInput  formControlName="Password">
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Confirmar contraseña</mat-label>
-                    <input matInput  formControlName="ConfirmPassword">
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Numero de telefono</mat-label>
-                    <input matInput  formControlName="Telefono">
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Direccion</mat-label>
-                    <input matInput  formControlName="Direccion">
-                </mat-form-field>
-            </div>
-            <button class="btn btn success" type="submit" (click)="registrarUsuario()">Enviar</button>
-        </form>
+  <div class="card-header">Registro</div>
+  <div class="card-body">
+    <div *ngIf="!correosEncontrados">
+      <form>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Correo electronico</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              required
+              name="correoElectronico"
+              type="email"
+              [(formControl)]="correoElectronicoInput"
+            />
+          </mat-form-field>
+          <button
+            [disabled]="correoElectronicoInput.value ? false : true"
+            class="btn btn-primary ms-3"
+            type="submit"
+            (click)="enviarCorreoVerificacion()"
+          >
+            Siguiente
+          </button>
+        </div>
+      </form>
     </div>
 
+    <div *ngIf="correoElectronico && !correosEncontrados">
+      <form>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Codigo de verificacion</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              name="codigoVerificacion"
+              type="text"
+              [formControl]="codigoVerificacion"
+            />
+          </mat-form-field>
+          <button class="btn btn-success" (click)="enviarCodigoVerificacion()">
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="correosEncontrados">
+      <form [formGroup]="form" class="form">
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Nombre usuario</mat-label>
+            <input
+              matInput
+              formControlName="Usuario"
+              (input)="mostraUsuario($event)"
+            />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Contraseña</mat-label>
+            <input matInput formControlName="Password" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Confirmar contraseña</mat-label>
+            <input matInput formControlName="ConfirmPassword" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Numero de telefono</mat-label>
+            <input matInput formControlName="Telefono" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Direccion</mat-label>
+            <input matInput formControlName="Direccion" />
+          </mat-form-field>
+        </div>
+        <button
+          class="btn btn-success"
+          type="submit"
+          (click)="registrarUsuario()"
+        >
+          Enviar
+        </button>
+      </form>
+    </div>
+  </div>
 </div>
