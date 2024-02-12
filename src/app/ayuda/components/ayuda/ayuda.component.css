@@ -16,4 +16,13 @@ mat-panel-description {
 .contenido-1 {
   justify-content: center;
   text-align: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.contenido-2 {
+  justify-content: center;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
