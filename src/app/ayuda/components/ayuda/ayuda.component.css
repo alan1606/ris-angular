@@ -1,0 +1,28 @@
+mat-expansion-panel {
+  background-color: rgb(39, 39, 42);
+  color: white;
+}
+
+mat-expansion-panel-header {
+  height: 100%+20px;
+}
+
+mat-panel-title {
+  color: white;
+}
+mat-panel-description {
+  color: white;
+}
+.contenido-1 {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.contenido-2 {
+  justify-content: center;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}

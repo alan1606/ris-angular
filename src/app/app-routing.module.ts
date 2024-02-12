@@ -126,6 +126,10 @@ const routes: Routes = [
   {
     path: "medico-referente",
     loadChildren: () => import('./medicos-referentes/medicos-referentes.module').then(m => m.MedicosReferentesModule),
+  },
+  {
+    path:"ayuda",
+    loadChildren: () => import('./ayuda/ayuda.module').then(m=>m.AyudaModule)
   }
 ];
 
