@@ -1,19 +1,22 @@
 <div class="card text-dark bg-light mb-3">
-    <div class="card-header">{{titulo}}</div>
-    <div class="card-body">
-        <div class="row justify-content-md-left" *ngFor="let estudio of estudios">
-            <div class="col-lg-auto my-3">
-                <button class="btn btn-primary btn-sm" (click)="abrir(estudio)">
-                    Abrir {{estudio.equipoDicom.area.nombre}}: {{estudio.concepto.concepto}}
-                </button>
-                <button class="btn btn-info btn-md ms-5" routerLink="/ayuda">
-                    AYUDA
-                </button>
-            </div>
-        </div>
-
-        <div class="alert alert-info" *ngIf="estudios?.length==0">
-            No existen estudios en la orden indicada
-        </div>
+  <div class="card-header">{{ titulo }}</div>
+  <div class="card-body">
+    <div class="row justify-content-md-left" *ngFor="let estudio of estudios">
+      <div class="col-lg-auto my-3">
+        <button class="btn btn-primary btn-sm" (click)="abrir(estudio)">
+          Abrir {{ estudio.equipoDicom.area.nombre }}:
+          {{ estudio.concepto.concepto }}
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-info btn-md" routerLink="/ayuda">
+          AYUDA
+        </button>
+      </div>
     </div>
+
+    <div class="alert alert-info" *ngIf="estudios?.length == 0">
+      No existen estudios en la orden indicada
+    </div>
+  </div>
 </div>
