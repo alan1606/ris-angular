@@ -77,8 +77,7 @@ const routes: Routes = [
   },
   {
     path: 'campanias',
-    loadChildren: () => import('./campanias/campanias.module').then(m => m.CampaniasModule),
-    canActivate: [AdminGuard]
+    loadChildren: () => import('./campanias/campanias.module').then(m => m.CampaniasModule)
   },
   {
     path: 'precios',

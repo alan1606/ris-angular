@@ -1,15 +1,16 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Campania } from '../models/campania';
 import { BASE_ENDPOINT } from 'src/app/config/app';
 import { CampaniaOrden } from '../models/campaniaOrden';
+import { Persona } from '../models/persona';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampaniaService {
-
+ 
   private baseEndpoint: string = BASE_ENDPOINT + '/campanias/campanias';;
 
   private cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
@@ -88,4 +89,8 @@ export class CampaniaService {
       { headers: this.cabeceras });
   }
 
+  public obtenerCodigo(codigoBase: string, persona: Persona): Observable<void> {
+    return this.http.post<void>(`${this.baseEndpoint}/codigo/${codigoBase}/clonar`, persona,
+    { headers: this.cabeceras });
+  }
 }
