@@ -33,6 +33,7 @@
                 <th>Estudio</th>
                 <th>Fecha</th>
                 <th>Hora</th>
+                <th>Agendó</th>
                 <th>Estado</th>
                 <th>Confirmar</th>
                 <th>Reagendar</th>
@@ -46,6 +47,7 @@
               <td>{{cita.estudio?.concepto?.concepto}}</td>
               <td>{{cita.fechaYHora | date: "dd/MM/yyyy"}}</td>
               <td>{{cita.fechaYHora | date: "h:mm a"}}</td>
+              <td>{{cita.estudio?.ordenVenta?.usuarioAgendo}}</td>
               <td>{{cita.estado}}</td>
               <td>
                 <button type="button" class="btn btn-sm btn-success" 
