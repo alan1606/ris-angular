@@ -37,6 +37,7 @@ import { BuscarPacienteSubirFotoOrdenComponent } from './components/buscar-pacie
 import { MostrarCitasPorDiaPensionesComponent } from './components/mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 import { CambiarEstudioComponent } from './components/check-in/cambiar-estudio/cambiar-estudio.component';
 import { AgregarEstudioComponent } from './components/check-in/agregar-estudio/agregar-estudio.component';
+import { LimboComponent } from './components/limbo/limbo.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { AgregarEstudioComponent } from './components/check-in/agregar-estudio/a
         BuscarPacienteSubirFotoOrdenComponent,
         MostrarCitasPorDiaPensionesComponent,
         CambiarEstudioComponent,
-        AgregarEstudioComponent
+        AgregarEstudioComponent,
+        LimboComponent
         ],
     imports: [
         CommonModule,

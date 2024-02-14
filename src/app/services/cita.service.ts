@@ -66,4 +66,8 @@ export class CitaService {
   public citasDeHoy(): Observable<Cita[]>{
     return this.http.get<any>(`${this.baseEndpoint}/hoy`);
   }
+
+  public obtenerCitasDelLimbo(idSala:number, fecha:string):Observable<Cita[]>{
+    return this.http.get<Cita[]>(`${this.baseEndpoint}/limbo/sala/${idSala}/fecha/${fecha}`);  
+  }
 }

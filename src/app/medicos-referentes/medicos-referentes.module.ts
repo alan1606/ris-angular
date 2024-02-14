@@ -6,11 +6,13 @@ import { RegistroMedicoReferendeComponent } from './components/registro-medico-r
 import {MatListModule} from '@angular/material/list';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MedicoReferenteDatosFormComponent } from './components/medico-referente-datos-form/medico-referente-datos-form.component'
 @NgModule({
   declarations: [
     LandingPageComponent,
-    RegistroMedicoReferendeComponent
+    RegistroMedicoReferendeComponent,
+    MedicoReferenteDatosFormComponent
   ],
   imports: [
     CommonModule,
