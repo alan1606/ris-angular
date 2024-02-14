@@ -1,0 +1,35 @@
+<div>
+  <form class="form" action="" [formGroup]="form">
+    <div>
+      <mat-form-field class="">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="usuario" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="">
+        <mat-label>Confirmar contraseña</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="">
+        <mat-label>Telefono</mat-label>
+        <input matInput formControlName="telefono" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="">
+        <mat-label>Direccion</mat-label>
+        <input matInput formControlName="direccion" />
+      </mat-form-field>
+    </div>
+    <button class="btn btn-success" (click)="registrar();">Registrar</button>
+  </form>
+</div>
