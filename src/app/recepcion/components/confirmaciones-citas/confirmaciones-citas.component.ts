@@ -10,6 +10,7 @@ import { FechaService } from 'src/app/services/fecha.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
 import { ReagendarCitaModalComponent } from '../reagendar-cita-modal/reagendar-cita-modal.component';
+import { EquipoDicom } from 'src/app/models/equipo-dicom';
 
 @Component({
   selector: 'app-confirmaciones-citas',
@@ -245,7 +246,9 @@ export class ConfirmacionesCitasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const nuevaCitaId: number = result as number;
+        const nuevaCitaId: number = result.citaId as number;
+        const equipoDicom: EquipoDicom = result.equipoDicom as EquipoDicom;
+        cita.estudio.equipoDicom = equipoDicom;
         Swal.fire({
           title: "¿Seguro que desea reagendar?",
           icon: "warning",
@@ -268,7 +271,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
     const mensaje = "Se han reagendado la cita";
     const titular = "Reagendada";
 
-    this.citaService.reagendar(citaOrigenId, citaDestinoId).subscribe(cita => {
+    this.citaService.reagendar(citaOrigenId, citaDestinoId, citaModificar).subscribe(cita => {
       Swal.fire("Éxito", "Se ha reagendado correctamente la cita", "success");
       this.citas = this.citas.filter(c => c.id != citaModificar.id);
       cita.estudio = citaModificar.estudio;

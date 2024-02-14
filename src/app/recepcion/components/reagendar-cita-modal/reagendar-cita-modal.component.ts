@@ -108,7 +108,7 @@ export class ReagendarCitaModalComponent implements OnInit {
       return;
     }
 
-    this.dialogRef.close(nuevaCita.id);
+    this.dialogRef.close({citaId: nuevaCita.id, equipoDicom: this.equipoDicom});
   }
 
   private cargarEquiposDicom(areaId:number): void {

@@ -56,9 +56,11 @@ export class CitaService {
     return this.http.put<void>(`${this.baseEndpoint}/cancelar/${id}`, {});
   }
 
-  public reagendar(citaOrigenId: number, citaDestinoId: number): Observable<Cita> {
+  public reagendar(citaOrigenId: number, citaDestinoId: number, cita: Cita): Observable<Cita> {
     //retorna la nueva cita
-    return this.http.put<Cita>(`${this.baseEndpoint}/reagendar/origen/${citaOrigenId}/destino/${citaDestinoId}`, {});
+    console.log(cita);
+    return this.http.put<Cita>(`${this.baseEndpoint}/reagendar/origen/${citaOrigenId}/destino/${citaDestinoId}`, cita,
+    { headers: this.cabeceras });
   }
 
   public citasDeHoy(): Observable<Cita[]>{
