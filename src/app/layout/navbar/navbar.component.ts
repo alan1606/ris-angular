@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { authorize_uri, client_id, code_challenge_method, logour_uri, post_logout_redirect_uri, redirect_uri, response_type, scope } from 'src/app/config/app';
+import {
+  authorize_uri,
+  client_id,
+  code_challenge_method,
+  logour_uri,
+  post_logout_redirect_uri,
+  redirect_uri,
+  response_type,
+  scope,
+} from 'src/app/config/app';
 import { HttpParams } from '@angular/common/http';
 import { TokenService } from 'src/app/services/token.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 
-
-const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwkyz123456789';
+const CHARACTERS =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwkyz123456789';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-
-
   authorize_url = authorize_uri;
   logout_url = logour_uri;
 
@@ -24,12 +31,12 @@ export class NavbarComponent implements OnInit {
     redirect_uri: redirect_uri,
     scope: scope,
     response_type: response_type,
-    code_challenge_method: code_challenge_method
+    code_challenge_method: code_challenge_method,
   };
 
   logoutParams: any = {
     client_id: client_id,
-    post_logout_redirect_uri: post_logout_redirect_uri
+    post_logout_redirect_uri: post_logout_redirect_uri,
   };
 
   isLogged: boolean = false;
@@ -39,16 +46,11 @@ export class NavbarComponent implements OnInit {
   isTechnician: boolean = false;
   isInstitution: boolean = false;
 
-  constructor(
-    private tokenService: TokenService,
-    private router: Router
-  ) { }
+  constructor(private tokenService: TokenService, private router: Router) {}
 
   ngOnInit(): void {
     this.getLogged();
   }
-
-
 
   onLogin(): void {
     const code_verifier = this.generateCodeVerifier();
@@ -61,7 +63,6 @@ export class NavbarComponent implements OnInit {
     location.href = codeUrl;
   }
 
-
   onLogout(): void {
     const httpParams = new HttpParams({ fromObject: this.logoutParams });
     this.logoutParams.refresh_token = this.tokenService.getRefreshToken();
@@ -71,7 +72,6 @@ export class NavbarComponent implements OnInit {
   }
 
   getLogged(): void {
-
     this.isLogged = this.tokenService.isLogged();
     this.isAdmin = this.tokenService.isAdmin();
     this.isReceptionist = this.tokenService.isReceptionist();
@@ -83,16 +83,14 @@ export class NavbarComponent implements OnInit {
       this.tokenService.logOut();
       this.router.navigate(['/']);
     }
-
   }
-
 
   private isTokensExipred() {
-    return this.tokenService.isAccessTokenExpired() && this.tokenService.isRefreshTokenExpired();
+    return (
+      this.tokenService.isAccessTokenExpired() &&
+      this.tokenService.isRefreshTokenExpired()
+    );
   }
-
-
-
 
   generateCodeVerifier(): string {
     let result = '';
@@ -105,9 +103,10 @@ export class NavbarComponent implements OnInit {
     return result;
   }
 
-
   generateCodeChallenge(code_verifier: string): string {
-    const codeVerifierHash = CryptoJS.SHA256(code_verifier).toString(CryptoJS.enc.Base64);
+    const codeVerifierHash = CryptoJS.SHA256(code_verifier).toString(
+      CryptoJS.enc.Base64
+    );
     const code_challenge = codeVerifierHash
       .replace(/=/g, '')
       .replace(/\+/g, '-')
@@ -122,7 +121,6 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
-
 
   puedeAbrirAgendarCitas(): boolean {
     if (this.isAdmin || this.isReceptionist) {
@@ -173,7 +171,6 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
-
   puedeAbrirTabulador(): boolean {
     if (this.isAdmin) {
       return true;
@@ -216,17 +213,22 @@ export class NavbarComponent implements OnInit {
   }
 
   puedeAbrirMembresias(): boolean {
-    if (this.isReceptionist, this.isAdmin) {
-      return true
+    if ((this.isReceptionist, this.isAdmin)) {
+      return true;
     }
-    return false
+    return false;
   }
 
   puedeAbrirMedicosReferentes(): boolean {
     if (this.isAdmin) {
-      return true
+      return true;
     }
-    return false
+    return false;
   }
-
+  puedeAbrirLimbo(): boolean {
+    if (this.isReceptionist || this.isAdmin) {
+      return true;
+    }
+    return false;
+  }
 }

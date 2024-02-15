@@ -1,3 +1,84 @@
 <div>
-    
+  <form action="" class="form">
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        placeholder="Área"
+        [formControl]="autocompleteControlArea"
+        [matAutocomplete]="autocompleteArea"
+      />
+      <mat-autocomplete
+        #autocompleteArea="matAutocomplete"
+        [displayWith]="mostrarNombreArea"
+        (optionSelected)="seleccionarArea($event)"
+      >
+        <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+          {{ area.nombre }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="ms-4" appearance="fill">
+      <mat-label>Sala</mat-label>
+      <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado">
+        <mat-option *ngFor="let equipo of equiposDicom" [value]="equipo">
+          {{ equipo.nombre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="ms-4" appearance="fill">
+      <mat-label>Seleccionar fecha</mat-label>
+      <input
+        [min]="minDate"
+        matInput
+        [matDatepicker]="picker1"
+        [formControl]="date"
+        #fechaSeleccionada
+        (dateInput)="actualizarFecha(fechaSeleccionada)"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+  </form>
+</div>
+
+<div class="card text-dark bg-light mb-3">
+  <div class="card-header">Limbo</div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Hora</th>
+            <th>Liberar</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="estudiosEnElLimbo">
+          <tr *ngFor="let estudio of estudiosEnElLimbo">
+            <td>
+              {{
+                estudio.horario.dia +
+                  " " +
+                  estudio.horario.horaInicio +
+                  "-" +
+                  estudio.horario.horaFin
+              }}
+            </td>
+            <td>
+              <button
+                class="btn btn-danger"
+                (click)="liberarEstudioDelLimbo(estudio.id)"
+              >
+                Liberar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="!estudiosEnElLimbo">
+          <h1>No hay citas para liberar</h1>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

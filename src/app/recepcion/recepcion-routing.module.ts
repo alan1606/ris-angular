@@ -14,73 +14,79 @@ import { CheckInComponent } from './components/check-in/check-in.component';
 import { PacienteOrdenesComponent } from './components/check-in/paciente-ordenes/paciente-ordenes.component';
 import { GenerarQrCheckinComponent } from './components/generar-qr-checkin/generar-qr-checkin.component';
 import { BuscarPacienteSubirFotoOrdenComponent } from './components/buscar-paciente-subir-foto-orden/buscar-paciente-subir-foto-orden.component';
+import { LimboComponent } from './components/limbo/limbo.component';
 
-const routes: Routes =[
-    {
-        path: 'urgencia', 
-        component: UrgenciaComponent, 
-        canActivate : [RecepcionGuard]
-      },
-      {
-        path: 'enviar-estudios', 
-        component: EnviarEstudiosComponent, 
-        canActivate : [RecepcionGuard]
-      },
-      {
-        path: 'enviar-estudio/:idPacs', 
-        component: EnviarEstudioComponent, 
-        canActivate : [RecepcionGuard]
-      },
-      {
-        path : 'subir-foto-orden/:id', 
-        component: SubirFotoOrdenComponent, 
-        // canActivate : [RecepcionGuard]
-      },
-      {
-        path: 'agenda', 
-        component: AgendaComponent, 
-        canActivate : [RecepcionGuard]
-      },
-      {
-        path: 'agendar', 
-        component: AgendarComponent, 
-        canActivate : [RecepcionGuard]
-      },
-      {
-        path: ':idPaciente/:idOrden', 
-        component: RegistroCompletoPacienteComponent
-      },
-      {
-        path: 'confirmar/:idOrden/:idPaciente',
-        component: ConfirmarCitaPacienteComponent
-      },
-      {
-        path: 'confirmaciones',
-        component: ConfirmacionesCitasComponent
-      },
-      {
-        path: 'checkin',
-        component:CheckInComponent
-      },
-      {
-        path:"checkin/ver/:idPaciente",
-        component:PacienteOrdenesComponent
-      },
-      {
-        path: 'qr-checkin/:idOrden/:idPaciente',
-        component: GenerarQrCheckinComponent
-      },
-      {
-        path:"buscar-paciente-subir-foto-orden",
-        component:BuscarPacienteSubirFotoOrdenComponent,
-        canActivate : [RecepcionGuard]
-      },
-      
-    { path: "**", redirectTo: ""}
+const routes: Routes = [
+  {
+    path: 'urgencia',
+    component: UrgenciaComponent,
+    canActivate: [RecepcionGuard],
+  },
+  {
+    path: 'enviar-estudios',
+    component: EnviarEstudiosComponent,
+    canActivate: [RecepcionGuard],
+  },
+  {
+    path: 'enviar-estudio/:idPacs',
+    component: EnviarEstudioComponent,
+    canActivate: [RecepcionGuard],
+  },
+  {
+    path: 'subir-foto-orden/:id',
+    component: SubirFotoOrdenComponent,
+    // canActivate : [RecepcionGuard]
+  },
+  {
+    path: 'agenda',
+    component: AgendaComponent,
+    canActivate: [RecepcionGuard],
+  },
+  {
+    path: 'agendar',
+    component: AgendarComponent,
+    canActivate: [RecepcionGuard],
+  },
+  {
+    path: ':idPaciente/:idOrden',
+    component: RegistroCompletoPacienteComponent,
+  },
+  {
+    path: 'confirmar/:idOrden/:idPaciente',
+    component: ConfirmarCitaPacienteComponent,
+  },
+  {
+    path: 'confirmaciones',
+    component: ConfirmacionesCitasComponent,
+  },
+  {
+    path: 'checkin',
+    component: CheckInComponent,
+  },
+  {
+    path: 'checkin/ver/:idPaciente',
+    component: PacienteOrdenesComponent,
+  },
+  {
+    path: 'qr-checkin/:idOrden/:idPaciente',
+    component: GenerarQrCheckinComponent,
+  },
+  {
+    path: 'buscar-paciente-subir-foto-orden',
+    component: BuscarPacienteSubirFotoOrdenComponent,
+    canActivate: [RecepcionGuard],
+  },
+  {
+    path: 'limbo',
+    component: LimboComponent,
+    canActivate: [RecepcionGuard],
+  },
+
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class RecepcionRoutingModule { }
+export class RecepcionRoutingModule {}

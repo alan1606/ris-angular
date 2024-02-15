@@ -70,4 +70,8 @@ export class CitaService {
   public obtenerCitasDelLimbo(idSala:number, fecha:string):Observable<Cita[]>{
     return this.http.get<Cita[]>(`${this.baseEndpoint}/limbo/sala/${idSala}/fecha/${fecha}`);  
   }
+
+  public salvameDelHastio(idCita:number):Observable<Cita>{
+    return this.http.put<Cita>(`${this.baseEndpoint}/salvame-del-hastio/${idCita}`,{})
+  }
 }
