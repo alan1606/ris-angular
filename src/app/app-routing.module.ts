@@ -23,117 +23,135 @@ import { MedicosGuard } from './guards/medicos.guard';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { MedicosReferentesGuard } from './guards/medicos-referentes.guard';
 
-
 const routes: Routes = [
   {
     path: 'conceptos',
     component: ConceptosComponent,
-    canActivate: [ConceptosGuard]
+    canActivate: [ConceptosGuard],
   },
   {
     path: 'venta-conceptos',
     component: VentaConceptosComponent,
-    canActivate: [VentaConceptosGuard]
+    canActivate: [VentaConceptosGuard],
   },
   {
     path: 'medico-radiologo',
     component: MedicoRadiologoComponent,
-    canActivate: [DictadorGuard]
+    canActivate: [DictadorGuard],
   },
   {
     path: 'medico-radiologo/:token',
     component: MedicoRadiologoComponent,
-    canActivate: [DictadorGuard]
+    canActivate: [DictadorGuard],
   },
   {
     path: 'dictador/:idVentaConcepto',
     component: DictadorComponent,
-    canActivate: [DictadorGuard]
+    canActivate: [DictadorGuard],
   },
   {
     path: 'resultados/:idPacs',
     component: ResultadosComponent,
-    canActivate: []
+    canActivate: [],
   },
   {
     path: 'dictamen/:idPacs',
     component: DictamenComponent,
-    canActivate: []
+    canActivate: [],
   },
   {
     path: 'worklist',
     component: WorklistComponent,
-    canActivate: [VentaConceptosGuard]
+    canActivate: [VentaConceptosGuard],
   },
   {
     path: 'dictador/subir-pdf/:idPacs',
     component: SubirInterpretacionComponent,
-    canActivate: [DictadorGuard]
+    canActivate: [DictadorGuard],
   },
   {
     path: 'resultados/orden/:ordenId/:pacienteId',
     component: OrdenVentaComponent,
-    canActivate: []
+    canActivate: [],
   },
   {
     path: 'campanias',
-    loadChildren: () => import('./campanias/campanias.module').then(m => m.CampaniasModule)
+    loadChildren: () =>
+      import('./campanias/campanias.module').then((m) => m.CampaniasModule),
   },
   {
     path: 'precios',
-    loadChildren: () => import('./precios/precios.module').then(m => m.PreciosModule),
-    canActivate: [AdminGuard]
+    loadChildren: () =>
+      import('./precios/precios.module').then((m) => m.PreciosModule),
+    canActivate: [AdminGuard],
   },
   {
     path: 'instrucciones',
-    loadChildren: () => import('./instrucciones/instrucciones.module').then(m => m.InstruccionesModule),
-    canActivate: [AdminGuard]
-  }, {
+    loadChildren: () =>
+      import('./instrucciones/instrucciones.module').then(
+        (m) => m.InstruccionesModule
+      ),
+    canActivate: [AdminGuard],
+  },
+  {
     path: 'horarios',
-    loadChildren: () => import('./horarios/horarios.module').then(m => m.HorariosModule),
-    canActivate: [AdminGuard]
+    loadChildren: () =>
+      import('./horarios/horarios.module').then((m) => m.HorariosModule),
+    canActivate: [AdminGuard],
   },
   {
     path: 'recepcion',
-    loadChildren: () => import('./recepcion/recepcion.module').then(m => m.RecepcionModule)
+    loadChildren: () =>
+      import('./recepcion/recepcion.module').then((m) => m.RecepcionModule),
   },
   {
     path: 'authorized',
     component: AuthorizedComponent,
-    canActivate: []
+    canActivate: [],
   },
   {
     path: 'logout',
     component: LogoutComponent,
-    canActivate: [AnyRoleGuard]
+    canActivate: [AnyRoleGuard],
   },
   {
     path: 'instituciones',
-    loadChildren: () => import('./instituciones/instituciones.module').then(m => m.InstitucionesModule),
-    canActivate: [InstitucionGuard]
+    loadChildren: () =>
+      import('./instituciones/instituciones.module').then(
+        (m) => m.InstitucionesModule
+      ),
+    canActivate: [InstitucionGuard],
   },
   {
-    path: "medicos",
+    path: 'medicos',
     component: CrudMedicosComponent,
-    canActivate: [MedicosGuard]
+    canActivate: [MedicosGuard],
   },
   {
-    path: "membresias",
+    path: 'membresias',
     component: CrudPacientesComponent,
-    canActivate: [RecepcionGuard]
+    canActivate: [RecepcionGuard],
   },
   {
-    path: "medico-referente",
-    loadChildren: () => import('./medicos-referentes/medicos-referentes.module').then(m => m.MedicosReferentesModule),
+    path: 'medico-referente',
+    loadChildren: () =>
+      import('./medicos-referentes/medicos-referentes.module').then(
+        (m) => m.MedicosReferentesModule
+      ),
   },
   {
-    path:"ayuda",
-    loadChildren: () => import('./ayuda/ayuda.module').then(m=>m.AyudaModule)
-  }
+    path: 'ayuda',
+    loadChildren: () =>
+      import('./ayuda/ayuda.module').then((m) => m.AyudaModule),
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then((m) => m.ChatModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
