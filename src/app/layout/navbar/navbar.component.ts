@@ -25,7 +25,7 @@ const CHARACTERS =
 export class NavbarComponent implements OnInit {
   authorize_url = authorize_uri;
   logout_url = logour_uri;
-  username: string;
+  username: string=null;
   loginParams: any = {
     client_id: client_id,
     redirect_uri: redirect_uri,

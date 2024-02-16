@@ -211,7 +211,7 @@
       </ul>
 
       <div class="form-inline my-2 my-lg-0 boton-usuario">
-        <a class="nav-link username">
+        <a *ngIf="username" class="nav-link username">
           <i class="bi bi-person-fill"></i>{{ username }}
         </a>
         <button
