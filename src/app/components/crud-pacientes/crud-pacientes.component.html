@@ -129,7 +129,7 @@
                 <button type="button" class="btn btn-primary" (click)="crear()">
                     {{ model?.id ? 'Guardar' : 'Crear' }}
                 </button>
-                <button *ngIf="codigoMembresia"
+                <button *ngIf="codigoMembresia && model"
                 class="btn btn-info ms-2"
                 (click)="abrirQrFirmarPoliticasMembresiaModal()">
                     Firmar membresia

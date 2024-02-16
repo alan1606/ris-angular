@@ -1,8 +1,16 @@
-.contenedor-busqueda{
-  padding-bottom: 20px; 
+.contenedor-busqueda {
+  padding-bottom: 20px;
 }
-.finalNavbar{
+.finalNavbar {
   align-items: flex-end;
 }
 
+.username {
+  font-size: 28px;
+  color: rgb(39, 255, 0);
+}
 
+.boton-usuario{
+  display: flex;
+  
+}

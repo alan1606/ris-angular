@@ -2,113 +2,236 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img width="45" alt="Cons logo" src="../../../assets/logoCons.png" />
-      DiagnoCons
     </a>
-
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
         <li class="nav-item">
-          <a class="nav-link dropdown-toggle"  routerLinkActive="active" *ngIf="puedeAbrirAgendarCitas()"
-          [matMenuTriggerFor]="menuCitas"  id="navbarDropdownMenuCitasLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Citas</a>
+          <a
+            class="nav-link dropdown-toggle"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirAgendarCitas()"
+            [matMenuTriggerFor]="menuCitas"
+            id="navbarDropdownMenuCitasLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >Citas</a
+          >
           <mat-menu #menuCitas="matMenu">
-            <button mat-menu-item routerLink="/recepcion/agendar">Agendar</button>
-            <button mat-menu-item routerLink="/recepcion/confirmaciones">Confirmaciones</button>
-            <button mat-menu-item routerLink="/recepcion/checkin">Check in</button>
+            <button mat-menu-item routerLink="/recepcion/agendar">
+              Agendar
+            </button>
+            <button mat-menu-item routerLink="/recepcion/confirmaciones">
+              Confirmaciones
+            </button>
+            <button mat-menu-item routerLink="/recepcion/checkin">
+              Check in
+            </button>
+            <button mat-menu-item routerLink="/recepcion/limbo">Liberar</button>
           </mat-menu>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/agenda" routerLinkActive="active" *ngIf="puedeAbrirAgendados()">Ver agendados</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/recepcion/agenda"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirAgendados()"
+            >Ver agendados</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/enviar-estudios" routerLinkActive="active" *ngIf="puedeAbrirEnvioDeEstudios()">Enviar estudios</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/recepcion/enviar-estudios"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirEnvioDeEstudios()"
+            >Enviar estudios</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/venta-conceptos" routerLinkActive="active" *ngIf="puedeAbrirVentaConceptos()">Venta conceptos</a>
-        </li>
-
-
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/worklist" routerLinkActive="active" *ngIf="puedeAbrirWorklist()">Worklist</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/campanias" routerLinkActive="active" *ngIf="puedeAbrirCampanias()">Campañas</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/medico-radiologo" routerLinkActive="active" *ngIf="puedeAbrirDictador()">Dictador</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/venta-conceptos"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirVentaConceptos()"
+            >Venta conceptos</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/precios" routerLinkActive="active" *ngIf="puedeAbrirTabulador()">Tabulador</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/worklist"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirWorklist()"
+            >Worklist</a
+          >
         </li>
-        
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/campanias"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirCampanias()"
+            >Campañas</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/medico-radiologo"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirDictador()"
+            >Dictador</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/precios"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirTabulador()"
+            >Tabulador</a
+          >
+        </li>
+
         <li class="nav-item" *ngIf="puedeAbrirInstrucciones()">
-            <a [matMenuTriggerFor]="menu" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Instrucciones
-            </a>
+          <a
+            [matMenuTriggerFor]="menu"
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Instrucciones
+          </a>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/instrucciones/concepto">Conceptos</button>
-            <button mat-menu-item routerLink="/instrucciones/institucion">Instituciones</button>
-            <button mat-menu-item routerLink="/instrucciones/area">Areas</button>
+            <button mat-menu-item routerLink="/instrucciones/concepto">
+              Conceptos
+            </button>
+            <button mat-menu-item routerLink="/instrucciones/institucion">
+              Instituciones
+            </button>
+            <button mat-menu-item routerLink="/instrucciones/area">
+              Areas
+            </button>
           </mat-menu>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/horarios" routerLinkActive="active" *ngIf="puedeAbrirHorarios()">Horarios</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/horarios"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirHorarios()"
+            >Horarios</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/urgencia" routerLinkActive="active" *ngIf="puedeAbrirUrgencia()">Urgencia</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/recepcion/urgencia"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirUrgencia()"
+            >Urgencia</a
+          >
         </li>
 
-
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/instituciones" routerLinkActive="active"  *ngIf="puedeAbrirInstitucion()">Instituciones</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/instituciones"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirInstitucion()"
+            >Instituciones</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/buscar-paciente-subir-foto-orden" routerLinkActive="active" *ngIf="puedeAbrirSubirFotoOrden()">Foto orden <i class="bi bi-upload"></i></a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/recepcion/buscar-paciente-subir-foto-orden"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirSubirFotoOrden()"
+            >Foto orden <i class="bi bi-upload"></i
+          ></a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/medicos" routerLinkActive="active"  *ngIf="puedeAbrirCrudMedicos()">Medicos</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/medicos"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirCrudMedicos()"
+            >Medicos</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/membresias" routerLinkActive="active"  *ngIf="puedeAbrirMembresias()">Membresias</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/limbo" routerLinkActive="active"  *ngIf="puedeAbrirLimbo()">Liberar</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/membresias"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirMembresias()"
+            >Membresias</a
+          >
         </li>
       </ul>
 
-      <div class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-success my-2 my-sm-0" (click)="onLogin()" *ngIf='!isLogged'>
+      <div class="form-inline my-2 my-lg-0 boton-usuario">
+        <a class="nav-link username">
+          <i class="bi bi-person-fill"></i>{{ username }}
+        </a>
+        <button
+          class="btn btn-outline-success my-2 my-sm-0 ms-3"
+          (click)="onLogin()"
+          *ngIf="!isLogged"
+        >
           <i class="bi bi-box-arrow-in-right"></i>
           Entrar
         </button>
 
-
-        <button class="btn btn-salir btn-outline-danger my-2 my-sm-0" (click)="onLogout()" *ngIf='isLogged'>
+        <button
+          class="btn btn-salir btn-outline-danger my-2 my-sm-0 ms-3"
+          (click)="onLogout()"
+          *ngIf="isLogged"
+        >
           <i class="bi bi-box-arrow-right"></i>
           Salir
         </button>
       </div>
-
     </div>
-
-
   </div>
 </nav>
-
-

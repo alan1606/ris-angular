@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {
   authorize_uri,
   client_id,
@@ -25,7 +25,7 @@ const CHARACTERS =
 export class NavbarComponent implements OnInit {
   authorize_url = authorize_uri;
   logout_url = logour_uri;
-
+  username: string;
   loginParams: any = {
     client_id: client_id,
     redirect_uri: redirect_uri,
@@ -79,6 +79,7 @@ export class NavbarComponent implements OnInit {
     this.isTechnician = this.tokenService.isTechnician();
     this.isInstitution = this.tokenService.isInstitution();
 
+    this.username = this.tokenService.getUsername();
     if (this.isLogged && this.isTokensExipred()) {
       this.tokenService.logOut();
       this.router.navigate(['/']);
