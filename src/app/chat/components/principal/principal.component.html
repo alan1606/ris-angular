@@ -1,1 +1,4 @@
-<div></div>
+<div class="base-chat">
+  <app-side-bar-chats class="telefonos" (mensajesEncontrados)="enviarMensajesEncontradosParaMostrar($event)"></app-side-bar-chats>
+  <app-chat class="ms-3" [item]="mensajesEncontrados"></app-chat>
+</div>

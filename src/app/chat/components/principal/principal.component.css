@@ -1,0 +1,7 @@
+.base-chat{
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
+.telefonos{
+    text-align: center;
+}

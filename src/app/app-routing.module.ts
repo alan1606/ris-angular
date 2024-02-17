@@ -21,7 +21,6 @@ import { InstitucionGuard } from './guards/institucion.guard';
 import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
 import { MedicosGuard } from './guards/medicos.guard';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
-import { MedicosReferentesGuard } from './guards/medicos-referentes.guard';
 
 const routes: Routes = [
   {

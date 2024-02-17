@@ -52,6 +52,7 @@ import { BuscadorPacientesComponent } from './components/buscador-pacientes/busc
 import { QrFirmarPoliticasMembresiaComponent } from './components/qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { AyudaModule } from './ayuda/ayuda.module';
+import { ChatModule } from './chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { AyudaModule } from './ayuda/ayuda.module';
     MatSelectModule,
     MatFormFieldModule,
     AyudaModule,
+    ChatModule,
     QuillModule.forRoot(),
   ],
   providers: [
