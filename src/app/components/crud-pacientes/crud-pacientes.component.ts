@@ -166,7 +166,7 @@ export class CrudPacientesComponent implements OnInit {
     this.model.curp = this.model.curp.toUpperCase();
   }
 
-  abrirQrFirmarPoliticasMembresiaModal() {
+  abrirQrFirmarPoliticasMembresiaModal() {    
     const dialogref = this.dialog.open(QrFirmarPoliticasMembresiaComponent, {
       data: { paciente: this.model, membresia:this.codigoMembresia },
     });

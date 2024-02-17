@@ -18,6 +18,8 @@ export class QrFirmarPoliticasMembresiaComponent implements OnInit {
     if (this.data.paciente && this.data.membresia) {
       this.paciente = this.data.paciente;
       this.codigo = this.data.membresia;
+      this.paciente.nombreCompleto = this.paciente.nombre + " " + this.paciente.apellidoPaterno + " " + this.paciente.apellidoMaterno;
+
       if (!this.paciente.nombreCompleto || !this.codigo) {
         return;
       }
@@ -29,6 +31,6 @@ export class QrFirmarPoliticasMembresiaComponent implements OnInit {
   }
 
   firmar(): void {
-    window.location.href = this.value;
+    window.open(this.value, "_blank");
   }
 }

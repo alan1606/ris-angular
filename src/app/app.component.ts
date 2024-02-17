@@ -23,26 +23,26 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.pipe(filter((event: RouterEvent) => event instanceof NavigationEnd)).subscribe(() => {
       this.menu.getLogged();
-
-      if ('caches' in window) {
-        caches.keys()
-          .then(function (keyList) {
-            return Promise.all(keyList.map(function (key) {
-              return caches.delete(key);
-            }));
-          })
-      }
-
-
-      if (window.navigator && navigator.serviceWorker) {
-        navigator.serviceWorker.getRegistrations()
-          .then(function (registrations) {
-            for (let registration of registrations) {
-              registration.unregister();
-            }
-          });
-      }
     });
+
+    if ('caches' in window) {
+      caches.keys()
+        .then(function (keyList) {
+          return Promise.all(keyList.map(function (key) {
+            return caches.delete(key);
+          }));
+        })
+    }
+
+
+    if (window.navigator && navigator.serviceWorker) {
+      navigator.serviceWorker.getRegistrations()
+        .then(function (registrations) {
+          for (let registration of registrations) {
+            registration.unregister();
+          }
+        });
+    }
   }
 
 
