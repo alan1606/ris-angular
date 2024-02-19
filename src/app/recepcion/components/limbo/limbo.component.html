@@ -58,10 +58,9 @@
           <tr *ngFor="let estudio of estudiosEnElLimbo">
             <td>
               {{
-                estudio.horario.dia +
-                  " " +
-                  estudio.fechaYHora | date: 'h:mm a'
-              }}
+                estudio.horario.dia 
+                  
+              }} {{estudio.fechaYHora | date: 'h:mm a'}}
             </td>
             <td>
               <button
