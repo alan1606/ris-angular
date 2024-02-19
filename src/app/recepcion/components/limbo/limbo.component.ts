@@ -99,8 +99,8 @@ export class LimboComponent implements OnInit {
           (cita) => cita.id !== idCita
         );
         Swal.fire({
-          title: 'Deleted!',
-          text: 'Your file has been deleted.',
+          title: 'Liberado',
+          text: 'Ahora el espacio esta disponible',
           icon: 'success',
         });
       }

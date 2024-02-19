@@ -226,10 +226,12 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
-  puedeAbrirLimbo(): boolean {
+  puedeAbrirPacientes(): boolean {
     if (this.isReceptionist || this.isAdmin) {
       return true;
     }
     return false;
   }
+
 }
+

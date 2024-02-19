@@ -47,12 +47,13 @@ import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.com
 import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
 import { BuscarMedicoReferenteYCambiarComponent } from './components/dictador/buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
-import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { BuscadorPacientesComponent } from './components/buscador-pacientes/buscador-pacientes.component';
 import { QrFirmarPoliticasMembresiaComponent } from './components/qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { AyudaModule } from './ayuda/ayuda.module';
 import { ChatModule } from './chat/chat.module';
+import { MembresiasComponent } from './components/membresias/membresias.component';
+import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 
 @NgModule({
   declarations: [
@@ -79,9 +80,10 @@ import { ChatModule } from './chat/chat.module';
     FormularioMedicosComponent,
     BuscarMedicoReferenteYCambiarComponent,
     NuevoMedicoSoloNombreComponent,
-    CrudPacientesComponent,
     BuscadorPacientesComponent,
     QrFirmarPoliticasMembresiaComponent,
+    MembresiasComponent,
+    CrudPacientesComponent,
   ],
   imports: [
     BrowserModule,

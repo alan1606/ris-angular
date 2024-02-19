@@ -20,6 +20,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { InstitucionGuard } from './guards/institucion.guard';
 import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
 import { MedicosGuard } from './guards/medicos.guard';
+import { MembresiasComponent } from './components/membresias/membresias.component';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 
 const routes: Routes = [
@@ -128,7 +129,7 @@ const routes: Routes = [
   },
   {
     path: 'membresias',
-    component: CrudPacientesComponent,
+    component: MembresiasComponent,
     canActivate: [RecepcionGuard],
   },
   {
@@ -146,6 +147,10 @@ const routes: Routes = [
   {
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then((m) => m.ChatModule),
+  },
+  {
+    path:'pacientes',
+    component:CrudPacientesComponent
   },
 ];
 
