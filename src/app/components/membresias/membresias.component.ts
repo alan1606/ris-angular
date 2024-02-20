@@ -173,4 +173,5 @@ export class MembresiasComponent {
       data: { paciente: this.model, membresia:this.codigoMembresia },
     });
   }
+
 }

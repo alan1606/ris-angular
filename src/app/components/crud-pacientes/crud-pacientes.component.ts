@@ -111,6 +111,7 @@ export class CrudPacientesComponent {
       (model) => {
         this.model = model;
         Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
+        this.limpiarCampos();
       },
       (err) => {
         if (err.status === 400) {
@@ -129,6 +130,7 @@ export class CrudPacientesComponent {
       (concepto) => {
         console.log(concepto);
         Swal.fire('Modificado: ', `Paciente actualizado con éxito`, 'success');
+        this.limpiarCampos();
       },
       (err) => {
         if (err.status === 400) {
@@ -138,6 +140,7 @@ export class CrudPacientesComponent {
       }
     );
   }
+ 
 
   private camposValidos(): boolean {
     if (!this.model.nombre) {
@@ -162,4 +165,9 @@ export class CrudPacientesComponent {
     }
     return true;
   }
+
+  private limpiarCampos(): void {
+    this.model = new Paciente();
+  }
+
 }
