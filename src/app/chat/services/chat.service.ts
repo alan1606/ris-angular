@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BASE_ENDPOINT } from 'src/app/config/app';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
+  private base: string = BASE_ENDPOINT + "/whatsapp-web";
   private stompClient: any
   private messageSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
-  constructor() { 
+  constructor(private http: HttpClient) { 
     this.initConnenctionSocket();
   }
 
@@ -25,11 +28,7 @@ export class ChatService {
     this.stompClient.connect({}, ()=>{
       this.stompClient.subscribe(`/topic/wp`, (messages: any) => {
         const messageContent = JSON.parse(messages.body);
-        const currentMessage = this.messageSubject.getValue();
-        currentMessage.push(messageContent);
-
-        this.messageSubject.next(currentMessage);
-
+        this.messageSubject.next(messageContent);
       })
     })
   }
@@ -39,7 +38,10 @@ export class ChatService {
   }*/
 
   getMessageSubject(){
-    console.log("getee");
     return this.messageSubject.asObservable();
+  }
+
+  getContactsList(): Observable<string[]>{
+    return this.http.get<string[]>(this.base+"/contacts");
   }
 }

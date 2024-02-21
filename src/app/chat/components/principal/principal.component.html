@@ -7,7 +7,7 @@
         <table class="table table-hover table-striped">
           <tbody *ngIf="chats">
             <tr *ngFor="let chat of chats">
-              <td (click)="entrarAlChat(chat.id)">{{ chat.numero }}</td>
+              <td (click)="entrarAlChat(chat.id)">{{ chat }}</td>
             </tr>
           </tbody>
         </table>
