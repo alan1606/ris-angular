@@ -25,7 +25,7 @@ const CHARACTERS =
 export class NavbarComponent implements OnInit {
   authorize_url = authorize_uri;
   logout_url = logour_uri;
-  username: string=null;
+  username: string = null;
   loginParams: any = {
     client_id: client_id,
     redirect_uri: redirect_uri,
@@ -232,6 +232,10 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
-
+  puedeAbrirChat(): boolean {
+    if (this.isReceptionist || this.isAdmin) {
+      return true;
+    }
+    return false;
+  }
 }
-
