@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
+import { Message } from '@stomp/stompjs';
 
 @Component({
   selector: 'app-principal',
@@ -7,46 +8,52 @@ import { ChatService } from '../../services/chat.service';
   styleUrls: ['./principal.component.css'],
 })
 export class PrincipalComponent implements OnInit{
-  mensajesEncontrados:any;
-  telefono: string = '6271437428';
+  //telefono: string = '6271437428';
 
   chats: string[] = [];
+  chatSeleccionado = "";
 
-  listaMensajes = [
-    { id: 1, numero: '6271437428', mensaje: 'mensaje de juan' },
-    { id: 2, numero: '6271131171', mensaje: 'mensaje de emmanuel' },
-    { id: 4, numero: "6275219128", mensaje: 'mensaje de un pendejo' },
-    { id: 3, numero: "6272790112", mensaje: 'mensaje de alan' },
-  ];
-  mensajes = null;
-  item:any;
-
-
-  messageList: any[] = [];
+  listaMensajes: Message[] = [];
 
 
   constructor(private chatService: ChatService){
     this.chatService.initConnenctionSocket();
   }
+
   ngOnInit(): void {
     this.chatService.joinWpTopic();
     this.listenerMessage();
     this.buscarChats();
   }
 
-  enviarMensajesEncontradosParaMostrar(e:any) {
-    this.mensajesEncontrados = e;
-  }
-
   listenerMessage() {
-    this.chatService.getMessageSubject().subscribe((messages: any) => {
-      console.log("Recibido", messages);
+    this.chatService.getMessageSubject().subscribe((mensaje: any) => {
+      //Si recibido.phone == chatSeleccionado, meter mensaje nuevo, si no, mover lista de chats
+      if(mensaje.phoneNumber == this.chatSeleccionado){
+        this.listaMensajes.push(mensaje);
+      }
+      else{
+        this.chats = this.chats.filter(chat => chat!=mensaje.phoneNumber);
+        this.chats = [mensaje.phoneNumber, ...this.chats];
+      }
     });
   }
 
-  buscarChats(){
+  private buscarChats(){
     this.chatService.getContactsList().subscribe(contacts => {
       this.chats = contacts;
     });
   }
+
+  entrarAlChat(chat: string){
+    if(this.chatSeleccionado == chat){
+      return;
+      //No buscar mensajes que ya están cargados
+    }
+    this.chatSeleccionado = chat;
+    this.chatService.getMessagesByPhoneNumber(chat).subscribe(mensajes =>{
+      this.listaMensajes = mensajes;
+    });
+  }
+
 }

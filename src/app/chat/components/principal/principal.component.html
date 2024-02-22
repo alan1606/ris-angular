@@ -7,7 +7,7 @@
         <table class="table table-hover table-striped">
           <tbody *ngIf="chats">
             <tr *ngFor="let chat of chats">
-              <td (click)="entrarAlChat(chat.id)">{{ chat }}</td>
+              <td (click)="entrarAlChat(chat)">{{ chat }}</td>
             </tr>
           </tbody>
         </table>
@@ -15,10 +15,10 @@
     </div>
   </div>
   
-  <div class="card text-dark bg-light mb-3" *ngFor="let data of item">
-    <div class="card-header">Mensajes de {{data.numero}}</div>
-    <div class="card-body">
-      <h1>{{data.mensaje}}</h1>
+  <div class="card text-dark bg-light mb-3">
+    <div class="card-header">Mensajes de {{chatSeleccionado}}</div>
+    <div class="card-body"*ngFor="let mensaje of listaMensajes">
+      <p>{{mensaje.message ? mensaje.message: 'a'}} {{mensaje.timestamp*1000 | date: "h:mm a - dd/MM/yyyy"}}</p>
     </div>
   </div>
   

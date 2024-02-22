@@ -3,7 +3,7 @@ export class Message{
 	
     phoneNumber: string;
 	
-	timestamp: string;
+	timestamp: number;
 	
 	type: string;
 	

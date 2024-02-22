@@ -15,3 +15,11 @@
 .tomado{
     color: darkmagenta;
 }
+
+.cancelado{
+    color: #fa0f0f;
+}
+
+.confirmado{
+    color:darkcyan;
+}

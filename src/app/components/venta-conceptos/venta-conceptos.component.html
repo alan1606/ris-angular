@@ -129,7 +129,9 @@
               *ngIf="
                 estudio.estado === 'PAGADO' ||
                 estudio.estado === 'AGENDADO' ||
-                estudio.estado === 'TOMADO'
+                estudio.estado === 'TOMADO' ||
+                estudio.estado === 'CANCELADO' ||
+                estudio.estado === 'CONFIRMADO'
               "
             >
               <p *ngIf="estudio.estado == 'AGENDADO'" class="agendado">
@@ -139,6 +141,12 @@
                 {{ estudio.estado }}
               </p>
               <p *ngIf="estudio.estado == 'TOMADO'" class="tomado">
+                {{ estudio.estado }}
+              </p>
+              <p *ngIf="estudio.estado == 'CONFIRMADO'" class="confirmado">
+                {{ estudio.estado }}
+              </p>
+              <p *ngIf="estudio.estado == 'CANCELADO'" class="cancelado">
                 {{ estudio.estado }}
               </p>
             </td>
