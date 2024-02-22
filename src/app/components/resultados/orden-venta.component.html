@@ -8,11 +8,12 @@
           {{ estudio.concepto.concepto }}
         </button>
       </div>
-      <div>
-        <button class="btn btn-info btn-md" routerLink="/ayuda">
-          AYUDA
-        </button>
-      </div>
+    </div>
+
+    <div>
+      <button class="btn btn-info btn-md my-3" routerLink="/ayuda">
+        ¿Necesitas ayuda?
+      </button>
     </div>
 
     <div class="alert alert-info" *ngIf="estudios?.length == 0">
