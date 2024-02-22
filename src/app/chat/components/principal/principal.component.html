@@ -1,26 +1,53 @@
 <div class="base-chat">
-  
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Chats</div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-hover table-striped">
+  <div class="tarjeta">
+    <div class="cuadro-busqueda">
+      <h1>Mensajes</h1>
+      <div class="col-md-auto mb-4">
+        <input
+          type="text"
+          class="form-control filtrar-areas"
+          placeholder="Buscar"
+          [(ngModel)]="busqueda"
+          (input)="filtrarChats()"
+        />
+      </div>
+    </div>
+    <div class="container">
+      <div class="inner-container">
+        <table class="tabla-telefonos">
           <tbody *ngIf="chats">
-            <tr *ngFor="let chat of chats">
-              <td (click)="entrarAlChat(chat)">{{ chat }}</td>
+            <tr
+              [ngClass]="chatSeleccionado === chat ? 'activo' : 'inactivo'"
+              *ngFor="let chat of chatsFiltrados"
+            >
+              <td class="chat" (click)="entrarAlChat(chat)">
+                <i class="bi bi-person-circle icono"></i> <span>{{ chat }}</span>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-  
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Mensajes de {{chatSeleccionado}}</div>
-    <div class="card-body"*ngFor="let mensaje of listaMensajes">
-      <p>{{mensaje.message ? mensaje.message: 'a'}} {{mensaje.timestamp*1000 | date: "h:mm a - dd/MM/yyyy"}}</p>
+
+  <div class="tarjeta2">
+    <div class="info-contacto" *ngIf="chatSeleccionado">
+      <h1>Mensajes de {{ chatSeleccionado }}</h1>
+    </div>
+
+    <div class="container2">
+      <div class="inner-container2" #scrollContainer>
+        <div *ngFor="let mensaje of listaMensajes">
+          <div class="mensaje">
+            <p class="texto-mensaje">
+              {{ mensaje.message ? mensaje.message : "a" }}
+            </p>
+            <p class="fecha-mensaje">
+              {{ mensaje.timestamp * 1000 | date : "h:mm a - dd/MM/yyyy" }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  
-
 </div>

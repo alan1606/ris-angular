@@ -1,7 +1,79 @@
-.base-chat{
-    display: grid;
-    grid-template-columns: 15% 85%;
+.base-chat {
+  display: grid;
+  grid-template-columns: 20% 80%;
 }
-.telefonos{
-    text-align: center;
+.tarjeta {
+  color: white;
+  border-radius: 10px;
+  background-color: rgb(36, 36, 36);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Cambia los valores para ajustar la sombra */
+  margin: 20px;
+}
+.cuadro-busqueda {
+  padding: 20px;
+}
+.container {
+  background-color: rgb(40, 40, 40);
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  height: 580px; /* Altura deseada del contenedor */
+  overflow: auto; /* Ocultar el desbordamiento del contenido */
+}
+.inner-container {
+  overflow-y: auto; /* Agregar una barra de desplazamiento vertical */
+  height: 100%; /* Ocupar toda la altura del contenedor */
+}
+.chat {
+  width: 100%;
+  font-size: large;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
+}
+
+.tarjeta2 {
+  color: white;
+  border-radius: 10px;
+  background-color: rgb(36, 36, 36);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Cambia los valores para ajustar la sombra */
+  padding: 20px;
+  margin: 20px;
+}
+.info-contacto {
+  text-align: center;
+}
+.container2 {
+  /* Ancho deseado del contenedor */
+  padding: 20px;
+  width: 100%; /* Ancho deseado del contenedor */
+  height: 580px; /* Altura deseada del contenedor */
+  overflow: hidden; /* Ocultar el desbordamiento del contenido */
+}
+.inner-container2 {
+  overflow-y: auto; /* Agregar una barra de desplazamiento vertical */
+  padding: 10px; /* Espacio interior para evitar que el contenido toque los bordes */
+  height: 100%; /* Ocupar toda la altura del contenedor */
+}
+
+.activo {
+  background-color: rgb(80, 80, 80);
+}
+
+.mensaje {
+  background-color: rgb(45, 45, 45);
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Cambia los valores para ajustar la sombra */
+  padding: 5px;
+  margin: 10px;
+  width: 50%;
+}
+.fecha-mensaje {
+  padding-left: 20px;
+  text-align: end;
+  font-size: x-small;
+}
+.icono {
+  font-size: xx-large;
 }
