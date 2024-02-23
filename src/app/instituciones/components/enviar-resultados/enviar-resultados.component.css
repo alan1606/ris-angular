@@ -1,4 +1,8 @@
+.enviar-resultado{
+  display: flex;
+  flex-direction: column;
 
+}
 
 .campos-medico{
     display: flex;
@@ -8,6 +12,9 @@
 
 @media (min-width:601px) {
     mat-form-field {
+      width: 50%;
+    }
+    .enviar-resultado{
       width: 50%;
     }
   }

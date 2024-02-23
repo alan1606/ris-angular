@@ -4,13 +4,10 @@ import { OrdenVenta } from 'src/app/models/orden-venta';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
-import { map, mergeMap, of } from 'rxjs';
-import { Medico } from 'src/app/models/medico';
+import {  mergeMap, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { MedicoService } from 'src/app/services/medico.service';
 import { InstitucionService } from 'src/app/services/institucion.service';
 import Swal from 'sweetalert2';
-import { FechaService } from 'src/app/services/fecha.service';
 
 
 @Component({
@@ -25,24 +22,19 @@ export class EnviarResultadosComponent implements OnInit {
     private tokenService: TokenService,
     private route: ActivatedRoute,
     private router: Router,
-    private medicoService: MedicoService,
     private institucionService: InstitucionService,
-    private fechaService: FechaService
   ) {
-    this.medico = new Medico();
   }
 
   orden: OrdenVenta;
-  medico: Medico;
-  seVaARegistrarUnNuevoMedico: boolean = false;
-  medicoVieneDesdeOrdenVenta: boolean = false;
-  seSeleccionoMedico: boolean = false;
-  medicosFiltrados: Medico[] = [];
-  autocompleteControlMedicoReferente = new FormControl();
+  correo: string;
   private institucionId: number;
   date = new FormControl();
+  deshabilitado: boolean = false;
 
   ngOnInit(): void {
+    this.deshabilitado = false;
+
     this.route.paramMap.subscribe((params) => {
       const id: number = +params.get('ordenId');
       const user = this.tokenService.getUsername();
@@ -52,6 +44,7 @@ export class EnviarResultadosComponent implements OnInit {
           .pipe(
             mergeMap((orden) => {
               this.orden = orden;
+              this.correo = orden.medicoReferente.correo;
               return this.ventaConceptosService.encontrarPorOrdenVentaId(id);
             }),
             mergeMap((estudios) => {
@@ -59,15 +52,6 @@ export class EnviarResultadosComponent implements OnInit {
               if (usuarioInstitucion !== user) {
                 this.router.navigate(['/']);
                 return of(null); // Devuelve un observable que emite un valor nulo para completar la cadena.
-              }
-              if (this.orden.medicoReferente.nombres !== 'SIN MEDICO REFERENTE') {
-                this.medico = this.orden.medicoReferente;
-                this.medicoVieneDesdeOrdenVenta = true;
-              }
-              if (this.medico?.fechaNacimiento) {
-                const fechaEstatica = new Date(this.medico.fechaNacimiento);
-                const fechaCorregida = new Date(fechaEstatica.getTime() + fechaEstatica.getTimezoneOffset() * 60000);
-                this.date.setValue(fechaCorregida);
               }
               this.institucionId = estudios[0]?.institucion?.id;
               return of(null); // Devuelve un observable que emite un valor nulo para continuar con el siguiente bloque.
@@ -85,45 +69,22 @@ export class EnviarResultadosComponent implements OnInit {
       }
     });
 
-    this.autocompleteControlMedicoReferente.valueChanges
-      .pipe(
-        map((valor) => (typeof valor === 'string' ? valor : valor.nombres)),
-        mergeMap((valor) =>
-          valor ? this.medicoService.filtrarReferentesPorNombre(valor) : []
-        )
-      )
-      .subscribe((medicos) => (this.medicosFiltrados = medicos));
+  
   }
 
-  habilitarRegistroMedico() {
-    this.seVaARegistrarUnNuevoMedico = true;
-  }
-
-  mostrarMedicoReferente(medico?: Medico): string {
-    return medico ? `${medico.nombres} ${medico.apellidos}` : '';
-  }
-
-  seleccionarMedicoReferente(event): void {
-    console.log(event);
-    this.medico = event.option.value as Medico;
-
-    console.log(this.medico);
-
-    this.seSeleccionoMedico = true;
-    event.option.deselect();
-    event.option.focus();
-  }
 
   enviarResultados(): void {
+    this.correo = this.correo.trim();
     if (!this.datosValidos()) {
       Swal.fire("Error", "Por favor, complete los campos requeridos", "error");
       return;
     }
-    this.orden.medicoReferente = this.medico;
-    this.institucionService.enviarResultadosAMedicoReferente(this.institucionId, this.orden.id, this.orden).subscribe(
+    this.deshabilitado = true;
+    this.institucionService.enviarResultadosAMedicoReferente(this.institucionId, this.orden.id, this.correo).subscribe(
       orden => {
         console.log(orden);
         Swal.fire("Enviado", "Se ha enviado el estudio", "success");
+        this.deshabilitado = false;
         this.router.navigate(['/instituciones']);
       },
       error => {
@@ -133,35 +94,8 @@ export class EnviarResultadosComponent implements OnInit {
     );
   }
 
-  private datosValidos(): boolean {
-    if (!this.medico?.nombres || this.medico?.nombres == '') {
-      console.log("MALNOMBRE");
-      return false;
-    }
-    if (!this.medico?.apellidos || this.medico?.apellidos == '') {
-      console.log("MALAPELLIDO");
-      return false;
-    }
-    if (!this.medico?.correo || this.medico?.correo == '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.medico?.correo)) {
-      console.log("MALCORREO");
-      return false;
-    }
-    return true;
-  }
 
-  nombreAMayusculas() {
-    this.medico.nombres = this.medico.nombres.toUpperCase();
+  private datosValidos(): boolean{
+    return this.correo != null && this.correo != "";
   }
-
-  apellidosAMayusculas() {
-    this.medico.apellidos = this.medico.apellidos.toUpperCase();
-  }
-
-  especialidadAMayusculas() {
-    this.medico.especialidad = this.medico.especialidad.toUpperCase();
-  }
-
-  public actualizarFecha(fecha: HTMLInputElement) {
-    this.medico.fechaNacimiento = this.fechaService.alistarFechaParaBackend(fecha.value);
-  };
 }

@@ -41,10 +41,10 @@ export class InstitucionService extends CommonService<Institucion>{
     return this.http.get<Institucion>(`${this.baseEndpoint}/usuario/${usuario}`);
   }
 
-  public enviarResultadosAMedicoReferente(idInstitucion: number, ordenId: number, orden: OrdenVenta): Observable<OrdenVenta>{
+  public enviarResultadosAMedicoReferente(idInstitucion: number, ordenId: number, correo: string): Observable<OrdenVenta>{
     return this.http.post<OrdenVenta>(
       `${this.baseEndpoint}/${idInstitucion}/enviar-orden/${ordenId}`, 
-      orden,
+      correo,
       { headers: this.cabeceras }
       );
   }
