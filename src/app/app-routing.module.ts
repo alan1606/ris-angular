@@ -22,6 +22,7 @@ import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.com
 import { MedicosGuard } from './guards/medicos.guard';
 import { MembresiasComponent } from './components/membresias/membresias.component';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
+import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 
 const routes: Routes = [
   {
@@ -149,8 +150,16 @@ const routes: Routes = [
     loadChildren: () => import('./chat/chat.module').then((m) => m.ChatModule),
   },
   {
-    path:'pacientes',
-    component:CrudPacientesComponent
+    path: 'pacientes',
+    component: CrudPacientesComponent,
+  },
+  {
+    path: 'Cliente-landing',
+    component: LandingMembresiaComponent,
+  },
+  {
+    path: 'Cliente-landing/:nombreCliente',
+    component: LandingMembresiaComponent,
   },
 ];
 

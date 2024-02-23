@@ -54,6 +54,7 @@ import { AyudaModule } from './ayuda/ayuda.module';
 import { ChatModule } from './chat/chat.module';
 import { MembresiasComponent } from './components/membresias/membresias.component';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
+import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacient
     QrFirmarPoliticasMembresiaComponent,
     MembresiasComponent,
     CrudPacientesComponent,
+    LandingMembresiaComponent,
   ],
   imports: [
     BrowserModule,
