@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BASE_ENDPOINT } from '../config/app';
 import { Horario } from '../models/horario';
-import { Observable, of } from 'rxjs';
-import { EquipoDicom } from '../models/equipo-dicom';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,10 +40,10 @@ export class HorarioService {
   }
 
   public marcarDiaInhabilHoras(fechaInicio: string, fechaFin: string, horaInicio: string, horaFin: string): Observable<void> {
-    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}`,{});
+    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}/horas/${horaInicio}/${horaFin}`,{});
   }
   public marcarDiaInhabilEnSalaHoras(fechaInicio: string, fechaFin: string, salaId: number, horaInicio: string, horaFin: string): Observable<void> {
-    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}/sala/${salaId}`,{});
+    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}/sala/${salaId}/horas/${horaInicio}/${horaFin}`,{});
   }
 
 }
