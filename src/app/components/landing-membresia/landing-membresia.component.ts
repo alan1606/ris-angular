@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-landing-membresia',
   templateUrl: './landing-membresia.component.html',
