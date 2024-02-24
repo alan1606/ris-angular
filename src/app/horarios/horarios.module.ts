@@ -13,6 +13,7 @@ import { GenerarCitasModalComponent } from './components/generar-citas-modal/gen
 import {MatDialogModule} from '@angular/material/dialog';
 import { ApartarDiasComponent } from './components/apartar-dias/apartar-dias.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ApartarHorasComponent } from './components/apartar-horas/apartar-horas.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     PrincipalComponent,
     HorarioFormComponent,
     GenerarCitasModalComponent,
-    ApartarDiasComponent
+    ApartarDiasComponent,
+    ApartarHorasComponent
   ],
   imports: [
     CommonModule,

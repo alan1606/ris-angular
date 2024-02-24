@@ -1,0 +1,65 @@
+<mat-card class="d-flex flex-column">
+    <div class="form-group">
+        <div class="col-md-auto" style="display: flex; flex-direction: column; width: 80%;">
+            <mat-form-field appearance="fill">
+                <mat-label>Fechas:</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Inicio" #fechaInicio />
+                    <input matEndDate placeholder="Fin" #fechaFin
+                        (dateChange)="seleccionarFechas(fechaInicio, fechaFin)" />
+                </mat-date-range-input>
+                <mat-hint>DD-MM-AAAA / DD-MM-AAAA</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+
+            <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" value="" id="aplicarATodo" [(ngModel)]="aplicarATodo" />
+                <label class="form-check-label" for="aplicarATodo">
+                    Todo el consultorio
+                </label>
+            </div>
+        </div>
+
+
+        <div class="seleccion-areas mt-3" *ngIf="!aplicarATodo">
+            <mat-form-field style="width: 80%">
+                <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
+                    [matAutocomplete]="autocomplete" />
+                <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="mostrarNombreArea"
+                    (optionSelected)="seleccionarArea($event)">
+                    <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+                        {{ area.nombre }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <div class="form-group" [formGroup]="formulario">
+                <mat-form-field style="width: 80%">
+                    <mat-label>Sala</mat-label>
+                    <mat-select formControlName="salaControl">
+                        <mat-option *ngFor="let sala of salas" [value]="sala.id">
+                            {{ sala.nombre }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <div class="cs-form my-3">
+            <label for="horaInicio">Hora de inicio</label>
+            <input type="time" name="horaInicio" id="horaInicio" class="form-control" [(ngModel)]="horaInicio" />
+        </div>
+
+
+        <div class="cs-form">
+            <label for="horaFin">Hora de fin</label>
+            <input type="time" name="horaFin" id="horaFin" class="form-control" [(ngModel)]="horaFin" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-success mt-5" (click)="apartarCitas()">Aplicar</button>
+    </div>
+</mat-card>

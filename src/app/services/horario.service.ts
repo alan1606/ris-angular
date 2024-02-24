@@ -40,4 +40,11 @@ export class HorarioService {
     return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}/sala/${salaId}`,{});
   }
 
+  public marcarDiaInhabilHoras(fechaInicio: string, fechaFin: string, horaInicio: string, horaFin: string): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}`,{});
+  }
+  public marcarDiaInhabilEnSalaHoras(fechaInicio: string, fechaFin: string, salaId: number, horaInicio: string, horaFin: string): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/inhabil/${fechaInicio}/${fechaFin}/sala/${salaId}`,{});
+  }
+
 }
