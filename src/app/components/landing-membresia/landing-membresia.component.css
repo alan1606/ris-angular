@@ -21,6 +21,7 @@
   display: flex;
   justify-content: center;
 }
+/*Celulares */
 @media (max-width: 767px) {
   .base-landing-clientes {
     display: flex;
@@ -30,26 +31,57 @@
     font-size: 20px;
   }
   .img-membresia {
-    width: 350px;
-    height: 220px;
+    width: 100%;
   }
   .texto-nombre {
-    padding-top: 50px;
-    font-size: 40px;
-    line-height: 36px;
+    padding-top: 35px;
+    font-size: 35px;
+    line-height: 42px;
   }
 }
-@media (min-width: 768px) {
-  .base-landing-clientes {
-    display: grid;
-    grid-template-columns: 40% 60%;
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .texto-nombre {
+    padding-top: 35px;
+    font-size: 40px;
+    line-height: 42px;
+  }
+  .texto-informativo {
+    font-size: 25px;
   }
   .img-membresia {
-    height: 75vh;
+    width: 80%;
+  }
+  .base-landing-clientes {
+    display: flex;
+    flex-direction: column;
+  }
+}
+/*PCs */
+@media (min-width: 1025px) {
+  .base-landing-clientes {  
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-content: center;
   }
   .texto-nombre {
-    padding-top: 50px;
+    padding-top: 35px;
     font-size: 40px;
     line-height: 36px;
   }
+  .img-membresia {
+    width: 80%;
+    height: 100%;
+  }
 }
+/* @media (min-width: 1024px) {
+  .img-membresia {
+    width: 80%;
+    height: 80%;
+  }
+  .texto-nombre {
+    padding-top: 35px;
+    font-size: 45px;
+    line-height: 36px;
+  }
+} */
