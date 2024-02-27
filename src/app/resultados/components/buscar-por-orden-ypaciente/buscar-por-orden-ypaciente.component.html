@@ -1,0 +1,14 @@
+<div class="container-fluid ">
+    <form class="card">
+        <div class="form-group my-3 mx-3">
+          <label for="orden">Orden</label>
+          <input type="text" class="form-control" id="orden" name="orden" placeholder="Ingrese su número de orden" [(ngModel)]="orden">
+        </div>
+        <div class="form-group my-3 mx-3">
+            <label for="paciente">Paciente</label>
+            <input type="text" class="form-control" id="paciente" name="paciente" placeholder="Ingrese su número de paciente" [(ngModel)]="paciente">
+          </div>
+        <button type="submit" class="btn btn-primary mt-3" (click)="validar()">Consultar</button>
+      </form>
+</div>
+

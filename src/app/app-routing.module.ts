@@ -4,11 +4,11 @@ import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
-import { ResultadosComponent } from './components/resultados/resultados.component';
-import { DictamenComponent } from './components/resultados/dictamen.component';
+import { ResultadosComponent } from './resultados/components/resultados/resultados.component';
+import { DictamenComponent } from './resultados/components/dictamen/dictamen.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
-import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
+import { OrdenVentaComponent } from './resultados/components/orden-venta/orden-venta.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ConceptosGuard } from './guards/conceptos.guard';
@@ -51,11 +51,6 @@ const routes: Routes = [
     canActivate: [DictadorGuard],
   },
   {
-    path: 'resultados/:idPacs',
-    component: ResultadosComponent,
-    canActivate: [],
-  },
-  {
     path: 'dictamen/:idPacs',
     component: DictamenComponent,
     canActivate: [],
@@ -69,11 +64,6 @@ const routes: Routes = [
     path: 'dictador/subir-pdf/:idPacs',
     component: SubirInterpretacionComponent,
     canActivate: [DictadorGuard],
-  },
-  {
-    path: 'resultados/orden/:ordenId/:pacienteId',
-    component: OrdenVentaComponent,
-    canActivate: [],
   },
   {
     path: 'campanias',
@@ -151,6 +141,10 @@ const routes: Routes = [
     canActivate:[RecepcionGuard]
   },
   {
+    path: 'resultados',
+    loadChildren: () => import('./resultados/resultados.module').then((m) => m.ResultadosModule)
+  },
+  {
     path: 'pacientes',
     component: CrudPacientesComponent,
   },
@@ -162,6 +156,11 @@ const routes: Routes = [
     path: 'Cliente-landing/:nombreCliente',
     component: LandingMembresiaComponent,
   },
+  {
+    path: "",
+    redirectTo: "resultados",
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

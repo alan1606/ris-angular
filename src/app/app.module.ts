@@ -27,11 +27,8 @@ import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictadorComponent } from './components/dictador/dictador.component';
-import { ResultadosComponent } from './components/resultados/resultados.component';
-import { DictamenComponent } from './components/resultados/dictamen.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
-import { OrdenVentaComponent } from './components/resultados/orden-venta.component';
 import { LoginComponent } from './components/usuarios/login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -69,11 +66,8 @@ import { LandingMembresiaComponent } from './components/landing-membresia/landin
     AntecedentesEstudioModalComponent,
     MedicoRadiologoComponent,
     DictadorComponent,
-    ResultadosComponent,
-    DictamenComponent,
     WorklistComponent,
     SubirInterpretacionComponent,
-    OrdenVentaComponent,
     LoginComponent,
     AuthorizedComponent,
     LogoutComponent,

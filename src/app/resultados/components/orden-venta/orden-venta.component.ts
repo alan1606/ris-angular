@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrdenVentaService } from '../../services/orden-venta.service';
-import { OrdenVenta } from '../../models/orden-venta';
-import { InterpretacionService } from '../../services/interpretacion.service';
-import { VentaConceptos } from '../../models/venta-conceptos';
-import { VentaConceptosService } from '../../services/venta-conceptos.service';
+import { OrdenVentaService } from '../../../services/orden-venta.service';
+import { OrdenVenta } from '../../../models/orden-venta';
+import { InterpretacionService } from '../../../services/interpretacion.service';
+import { VentaConceptos } from '../../../models/venta-conceptos';
+import { VentaConceptosService } from '../../../services/venta-conceptos.service';
 
 @Component({
   selector: 'app-orden-venta',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { VentaConceptosService } from '../../services/venta-conceptos.service';
-import { VentaConceptos } from '../../models/venta-conceptos';
-import { InterpretacionService } from '../../services/interpretacion.service';
-import { Interpretacion } from '../../models/interpretacion';
+import { VentaConceptosService } from '../../../services/venta-conceptos.service';
+import { VentaConceptos } from '../../../models/venta-conceptos';
+import { InterpretacionService } from '../../../services/interpretacion.service';
+import { Interpretacion } from '../../../models/interpretacion';
 import { BASE_ENDPOINT, FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { MultimediaService } from 'src/app/services/multimedia.service';

@@ -46,4 +46,8 @@ export class OrdenVentaService extends CommonService<OrdenVenta>{
     const objetos = { estudios: estudios, orden: orden };
     return this.http.put<void>(`${this.baseEndpoint}/pagar/${orden.id}`, JSON.stringify(objetos), { headers: this.cabeceras });
   }
+
+  public verSiExisteOrdenPorIdYPaciente(orden:number, paciente:number): Observable<boolean>  {
+    return this.http.get<boolean>(`${this.baseEndpoint}/validar/${orden}/paciente/${paciente}`);
+  }
 }
