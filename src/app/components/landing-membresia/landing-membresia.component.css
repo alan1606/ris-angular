@@ -1,87 +1,84 @@
-.base-landing-clientes {
-  color: #ffffff;
-  line-height: 1em;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url(../../../assets/landing-clientes.png);
+.logo {
+  padding-top: 15px;
+  text-align: center;
+  justify-content: center;
+  background-color: rgb(0, 50, 229);
+  height: 120px;
 }
-.textos {
+.logo img {
+  height: 80px;
+}
+.seccion-1 {
   text-align: center;
 }
-.texto-informativo {
-  font-size: 30px;
-  line-height: 36px;
-  color: rgba(255, 255, 255, 0.9);
+.contenido h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
 }
-.imagen-membresia {
-  display: flex;
-  justify-content: center;
+.contenido p {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-/*Celulares */
-@media (max-width: 767px) {
-  .base-landing-clientes {
-    display: flex;
-    flex-direction: column;
-  }
-  .texto-informativo {
-    font-size: 20px;
-  }
-  .img-membresia {
-    width: 100%;
-  }
-  .texto-nombre {
-    padding-top: 35px;
-    font-size: 35px;
-    line-height: 42px;
-  }
+.contenido img {
+  width: 100%;
 }
-/* Tablets */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .texto-nombre {
-    padding-top: 35px;
-    font-size: 40px;
-    line-height: 42px;
-  }
-  .texto-informativo {
-    font-size: 25px;
-  }
-  .img-membresia {
-    width: 80%;
-  }
-  .base-landing-clientes {
-    display: flex;
-    flex-direction: column;
-  }
+
+.section-2 {
 }
-/*PCs */
-@media (min-width: 1025px) {
-  .base-landing-clientes {  
-    display: grid;
-    grid-template-columns: 40% 60%;
-    align-content: center;
-  }
-  .texto-nombre {
-    padding-top: 35px;
-    font-size: 40px;
-    line-height: 36px;
-  }
-  .img-membresia {
-    width: 80%;
-    height: 100%;
-  }
+.colaboradores {
+  background-color: rgb(36, 36, 36);
+  align-items: center;
+  backdrop-filter: blur(50px);
 }
-/* @media (min-width: 1024px) {
-  .img-membresia {
-    width: 80%;
-    height: 80%;
-  }
-  .texto-nombre {
-    padding-top: 35px;
-    font-size: 45px;
-    line-height: 36px;
-  }
-} */
+.texto-colaboradores {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: white;
+  font-size: medium;
+}
+.colaboradores img {
+  padding-bottom: 10px;
+  width: 25%;
+}
+
+.section-3 {
+  padding-top: 15px;
+}
+.servicios h1 {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+}
+.servicios img {
+  width: 100%;
+  padding-bottom: 3px;
+  border-radius: 10px;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+.section-4 {
+}
+.cta-membresia {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.cta-membresia h1 {
+  font-weight: bold;
+}
+.cta-membresia li {
+  padding-bottom: 10px;
+}
+.footer {
+  background-color: rgb(0, 50, 229);
+}
+.contactos img {
+  width: 25%;
+}
+.bg-copy {
+  background-color: rgb(36, 36, 36);
+  border-radius: 10px;
+}
+.footer h3 {
+  text-align: center;
+  color: white;
+  font-size: 8px;
+}

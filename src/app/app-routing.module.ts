@@ -153,7 +153,7 @@ const routes: Routes = [
     component: LandingMembresiaComponent,
   },
   {
-    path: 'Cliente-landing/:nombreCliente',
+    path: 'cliente-landing/:nombreCliente',
     component: LandingMembresiaComponent,
   },
   {
