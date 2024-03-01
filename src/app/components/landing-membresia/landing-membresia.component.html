@@ -34,16 +34,20 @@
     <div class="contenido">
       <h1>Membresia</h1>
       <p>Hola Juan Hernandez, nos gustaria que seas uno de nuestros miembros</p>
-      <button class="btn btn-primary rounded-pill px-4">Adquirir</button>
-      <img src="../../../assets/membresia.webp" alt="img-membresia" />
+      <button (click)="primerClick()" class="btn btn-primary rounded-pill px-4">
+        Adquirir
+      </button>
+      <div class="membresia-container">
+        <div class="membresia-inner-container">
+          <img src="../../../assets/membresia.webp" alt="img-membresia" />
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="section-2">
     <div class="colaboradores">
-      <div class="texto-colaboradores">
-        <h1>Colaboradores</h1>
-      </div>
+      <h1>Colaboradores</h1>
       <img src="../../../assets/kines.webp" alt="img-kines" />
       <img src="../../../assets/pets.webp" alt="img-pets" />
       <img src="../../../assets/jimenez.webp" alt="img-jimenez" />
@@ -69,6 +73,7 @@
           familiar
         </li>
       </ul>
+      <a id="adquirir"></a>
     </div>
   </section>
 
@@ -76,25 +81,31 @@
     <div>
       <div class="contactos">
         <img
-          src="../../../assets/Icono facebook.webp"
+          class="img-1"
+          src="../../../assets/Sin nombre.webp"
           alt="icono-facebook"
         />
         <img
-          src="../../../assets/iconoInstagram.png"
+          class="img-2"
+          src="../../../assets/instagram.png"
           alt="img-grupodiagnocare"
         />
         <img
+          class="img-3"
           src="../../../assets/WhatsApp_icon.png.webp"
           alt="img-grupodiagnocare"
         />
         <img
+          class="img-4"
           src="../../../assets/Phone-icon.png"
           alt="img-grupodiagnocare"
         />
       </div>
       <div class="bg-copy">
-        <h3>Copyright ©2024 Todos los derechos recervaos Manuel Martinez Enriquez</h3>
+        <h3>
+          Copyright ©2024 Todos los derechos recervaos Manuel Martinez Enriquez
+        </h3>
       </div>
-      
+    </div>
   </div>
 </div>
