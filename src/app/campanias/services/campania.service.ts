@@ -99,7 +99,7 @@ export class CampaniaService {
       descripcion: descripcion,
       landing: landing,
       baja: baja,
-      lsita: lista
+      lista: lista
     }
     console.log(objetos);
     return this.http.post<void>(`${this.baseEndpoint}/wp-mkt/enviar`, JSON.stringify(objetos),
