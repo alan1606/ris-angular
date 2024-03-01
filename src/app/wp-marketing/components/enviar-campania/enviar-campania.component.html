@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <form >
+    <div class="form-group my-3 mx-2">
+        <img src="../../../../assets/wp-mkt-mensaje.webp" class="img-fluid" alt="ejemploMensaje">
+    </div>
+    <div class="form-group my-3 mx-2">
+      <label for="descripcion">Describa la campaña: </label>
+      <input [(ngModel)]="descripcion"
+      type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Ingrese el texto que va a mostrar el beneficio">
+    </div>
+    <div class="form-group my-3 mx-2">
+      <label for="landing">Enlace landing</label>
+      <input [(ngModel)]="landing" 
+      type="text" class="form-control" id="landing" name="landing" placeholder="Enlace a landing">
+    </div>
+    <div class="form-group my-3 mx-2">
+        <label for="desuscribir">Enlace darse de baja</label>
+        <input type="text" [(ngModel)]="baja" 
+        class="form-control" id="desuscribir" name="desuscribir" placeholder="Enlace para que el usuario se dé de baja">
+    </div>
+    <div class="custom-file my-3 mx-2">
+        <input (change)="subirListaDeContactos($event)" type="file" class="custom-file-input" id="contactos" name="contactos">
+        <label class="custom-file-label" for="contactos">Subir lista de contactos en xlsx</label>
+    </div>
+    <button type="submit" class="btn btn-primary my-3 mx-2" (click)="enviar()" [disabled]="deshabilitado">Enviar</button>
+  </form>
+</div>

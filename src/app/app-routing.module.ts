@@ -145,6 +145,11 @@ const routes: Routes = [
     loadChildren: () => import('./resultados/resultados.module').then((m) => m.ResultadosModule)
   },
   {
+    path: 'wp-marketing',
+    loadChildren: () => import('./wp-marketing/wp-marketing.module').then((m) => m.WpMarketingModule),
+    canActivate: [AdminGuard]
+  },
+  {
     path: 'pacientes',
     component: CrudPacientesComponent,
   },

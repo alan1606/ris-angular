@@ -93,4 +93,16 @@ export class CampaniaService {
     return this.http.post<void>(`${this.baseEndpoint}/codigo/${codigoBase}/clonar`, persona,
     { headers: this.cabeceras });
   }
+
+  public mandarCampaniaWhatsapp(descripcion: string, landing: string, baja: string, lista: File){
+    const objetos = {
+      descripcion: descripcion,
+      landing: landing,
+      baja: baja,
+      lsita: lista
+    }
+    console.log(objetos);
+    return this.http.post<void>(`${this.baseEndpoint}/wp-mkt/enviar`, JSON.stringify(objetos),
+    { headers: this.cabeceras});
+  }
 }

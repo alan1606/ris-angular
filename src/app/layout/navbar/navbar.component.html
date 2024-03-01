@@ -99,13 +99,23 @@
 
         <li class="nav-item">
           <a
-            class="nav-link"
-            href="#"
+            class="nav-link dropdown-toggle"
             routerLink="/campanias"
             routerLinkActive="active"
             *ngIf="puedeAbrirCampanias()"
+            [matMenuTriggerFor]="menuCampanias"
+            id="navbarDropdownMenuCampaniasLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
             >Campañas</a
           >
+
+          <mat-menu #menuCampanias="matMenu">
+            <button mat-menu-item routerLink="/wp-marketing/enviar">
+              Wp marketing
+            </button>
+          </mat-menu>
         </li>
 
         <li class="nav-item">
