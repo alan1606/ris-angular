@@ -1,29 +1,20 @@
-.base-lg {
-}
-.header-logo {
-}
 .logo {
   padding-top: 15px;
+  padding-bottom: 30px;
   text-align: center;
   justify-content: center;
   background-color: rgb(0, 50, 229);
   border-bottom-left-radius: 50px;
-  height: 120px;
 }
-.logo img {
-  height: 80px;
-}
+
 .seccion-1 {
   text-align: center;
-}
-.contenido {
 }
 .contenido h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   padding-top: 40px;
   padding-bottom: 20px;
-  font-size: 36px;
   color: black;
   text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
 }
@@ -32,18 +23,8 @@
   padding-right: 50px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: black;
-  font-size: 20px;
   font-weight: bold;
 }
-.contenido img {
-  width: 80%;
-}
-
-.contenido button {
-  font-weight: 550;
-  font-size: 20px;
-}
-
 .section-2 {
   background-color: rgb(36, 36, 36);
   text-align: center;
@@ -58,15 +39,10 @@
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: white;
-  font-size: 24px;
+
   font-weight: bold;
   text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
 }
-.colaboradores img {
-  padding-bottom: 20px;
-  width: 25%;
-}
-
 .section-3 {
   padding-top: 15px;
 }
@@ -74,57 +50,164 @@
   text-align: center;
   padding-top: 40px;
   padding-bottom: 20px;
-  font-size: 36px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: bold;
-  color: black;
-  text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
-}
-.servicios img {
-  width: 100%;
-  padding-bottom: 3px;
-  border-radius: 10px;
-  padding-left: 1px;
-  padding-right: 1px;
-}
-.section-4 {
-}
-.cta-membresia {
-  width: 100%;
-  text-align: center;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  padding-left: 35px;
-  padding-right: 35px;
-}
-.cta-membresia h1 {
-  padding-top: 40px;
-  padding-bottom: 20px;
 
-  font-size: 36px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   color: black;
   text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
-}
-.cta-membresia li {
-  padding-bottom: 10px;
-  font-weight: bold;
-  color: black;
-  font-size: 18px;
-  list-style: decimal;
 }
 .footer {
   background-color: rgb(0, 50, 229);
   border-top-right-radius: 70px;
 }
-.contactos img {
-width: 25%;
-}
-.bg-copy {
-  background-color: rgb(36, 36, 36);
-  border-radius: 10px;
-}
+
 .footer h3 {
   text-align: center;
   color: white;
   font-size: 8px;
+}
+@media (max-width: 1023px) {
+  .logo img {
+    height: 80px;
+  }
+  h1 {
+    font-size: 36px;
+    line-height: 50px;
+  }
+  .colaboradores h1 {
+    font-size: 20px;
+  }
+  p {
+    font-size: 20px;
+  }
+  li {
+    font-size: 20px;
+  }
+  .contenido button {
+    font-weight: 550;
+    font-size: 20px;
+  }
+  .servicios img {
+    width: 100%;
+    padding-bottom: 3px;
+    border-radius: 10px;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  .contenido img {
+    width: 80%;
+  }
+  .colaboradores img {
+    padding-bottom: 20px;
+    width: 25%;
+  }
+  .cta-membresia {
+    width: 100%;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-left: 35px;
+    padding-right: 35px;
+  }
+  .cta-membresia h1 {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    font-weight: bold;
+    color: black;
+    text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
+  }
+  .cta-membresia li {
+    padding-bottom: 10px;
+    font-weight: bold;
+    color: black;
+    list-style: decimal;
+  }
+  .contactos img {
+    width: 25%;
+  }
+  .bg-copy {
+    background-color: rgb(36, 36, 36);
+    border-radius: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .logo img {
+    height: 100px;
+  }
+  h1 {
+    font-size: 90px;
+  }
+  .colaboradores h1 {
+    font-size: 40px;
+  }
+  p {
+    font-size: 40px;
+    line-height: 70px;
+  }
+  li {
+    font-size: 40px;
+    line-height: 90px;
+  }
+  .contenido button {
+    font-weight: 600;
+    font-size: 40px;
+  }
+
+  .servicios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .servicios img {
+    border-radius: 15px;
+    padding-bottom: 10px;
+    width: 50%;
+  }
+  .contenido img {
+    width: 50%;
+  }
+  .colaboraders-img-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Crea 4 columnas */
+  }
+  .colaboraders-img-container img {
+    padding-bottom: 20px;
+    width: 40%;
+    justify-self: center;
+  }
+  .cta-membresia {
+    width: 100%;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  .cta-membresia h1 {
+    padding-top: 100px;
+    padding-bottom: 70px;
+    font-weight: bold;
+    color: black;
+    text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
+  }
+  .cta-membresia li {
+    padding-bottom: 50px;
+    font-weight: bold;
+    color: black;
+    list-style: decimal;
+  }
+  .contactos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .contactos img {
+    width: 50%;
+    justify-self: center;
+  }
+  .bg-copy {
+    background-color: rgb(36, 36, 36);
+    border-radius: 20px;
+  }
+  .bg-copy h3{
+    font-size: 20px;
+  }
 }
