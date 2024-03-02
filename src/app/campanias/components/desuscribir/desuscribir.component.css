@@ -1,0 +1,25 @@
+.descripcion{
+    font-size: larger;
+}
+
+label{
+    font-size: medium;
+    font-weight: 500;
+}
+
+form{
+    /*max-width: 50%;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.form-group{
+    width: 40%;
+}
+
+@media (max-width: 600px) {
+    .form-group{
+        width: 80%;
+    }
+}

@@ -10,7 +10,7 @@ import { Persona } from '../models/persona';
   providedIn: 'root'
 })
 export class CampaniaService {
- 
+
   private baseEndpoint: string = BASE_ENDPOINT + '/campanias/campanias';;
 
   private cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
@@ -103,5 +103,10 @@ export class CampaniaService {
     formData.append('baja', baja);
 
     return this.http.post<void>(`${this.baseEndpoint}/wp-mkt/enviar`,formData);
+  }
+
+  public desuscribir(persona: Persona): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/desuscribir`, persona,
+    { headers: this.cabeceras });
   }
 }

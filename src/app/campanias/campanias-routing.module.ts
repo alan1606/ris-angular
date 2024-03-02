@@ -4,12 +4,14 @@ import { CrearCampaniaComponent } from './components/crear-campania/crear-campan
 import { VerCampaniasComponent } from './components/ver-campanias/ver-campanias.component';
 import { AdminGuard } from '../guards/admin.guard';
 import { ObtenerCodigoComponent } from './components/obtener-codigo/obtener-codigo.component';
+import { DesuscribirComponent } from './components/desuscribir/desuscribir.component';
 
 const routes: Routes =[
     { path: "", component: VerCampaniasComponent, canActivate: [AdminGuard]},
     { path: "form", component: CrearCampaniaComponent, canActivate: [AdminGuard]},
     { path: "form/:id", component: CrearCampaniaComponent, canActivate: [AdminGuard]},
     { path: "obtener-codigo/:codigoBase", component: ObtenerCodigoComponent},
+    { path: "desuscribir", component: DesuscribirComponent},
     { path: "**", redirectTo: ""}
 ];
 

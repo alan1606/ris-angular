@@ -13,6 +13,7 @@ import { DetallesCampaniaModalComponent } from './components/detalles-campania-m
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ObtenerCodigoComponent } from './components/obtener-codigo/obtener-codigo.component';
+import { DesuscribirComponent } from './components/desuscribir/desuscribir.component';
 
 
 
@@ -21,7 +22,8 @@ import { ObtenerCodigoComponent } from './components/obtener-codigo/obtener-codi
     CrearCampaniaComponent,
     VerCampaniasComponent,
     DetallesCampaniaModalComponent,
-    ObtenerCodigoComponent
+    ObtenerCodigoComponent,
+    DesuscribirComponent
   ],
   imports: [
     CommonModule,
