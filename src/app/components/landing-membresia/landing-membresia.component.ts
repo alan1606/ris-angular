@@ -1,19 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-landing-membresia',
   templateUrl: './landing-membresia.component.html',
   styleUrls: ['./landing-membresia.component.css'],
 })
 export class LandingMembresiaComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private elementRef: ElementRef) {}
-  nombreCliente: string = null;
-  ngOnInit() {
-    this.nombreCliente = this.route.snapshot.paramMap.get('nombreCliente');
-    if (!this.nombreCliente) {
-      window.location.href = '/';
-    }
-  }
+  constructor(private elementRef: ElementRef) {}
+
+  ngOnInit() {}
 
   primerClick() {
     const finalElement =
@@ -36,6 +30,6 @@ export class LandingMembresiaComponent implements OnInit {
     );
   }
   llamada() {
-    window.location.href='tel:6275223484'
+    window.location.href = 'tel:6275223484';
   }
 }

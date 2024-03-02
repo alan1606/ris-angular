@@ -21,15 +21,8 @@
 .seccion-1 {
   text-align: center;
 }
-.contenido h1 {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: bold;
-  padding-top: 20px;
-  padding-bottom: 10px;
-  color: black;
-  text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
-}
-.contenido p {
+
+.contenido li {
   padding-left: 50px;
   padding-right: 50px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -61,7 +54,6 @@
   text-align: center;
   padding-top: 40px;
   padding-bottom: 20px;
-
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   color: black;
@@ -82,6 +74,13 @@
   .logo img {
     height: 80px;
   }
+  .contenido h1 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    padding-top: 20px;
+    color: black;
+    text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
+  }
   h1 {
     font-size: 36px;
     line-height: 50px;
@@ -89,11 +88,11 @@
   .colaboradores h1 {
     font-size: 20px;
   }
-  p {
-    font-size: 20px;
+  .contenido li {
+    font-size: 18px;
   }
   li {
-    font-size: 20px;
+    font-size: 18px;
   }
   .contenido button {
     font-weight: 550;
@@ -117,11 +116,11 @@
     width: 100%;
     text-align: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    padding-left: 35px;
-    padding-right: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   .cta-membresia h1 {
-    padding-top: 40px;
+    padding-top: 10px;
     padding-bottom: 20px;
     font-weight: bold;
     color: black;
@@ -131,7 +130,6 @@
     padding-bottom: 10px;
     font-weight: bold;
     color: black;
-    list-style: decimal;
   }
   .contactos img {
     width: 25%;
@@ -145,6 +143,17 @@
 @media (min-width: 1024px) {
   .logo img {
     height: 100px;
+  }
+  .contenido{
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  .contenido h1 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    padding-top: 40px;
+    color: black;
+    text-shadow: 0px 6px 4px rgba(0, 0, 0, 0.5);
   }
   h1 {
     font-size: 90px;
@@ -195,7 +204,7 @@
     padding-right: 100px;
   }
   .cta-membresia h1 {
-    padding-top: 100px;
+    padding-top: 30px;
     padding-bottom: 70px;
     font-weight: bold;
     color: black;
@@ -205,7 +214,6 @@
     padding-bottom: 50px;
     font-weight: bold;
     color: black;
-    list-style: decimal;
   }
   .contactos {
     display: grid;

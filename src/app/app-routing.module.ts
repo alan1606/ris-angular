@@ -152,13 +152,10 @@ const routes: Routes = [
   {
     path: 'pacientes',
     component: CrudPacientesComponent,
+    canActivate:[RecepcionGuard]
   },
   {
-    path: 'Cliente-landing',
-    component: LandingMembresiaComponent,
-  },
-  {
-    path: 'cliente-landing/:nombreCliente',
+    path: 'membresia-landing',
     component: LandingMembresiaComponent,
   },
   {
