@@ -95,14 +95,13 @@ export class CampaniaService {
   }
 
   public mandarCampaniaWhatsapp(descripcion: string, landing: string, baja: string, lista: File){
-    const objetos = {
-      descripcion: descripcion,
-      landing: landing,
-      baja: baja,
-      lista: lista
-    }
-    console.log(objetos);
-    return this.http.post<void>(`${this.baseEndpoint}/wp-mkt/enviar`, JSON.stringify(objetos),
-    { headers: this.cabeceras});
+    
+    const formData = new FormData();
+    formData.append('lista', lista);
+    formData.append('descripcion', descripcion);
+    formData.append('landing', landing);
+    formData.append('baja', baja);
+
+    return this.http.post<void>(`${this.baseEndpoint}/wp-mkt/enviar`,formData);
   }
 }

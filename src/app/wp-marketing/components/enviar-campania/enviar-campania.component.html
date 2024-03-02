@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <form >
+  <form (submit)="enviar()" enctype="multipart/form-data">
     <div class="form-group my-3 mx-2">
         <img src="../../../../assets/wp-mkt-mensaje.webp" class="img-fluid" alt="ejemploMensaje">
     </div>
@@ -22,6 +22,6 @@
         <input (change)="subirListaDeContactos($event)" type="file" class="custom-file-input" id="contactos" name="contactos">
         <label class="custom-file-label" for="contactos">Subir lista de contactos en xlsx</label>
     </div>
-    <button type="submit" class="btn btn-primary my-3 mx-2" (click)="enviar()" [disabled]="deshabilitado">Enviar</button>
+    <button type="submit" class="btn btn-primary my-3 mx-2" [disabled]="deshabilitado">Enviar</button>
   </form>
 </div>
