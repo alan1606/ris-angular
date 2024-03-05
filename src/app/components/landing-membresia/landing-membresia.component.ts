@@ -18,7 +18,7 @@ export class LandingMembresiaComponent implements OnInit {
   }
 
   facebook() {
-    window.open('https://www.grupodiagnocare.com/', '_blank');
+    window.open('https://www.facebook.com/GRUPODIAGNOCARE/', '_blank');
   }
   instagram() {
     window.open('https://www.instagram.com/grupodiagnocare/?hl=es', '_blank');
