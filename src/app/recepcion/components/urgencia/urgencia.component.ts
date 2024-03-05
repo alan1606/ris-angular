@@ -247,7 +247,7 @@ export class UrgenciaComponent implements OnInit {
 
     this.autocompleteControlArea.setValue("");
     this.autocompleteControlConcepto.setValue("");
-
+    this.folio = null;
   }
 
   private reiniciarFormulario() {
@@ -312,6 +312,11 @@ export class UrgenciaComponent implements OnInit {
 
     
     this.total = 0;
+
+    if(this.folio){
+      this.ordenVenta.folioInstitucion = this.folio;
+    }
+
     if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
       return;

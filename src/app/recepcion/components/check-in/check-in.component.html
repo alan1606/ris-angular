@@ -87,6 +87,14 @@
         </mat-form-field>
       </div>
 
+      
+      <div class="from-group" *ngIf="this.listaDeEstudios.length > 0 && this.listaDeEstudios[0]?.institucion?.nombre === 'PENSIONES'">
+        <mat-form-field class="example-full-width">
+          <mat-label>Folio</mat-label>
+          <input matInput placeholder="Folio" name="folio" [(ngModel)]="folio" required>
+        </mat-form-field>
+      </div>
+
     </div>
   </div>
 </div>

@@ -39,6 +39,7 @@ export class CheckInComponent implements OnInit {
   codigoPromocion: string = '';
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
+  folio: number= null;
 
   ngOnInit(): void {
     this.buscarCitasHoy();
@@ -99,6 +100,11 @@ export class CheckInComponent implements OnInit {
 
   pagar(): void {
     this.botonHabilitado = true;
+
+    if(this.folio){
+      this.orden.folioInstitucion = this.folio;
+    }
+
     setTimeout(() => {
       this.ordenVentaService.pagar(this.orden, this.listaDeEstudios).subscribe(
         () => {
@@ -188,6 +194,7 @@ export class CheckInComponent implements OnInit {
     this.guardarPresionado = false;
     this.botonHabilitado = false;
     this.codigoPromocion = '';
+    this.folio = null;
   }
 
   cambiar(estudio: VentaConceptos): void {

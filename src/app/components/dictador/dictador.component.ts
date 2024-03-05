@@ -321,6 +321,7 @@ export class DictadorComponent implements OnInit {
 
     this.enviarInformacionSaludParral();
 
+    this.enviarInformacionPensiones();
     this.regresar();
   }
 
@@ -397,6 +398,19 @@ export class DictadorComponent implements OnInit {
         },
         () => {
           console.log('Error al enviar informaición salud Parral');
+        }
+      );
+  }
+
+  private enviarInformacionPensiones() {
+    this.ordenVentaService
+      .enviarInformacionPensiones(this.estudio.ordenVenta.id)
+      .subscribe(
+        () => {
+          console.log('Información pensiones enviada');
+        },
+        () => {
+          console.log('Error al enviar información Pensiones');
         }
       );
   }
