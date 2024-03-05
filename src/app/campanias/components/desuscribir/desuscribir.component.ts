@@ -26,10 +26,10 @@ export class DesuscribirComponent {
     }
     this.service.desuscribir(this.persona).subscribe(
       () => {
-
+        Swal.fire("Éxito", "Se ha desuscrito con éxito", "success")
       },
       () =>{
-        
+        Swal.fire("Error", "Ha ocurrido un error", "error")
       }
     );
   }
