@@ -190,6 +190,8 @@ export class AgendarComponent implements OnInit {
     event.option.deselect();
     event.option.focus();
 
+    this.mostrarInstruccionesArea(this.area);
+
     this.cargarEquiposDicom();
   }
 
@@ -470,5 +472,10 @@ export class AgendarComponent implements OnInit {
   limpiarPaciente(): void{
     this.paciente = null;
     this.autocompleteControlPaciente.setValue("");
+  }
+
+  private mostrarInstruccionesArea(area: Area): void {
+    
+    Swal.fire("Instrucciones", );
   }
 }

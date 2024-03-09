@@ -22,6 +22,10 @@ export class CampaniaService {
   }
 
   public crear(campania: Campania): Observable<Campania> {
+    campania.conceptos.forEach(c => {
+      c.instrucciones = null;
+    }); //Hago esto porque si dejo las instrucciones el backend falla
+    console.log(campania);
     return this.http.post<Campania>(this.baseEndpoint, campania,
       { headers: this.cabeceras });
   }

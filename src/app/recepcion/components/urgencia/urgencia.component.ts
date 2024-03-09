@@ -317,12 +317,12 @@ export class UrgenciaComponent implements OnInit {
       this.ordenVenta.folioInstitucion = this.folio;
     }
 
-    if(this.institucion.nombre !== 'SALUD PARRAL'){
+    //if(this.institucion.nombre !== 'SALUD PARRAL'){
       this.agendaNormal();
-      return;
-    }
+   //   return;
+    //}
 
-    this.agendaSaludParral();
+    //this.agendaSaludParral();
     },2000);
     
   }
