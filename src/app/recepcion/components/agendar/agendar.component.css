@@ -16,31 +16,28 @@
   display: flex;
 }
 
+.main{
+  display: flex;
+}
 
-@media (min-width:601px) {
+form{
+  width: 60%;
+}
+
+
+
   mat-form-field {
-    width: 50%;
+    width: 90%;
   }
 
   .tabla{
-    width: 50%;
+    width: 90%;
   }
 
   .mitad{
-    max-width: 50%;
-  }
-}
-
-@media (max-width:600px) {
-  mat-form-field {
-    width: 100%;
+    max-width: 90%;
   }
 
-  .tabla{
-    width: 100%;
+  .instrucciones{
+    width: 40%;
   }
-
-  .mitad{
-    max-width: 100%;
-  }
-}

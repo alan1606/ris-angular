@@ -25,6 +25,7 @@ import { CitaService } from 'src/app/services/cita.service';
 import { RegistrarPacienteParcialModalComponent } from '../registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
 import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
+import { InstruccionesService } from 'src/app/services/instrucciones.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class AgendarComponent implements OnInit {
   codigoPromocion: string = "";
   botonDeshabilitar:boolean=false;
   formulario: FormGroup;
+  instrucciones: string ="";
 
   constructor(
     private pipe: DatePipe,
@@ -52,7 +54,8 @@ export class AgendarComponent implements OnInit {
     private campaniasService: CampaniaService,
     private citaService: CitaService,
     private fb: FormBuilder,
-    private fechaService: FechaService
+    private fechaService: FechaService,
+    private instruccionesService: InstruccionesService
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
@@ -158,7 +161,6 @@ export class AgendarComponent implements OnInit {
     });
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
-
   }
 
 
@@ -241,6 +243,9 @@ export class AgendarComponent implements OnInit {
 
     this.calcularTotal();
 
+    this.mostrarInstruccionesConcepto(this.concepto);
+
+    //Hay que esperar para hacer esto
     this.limpiarCampos();
   }
 
@@ -475,7 +480,48 @@ export class AgendarComponent implements OnInit {
   }
 
   private mostrarInstruccionesArea(area: Area): void {
-    
-    Swal.fire("Instrucciones", );
+    this.instruccionesService.buscarPorArea(area.id).subscribe(
+      inst => {
+        this.area.instrucciones = this.instrucciones? this.instrucciones + "; "+ inst.instrucciones: inst.instrucciones
+        this.mostrarInstruccionesGenerales();
+      },
+      err => {
+        this.area.instrucciones = "";
+        this.mostrarInstruccionesGenerales();
+      }
+    );    
+  }
+
+  private mostrarInstruccionesInstitucion(institucion: Institucion): void {
+    this.instruccionesService.buscarPorInstitucion(institucion.id).subscribe(
+      inst => this.instrucciones = this.instrucciones? this.instrucciones + "; "+ inst.instrucciones: inst.instrucciones,
+      err => console.log(err)
+    );    
+  }
+
+  private mostrarInstruccionesConcepto(concepto: Concepto): void {
+    this.instruccionesService.buscarPorConcepto(concepto.id).subscribe(
+      inst => {
+        this.concepto.instrucciones = this.instrucciones? this.instrucciones + "; "+ inst.instrucciones: inst.instrucciones;
+        this.mostrarInstruccionesGenerales();
+      },
+      err => {
+        this.concepto.instrucciones = "";
+        this.mostrarInstruccionesGenerales();
+      }
+    );    
+  }
+
+  private mostrarInstruccionesGenerales(){
+    //Obtener instrucciones de área
+    this.instrucciones = "";
+    if(this.area?.instrucciones){
+      this.instrucciones = this.instrucciones ? this.instrucciones + "; " + this.area.instrucciones : this.area.instrucciones;
+    }
+    for(let i = 0; i< this.estudios.length; i++){
+      if(this.estudios[i].concepto?.instrucciones){
+        this.instrucciones = this.instrucciones ? this.instrucciones + "; " + this.estudios[i].concepto.instrucciones : this.estudios[i].concepto.instrucciones;
+      }
+    }
   }
 }
