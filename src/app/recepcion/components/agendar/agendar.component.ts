@@ -41,6 +41,7 @@ export class AgendarComponent implements OnInit {
   botonDeshabilitar:boolean=false;
   formulario: FormGroup;
   instrucciones: string ="";
+  private instruccionesInstitucion="";
 
   constructor(
     private pipe: DatePipe,
@@ -182,6 +183,7 @@ export class AgendarComponent implements OnInit {
 
   seleccionarInstitucion(event: MatAutocompleteSelectedEvent) {
     this.institucion = event.option.value as Institucion;
+    this.mostrarInstruccionesInstitucion(this.institucion);
     event.option.deselect();
     event.option.focus();
   }
@@ -191,8 +193,6 @@ export class AgendarComponent implements OnInit {
 
     event.option.deselect();
     event.option.focus();
-
-    this.mostrarInstruccionesArea(this.area);
 
     this.cargarEquiposDicom();
   }
@@ -242,8 +242,7 @@ export class AgendarComponent implements OnInit {
     this.estudios.push(estudio);
 
     this.calcularTotal();
-
-    this.mostrarInstruccionesConcepto(this.concepto);
+    this.mostrarInstruccionesConcepto(this.estudios[this.estudios.length -1].concepto);
 
     //Hay que esperar para hacer esto
     this.limpiarCampos();
@@ -289,6 +288,8 @@ export class AgendarComponent implements OnInit {
     this.campania = new Campania();
     this.codigoPromocion = '';
     this.botonDeshabilitar=false;
+    this.instrucciones = "";
+    this.instruccionesInstitucion = "";
 
     this.cargarConvenioParticularPorDefecto();
 
@@ -316,6 +317,7 @@ export class AgendarComponent implements OnInit {
     this.liberarCita(this.estudios[i].cita);
     this.estudios.splice(i, 1);
     this.calcularTotal();
+    this.mostrarInstruccionesGenerales();
   }
 
   private liberarCita(cita: Cita) {
@@ -482,7 +484,7 @@ export class AgendarComponent implements OnInit {
   private mostrarInstruccionesArea(area: Area): void {
     this.instruccionesService.buscarPorArea(area.id).subscribe(
       inst => {
-        this.area.instrucciones = this.instrucciones? this.instrucciones + "; "+ inst.instrucciones: inst.instrucciones
+        area.instrucciones = inst.instrucciones;
         this.mostrarInstruccionesGenerales();
       },
       err => {
@@ -494,15 +496,23 @@ export class AgendarComponent implements OnInit {
 
   private mostrarInstruccionesInstitucion(institucion: Institucion): void {
     this.instruccionesService.buscarPorInstitucion(institucion.id).subscribe(
-      inst => this.instrucciones = this.instrucciones? this.instrucciones + "; "+ inst.instrucciones: inst.instrucciones,
-      err => console.log(err)
+      inst => {
+        this.instruccionesInstitucion = inst.instrucciones;
+        this.mostrarInstruccionesGenerales();
+      },
+      err => {
+        this.instruccionesInstitucion ="";
+        this.mostrarInstruccionesGenerales();
+      }
     );    
   }
 
   private mostrarInstruccionesConcepto(concepto: Concepto): void {
+    this.mostrarInstruccionesArea(concepto.area);
+
     this.instruccionesService.buscarPorConcepto(concepto.id).subscribe(
       inst => {
-        this.concepto.instrucciones = this.instrucciones? this.instrucciones + "; "+ inst.instrucciones: inst.instrucciones;
+        concepto.instrucciones = inst.instrucciones;
         this.mostrarInstruccionesGenerales();
       },
       err => {
@@ -510,18 +520,22 @@ export class AgendarComponent implements OnInit {
         this.mostrarInstruccionesGenerales();
       }
     );    
+
   }
 
   private mostrarInstruccionesGenerales(){
     //Obtener instrucciones de área
     this.instrucciones = "";
-    if(this.area?.instrucciones){
-      this.instrucciones = this.instrucciones ? this.instrucciones + "; " + this.area.instrucciones : this.area.instrucciones;
-    }
     for(let i = 0; i< this.estudios.length; i++){
       if(this.estudios[i].concepto?.instrucciones){
-        this.instrucciones = this.instrucciones ? this.instrucciones + "; " + this.estudios[i].concepto.instrucciones : this.estudios[i].concepto.instrucciones;
+        this.instrucciones = this.instrucciones + this.instrucciones ? this.instrucciones + "; " + this.estudios[i].concepto.instrucciones : this.estudios[i].concepto.instrucciones;
       }
+      if(this.estudios[i].concepto?.area?.instrucciones){
+        this.instrucciones =  this.instrucciones + this.instrucciones ? this.instrucciones + "; " + this.estudios[i].concepto.area.instrucciones : this.estudios[i].concepto.area.instrucciones;
+      }
+    }
+    if(this.instruccionesInstitucion){
+      this.instrucciones =  this.instrucciones + this.instrucciones ? this.instrucciones + "; " + this.instruccionesInstitucion : this.instruccionesInstitucion;
     }
   }
 }
