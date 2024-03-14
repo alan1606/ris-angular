@@ -1,35 +1,46 @@
 <mat-card>
 
     <h1 mat-card-title> {{titulo}} </h1>
+    <div class="row my-4" *ngIf="(!estudio?.iuid || estudio.iuid?.length==0) && estudio?.concepto?.dicom">
+        <p style='font-size: x-large;  color: #FF0000;' >El estudio aún no ha sido tomado</p>
+    </div>
 
+
+    <div class="row my-4" *ngIf="(archivosCargados | async) == false && interpretacion == null ">
+        <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido interpretado</p>
+    </div>
 
     <div mat-card-content>
         <div class="card text-dark bg-light mb-3 contenedor-pdf-boton" *ngIf="enlacePdf !== ''" >
+            <div class="card-body">
+                <button class="btn btn-success btn-lg" (click)="descargarPdf()">
+                    Descargar
+                </button>
+                <button class="btn btn-primary btn-lg" (click)="abrir(estudio)">
+                    Ver imágenes
+                  </button>
+            </div>
             <div class="card-body">
                 <pdf-viewer [src]="enlacePdf" [render-text]="true" [original-size]="false"
                      class="pdf"></pdf-viewer>
                      <!-- style="width: 1200px; height: 1200px" -->
             </div>
-            <div class="card-body">
-                <button class="btn btn-success btn-lg my-4" (click)="descargarPdf()">
-                    Descargar
-                </button>
-            </div>
         </div>
 
 
-        <div class="card text-dark bg-light mb-3" *ngIf="archivosCargados | async">
+        <div class="card text-dark bg-light mb-3 contenedor-pdf-boton" *ngIf="archivosCargados | async">
             <div class="card-body" *ngFor="let interpretacion of archivos">
-                <pdf-viewer [src]="filesPath + interpretacion.ruta" [render-text]="true" [original-size]="false"
-                    style="width: 1100px; height: 700px">
-                </pdf-viewer>
-                <div  class="card-body">
+                <div class="card-body">
                     <button class="btn btn-success btn-lg my-4"
                         (click)="descargarPdfExterno(filesPath + interpretacion.ruta)">
                         Descargar
                     </button>
-    
+                    <button class="btn btn-primary btn-lg" (click)="abrir(estudio)">
+                        Ver imágenes
+                      </button>
                 </div>
+                <pdf-viewer class="pdf"[src]="filesPath + interpretacion.ruta" [render-text]="true" [original-size]="false">
+                </pdf-viewer>
             </div>
         </div>
     </div>

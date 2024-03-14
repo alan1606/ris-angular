@@ -1,0 +1,17 @@
+.botones-imagenes{
+    display: flex;
+    flex-direction: column;
+}
+.botones-imagenes .col{
+    margin-bottom: 1rem;
+}
+
+button{
+    width: 15%;
+}
+
+@media (max-width:768px){
+    button{
+        width: 75%;
+    }
+}

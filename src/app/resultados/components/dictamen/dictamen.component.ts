@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VentaConceptosService } from '../../../services/venta-conceptos.service';
 import { VentaConceptos } from '../../../models/venta-conceptos';
 import { InterpretacionService } from '../../../services/interpretacion.service';
@@ -18,7 +18,7 @@ export class DictamenComponent implements OnInit {
   estudio: VentaConceptos;
   titulo: string = '';
   interpretacion: Interpretacion;
-  enlacePdf: String= '';
+  enlacePdf: string= '';
   archivosCargados: Promise<Boolean>;
   archivos: Multimedia[] = [];
   filesPath: string = FILES_PATH;
@@ -26,7 +26,9 @@ export class DictamenComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private service: VentaConceptosService,
     private interpretacionService: InterpretacionService,
-    private multimediaService: MultimediaService) { }
+    private multimediaService: MultimediaService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -74,5 +76,10 @@ export class DictamenComponent implements OnInit {
       this.archivosCargados = Promise.resolve(false);
     }
     );
+  }
+
+  
+  abrir(estudio: VentaConceptos): void{
+    this.router.navigate(['/resultados/', estudio.idPacs]);
   }
 }

@@ -43,7 +43,7 @@ export class OrdenVentaComponent implements OnInit {
   }
 
   abrir(estudio: VentaConceptos): void{
-    this.router.navigate(['/resultados/', estudio.idPacs]);
+    this.router.navigate(['/dictamen/', estudio.idPacs]);
   }
 
   private cargarEstudios(): void {
