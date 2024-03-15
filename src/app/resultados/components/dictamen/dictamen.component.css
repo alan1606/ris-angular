@@ -10,6 +10,9 @@
     width: 100%;
     height: 2400px;
 }
+.ver-imagenes{
+    width: 35%;
+}
 
 @media (min-width:768px) {
     .contenedor-pdf-boton .card-body{
@@ -28,5 +31,8 @@
     .pdf{
         width: 100%;
         height: 400px;
+    }
+    .ver-imagenes{
+        width: 90%;
     }
 }
