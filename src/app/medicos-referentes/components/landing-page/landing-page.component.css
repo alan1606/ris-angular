@@ -1,20 +1,142 @@
-.landing-background {
-    width: 100%;
-    height: 100vw;
-    background-image: url("../../assets/membresia.webp");
+.div-body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333; /* Set a base text color */
+  }
+  
+  h1, h2, h3 {
+    font-weight: bold;
+    margin-bottom: 1rem; /* Add some margin for headings */
+  }
+  
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 1rem; /* Add some margin for paragraphs */
+  }
+  
+  a {
+    text-decoration: none;
+    color: #007bff; /* Set a blue color for links */
+  }
+  
+  a:hover {
+    color: #0056b3; /* Change link color on hover */
+  }
+  
+  ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    margin-bottom: 0.5rem; /* Add some margin between list items */
+  }
+  
+  /* Estilos específicos de cada sección */
+  header {
+    background-color: #f5f5f5; /* Light background for header */
+    color: #333;
+    padding: 20px 0;
+    text-align: center; /* Center content in header */
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  header img {
+    width: 150px;
+    margin-bottom: 1rem; /* Add margin below logo */
+  }
+  
+  main {
+    padding: 4rem 0; /* Add some padding for main content area */
+    width: 60%;
+    margin: 0 auto;
+  }
+  
+  .atencion {
+    text-align: center; /* Center text for attention section */
+  }
+  
+  .interes,
+  .deseo,
+  .accion,
+  .conviccion {
+    margin-bottom: 4rem; /* Add spacing between sections */
+  }
+  
+  .interes h3 {
+    margin-bottom: 1rem; /* Add margin below subheading */
+  }
+  
+  .conviccion ul {
+    padding-left: 1.5rem; /* Indent list items for conviction elements */
+  }
+  
+  /* Estilos para el footer */
+  .div-footer {
+    background-color: #f0f0f0;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .div-footer p {
+    margin-bottom: 0.5rem; /* Reduce margin for footer text */
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  
+  .video-container iframe {
     position: absolute;
-}
-
-.beneficios {
-    color: white;
-    font-size: 2.5rem;
-    margin-top: 5rem;
-}
-
-.beneficios ul {
-    list-style-type: none;
-}
-
-.beneficios li {
-    margin-top: 3rem;
-}
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Estilos del slider */
+  .testimonios-slider {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .testimonio {
+    display: none;
+  }
+  
+  /* Estilos del testimonio actual */
+  .testimonio.active {
+    display: block;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #1c69a9;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #003764;
+  }
+  
+  
+  
+  /* Media query para ajustar el ancho del header y main en pantallas pequeñas */
+  @media (max-width: 900px) {
+    main {
+      width: 90% !important;
+    }
+  }
