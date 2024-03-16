@@ -16,7 +16,7 @@
     </div>
 
     <div mat-card-content>
-        <div class="card text-dark bg-light mb-3 contenedor-pdf-boton" *ngIf="enlacePdf !== ''" >
+        <div class="card text-dark bg-light mb-3 contenedor-pdf-boton" *ngIf="interpretacion" >
             <div class="card-body">
                 <button class="btn btn-success btn-lg" (click)="descargarPdf()">
                     Descargar

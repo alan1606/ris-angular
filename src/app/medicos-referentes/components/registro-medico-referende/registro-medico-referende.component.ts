@@ -3,6 +3,8 @@ import { FormControl, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { MedicoReferenteService } from '../../services/medico-referente.service';
 import { error } from 'console';
+import { CodigoComprobacion } from 'src/app/models/codigo-comprobacion';
+import { CodigosMedicosReferentesService } from '../../services/codigos-medicos-referentes.service';
 
 @Component({
   selector: 'app-registro-medico-referende',
@@ -10,22 +12,19 @@ import { error } from 'console';
   styleUrls: ['./registro-medico-referende.component.css'],
 })
 export class RegistroMedicoReferendeComponent implements OnInit {
-  constructor(private medicosReferentesServiceNestjs: MedicoReferenteService) {}
+  constructor(private comprobarCodigoService: CodigosMedicosReferentesService) {}
 
   whatsapp: FormControl = new FormControl(null);
   correo: FormControl = new FormControl(null, [Validators.email]);
   codigoEnviado: boolean = false;
   codigoVerficiacion: FormControl = new FormControl(null);
   verificado: boolean = false;
+  comprobacion: CodigoComprobacion;
+  deshabilitadoEnvio: boolean = false;
 
   ngOnInit(): void {
-    this.medicosReferentesServiceNestjs
-      .obtenerMedicosReferentesNestjs()
-      .subscribe(
-        (datos) => console.log(datos),
-        (error) => console.log(error)
-      );
   }
+
   enviarCodigoVerificacion() {
     if (!this.correo.value && !this.whatsapp.value) {
       Swal.fire({
@@ -34,29 +33,31 @@ export class RegistroMedicoReferendeComponent implements OnInit {
       });
       return;
     }
-    if (this.whatsapp.value && this.correo.value) {
-      return;
+    this.comprobacion = new CodigoComprobacion();
+
+    if (this.whatsapp.value){
+      this.comprobacion.whatsapp = this.whatsapp.value;
     }
-    if (this.whatsapp.value) {
-      console.log('Whatsapp enviado: ' + this.whatsapp.value);
+    if(this.correo.value){
+      this.comprobacion.email = this.correo.value;
+    }
+
+    this.deshabilitadoEnvio = true;
+    this.comprobarCodigoService.mandarCodigoComprobacion(this.comprobacion).subscribe(() => {
       Swal.fire({
         icon: 'success',
-        title: `Codigo de verificacion enviado a whatsapp`,
+        title: `Codigo de verificacion enviado`,
         text: 'Puede tardar un momento en llegar',
       });
       this.codigoEnviado = true;
-      return;
-    }
-    if (this.correo.value) {
-      console.log('Correo enviado: ' + this.correo.value);
-      Swal.fire({
-        icon: 'success',
-        title: `Codigo de verificacion enviado al correo`,
-        text: 'Puede tardar un momento en llegar',
-      });
-      this.codigoEnviado = true;
-      return;
-    }
+      this.deshabilitadoEnvio = false;
+    },
+    () => {
+      Swal.fire("Error", "Error al enviar el código", "error");
+      this.codigoEnviado = false;
+      this.deshabilitadoEnvio = false;
+    });
+    
   }
 
   verificarCodgio() {
@@ -65,16 +66,29 @@ export class RegistroMedicoReferendeComponent implements OnInit {
         icon: 'error',
         title: 'Escriba su código, por favor',
       });
-      return (this.verificado = false);
+       this.verificado = false;
     }
-    if (this.codigoVerficiacion.value) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Verificado correctamente',
-      });
-      return (this.verificado = true);
-    }
-    return (this.verificado = false);
+    this.comprobacion.code = this.codigoVerficiacion.value;
+    this.comprobarCodigoService.verificarCodigoComprobacion(this.comprobacion).subscribe(valido => {
+      if(valido){
+        Swal.fire({
+          icon: 'success',
+          title: 'Verificado correctamente',
+        });
+        this.verificado = true;
+      }
+      else{
+        Swal.fire("Incorrecto", "El código es incorrecto", "error");
+        this.verificado = false;
+      }
+    },
+    error => {
+      console.error(error);
+      Swal.fire("Error", "Error", "error");
+      this.verificado = false;
+    });
+     
+    
   }
 
   recibirDatosUsuario(event) {

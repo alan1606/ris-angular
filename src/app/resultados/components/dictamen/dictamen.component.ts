@@ -46,6 +46,9 @@ export class DictamenComponent implements OnInit {
 
   cargarInterpretacion(): void{
     this.interpretacionService.encontrarPorEstudioId(this.estudio.id).subscribe(interpretacion => {
+      console.log(interpretacion);
+      console.log(this.estudio.id);
+
       if(interpretacion.length>0){
         this.interpretacion = interpretacion[0];
         this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`;
