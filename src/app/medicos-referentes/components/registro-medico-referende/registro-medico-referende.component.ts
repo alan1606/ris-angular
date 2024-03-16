@@ -84,7 +84,7 @@ export class RegistroMedicoReferendeComponent implements OnInit {
     },
     error => {
       console.error(error);
-      Swal.fire("Error", "Error", "error");
+      Swal.fire("Error", error.error.detail, "error");
       this.verificado = false;
     });
      
