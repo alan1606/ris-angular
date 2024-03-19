@@ -92,6 +92,7 @@ export class EstudiosComponent implements OnInit {
   private buscarPorPaciente() {
     this.medicoReferenteService.buscarOrdenesPorInstitucionYPaciente(this.paginaActual.toString(), this.totalPorPagina.toString(), this.paciente.id, 1).subscribe(
       lista => {
+        console.log(lista)
         this.lista = lista.content as OrdenVenta[];
         this.totalRegistros = lista.totalElements as number;
         this.paginator._intl.itemsPerPageLabel = 'Registros:';

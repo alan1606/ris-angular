@@ -1,0 +1,13 @@
+.contenedor-busqueda {
+    width: 50%;
+    display: flex;
+    height: max-content;
+  }
+  .buscar-qr{
+      width: 30%;
+  }
+  .filtrar-areas {
+      width: 40%;
+      margin-left: 3%;
+  }
+  
