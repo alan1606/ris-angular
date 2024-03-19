@@ -298,10 +298,10 @@ export class VentaConceptosComponent
       }
     );
   }
-  verQr(estudio: VentaConceptos):void {
+  verQr(estudio: VentaConceptos): void {
     let ordenVentaId = estudio.ordenVenta.id;
-    let pacienteId=estudio.paciente.id
-    let url=`https://ris.diagnocons.com/ris/resultados/orden/${ordenVentaId}/${pacienteId}`;
-    window.location.href=url
+    let pacienteId = estudio.paciente.id;
+    let url = `https://ris.diagnocons.com/ris/resultados/orden/${ordenVentaId}/${pacienteId}`;
+    window.location.href = url;
   }
 }

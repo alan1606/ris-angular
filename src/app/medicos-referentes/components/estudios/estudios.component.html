@@ -16,10 +16,27 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
 
-      <mat-form-field class="ms-5" appearance="fill">
-        <mat-label>Nombre del paciente</mat-label>
-        <input matInput />
+      <mat-form-field appearance="fill" class="ms-3">
+        <input class="buscar-paciente"
+          matInput
+          placeholder="Paciente"
+          [formControl]="autocompleteControlPaciente"
+          [matAutocomplete]="autocompletePaciente"
+        />
+        <mat-autocomplete
+          #autocompletePaciente="matAutocomplete"
+          [displayWith]="mostrarNombrePaciente"
+          (optionSelected)="seleccionarPaciente($event)"
+        >
+          <mat-option
+            *ngFor="let paciente of pacientesFiltrados"
+            [value]="paciente"
+          >
+            {{ paciente.nombreCompleto }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
+      
     </div>
   </div>
   <div class="card-body">
@@ -38,11 +55,11 @@
           </thead>
   
           <tbody *ngIf="lista?.length > 0">
-            <tr *ngFor="let estudio of lista">
-              <td>{{estudio.paciente.nombreCompleto}}</td>
-              <td>{{estudio.estudios}}</td>
-              <td>{{estudio.fechaVenta | date: "dd/MM/yyyy"}}</td>
-              <td><button class="btn btn-dark">Ver</button></td>
+            <tr *ngFor="let orden of lista">
+              <td>{{orden.paciente.nombreCompleto}}</td>
+              <td>{{orden.estudios}}</td>
+              <td>{{orden.fechaVenta | date: "dd/MM/yyyy"}}</td>
+              <td><button class="btn btn-dark" (click)="ver(orden)">Ver</button></td>
             </tr>
           </tbody>
         </table>

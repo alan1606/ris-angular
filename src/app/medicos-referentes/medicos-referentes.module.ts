@@ -13,6 +13,8 @@ import { EstudiosComponent } from './components/estudios/estudios.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component'
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     LandingPageComponent,
@@ -30,6 +32,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatInputModule,
     MatIconModule,
     MatDatepickerModule,
+    MatPaginatorModule,
+    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule
   ]

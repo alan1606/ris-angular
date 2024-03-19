@@ -242,13 +242,22 @@
           <a
             class="nav-link"
             href="#"
-            routerLink="/medico-referente"
+            routerLink="/medico-referente/estudios"
             routerLinkActive="active"
             *ngIf="puedeAbrirMedicosReferentes()"
             >Estudios</a
           >
         </li>
-        
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/medico-referente/catalogo"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirMedicosReferentes()"
+            >Catalogo</a
+          >
+        </li>
       </ul>
 
       <div class="form-inline my-2 my-lg-0 boton-usuario">

@@ -28,4 +28,12 @@ export class MedicoReferenteService {
   public buscarMedicoReferentePorUsuario(usuario):Observable<any>{
     return this.http.get<any>(`${this.baseEndpoint}/usuario/${usuario}`);
   }
+
+
+  public buscarOrdenesPorInstitucionYPaciente(page, size, idPaciente:number, idInstitucion:number):any{
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idInstitucion}/paciente/${idPaciente}`, { params: params });
+  }
 }

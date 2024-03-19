@@ -4,6 +4,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { RegistroMedicoReferendeComponent } from './components/registro-medico-referende/registro-medico-referende.component';
 import { PrincipalMedicosReferentesComponent } from './components/principal-medicos-referentes/principal-medicos-referentes.component';
 import { RecepcionGuard } from '../guards/recepcion.guard';
+import { CatalogoComponent } from './components/catalogo/catalogo.component';
 
 const routes: Routes = [
 
@@ -16,8 +17,13 @@ const routes: Routes = [
     component:RegistroMedicoReferendeComponent
   },
   {
-    path:"",
+    path:"estudios",
     component:PrincipalMedicosReferentesComponent,
+    canActivate:[RecepcionGuard]
+  },
+  {
+    path:"catalogo",
+    component:CatalogoComponent,
     canActivate:[RecepcionGuard]
   }
 
