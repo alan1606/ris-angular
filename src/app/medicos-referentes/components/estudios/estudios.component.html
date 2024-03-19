@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-header center">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Rango de fechas:</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Inicio" #fechaInicio />
+          <input
+            matEndDate
+            placeholder="Fin"
+            #fechaFin
+            (dateChange)="buscarPorFecha(fechaInicio, fechaFin)"
+          />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <mat-form-field class="ms-5" appearance="fill">
+        <mat-label>Nombre del paciente</mat-label>
+        <input matInput />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-info" *ngIf="lista?.length == 0">
+        No hay estudios en el sistema.
+      </div>
+      <div class="table-responsive" *ngIf="lista?.length > 0">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Estudios</th>
+                <th>Fecha</th>
+                <th>Ver</th>
+            </tr>
+          </thead>
+  
+          <tbody *ngIf="lista?.length > 0">
+            <tr *ngFor="let estudio of lista">
+              <td>{{estudio.paciente.nombreCompleto}}</td>
+              <td>{{estudio.estudios}}</td>
+              <td>{{estudio.fechaVenta | date: "dd/MM/yyyy"}}</td>
+              <td><button class="btn btn-dark">Ver</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
+            [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-left mx-2">
+        </mat-paginator>
+      </div>
+  </div>
+</div>

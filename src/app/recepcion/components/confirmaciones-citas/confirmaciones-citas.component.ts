@@ -54,7 +54,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
         if (citas.content) {
           this.citas = citas.content as Cita[];
           this.totalRegistros = citas.totalElements as number;
-          this.paginator._intl.itemsPerPageLabel = 'Registros:';
         }
         else {
           this.citas = [];
