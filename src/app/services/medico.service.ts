@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
 import { Medico } from '../models/medico';
-import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +29,11 @@ export class MedicoService {
     return this.http.get<Medico>(`${this.baseEndpoint}/token/usuario/${usuario}`);
   }
 
-  //Editar ya está en backend
   public editar(medico: Medico): Observable<Medico>{
     return this.http.put<Medico>(`${this.baseEndpoint}/${medico.id}`, medico,
     { headers: this.cabeceras });
   }
 
-  //crear referente ya está en el backend
   public crearMedicoReferente(medico: Medico): Observable<Medico>{
     return this.http.post<Medico>(`${this.baseEndpoint}/referentes`, medico,
     { headers: this.cabeceras });

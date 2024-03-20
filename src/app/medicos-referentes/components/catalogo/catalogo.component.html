@@ -1,20 +1,21 @@
 <div>
-    <div class="busqueda ms-3 mt-3">
-        <div class="col-md-auto mb-4 contenedor-busqueda">
-          <input
-            type="text"
-            placeholder="NOMBRE DEL AREA"
-            class="form-control buscar-qr"
-            id="qr"
-          />
-          <input
-            type="text"
-            class="form-control filtrar-areas"
-            placeholder="NOMBRE DEL ESTUDIO"
-           
-          />
-        </div>
-      </div>
+  <div class="busqueda ms-3 mt-3">
+    <div class="col-md-auto mb-4 contenedor-busqueda">
+      <input
+        type="text"
+        placeholder="NOMBRE DE AREA"
+        class="form-control buscar-qr"
+        name="area"
+        id="area"
+        [formControl]="autocompleteControlArea"
+      />
+      <input
+        type="text"
+        class="form-control filtrar-areas"
+        placeholder="NOMBRE DEL ESTUDIO"
+      />
+    </div>
+  </div>
   <div class="card text-dark bg-light mb-3">
     <div class="card-header">Instituciones</div>
     <div class="card-body">
@@ -31,10 +32,20 @@
             <tr>
               <td></td>
               <td></td>
-              <td></td>
+              <td>{{ area.nombre }}</td>
             </tr>
           </tbody>
         </table>
+        <mat-paginator
+          [length]="totalRegistros"
+          [pageSize]="totalPorPagina"
+          [pageIndex]="paginaActual"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="paginar($event)"
+          showFirstLastButtons
+          class="float-left mx-2"
+        >
+        </mat-paginator>
       </div>
     </div>
   </div>

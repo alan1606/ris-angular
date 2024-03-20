@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { RegistroMedicoReferendeComponent } from './components/registro-medico-referende/registro-medico-referende.component';
-import { PrincipalMedicosReferentesComponent } from './components/principal-medicos-referentes/principal-medicos-referentes.component';
 import { RecepcionGuard } from '../guards/recepcion.guard';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
+import { EstudiosComponent } from './components/estudios/estudios.component';
 
 const routes: Routes = [
 
@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   {
     path:"estudios",
-    component:PrincipalMedicosReferentesComponent,
+    component:EstudiosComponent,
     canActivate:[RecepcionGuard]
   },
   {
