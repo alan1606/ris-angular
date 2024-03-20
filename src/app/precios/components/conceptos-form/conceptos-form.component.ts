@@ -11,6 +11,9 @@ import { AreasService } from 'src/app/services/areas.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PreciosService } from '../../services/precios.service';
 import { ConceptoPrecio } from '../../models/concepto-precio';
+import { ConceptoInstitucion } from '../../models/concepto-institucion';
+import { InstitucionService } from 'src/app/services/institucion.service';
+import { ConceptoInstitucionService } from '../../services/concepto-institucion.service';
 
 @Component({
   selector: 'app-conceptos-form',
@@ -24,6 +27,7 @@ export class ConceptosFormComponent  {
   error: any;
   area: Area;
   precio: number = 0;
+  codigoPensiones: string;
 
   autocompleteControlArea = new FormControl();
   areasFiltradas: Area[] = [];
@@ -36,7 +40,9 @@ export class ConceptosFormComponent  {
     private areaService: AreasService,
     private preciosService: PreciosService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private institucionService: InstitucionService,
+    private conceptoInstitucionService: ConceptoInstitucionService) {
       
     this.titulo = "Crear conceptos";
     this.model = new Concepto();
@@ -61,11 +67,10 @@ export class ConceptosFormComponent  {
           this.model = model;
           this.autocompleteControlArea.setValue(model.area);
           this.buscarPrecio();
+          this.buscarCodigoPensiones();
         });
       }
     });
-
-   
   }
 
 
@@ -77,6 +82,8 @@ export class ConceptosFormComponent  {
     let conceptoPrecio: ConceptoPrecio = new ConceptoPrecio;
     conceptoPrecio.concepto = this.model;
     conceptoPrecio.precio = this.precio; 
+
+    this.crearCodigoPensiones();
 
     this.preciosService.crear(conceptoPrecio).subscribe(model =>{
       console.log(model);
@@ -99,6 +106,9 @@ export class ConceptosFormComponent  {
     conceptoPrecio.concepto = this.model;
     conceptoPrecio.precio = this.precio; 
 
+    this.crearCodigoPensiones();
+
+
     this.preciosService.editar(conceptoPrecio).subscribe(concepto =>{
       console.log(concepto);
       Swal.fire('Modificado: ' , `${this.nombreModel} actualizado con éxito`, "success");
@@ -112,6 +122,7 @@ export class ConceptosFormComponent  {
       }
     });
   }
+
 
   seleccionarArea(event: MatAutocompleteSelectedEvent){
     this.area = event.option.value as Area;
@@ -131,4 +142,39 @@ export class ConceptosFormComponent  {
       this.precio = precio.precio ? precio.precio : 0;
     });
   }
+
+  private crearCodigoPensiones() {
+    if(!this.codigoPensiones){
+      return;
+    }
+    let conceptoInstitucion: ConceptoInstitucion = new ConceptoInstitucion();
+    conceptoInstitucion.idInterno = this.codigoPensiones;
+    conceptoInstitucion.concepto = this.model;
+
+    this.conceptoInstitucionService.crear(conceptoInstitucion).subscribe(
+      () => console.log("Concepto institución registrado correctament"),
+      () => console.error("Error al registrar concepto institución")
+    );
+
+  }
+
+  private buscarCodigoPensiones(){
+    this.institucionService.buscarLikeNombre("PENSIONES").subscribe(
+      instituciones =>{
+        let pensiones = instituciones[0].id;
+        this.conceptoInstitucionService.buscar(this.model.id, pensiones).subscribe(
+          ci => {
+            this.codigoPensiones = ci[0].idInterno;
+          },
+          () =>{
+            console.log("No se pudo obtener el código de pensiones para ese concepto");
+          }
+        );
+      }, () =>{
+        console.log("Error buscando pensiones");
+      }
+    );
+  }
+
+
 }
