@@ -9,7 +9,7 @@ import { CommonService } from '../services/common.service';
 })
 export abstract class CommonListarComponent<E extends Generic, S extends CommonService<E>> implements OnInit {
 
-  lista: E[];
+  lista: E[]=[];
   titulo: string;
   protected nombreModel: string;
 

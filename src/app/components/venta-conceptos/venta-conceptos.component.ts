@@ -3,9 +3,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { map, flatMap } from 'rxjs/operators';
-import { BASE_ENDPOINT, VIEWER } from 'src/app/config/app';
+import { VIEWER } from 'src/app/config/app';
 import { Area } from 'src/app/models/area';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -43,7 +42,6 @@ export class VentaConceptosComponent
     private pipe: DatePipe,
     public dialog: MatDialog,
     private fechaService: FechaService,
-    private router: Router
   ) {
     super(service);
     this.titulo = 'Listado de estudios';
@@ -88,7 +86,13 @@ export class VentaConceptosComponent
 
   buscarEstudiosDeHoy(): any {
     this.service.filtrarDiaDeHoy().subscribe(
-      (estudios) => (this.lista = estudios),
+      (estudios) => {
+        for(let estudio of estudios){
+          if(estudio.estado.toUpperCase() != "CANCELADO"){
+            this.lista.push(estudio)
+          }
+        }
+      },
       (e) => {
         if (e.status === 404) {
           this.lista = [];
@@ -108,7 +112,11 @@ export class VentaConceptosComponent
       .filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id)
       .subscribe(
         (estudios) => {
-          this.lista = estudios;
+          for(let estudio of estudios){
+            if(estudio.estado.toUpperCase() != "CANCELADO"){
+              this.lista.push(estudio)
+            }
+          }
         },
         (e) => {
           if (e.status === 404) {
@@ -133,7 +141,11 @@ export class VentaConceptosComponent
       .filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id)
       .subscribe(
         (estudios) => {
-          this.lista = estudios;
+          for(let estudio of estudios){
+            if(estudio.estado.toUpperCase() != "CANCELADO"){
+              this.lista.push(estudio)
+            }
+          }
         },
         (e) => {
           if (e.status === 404) {
@@ -180,7 +192,13 @@ export class VentaConceptosComponent
       console.log(this.fechaInicio + ' ' + this.fechaFin);
 
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
-        (estudios) => (this.lista = estudios),
+        (estudios) => {
+          for(let estudio of estudios){
+            if(estudio.estado.toUpperCase() != "CANCELADO"){
+              this.lista.push(estudio)
+            }
+          }
+        },
         (e) => {
           if (e.status === 404) {
             this.lista = [];
