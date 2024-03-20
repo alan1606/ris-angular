@@ -39,7 +39,7 @@ export class CheckInComponent implements OnInit {
   codigoPromocion: string = '';
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
-  folio: number= null;
+  folio: string= "";
 
   ngOnInit(): void {
     this.buscarCitasHoy();

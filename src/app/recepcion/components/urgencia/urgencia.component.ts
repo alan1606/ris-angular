@@ -77,7 +77,7 @@ export class UrgenciaComponent implements OnInit {
   medicoReferente: Medico;
   ordenVenta: OrdenVenta;
 
-  folio: number;
+  folio: string;
 
   campania: Campania = new Campania();
 
@@ -315,6 +315,7 @@ export class UrgenciaComponent implements OnInit {
 
     if(this.folio){
       this.ordenVenta.folioInstitucion = this.folio;
+      console.log(this.estudios[0].institucion);
     }
 
     //if(this.institucion.nombre !== 'SALUD PARRAL'){
@@ -347,7 +348,7 @@ export class UrgenciaComponent implements OnInit {
   }
 
 
-  private agendaSaludParral(): void{
+  /*private agendaSaludParral(): void{
     this.ordenVentaService.venderConceptosSaludParral(this.estudios, this.ordenVenta, this.folio).subscribe(
       estudios => {
         this.estudios = estudios;
@@ -361,7 +362,7 @@ export class UrgenciaComponent implements OnInit {
         Swal.fire("Error", "Ha ocurrido un error al procesar la venta", "error")
       }
     );
-  }
+  }*/
 
 
   abrirModalRegistrarPaciente(){

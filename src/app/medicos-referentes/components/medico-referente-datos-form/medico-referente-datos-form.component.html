@@ -1,21 +1,24 @@
 <div>
   <form class="form" action="" [formGroup]="form">
+    
     <div>
       <mat-form-field class="">
-        <mat-label>Usuario</mat-label>
-        <input matInput formControlName="usuario" />
+        <mat-label>Nombre(s)</mat-label>
+        <input matInput formControlName="nombres" />
       </mat-form-field>
     </div>
+
     <div>
       <mat-form-field class="">
-        <mat-label>Contraseña</mat-label>
-        <input matInput type="password" formControlName="password" />
+        <mat-label>Apellido(s)</mat-label>
+        <input matInput formControlName="apellidos" />
       </mat-form-field>
     </div>
+
     <div>
       <mat-form-field class="">
-        <mat-label>Confirmar contraseña</mat-label>
-        <input matInput type="password" formControlName="confirmPassword" />
+        <mat-label>Especialidad</mat-label>
+        <input matInput formControlName="especialidad" />
       </mat-form-field>
     </div>
     <div>
@@ -24,10 +27,65 @@
         <input matInput formControlName="telefono" />
       </mat-form-field>
     </div>
+
+    <div>
+      <mat-form-field class="">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+    </div>
+    
     <div>
       <mat-form-field class="">
         <mat-label>Direccion</mat-label>
         <input matInput formControlName="direccion" />
+      </mat-form-field>
+    </div>
+
+    <!--Fecha de nacimiento-->
+
+
+    <div>
+      <mat-form-field class="">
+        <mat-label>Whastapp</mat-label>
+        <input matInput formControlName="whatsapp" />
+      </mat-form-field>
+    </div>
+
+
+    <!--Sexo-->
+
+    <div>
+      <mat-form-field class="">
+        <mat-label>Cédula</mat-label>
+        <input matInput formControlName="cedula" />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="">
+        <mat-label>Cédula de especialidad</mat-label>
+        <input matInput formControlName="cedulaEsp" />
+      </mat-form-field>
+    </div>
+
+
+    <div>
+      <mat-form-field class="">
+        <mat-label>Nombre de usuario a crear</mat-label>
+        <input matInput formControlName="usuario" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="">
+        <mat-label>Defina su contraseña</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="">
+        <mat-label>Confirmar contraseña</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" />
       </mat-form-field>
     </div>
     <button class="btn btn-success" (click)="registrar();">Registrar</button>

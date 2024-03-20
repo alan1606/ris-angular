@@ -17,5 +17,5 @@ export class OrdenVenta implements Generic{
     codigoPromocional: string;
     estudios:string;
     usuarioAgendo: string;
-    folioInstitucion: number;
+    folioInstitucion: string;
 }
