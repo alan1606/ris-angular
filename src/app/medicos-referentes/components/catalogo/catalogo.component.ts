@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, UntypedFormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { flatMap, map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
@@ -9,6 +10,7 @@ import { ConceptoPrecio } from 'src/app/precios/models/concepto-precio';
 import { PreciosService } from 'src/app/precios/services/precios.service';
 import { AreasService } from 'src/app/services/areas.service';
 import { ConceptosService } from 'src/app/services/conceptos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-catalogo',
@@ -23,57 +25,57 @@ export class CatalogoComponent implements OnInit {
   ) {}
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('nombreBuscar') nombreBuscar: ElementRef=null;
 
   totalRegistros = 0;
   paginaActual = 0;
   totalPorPagina = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  lista: ConceptoPrecio[];
+
+  lista: ConceptoPrecio[]=[];
   conceptosFiltrados: Concepto[] = [];
   areasFiltradas: Area[] = [];
   buscarPorArea: boolean = false;
   areaControl: string = '';
   area: Area = new Area();
   estudios: Study[] = [];
-  autocompleteControlArea: UntypedFormControl = new UntypedFormControl();
-  autocompleteControlConcepto: UntypedFormControl = new UntypedFormControl();
+  autocompleteControl = new FormControl(null);
+  nombreConcepto: string = '';
 
   ngOnInit(): void {
-    this.autocompleteControlArea.valueChanges
+    this.calcularRangos();
+
+    this.autocompleteControl.valueChanges
       .pipe(
         map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
         flatMap((valor) =>
           valor ? this.areasService.filtrarPorNombre(valor) : []
         )
       )
-      .subscribe((areas) => {
-        this.areasFiltradas = areas;
-        this.buscarPorArea = true;
-        this.calcularRangos()
-      });
-
-    this.autocompleteControlConcepto.valueChanges
-      .pipe(
-        map((valor) => (typeof valor === 'string' ? valor : valor.concepto)),
-        mergeMap((valor) =>
-          valor && this.area?.id
-            ? this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id)
-            : []
-        )
-      )
-      .subscribe((conceptos) => {
-        this.conceptosFiltrados = conceptos;
-       
-      });
+      .subscribe((areas) => (this.areasFiltradas = areas));
   }
 
-  public calcularRangos(): void {
-    if (this.area && this.buscarPorArea) {
-      console.log(['Buscando por área', this.area]);
-      return this.buscarPreciosPorArea(this.area.id);
-      
+  buscarPorNombre() {
+    this.buscarPorArea = false;
+
+    this.nombreConcepto = this.nombreBuscar?.nativeElement.value;
+
+    this.calcularRangos();
+  }
+
+  public  calcularRangos(): void {
+    //Se me ocurre que aquí puedo poner ifs para saber hacia qué service paginar
+  
+    if(this.nombreConcepto && this.nombreConcepto != "" && !this.buscarPorArea ){
+      return this.buscarPreciosPorNombre(this.nombreConcepto);
     }
-  }
+  
+    if(this.area && this.buscarPorArea){
+      this.buscarPreciosPorArea(this.area.id);
+      return;
+    }
+  
+    }
 
   private buscarPreciosPorArea(areaId: number) {
     this.service
@@ -86,8 +88,33 @@ export class CatalogoComponent implements OnInit {
         this.lista = p.content as ConceptoPrecio[];
         this.totalRegistros = p.totalElements as number;
         this.paginator._intl.itemsPerPageLabel = 'Registros:';
-        console.log(this.lista);
       });
+  }
+  private buscarPreciosPorNombre(nombreBuscar: string){
+    this.service.buscarPorNombre(nombreBuscar, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(p => {
+      this.lista = p.content;
+      this.totalRegistros = p.totalElements as number;
+      this.paginator._intl.itemsPerPageLabel = 'Registros:';
+      console.log(this.lista);
+    },
+    error =>{
+      if(error.status == 404){
+        Swal.fire('No encontrado', 'No existe el estudio ' + nombreBuscar, 'error');
+        this.nombreBuscar.nativeElement.value = "";
+      }
+    });
+  }
+  seleccionarArea(event: MatAutocompleteSelectedEvent): void {
+    const area = event.option.value as Area;
+    this.area = area;
+    this.buscarPorArea = true;
+    this.calcularRangos();
+    this.autocompleteControl.setValue('');
+    event.option.deselect();
+    event.option.focus();
+  }
+  mostrarNombre(area?: Area): string {
+    return area ? area.nombre : '';
   }
   public paginar(event: PageEvent): void {
     this.paginaActual = event.pageIndex;

@@ -1,19 +1,30 @@
 <div>
   <div class="busqueda ms-3 mt-3">
+    
+      <h1 *ngIf="lista.length<=0" class="aviso">Escriba en los recuadros para buscar estudios por nombre o área.</h1>
     <div class="col-md-auto mb-4 contenedor-busqueda">
-      <input
-        type="text"
-        placeholder="NOMBRE DE AREA"
-        class="form-control buscar-qr"
-        name="area"
-        id="area"
-        [formControl]="autocompleteControlArea"
-      />
-      <input
-        type="text"
-        class="form-control filtrar-areas"
-        placeholder="NOMBRE DEL ESTUDIO"
-      />
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Nombre de estudio</mat-label>
+        <input matInput (input)="buscarPorNombre()" #nombreBuscar />
+      </mat-form-field>
+
+      <mat-form-field class="ms-3" appearance="fill">
+        <mat-label>Área</mat-label>
+        <input
+          matInput
+          [formControl]="autocompleteControl"
+          [matAutocomplete]="autocomplete"
+        />
+        <mat-autocomplete
+          #autocomplete="matAutocomplete"
+          [displayWith]="mostrarNombre"
+          (optionSelected)="seleccionarArea($event)"
+        >
+          <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+            {{ area.nombre }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
   </div>
   <div class="card text-dark bg-light mb-3">
@@ -28,11 +39,11 @@
               <th>Área</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td>{{ area.nombre }}</td>
+          <tbody *ngIf="lista.length>0">
+            <tr *ngFor="let estudio of lista">
+              <td>{{estudio.concepto.concepto}}</td>
+              <td>{{estudio.precio}}</td>
+              <td>{{ estudio.concepto.area.nombre }}</td>
             </tr>
           </tbody>
         </table>
