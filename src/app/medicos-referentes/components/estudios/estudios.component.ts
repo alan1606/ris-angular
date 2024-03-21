@@ -10,6 +10,8 @@ import { Paciente } from 'src/app/models/paciente';
 import { FormControl } from '@angular/forms';
 import { map, mergeMap } from 'rxjs';
 import { PacientesService } from 'src/app/services/pacientes.service';
+import { Medico } from 'src/app/models/medico';
+import { MedicoService } from 'src/app/services/medico.service';
 
 @Component({
   selector: 'app-estudios',
@@ -32,14 +34,29 @@ export class EstudiosComponent implements OnInit {
   paciente: Paciente;
   autocompleteControlPaciente = new FormControl();
   pacientesFiltrados: Paciente[] = [];
-  medicoReferente;
   paginaActual = 0;
   totalPorPagina = 10;
   totalRegistros = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   lista: OrdenVenta[] = [];
+  medico: Medico;
+
 
   ngOnInit(): void {
+    
+    //Buscar médico referente por usuario del token
+    this.medicoReferenteService.encontrarPorUsuario(this.tokenService.getUsername()).subscribe(
+      medico => {
+        this.medico = medico;
+        //Buscar ordenes de hoy del médico x, se me hace que va aquí, a menos que con otro método de rxjs se pueda encadenar
+
+      }, 
+      () =>{
+      console.error("Error al buscar a ese médico referente con ese usuario");
+      //Redireccionar a la verga
+    });
+
+
     this.autocompleteControlPaciente.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
       mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
@@ -76,7 +93,7 @@ export class EstudiosComponent implements OnInit {
       .buscarOrdenesPorMedicoYFechas(
         this.paginaActual.toString(),
         this.totalPorPagina.toString(),
-        1,
+        this.medico.id,
         this.fechaInicio,
         this.fechaFin
       )
@@ -90,7 +107,7 @@ export class EstudiosComponent implements OnInit {
       );
   }
   private buscarPorPaciente() {
-    this.medicoReferenteService.buscarOrdenesPorInstitucionYPaciente(this.paginaActual.toString(), this.totalPorPagina.toString(), this.paciente.id, 1).subscribe(
+    this.medicoReferenteService.buscarOrdenesPorMedicoYPaciente(this.paginaActual.toString(), this.totalPorPagina.toString(), this.paciente.id, this.medico.id).subscribe(
       lista => {
         console.log(lista)
         this.lista = lista.content as OrdenVenta[];
