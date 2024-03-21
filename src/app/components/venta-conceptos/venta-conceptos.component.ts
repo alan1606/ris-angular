@@ -41,7 +41,7 @@ export class VentaConceptosComponent
     @Inject(PacientesService) private pacienteService: PacientesService,
     private pipe: DatePipe,
     public dialog: MatDialog,
-    private fechaService: FechaService,
+    private fechaService: FechaService
   ) {
     super(service);
     this.titulo = 'Listado de estudios';
@@ -87,9 +87,10 @@ export class VentaConceptosComponent
   buscarEstudiosDeHoy(): any {
     this.service.filtrarDiaDeHoy().subscribe(
       (estudios) => {
-        for(let estudio of estudios){
-          if(estudio.estado.toUpperCase() != "CANCELADO"){
-            this.lista.push(estudio)
+        this.lista = [];
+        for (let estudio of estudios) {
+          if (estudio.estado.toUpperCase() != 'CANCELADO') {
+            this.lista.push(estudio);
           }
         }
       },
@@ -112,9 +113,10 @@ export class VentaConceptosComponent
       .filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id)
       .subscribe(
         (estudios) => {
-          for(let estudio of estudios){
-            if(estudio.estado.toUpperCase() != "CANCELADO"){
-              this.lista.push(estudio)
+          this.lista = [];
+          for (let estudio of estudios) {
+            if (estudio.estado.toUpperCase() != 'CANCELADO') {
+              this.lista.push(estudio);
             }
           }
         },
@@ -141,9 +143,10 @@ export class VentaConceptosComponent
       .filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id)
       .subscribe(
         (estudios) => {
-          for(let estudio of estudios){
-            if(estudio.estado.toUpperCase() != "CANCELADO"){
-              this.lista.push(estudio)
+          this.lista=[]
+          for (let estudio of estudios) {
+            if (estudio.estado.toUpperCase() != 'CANCELADO') {
+              this.lista.push(estudio);
             }
           }
         },
@@ -193,9 +196,10 @@ export class VentaConceptosComponent
 
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
         (estudios) => {
-          for(let estudio of estudios){
-            if(estudio.estado.toUpperCase() != "CANCELADO"){
-              this.lista.push(estudio)
+          this.lista=[]
+          for (let estudio of estudios) {
+            if (estudio.estado.toUpperCase() != 'CANCELADO') {
+              this.lista.push(estudio);
             }
           }
         },

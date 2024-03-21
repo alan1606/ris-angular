@@ -105,7 +105,11 @@
             }"
           >
             <td (click)="abrirQr(estudio)">{{ estudio.id }}</td>
-            <td><button class="btn btn-info"(click)="verQr(estudio)">Orden</button></td>
+            <td>
+              <button class="btn btn-info" (click)="verQr(estudio)">
+                Orden
+              </button>
+            </td>
             <td>{{ estudio.paciente.nombreCompleto }}</td>
             <td>{{ estudio.concepto.concepto }}</td>
             <td>{{ estudio.fechaAsignado | date : "dd/MM/yyyy" }}</td>
