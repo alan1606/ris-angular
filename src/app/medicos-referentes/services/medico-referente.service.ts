@@ -16,9 +16,6 @@ export class MedicoReferenteService {
     ) {}
     protected baseEndpoint = BASE_ENDPOINT +  '/ris/instituciones';
 
-  // obtenerMedicosReferentesNestjs():Observable<Medico[]>{
-  //   return this.http.get<Medico[]>("http://localhost:3000/medicos-referentes")
-  // }
   public buscarOrdenesPorMedicoYFechas(page:string, size:string , idInstitucion:number, fechaInicio:string , fechaFin:string):any{
     const params = new HttpParams()
     .set('page', page)
@@ -29,7 +26,6 @@ export class MedicoReferenteService {
   public buscarMedicoReferentePorUsuario(usuario):Observable<any>{
     return this.http.get<any>(`${this.baseEndpoint}/usuario/${usuario}`);
   }
-
 
   public buscarOrdenesPorMedicoYPaciente(page, size, idPaciente:number, idMedico:number):any{
     const params = new HttpParams()

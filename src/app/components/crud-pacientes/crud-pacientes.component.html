@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group ms-3 mt-2">
   <app-buscador-pacientes
     (pacienteEnviado)="recibirPacienteDelBuscador($event)"
   ></app-buscador-pacientes>
@@ -6,10 +6,8 @@
 
 <div>
   <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Paciente</div>
+    <div class="card-header ms-">Paciente</div>
     <div class="card-body">
-      <!-- <button mat-dialog-close class="btn btn-secondary my-2" (click)="cerrar()">Volver</button> -->
-
       <form>
         <div class="form-group">
           <label>Nombre</label>
@@ -19,7 +17,6 @@
             id="nombre"
             class="form-control"
             [(ngModel)]="model.nombre"
-            (input)="mayusculasNombre()"
           />
           <div class="alert alert-danger" *ngIf="error?.nombre">
             {{ error.nombre }}
@@ -34,7 +31,6 @@
             id="apellidoPaterno"
             class="form-control"
             [(ngModel)]="model.apellidoPaterno"
-            (input)="mayusculasPaterno()"
           />
           <div class="alert alert-danger" *ngIf="error?.apellidoPaterno">
             {{ error.apellidoPaterno }}
@@ -49,7 +45,6 @@
             id="apellidoMaterno"
             class="form-control"
             [(ngModel)]="model.apellidoMaterno"
-            (input)="mayusculasMaterno()"
           />
           <div class="alert alert-danger" *ngIf="error?.apellidoMaterno">
             {{ error.apellidoMaterno }}
@@ -168,7 +163,6 @@
             id="curp"
             class="form-control"
             [(ngModel)]="model.curp"
-            (input)="mayusculasCurp()"
           />
           <div class="alert alert-danger" *ngIf="error?.curp">
             {{ error.curp }}

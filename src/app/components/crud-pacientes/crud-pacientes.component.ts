@@ -34,18 +34,6 @@ export class CrudPacientesComponent {
     this.sexo = event.sexo == 2 ? 'MASCULINO' : 'FEMENINO';
   }
 
-  mayusculasNombre() {
-    this.model.nombre = this.model.nombreCompleto.toUpperCase();
-  }
-
-  mayusculasPaterno() {
-    this.model.apellidoPaterno.toUpperCase();
-  }
-
-  mayusculasMaterno() {
-    this.model.apellidoMaterno.toUpperCase();
-  }
-
   seleccionarFecha(fecha: HTMLInputElement): void {
     const fechaValor = new Date(this.fechaNacimientoControl.value);
     this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
@@ -98,15 +86,10 @@ export class CrudPacientesComponent {
       this.generarCurp();
     }
   }
-  mayusculasCurp(): void {
-    this.model.curp = this.model.curp.toUpperCase();
-  }
-
   public crear(): void {
     if (!this.camposValidos()) {
       return;
     }
-
     this.pacientesService.crear(this.model).subscribe(
       (model) => {
         this.model = model;
@@ -121,7 +104,6 @@ export class CrudPacientesComponent {
       }
     );
   }
-
   public editar(): void {
     if (!this.camposValidos()) {
       return;
@@ -140,7 +122,6 @@ export class CrudPacientesComponent {
       }
     );
   }
- 
 
   private camposValidos(): boolean {
     if (!this.model.nombre) {
@@ -169,5 +150,4 @@ export class CrudPacientesComponent {
   private limpiarCampos(): void {
     this.model = new Paciente();
   }
-
 }
