@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-medico-referente-datos-form',
@@ -28,6 +29,20 @@ export class MedicoReferenteDatosFormComponent implements OnInit {
   }
 
   registrar() {
+
+    if(!this.datosValidos()){
+      return;
+    }
+
     this.datosUsuario.emit(this.form.value);
+  }
+
+
+  private datosValidos(): boolean{
+    if(this.form.get('password').value != this.form.get('confirmPassword').value){
+      Swal.fire("Verificar contraseña","Las contraseñas no coinciden", "error");
+      return false;
+    }
+    return true;
   }
 }
