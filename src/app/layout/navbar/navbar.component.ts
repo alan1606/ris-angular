@@ -42,6 +42,7 @@ export class NavbarComponent implements OnInit {
   isLogged: boolean = false;
   isAdmin: boolean = false;
   isReceptionist: boolean = false;
+  isReferring:boolean=false;
   isRadiologicPhysician: boolean = false;
   isTechnician: boolean = false;
   isInstitution: boolean = false;
@@ -59,7 +60,6 @@ export class NavbarComponent implements OnInit {
     this.loginParams.code_challenge = this.generateCodeChallenge(code_verifier);
     const httpParams = new HttpParams({ fromObject: this.loginParams });
     const codeUrl = this.authorize_url + httpParams.toString();
-    console.log(codeUrl);
     location.href = codeUrl;
   }
 
@@ -78,6 +78,7 @@ export class NavbarComponent implements OnInit {
     this.isRadiologicPhysician = this.tokenService.isRadiologicPhysician();
     this.isTechnician = this.tokenService.isTechnician();
     this.isInstitution = this.tokenService.isInstitution();
+    this.isReferring = this.tokenService.isReferring();
 
     this.username = this.tokenService.getUsername();
     if (this.isLogged && this.isTokensExipred()) {
@@ -221,7 +222,7 @@ export class NavbarComponent implements OnInit {
   }
 
   puedeAbrirMedicosReferentes(): boolean {
-    if (this.isAdmin) {
+    if (this.isReferring) {
       return true;
     }
     return false;

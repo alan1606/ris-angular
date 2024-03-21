@@ -57,6 +57,9 @@ export class TokenService {
   isInstitution(): boolean{
     return this.isRole("INSTITUCION");
   }
+  isReferring():boolean{
+    return this.isRole('MEDICO_REFERENTE')
+  }
 
   private isRole(role: string) : boolean{
     if(!this.isLogged()){

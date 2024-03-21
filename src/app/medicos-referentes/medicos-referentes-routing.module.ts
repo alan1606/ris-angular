@@ -5,32 +5,31 @@ import { RegistroMedicoReferendeComponent } from './components/registro-medico-r
 import { RecepcionGuard } from '../guards/recepcion.guard';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { EstudiosComponent } from './components/estudios/estudios.component';
+import { MedicosReferentesGuard } from '../guards/medicos-referentes.guard';
 
 const routes: Routes = [
-
   {
-    path:"landing",
-    component:LandingPageComponent
+    path: 'landing',
+    component: LandingPageComponent,
   },
   {
-    path:"registro",
-    component:RegistroMedicoReferendeComponent
+    path: 'registro',
+    component: RegistroMedicoReferendeComponent,
   },
   {
-    path:"estudios",
-    component:EstudiosComponent,
-    canActivate:[RecepcionGuard]
+    path: 'estudios',
+    component: EstudiosComponent,
+    canActivate: [MedicosReferentesGuard],
   },
   {
-    path:"catalogo",
-    component:CatalogoComponent,
-    canActivate:[RecepcionGuard]
-  }
-
+    path: 'catalogo',
+    component: CatalogoComponent,
+    canActivate: [MedicosReferentesGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MedicosReferentesRoutingModule { }
+export class MedicosReferentesRoutingModule {}

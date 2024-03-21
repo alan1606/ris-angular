@@ -16,7 +16,7 @@ export class MedicosReferentesGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
-    const puede: boolean = this.tokenService.isAdmin();
+    const puede: boolean = this.tokenService.isReferring();
     return of( puede );
   }
   
