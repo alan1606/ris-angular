@@ -245,7 +245,8 @@ export class NavbarComponent implements OnInit {
 
   abrirPerfilModal(){
     this.dialog.open(PerfilModalComponent,{
-      width:"1000px"
+      width:"500px",
+      data:{user:this.username}
     })
   }
 }

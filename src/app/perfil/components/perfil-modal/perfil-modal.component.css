@@ -1,0 +1,13 @@
+.card-header {
+    justify-content: center;
+    text-align: center;
+    font-size: 30vh;
+  background: rgb(0, 55, 17);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 55, 17, 1) 0%,
+    rgba(32, 207, 0, 1) 35%,
+    rgba(25, 200, 0, 1) 71%,
+    rgba(6, 52, 0, 1) 100%
+  );
+}

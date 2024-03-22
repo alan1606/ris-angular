@@ -52,6 +52,7 @@ import { ChatModule } from './chat/chat.module';
 import { MembresiasComponent } from './components/membresias/membresias.component';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
+import { PerfilModule } from './perfil/perfil.module';
 
 @NgModule({
   declarations: [
@@ -104,14 +105,11 @@ import { LandingMembresiaComponent } from './components/landing-membresia/landin
     MatIconModule,
     MatCardModule,
     RecepcionModule,
-    MatCardModule,
-    MatDialogModule,
     MatDividerModule,
-    MatIconModule,
-    MatSelectModule,
     MatFormFieldModule,
     AyudaModule,
     ChatModule,
+    PerfilModule,
     QuillModule.forRoot(),
   ],
   providers: [

@@ -1,1 +1,32 @@
-<p>perfil-modal works!</p>
+<div class="perfil-container">
+  <div class="card card-header">
+    <i class="bi bi-person-circle"></i>
+  </div>
+  <div class="card card-body">
+    <mat-button-toggle class="btn btn-info" (click)="cambiarEditar()">Editar</mat-button-toggle>
+    <mat-form-field class="">
+      <mat-label>Usuario</mat-label>
+      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+    </mat-form-field>
+    <mat-form-field class="">
+        <mat-label>Correo</mat-label>
+        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Whatsapp</mat-label>
+        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Direccion</mat-label>
+        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Fecha de nacimiento</mat-label>
+        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Sexo</mat-label>
+        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      </mat-form-field>
+  </div>
+</div>
