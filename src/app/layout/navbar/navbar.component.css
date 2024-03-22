@@ -5,11 +5,30 @@
   align-items: flex-end;
 }
 
+.navbar-collapse{
+  font-family: Verdana;
+}
+
 .username {
-  font-size: 28px;
+  font-size: x-large;
+}
+.username  .bi-person-fill{
+  font-size: x-large;
   color: rgb(39, 255, 0);
 }
 
+.nombre-usuario{
+  color: white;
+}
 .boton-usuario{
   display: flex;
+}
+
+.link-perfil{
+  text-align: end;
+  color: white;
+  font-size: x-small;
+}
+.link-perfil:hover{
+  cursor: pointer;
 }

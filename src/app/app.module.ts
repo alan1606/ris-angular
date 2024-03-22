@@ -105,6 +105,7 @@ import { LandingMembresiaComponent } from './components/landing-membresia/landin
     MatCardModule,
     RecepcionModule,
     MatCardModule,
+    MatDialogModule,
     MatDividerModule,
     MatIconModule,
     MatSelectModule,

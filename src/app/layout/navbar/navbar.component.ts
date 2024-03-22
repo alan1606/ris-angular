@@ -13,6 +13,8 @@ import { HttpParams } from '@angular/common/http';
 import { TokenService } from 'src/app/services/token.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { PerfilModalComponent } from 'src/app/perfil/components/perfil-modal/perfil-modal.component';
 
 const CHARACTERS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwkyz123456789';
@@ -47,7 +49,7 @@ export class NavbarComponent implements OnInit {
   isTechnician: boolean = false;
   isInstitution: boolean = false;
 
-  constructor(private tokenService: TokenService, private router: Router) {}
+  constructor(private tokenService: TokenService, private router: Router, private dialog:MatDialog) {}
 
   ngOnInit(): void {
     this.getLogged();
@@ -238,5 +240,12 @@ export class NavbarComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+
+  abrirPerfilModal(){
+    this.dialog.open(PerfilModalComponent,{
+      width:"1000px"
+    })
   }
 }

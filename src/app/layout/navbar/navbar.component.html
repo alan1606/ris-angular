@@ -24,8 +24,8 @@
             routerLink="/chat"
             routerLinkActive="active"
             *ngIf="puedeAbrirPacientes()"
-            ><i class="bi bi-chat-dots-fill"></i></a
-          >
+            ><i class="bi bi-chat-dots-fill"></i
+          ></a>
         </li>
         <li class="nav-item">
           <a
@@ -261,8 +261,9 @@
       </ul>
 
       <div class="form-inline my-2 my-lg-0 boton-usuario">
-        <a *ngIf="username" class="nav-link username">
-          <i class="bi bi-person-fill"></i>{{ username }}
+        <a *ngIf="username && isLogged" class="nav-link username">
+          <i class="bi bi-person-fill"></i><label class="nombre-usuario">{{ username }}</label>
+          <p (click)="abrirPerfilModal()" class="link-perfil">Ver Perfil<i class="bi bi-three-dots-vertical"></i></p>
         </a>
         <button
           class="btn btn-outline-success my-2 my-sm-0 ms-3"
