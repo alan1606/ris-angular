@@ -16,26 +16,5 @@ export class MedicoReferenteService {
     ) {}
     protected baseEndpoint = BASE_ENDPOINT +  '/ris/instituciones';
 
-  public buscarOrdenesPorMedicoYFechas(page:string, size:string , idInstitucion:number, fechaInicio:string , fechaFin:string):any{
-    const params = new HttpParams()
-    .set('page', page)
-    .set('size', size);
-    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idInstitucion}/fechaInicio/${fechaInicio}/fechaFin/${fechaFin}`, { params: params });
-  }
 
-  public buscarMedicoReferentePorUsuario(usuario):Observable<any>{
-    return this.http.get<any>(`${this.baseEndpoint}/usuario/${usuario}`);
-  }
-
-  public buscarOrdenesPorMedicoYPaciente(page, size, idPaciente:number, idMedico:number):any{
-    const params = new HttpParams()
-    .set('page', page)
-    .set('size', size);
-    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idMedico}/paciente/${idPaciente}`, { params: params });
-  }
-
-
-  public encontrarPorUsuario(usuario: string): Observable<Medico> {
-    return this.http.get<Medico>(`${this.baseEndpoint}/usuario/${usuario}`);
-  }
 }

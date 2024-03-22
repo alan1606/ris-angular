@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
 import { Medico } from '../models/medico';
+import { OrdenVenta } from '../models/orden-venta';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,26 @@ export class MedicoService {
   public crearMedicoReferentePurosNombre(medico: Medico): Observable<Medico> {
     return this.http.post<Medico>(`${this.baseEndpoint}/referentes-nombre`, medico,
     { headers: this.cabeceras });
+  }
+
+  public buscarOrdenesPorMedicoYFechas(page:string, size:string , idMedico:number, fechaInicio:string , fechaFin:string):any{
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idMedico}/fechaInicio/${fechaInicio}/fechaFin/${fechaFin}`, { params: params });
+  }
+
+
+  public buscarOrdenesPorMedicoYPaciente(page, size, idPaciente:number, idMedico:number):any{
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.http.get<OrdenVenta[]>(`${this.baseEndpoint}/${idMedico}/paciente/${idPaciente}`, { params: params });
+  }
+
+
+  public encontrarPorUsuario(usuario: string): Observable<Medico> {
+    return this.http.get<Medico>(`${this.baseEndpoint}/usuario/${usuario}`);
   }
 
 }

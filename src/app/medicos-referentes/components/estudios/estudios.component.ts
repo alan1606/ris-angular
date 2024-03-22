@@ -21,7 +21,7 @@ import { MedicoService } from 'src/app/services/medico.service';
 export class EstudiosComponent implements OnInit {
   constructor(
     private fechaService: FechaService,
-    private medicoReferenteService: MedicoReferenteService,
+    private medicoService: MedicoService,
     private tokenService: TokenService,
     private router: Router,
     private pacienteService:PacientesService
@@ -45,7 +45,7 @@ export class EstudiosComponent implements OnInit {
   ngOnInit(): void {
     
     //Buscar médico referente por usuario del token
-    this.medicoReferenteService.encontrarPorUsuario(this.tokenService.getUsername()).subscribe(
+    this.medicoService.encontrarPorUsuario(this.tokenService.getUsername()).subscribe(
       medico => {
         this.medico = medico;
         //Buscar ordenes de hoy del médico x, se me hace que va aquí, a menos que con otro método de rxjs se pueda encadenar
@@ -89,7 +89,7 @@ export class EstudiosComponent implements OnInit {
   }
 
   private buscarPorFechas() {
-    this.medicoReferenteService
+    this.medicoService
       .buscarOrdenesPorMedicoYFechas(
         this.paginaActual.toString(),
         this.totalPorPagina.toString(),
@@ -107,7 +107,7 @@ export class EstudiosComponent implements OnInit {
       );
   }
   private buscarPorPaciente() {
-    this.medicoReferenteService.buscarOrdenesPorMedicoYPaciente(this.paginaActual.toString(), this.totalPorPagina.toString(), this.paciente.id, this.medico.id).subscribe(
+    this.medicoService.buscarOrdenesPorMedicoYPaciente(this.paginaActual.toString(), this.totalPorPagina.toString(), this.paciente.id, this.medico.id).subscribe(
       lista => {
         console.log(lista)
         this.lista = lista.content as OrdenVenta[];
