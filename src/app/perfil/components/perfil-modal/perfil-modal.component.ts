@@ -11,6 +11,12 @@ export class PerfilModalComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,){}
 
   username:string=''
+  correo:string=''
+  whatsapp:string=''
+  direccion:string=''
+  fechaNacimiento=''
+  sexos:string[]=["1","2"]
+  sexo:number=null
   editarCampos:boolean=true
   ngOnInit(): void {
     this.username=this.data.user
@@ -18,5 +24,9 @@ export class PerfilModalComponent implements OnInit {
 
   cambiarEditar(){
     this.editarCampos=!this.editarCampos
+  }
+
+  guardarCambios(){
+    console.log(this.sexo)
   }
 }

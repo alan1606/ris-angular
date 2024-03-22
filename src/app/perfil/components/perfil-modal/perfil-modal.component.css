@@ -11,3 +11,13 @@
     rgba(6, 52, 0, 1) 100%
   );
 }
+.btn-editar-campos{
+  text-align: end;
+  justify-content: end;
+}
+
+.bi-card-image{
+  font-size: medium;
+  text-align: end;
+  justify-content: end;
+}

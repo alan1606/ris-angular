@@ -1,32 +1,51 @@
 <div class="perfil-container">
+  <div class="btn-editar-campos">
+    <button [class]="editarCampos?'btn btn-info mb-2':'btn btn-secondary mb-2'" (click)="cambiarEditar()">{{editarCampos?"Editar":"Cancelar"}}</button>
+  </div>
   <div class="card card-header">
     <i class="bi bi-person-circle"></i>
   </div>
+  <div *ngIf="!editarCampos">
+    <label for="subir-imagen"
+      ><i class="bi bi-card-image">Subir imagen</i></label
+    >
+    <input type="file" id="subir-imagen" hidden />
+  </div>
   <div class="card card-body">
-    <mat-button-toggle class="btn btn-info" (click)="cambiarEditar()">Editar</mat-button-toggle>
     <mat-form-field class="">
       <mat-label>Usuario</mat-label>
       <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
     </mat-form-field>
     <mat-form-field class="">
-        <mat-label>Correo</mat-label>
-        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
-      </mat-form-field>
-      <mat-form-field class="">
-        <mat-label>Whatsapp</mat-label>
-        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
-      </mat-form-field>
-      <mat-form-field class="">
-        <mat-label>Direccion</mat-label>
-        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
-      </mat-form-field>
-      <mat-form-field class="">
-        <mat-label>Fecha de nacimiento</mat-label>
-        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
-      </mat-form-field>
-      <mat-form-field class="">
-        <mat-label>Sexo</mat-label>
-        <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
-      </mat-form-field>
+      <mat-label>Correo</mat-label>
+      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>Whatsapp</mat-label>
+      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>Direccion</mat-label>
+      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Sexo</mat-label>
+      <mat-select [disabled]="editarCampos" [(ngModel)]="sexo">
+        <mat-option *ngFor="let sexoO of sexos" [value]="sexoO">{{
+          sexoO == 1 ? "Femenino" : "Masculino"
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      *ngIf="!editarCampos"
+      class="btn btn-success"
+      (click)="guardarCambios()"
+    >
+      Guardar Cambios
+    </button>
   </div>
 </div>
