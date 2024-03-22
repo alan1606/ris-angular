@@ -1,6 +1,11 @@
 <div class="perfil-container">
   <div class="btn-editar-campos">
-    <button [class]="editarCampos?'btn btn-info mb-2':'btn btn-secondary mb-2'" (click)="cambiarEditar()">{{editarCampos?"Editar":"Cancelar"}}</button>
+    <button
+      [class]="editarCampos ? 'btn btn-info mb-2' : 'btn btn-secondary mb-2'"
+      (click)="cambiarEditar()"
+    >
+      {{ editarCampos ? "Editar" : "Cancelar" }}
+    </button>
   </div>
   <div class="card card-header">
     <i class="bi bi-person-circle"></i>
@@ -18,21 +23,19 @@
     </mat-form-field>
     <mat-form-field class="">
       <mat-label>Correo</mat-label>
-      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      <input matInput [(ngModel)]="correo" [disabled]="editarCampos" />
     </mat-form-field>
     <mat-form-field class="">
       <mat-label>Whatsapp</mat-label>
-      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      <input matInput [(ngModel)]="whatsapp" [disabled]="editarCampos" />
     </mat-form-field>
-    <mat-form-field class="">
-      <mat-label>Direccion</mat-label>
-      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
-    </mat-form-field>
-    <mat-form-field class="">
-      <mat-label>Fecha de nacimiento</mat-label>
-      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field>
+        <mat-label>Fecha de nacimiento</mat-label>
+        <input [disabled]="editarCampos" matInput [matDatepicker]="picker" #fechaSeleccionada [formControl]="fechaNacimiento" (dateInput)="actualizarFecha(fechaSeleccionada)">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    <mat-form-field >
       <mat-label>Sexo</mat-label>
       <mat-select [disabled]="editarCampos" [(ngModel)]="sexo">
         <mat-option *ngFor="let sexoO of sexos" [value]="sexoO">{{

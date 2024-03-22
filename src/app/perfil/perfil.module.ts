@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MatOptionModule } from '@angular/material/core';
     MatButtonToggleModule,
     MatSelectModule,
     MatOptionModule,
+    MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule
   ]
