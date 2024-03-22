@@ -43,9 +43,11 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
+  <div class="guardar-cambios">
     <button
       *ngIf="!editarCampos"
-      class="btn btn-success"
+      class="btn btn-success mt-3 "
       (click)="guardarCambios()"
     >
       Guardar Cambios

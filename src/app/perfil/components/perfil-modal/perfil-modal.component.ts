@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FechaService } from 'src/app/services/fecha.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-perfil-modal',
@@ -40,5 +41,10 @@ export class PerfilModalComponent implements OnInit {
   guardarCambios(){
     console.log(this.sexo)
     console.log(this.fechaNacimiento.value)
+    Swal.fire({
+      icon:"success",
+      title:"Datos guardados"
+    })
+    this.editarCampos=true
   }
 }
