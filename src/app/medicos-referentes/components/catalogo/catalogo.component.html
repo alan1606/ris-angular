@@ -35,14 +35,14 @@
           <thead>
             <tr>
               <th>Nombre</th>
-              <th>Precio</th>
+              <!-- <th>Precio</th> -->
               <th>Área</th>
             </tr>
           </thead>
           <tbody *ngIf="lista.length>0">
             <tr *ngFor="let estudio of lista">
               <td>{{estudio.concepto.concepto}}</td>
-              <td>{{estudio.precio}}</td>
+              <!-- <td>{{estudio.precio}}</td> -->
               <td>{{ estudio.concepto.area.nombre }}</td>
             </tr>
           </tbody>

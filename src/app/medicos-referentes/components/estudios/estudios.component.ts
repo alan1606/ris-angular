@@ -12,6 +12,7 @@ import { map, mergeMap } from 'rxjs';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { Medico } from 'src/app/models/medico';
 import { MedicoService } from 'src/app/services/medico.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-estudios',
@@ -23,7 +24,8 @@ export class EstudiosComponent implements OnInit {
     private fechaService: FechaService,
     private medicoService: MedicoService,
     private tokenService: TokenService,
-    private router: Router,
+    private router: Router,   
+    private datePipe: DatePipe,
     private pacienteService:PacientesService
   ) {}
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,13 +45,14 @@ export class EstudiosComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+    this.fechaInicio = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.fechaFin = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     //Buscar médico referente por usuario del token
     this.medicoService.encontrarPorUsuario(this.tokenService.getUsername()).subscribe(
       medico => {
         this.medico = medico;
-        //Buscar ordenes de hoy del médico x, se me hace que va aquí, a menos que con otro método de rxjs se pueda encadenar
-
+        this.busquedaPorFechas = true;
+        this.buscar();
       }, 
       () =>{
       console.error("Error al buscar a ese médico referente con ese usuario");
@@ -101,7 +104,6 @@ export class EstudiosComponent implements OnInit {
         (lista) => {
           this.lista = lista.content as OrdenVenta[];
           this.totalRegistros = lista.totalElements as number;
-          console.log(this.lista);
         },
         (error) => console.log(error)
       );
@@ -109,7 +111,6 @@ export class EstudiosComponent implements OnInit {
   private buscarPorPaciente() {
     this.medicoService.buscarOrdenesPorMedicoYPaciente(this.paginaActual.toString(), this.totalPorPagina.toString(), this.paciente.id, this.medico.id).subscribe(
       lista => {
-        console.log(lista)
         this.lista = lista.content as OrdenVenta[];
         this.totalRegistros = lista.totalElements as number;
         this.paginator._intl.itemsPerPageLabel = 'Registros:';

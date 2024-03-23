@@ -93,9 +93,8 @@ export class RegistroMedicoReferendeComponent implements OnInit {
 
   recibirDatosUsuario(event) {
     console.log(event);
+    Swal.fire("Registrado", "Inicie sesión en la parte superior derecha para comenzar a usar la plataforma", "success");
   }
 
-  mostraUsuario(e) {
-    console.log(e);
-  }
+
 }

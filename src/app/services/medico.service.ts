@@ -8,7 +8,8 @@ import { OrdenVenta } from '../models/orden-venta';
 @Injectable({
   providedIn: 'root'
 })
-export class MedicoService { 
+export class MedicoService {
+
   private baseEndpoint = BASE_ENDPOINT +  '/ris/medicos';
   private cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
@@ -20,6 +21,14 @@ export class MedicoService {
 
   public filtrarReferentesPorNombre(nombre: string): Observable<Medico[]>{
     return this.http.get<Medico[]>(`${this.baseEndpoint}/referentes/nombre/${nombre}`);
+  }
+
+  public filtrarReferentesPorCorreo(correo: string): Observable<Medico>{
+    return this.http.get<Medico>(`${this.baseEndpoint}/referentes/correo/${correo}`);
+  }
+
+  public filtrarReferentesPorWhatsapp(whatsapp: string): Observable<Medico>{
+    return this.http.get<Medico>(`${this.baseEndpoint}/referentes/whatsapp/${whatsapp}`);
   }
 
   public encontrarRadiologoPorToken(token: string): Observable<Medico>{
@@ -37,6 +46,11 @@ export class MedicoService {
 
   public crearMedicoReferente(medico: Medico): Observable<Medico>{
     return this.http.post<Medico>(`${this.baseEndpoint}/referentes`, medico,
+    { headers: this.cabeceras });
+  }
+
+  public crearMedicoReferenteAutorregistro(medico: Medico): Observable<Medico>{
+    return this.http.post<Medico>(`${this.baseEndpoint}/referentes/autorregistro`, medico,
     { headers: this.cabeceras });
   }
 
