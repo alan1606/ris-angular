@@ -20,4 +20,5 @@ export class Medico implements Generic {
     cedulaFederal: string;
     cedulaEstatal: string;
     empresa: string;
+    verificado:boolean;
 }

@@ -60,7 +60,10 @@ export class EnviarEstudioModalComponent implements OnInit {
     this.autocompleteControlMedicoReferente.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombres + " " + valor.apellidos),
       flatMap(valor => valor ? this.medicoService.filtrarReferentesPorNombre(valor) : [])
-    ).subscribe(referentes => this.medicosReferentesFiltrados = referentes);
+    ).subscribe(referentes => {
+      this.medicosReferentesFiltrados = referentes
+      console.log(referentes)
+    });
 
 
     this.autocompleteControlMedicoRadiologo.valueChanges.pipe(
