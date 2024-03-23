@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header center">
     <div>
-      <mat-form-field appearance="fill">
+      <mat-form-field class="w-25" appearance="fill">
         <mat-label>Rango de fechas:</mat-label>
         <mat-date-range-input [rangePicker]="picker">
           <input matStartDate placeholder="Inicio" #fechaInicio />
@@ -16,7 +16,7 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="ms-3">
+      <mat-form-field appearance="fill" class="ms-3 w-25">
         <input class="buscar-paciente"
           matInput
           placeholder="Paciente"

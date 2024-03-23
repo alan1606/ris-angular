@@ -1,19 +1,20 @@
 <div>
-  <div class="busqueda ms-3 mt-3">
+  <div class="busqueda ms-3 mt-3 ">
     
       <h1 *ngIf="lista.length<=0" class="aviso">Escriba en los recuadros para buscar estudios por nombre o área.</h1>
     <div class="col-md-auto mb-4 contenedor-busqueda">
-      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-form-field class="example-full-width w-25" appearance="fill">
         <mat-label>Nombre de estudio</mat-label>
-        <input matInput (input)="buscarPorNombre()" #nombreBuscar />
+        <input matInput (input)="buscarPorNombre()" #nombreBuscar placeholder="Ejemplo (Craneo)" />
       </mat-form-field>
 
-      <mat-form-field class="ms-3" appearance="fill">
+      <mat-form-field class="ms-3 w-25" appearance="fill">
         <mat-label>Área</mat-label>
         <input
           matInput
           [formControl]="autocompleteControl"
           [matAutocomplete]="autocomplete"
+          placeholder="Ejemplo (Tomografia)"
         />
         <mat-autocomplete
           #autocomplete="matAutocomplete"
