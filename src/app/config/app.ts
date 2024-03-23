@@ -1,5 +1,5 @@
-export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
-// export const BASE_ENDPOINT = 'http://localhost:8090/api'
+//export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
+ export const BASE_ENDPOINT = 'http://localhost:8090/api'
 
 export const VIEWER = 'https://ris.diagnocons.com:3322/viewer?StudyInstanceUIDs=';
 export const ZIP_STUDIES_PATH = 'https://ris.diagnocons.com:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies';

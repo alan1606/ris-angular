@@ -59,7 +59,7 @@
                             [matAutocomplete]="autocompleteReferente">
                         <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
                             (optionSelected)="seleccionarMedicoReferente($event)">
-                            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente" [class]="medicoReferente.verificado?'medico-verificado':''">
+                            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente" [class]="medicoReferente.validado?'medico-verificado':''">
                                 {{medicoReferente.nombres + ' ' +medicoReferente.apellidos}}
                             </mat-option>
                         </mat-autocomplete>

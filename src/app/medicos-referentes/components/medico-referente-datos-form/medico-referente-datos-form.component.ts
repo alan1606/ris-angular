@@ -1,6 +1,8 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Medico } from 'src/app/models/medico';
+import { FechaService } from 'src/app/services/fecha.service';
 import { MedicoService } from 'src/app/services/medico.service';
 import Swal from 'sweetalert2';
 
@@ -15,47 +17,62 @@ export class MedicoReferenteDatosFormComponent implements OnInit {
   @Input() correo?: string = null;
   @Input() whatsapp?: string = null;
 
-  constructor(
-    private medicoService: MedicoService
-  ){}
-
-  form: FormGroup = new FormGroup({
-    nombres: new FormControl(''),
-    apellidos: new FormControl(''),
-    especialidad: new FormControl(''),
-    usuario: new FormControl(''),
-    email: new FormControl(''),
-    whatsapp: new FormControl(''),
-    cedula: new FormControl(''),
-    cedulaEsp: new FormControl(''),
-    password: new FormControl(''),
-    confirmPassword: new FormControl(''),
-    telefono: new FormControl(''),
-    direccion: new FormControl(''),
-  });
-
+  sexos: string[] = ['MASCULINO', 'FEMENINO'];
+  password2: string = "";
+  fechaNacimientoControl = new FormControl();
   medico: Medico;
+  sexo: string = '';
+
+  constructor(
+    private medicoService: MedicoService,
+    private fechaService: FechaService,
+    private pipe: DatePipe
+  ){
+    this.medico = new Medico();
+  }
+
+ 
+
 
   ngOnInit(): void {
     if (this.correo) {
+      this.medico.correo = this.correo;
+
       this.medicoService.filtrarReferentesPorCorreo(this.correo).subscribe(
         medico => {
           //Asignar el médico
           this.medico = medico;
-          console.log(this.medico);
+          if(this.medico?.sexo){
+            this.sexo = this.medico.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
+          }
+          if(this.medico.fechaNacimiento){
+            this.fechaNacimientoControl.setValue(
+              new Date(this.medico.fechaNacimiento)
+            );
+          }
         }
       );
     }
     if (this.whatsapp) {
+      this.medico.whatsapp = this.whatsapp;
+
       this.medicoService.filtrarReferentesPorWhatsapp(this.whatsapp).subscribe(
         medico => {
           //Asignar el médico
           this.medico = medico;
-          console.log(this.medico);
+          if(this.medico?.sexo){
+            this.sexo = this.medico.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
+          }
+          if(this.medico.fechaNacimiento){
+            this.fechaNacimientoControl.setValue(
+              new Date(this.medico.fechaNacimiento)
+            );
+          }
         }
       );
     }
   }
+
 
   registrar() {
 
@@ -63,23 +80,35 @@ export class MedicoReferenteDatosFormComponent implements OnInit {
       return;
     }
 
+
     this.medicoService.crearMedicoReferenteAutorregistro(this.medico).subscribe(
       medico => {
         this.medico = medico;
         this.datosUsuario.emit(this.medico);
       },
       error => {
-        console.error(error);
+        Swal.fire("Error", error.error.detail, "error");
       }
     );
   }
 
 
   private datosValidos(): boolean{
-    if(this.form.get('password').value != this.form.get('confirmPassword').value){
+    if(this.medico.password != this.password2){
       Swal.fire("Verificar contraseña","Las contraseñas no coinciden", "error");
       return false;
     }
     return true;
+  }
+
+  seleccionarFecha(): void {
+    const fechaValor = new Date(this.fechaNacimientoControl.value);
+    this.medico.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
+    this.medico.fechaNacimiento += "T00:00:00";
+
+  }
+
+  seleccionarSexo(): void {
+    this.medico.sexo = this.sexo == 'MASCULINO' ? 2 : 1;
   }
 }

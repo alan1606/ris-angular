@@ -189,7 +189,7 @@ export class EnviarEstudioModalComponent implements OnInit {
 
     this.estudio.ordenVenta.medicoReferente = referente;
 
-    console.log(referente);
+    console.log(referente.validado);
     event.option.deselect();
     event.option.focus();
   }
