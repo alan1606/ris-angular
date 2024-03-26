@@ -17,29 +17,52 @@
     <input type="file" id="subir-imagen" hidden />
   </div>
   <div class="card card-body">
-    <mat-form-field class="">
+    <mat-form-field class="" appearance="fill">
       <mat-label>Usuario</mat-label>
-      <input matInput [(ngModel)]="username" [disabled]="editarCampos" />
+      <input
+        matInput
+        [(ngModel)]="datosUsuario.usuario"
+        [disabled]="editarCampos"
+      />
     </mat-form-field>
-    <mat-form-field class="">
+    <mat-form-field class="" appearance="fill">
       <mat-label>Correo</mat-label>
-      <input matInput [(ngModel)]="correo" [disabled]="editarCampos" />
+      <input
+        matInput
+        [(ngModel)]="datosUsuario.correo"
+        [disabled]="editarCampos"
+      />
     </mat-form-field>
-    <mat-form-field class="">
+    <mat-form-field class="" appearance="fill">
       <mat-label>Whatsapp</mat-label>
-      <input matInput [(ngModel)]="whatsapp" [disabled]="editarCampos" />
+      <input
+        matInput
+        [(ngModel)]="datosUsuario.whatsapp"
+        [disabled]="editarCampos"
+      />
     </mat-form-field>
-    <mat-form-field>
-        <mat-label>Fecha de nacimiento</mat-label>
-        <input [disabled]="editarCampos" matInput [matDatepicker]="picker" #fechaSeleccionada [formControl]="fechaNacimiento" (dateInput)="actualizarFecha(fechaSeleccionada)">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    <mat-form-field >
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de nacimiento: </mat-label>
+      <input
+        [disabled]="editarCampos"
+        matInput
+        [matDatepicker]="picker"
+        (dateChange)="seleccionarFecha()"
+        #fecha
+        [formControl]="fechaNacimientoControl"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>Sexo</mat-label>
-      <mat-select [disabled]="editarCampos" [(ngModel)]="sexo">
+      <mat-select [disabled]="editarCampos" [(ngModel)]="datosUsuario.sexo">
         <mat-option *ngFor="let sexoO of sexos" [value]="sexoO">{{
-          sexoO == 1 ? "Femenino" : "Masculino"
+          sexoO == "1" ? "Femenino" : "Masculino"
         }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -47,7 +70,7 @@
   <div class="guardar-cambios">
     <button
       *ngIf="!editarCampos"
-      class="btn btn-success mt-3 "
+      class="btn btn-success mt-3"
       (click)="guardarCambios()"
     >
       Guardar Cambios
