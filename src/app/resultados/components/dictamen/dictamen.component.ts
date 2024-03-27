@@ -46,8 +46,6 @@ export class DictamenComponent implements OnInit {
 
   cargarInterpretacion(): void{
     this.interpretacionService.encontrarPorEstudioId(this.estudio.id).subscribe(interpretacion => {
-      console.log(interpretacion);
-      console.log(this.estudio.id);
 
       if(interpretacion.length>0){
         this.interpretacion = interpretacion[0];
@@ -74,7 +72,6 @@ export class DictamenComponent implements OnInit {
      else{
       this.archivosCargados = Promise.resolve(false);
      }
-      console.log(multimedia);
     },error =>{
       this.archivosCargados = Promise.resolve(false);
     }
