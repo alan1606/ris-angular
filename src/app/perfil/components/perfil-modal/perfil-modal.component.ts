@@ -55,10 +55,21 @@ export class PerfilModalComponent implements OnInit {
 
   seleccionarFecha(): void {
     const fechaValor = new Date(this.fechaNacimientoControl.value);
-    this.datosUsuario.fechaNacimiento =this.fechaService.formatearFecha(fechaValor);
+    this.datosUsuario.fechaNacimiento =
+      this.fechaService.formatearFecha(fechaValor);
     this.datosUsuario.fechaNacimiento += 'T00:00:00';
   }
   guardarCambios() {
+    this.medicosService
+      .modificarMedicoReferentePorUsuario(this.datosUsuario)
+      .subscribe(
+        (datos) => {
+          console.log(datos);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     Swal.fire({
       icon: 'success',
       title: 'Datos guardados',

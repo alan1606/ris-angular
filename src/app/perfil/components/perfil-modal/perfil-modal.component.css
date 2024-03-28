@@ -1,7 +1,7 @@
 .card-header {
-    justify-content: center;
-    text-align: center;
-    font-size: 30vh;
+  justify-content: center;
+  text-align: center;
+  font-size: 30vh;
   background: rgb(0, 55, 17);
   background: linear-gradient(
     90deg,
@@ -11,16 +11,16 @@
     rgba(6, 52, 0, 1) 100%
   );
 }
-.btn-editar-campos{
+.btn-editar-campos {
   text-align: end;
   justify-content: end;
 }
 
-.bi-card-image{
+.bi-card-image {
   font-size: medium;
   text-align: end;
   justify-content: end;
 }
-.guardar-cambios{
+.guardar-cambios {
   text-align: center;
 }

@@ -17,14 +17,8 @@
     <input type="file" id="subir-imagen" hidden />
   </div>
   <div class="card card-body">
-    <mat-form-field class="" appearance="fill">
-      <mat-label>Usuario</mat-label>
-      <input
-        matInput
-        [(ngModel)]="datosUsuario.usuario"
-        [disabled]="editarCampos"
-      />
-    </mat-form-field>
+    <h1 class="display-2">Nombre de usuario: {{datosUsuario.usuario}}</h1>
+
     <mat-form-field class="" appearance="fill">
       <mat-label>Correo</mat-label>
       <input
