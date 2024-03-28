@@ -11,6 +11,10 @@
     rgba(6, 52, 0, 1) 100%
   );
 }
+.tarjeta{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
 .btn-editar-campos {
   text-align: end;
   justify-content: end;

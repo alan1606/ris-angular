@@ -16,10 +16,53 @@
     >
     <input type="file" id="subir-imagen" hidden />
   </div>
-  <div class="card card-body">
-    <h1 class="display-2">Nombre de usuario: {{datosUsuario.usuario}}</h1>
+  <h1 class="display-1">Nombre de usuario: {{ datosUsuario.usuario }}</h1>
 
-    <mat-form-field class="" appearance="fill">
+  <div class="tarjeta">
+    <div>
+      <mat-form-field  >
+        <mat-label>Nombres(s)</mat-label>
+        <input
+          matInput
+          [(ngModel)]="datosUsuario.nombres"
+          [disabled]="editarCampos"
+        />
+      </mat-form-field>
+      <mat-form-field  >
+        <mat-label>Apellido(s)</mat-label>
+        <input
+          matInput
+          [(ngModel)]="datosUsuario.apellidos"
+          [disabled]="editarCampos"
+        />
+      </mat-form-field>
+      <mat-form-field  >
+        <mat-label>Especialidad</mat-label>
+        <input
+          matInput
+          [(ngModel)]="datosUsuario.especialidad"
+          [disabled]="editarCampos"
+        />
+      </mat-form-field>
+      <mat-form-field  >
+        <mat-label>Telefono</mat-label>
+        <input
+          matInput
+          [(ngModel)]="datosUsuario.telefono"
+          [disabled]="editarCampos"
+        />
+      </mat-form-field>
+      <mat-form-field  >
+        <mat-label>direccion</mat-label>
+        <input
+          matInput
+          [(ngModel)]="datosUsuario.direccion"
+          [disabled]="editarCampos"
+        />
+      </mat-form-field>
+    </div>
+   <div>
+    <mat-form-field  >
       <mat-label>Correo</mat-label>
       <input
         matInput
@@ -27,7 +70,7 @@
         [disabled]="editarCampos"
       />
     </mat-form-field>
-    <mat-form-field class="" appearance="fill">
+    <mat-form-field  >
       <mat-label>Whatsapp</mat-label>
       <input
         matInput
@@ -35,7 +78,7 @@
         [disabled]="editarCampos"
       />
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field >
       <mat-label>Fecha de nacimiento: </mat-label>
       <input
         [disabled]="editarCampos"
@@ -52,7 +95,7 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field >
       <mat-label>Sexo</mat-label>
       <mat-select [disabled]="editarCampos" [(ngModel)]="datosUsuario.sexo">
         <mat-option *ngFor="let sexoO of sexos" [value]="sexoO">{{
@@ -60,6 +103,7 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
   </div>
   <div class="guardar-cambios">
     <button
