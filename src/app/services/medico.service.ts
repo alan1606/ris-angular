@@ -79,4 +79,9 @@ export class MedicoService {
     return this.http.get<Medico>(`${this.baseEndpoint}/usuario/${usuario}`);
   }
 
+  public modificarMedicoReferentePorUsuario(medico: Medico): Observable<Medico>{
+    return this.http.put<Medico>(`${this.baseEndpoint}/${medico.id}/usuario`, medico,
+    { headers: this.cabeceras });
+  }
+
 }
