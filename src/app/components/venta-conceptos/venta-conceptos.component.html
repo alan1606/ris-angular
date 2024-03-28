@@ -1,4 +1,4 @@
-<div class="row justify-content-md-left">
+<div class="row justify-content-md-left mt-3 ms-1">
   <div class="col-md-auto">
     <button
       class="btn btn-info btn-lg btn-block"
@@ -12,22 +12,27 @@
     <mat-form-field appearance="fill">
       <mat-label>Rango de fechas:</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Inicio" #fechaInicio />
         <input
+          id="fechaInicio"
+          matStartDate
+          placeholder="Inicio"
+          #fechaInicio
+        />
+        <input
+          id="fechaFin"
           matEndDate
           placeholder="Fin"
           #fechaFin
           (dateChange)="buscarPorFecha(fechaInicio, fechaFin)"
         />
       </mat-date-range-input>
-      <mat-hint>YYYY-MM-DD / YYYY-MM-DD</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
   </div>
 
   <div class="col-md-auto">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <input
         matInput
         placeholder="Área"
@@ -47,7 +52,7 @@
   </div>
 
   <div class="col-md-auto">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <input
         matInput
         placeholder="Paciente"
@@ -106,7 +111,7 @@
           >
             <td (click)="abrirQr(estudio)">{{ estudio.id }}</td>
             <td>
-              <button class="btn btn-info" (click)="verQr(estudio)">
+              <button class="btn btn-info btn-sm" (click)="verQr(estudio)">
                 Orden
               </button>
             </td>
@@ -156,7 +161,11 @@
             </td>
             <td>{{ estudio.idPacs }}</td>
             <td>{{ estudio.equipoDicom.area.nombre }}</td>
-            <td (click)="desvincular(estudio)" *ngIf="estudio.iuid?.length > 0">
+            <td
+              (click)="desvincular(estudio)"
+              *ngIf="estudio.iuid?.length > 0"
+              style="font-size: 10px"
+            >
               {{ estudio.iuid }}
             </td>
             <td *ngIf="!estudio.iuid?.length > 0"></td>

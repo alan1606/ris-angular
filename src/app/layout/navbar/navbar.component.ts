@@ -169,7 +169,7 @@ export class NavbarComponent implements OnInit {
   }
 
   puedeAbrirDictador(): boolean {
-    if (this.isRadiologicPhysician || this.isAdmin) {
+    if (this.isRadiologicPhysician) {
       return true;
     }
     return false;

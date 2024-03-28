@@ -87,12 +87,13 @@ export class VentaConceptosComponent
   buscarEstudiosDeHoy(): any {
     this.service.filtrarDiaDeHoy().subscribe(
       (estudios) => {
-        this.lista = [];
+        const filteredList = [];
         for (let estudio of estudios) {
-          if (estudio.estado.toUpperCase() != 'CANCELADO') {
-            this.lista.push(estudio);
+          if (estudio.estado.toUpperCase() !== 'CANCELADO') {
+            filteredList.push(estudio);
           }
         }
+        this.lista = filteredList;
       },
       (e) => {
         if (e.status === 404) {
@@ -113,12 +114,13 @@ export class VentaConceptosComponent
       .filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id)
       .subscribe(
         (estudios) => {
-          this.lista = [];
+          const filteredList = [];
           for (let estudio of estudios) {
-            if (estudio.estado.toUpperCase() != 'CANCELADO') {
-              this.lista.push(estudio);
+            if (estudio.estado.toUpperCase() !== 'CANCELADO') {
+              filteredList.push(estudio);
             }
           }
+          this.lista = filteredList;
         },
         (e) => {
           if (e.status === 404) {
@@ -143,7 +145,7 @@ export class VentaConceptosComponent
       .filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id)
       .subscribe(
         (estudios) => {
-          this.lista=[]
+          this.lista = [];
           for (let estudio of estudios) {
             if (estudio.estado.toUpperCase() != 'CANCELADO') {
               this.lista.push(estudio);
@@ -192,16 +194,17 @@ export class VentaConceptosComponent
       );
       this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
 
-      console.log(this.fechaInicio + ' ' + this.fechaFin);
+      // console.log(this.fechaInicio + ' ' + this.fechaFin);
 
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
         (estudios) => {
-          this.lista=[]
+          const filteredList = [];
           for (let estudio of estudios) {
             if (estudio.estado.toUpperCase() != 'CANCELADO') {
-              this.lista.push(estudio);
+              filteredList.push(estudio);
             }
           }
+          this.lista = filteredList;
         },
         (e) => {
           if (e.status === 404) {
@@ -268,7 +271,7 @@ export class VentaConceptosComponent
     });
 
     modalRef.afterClosed().subscribe((info) => {
-      console.log(info);
+      
     });
   }
 
@@ -279,7 +282,7 @@ export class VentaConceptosComponent
     });
 
     modalRef.afterClosed().subscribe((info) => {
-      console.log(info);
+      
     });
   }
 
