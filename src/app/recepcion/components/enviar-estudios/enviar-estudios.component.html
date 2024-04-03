@@ -33,7 +33,7 @@
         </div>
 
         <div class="col-md-auto">
-            <mat-form-field>
+            <mat-form-field [style]="'width:400px;'">
                 <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
                     [matAutocomplete]="autocompletePaciente">
                 <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"
