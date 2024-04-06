@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MultimediaService } from '../../../services/multimedia.service';
 import { VentaConceptos } from '../../../models/venta-conceptos';
 import { SendMailService } from 'src/app/services/send-mail.service';
+import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 
 @Component({
   selector: 'app-subir-interpretacion',
@@ -32,7 +33,8 @@ export class SubirInterpretacionComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private multimediaService: MultimediaService,
-    private mailService: SendMailService
+    private mailService: SendMailService,
+    private ordenVentaService: OrdenVentaService
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +76,8 @@ export class SubirInterpretacionComponent implements OnInit {
           Swal.fire('Éxito', 'Interpretación subida exitosamente', 'success');
           this.estudio.estado = 'INTERPRETADO';
           this.actualizarEstudio();
-
+          this.enviarInformacionPensiones();
+///jkhkjhkjjkhjkkjhjhkjhkjkjjhjk
           if(!this.vieneDesdeInterpretacion){
             this.enviarAvisoInterpretacionHechaACorreo();
             this.router.navigate([
@@ -155,5 +158,18 @@ export class SubirInterpretacionComponent implements OnInit {
         console.log('Ha ocurrido un error al enviar el correo');
       }
     );
+  }
+
+  private enviarInformacionPensiones() {
+    this.ordenVentaService
+      .enviarInformacionPensiones(this.estudio.ordenVenta.id)
+      .subscribe(
+        () => {
+          console.log('Información pensiones enviada');
+        },
+        () => {
+          console.log('Error al enviar información Pensiones');
+        }
+      );
   }
 }
