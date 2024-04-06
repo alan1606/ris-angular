@@ -6,4 +6,4 @@ services:
     ports:
     - "4200:80"
     volumes:
-    - ./dist/ris:/usr/share/nginx/html<
+    - ./dist/ris:/usr/share/nginx/html
