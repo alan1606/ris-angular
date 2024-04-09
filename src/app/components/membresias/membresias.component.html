@@ -192,7 +192,7 @@
           {{ model?.id ? "Guardar" : "Crear" }}
         </button>
         <button
-          *ngIf="codigoMembresia && model"
+          *ngIf="codigoMembresia && model.nombre"
           class="btn btn-info mt-3 ms-3 btn-lg"
           (click)="abrirQrFirmarPoliticasMembresiaModal()"
         >

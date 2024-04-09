@@ -23,6 +23,7 @@ import { MedicosGuard } from './guards/medicos.guard';
 import { MembresiasComponent } from './components/membresias/membresias.component';
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
+import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
 
 const routes: Routes = [
   {
@@ -121,6 +122,11 @@ const routes: Routes = [
   {
     path: 'membresias',
     component: MembresiasComponent,
+    canActivate: [RecepcionGuard],
+  },
+  {
+    path: 'membresias/firmar/:idPaciente/:nombrePaciente/:codigoMembresia',
+    component: FirmarMembresiaComponent,
     canActivate: [RecepcionGuard],
   },
   {

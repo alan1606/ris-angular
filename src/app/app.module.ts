@@ -53,6 +53,7 @@ import { MembresiasComponent } from './components/membresias/membresias.componen
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 import { PerfilModule } from './perfil/perfil.module';
+import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { PerfilModule } from './perfil/perfil.module';
     MembresiasComponent,
     CrudPacientesComponent,
     LandingMembresiaComponent,
+    FirmarMembresiaComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxQrcodeElementTypes } from '@techiediaries/ngx-qrcode';
 import { Paciente } from 'src/app/models/paciente';
-
+import { BASE_SITE } from 'src/app/config/app';
 @Component({
   selector: 'app-qr-firmar-politicas-membresia',
   templateUrl: './qr-firmar-politicas-membresia.component.html',
@@ -23,9 +23,9 @@ export class QrFirmarPoliticasMembresiaComponent implements OnInit {
       if (!this.paciente.nombreCompleto || !this.codigo) {
         return;
       }
-      let url = `https://diagnocons.com/v1/firma?nombreBeneficiario=${this.paciente.nombreCompleto}&codigoMembresia=${this.codigo}`;
+      // let url = `https://diagnocons.com/v1/firma?nombreBeneficiario=${this.paciente.nombreCompleto}&codigoMembresia=${this.codigo}`;
+      let url = `${BASE_SITE}/membresias/firmar/${this.paciente.id}/${this.paciente.nombreCompleto}/${this.codigo}`
       this.value = url;
-      // this.url += this.paciente.nombreCompleto.replace(/\s/g, "")+ '/' + this.codigo;
     }
     return;
   }
