@@ -8,6 +8,8 @@ import {
 import { Paciente } from 'src/app/models/paciente';
 import SignaturePad from 'signature_pad';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FirmaService } from 'src/app/services/firma-service.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-firmar-membresia',
@@ -15,7 +17,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./firmar-membresia.component.css'],
 })
 export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private firmaService: FirmaService
+  ) {}
+
   @ViewChild('signaturePad', { static: true }) signaturePadElement: ElementRef;
   model: Paciente = new Paciente();
   codigoMembresia: string = '';
@@ -23,6 +30,7 @@ export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
   private signaturePad: any;
 
   ngOnInit(): void {
+    this.firmaService.ping();
     this.route.paramMap.subscribe((params) => {
       this.idURL = params.get('idPaciente');
       this.model.nombreCompleto = params.get('nombrePaciente');
@@ -41,7 +49,15 @@ export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
   }
 
   saveSignature(): void {
-    const signatureDataUrl = this.signaturePad.toDataURL();
-    console.log(signatureDataUrl);
+    const firma = this.signaturePad.toDataURL();
+    this.firmaService.guardarFirma(firma);
+    // .subscribe(
+    //   (data) => {
+    //     console.log(data);
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
   }
 }
