@@ -18,7 +18,7 @@ import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/env
 import { InformacionEstudioModalComponent } from '../studies/informacion-estudio-modal/informacion-estudio-modal.component';
 import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
-
+import { BASE_SITE } from 'src/app/config/app';
 @Component({
   selector: 'app-venta-conceptos',
   templateUrl: './venta-conceptos.component.html',
@@ -326,7 +326,7 @@ export class VentaConceptosComponent
   verQr(estudio: VentaConceptos): void {
     let ordenVentaId = estudio.ordenVenta.id;
     let pacienteId = estudio.paciente.id;
-    let url = `https://ris.diagnocons.com/ris/resultados/orden/${ordenVentaId}/${pacienteId}`;
+    let url = `${BASE_SITE}/resultados/orden/${ordenVentaId}/${pacienteId}`;
     window.location.href = url;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { map, mergeMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';
 
@@ -24,9 +24,14 @@ export class BuscadorPacientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.autocompleteControlPaciente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
-      mergeMap(valor => valor ? this.pacienteService.filtrarPorNombre(valor) : [])
-    ).subscribe(pacientes => this.pacientesFiltrados = pacientes);
+      debounceTime(250), 
+      distinctUntilChanged(), 
+      switchMap(valor => {
+        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
+        return valor ? this.pacienteService.filtrarPorNombre(nombreCompleto) : [];
+      })
+    ).subscribe(pacientes => {
+      this.pacientesFiltrados = pacientes;});
   }
 
   mostrarNombrePaciente(paciente?: Paciente): string {
