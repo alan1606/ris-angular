@@ -2,33 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { error } from 'console';
 import { Observable } from 'rxjs';
-
+import { SERVER_FIRMAS_ADDRESS } from '../config/app';
 @Injectable({
   providedIn: 'root',
 })
 export class FirmaService {
   constructor(private http: HttpClient) {}
 
-  ping() {
-    this.http.get('http://localhost:3000/firmas').subscribe(
-      (data) => {
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-  guardarFirma(firma): void {
-    this.http
-      .post(`http://localhost:3000/firmas/save`, { data: firma })
-      .subscribe(
-        (data) => {
-          console.log(data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+  guardarFirma(id:number,firma:string): Observable<any> {
+    return this.http.post(`${SERVER_FIRMAS_ADDRESS}/save`, { idPaciente:id,data: firma });
   }
 }

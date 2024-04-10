@@ -10,6 +10,7 @@ import SignaturePad from 'signature_pad';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirmaService } from 'src/app/services/firma-service.service';
 import { error } from 'console';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-firmar-membresia',
@@ -26,13 +27,12 @@ export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
   @ViewChild('signaturePad', { static: true }) signaturePadElement: ElementRef;
   model: Paciente = new Paciente();
   codigoMembresia: string = '';
-  idURL: string = '';
+  idURL: number = 0;
   private signaturePad: any;
 
   ngOnInit(): void {
-    this.firmaService.ping();
     this.route.paramMap.subscribe((params) => {
-      this.idURL = params.get('idPaciente');
+      this.idURL = parseInt(params.get('idPaciente'));
       this.model.nombreCompleto = params.get('nombrePaciente');
       this.codigoMembresia = params.get('codigoMembresia');
     });
@@ -50,14 +50,15 @@ export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
 
   saveSignature(): void {
     const firma = this.signaturePad.toDataURL();
-    this.firmaService.guardarFirma(firma);
-    // .subscribe(
-    //   (data) => {
-    //     console.log(data);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
+    this.firmaService.guardarFirma(this.idURL,firma).subscribe(
+      (data) => {
+        console.log(data);
+        Swal.fire({ title: 'Firma guardada correctamente', icon: 'success' });
+      },
+      (error) => {
+        console.log(error);
+        Swal.fire({ title: 'Error al guardar la firma, intente despues', icon: 'warning' });
+      }
+    );
   }
 }

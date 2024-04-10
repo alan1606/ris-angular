@@ -1,13 +1,13 @@
-<div class="container mt-5">
+<div class="container mt-2">
   <div class="">
     <h1>Beneficiario: {{ model.nombreCompleto }}</h1>
 
-    <p>Codigo membresia: {{ codigoMembresia }}</p>
+    <h1>Codigo membresia: {{ codigoMembresia }}</h1>
   </div>
 
   <div class="">
     <div>
-      <canvas #signaturePad width="1280" height="600"></canvas>
+      <canvas #signaturePad width="1366" height="700"></canvas>
     </div>
     <button class="btn btn-dark btn-lg" (click)="clearSignature()">Limpiar</button>
     <button class="btn btn-success ms-3 btn-lg" (click)="saveSignature()">Guardar</button>
