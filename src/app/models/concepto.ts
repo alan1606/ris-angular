@@ -13,4 +13,5 @@ export class Concepto implements Generic{
     montoDescuento?: number;
     precioDespuesDescuento?: number;
     instrucciones: string;
+    espaciosAgenda?: number;
 }

@@ -449,7 +449,7 @@ export class AgendarComponent implements OnInit {
 
 
   private cargarCitas(): void{
-    this.citaService.obtenerDisponiblesPorSalaYFecha(this.equipoDicom.id, this.fecha).subscribe(citas => {
+    this.citaService.obtenerDisponiblesPorSalaYFechaEspacios(this.equipoDicom.id, this.fecha, this.concepto.espaciosAgenda).subscribe(citas => {
       this.citas = citas;
       if(this.hayQueMostrarLimitePensionesUltrasonido()){
         this.mostrarCitasPensionesUltrasonido();

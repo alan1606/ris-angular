@@ -25,7 +25,7 @@ export class ConceptosFormComponent  {
   titulo: string;
   model: Concepto;
   error: any;
-  area: Area;
+  area: Area = new Area();
   precio: number = 0;
   codigoPensiones: string;
 
@@ -66,6 +66,7 @@ export class ConceptosFormComponent  {
         this.service.ver(id).subscribe(model => {
           this.model = model;
           this.autocompleteControlArea.setValue(model.area);
+          this.area = model.area;
           this.buscarPrecio();
           this.buscarCodigoPensiones();
         });

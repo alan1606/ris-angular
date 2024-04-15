@@ -29,6 +29,10 @@ export class CitaService {
     return this.http.get<Cita[]>(`${this.baseEndpoint}/disponibles/sala/${salaId}/dia/${fecha}`);
   }
 
+  public obtenerDisponiblesPorSalaYFechaEspacios(salaId: number, fecha: string, espacios: number): Observable<Cita[]>{
+    return this.http.get<Cita[]>(`${this.baseEndpoint}/disponibles/sala/${salaId}/dia/${fecha}/espacios/${espacios}`);
+  }
+
   public apartarCita(citaId: number): Observable<void>{
     return this.http.put<void>(`${this.baseEndpoint}/apartar/${citaId}`, {});
   }

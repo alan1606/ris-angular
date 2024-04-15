@@ -1,5 +1,5 @@
-// export const BASE_SITE='https://ris.diagnocons.com/ris'
-export const BASE_SITE='http://localhost:4200/ris'
+ export const BASE_SITE='https://ris.diagnocons.com/ris'
+//export const BASE_SITE='http://localhost:4200/ris'
 
 
 export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
