@@ -64,7 +64,6 @@ export class AgendarComponent implements OnInit {
     });
 
     this.minDate = new Date();
-
   }
 
   titulo = "Agendar cita";
@@ -207,7 +206,9 @@ export class AgendarComponent implements OnInit {
   seleccionarConcepto(event: MatAutocompleteSelectedEvent): void {
     this.concepto = event.option.value as Concepto;
 
-    this.conceptoService.ver(this.concepto.id).subscribe(concepto => this.concepto = concepto);
+    this.conceptoService.ver(this.concepto.id).subscribe(concepto => {
+      this.concepto = concepto;
+    });
     event.option.deselect();
     event.option.focus();
   }
@@ -228,7 +229,7 @@ export class AgendarComponent implements OnInit {
     );
   }
 
-   agregarEstudio() {
+   agregarEstudio(citas: Cita[]) {
 
     const estudio = new VentaConceptos();
 
@@ -236,10 +237,21 @@ export class AgendarComponent implements OnInit {
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
     estudio.paciente = this.paciente;
-    estudio.cita = this.cita;
+
+    console.log(citas);
+    for(let i= 0; i<citas.length; i++){
+      estudio.cita = citas[i];
+      
+      if(i>0){
+        console.log(estudio.concepto.precio);
+        let concepto:Concepto = {...estudio.concepto};
+        concepto.precio = 0;
+        estudio.concepto = concepto;
+      }
+      this.estudios.push(estudio);
+    }
 
 
-    this.estudios.push(estudio);
 
     this.calcularTotal();
     this.mostrarInstruccionesConcepto(this.estudios[this.estudios.length -1].concepto);
@@ -252,13 +264,15 @@ export class AgendarComponent implements OnInit {
     if (!this.datosValidos()) {
       return;
     }
-    this.citaService.apartarCita(cita.id).subscribe(() => {
-      this.agregarEstudio();
+    this.citaService.apartarCitaEspacios(cita.id, this.concepto.espaciosAgenda).subscribe(citas => {
+      this.agregarEstudio(citas);
+      //tengo que hacer esto por todas las citas 
+      this.citas = this.citas.filter(cita => cita.id != this.cita.id);
+
     },
     (error) => {
       Swal.fire("Error", error.error.detail, "error");
     });
-    this.citas = this.citas.filter(cita => cita.id != this.cita.id);
 
   }
 
