@@ -230,29 +230,18 @@ export class AgendarComponent implements OnInit {
   }
 
    agregarEstudio(citas: Cita[]) {
-
     const estudio = new VentaConceptos();
 
     estudio.concepto = this.concepto;
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
     estudio.paciente = this.paciente;
-
-    console.log(citas);
-    for(let i= 0; i<citas.length; i++){
-      estudio.cita = citas[i];
-      
-      if(i>0){
-        console.log(estudio.concepto.precio);
-        let concepto:Concepto = {...estudio.concepto};
-        concepto.precio = 0;
-        estudio.concepto = concepto;
-      }
-      this.estudios.push(estudio);
-    }
+    estudio.citas = citas;
 
 
+    this.estudios.push(estudio);
 
+    console.log(estudio);
     this.calcularTotal();
     this.mostrarInstruccionesConcepto(this.estudios[this.estudios.length -1].concepto);
 
@@ -327,11 +316,14 @@ export class AgendarComponent implements OnInit {
     return true;
   }
 
-  quitarEstudio(i: number): void {
-    this.liberarCita(this.estudios[i].cita);
-    this.estudios.splice(i, 1);
-    this.calcularTotal();
-    this.mostrarInstruccionesGenerales();
+  quitarEstudio(i: number, j: number): void {
+    this.liberarCita(this.estudios[i].citas[j]);
+    this.estudios[i].citas.splice(j,1);
+    if(this.estudios[i].citas.length == 0){
+      this.estudios.splice(i, 1);
+      this.calcularTotal();
+      this.mostrarInstruccionesGenerales();
+    }
   }
 
   private liberarCita(cita: Cita) {

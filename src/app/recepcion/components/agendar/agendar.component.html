@@ -99,20 +99,22 @@
                     </thead>
 
                     <tbody *ngIf="estudios?.length>0">
-                        <tr *ngFor="let estudio of estudios; index as i">
-                            <td>{{i+1}}</td>
-                            <td>{{estudio.concepto.concepto}}</td>
-                            <td>{{estudio.concepto.area.nombre}}</td>
-                            <td>{{estudio.equipoDicom.nombre}} </td>
-                            <td>{{estudio.concepto.precio}}</td>
-                            <td>{{estudio.cita.fechaYHora | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{estudio.cita.fechaYHora | date: 'HH:mm'}}</td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-md" (click)="quitarEstudio(i)">
-                                    -
-                                </button>
-                            </td>
-                        </tr>
+                        <ng-container *ngFor="let estudio of estudios; index as i">
+                            <tr *ngFor="let cita of estudio.citas; index as j">
+                                <td>{{i+1}}</td>
+                                <td>{{estudio.concepto.concepto}}</td>
+                                <td>{{estudio.concepto.area.nombre}}</td>
+                                <td>{{estudio.equipoDicom.nombre}} </td>
+                                <td>{{estudio.concepto.precio}}</td>
+                                <td>{{cita.fechaYHora | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{cita.fechaYHora | date: 'HH:mm'}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-md" (click)="quitarEstudio(i,j)">
+                                        -
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
                     </tbody>
                 </table>
             </div>

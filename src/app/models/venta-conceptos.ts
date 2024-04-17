@@ -26,5 +26,5 @@ export class VentaConceptos implements Generic {
     medicoRadiologo: Medico;
     iuid: string;
     mensaje: string;
-    cita: Cita;
+    citas: Cita[];
 }

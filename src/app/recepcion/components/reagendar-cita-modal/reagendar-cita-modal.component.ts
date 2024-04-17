@@ -59,9 +59,9 @@ export class ReagendarCitaModalComponent implements OnInit {
       }
     );
 
-    const { paciente, cita, concepto } = this.cita.estudio;
+    const { paciente, citas, concepto } = this.cita.estudio;
     this.titulo = `Reagendar ${concepto.area.nombre} ${concepto.concepto} de ${paciente.nombreCompleto}: ${paciente.telefono}`;
-    console.log(cita);
+    console.log(citas);
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
 
     this.formulario.get('citaControl').valueChanges.subscribe(value => {
