@@ -25,10 +25,6 @@ export class CitaService {
       { headers: this.cabeceras });
   }
 
-  public obtenerDisponiblesPorSalaYFecha(salaId: number, fecha: string): Observable<Cita[]>{
-    return this.http.get<Cita[]>(`${this.baseEndpoint}/disponibles/sala/${salaId}/dia/${fecha}`);
-  }
-
   public obtenerDisponiblesPorSalaYFechaEspacios(salaId: number, fecha: string, espacios: number): Observable<Cita[]>{
     return this.http.get<Cita[]>(`${this.baseEndpoint}/disponibles/sala/${salaId}/dia/${fecha}/espacios/${espacios}`);
   }
@@ -66,10 +62,10 @@ export class CitaService {
     return this.http.put<void>(`${this.baseEndpoint}/cancelar/${id}`, {});
   }
 
-  public reagendar(citaOrigenId: number, citaDestinoId: number, cita: Cita): Observable<Cita> {
+  public reagendar(citaOrigenId: number, citaDestinoId: number, cita: Cita, espacios:number): Observable<Cita> {
     //retorna la nueva cita
     console.log(cita);
-    return this.http.put<Cita>(`${this.baseEndpoint}/reagendar/origen/${citaOrigenId}/destino/${citaDestinoId}`, cita,
+    return this.http.put<Cita>(`${this.baseEndpoint}/reagendar/origen/${citaOrigenId}/destino/${citaDestinoId}/espacios/${espacios}`, cita,
     { headers: this.cabeceras });
   }
 

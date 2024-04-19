@@ -259,18 +259,19 @@ export class ConfirmacionesCitasComponent implements OnInit {
           text: "¿Desea reagendar para esa hora?"
         }).then((result) => {
           if (result.isConfirmed) {
-            this.mensajeReagendado(cita.id, nuevaCitaId, cita);
+            this.mensajeReagendado(cita, nuevaCitaId, cita);
           }
         });
       }
     });
   }
 
-  private mensajeReagendado(citaOrigenId: number, citaDestinoId: number, citaModificar: Cita) {
+  private mensajeReagendado(cita: Cita, citaDestinoId: number, citaModificar: Cita) {
+    const citaOrigenId = cita.id;
     const mensaje = "Se han reagendado la cita";
     const titular = "Reagendada";
 
-    this.citaService.reagendar(citaOrigenId, citaDestinoId, citaModificar).subscribe(cita => {
+    this.citaService.reagendar(citaOrigenId, citaDestinoId, citaModificar, cita.estudio.concepto.espaciosAgenda).subscribe(cita => {
       Swal.fire("Éxito", "Se ha reagendado correctamente la cita", "success");
       this.citas = this.citas.filter(c => c.id != citaModificar.id);
       cita.estudio = citaModificar.estudio;

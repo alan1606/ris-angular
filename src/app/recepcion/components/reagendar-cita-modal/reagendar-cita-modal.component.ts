@@ -93,7 +93,7 @@ export class ReagendarCitaModalComponent implements OnInit {
   };
 
   private cargarCitas(): void{
-    this.citaService.obtenerDisponiblesPorSalaYFecha(this.equipoDicom.id, this.fecha).subscribe(citas => {
+    this.citaService.obtenerDisponiblesPorSalaYFechaEspacios(this.equipoDicom.id, this.fecha, this.estudio.concepto.espaciosAgenda).subscribe(citas => {
       this.citas = citas;
     },
       error => {
