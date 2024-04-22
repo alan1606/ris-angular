@@ -19,7 +19,6 @@ import Swal from 'sweetalert2';
 })
 export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private firmaService: FirmaService
   ) {}
@@ -50,7 +49,11 @@ export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
 
   saveSignature(): void {
     const firma = this.signaturePad.toDataURL();
-    this.firmaService.guardarFirma(this.idURL,firma).subscribe(
+    let firmabackend={
+      idPaciente:this.idURL,
+      firma:firma
+    }
+    this.firmaService.guardarFirma(firmabackend).subscribe(
       (data) => {
         console.log(data);
         Swal.fire({ title: 'Firma guardada correctamente', icon: 'success' });
