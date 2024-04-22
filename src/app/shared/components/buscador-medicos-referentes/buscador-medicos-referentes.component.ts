@@ -1,12 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Medico } from 'src/app/models/medico';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
-import { NuevoMedicoSoloNombreComponent } from '../studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 import { flatMap, map } from 'rxjs';
 import { MedicoService } from 'src/app/services/medico.service';
+import { NuevoMedicoSoloNombreComponent } from 'src/app/components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 
 @Component({
   selector: 'app-buscador-medicos-referentes',
@@ -16,15 +16,19 @@ import { MedicoService } from 'src/app/services/medico.service';
 export class BuscadorMedicosReferentesComponent implements OnInit {
   
   @Output() medicoEnviado = new EventEmitter<Medico>();
+  @Input() mostrarNuevoMedicoInput?:boolean=true;
   constructor(
     private dialog: MatDialog,
     private medicoService: MedicoService
-  ) {}
+  ) {
+  }
+  mostrarNuevoMedico:boolean=true
   autocompleteControlMedicoReferente = new UntypedFormControl();
   medicosReferentesFiltrados: Medico[] = [];
   estudio: VentaConceptos;
 
   ngOnInit(): void {
+    this.mostrarNuevoMedico=this.mostrarNuevoMedicoInput
     this.autocompleteControlMedicoReferente.valueChanges
       .pipe(
         map((valor) =>

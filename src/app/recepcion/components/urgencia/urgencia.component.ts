@@ -189,11 +189,8 @@ export class UrgenciaComponent implements OnInit {
     event.option.focus();
   }
 
-  seleccionarMedicoReferente(event): void {
-    this.medicoReferente = event.option.value as Medico;
-    console.log(this.medicoReferente);
-    event.option.deselect();
-    event.option.focus();
+  seleccionarMedicoReferente(event:Medico): void {
+    this.medicoReferente = event
   }
 
 

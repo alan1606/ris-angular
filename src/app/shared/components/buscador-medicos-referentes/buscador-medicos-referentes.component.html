@@ -9,5 +9,5 @@
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>
-    <button type="button" class="btn btn-sm btn-info mx-2" (click)="nuevoMedico()">Nuevo médico</button>
+    <button *ngIf="mostrarNuevoMedico" type="button" class="btn btn-sm btn-info mx-2" (click)="nuevoMedico()">Nuevo médico</button>
 </div>

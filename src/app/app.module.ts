@@ -54,7 +54,7 @@ import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacient
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 import { PerfilModule } from './perfil/perfil.module';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
-import { BuscadorMedicosReferentesComponent } from './components/buscador-medicos-referentes/buscador-medicos-referentes.component';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -85,7 +85,6 @@ import { BuscadorMedicosReferentesComponent } from './components/buscador-medico
     CrudPacientesComponent,
     LandingMembresiaComponent,
     FirmarMembresiaComponent,
-    BuscadorMedicosReferentesComponent
   ],
   imports: [
     BrowserModule,
@@ -115,6 +114,7 @@ import { BuscadorMedicosReferentesComponent } from './components/buscador-medico
     AyudaModule,
     ChatModule,
     PerfilModule,
+    SharedModule,
     QuillModule.forRoot(),
   ],
   providers: [

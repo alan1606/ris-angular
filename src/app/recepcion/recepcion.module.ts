@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, forwardRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -38,9 +38,7 @@ import { MostrarCitasPorDiaPensionesComponent } from './components/mostrar-citas
 import { CambiarEstudioComponent } from './components/check-in/cambiar-estudio/cambiar-estudio.component';
 import { AgregarEstudioComponent } from './components/check-in/agregar-estudio/agregar-estudio.component';
 import { LimboComponent } from './components/limbo/limbo.component';
-import { AppModule } from '../app.module';
-
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -68,7 +66,7 @@ import { AppModule } from '../app.module';
         MostrarCitasPorDiaPensionesComponent,
         CambiarEstudioComponent,
         AgregarEstudioComponent,
-        LimboComponent
+        LimboComponent,
         ],
     imports: [
         CommonModule,
@@ -85,7 +83,8 @@ import { AppModule } from '../app.module';
         RecepcionRoutingModule,
         MatTableModule,
         QRCodeModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        SharedModule
     ],
     exports: [
         UrgenciaComponent

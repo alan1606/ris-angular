@@ -101,15 +101,12 @@ export class EnviarEstudioComponent implements OnInit {
     return true;
   }
 
-  seleccionarMedicoReferente(event: MatAutocompleteSelectedEvent): void {
-    const referente = event.option.value as Medico;
+  seleccionarMedicoReferente(event:Medico): void {
 
-    this.estudio.ordenVenta.medicoReferente = referente;
-    this.correoMedico = referente.correo
+    this.estudio.ordenVenta.medicoReferente = event;
+    this.correoMedico = event.correo
 
-    console.log(referente);
-    event.option.deselect();
-    event.option.focus();
+    console.log(event);
 
     this.actualizarOrdenDeVenta(this.estudio.ordenVenta);
 

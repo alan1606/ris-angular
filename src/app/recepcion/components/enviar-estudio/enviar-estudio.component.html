@@ -23,7 +23,7 @@
                         [(ngModel)]="estudio.institucion.nombre">
                 </div>
 
-                <div class="form-group my-3">
+                <!-- <div class="form-group my-3">
                     <mat-form-field>
                         <input matInput  placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
                             [matAutocomplete]="autocompleteReferente">
@@ -34,7 +34,9 @@
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
-                </div>
+                </div> -->
+                <app-buscador-medicos-referentes [mostrarNuevoMedicoInput]="false" (medicoEnviado)="seleccionarMedicoReferente($event)"></app-buscador-medicos-referentes>
+
 
                 <div class="form-group my-3" >
                     <label for="correo">Correo médico referente</label>
