@@ -1,7 +1,7 @@
-<div class="contenedor-medicos">
+<div class="contenedor-medicos ms-5 mt-3 me-5">
   <div>
     <form>
-      <mat-form-field class="custom-mat-form-field">
+      <!-- <mat-form-field class="custom-mat-form-field">
         <input
           class="custom-mat-input"
           matInput
@@ -22,7 +22,8 @@
             {{ medico.nombres+ " " + medico.apellidos }}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field>
+      </mat-form-field> -->
+      <app-buscador-medicos-referentes [mostrarNuevoMedicoInput]="false" (medicoEnviado)="seleccionarMedico($event)"></app-buscador-medicos-referentes>
       <button (click)="abrirModalFormularioMedico()" class="btn btn-success">
         Nuevo medico <i class="bi bi-person-plus-fill"></i>
       </button>

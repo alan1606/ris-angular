@@ -67,11 +67,10 @@ export class CrudMedicosComponent implements OnInit {
   mostrarNombreMedico(medico: Medico): string {
     return medico && medico.nombres ? medico.nombres : '';
   }
-  
-  seleccionarMedico(event: MatAutocompleteSelectedEvent): void {
-    this.medico = event.option.value as Medico;
-    event.option.deselect();
-    event.option.focus();
+
+  seleccionarMedico(event: Medico): void {
+    this.medico = event;
+    console.log(this.medico)
   }
 
   abrirModalFormularioMedico() {
@@ -96,8 +95,8 @@ export class CrudMedicosComponent implements OnInit {
       if(medico){
         this.medico = medico;
       }
-      
+
     });
-    
+
   }
 }
