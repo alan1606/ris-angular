@@ -54,6 +54,8 @@ import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacient
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 import { PerfilModule } from './perfil/perfil.module';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
+import { BuscadorMedicosReferentesComponent } from './components/buscador-medicos-referentes/buscador-medicos-referentes.component';
+
 
 @NgModule({
   declarations: [
@@ -83,6 +85,7 @@ import { FirmarMembresiaComponent } from './components/membresias/firmar-membres
     CrudPacientesComponent,
     LandingMembresiaComponent,
     FirmarMembresiaComponent,
+    BuscadorMedicosReferentesComponent
   ],
   imports: [
     BrowserModule,

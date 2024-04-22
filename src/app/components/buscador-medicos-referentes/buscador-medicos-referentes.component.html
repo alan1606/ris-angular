@@ -1,0 +1,13 @@
+<div class="form-group my-3">
+    <mat-form-field>
+        <input matInput placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
+            [matAutocomplete]="autocompleteReferente">
+        <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
+            (optionSelected)="seleccionarMedicoReferente($event)">
+            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente" [class]="medicoReferente.validado?'medico-verificado':''">
+                {{medicoReferente.nombres + ' ' +medicoReferente.apellidos }} <span class="medico-validado">{{medicoReferente.validado? ' Medico Verificado' : ''}}</span>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <button type="button" class="btn btn-sm btn-info mx-2" (click)="nuevoMedico()">Nuevo médico</button>
+</div>

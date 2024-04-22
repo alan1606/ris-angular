@@ -14,7 +14,6 @@ import { MultimediaService } from 'src/app/services/multimedia.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
-import { NuevoMedicoSoloNombreComponent } from '../nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 
 @Component({
   selector: 'app-enviar-estudio-modal',
@@ -56,15 +55,6 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
-
-    this.autocompleteControlMedicoReferente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombres + " " + valor.apellidos),
-      flatMap(valor => valor ? this.medicoService.filtrarReferentesPorNombre(valor) : [])
-    ).subscribe(referentes => {
-      this.medicosReferentesFiltrados = referentes
-      console.log(referentes)
-    });
-
 
     this.autocompleteControlMedicoRadiologo.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombres + " " + valor.apellidos),
@@ -172,10 +162,6 @@ export class EnviarEstudioModalComponent implements OnInit {
     }
   }
 
-  mostrarNombreMedicoReferente(medico?: Medico): string {
-    return medico ? `${medico.nombres} ${medico.apellidos}` : '';
-  }
-
   mostrarNombreMedicoRadiologo(medico?: Medico): string {
     return medico ? `${medico.nombres} ${medico.apellidos}` : '';
   }
@@ -184,14 +170,8 @@ export class EnviarEstudioModalComponent implements OnInit {
     return tecnico ? `${tecnico.nombres} ${tecnico.apellidos}` : '';
   }
 
-  seleccionarMedicoReferente(event: MatAutocompleteSelectedEvent): void {
-    const referente = event.option.value as Medico;
-
-    this.estudio.ordenVenta.medicoReferente = referente;
-
-    console.log(referente.validado);
-    event.option.deselect();
-    event.option.focus();
+  seleccionarMedicoReferente(event: Medico): void {
+    this.estudio.ordenVenta.medicoReferente = event;
   }
 
   seleccionarMedicoRadiologo(event: MatAutocompleteSelectedEvent): void {
@@ -212,18 +192,5 @@ export class EnviarEstudioModalComponent implements OnInit {
     console.log(tecnico);
     event.option.deselect();
     event.option.focus();
-  }
-
-  nuevoMedico(){
-    const dialogRef = this.dialog.open(NuevoMedicoSoloNombreComponent, {
-      data: {},
-    });
-
-    dialogRef.afterClosed().subscribe(medico => {
-      if(medico){
-        this.estudio.ordenVenta.medicoReferente = medico;
-        this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
-      }
-    });
   }
 }

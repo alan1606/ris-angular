@@ -1,12 +1,15 @@
-//export const BASE_SITE='https://ris.diagnocons.com/ris'
+//Endpoins que agrege, si jalan, el de las firmas pues jala con el backend de las firmas, el otro funciona en algunos botones donde tenia codigo estatico
 export const BASE_SITE='http://localhost:4200/ris'
-
-
-//export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
-export const BASE_ENDPOINT = 'http://localhost:8090/api'
-
+//export const BASE_SITE='https://ris.diagnocons.com/ris'
 export const SERVER_FIRMAS_ADDRESS='http://localhost:3000/firmas'
 // export const SERVER_FIRMAS_ADDRESS='http://ris.diagnocons.com/firmas'
+
+
+
+export const BASE_ENDPOINT = 'https://ris.diagnocons.com:4300/api'
+//export const BASE_ENDPOINT = 'http://localhost:8090/api'
+
+
 
 
 export const VIEWER = 'https://ris.diagnocons.com:3322/viewer?StudyInstanceUIDs=';

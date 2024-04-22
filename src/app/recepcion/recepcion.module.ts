@@ -38,6 +38,8 @@ import { MostrarCitasPorDiaPensionesComponent } from './components/mostrar-citas
 import { CambiarEstudioComponent } from './components/check-in/cambiar-estudio/cambiar-estudio.component';
 import { AgregarEstudioComponent } from './components/check-in/agregar-estudio/agregar-estudio.component';
 import { LimboComponent } from './components/limbo/limbo.component';
+import { AppModule } from '../app.module';
+
 
 
 @NgModule({
