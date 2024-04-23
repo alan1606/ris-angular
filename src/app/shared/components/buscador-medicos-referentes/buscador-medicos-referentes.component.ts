@@ -14,21 +14,28 @@ import { NuevoMedicoSoloNombreComponent } from 'src/app/components/studies/nuevo
   styleUrls: ['./buscador-medicos-referentes.component.css'],
 })
 export class BuscadorMedicosReferentesComponent implements OnInit {
-  
   @Output() medicoEnviado = new EventEmitter<Medico>();
-  @Input() mostrarNuevoMedicoInput?:boolean=true;
+  @Input() mostrarNuevoMedicoInput?: boolean = true;
+  @Input() medicoExiste?: Medico = null;
+
   constructor(
     private dialog: MatDialog,
     private medicoService: MedicoService
-  ) {
-  }
-  mostrarNuevoMedico:boolean=true
+  ) {}
+  mostrarNuevoMedico: boolean = true;
   autocompleteControlMedicoReferente = new UntypedFormControl();
   medicosReferentesFiltrados: Medico[] = [];
   estudio: VentaConceptos;
 
   ngOnInit(): void {
-    this.mostrarNuevoMedico=this.mostrarNuevoMedicoInput
+    this.mostrarNuevoMedico = this.mostrarNuevoMedicoInput;
+    if (this.medicoExiste) {
+      this.autocompleteControlMedicoReferente.setValue(this.medicoExiste);
+      setInterval(() => {
+        this.medicoEnviado.emit(this.medicoExiste);
+      }, 500);
+    }
+
     this.autocompleteControlMedicoReferente.valueChanges
       .pipe(
         map((valor) =>

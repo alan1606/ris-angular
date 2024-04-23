@@ -67,7 +67,7 @@
                     <button type="button" class="btn btn-sm btn-info mx-2" (click)="nuevoMedico()">Nuevo médico</button>
                 </div> -->
 
-                <app-buscador-medicos-referentes (medicoEnviado)="seleccionarMedicoReferente($event)"></app-buscador-medicos-referentes>
+                <app-buscador-medicos-referentes (medicoEnviado)="seleccionarMedicoReferente($event)" [medicoExiste]="estudio.ordenVenta.medicoReferente"></app-buscador-medicos-referentes>
 
 
                 <div class="form-group my-3">

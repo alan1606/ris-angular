@@ -54,6 +54,7 @@ export class EnviarEstudioModalComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    console.log("hola")
     this.estudio = this.data.estudio as VentaConceptos;
 
     this.autocompleteControlMedicoRadiologo.valueChanges.pipe(
@@ -76,9 +77,11 @@ export class EnviarEstudioModalComponent implements OnInit {
 
     }
 
+    console.log(this.estudio.ordenVenta.medicoReferente)
     this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
     this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
     this.autocompleteControlTecnico.setValue(this.estudio.tecnico);
+    
   }
 
   cancelar() {
