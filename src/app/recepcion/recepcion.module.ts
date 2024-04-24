@@ -39,6 +39,8 @@ import { CambiarEstudioComponent } from './components/check-in/cambiar-estudio/c
 import { AgregarEstudioComponent } from './components/check-in/agregar-estudio/agregar-estudio.component';
 import { LimboComponent } from './components/limbo/limbo.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     declarations: [
@@ -84,7 +86,9 @@ import { SharedModule } from '../shared/shared.module';
         MatTableModule,
         QRCodeModule,
         MatPaginatorModule,
-        SharedModule
+        SharedModule,
+        MatCheckboxModule,
+        MatButtonModule
     ],
     exports: [
         UrgenciaComponent
