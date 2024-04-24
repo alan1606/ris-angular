@@ -87,13 +87,15 @@ export class VentaConceptosComponent
   buscarEstudiosDeHoy(): any {
     this.service.filtrarDiaDeHoy().subscribe(
       (estudios) => {
-        const filteredList = [];
-        for (let estudio of estudios) {
-          if (estudio.estado.toUpperCase() !== 'CANCELADO') {
-            filteredList.push(estudio);
-          }
-        }
-        this.lista = filteredList;
+        // const filteredList = [];
+        // for (let estudio of estudios) {
+        //   if (estudio.estado.toUpperCase() !== 'CANCELADO') {
+        //     filteredList.push(estudio);
+        //   }
+        // }
+        // this.lista=filteredList
+
+        this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
       },
       (e) => {
         if (e.status === 404) {
@@ -105,6 +107,7 @@ export class VentaConceptosComponent
 
   seleccionarArea(event: MatAutocompleteSelectedEvent): void {
     const area = event.option.value as Area;
+    this.lista = [];
 
     if (this.errorEnFechas()) {
       this.crearRangoDeDosMesesEnBaseAHoy();
@@ -114,13 +117,7 @@ export class VentaConceptosComponent
       .filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id)
       .subscribe(
         (estudios) => {
-          const filteredList = [];
-          for (let estudio of estudios) {
-            if (estudio.estado.toUpperCase() !== 'CANCELADO') {
-              filteredList.push(estudio);
-            }
-          }
-          this.lista = filteredList;
+          this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
         },
         (e) => {
           if (e.status === 404) {
@@ -136,7 +133,7 @@ export class VentaConceptosComponent
 
   seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
     const paciente = event.option.value as Paciente;
-
+    this.lista = [];
     if (this.errorEnFechas()) {
       this.crearRangoDeDosMesesEnBaseAHoy();
     }
@@ -145,12 +142,7 @@ export class VentaConceptosComponent
       .filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id)
       .subscribe(
         (estudios) => {
-          this.lista = [];
-          for (let estudio of estudios) {
-            if (estudio.estado.toUpperCase() != 'CANCELADO') {
-              this.lista.push(estudio);
-            }
-          }
+          this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
         },
         (e) => {
           if (e.status === 404) {
@@ -195,16 +187,10 @@ export class VentaConceptosComponent
       this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
 
       // console.log(this.fechaInicio + ' ' + this.fechaFin);
-
+      this.lista = [];
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
         (estudios) => {
-          const filteredList = [];
-          for (let estudio of estudios) {
-            if (estudio.estado.toUpperCase() != 'CANCELADO') {
-              filteredList.push(estudio);
-            }
-          }
-          this.lista = filteredList;
+          this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
         },
         (e) => {
           if (e.status === 404) {
@@ -270,9 +256,7 @@ export class VentaConceptosComponent
       data: { estudio: estudio },
     });
 
-    modalRef.afterClosed().subscribe((info) => {
-      
-    });
+    modalRef.afterClosed().subscribe((info) => {});
   }
 
   abrirAntecedentes(estudio: VentaConceptos): void {
@@ -281,9 +265,7 @@ export class VentaConceptosComponent
       data: { estudio: estudio },
     });
 
-    modalRef.afterClosed().subscribe((info) => {
-      
-    });
+    modalRef.afterClosed().subscribe((info) => {});
   }
 
   abrirQr(estudio: VentaConceptos) {
