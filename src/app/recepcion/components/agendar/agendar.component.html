@@ -61,6 +61,13 @@
                 </mat-form-field>
             </div>
 
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Espacios" id="espacios" name="espacios" [(ngModel)] = "espaciosAgenda" >
+                </mat-form-field>
+            </div>
+
+
             <div class="form-group" *ngIf="equipoDicom">
                 <mat-form-field>
                     <mat-label>Seleccionar fecha</mat-label>

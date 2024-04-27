@@ -88,6 +88,7 @@ export class AgendarComponent implements OnInit {
   institucion: Institucion;
   area: Area;
   concepto: Concepto;
+  espaciosAgenda: number;
   equipoDicom: EquipoDicom;
   ordenVenta: OrdenVenta;
 
@@ -100,6 +101,8 @@ export class AgendarComponent implements OnInit {
   minDate: Date;
 
   ngOnInit(): void {
+
+    this.espaciosAgenda;
 
     this.cargarConvenioParticularPorDefecto();
 
@@ -208,6 +211,7 @@ export class AgendarComponent implements OnInit {
 
     this.conceptoService.ver(this.concepto.id).subscribe(concepto => {
       this.concepto = concepto;
+      this.espaciosAgenda = concepto.espaciosAgenda;
     });
     event.option.deselect();
     event.option.focus();
@@ -273,6 +277,7 @@ export class AgendarComponent implements OnInit {
     this.equipoDicom = null;
     this.equiposDicom = [];
     this.citas = [];
+    this.espaciosAgenda = 0;
 
     this.autocompleteControlArea.setValue("");
     this.autocompleteControlConcepto.setValue("");
@@ -455,6 +460,11 @@ export class AgendarComponent implements OnInit {
 
 
   private cargarCitas(): void{
+
+    if(this.espaciosAgenda && this.concepto.espaciosAgenda != this.espaciosAgenda){
+      this.concepto.espaciosAgenda = this.espaciosAgenda;
+    }
+    
     this.citaService.obtenerDisponiblesPorSalaYFechaEspacios(this.equipoDicom.id, this.fecha, this.concepto.espaciosAgenda).subscribe(citas => {
       this.citas = citas;
       if(this.hayQueMostrarLimitePensionesUltrasonido()){
