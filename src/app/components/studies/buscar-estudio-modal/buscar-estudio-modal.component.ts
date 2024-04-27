@@ -71,21 +71,25 @@ export class BuscarEstudioModalComponent implements OnInit {
   }
 
   buscarEstudiosPorNombre() {
-    console.log(this.nombreBuscar);
-    this.studiesService.buscarLikeNombre(this.nombreBuscar, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
-      (estudios) => {
-        this.estudios = estudios.content;
-        this.totalRegistros = estudios.totalElements as number;
-        this.paginator._intl.itemsPerPageLabel = 'Registros:';
-        console.log(estudios);
-      },
-      (error) => {
-        if ((error.status = 400)) {
-          console.log('No puedo buscar nada');
-          this.estudios = [];
+    this.studiesService
+      .buscarLikeNombre(
+        this.nombreBuscar,
+        this.paginaActual.toString(),
+        this.totalPorPagina.toString()
+      )
+      .subscribe(
+        (estudios) => {
+          this.estudios = estudios.content;
+          this.totalRegistros = estudios.totalElements as number;
+          this.paginator._intl.itemsPerPageLabel = 'Registros:';
+        },
+        (error) => {
+          if ((error.status = 400)) {
+            console.log('No puedo buscar nada');
+            this.estudios = [];
+          }
         }
-      }
-    );
+      );
   }
 
   public paginar(event: PageEvent): void {

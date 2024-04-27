@@ -54,7 +54,6 @@ export class EnviarEstudioModalComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    console.log("hola")
     this.estudio = this.data.estudio as VentaConceptos;
 
     this.autocompleteControlMedicoRadiologo.valueChanges.pipe(
@@ -70,14 +69,12 @@ export class EnviarEstudioModalComponent implements OnInit {
 
     this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
       this.antecedentesJuntos += `${antecedente.antecedente.nombre}, `;
-      console.log(antecedente.antecedente.nombre);
     }));
 
     if (!this.estudio.mensaje || this.estudio.mensaje === '') {
 
     }
 
-    console.log(this.estudio.ordenVenta.medicoReferente)
     this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
     this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
     this.autocompleteControlTecnico.setValue(this.estudio.tecnico);
@@ -150,7 +147,6 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   seleccionarPdf(event): void {
     this.pdf = event.target.files[0];
-    console.info(this.pdf);
     if (this.pdf.type.indexOf('pdf') < 0) {
       Swal.fire('Error', 'Solamente puede seleccionar un archivo pdf', 'error');
     }
@@ -182,7 +178,6 @@ export class EnviarEstudioModalComponent implements OnInit {
 
     this.estudio.medicoRadiologo = radiologo;
 
-    console.log(radiologo);
     event.option.deselect();
     event.option.focus();
   }
@@ -192,7 +187,6 @@ export class EnviarEstudioModalComponent implements OnInit {
 
     this.estudio.tecnico = tecnico;
 
-    console.log(tecnico);
     event.option.deselect();
     event.option.focus();
   }
