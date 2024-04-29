@@ -623,7 +623,7 @@ export class AgendarComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Gracias por informar',
-          text: 'Trabajaremos para solucionar este problema.',
+          text: 'Trabajaremos para solucionar esta objeción.',
         });
       },
       (err) => {

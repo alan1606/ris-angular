@@ -258,14 +258,15 @@
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Que paso? Diselo al oso confesoso</mat-label>
             <textarea
-            required="true"
               matInput
               placeholder="Ejemplo: Precio muy elevado"
               [formControl]="comentarioVentaNoCerrada"
             ></textarea>
           </mat-form-field>
           <div>
-            <button class="btn btn-primary btn-lg" (click)="confesar()">Confesar</button>
+            <button class="btn btn-primary btn-lg" (click)="confesar()">
+              Confesar
+            </button>
           </div>
         </div>
       </div>
