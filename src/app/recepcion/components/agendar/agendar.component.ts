@@ -39,6 +39,7 @@ import { FechaService } from 'src/app/services/fecha.service';
 import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 import { InstruccionesService } from 'src/app/services/instrucciones.service';
 import { VentaNoCerrada } from 'src/app/models/ventaNoCerrada';
+import { VentasService } from 'src/app/services/ventas.service';
 
 @Component({
   selector: 'app-agendar',
@@ -67,7 +68,8 @@ export class AgendarComponent implements OnInit {
     private citaService: CitaService,
     private fb: FormBuilder,
     private fechaService: FechaService,
-    private instruccionesService: InstruccionesService
+    private instruccionesService: InstruccionesService,
+    private ventaService: VentasService
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
@@ -109,8 +111,9 @@ export class AgendarComponent implements OnInit {
 
   minDate: Date;
 
+  venta: VentaNoCerrada = new VentaNoCerrada();
   ventaCerrada: FormControl = new FormControl(false);
-  comentarioVentaNoCerrada: FormControl = new FormControl('');
+  comentarioVentaNoCerrada: FormControl = new FormControl(null);
 
   ngOnInit(): void {
     this.cargarConvenioParticularPorDefecto();
@@ -602,20 +605,30 @@ export class AgendarComponent implements OnInit {
   }
 
   confesar() {
-    let venta = new VentaNoCerrada();
+    if (!this.comentarioVentaNoCerrada.value) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Comente porque no se cerro la venta',
+        text: 'porfavor.',
+      });
+      return;
+    }
 
-    venta.idArea = [];
-    for (let estudio of this.estudios) {
-      venta.idArea.push(estudio.concepto.area.id);
-    }
-    venta.idEstudio = [];
-    for (let estudio of this.estudios) {
-      console.log(estudio);
-      venta.idEstudio.push(estudio.concepto.id);
-    }
-    venta.idPaciente = this.paciente.id;
-    venta.VentaNoCerrada = this.ventaCerrada.value;
-    venta.comentario = this.comentarioVentaNoCerrada.value;
-    console.log(venta);
+    this.venta.ventaNoCerrada = this.ventaCerrada.value;
+    this.venta.comentario = this.comentarioVentaNoCerrada.value;
+    this.ventaService.guardarVenta(this.venta).subscribe(
+      (data) => {
+        this.ventaCerrada.reset();
+        this.comentarioVentaNoCerrada.reset();
+        Swal.fire({
+          icon: 'success',
+          title: 'Gracias por informar',
+          text: 'Trabajaremos para solucionar este problema.',
+        });
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }
