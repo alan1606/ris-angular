@@ -55,7 +55,7 @@ import { LandingMembresiaComponent } from './components/landing-membresia/landin
 import { PerfilModule } from './perfil/perfil.module';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
 import { SharedModule } from './shared/shared.module';
-
+import { CortesModule } from './cortes/cortes.module';
 
 @NgModule({
   declarations: [
@@ -116,6 +116,7 @@ import { SharedModule } from './shared/shared.module';
     PerfilModule,
     SharedModule,
     QuillModule.forRoot(),
+    CortesModule,
   ],
   providers: [
     DatePipe,

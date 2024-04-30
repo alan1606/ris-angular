@@ -24,6 +24,7 @@ import { MembresiasComponent } from './components/membresias/membresias.componen
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
+import { CortesModule } from './cortes/cortes.module';
 
 const routes: Routes = [
   {
@@ -144,31 +145,40 @@ const routes: Routes = [
   {
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then((m) => m.ChatModule),
-    canActivate:[RecepcionGuard]
+    canActivate: [RecepcionGuard],
   },
   {
     path: 'resultados',
-    loadChildren: () => import('./resultados/resultados.module').then((m) => m.ResultadosModule)
+    loadChildren: () =>
+      import('./resultados/resultados.module').then((m) => m.ResultadosModule),
   },
   {
     path: 'wp-marketing',
-    loadChildren: () => import('./wp-marketing/wp-marketing.module').then((m) => m.WpMarketingModule),
-    canActivate: [AdminGuard]
+    loadChildren: () =>
+      import('./wp-marketing/wp-marketing.module').then(
+        (m) => m.WpMarketingModule
+      ),
+    canActivate: [AdminGuard],
   },
   {
     path: 'pacientes',
     component: CrudPacientesComponent,
-    canActivate:[RecepcionGuard]
+    canActivate: [RecepcionGuard],
   },
   {
     path: 'membresia-landing',
     component: LandingMembresiaComponent,
   },
   {
-    path: "",
-    redirectTo: "resultados",
-    pathMatch: 'full'
-  }
+    path: '',
+    redirectTo: 'resultados',
+    pathMatch: 'full',
+  },
+  {
+    path: 'cortes',
+    loadChildren: () =>
+      import('./cortes/cortes.module').then((m) => m.CortesModule),
+  },
 ];
 
 @NgModule({

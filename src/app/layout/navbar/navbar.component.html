@@ -258,6 +258,15 @@
             >Catalogo</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="/cortes"
+            *ngIf="puedeAbrirAgendarCitas()"
+            >Turnos</a
+          >
+        </li>
       </ul>
 
       <div class="form-inline my-2 my-lg-0 boton-usuario">
