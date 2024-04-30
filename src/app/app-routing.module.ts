@@ -168,6 +168,10 @@ const routes: Routes = [
     path: "",
     redirectTo: "resultados",
     pathMatch: 'full'
+  },
+  {
+    path:"encola",
+    loadChildren:()=> import('./encola/encola.module').then((m)=>m.EncolaModule)
   }
 ];
 

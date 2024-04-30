@@ -55,6 +55,7 @@ import { LandingMembresiaComponent } from './components/landing-membresia/landin
 import { PerfilModule } from './perfil/perfil.module';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
 import { SharedModule } from './shared/shared.module';
+import { EncolaModule } from './encola/encola.module';
 
 
 @NgModule({
@@ -115,6 +116,7 @@ import { SharedModule } from './shared/shared.module';
     ChatModule,
     PerfilModule,
     SharedModule,
+    EncolaModule,
     QuillModule.forRoot(),
   ],
   providers: [
