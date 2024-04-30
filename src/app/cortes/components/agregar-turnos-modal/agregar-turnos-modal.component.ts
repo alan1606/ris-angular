@@ -11,12 +11,18 @@ import { TurnoService } from '../../services/turno.service';
 })
 export class AgregarTurnosModalComponent implements OnInit {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public idOrden: number = null,
+    @Inject(MAT_DIALOG_DATA) public idTurno: number = null,
     private turnoService: TurnoService
   ) {}
   model: TurnoCorte = new TurnoCorte();
   ngOnInit() {
-    this.idOrden ? console.log(this.idOrden) : null;
+    this.idTurno ? console.log(this.idTurno) : null;
+    if (this.idTurno) {
+      this.turnoService.buscarTurnoPorId(this.idTurno).subscribe(
+        (data) => (this.model = data),
+        (err) => console.log(err)
+      );
+    }
   }
   guardarTurno(): void {
     console.log('guardar turno');
@@ -54,7 +60,7 @@ export class AgregarTurnosModalComponent implements OnInit {
       return;
     }
 
-    this.turnoService.editarTurno(this.idOrden, this.model).subscribe(
+    this.turnoService.editarTurno(this.idTurno, this.model).subscribe(
       (data) => {
         Swal.fire({
           icon: 'success',

@@ -29,7 +29,7 @@ export class TurnosComponent implements OnInit {
     console.log(id);
     const modalRef = this.dialog.open(AgregarTurnosModalComponent, {
       width: '500px',
-      data: { idOrden: id },
+      data: { idTurno: id },
     });
   }
 

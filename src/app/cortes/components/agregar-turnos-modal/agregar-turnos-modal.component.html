@@ -29,8 +29,8 @@
   </div>
   <button
     class="btn btn-success"
-    (click)="!idOrden ? guardarTurno() : editarTurno()"
+    (click)="!idTurno ? guardarTurno() : editarTurno()"
   >
-    {{ idOrden ? "Editar" : "Guardar" }}
+    {{ idTurno ? "Editar" : "Guardar" }}
   </button>
 </mat-card>
