@@ -18,14 +18,14 @@ export class FormasPagoComponent {
 
   nuevaForma(): void {
     const modalRef = this.dialog.open(AgregarformasPagoModalComponent, {
-      width: '250',
+      width: '350',
     });
   }
 
   editarForma(id: number): void {
     console.log(id);
     const modalRef = this.dialog.open(AgregarformasPagoModalComponent, {
-      width: '250',
+      width: '350',
       data: { idForma: id },
     });
   }
