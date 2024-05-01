@@ -12,12 +12,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { PagarOrdenComponent } from './components/pagar-orden/pagar-orden.component';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormasPagoComponent } from './components/formas-pago/formas-pago.component';
+import { AgregarformasPagoModalComponent } from './components/agregarformas-pago-modal/agregarformas-pago-modal.component';
 
 @NgModule({
   declarations: [
     TurnosComponent,
-    AgregarTurnosModalComponent
+    AgregarTurnosModalComponent,
+    PagarOrdenComponent,
+    FormasPagoComponent,
+    AgregarformasPagoModalComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +37,10 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+  ],
 })
-export class CortesModule { }
+export class CortesModule {}

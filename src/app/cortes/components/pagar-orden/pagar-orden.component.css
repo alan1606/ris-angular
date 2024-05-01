@@ -1,0 +1,13 @@
+.container-pagar-orden{}
+
+.container-total-restante {
+  display: flex;
+}
+
+.cantidad {
+  margin-right: 10rem;
+}
+
+table {
+  width: 70%;
+}

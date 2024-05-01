@@ -10,7 +10,6 @@ import { AgregarTurnosModalComponent } from '../agregar-turnos-modal/agregar-tur
 export class TurnosComponent implements OnInit {
   constructor(private dialog: MatDialog) {}
 
-  
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }

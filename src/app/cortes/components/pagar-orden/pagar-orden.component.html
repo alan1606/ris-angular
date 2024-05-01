@@ -1,0 +1,67 @@
+<mat-card class="container-pagar-orden">
+  <h1 class="fs-1">Pagar orden</h1>
+
+  <div class="container-total-restante">
+    <h1>
+      <span class="badge text-bg-secondary">Total: 1000</span>
+    </h1>
+    <h1>
+      <span class="badge text-bg-secondary">Restante: 500</span>
+    </h1>
+  </div>
+
+  <mat-card>
+    <div>
+      <h2>Forma de pago</h2>
+      <mat-form-field appearance="fill">
+        <mat-label>Elegir metodo</mat-label>
+        <mat-select>
+          <mat-option value="one">Tarjeta</mat-option>
+          <mat-option value="two">Cuerpo</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="example-full-width cantidad" appearance="fill">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" name="cantidad" id="cantidad" />
+    </mat-form-field>
+
+    <mat-slide-toggle class="pe-3">Factura</mat-slide-toggle>
+
+    <button mat-raised-button color="primary">Agregar</button>
+
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="Forma">
+          <th mat-header-cell *matHeaderCellDef>Forma</th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="Cantidad">
+          <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="Factura">
+          <th mat-header-cell *matHeaderCellDef>Factura</th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="Quitar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button class="btn btn-danger" (click)="editarTurno(element.id)">
+              Quitar
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card>
+
+  <button class="btn btn-success btn-lg mt-4">Finalizar Pago</button>
+</mat-card>
