@@ -12,23 +12,42 @@ import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
 export class BuscadorSalaComponent implements OnInit {
   constructor(private equipoDicomService: EquipoDicomService) {}
 
-  @Input() area: Area;
+  @Input() areaRecibida: Area;
   @Input() citas: Cita[] = [];
   @Output() citasFiltradasEmit = new EventEmitter<Cita[]>();
 
+  area: Area = new Area();
   busqueda: string = '';
   citasFiltradas: Cita[] = [];
-  total: number = 0;
   equipoDicom: EquipoDicom;
   equiposDicom: EquipoDicom[] = [];
+
   ngOnInit(): void {
-    setInterval(() => {}, 500);
+    setInterval(() => {
+      if (this.areaRecibida) {
+        this.area = this.areaRecibida;
+        this.cargarEquiposDicom();
+        console.log(this.equiposDicom);
+      }
+    }, 1000);
   }
+
   private cargarEquiposDicom(): void {
     this.equipoDicomService
       .filtrarPorArea(this.area.id)
       .subscribe((equipos) => {
         this.equiposDicom = equipos;
       });
+  }
+
+  filtrarCitasPorSalaId(): void {
+    this.citasFiltradas = !this.equipoDicom
+      ? this.citas
+      : this.citas.filter(
+          (cita) => cita.horario.salaId === this.equipoDicom.id
+        );
+    console.log(this.citasFiltradas);
+    this.citasFiltradasEmit.emit(this.citasFiltradas);
+    return;
   }
 }

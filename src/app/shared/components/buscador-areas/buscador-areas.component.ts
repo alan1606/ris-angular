@@ -6,7 +6,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { map, mergeMap } from 'rxjs';
+import { Area } from 'src/app/models/area';
 import { Cita } from 'src/app/models/cita';
+import { AreasService } from 'src/app/services/areas.service';
 
 @Component({
   selector: 'app-buscador-areas',
@@ -16,23 +21,51 @@ import { Cita } from 'src/app/models/cita';
 export class BuscadorAreasComponent implements OnInit {
   @Input() citas: Cita[] = [];
   @Output() citasFiltradasEmit = new EventEmitter<Cita[]>();
+  @Output() areaEmit = new EventEmitter<Area>();
+
+  constructor(private areaService: AreasService) {}
 
   busqueda: string = '';
   citasFiltradas: Cita[] = [];
-  total: number = 0;
+  autocompleteControlArea = new UntypedFormControl();
+  area: Area = null;
+  areasFiltradas: [] = [];
+
   ngOnInit(): void {
-    
+    this.autocompleteControlArea.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
+        mergeMap((valor) =>
+          valor ? this.areaService.filtrarPorNombre(valor) : []
+        )
+      )
+      .subscribe((areas) => {
+        this.areasFiltradas = areas;
+      });
   }
   filtrarAreas() {
-    this.citasFiltradas = !this.busqueda
+    this.citasFiltradas = !this.area
       ? this.citas
       : this.citas.filter((cita) =>
           cita.estudio.concepto.area.nombre.includes(
-            this.busqueda.toUpperCase()
+            this.area.nombre.toUpperCase()
           )
         );
-    this.total = this.citasFiltradas.length;
-      console.log(this.citasFiltradas)
-      this.citasFiltradasEmit.emit(this.citasFiltradas);
+    console.log(this.citasFiltradas)
+    this.citasFiltradasEmit.emit(this.citasFiltradas);
+    this.areaEmit.emit(this.area);
+    return;
+  }
+
+  mostrarNombreArea(area?: Area): string {
+    return area ? area.nombre : '';
+  }
+
+  seleccionarArea(event: MatAutocompleteSelectedEvent) {
+    this.area = event.option.value as Area;
+    this.filtrarAreas();
+    // event.option.deselect();
+    // event.option.focus();
+    // this.cargarEquiposDicom();
   }
 }

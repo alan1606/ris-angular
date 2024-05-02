@@ -8,6 +8,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { BuscadorAreasComponent } from './components/buscador-areas/buscador-areas.component';
 import { BuscadorSalaComponent } from './components/buscador-sala/buscador-sala.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [BuscadorMedicosReferentesComponent, BuscadorAreasComponent, BuscadorSalaComponent],
@@ -19,6 +20,7 @@ import { BuscadorSalaComponent } from './components/buscador-sala/buscador-sala.
     MatFormFieldModule,
     MatOptionModule,
     MatInputModule,
+    MatSelectModule
   ],
   exports: [BuscadorMedicosReferentesComponent, BuscadorAreasComponent, BuscadorSalaComponent],
 })

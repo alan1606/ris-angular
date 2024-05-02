@@ -1,6 +1,6 @@
 <mat-form-field class="ms-4" appearance="fill">
     <mat-label>Sala</mat-label>
-    <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado">
+    <mat-select [(ngModel)]="equipoDicom" name="equipoSeleccionado" (selectionChange)="filtrarCitasPorSalaId()">
       <mat-option *ngFor="let equipo of equiposDicom" [value]="equipo">
         {{ equipo.nombre }}
       </mat-option>

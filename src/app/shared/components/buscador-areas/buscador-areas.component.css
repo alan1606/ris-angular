@@ -1,11 +1,9 @@
 .contenedor {
 
 }
-input {
-  width: 250px;
-
+.input-areas{
+  width: 300px;
 }
-
 .contenedor h1 {
   margin: 0;
 }

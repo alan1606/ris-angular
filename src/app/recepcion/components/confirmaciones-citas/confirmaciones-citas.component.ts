@@ -11,6 +11,7 @@ import { VentaConceptosService } from 'src/app/services/venta-conceptos.service'
 import Swal from 'sweetalert2';
 import { ReagendarCitaModalComponent } from '../reagendar-cita-modal/reagendar-cita-modal.component';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
+import { Area } from 'src/app/models/area';
 
 @Component({
   selector: 'app-confirmaciones-citas',
@@ -30,7 +31,11 @@ export class ConfirmacionesCitasComponent implements OnInit {
 
   citas: Cita[] = [];
   citasFiltradas: Cita[] = [];
-  citasParaFiltrar:Cita[]=[];
+  citasParaFiltrar: Cita[] = [];
+
+  areaFiltrada: Area = null;
+  total = 0;
+  totalSinConfirmar = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -59,6 +64,10 @@ export class ConfirmacionesCitasComponent implements OnInit {
             this.citas = citas.content as Cita[];
             this.citasParaFiltrar = citas.content as Cita[];
             this.totalRegistros = citas.totalElements as number;
+            this.total = this.citas.length;
+            this.totalSinConfirmar = this.citas.filter(
+              (cita) => cita.estado !== 'AGENDADA'
+            ).length;
           } else {
             this.citas = [];
           }
@@ -76,10 +85,24 @@ export class ConfirmacionesCitasComponent implements OnInit {
     this.buscar();
   }
 
-  recibirCitasFiltradasPorArea(event:Cita[]) {
+  recibirCitasFiltradasPorArea(event: Cita[]) {
     this.citas = event;
+    this.total = this.citas.length;
+    this.totalSinConfirmar = this.citas.filter(
+      (cita) => cita.estado !== 'AGENDADA'
+    ).length;
   }
 
+  recibirAreaFiltrada(event: Area) {
+    this.areaFiltrada = event;
+  }
+  recibirCitasFiltradasPorSala(event: Cita[]) {
+    this.citas = event;
+    this.total = this.citas.length;
+    this.totalSinConfirmar = this.citas.filter(
+      (cita) => cita.estado !== 'AGENDADA'
+    ).length;
+  }
   public mandarConfirmacionesManiania() {
     Swal.fire({
       title: '¿Seguro?',
@@ -130,6 +153,10 @@ export class ConfirmacionesCitasComponent implements OnInit {
             this.citas = citas.content as Cita[];
             this.totalRegistros = citas.totalElements as number;
             this.paginator._intl.itemsPerPageLabel = 'Registros:';
+            this.total = this.citas.length;
+            this.totalSinConfirmar = this.citas.filter(
+              (cita) => cita.estado !== 'AGENDADA'
+            ).length;
           } else {
             this.citas = [];
           }
