@@ -1,4 +1,12 @@
-.container-pagar-orden{}
+.container-pagar-orden {
+}
+
+h1 {
+  font-size: 50px;
+}
+span {
+  font-weight: normal;
+}
 
 .container-total-restante {
   display: flex;
@@ -9,5 +17,5 @@
 }
 
 table {
-  width: 70%;
+  width: 30%;
 }
