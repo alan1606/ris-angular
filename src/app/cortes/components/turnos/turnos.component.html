@@ -1,22 +1,23 @@
 <div class="table-container">
   <div class="demo-button-container pe-3">
-    <button mat-raised-button class="btn btn-success" (click)="crearTurno()">Crear turno</button>
+    <button mat-raised-button class="btn btn-success" (click)="crearTurno()">
+      Crear turno
+    </button>
   </div>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
     <ng-container matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef>Nombre</th>
-      <td mat-cell *matCellDef="let element">{{ element.Nombre }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Hora Inicio">
       <th mat-header-cell *matHeaderCellDef>Hora Inicio</th>
-      <td mat-cell *matCellDef="let element">{{ element.HoraInicio }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.horaInicio }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Hora Fin">
       <th mat-header-cell *matHeaderCellDef>Hora Fin</th>
-      <td mat-cell *matCellDef="let element">{{ element.HoraFin }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.horaFin }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Modificar">

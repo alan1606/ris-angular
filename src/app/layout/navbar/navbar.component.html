@@ -258,21 +258,34 @@
             >Catalogo</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="puedeAbrirCortes()">
           <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/cortes"
-            *ngIf="puedeAbrirAgendarCitas()"
-            >Turnos</a
+            [matMenuTriggerFor]="menu"
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
           >
+            Cortes
+          </a>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/cortes">Turnos</button>
+            <button mat-menu-item routerLink="/cortes/formas-pago">
+              Formas de pago
+            </button>
+            <button mat-menu-item routerLink="/cortes/pagar">Pagar</button>
+          </mat-menu>
         </li>
       </ul>
 
       <div class="form-inline my-2 my-lg-0 boton-usuario">
         <a *ngIf="username && isLogged" class="nav-link username">
-          <i class="bi bi-person-fill"></i><label class="nombre-usuario">{{ username }}</label>
-          <p (click)="abrirPerfilModal()" class="link-perfil">Ver Perfil<i class="bi bi-three-dots-vertical"></i></p>
+          <i class="bi bi-person-fill"></i
+          ><label class="nombre-usuario">{{ username }}</label>
+          <p (click)="abrirPerfilModal()" class="link-perfil">
+            Ver Perfil<i class="bi bi-three-dots-vertical"></i>
+          </p>
         </a>
         <button
           class="btn btn-outline-success my-2 my-sm-0 ms-3"

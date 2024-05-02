@@ -9,8 +9,8 @@ import { BASE_ENDPOINT } from 'src/app/config/app';
 export class TurnoService {
   constructor(private httpClient: HttpClient) {}
 
-  verTurnos(): Observable<TurnoCorte> {
-    return this.httpClient.get<TurnoCorte>(`${BASE_ENDPOINT}/turnos-cortes/`);
+  verTurnos(): Observable<any> {
+    return this.httpClient.get<any>(`${BASE_ENDPOINT}/turnos-cortes`);
   }
   buscarTurnoPorId(id: number) {
     return this.httpClient.get<TurnoCorte>(
@@ -31,4 +31,6 @@ export class TurnoService {
       turno
     );
   }
+
+ 
 }

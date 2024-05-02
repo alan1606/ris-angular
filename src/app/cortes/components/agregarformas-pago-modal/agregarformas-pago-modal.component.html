@@ -1,6 +1,15 @@
 <mat-card>
-  <mat-form-field appearance="fill">
-    <mat-label>Nombre del metodo de pago</mat-label>
-      <input matInput>
-  </mat-form-field>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del metodo de pago</mat-label>
+      <input matInput [(ngModel)]="formaPago.forma" name="forma" id="forma" />
+    </mat-form-field>
+  </div>
+
+  <button
+    class="btn btn-success"
+    (click)="idFormaPago ? editarFormaPago() : agregarFormaPago()"
+  >
+    {{ idFormaPago ? "Editar" : "Agregar" }}
+  </button>
 </mat-card>

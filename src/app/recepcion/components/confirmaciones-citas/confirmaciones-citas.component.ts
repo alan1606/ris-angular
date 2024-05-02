@@ -15,24 +15,23 @@ import { EquipoDicom } from 'src/app/models/equipo-dicom';
 @Component({
   selector: 'app-confirmaciones-citas',
   templateUrl: './confirmaciones-citas.component.html',
-  styleUrls: ['./confirmaciones-citas.component.css']
+  styleUrls: ['./confirmaciones-citas.component.css'],
 })
 export class ConfirmacionesCitasComponent implements OnInit {
-
   fecha: string;
   date = new FormControl(new Date());
   titulo: string;
-  citas: Cita[] = [];
   minDate: Date;
-
 
   totalRegistros = 0;
   paginaActual = 0;
-  totalPorPagina = 10;
+  totalPorPagina = 100;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
+  citas: Cita[] = [];
+  citasFiltradas: Cita[] = [];
+  citasParaFiltrar:Cita[]=[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
 
   constructor(
     private fechaService: FechaService,
@@ -41,61 +40,70 @@ export class ConfirmacionesCitasComponent implements OnInit {
     private datePipe: DatePipe,
     private dialog: MatDialog
   ) {
-    this.titulo = "Confirmaciones";
+    this.titulo = 'Confirmaciones';
     this.minDate = new Date();
   }
-
 
   ngOnInit(): void {
     const fechaString = this.fechaService.formatearFecha(this.date.value);
     this.fecha = fechaString;
-    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
-      citas => {
-        if (citas.content) {
-          this.citas = citas.content as Cita[];
-          this.totalRegistros = citas.totalElements as number;
-        }
-        else {
+    this.citaService
+      .buscarPorFecha(
+        this.fecha,
+        this.paginaActual.toString(),
+        this.totalPorPagina.toString()
+      )
+      .subscribe(
+        (citas) => {
+          if (citas.content) {
+            this.citas = citas.content as Cita[];
+            this.citasParaFiltrar = citas.content as Cita[];
+            this.totalRegistros = citas.totalElements as number;
+          } else {
+            this.citas = [];
+          }
+        },
+        (error) => {
+          console.log(error);
           this.citas = [];
         }
-      },
-      error => {
-        console.log(error);
-        this.citas = [];
-      }
-    );
+      );
   }
 
   public actualizarFecha(fecha: HTMLInputElement) {
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
     console.log(this.fecha);
     this.buscar();
-  };
+  }
+
+  recibirCitasFiltradasPorArea(event:Cita[]) {
+    this.citas = event;
+  }
 
   public mandarConfirmacionesManiania() {
     Swal.fire({
-      title: "¿Seguro?",
-      text: "Se van a enviar todos los whatsapp para confirmar las citas de mañana",
-      icon: "warning",
+      title: '¿Seguro?',
+      text: 'Se van a enviar todos los whatsapp para confirmar las citas de mañana',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, mandar whatsapps"
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, mandar whatsapps',
     }).then((result) => {
       if (result.isConfirmed) {
         this.citaService.mandarConfirmacionesDiaSiguiente().subscribe(
           () => {
             Swal.fire({
-              title: "Éxito",
-              text: "Se están mandando los mensajes",
-              icon: "success"
+              title: 'Éxito',
+              text: 'Se están mandando los mensajes',
+              icon: 'success',
             });
           },
           () => {
             Swal.fire({
-              title: "Error",
-              text: "Ha ocurrido un error",
-              icon: "error"
+              title: 'Error',
+              text: 'Ha ocurrido un error',
+              icon: 'error',
             });
           }
         );
@@ -110,54 +118,60 @@ export class ConfirmacionesCitasComponent implements OnInit {
   }
 
   private buscar() {
-    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
-      citas => {
-        if (citas.content) {
-          this.citas = citas.content as Cita[];
-          this.totalRegistros = citas.totalElements as number;
-          this.paginator._intl.itemsPerPageLabel = 'Registros:';
-        }
-        else {
+    this.citaService
+      .buscarPorFecha(
+        this.fecha,
+        this.paginaActual.toString(),
+        this.totalPorPagina.toString()
+      )
+      .subscribe(
+        (citas) => {
+          if (citas.content) {
+            this.citas = citas.content as Cita[];
+            this.totalRegistros = citas.totalElements as number;
+            this.paginator._intl.itemsPerPageLabel = 'Registros:';
+          } else {
+            this.citas = [];
+          }
+        },
+        (error) => {
+          console.log(error);
           this.citas = [];
         }
-      },
-      error => {
-        console.log(error);
-        this.citas = [];
-      }
-    );
+      );
   }
 
   cancelarCita(cita: Cita) {
     Swal.fire({
-      title: "¿Seguro que desea cancelar cita?",
-      text: "Esta acción no se puede revertir y se cancelara toda la orden",
-      icon: "warning",
+      title: '¿Seguro que desea cancelar cita?',
+      text: 'Esta acción no se puede revertir y se cancelara toda la orden',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, cancelar orden",
-      cancelButtonText: "Cancelar"
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cancelar orden',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.citaService.cancelarCita(cita.id).subscribe(
           () => {
             Swal.fire({
-              title: "Éxito",
-              text: "Se ha cancelado la orden con éxito",
-              icon: "success"
+              title: 'Éxito',
+              text: 'Se ha cancelado la orden con éxito',
+              icon: 'success',
             });
-            this.citas = this.citas.filter(citaTemp => citaTemp.id != cita.id);
+            this.citas = this.citas.filter(
+              (citaTemp) => citaTemp.id != cita.id
+            );
           },
           () => {
             Swal.fire({
-              title: "Error",
-              text: "Ha ocurrido un error",
-              icon: "error"
+              title: 'Error',
+              text: 'Ha ocurrido un error',
+              icon: 'error',
             });
           }
         );
-
       }
     });
   }
@@ -167,96 +181,108 @@ export class ConfirmacionesCitasComponent implements OnInit {
     let estudiosIds: number[] = [];
     const orden = cita.estudio.ordenVenta;
     console.log(cita);
-    this.ventaConceptosService.encontrarPorOrdenVentaId(orden.id).
-      subscribe(
-        estudiosResponse => {
-          estudios = estudiosResponse;
-          const paciente = cita.estudio.paciente;
-          let mensaje: string = '';
-          let instruccionesArea: string = '';
-          let instruccionesConceptos: string = '';
+    this.ventaConceptosService.encontrarPorOrdenVentaId(orden.id).subscribe(
+      (estudiosResponse) => {
+        estudios = estudiosResponse;
+        const paciente = cita.estudio.paciente;
+        let mensaje: string = '';
+        let instruccionesArea: string = '';
+        let instruccionesConceptos: string = '';
 
-          for (let estudio of estudios) {
-            const fecha = this.datePipe.transform(estudio.fechaAsignado, "dd/MM/yyyy");
-            const concepto = estudio.concepto;
-            mensaje += `-${concepto.area.nombre}: ${concepto.concepto} día `;
-            mensaje += `${fecha} hora ${estudio.horaAsignado.substring(0, 5)}<br>`;
-            if (concepto.area.instrucciones) {
-              instruccionesArea += concepto.area.instrucciones;
-            }
-            if (concepto.instrucciones) {
-              instruccionesConceptos += concepto.instrucciones;
-            }
-            estudiosIds.push(estudio.id);
+        for (let estudio of estudios) {
+          const fecha = this.datePipe.transform(
+            estudio.fechaAsignado,
+            'dd/MM/yyyy'
+          );
+          const concepto = estudio.concepto;
+          mensaje += `-${concepto.area.nombre}: ${concepto.concepto} día `;
+          mensaje += `${fecha} hora ${estudio.horaAsignado.substring(
+            0,
+            5
+          )}<br>`;
+          if (concepto.area.instrucciones) {
+            instruccionesArea += concepto.area.instrucciones;
           }
-          let total: number = orden.totalSinDescuento;
-          if (orden.aplicarDescuento) {
-            total = orden.totalDespuesDescuento;
+          if (concepto.instrucciones) {
+            instruccionesConceptos += concepto.instrucciones;
           }
-
-          mensaje += `Total = ${total}<br>`;
-          mensaje += instruccionesArea + "<br>";
-          mensaje += instruccionesConceptos + "<br>";
-
-          if (estudios[0].institucion?.instrucciones) {
-            mensaje += estudios[0].institucion.instrucciones;
-          }
-          const titulo = `Confirmar cita de ${paciente.nombreCompleto}: ${paciente.telefono}`;
-          this.mostrarModalConfirmarCita(titulo, mensaje, estudiosIds, cita);
-        },
-        error => {
-          console.log(error);
+          estudiosIds.push(estudio.id);
         }
-      );
+        let total: number = orden.totalSinDescuento;
+        if (orden.aplicarDescuento) {
+          total = orden.totalDespuesDescuento;
+        }
 
+        mensaje += `Total = ${total}<br>`;
+        mensaje += instruccionesArea + '<br>';
+        mensaje += instruccionesConceptos + '<br>';
+
+        if (estudios[0].institucion?.instrucciones) {
+          mensaje += estudios[0].institucion.instrucciones;
+        }
+        const titulo = `Confirmar cita de ${paciente.nombreCompleto}: ${paciente.telefono}`;
+        this.mostrarModalConfirmarCita(titulo, mensaje, estudiosIds, cita);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-
-  private mostrarModalConfirmarCita(titulo: string, mensaje: string, idsVentas: number[], cita: Cita) {
+  private mostrarModalConfirmarCita(
+    titulo: string,
+    mensaje: string,
+    idsVentas: number[],
+    cita: Cita
+  ) {
     Swal.fire({
       title: titulo,
-      icon: "warning",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, confirmar",
-      cancelButtonText: "Cancelar",
-      html: mensaje
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, confirmar',
+      cancelButtonText: 'Cancelar',
+      html: mensaje,
     }).then((result) => {
       if (result.isConfirmed) {
-        const mensaje = idsVentas.length > 1 ? "Se han confirmado las citas" : "Se ha confirmado la cita";
-        const titular = idsVentas.length > 1 ? "Confirmadas" : "Confirmada";
-        this.citaService.confirmarCitas(idsVentas).subscribe(() => {
-          Swal.fire(titular, mensaje, 'success');
-          cita.estado = "CONFIRMADA";
-        }, () => {
-          Swal.fire("Error", "Ha ocurrido un error", "error");
-        }
+        const mensaje =
+          idsVentas.length > 1
+            ? 'Se han confirmado las citas'
+            : 'Se ha confirmado la cita';
+        const titular = idsVentas.length > 1 ? 'Confirmadas' : 'Confirmada';
+        this.citaService.confirmarCitas(idsVentas).subscribe(
+          () => {
+            Swal.fire(titular, mensaje, 'success');
+            cita.estado = 'CONFIRMADA';
+          },
+          () => {
+            Swal.fire('Error', 'Ha ocurrido un error', 'error');
+          }
         );
       }
     });
   }
 
-
   public reagendar(cita: Cita) {
     const dialogRef = this.dialog.open(ReagendarCitaModalComponent, {
-      data: { cita: cita }
+      data: { cita: cita },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const nuevaCitaId: number = result.citaId as number;
         const equipoDicom: EquipoDicom = result.equipoDicom as EquipoDicom;
         cita.estudio.equipoDicom = equipoDicom;
         Swal.fire({
-          title: "¿Seguro que desea reagendar?",
-          icon: "warning",
+          title: '¿Seguro que desea reagendar?',
+          icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Sí, seguro",
-          cancelButtonText: "Cancelar",
-          text: "¿Desea reagendar para esa hora?"
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, seguro',
+          cancelButtonText: 'Cancelar',
+          text: '¿Desea reagendar para esa hora?',
         }).then((result) => {
           if (result.isConfirmed) {
             this.mensajeReagendado(cita, nuevaCitaId, cita);
@@ -266,20 +292,36 @@ export class ConfirmacionesCitasComponent implements OnInit {
     });
   }
 
-  private mensajeReagendado(cita: Cita, citaDestinoId: number, citaModificar: Cita) {
+  private mensajeReagendado(
+    cita: Cita,
+    citaDestinoId: number,
+    citaModificar: Cita
+  ) {
     const citaOrigenId = cita.id;
-    const mensaje = "Se han reagendado la cita";
-    const titular = "Reagendada";
+    const mensaje = 'Se han reagendado la cita';
+    const titular = 'Reagendada';
 
-    this.citaService.reagendar(citaOrigenId, citaDestinoId, citaModificar, cita.estudio.concepto.espaciosAgenda).subscribe(cita => {
-      Swal.fire("Éxito", "Se ha reagendado correctamente la cita", "success");
-      this.citas = this.citas.filter(c => c.id != citaModificar.id);
-      cita.estudio = citaModificar.estudio;
-      this.citas.push(cita);
-    },
-      (error) => {
-        Swal.fire("Error", error.error.detail, "error");
-      });
+    this.citaService
+      .reagendar(
+        citaOrigenId,
+        citaDestinoId,
+        citaModificar,
+        cita.estudio.concepto.espaciosAgenda
+      )
+      .subscribe(
+        (cita) => {
+          Swal.fire(
+            'Éxito',
+            'Se ha reagendado correctamente la cita',
+            'success'
+          );
+          this.citas = this.citas.filter((c) => c.id != citaModificar.id);
+          cita.estudio = citaModificar.estudio;
+          this.citas.push(cita);
+        },
+        (error) => {
+          Swal.fire('Error', error.error.detail, 'error');
+        }
+      );
   }
-
 }

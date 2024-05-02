@@ -1,0 +1,14 @@
+<div class="contenedor">
+  <mat-form-field appearance="fill" class="me-3">
+    <mat-label>Buscar por área</mat-label>
+    <input
+      matInput
+      type="text"
+      class="filtrar-areas"
+      placeholder="Areas"
+      [(ngModel)]="busqueda"
+      (input)="filtrarAreas()"
+    />
+  </mat-form-field>
+  <h3>{{ total != 0 ? "Total: " + total : "" }}</h3>
+</div>

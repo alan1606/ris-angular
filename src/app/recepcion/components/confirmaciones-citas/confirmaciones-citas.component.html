@@ -1,79 +1,107 @@
-<div class="row justify-content-md-left">
-    <div class="col-md-auto">
-      <button
-        class="btn btn-info btn-lg btn-block"
-        (click)="mandarConfirmacionesManiania()">
-        Mandar confirmaciones de mañana
-      </button>
-    </div>
-  
-    
-    <div class="col-md-auto" >
-        <mat-form-field appearance="fill">
-            <mat-label>Seleccionar fecha</mat-label>
-            <input [min]="minDate" matInput [matDatepicker]="picker1" [formControl]="date" #fechaSeleccionada (dateInput)="actualizarFecha(fechaSeleccionada)">
-            <mat-hint>DD/MM/AAAA</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
-    </div>        
+<div class="contenedor-busqueda">
+  <div class="col-md-auto">
+    <button
+      class="btn btn-info btn-lg btn-block me-3"
+      (click)="mandarConfirmacionesManiania()"
+    >
+      Mandar confirmaciones de mañana
+    </button>
   </div>
-  
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-header">{{ titulo }}</div>
-    <div class="card-body">
-      <div class="alert alert-info" *ngIf="citas?.length == 0">
-        No hay estudios en el sistema.
-      </div>
-      <div class="table-responsive" *ngIf="citas?.length > 0">
-        <table class="table table-hover table-striped">
-          <thead>
-            <tr>
-                <th>Paciente</th>
-                <th>Estudio</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Agendó</th>
-                <th>Estado</th>
-                <th>Confirmar</th>
-                <th>Reagendar</th>
-                <th>Cancelar</th>
-            </tr>
-          </thead>
-  
-          <tbody *ngIf="citas?.length > 0">
-            <tr *ngFor="let cita of citas">
-              <td>{{cita.estudio?.paciente?.nombreCompleto}}</td>
-              <td>{{cita.estudio?.concepto?.concepto}}</td>
-              <td>{{cita.fechaYHora | date: "dd/MM/yyyy"}}</td>
-              <td>{{cita.fechaYHora | date: "h:mm a"}}</td>
-              <td>{{cita.estudio?.ordenVenta?.usuarioAgendo}}</td>
-              <td>{{cita.estado}}</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" 
-                    *ngIf="cita.estado == 'AGENDADA'"
-                    (click)="confirmar(cita)">
-                    Confirmar manual
-               </button>
+
+  <div class="col-md-auto">
+    <mat-form-field appearance="fill" class="me-3">
+      <mat-label>Seleccionar fecha</mat-label>
+      <input
+        [min]="minDate"
+        matInput
+        [matDatepicker]="picker1"
+        [formControl]="date"
+        #fechaSeleccionada
+        (dateInput)="actualizarFecha(fechaSeleccionada)"
+      />
+      <mat-hint>DD/MM/AAAA</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <app-buscador-areas
+    [citas]="citasParaFiltrar"
+    (citasFiltradasEmit)="recibirCitasFiltradasPorArea($event)"
+  ></app-buscador-areas>
+</div>
+
+<div class="card text-dark bg-light mb-3">
+  <div class="card-header">{{ titulo }}</div>
+  <div class="card-body">
+    <div class="alert alert-info" *ngIf="citas?.length == 0">
+      No hay estudios en el sistema.
+    </div>
+    <div class="table-responsive" *ngIf="citas?.length > 0">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Estudio</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Agendó</th>
+            <th>Estado</th>
+            <th>Confirmar</th>
+            <th>Reagendar</th>
+            <th>Cancelar</th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="citas?.length > 0">
+          <tr *ngFor="let cita of citas">
+            <td>{{ cita.estudio?.paciente?.nombreCompleto }}</td>
+            <td>{{ cita.estudio?.concepto?.concepto }}</td>
+            <td>{{ cita.fechaYHora | date : "dd/MM/yyyy" }}</td>
+            <td>{{ cita.fechaYHora | date : "h:mm a" }}</td>
+            <td>{{ cita.estudio?.ordenVenta?.usuarioAgendo }}</td>
+            <td>{{ cita.estado }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-success"
+                *ngIf="cita.estado == 'AGENDADA'"
+                (click)="confirmar(cita)"
+              >
+                Confirmar manual
+              </button>
             </td>
             <td>
-                <button type="button" class="btn btn-sm btn-primary" 
-                (click)="reagendar(cita)">
-                    Reagendar
-               </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                (click)="reagendar(cita)"
+              >
+                Reagendar
+              </button>
             </td>
             <td>
-                <button type="button" class="btn btn-sm btn-danger" (click)="cancelarCita(cita)">
-                    Cancelar
-               </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-danger"
+                (click)="cancelarCita(cita)"
+              >
+                Cancelar
+              </button>
             </td>
-            </tr>
-          </tbody>
-        </table>
-        <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
-            [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-left mx-2">
-        </mat-paginator>
-      </div>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator
+        [length]="totalRegistros"
+        [pageSize]="totalPorPagina"
+        [pageIndex]="paginaActual"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="paginar($event)"
+        showFirstLastButtons
+        class="float-left mx-2"
+      >
+      </mat-paginator>
     </div>
   </div>
-  
+</div>
