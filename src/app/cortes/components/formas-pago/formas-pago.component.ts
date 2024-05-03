@@ -1,24 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AgregarformasPagoModalComponent } from '../agregarformas-pago-modal/agregarformas-pago-modal.component';
+import { FormaPagoService } from '../../services/forma-pago.service';
+import { FormaPago } from 'src/app/models/formaPago';
 
 @Component({
   selector: 'app-formas-pago',
   templateUrl: './formas-pago.component.html',
   styleUrls: ['./formas-pago.component.css'],
 })
-export class FormasPagoComponent {
-  constructor(private dialog: MatDialog) {}
+export class FormasPagoComponent implements OnInit {
+  constructor(
+    private dialog: MatDialog,
+    private formasPagoService: FormaPagoService
+  ) {}
 
   displayedColumns: string[] = ['Forma', 'editar'];
-  dataSource = [
-    { id: 1, Forma: 'Tarjeta de credito' },
-    { id: 2, Forma: 'Cuerpo' },
-  ];
+  dataSource: FormaPago[] = [];
+
+  ngOnInit(): void {
+    this.formasPagoService.buscarFormasPago().subscribe((data) => {
+      this.dataSource = data;
+    });
+  }
 
   nuevaForma(): void {
     const modalRef = this.dialog.open(AgregarformasPagoModalComponent, {
       width: '350',
+    });
+    modalRef.afterClosed().subscribe(() => {
+      this.formasPagoService.buscarFormasPago().subscribe((data) => {
+        console.log(data);
+        this.dataSource = data;
+      });
     });
   }
 
@@ -26,7 +40,13 @@ export class FormasPagoComponent {
     console.log(id);
     const modalRef = this.dialog.open(AgregarformasPagoModalComponent, {
       width: '350',
-      data: { idForma: id },
+      data: id,
+    });
+    modalRef.afterClosed().subscribe(() => {
+      this.formasPagoService.buscarFormasPago().subscribe((data) => {
+        console.log(data);
+        this.dataSource = data;
+      });
     });
   }
 }

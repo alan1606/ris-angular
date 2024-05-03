@@ -13,9 +13,10 @@
       <h2>Forma de pago</h2>
       <mat-form-field appearance="fill">
         <mat-label>Elegir metodo</mat-label>
-        <mat-select [(ngModel)]="formaPago.forma" name="forma" id="forma">
-          <mat-option value="Tarjeta">Tarjeta</mat-option>
-          <mat-option value="Cuerpo">Cuerpo</mat-option>
+        <mat-select [(ngModel)]="formaPago" name="forma" id="forma">
+          <mat-option *ngFor="let forma of formasPago" [value]="forma">{{
+            forma.forma
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -75,5 +76,11 @@
     </div>
   </mat-card>
 
-  <button [disabled]="restante===0?false:true" class="btn btn-success btn-lg mt-4" (click)="finalizarPago()">{{restante===0?"Finalizar Pago":"Termine el pago"}}</button>
+  <button
+    [disabled]="restante === 0 ? false : true"
+    class="btn btn-success btn-lg mt-4"
+    (click)="finalizarPago()"
+  >
+    {{ restante === 0 ? "Finalizar Pago" : "Termine el pago" }}
+  </button>
 </mat-card>

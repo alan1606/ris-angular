@@ -9,25 +9,26 @@ import { BASE_ENDPOINT } from 'src/app/config/app';
 export class TurnoService {
   constructor(private httpClient: HttpClient) {}
 
-  verTurnos(): Observable<any> {
-    return this.httpClient.get<any>(`${BASE_ENDPOINT}/turnos-cortes`);
+  verTurnos(): Observable<TurnoCorte[]> {
+    return this.httpClient.get<TurnoCorte[]>(`${BASE_ENDPOINT}/cortes/turnos-cortes`);
   }
   buscarTurnoPorId(id: number) {
     return this.httpClient.get<TurnoCorte>(
-      `${BASE_ENDPOINT}/turnos-cortes/${id}`
+      `${BASE_ENDPOINT}/cortes/turnos-cortes/${id}`
     );
   }
 
   guardarTurno(turno: TurnoCorte): Observable<TurnoCorte> {
+    console.log(turno)
     return this.httpClient.post<TurnoCorte>(
-      `${BASE_ENDPOINT}/turnos-cortes`,
+      `${BASE_ENDPOINT}/cortes/turnos-cortes`,
       turno
     );
   }
 
   editarTurno(id: number, turno: TurnoCorte): Observable<TurnoCorte> {
     return this.httpClient.put<TurnoCorte>(
-      `${BASE_ENDPOINT}/turnos-cortes/${id}`,
+      `${BASE_ENDPOINT}/cortes/turnos-cortes/${id}`,
       turno
     );
   }

@@ -25,7 +25,6 @@ export class AgregarTurnosModalComponent implements OnInit {
     }
   }
   guardarTurno(): void {
-    console.log('guardar turno');
     if (!this.model.nombre || !this.model.horaInicio || !this.model.horaFin) {
       Swal.fire({
         icon: 'error',
@@ -33,6 +32,9 @@ export class AgregarTurnosModalComponent implements OnInit {
       });
       return;
     }
+
+    this.model.horaInicio = this.model.horaInicio + ':00';
+    this.model.horaFin = this.model.horaFin + ':00';
 
     this.turnoService.guardarTurno(this.model).subscribe(
       (data) => {

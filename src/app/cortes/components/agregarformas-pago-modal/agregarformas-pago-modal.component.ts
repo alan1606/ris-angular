@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormaPago } from 'src/app/models/formaPago';
 import { FormaPagoService } from '../../services/forma-pago.service';
 import Swal from 'sweetalert2';
@@ -11,8 +11,9 @@ import Swal from 'sweetalert2';
 })
 export class AgregarformasPagoModalComponent implements OnInit {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public id: number,
-    private formaPagoService: FormaPagoService
+    @Inject(MAT_DIALOG_DATA) public data: number,
+    private formaPagoService: FormaPagoService,
+    public dialogRef: MatDialogRef<AgregarformasPagoModalComponent>
   ) {}
 
   idFormaPago: number = null;
@@ -20,9 +21,9 @@ export class AgregarformasPagoModalComponent implements OnInit {
   formaPago: FormaPago = new FormaPago();
 
   ngOnInit(): void {
-    if (this.id) {
-      this.idFormaPago = this.id;
-      this.formaPagoService.buscarFormaPagoPorId(this.id).subscribe(
+    if (this.data) {
+      this.idFormaPago = this.data;
+      this.formaPagoService.buscarFormaPagoPorId(this.idFormaPago).subscribe(
         (data) => {
           this.formaPago = data;
         },
@@ -44,6 +45,8 @@ export class AgregarformasPagoModalComponent implements OnInit {
           icon: 'success',
           title: 'Listo',
           text: 'Forma de pago agregada.',
+        }).then(() => {
+          this.dialogRef.close();
         });
       },
       (error) => {
@@ -57,21 +60,25 @@ export class AgregarformasPagoModalComponent implements OnInit {
   }
 
   editarFormaPago(): void {
-    this.formaPagoService.editarFormaPago(this.id, this.formaPago).subscribe(
-      (data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Listo',
-          text: 'Forma de pago editada.',
-        });
-      },
-      (error) => {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-        });
-      }
-    );
+    this.formaPagoService
+      .editarFormaPago(this.idFormaPago, this.formaPago)
+      .subscribe(
+        (data) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Listo',
+            text: 'Forma de pago editada.',
+          }).then(() => {
+            this.dialogRef.close();
+          });
+        },
+        (error) => {
+          console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+          });
+        }
+      );
   }
 }

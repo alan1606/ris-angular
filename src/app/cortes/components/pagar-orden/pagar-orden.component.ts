@@ -5,6 +5,7 @@ import { FormaPago } from 'src/app/models/formaPago';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { Pago } from 'src/app/models/pago';
 import Swal from 'sweetalert2';
+import { FormaPagoService } from '../../services/forma-pago.service';
 
 @Component({
   selector: 'app-pagar-orden',
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class PagarOrdenComponent implements OnInit {
   // constructor(@Inject(MAT_DIALOG_DATA) public orden: OrdenVenta=null) {}
-  constructor() {
+  constructor(private formaPagoService: FormaPagoService) {
     this.dataSource = new MatTableDataSource(this.pagos);
   }
 
@@ -26,17 +27,34 @@ export class PagarOrdenComponent implements OnInit {
   total: number = 1000;
   restante = this.total;
 
-  ngOnInit(): void {}
+  formasPago: FormaPago[] = [];
+  ngOnInit(): void {
+    this.formaPagoService.buscarFormasPago().subscribe(
+      (data) => {
+        console.log(data);
+        this.formasPago = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
   agregarPago(): void {
-    this.pago.id = this.pagos.length + 1;
+    if (!this.formaPago.forma) {
+      return;
+    }
+    if (!this.pago.cantidad) {
+      return;
+    }
+
     if (this.restante === 0) {
       Swal.fire({
-        icon:"info",
-        title:"No se puede agregar mas"
-      }).then(()=>{
-        return
-      })
+        icon: 'info',
+        title: 'No se puede agregar mas',
+      }).then(() => {
+        return;
+      });
       return;
     }
     if (this.pago.cantidad > this.restante) {
@@ -53,13 +71,16 @@ export class PagarOrdenComponent implements OnInit {
 
   quitarPago(id: number) {
     let regresarCantidad = this.pagos.find((pago) => pago.id === id);
+    console.log(regresarCantidad);
     this.restante += regresarCantidad.cantidad;
-    this.pagos = this.pagos.filter((pago) => pago.id !== id);
+    console.log(this.pagos);
+    this.pagos = this.pagos.filter((pago) => pago !== regresarCantidad);
     this.dataSource.data = this.pagos;
   }
 
   finalizarPago(): void {
     if (this.restante === 0) {
+      console.log(this.pagos);
       Swal.fire({
         icon: 'success',
         title: 'Pago completado',

@@ -23,13 +23,14 @@ export class TurnosComponent implements OnInit {
   ngOnInit(): void {
     this.turnoService.verTurnos().subscribe(
       (data) => {
+        console.log(data)
         this.dataSource = data;
       },
       (error) => {
         console.log(error);
         Swal.fire({
-          icon: 'error',
-          title: 'Error',
+          icon: 'info',
+          title: 'No hay turnos',
         });
       }
     );
