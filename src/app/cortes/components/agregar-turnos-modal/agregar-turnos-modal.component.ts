@@ -33,8 +33,6 @@ export class AgregarTurnosModalComponent implements OnInit {
       return;
     }
 
-    this.model.horaInicio = this.model.horaInicio + ':00';
-    this.model.horaFin = this.model.horaFin + ':00';
 
     this.turnoService.guardarTurno(this.model).subscribe(
       (data) => {
