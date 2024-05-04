@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TurnoCorte } from 'src/app/models/turnoCorte';
 import Swal from 'sweetalert2';
 import { TurnoService } from '../../services/turno.service';
@@ -12,11 +12,13 @@ import { TurnoService } from '../../services/turno.service';
 export class AgregarTurnosModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public idTurno: number = null,
-    private turnoService: TurnoService
+    private turnoService: TurnoService,
+    public dialogRef: MatDialogRef<AgregarTurnosModalComponent>
   ) {}
+
   model: TurnoCorte = new TurnoCorte();
+
   ngOnInit() {
-    this.idTurno ? console.log(this.idTurno) : null;
     if (this.idTurno) {
       this.turnoService.buscarTurnoPorId(this.idTurno).subscribe(
         (data) => (this.model = data),
@@ -33,12 +35,13 @@ export class AgregarTurnosModalComponent implements OnInit {
       return;
     }
 
-
     this.turnoService.guardarTurno(this.model).subscribe(
-      (data) => {
+      () => {
         Swal.fire({
           icon: 'success',
           title: 'Turno guardado Correctamente',
+        }).then(() => {
+          this.dialogRef.close();
         });
       },
       (err) => {
@@ -51,7 +54,6 @@ export class AgregarTurnosModalComponent implements OnInit {
     );
   }
   editarTurno(): void {
-    console.log('editar turno');
     if (!this.model.nombre || !this.model.horaInicio || !this.model.horaFin) {
       Swal.fire({
         icon: 'error',
@@ -61,10 +63,12 @@ export class AgregarTurnosModalComponent implements OnInit {
     }
 
     this.turnoService.editarTurno(this.idTurno, this.model).subscribe(
-      (data) => {
+      () => {
         Swal.fire({
           icon: 'success',
           title: 'Turno editado Correctamente',
+        }).then(() => {
+          this.dialogRef.close();
         });
       },
       (err) => {

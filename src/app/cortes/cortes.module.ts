@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormasPagoComponent } from './components/formas-pago/formas-pago.component';
 import { AgregarformasPagoModalComponent } from './components/agregarformas-pago-modal/agregarformas-pago-modal.component';
+import { MovimientosCortesComponent } from './components/movimientos-cortes/movimientos-cortes.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AgregarformasPagoModalComponent } from './components/agregarformas-pago
     PagarOrdenComponent,
     FormasPagoComponent,
     AgregarformasPagoModalComponent,
+    MovimientosCortesComponent,
   ],
   imports: [
     CommonModule,

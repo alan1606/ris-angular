@@ -40,7 +40,7 @@ export class AgregarformasPagoModalComponent implements OnInit {
 
   agregarFormaPago(): void {
     this.formaPagoService.agregarFormaPago(this.formaPago).subscribe(
-      (data) => {
+      () => {
         Swal.fire({
           icon: 'success',
           title: 'Listo',
@@ -63,7 +63,7 @@ export class AgregarformasPagoModalComponent implements OnInit {
     this.formaPagoService
       .editarFormaPago(this.idFormaPago, this.formaPago)
       .subscribe(
-        (data) => {
+        () => {
           Swal.fire({
             icon: 'success',
             title: 'Listo',

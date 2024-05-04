@@ -10,7 +10,9 @@ export class TurnoService {
   constructor(private httpClient: HttpClient) {}
 
   verTurnos(): Observable<TurnoCorte[]> {
-    return this.httpClient.get<TurnoCorte[]>(`${BASE_ENDPOINT}/cortes/turnos-cortes`);
+    return this.httpClient.get<TurnoCorte[]>(
+      `${BASE_ENDPOINT}/cortes/turnos-cortes`
+    );
   }
   buscarTurnoPorId(id: number) {
     return this.httpClient.get<TurnoCorte>(
@@ -19,7 +21,7 @@ export class TurnoService {
   }
 
   guardarTurno(turno: TurnoCorte): Observable<TurnoCorte> {
-    console.log(turno)
+    console.log(turno);
     return this.httpClient.post<TurnoCorte>(
       `${BASE_ENDPOINT}/cortes/turnos-cortes`,
       turno
@@ -32,6 +34,4 @@ export class TurnoService {
       turno
     );
   }
-
- 
 }
