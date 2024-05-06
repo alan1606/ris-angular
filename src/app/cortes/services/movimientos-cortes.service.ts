@@ -9,11 +9,16 @@ import { Movimiento } from 'src/app/models/movimiento';
 export class MovimientosCortesService {
   constructor(private httpClient: HttpClient) {}
 
-  buscarMovimientosCortesTurnoHoy(): Observable<Movimiento[]> {
-    return this.httpClient.get<Movimiento[]>(`${BASE_SITE}/cortes/movimientos-cortes`);
+  buscarMovimientosCortePorCorteId(corteId: number): Observable<Movimiento[]> {
+    return this.httpClient.get<Movimiento[]>(
+      `${BASE_SITE}/cortes/movimientos-corte/corte/${corteId}`
+    );
   }
 
   agregarMovimientoCorte(movimiento: Movimiento): Observable<Movimiento> {
-    return this.httpClient.post<Movimiento>(`${BASE_SITE}/cortes/movimientos-cortes`, movimiento);
+    return this.httpClient.post<Movimiento>(
+      `${BASE_SITE}/cortes/movimientos-corte`,
+      movimiento
+    );
   }
 }
