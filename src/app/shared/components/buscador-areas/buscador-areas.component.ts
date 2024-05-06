@@ -71,4 +71,8 @@ export class BuscadorAreasComponent implements OnInit {
     this.area = event.option.value as Area;
     this.filtrarAreas();
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

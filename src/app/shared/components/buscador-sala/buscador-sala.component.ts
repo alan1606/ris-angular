@@ -59,4 +59,8 @@ export class BuscadorSalaComponent implements OnInit {
     this.citasFiltradasEmit.emit(this.citasFiltradas);
     return;
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

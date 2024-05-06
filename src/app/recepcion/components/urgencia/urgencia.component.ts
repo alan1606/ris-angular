@@ -52,7 +52,7 @@ export class UrgenciaComponent implements OnInit {
   ) { 
   }
 
-  titulo = "Agendar cita";
+  titulo = "Agendar urgencia";
 
   autocompleteControlPaciente = new UntypedFormControl();
   autocompleteControlConvenio = new UntypedFormControl();

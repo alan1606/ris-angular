@@ -39,6 +39,7 @@ import { CambiarEstudioComponent } from './components/check-in/cambiar-estudio/c
 import { AgregarEstudioComponent } from './components/check-in/agregar-estudio/agregar-estudio.component';
 import { LimboComponent } from './components/limbo/limbo.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -84,7 +85,8 @@ import { SharedModule } from '../shared/shared.module';
         MatTableModule,
         QRCodeModule,
         MatPaginatorModule,
-        SharedModule
+        SharedModule,
+        MatSlideToggleModule
     ],
     exports: [
         UrgenciaComponent

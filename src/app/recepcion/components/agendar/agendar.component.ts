@@ -1,8 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  UntypedFormControl,
+} from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs';
 import { Campania } from 'src/app/campanias/models/campania';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Area } from 'src/app/models/area';
@@ -27,21 +39,19 @@ import { FechaService } from 'src/app/services/fecha.service';
 import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 import { InstruccionesService } from 'src/app/services/instrucciones.service';
 
-
 @Component({
   selector: 'app-agendar',
   templateUrl: './agendar.component.html',
-  styleUrls: ['./agendar.component.css']
+  styleUrls: ['./agendar.component.css'],
 })
 export class AgendarComponent implements OnInit {
-
   total: number;
   motivo: string;
-  codigoPromocion: string = "";
-  botonDeshabilitar:boolean=false;
+  codigoPromocion: string = '';
+  botonDeshabilitar: boolean = false;
   formulario: FormGroup;
-  instrucciones: string ="";
-  private instruccionesInstitucion="";
+  instrucciones: string = '';
+  private instruccionesInstitucion = '';
 
   constructor(
     private pipe: DatePipe,
@@ -60,20 +70,20 @@ export class AgendarComponent implements OnInit {
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
-      citaControl: new FormControl('')
+      citaControl: new FormControl(''),
     });
 
     this.minDate = new Date();
   }
 
-  titulo = "Agendar cita";
+  isUrgencia: boolean = false;
+  titulo = 'Agendar cita';
 
   autocompleteControlPaciente = new UntypedFormControl();
   autocompleteControlConvenio = new UntypedFormControl();
   autocompleteControlArea = new UntypedFormControl();
   autocompleteControlConcepto = new UntypedFormControl();
   autocompleteControlMedicoReferente = new UntypedFormControl();
-
 
   pacientesFiltrados: Paciente[] = [];
   conveniosFiltrados: Institucion[] = [];
@@ -101,71 +111,89 @@ export class AgendarComponent implements OnInit {
   minDate: Date;
 
   ngOnInit(): void {
-
     this.espaciosAgenda;
 
     this.cargarConvenioParticularPorDefecto();
 
-    this.autocompleteControlPaciente.valueChanges.pipe(
-      debounceTime(300), 
-      distinctUntilChanged(), 
-      switchMap(valor => {
-        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
-        return valor ? this.pacienteService.filtrarPorNombre(nombreCompleto) : [];
-      }),
-      catchError(error => {
-        console.error('Error en la búsqueda de pacientes:', error);
-        return [];
-      })
-    ).subscribe(pacientes => {
-      this.pacientesFiltrados = pacientes;
+    this.autocompleteControlPaciente.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((valor) => {
+          const nombreCompleto =
+            typeof valor === 'string' ? valor : valor.nombreCompleto;
+          return valor
+            ? this.pacienteService.filtrarPorNombre(nombreCompleto)
+            : [];
+        }),
+        catchError((error) => {
+          console.error('Error en la búsqueda de pacientes:', error);
+          return [];
+        })
+      )
+      .subscribe((pacientes) => {
+        this.pacientesFiltrados = pacientes;
+      });
+
+    this.autocompleteControlConvenio.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
+        mergeMap((valor) =>
+          valor ? this.institucionService.buscarLikeNombre(valor) : []
+        )
+      )
+      .subscribe((instituciones) => (this.conveniosFiltrados = instituciones));
+
+    this.autocompleteControlConcepto.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.concepto)),
+        mergeMap((valor) =>
+          valor && this.area?.id
+            ? this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id)
+            : []
+        )
+      )
+      .subscribe((conceptos) => {
+        this.conceptosFiltrados = conceptos;
+      });
+
+    this.autocompleteControlArea.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
+        mergeMap((valor) =>
+          valor ? this.areaService.filtrarPorNombre(valor) : []
+        )
+      )
+      .subscribe((areas) => {
+        this.areasFiltradas = areas;
+        this.autocompleteControlConcepto.setValue('');
+        this.conceptosFiltrados = [];
+        this.concepto = null;
+      });
+
+    this.formulario.get('salaControl').valueChanges.subscribe((value) => {
+      this.equipoDicomService.ver(value).subscribe(
+        (sala) => {
+          this.equipoDicom = sala;
+          this.citas = [];
+          this.formulario.get('citaControl').setValue('');
+          if (this.fecha) {
+            this.cargarCitas();
+          }
+        },
+        (err) => console.log(err)
+      );
     });
 
-    this.autocompleteControlConvenio.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      mergeMap(valor => valor ? this.institucionService.buscarLikeNombre(valor) : [])
-    ).subscribe(instituciones => this.conveniosFiltrados = instituciones);
-
-    this.autocompleteControlConcepto.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.concepto),
-      mergeMap(valor => valor && this.area?.id ? this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id) : [])
-    ).subscribe(conceptos => {
-      this.conceptosFiltrados = conceptos;
-    });
-
-    this.autocompleteControlArea.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      mergeMap(valor => valor ? this.areaService.filtrarPorNombre(valor) : [])
-    ).subscribe(areas => {
-      this.areasFiltradas = areas;
-      this.autocompleteControlConcepto.setValue("");
-      this.conceptosFiltrados = [];
-      this.concepto = null;
-    });
-
-    this.formulario.get('salaControl').valueChanges.subscribe(value => {
-      this.equipoDicomService.ver(value).subscribe(sala => {
-        this.equipoDicom = sala;
-        this.citas = [];
-        this.formulario.get('citaControl').setValue('');
-        if(this.fecha){
-          this.cargarCitas();
-        }
-      },
-        err => console.log(err));
-    });
-
-    this.formulario.get('citaControl').valueChanges.subscribe(value => {
-      if(value){
+    this.formulario.get('citaControl').valueChanges.subscribe((value) => {
+      if (value) {
         this.cita = value;
         this.apartarCita(this.cita);
       }
-     
     });
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
   }
-
 
   mostrarNombrePaciente(paciente?: Paciente): string {
     return paciente ? paciente.nombreCompleto : '';
@@ -209,7 +237,7 @@ export class AgendarComponent implements OnInit {
   seleccionarConcepto(event: MatAutocompleteSelectedEvent): void {
     this.concepto = event.option.value as Concepto;
 
-    this.conceptoService.ver(this.concepto.id).subscribe(concepto => {
+    this.conceptoService.ver(this.concepto.id).subscribe((concepto) => {
       this.concepto = concepto;
       this.espaciosAgenda = concepto.espaciosAgenda;
     });
@@ -224,16 +252,15 @@ export class AgendarComponent implements OnInit {
     event.option.focus();
   }
 
-
   private cargarEquiposDicom(): void {
-    this.equipoDicomService.filtrarPorArea(this.area.id).subscribe(
-      equipos => {
+    this.equipoDicomService
+      .filtrarPorArea(this.area.id)
+      .subscribe((equipos) => {
         this.equiposDicom = equipos;
-      }
-    );
+      });
   }
 
-   agregarEstudio(citas: Cita[]) {
+  agregarEstudio(citas: Cita[]) {
     const estudio = new VentaConceptos();
 
     estudio.concepto = this.concepto;
@@ -242,12 +269,13 @@ export class AgendarComponent implements OnInit {
     estudio.paciente = this.paciente;
     estudio.citas = citas;
 
-
     this.estudios.push(estudio);
 
     console.log(estudio);
     this.calcularTotal();
-    this.mostrarInstruccionesConcepto(this.estudios[this.estudios.length -1].concepto);
+    this.mostrarInstruccionesConcepto(
+      this.estudios[this.estudios.length - 1].concepto
+    );
 
     //Hay que esperar para hacer esto
     this.limpiarCampos();
@@ -257,19 +285,19 @@ export class AgendarComponent implements OnInit {
     if (!this.datosValidos()) {
       return;
     }
-    this.citaService.apartarCitaEspacios(cita.id, this.concepto.espaciosAgenda).subscribe(citas => {
-      this.agregarEstudio(citas);
-      //tengo que hacer esto por todas las citas 
-      this.citas = this.citas.filter(cita => cita.id != this.cita.id);
-
-    },
-    (error) => {
-      Swal.fire("Error", error.error.detail, "error");
-    });
-
+    this.citaService
+      .apartarCitaEspacios(cita.id, this.concepto.espaciosAgenda)
+      .subscribe(
+        (citas) => {
+          this.agregarEstudio(citas);
+          //tengo que hacer esto por todas las citas
+          this.citas = this.citas.filter((cita) => cita.id != this.cita.id);
+        },
+        (error) => {
+          Swal.fire('Error', error.error.detail, 'error');
+        }
+      );
   }
-
-
 
   private limpiarCampos(): void {
     this.area = null;
@@ -279,10 +307,10 @@ export class AgendarComponent implements OnInit {
     this.citas = [];
     this.espaciosAgenda = 0;
 
-    this.autocompleteControlArea.setValue("");
-    this.autocompleteControlConcepto.setValue("");
-    this.formulario.get('citaControl').setValue("");
-    this.formulario.get('salaControl').setValue("");
+    this.autocompleteControlArea.setValue('');
+    this.autocompleteControlConcepto.setValue('');
+    this.formulario.get('citaControl').setValue('');
+    this.formulario.get('salaControl').setValue('');
   }
 
   private reiniciarFormulario() {
@@ -292,16 +320,16 @@ export class AgendarComponent implements OnInit {
     this.concepto = new Concepto();
     this.estudios = [];
     this.ordenVenta = new OrdenVenta();
-    this.motivo = "";
+    this.motivo = '';
     this.campania = new Campania();
     this.codigoPromocion = '';
-    this.botonDeshabilitar=false;
-    this.instrucciones = "";
-    this.instruccionesInstitucion = "";
+    this.botonDeshabilitar = false;
+    this.instrucciones = '';
+    this.instruccionesInstitucion = '';
 
     this.cargarConvenioParticularPorDefecto();
 
-    this.autocompleteControlPaciente.setValue("");
+    this.autocompleteControlPaciente.setValue('');
     this.isCodigoPromocionalDisabled = false;
   }
 
@@ -323,8 +351,8 @@ export class AgendarComponent implements OnInit {
 
   quitarEstudio(i: number, j: number): void {
     this.liberarCita(this.estudios[i].citas[j]);
-    this.estudios[i].citas.splice(j,1);
-    if(this.estudios[i].citas.length == 0){
+    this.estudios[i].citas.splice(j, 1);
+    if (this.estudios[i].citas.length == 0) {
       this.estudios.splice(i, 1);
       this.calcularTotal();
       this.mostrarInstruccionesGenerales();
@@ -332,81 +360,78 @@ export class AgendarComponent implements OnInit {
   }
 
   private liberarCita(cita: Cita) {
-    this.citaService.liberarCita(cita.id).subscribe(()=>{},
-    error => console.log(error));
+    this.citaService.liberarCita(cita.id).subscribe(
+      () => {},
+      (error) => console.log(error)
+    );
   }
 
   agendar() {
+    this.botonDeshabilitar = true;
 
-    this.botonDeshabilitar=true;
-    
-    setTimeout(()=>{
-      this.ordenVenta = new OrdenVenta;
-
+    setTimeout(() => {
+      this.ordenVenta = new OrdenVenta();
 
       this.ordenVenta.paciente = this.paciente;
       console.log(this.ordenVenta.paciente);
-  
+
       if (this.campania.id) {
         this.ordenVenta.aplicarDescuento = true;
         this.ordenVenta.codigoPromocional = this.campania.codigo;
       }
       this.total = 0;
       this.agendaNormal();
-
-    },2000);
+    }, 2000);
   }
 
-
   private agendaNormal(): void {
-    for(let estudio of this.estudios){
+    for (let estudio of this.estudios) {
       estudio.institucion = this.institucion;
     }
 
-    this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
-      estudios => {
-        this.estudios = estudios;
-        this.ordenVenta = this.estudios[0].ordenVenta;
-        this.reiniciarFormulario();
-        Swal.fire("Procesado", "La orden se ha procesado", "success")
-      },
-      err => {
-        console.log(err);
-        Swal.fire("Error", "Ha ocurrido un error al procesar la venta", "error")
-      }
-    );
+    this.ordenVentaService
+      .venderConceptos(this.estudios, this.ordenVenta)
+      .subscribe(
+        (estudios) => {
+          this.estudios = estudios;
+          this.ordenVenta = this.estudios[0].ordenVenta;
+          this.reiniciarFormulario();
+          Swal.fire('Procesado', 'La orden se ha procesado', 'success');
+        },
+        (err) => {
+          console.log(err);
+          Swal.fire(
+            'Error',
+            'Ha ocurrido un error al procesar la venta',
+            'error'
+          );
+        }
+      );
   }
 
-
-
   abrirModalRegistrarPacienteParcial() {
-    
-    const modalRef = this.dialog.open(RegistrarPacienteParcialModalComponent,
-      {
-        width: "1000px",
-        data: { paciente: this.paciente?.id ? this.paciente : null }
-      });
+    const modalRef = this.dialog.open(RegistrarPacienteParcialModalComponent, {
+      width: '1000px',
+      data: { paciente: this.paciente?.id ? this.paciente : null },
+    });
 
-    modalRef.afterClosed().subscribe(paciente => {
-      if(paciente){
+    modalRef.afterClosed().subscribe((paciente) => {
+      if (paciente) {
         this.paciente = paciente;
         this.autocompleteControlPaciente.setValue(this.paciente);
       }
     });
   }
 
-
-
   private cargarConvenioParticularPorDefecto(): void {
-    this.institucionService.listar().subscribe(
-      instituciones => {
-        this.conveniosFiltrados = instituciones.filter(institucion => institucion.nombre === "PARTICULAR");
-        this.institucion = this.conveniosFiltrados[0];
-        this.autocompleteControlConvenio.setValue(this.institucion);
-
-      });
+    this.institucionService.listar().subscribe((instituciones) => {
+      this.conveniosFiltrados = instituciones.filter(
+        (institucion) => institucion.nombre === 'PARTICULAR'
+      );
+      this.institucion = this.conveniosFiltrados[0];
+      this.autocompleteControlConvenio.setValue(this.institucion);
+    });
   }
-
 
   buscarCodigoPromocional(event: KeyboardEvent): void {
     event.preventDefault();
@@ -414,19 +439,26 @@ export class AgendarComponent implements OnInit {
 
     if (this.codigoPromocion) {
       this.campaniasService.buscarPorCodigo(this.codigoPromocion).subscribe(
-        campania => {
+        (campania) => {
           this.campania = campania;
           this.simularDescuento();
           this.isCodigoPromocionalDisabled = true;
-          Swal.fire("Aplicado", `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`, "success");
+          Swal.fire(
+            'Aplicado',
+            `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`,
+            'success'
+          );
         },
         () => {
-          Swal.fire("No encontrado", "No se ha podido encontrar la campaña", "error");
+          Swal.fire(
+            'No encontrado',
+            'No se ha podido encontrar la campaña',
+            'error'
+          );
         }
       );
     }
   }
-
 
   private simularDescuento(): void {
     for (let i = 0; i < this.campania.conceptos.length; i++) {
@@ -446,41 +478,52 @@ export class AgendarComponent implements OnInit {
 
   private calcularTotal() {
     let total: number = 0;
-    this.estudios.forEach(estudio => total += estudio.concepto.precio);
+    this.estudios.forEach((estudio) => (total += estudio.concepto.precio));
 
     this.total = total;
   }
-
 
   public actualizarFecha(fecha: HTMLInputElement) {
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
 
     this.cargarCitas();
-  };
+  }
 
-
-  private cargarCitas(): void{
-
-    if(this.espaciosAgenda && this.concepto.espaciosAgenda != this.espaciosAgenda){
+  private cargarCitas(): void {
+    if (
+      this.espaciosAgenda &&
+      this.concepto.espaciosAgenda != this.espaciosAgenda
+    ) {
       this.concepto.espaciosAgenda = this.espaciosAgenda;
     }
-    
-    this.citaService.obtenerDisponiblesPorSalaYFechaEspacios(this.equipoDicom.id, this.fecha, this.concepto.espaciosAgenda).subscribe(citas => {
-      this.citas = citas;
-      if(this.hayQueMostrarLimitePensionesUltrasonido()){
-        this.mostrarCitasPensionesUltrasonido();
-      }
-    },
-      error => {
-        Swal.fire("No hay citas", error.error.detail, "info");
-        this.citas = [];
-        this.cita = null;
-        console.log(error);
-      });
+
+    this.citaService
+      .obtenerDisponiblesPorSalaYFechaEspacios(
+        this.equipoDicom.id,
+        this.fecha,
+        this.concepto.espaciosAgenda
+      )
+      .subscribe(
+        (citas) => {
+          this.citas = citas;
+          if (this.hayQueMostrarLimitePensionesUltrasonido()) {
+            this.mostrarCitasPensionesUltrasonido();
+          }
+        },
+        (error) => {
+          Swal.fire('No hay citas', error.error.detail, 'info');
+          this.citas = [];
+          this.cita = null;
+          console.log(error);
+        }
+      );
   }
 
   private hayQueMostrarLimitePensionesUltrasonido(): boolean {
-    if(this.institucion.nombre === "PENSIONES" && this.area.nombre == "ULTRASONIDO"){
+    if (
+      this.institucion.nombre === 'PENSIONES' &&
+      this.area.nombre == 'ULTRASONIDO'
+    ) {
       return true;
     }
     return false;
@@ -488,70 +531,82 @@ export class AgendarComponent implements OnInit {
 
   private mostrarCitasPensionesUltrasonido() {
     this.dialog.open(MostrarCitasPorDiaPensionesComponent, {
-      data: {dia: this.fecha, salaId: this.equipoDicom.id},
+      data: { dia: this.fecha, salaId: this.equipoDicom.id },
     });
   }
 
-  limpiarPaciente(): void{
+  limpiarPaciente(): void {
     this.paciente = null;
-    this.autocompleteControlPaciente.setValue("");
+    this.autocompleteControlPaciente.setValue('');
   }
 
   private mostrarInstruccionesArea(area: Area): void {
     this.instruccionesService.buscarPorArea(area.id).subscribe(
-      inst => {
+      (inst) => {
         area.instrucciones = inst.instrucciones;
         this.mostrarInstruccionesGenerales();
       },
-      err => {
-        this.area.instrucciones = "";
+      (err) => {
+        this.area.instrucciones = '';
         this.mostrarInstruccionesGenerales();
       }
-    );    
+    );
   }
 
   private mostrarInstruccionesInstitucion(institucion: Institucion): void {
     this.instruccionesService.buscarPorInstitucion(institucion.id).subscribe(
-      inst => {
+      (inst) => {
         this.instruccionesInstitucion = inst.instrucciones;
         this.mostrarInstruccionesGenerales();
       },
-      err => {
-        this.instruccionesInstitucion ="";
+      (err) => {
+        this.instruccionesInstitucion = '';
         this.mostrarInstruccionesGenerales();
       }
-    );    
+    );
   }
 
   private mostrarInstruccionesConcepto(concepto: Concepto): void {
     this.mostrarInstruccionesArea(concepto.area);
 
     this.instruccionesService.buscarPorConcepto(concepto.id).subscribe(
-      inst => {
+      (inst) => {
         concepto.instrucciones = inst.instrucciones;
         this.mostrarInstruccionesGenerales();
       },
-      err => {
-        this.concepto.instrucciones = "";
+      (err) => {
+        this.concepto.instrucciones = '';
         this.mostrarInstruccionesGenerales();
       }
-    );    
-
+    );
   }
 
-  private mostrarInstruccionesGenerales(){
+  private mostrarInstruccionesGenerales() {
     //Obtener instrucciones de área
-    this.instrucciones = "";
-    for(let i = 0; i< this.estudios.length; i++){
-      if(this.estudios[i].concepto?.instrucciones){
-        this.instrucciones = this.instrucciones + this.instrucciones ? this.instrucciones + "; " + this.estudios[i].concepto.instrucciones : this.estudios[i].concepto.instrucciones;
+    this.instrucciones = '';
+    for (let i = 0; i < this.estudios.length; i++) {
+      if (this.estudios[i].concepto?.instrucciones) {
+        this.instrucciones =
+          this.instrucciones + this.instrucciones
+            ? this.instrucciones +
+              '; ' +
+              this.estudios[i].concepto.instrucciones
+            : this.estudios[i].concepto.instrucciones;
       }
-      if(this.estudios[i].concepto?.area?.instrucciones){
-        this.instrucciones =  this.instrucciones + this.instrucciones ? this.instrucciones + "; " + this.estudios[i].concepto.area.instrucciones : this.estudios[i].concepto.area.instrucciones;
+      if (this.estudios[i].concepto?.area?.instrucciones) {
+        this.instrucciones =
+          this.instrucciones + this.instrucciones
+            ? this.instrucciones +
+              '; ' +
+              this.estudios[i].concepto.area.instrucciones
+            : this.estudios[i].concepto.area.instrucciones;
       }
     }
-    if(this.instruccionesInstitucion){
-      this.instrucciones =  this.instrucciones + this.instrucciones ? this.instrucciones + "; " + this.instruccionesInstitucion : this.instruccionesInstitucion;
+    if (this.instruccionesInstitucion) {
+      this.instrucciones =
+        this.instrucciones + this.instrucciones
+          ? this.instrucciones + '; ' + this.instruccionesInstitucion
+          : this.instruccionesInstitucion;
     }
   }
 }
