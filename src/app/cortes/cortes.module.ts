@@ -19,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormasPagoComponent } from './components/formas-pago/formas-pago.component';
 import { AgregarformasPagoModalComponent } from './components/agregarformas-pago-modal/agregarformas-pago-modal.component';
 import { MovimientosCortesComponent } from './components/movimientos-cortes/movimientos-cortes.component';
+import { AgregarMovimientoCorteModalComponent } from './components/agregar-movimiento-corte-modal/agregar-movimiento-corte-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MovimientosCortesComponent } from './components/movimientos-cortes/movi
     FormasPagoComponent,
     AgregarformasPagoModalComponent,
     MovimientosCortesComponent,
+    AgregarMovimientoCorteModalComponent,
   ],
   imports: [
     CommonModule,
