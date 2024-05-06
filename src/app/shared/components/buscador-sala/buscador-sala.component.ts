@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DataService } from 'src/app/cortes/services/data.service';
 import { Area } from 'src/app/models/area';
 import { Cita } from 'src/app/models/cita';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
@@ -10,34 +12,42 @@ import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
   styleUrls: ['./buscador-sala.component.css'],
 })
 export class BuscadorSalaComponent implements OnInit {
-  constructor(private equipoDicomService: EquipoDicomService) {}
+  constructor(
+    private equipoDicomService: EquipoDicomService,
+    private dataService: DataService
+  ) {}
 
-  @Input() areaRecibida: Area;
-  @Input() citas: Cita[] = [];
   @Output() citasFiltradasEmit = new EventEmitter<Cita[]>();
 
+  private subscription: Subscription;
   area: Area = new Area();
   busqueda: string = '';
   citasFiltradas: Cita[] = [];
   equipoDicom: EquipoDicom;
   equiposDicom: EquipoDicom[] = [];
-
+  citas: Cita[] = [];
+  
   ngOnInit(): void {
-    setInterval(() => {
-      if (this.areaRecibida) {
-        this.area = this.areaRecibida;
-        this.cargarEquiposDicom();
-        console.log(this.equiposDicom);
-      }
-    }, 1000);
+    this.subscription = this.dataService.areaData$.subscribe((data) => {
+      this.area = data;
+      this.cargarEquiposDicom();
+    });
+
+    this.subscription = this.dataService.citasData$.subscribe((data) => {
+      console.log(data);
+      this.citas = data.content;
+    });
   }
 
   private cargarEquiposDicom(): void {
-    this.equipoDicomService
-      .filtrarPorArea(this.area.id)
-      .subscribe((equipos) => {
+    this.equipoDicomService.filtrarPorArea(this.area.id).subscribe(
+      (equipos) => {
         this.equiposDicom = equipos;
-      });
+      },
+      (error) => {
+        console.log('no existe el id');
+      }
+    );
   }
 
   filtrarCitasPorSalaId(): void {
@@ -46,7 +56,6 @@ export class BuscadorSalaComponent implements OnInit {
       : this.citas.filter(
           (cita) => cita.horario.salaId === this.equipoDicom.id
         );
-    console.log(this.citasFiltradas);
     this.citasFiltradasEmit.emit(this.citasFiltradas);
     return;
   }

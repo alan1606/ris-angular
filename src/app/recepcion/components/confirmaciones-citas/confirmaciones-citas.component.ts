@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { ReagendarCitaModalComponent } from '../reagendar-cita-modal/reagendar-cita-modal.component';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
 import { Area } from 'src/app/models/area';
+import { DataService } from 'src/app/cortes/services/data.service';
 
 @Component({
   selector: 'app-confirmaciones-citas',
@@ -19,6 +20,18 @@ import { Area } from 'src/app/models/area';
   styleUrls: ['./confirmaciones-citas.component.css'],
 })
 export class ConfirmacionesCitasComponent implements OnInit {
+  constructor(
+    private fechaService: FechaService,
+    private citaService: CitaService,
+    private ventaConceptosService: VentaConceptosService,
+    private datePipe: DatePipe,
+    private dialog: MatDialog,
+    private dataService: DataService
+  ) {
+    this.titulo = 'Confirmaciones';
+    this.minDate = new Date();
+  }
+
   fecha: string;
   date = new FormControl(new Date());
   titulo: string;
@@ -38,17 +51,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
   totalSinConfirmar = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(
-    private fechaService: FechaService,
-    private citaService: CitaService,
-    private ventaConceptosService: VentaConceptosService,
-    private datePipe: DatePipe,
-    private dialog: MatDialog
-  ) {
-    this.titulo = 'Confirmaciones';
-    this.minDate = new Date();
-  }
-
   ngOnInit(): void {
     const fechaString = this.fechaService.formatearFecha(this.date.value);
     this.fecha = fechaString;
@@ -62,7 +64,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
         (citas) => {
           if (citas.content) {
             this.citas = citas.content as Cita[];
-            this.citasParaFiltrar = citas.content as Cita[];
+            this.dataService.updateCitasData(citas);
             this.totalRegistros = citas.totalElements as number;
             this.total = this.citas.length;
             this.totalSinConfirmar = this.citas.filter(
@@ -95,6 +97,8 @@ export class ConfirmacionesCitasComponent implements OnInit {
 
   recibirAreaFiltrada(event: Area) {
     this.areaFiltrada = event;
+    console.log("enviando area")
+    this.dataService.updateAreaData(event)
   }
   recibirCitasFiltradasPorSala(event: Cita[]) {
     this.citas = event;
@@ -152,6 +156,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
           if (citas.content) {
             this.citas = citas.content as Cita[];
             this.totalRegistros = citas.totalElements as number;
+            this.dataService.updateCitasData(citas);
             this.paginator._intl.itemsPerPageLabel = 'Registros:';
             this.total = this.citas.length;
             this.totalSinConfirmar = this.citas.filter(

@@ -25,17 +25,24 @@
     </mat-form-field>
   </div>
 
+
+
+
+
   <app-buscador-areas
-    [citas]="citasParaFiltrar"
     (citasFiltradasEmit)="recibirCitasFiltradasPorArea($event)"
     (areaEmit)="recibirAreaFiltrada($event)"
   ></app-buscador-areas>
 
   <app-buscador-sala
-    [areaRecibida]="areaFiltrada"
-    [citas]="citasParaFiltrar"
     (citasFiltradasEmit)="recibirCitasFiltradasPorSala($event)"
   ></app-buscador-sala>
+
+
+
+
+
+
   <div class="d-flex">
     <div class="p-3 h3">{{ total != 0 ? "Total: " + total : "" }}</div>
     <div class="p-3 h3">
