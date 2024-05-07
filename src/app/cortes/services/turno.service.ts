@@ -11,26 +11,26 @@ export class TurnoService {
 
   verTurnos(): Observable<TurnoCorte[]> {
     return this.httpClient.get<TurnoCorte[]>(
-      `${BASE_ENDPOINT}/cortes/turnos-cortes`
+      `${BASE_ENDPOINT}/cortes/turnos`
     );
   }
   buscarTurnoPorId(id: number) {
     return this.httpClient.get<TurnoCorte>(
-      `${BASE_ENDPOINT}/cortes/turnos-cortes/${id}`
+      `${BASE_ENDPOINT}/cortes/turnos/${id}`
     );
   }
 
   guardarTurno(turno: TurnoCorte): Observable<TurnoCorte> {
     console.log(turno);
     return this.httpClient.post<TurnoCorte>(
-      `${BASE_ENDPOINT}/cortes/turnos-cortes`,
+      `${BASE_ENDPOINT}/cortes/turnos`,
       turno
     );
   }
 
   editarTurno(id: number, turno: TurnoCorte): Observable<TurnoCorte> {
     return this.httpClient.put<TurnoCorte>(
-      `${BASE_ENDPOINT}/cortes/turnos-cortes/${id}`,
+      `${BASE_ENDPOINT}/cortes/turnos/${id}`,
       turno
     );
   }

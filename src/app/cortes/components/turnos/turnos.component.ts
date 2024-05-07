@@ -21,9 +21,32 @@ export class TurnosComponent implements OnInit {
   dataSource: TurnoCorte[] = [];
 
   ngOnInit(): void {
+    this.verTurnos();
+  }
+  crearTurno(): void {
+    const modalRef = this.dialog.open(AgregarTurnosModalComponent, {
+      width: '500px',
+    });
+    modalRef.afterClosed().subscribe(() => {
+      this.verTurnos();
+      return;
+    });
+  }
+
+  editarTurno(id: number): void {
+    const modalRef = this.dialog.open(AgregarTurnosModalComponent, {
+      width: '500px',
+      data: id,
+    });
+    modalRef.afterClosed().subscribe(() => {
+      this.verTurnos();
+      return;
+    });
+  }
+
+  verTurnos(): void {
     this.turnoService.verTurnos().subscribe(
       (data) => {
-        console.log(data)
         this.dataSource = data;
       },
       (error) => {
@@ -34,17 +57,5 @@ export class TurnosComponent implements OnInit {
         });
       }
     );
-  }
-  crearTurno(): void {
-    const modalRef = this.dialog.open(AgregarTurnosModalComponent, {
-      width: '500px',
-    });
-  }
-
-  editarTurno(id: number): void {
-    const modalRef = this.dialog.open(AgregarTurnosModalComponent, {
-      width: '500px',
-      data: id,
-    });
   }
 }

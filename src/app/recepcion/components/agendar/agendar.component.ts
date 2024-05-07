@@ -38,6 +38,7 @@ import { RegistrarPacienteParcialModalComponent } from '../registrar-paciente-pa
 import { FechaService } from 'src/app/services/fecha.service';
 import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 import { InstruccionesService } from 'src/app/services/instrucciones.service';
+import { PagarOrdenComponent } from 'src/app/cortes/components/pagar-orden/pagar-orden.component';
 
 @Component({
   selector: 'app-agendar',
@@ -379,7 +380,6 @@ export class AgendarComponent implements OnInit {
         this.ordenVenta.aplicarDescuento = true;
         this.ordenVenta.codigoPromocional = this.campania.codigo;
       }
-      this.total = 0;
       this.agendaNormal();
     }, 2000);
   }
@@ -396,7 +396,17 @@ export class AgendarComponent implements OnInit {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
           this.reiniciarFormulario();
-          Swal.fire('Procesado', 'La orden se ha procesado', 'success');
+          Swal.fire('Procesado', 'La orden se ha procesado', 'success').then(
+            () => {
+              const modalRef = this.dialog.open(PagarOrdenComponent, {
+                width: '1000px',
+                data: { orden: this.ordenVenta, total: this.calcularTotal() },
+              });
+              modalRef.afterClosed().subscribe((total) => {
+                this.total = total;
+              });
+            }
+          );
         },
         (err) => {
           console.log(err);
@@ -404,7 +414,16 @@ export class AgendarComponent implements OnInit {
             'Error',
             'Ha ocurrido un error al procesar la venta',
             'error'
-          );
+          ).then(() => {
+            const modalRef = this.dialog.open(PagarOrdenComponent, {
+              width: '1000px',
+              data: { orden: this.ordenVenta, total: this.total },
+            });
+            modalRef.afterClosed().subscribe((total) => {
+              console.log(total);
+              this.total = total;
+            });
+          });
         }
       );
   }

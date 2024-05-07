@@ -9,7 +9,7 @@ import { BASE_SITE } from 'src/app/config/app';
 export class CorteService {
   constructor(private httpClient: HttpClient) {}
 
-  url: string = `${BASE_SITE}/cortes`;
+  private url: string = `${BASE_SITE}/cortes`;
 
   obtenerCorte(fecha: string, turno: string): Observable<any> {
     return this.httpClient.get(`${this.url}/fecha/${fecha}/turno/${turno}`);

@@ -2,11 +2,12 @@ export class Movimiento {
   id: number;
   cantidad: number;
   descripcion: string;
-  tipo: TipooMovimiento;
+  fecha:string;
+  tipo: TipoMovimiento;
   corteId: number;
 }
 
-enum TipooMovimiento {
-  ENTRADA,
-  SALIDA,
+export enum TipoMovimiento {
+  ENTRADA="ENTRADA",
+  SALIDA="SALIDA"
 }

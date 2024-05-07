@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormaPago } from 'src/app/models/formaPago';
 import { OrdenVenta } from 'src/app/models/orden-venta';
@@ -13,8 +13,12 @@ import { FormaPagoService } from '../../services/forma-pago.service';
   styleUrls: ['./pagar-orden.component.css'],
 })
 export class PagarOrdenComponent implements OnInit {
-  // constructor(@Inject(MAT_DIALOG_DATA) public orden: OrdenVenta=null) {}
-  constructor(private formaPagoService: FormaPagoService) {
+  // constructor() {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data = null,
+    private formaPagoService: FormaPagoService,
+    private dialogRef: MatDialogRef<PagarOrdenComponent>
+  ) {
     this.dataSource = new MatTableDataSource(this.pagos);
   }
 
@@ -24,14 +28,16 @@ export class PagarOrdenComponent implements OnInit {
   pagos: Pago[] = [];
   pago: Pago = new Pago();
   formaPago: FormaPago = new FormaPago();
-  total: number = 1000;
-  restante = this.total;
+  total: number = 0;
+  restante: number = 0;
 
   formasPago: FormaPago[] = [];
   ngOnInit(): void {
+    console.log(this.data);
+    this.total = this.data.total;
+    this.restante = this.total;
     this.formaPagoService.buscarFormasPago().subscribe(
       (data) => {
-        console.log(data);
         this.formasPago = data;
       },
       (error) => {
@@ -84,13 +90,16 @@ export class PagarOrdenComponent implements OnInit {
       Swal.fire({
         icon: 'success',
         title: 'Pago completado',
+      }).then(() => {
+        const restante = 0;
+        this.dialogRef.close(restante);
       });
-      return;
+    } else {
+      console.log(this.restante);
+      Swal.fire({
+        icon: 'error',
+        title: 'Termine de pagar',
+      });
     }
-    Swal.fire({
-      icon: 'error',
-      title: 'Termine de pagar',
-    });
-    return;
   }
 }
