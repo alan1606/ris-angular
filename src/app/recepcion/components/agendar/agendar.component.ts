@@ -416,16 +416,7 @@ export class AgendarComponent implements OnInit {
             'Error',
             'Ha ocurrido un error al procesar la venta',
             'error'
-          ).then(() => {
-            const modalRef = this.dialog.open(PagarOrdenComponent, {
-              width: '1000px',
-              data: { orden: this.ordenVenta, total: this.total },
-            });
-            modalRef.afterClosed().subscribe((total) => {
-              console.log(total);
-              this.total = total;
-            });
-          });
+          )
         }
       );
   }
