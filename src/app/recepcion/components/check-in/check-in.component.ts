@@ -13,6 +13,7 @@ import { CambiarEstudioComponent } from './cambiar-estudio/cambiar-estudio.compo
 import { AgregarEstudioComponent } from './agregar-estudio/agregar-estudio.component';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
+import { PagarOrdenComponent } from 'src/app/cortes/components/pagar-orden/pagar-orden.component';
 
 @Component({
   selector: 'app-check-in',
@@ -39,7 +40,7 @@ export class CheckInComponent implements OnInit {
   codigoPromocion: string = '';
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
-  folio: string= "";
+  folio: string = '';
 
   ngOnInit(): void {
     this.buscarCitasHoy();
@@ -101,15 +102,22 @@ export class CheckInComponent implements OnInit {
   pagar(): void {
     this.botonHabilitado = true;
 
-    if(this.folio){
+    if (this.folio) {
       this.orden.folioInstitucion = this.folio;
     }
 
     setTimeout(() => {
       this.ordenVentaService.pagar(this.orden, this.listaDeEstudios).subscribe(
         () => {
-          Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
-          this.reiniciar();
+          Swal.fire('Éxito', 'Se ha procesado la orden', 'success').then(() => {
+            const modalRef = this.dialog.open(PagarOrdenComponent, {
+              width: '1000px',
+              data: { orden: this.orden, total: this.orden.totalSinDescuento },
+            });
+            modalRef.afterClosed().subscribe((total) => {
+              this.reiniciar();
+            });
+          });
         },
         (error) => {
           Swal.fire('Error', 'Ha ocurrido un error', 'error');

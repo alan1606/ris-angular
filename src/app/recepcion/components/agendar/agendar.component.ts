@@ -374,7 +374,7 @@ export class AgendarComponent implements OnInit {
       this.ordenVenta = new OrdenVenta();
 
       this.ordenVenta.paciente = this.paciente;
-      console.log(this.ordenVenta.paciente);
+      console.log(this.ordenVenta);
 
       if (this.campania.id) {
         this.ordenVenta.aplicarDescuento = true;
@@ -395,18 +395,20 @@ export class AgendarComponent implements OnInit {
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
+          console.log(this.ordenVenta);
           this.reiniciarFormulario();
-          Swal.fire('Procesado', 'La orden se ha procesado', 'success').then(
-            () => {
-              const modalRef = this.dialog.open(PagarOrdenComponent, {
-                width: '1000px',
-                data: { orden: this.ordenVenta, total: this.calcularTotal() },
-              });
-              modalRef.afterClosed().subscribe((total) => {
-                this.total = total;
-              });
-            }
-          );
+          Swal.fire('Procesado', 'La orden se ha procesado', 'success')
+          // .then(
+          //   () => {
+          //     const modalRef = this.dialog.open(PagarOrdenComponent, {
+          //       width: '1000px',
+          //       data: { orden: estudios[0].ordenVenta, total: this.total },
+          //     });
+          //     modalRef.afterClosed().subscribe((total) => {
+          //       this.total = total;
+          //     });
+          //   }
+          // );
         },
         (err) => {
           console.log(err);
