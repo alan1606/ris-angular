@@ -17,5 +17,10 @@ span {
 }
 
 table {
-  width: 80%;
+  width: 50%;
+}
+
+.container-tables{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
 }

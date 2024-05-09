@@ -46,5 +46,6 @@ import { AgregarMovimientoCorteModalComponent } from './components/agregar-movim
     MatSelectModule,
     MatSlideToggleModule,
   ],
+  exports:[PagarOrdenComponent]
 })
 export class CortesModule {}

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
@@ -14,6 +14,8 @@ import { AgregarEstudioComponent } from './agregar-estudio/agregar-estudio.compo
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
 import { PagarOrdenComponent } from 'src/app/cortes/components/pagar-orden/pagar-orden.component';
+import { Pago } from 'src/app/models/pago';
+import { Descuento } from 'src/app/models/descuento';
 
 @Component({
   selector: 'app-check-in',
@@ -26,9 +28,22 @@ export class CheckInComponent implements OnInit {
     private ordenVentaService: OrdenVentaService,
     private dialog: MatDialog,
     private citaService: CitaService,
-    private campaniasService: CampaniaService
+    private campaniasService: CampaniaService,
+    private _formBuilder: FormBuilder
   ) {}
 
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+
+  thirdFormGroup = this._formBuilder.group({
+    thirdCtrl: ['', Validators.required],
+  });
+
+  origen: string = 'chekin';
   botonHabilitado: boolean = false;
   autocompleteControlPaciente = new UntypedFormControl('');
   orden: OrdenVenta = null;
@@ -42,6 +57,9 @@ export class CheckInComponent implements OnInit {
   private searchTimer: any;
   folio: string = '';
 
+  pagos: Pago[] = [];
+  descuentos: Descuento[];
+  estudiosList: VentaConceptos[] = [];
   ngOnInit(): void {
     this.buscarCitasHoy();
   }
@@ -99,6 +117,16 @@ export class CheckInComponent implements OnInit {
     this.cargarOrdenVenta(ordenId, pacienteId);
   }
 
+  recibirPagos(event): void {
+    console.log(event);
+    this.pagos = event;
+    console.log(this.pagos);
+  }
+  recibirDescuentos(event): void {
+    console.log(event);
+    this.descuentos = event;
+  }
+
   pagar(): void {
     this.botonHabilitado = true;
 
@@ -106,25 +134,22 @@ export class CheckInComponent implements OnInit {
       this.orden.folioInstitucion = this.folio;
     }
 
+    this.orden.pagos = this.pagos;
+    this.orden.descuentos = this.descuentos;
+
     setTimeout(() => {
-      this.ordenVentaService.pagar(this.orden, this.listaDeEstudios).subscribe(
-        () => {
-          Swal.fire('Éxito', 'Se ha procesado la orden', 'success').then(() => {
-            const modalRef = this.dialog.open(PagarOrdenComponent, {
-              width: '1000px',
-              data: { orden: this.orden, total: this.orden.totalSinDescuento },
-            });
-            modalRef.afterClosed().subscribe((total) => {
-              this.reiniciar();
-            });
-          });
-        },
-        (error) => {
-          Swal.fire('Error', 'Ha ocurrido un error', 'error');
-          console.log(error);
-          this.reiniciar();
-        }
-      );
+      this.ordenVentaService
+        .venderConceptos(this.listaDeEstudios, this.orden, this.origen)
+        .subscribe(
+          () => {
+            Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
+          },
+          (error) => {
+            Swal.fire('Error', 'Ha ocurrido un error', 'error');
+            console.log(error);
+            this.reiniciar();
+          }
+        );
     }, 2000);
   }
 
@@ -160,6 +185,7 @@ export class CheckInComponent implements OnInit {
     this.ventaConceptosService.ver(cita.ventaConceptoId).subscribe(
       (estudio) => {
         this.cargarOrdenVenta(estudio.ordenVenta.id, estudio.paciente.id);
+        console.log(estudio);
       },
       (error) => {
         console.log(error);

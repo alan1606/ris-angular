@@ -53,7 +53,7 @@ export class UrgenciaComponent implements OnInit {
   }
 
   titulo = "Agendar urgencia";
-
+  origen:string="urgencias"
   autocompleteControlPaciente = new UntypedFormControl();
   autocompleteControlConvenio = new UntypedFormControl();
   autocompleteControlArea = new UntypedFormControl();
@@ -327,7 +327,7 @@ export class UrgenciaComponent implements OnInit {
 
 
   private agendaNormal(): void{
-    this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
+    this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta,this.origen).subscribe(
       estudios => {
         this.estudios = estudios;
         this.ordenVenta = this.estudios[0].ordenVenta;

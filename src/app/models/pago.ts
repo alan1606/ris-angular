@@ -5,6 +5,6 @@ export class Pago {
   formaPago:FormaPago;
   total:number;
   factura:boolean;
-  ordenId:number;
+  ordenId?:number;
   formaPagoId:number;
 }

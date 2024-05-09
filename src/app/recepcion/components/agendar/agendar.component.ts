@@ -38,7 +38,6 @@ import { RegistrarPacienteParcialModalComponent } from '../registrar-paciente-pa
 import { FechaService } from 'src/app/services/fecha.service';
 import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 import { InstruccionesService } from 'src/app/services/instrucciones.service';
-import { PagarOrdenComponent } from 'src/app/cortes/components/pagar-orden/pagar-orden.component';
 
 @Component({
   selector: 'app-agendar',
@@ -79,7 +78,7 @@ export class AgendarComponent implements OnInit {
 
   isUrgencia: boolean = false;
   titulo = 'Agendar cita';
-
+  origen:string="checkin";
   autocompleteControlPaciente = new UntypedFormControl();
   autocompleteControlConvenio = new UntypedFormControl();
   autocompleteControlArea = new UntypedFormControl();
@@ -111,7 +110,13 @@ export class AgendarComponent implements OnInit {
 
   minDate: Date;
 
+  horaInicial: Date = new Date();
+  horaFinal: Date = new Date();
+
   ngOnInit(): void {
+    this.horaInicial.setHours(7, 0);
+    this.horaFinal.setHours(18, 0);
+
     this.espaciosAgenda;
 
     this.cargarConvenioParticularPorDefecto();
@@ -390,14 +395,14 @@ export class AgendarComponent implements OnInit {
     }
 
     this.ordenVentaService
-      .venderConceptos(this.estudios, this.ordenVenta)
+      .venderConceptos(this.estudios, this.ordenVenta, this.origen)
       .subscribe(
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
           console.log(this.ordenVenta);
           this.reiniciarFormulario();
-          Swal.fire('Procesado', 'La orden se ha procesado', 'success')
+          Swal.fire('Procesado', 'La orden se ha procesado', 'success');
           // .then(
           //   () => {
           //     const modalRef = this.dialog.open(PagarOrdenComponent, {
@@ -416,7 +421,7 @@ export class AgendarComponent implements OnInit {
             'Error',
             'Ha ocurrido un error al procesar la venta',
             'error'
-          )
+          );
         }
       );
   }
