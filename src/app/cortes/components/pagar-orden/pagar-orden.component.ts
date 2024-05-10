@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormaPago } from 'src/app/models/formaPago';
-import { OrdenVenta } from 'src/app/models/orden-venta';
 import { Pago } from 'src/app/models/pago';
 import Swal from 'sweetalert2';
 import { FormaPagoService } from '../../services/forma-pago.service';
-import { PagoOrdenService } from '../../services/pago-orden.service';
 import { Descuento } from 'src/app/models/descuento';
 
 @Component({
@@ -20,12 +17,7 @@ export class PagarOrdenComponent implements OnInit {
   @Output() public descuentosEmit: EventEmitter<Descuento[]> =
     new EventEmitter();
 
-  constructor(
-    // @Inject(MAT_DIALOG_DATA) public data:{orden:OrdenVenta,total:number} = null,
-    private formaPagoService: FormaPagoService,
-    // private dialogRef: MatDialogRef<PagarOrdenComponent>,
-    private pagoOrdenService: PagoOrdenService
-  ) {
+  constructor(private formaPagoService: FormaPagoService) {
     this.dataSource = new MatTableDataSource(this.pagos);
     this.descuentosdataSource = new MatTableDataSource(this.descuentos);
   }
@@ -44,14 +36,16 @@ export class PagarOrdenComponent implements OnInit {
   total: number = 0;
   restante: number = 0;
   formasPago: FormaPago[] = [];
-  data;
-  dialogRef;
+
   ngOnInit(): void {
-    console.log(this.orden);
     this.total = this.orden.totalSinDescuento;
     this.restante = this.total;
     this.pago.formaPago = this.formaPago;
     this.pago.factura = false;
+
+    if (this.total === 0) {
+      this.pagosEmit.emit(this.pagos);
+    }
 
     this.formaPagoService.buscarFormasPago().subscribe(
       (data) => {
@@ -75,8 +69,6 @@ export class PagarOrdenComponent implements OnInit {
       Swal.fire({
         icon: 'info',
         title: 'No se puede agregar mas',
-      }).then(() => {
-        return;
       });
       return;
     }
@@ -84,8 +76,6 @@ export class PagarOrdenComponent implements OnInit {
       this.pago.total = this.restante;
     }
 
-    console.log(this.formaPago);
-    console.log(this.pago.formaPago);
     this.restante = this.restante - this.pago.total;
     this.pago.formaPago.forma = this.formaPago.forma;
     this.pago.formaPagoId = this.formaPago.id;
@@ -100,12 +90,10 @@ export class PagarOrdenComponent implements OnInit {
 
   quitarPago(id: number) {
     let regresarCantidad = this.pagos.find((pago) => pago.id === id);
-    console.log(regresarCantidad);
     this.restante += regresarCantidad.total;
-    console.log(this.pagos);
     this.pagos = this.pagos.filter((pago) => pago !== regresarCantidad);
     this.dataSource.data = this.pagos;
-    this.pagosEmit.emit(this.pagos)
+    this.pagosEmit.emit(this.pagos);
   }
 
   agregarDescuento(): void {
@@ -120,8 +108,6 @@ export class PagarOrdenComponent implements OnInit {
       Swal.fire({
         icon: 'info',
         title: 'No se puede agregar mas',
-      }).then(() => {
-        return;
       });
       return;
     }
@@ -143,7 +129,7 @@ export class PagarOrdenComponent implements OnInit {
       (descuento) => descuento !== regresarCantidad
     );
     this.descuentosdataSource.data = this.descuentos;
-    this.descuentosEmit.emit(this.descuentos)
+    this.descuentosEmit.emit(this.descuentos);
   }
 
   // finalizarPago(): void {

@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -12,25 +18,28 @@ import { CitaService } from 'src/app/services/cita.service';
 import { CambiarEstudioComponent } from './cambiar-estudio/cambiar-estudio.component';
 import { AgregarEstudioComponent } from './agregar-estudio/agregar-estudio.component';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
-import { Campania } from 'src/app/campanias/models/campania';
-import { PagarOrdenComponent } from 'src/app/cortes/components/pagar-orden/pagar-orden.component';
 import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';
+import { DataServiceService } from './services/data-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-check-in',
   templateUrl: './check-in.component.html',
   styleUrls: ['./check-in.component.css'],
 })
-export class CheckInComponent implements OnInit {
+export class CheckInComponent implements OnInit, OnDestroy {
   constructor(
     private ventaConceptosService: VentaConceptosService,
     private ordenVentaService: OrdenVentaService,
     private dialog: MatDialog,
     private citaService: CitaService,
     private campaniasService: CampaniaService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private dataService: DataServiceService
   ) {}
+
+  ordenVentaServiceSubscription: Subscription;
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -56,7 +65,7 @@ export class CheckInComponent implements OnInit {
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
   folio: string = '';
-
+  pagoRecibido: boolean = false;
   pagos: Pago[] = [];
   descuentos: Descuento[];
   estudiosList: VentaConceptos[] = [];
@@ -85,7 +94,6 @@ export class CheckInComponent implements OnInit {
             this.busqueda.toUpperCase()
           )
         );
-    console.log(this.citasFiltradas);
   }
 
   buscarQr() {
@@ -102,7 +110,6 @@ export class CheckInComponent implements OnInit {
 
   private realizarBusqueda() {
     const cuerpoCodigo: string = this.textoQr.nativeElement.value;
-    console.log(cuerpoCodigo);
     if (cuerpoCodigo == '') {
       return;
     }
@@ -118,12 +125,10 @@ export class CheckInComponent implements OnInit {
   }
 
   recibirPagos(event): void {
-    console.log(event);
+    this.pagoRecibido = true;
     this.pagos = event;
-    console.log(this.pagos);
   }
   recibirDescuentos(event): void {
-    console.log(event);
     this.descuentos = event;
   }
 
@@ -138,7 +143,7 @@ export class CheckInComponent implements OnInit {
     this.orden.descuentos = this.descuentos;
 
     setTimeout(() => {
-      this.ordenVentaService
+      this.ordenVentaServiceSubscription = this.ordenVentaService
         .venderConceptos(this.listaDeEstudios, this.orden, this.origen)
         .subscribe(
           () => {
@@ -155,6 +160,8 @@ export class CheckInComponent implements OnInit {
 
   cerrar(): void {
     this.orden = null;
+    this.listaDeEstudios = [];
+    this.guardarPresionado = false;
   }
 
   mostrarQrSubirFoto() {
@@ -185,7 +192,6 @@ export class CheckInComponent implements OnInit {
     this.ventaConceptosService.ver(cita.ventaConceptoId).subscribe(
       (estudio) => {
         this.cargarOrdenVenta(estudio.ordenVenta.id, estudio.paciente.id);
-        console.log(estudio);
       },
       (error) => {
         console.log(error);
@@ -239,7 +245,12 @@ export class CheckInComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((nuevoConcepto) => {
       if (nuevoConcepto) {
+        this.listaDeEstudios = this.listaDeEstudios.filter(
+          (e) => e.concepto !== estudio.concepto
+        );
         estudio.concepto = nuevoConcepto;
+        this.listaDeEstudios.push(estudio);
+        this.calcularPrecio();
       }
     });
   }
@@ -251,8 +262,8 @@ export class CheckInComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((venta) => {
       if (venta) {
-        console.log(venta);
         this.listaDeEstudios.push(venta);
+        this.calcularPrecio();
       }
     });
   }
@@ -283,5 +294,20 @@ export class CheckInComponent implements OnInit {
         }
       );
     }
+  }
+
+  calcularPrecio() {
+    let total: number = 0;
+    for (let estudio of this.listaDeEstudios) {
+      total += estudio.concepto.precio;
+    }
+    this.dataService.actualizarPrecio(total);
+    this.orden.totalSinDescuento = total;
+  }
+
+  ngOnDestroy(): void {
+    console.log('desruyendo');
+    this.ordenVentaServiceSubscription &&
+      this.ordenVentaServiceSubscription.unsubscribe();
   }
 }

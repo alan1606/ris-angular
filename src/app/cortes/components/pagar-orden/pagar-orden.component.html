@@ -9,9 +9,9 @@
   </div>
 
   <div class="container-tables">
-    <mat-card>
+    <mat-card class="text-start">
       <div>
-        <h2>Forma de pago</h2>
+        <h1>Forma de pago</h1>
         <mat-form-field appearance="fill">
           <mat-label>Elegir metodo</mat-label>
           <mat-select [(ngModel)]="formaPago" name="forma" id="forma">
@@ -77,9 +77,9 @@
       </div>
     </mat-card>
 
-    <mat-card>
+    <mat-card class="text-start">
       <div>
-        <h2>Descuentos</h2>
+        <h1>Descuentos</h1>
 
         <div>
           <mat-form-field appearance="fill">
@@ -93,7 +93,7 @@
           </mat-form-field>
         </div>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field class="cantidad" appearance="fill">
           <mat-label>Descripcion</mat-label>
           <input
             matInput

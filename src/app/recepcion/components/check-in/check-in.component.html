@@ -1,6 +1,6 @@
 <div class="">
-  <div class="busqueda ms-3 mt-3">
-    <div class="col-md-auto mb-4 contenedor-busqueda">
+  <div class="busqueda ms-3 mt-2">
+    <div class="col-md-auto mb-2 contenedor-busqueda">
       <input
         type="text"
         placeholder="Escanee el qr aqui"
@@ -49,17 +49,17 @@
     </tbody>
   </table>
 </div>
-
+<div *ngIf="orden?.id && orden?.paciente?.id" class="cerrar">
+  <button type="button" class="btn btn-danger" (click)="cerrar()">
+    <i class="bi bi-x-square"></i>
+  </button>
+</div>
 <mat-stepper #stepper *ngIf="orden?.id && orden?.paciente?.id">
   <mat-step [stepControl]="firstFormGroup">
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
     <ng-template matStepLabel>Datos Paciente</ng-template>
-    <div *ngIf="orden?.id && orden?.paciente?.id">
+    <div class="primer-paso" *ngIf="orden?.id && orden?.paciente?.id">
       <div>
-        <div class="card text-dark bg-light mb-3">
+        <div class="card text-dark bg-light">
           <div class="card-header">
             <h2>{{ orden?.paciente.nombreCompleto.toUpperCase() }}</h2>
           </div>
@@ -166,8 +166,33 @@
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button matStepperPrevious>Volver</button>
+    </div>
+    <ng-template matStepLabel>Subir foto orden</ng-template>
+
+    <div *ngIf="!guardarPresionado">
+      <mat-card>
+        <h1>
+          Primero compruebe que los datos son correctos y presione guardar
+        </h1>
+      </mat-card>
+    </div>
+    <div *ngIf="guardarPresionado" class="subirFoto-pagar">
+      <app-subir-foto-orden
+        *ngIf="orden?.id"
+        [orden]="orden"
+      ></app-subir-foto-orden>
+
+      <button class="btn btn-info" (click)="mostrarQrSubirFoto()">
+        <i class="bi bi-qr-code-scan"></i>
+        Mostrar qr subir foto
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+    <div>
+      <button mat-button matStepperPrevious>Volver</button>
     </div>
     <ng-template matStepLabel>Pagar</ng-template>
 
@@ -179,38 +204,20 @@
       </mat-card>
     </div>
 
-    <div class="contenedor-boton-pagar" *ngIf="guardarPresionado">
+    <div class="contenedor-boton-pagar text-center" *ngIf="guardarPresionado">
       <app-pagar-orden
         [orden]="orden"
         (pagosEmit)="recibirPagos($event)"
         (descuentosEmit)="recibirDescuentos($event)"
       ></app-pagar-orden>
       <button
-        class="btn btn-success"
+        matStepperNext
+        class="btn btn-success mt-2 btn-lg"
         (click)="pagar()"
-        [disabled]="botonHabilitado"
+        [disabled]="botonHabilitado || !pagoRecibido"
       >
         <i class="bi bi-currency-dollar"></i>
         Pagar
-      </button>
-    </div>
-  </mat-step>
-
-  <mat-step [stepControl]="thirdFormGroup">
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-    <ng-template matStepLabel>Subir foto de la orden</ng-template>
-    <div class="subirFoto-pagar">
-      <app-subir-foto-orden
-        *ngIf="orden?.id"
-        [orden]="orden"
-      ></app-subir-foto-orden>
-
-      <button class="btn btn-info" (click)="mostrarQrSubirFoto()">
-        <i class="bi bi-qr-code-scan"></i>
-        Mostrar qr subir foto
       </button>
     </div>
   </mat-step>
