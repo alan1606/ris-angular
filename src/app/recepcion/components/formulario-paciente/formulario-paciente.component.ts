@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, EventEmitter, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  EventEmitter,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import Swal from 'sweetalert2';
@@ -10,19 +17,18 @@ import { FechaService } from 'src/app/services/fecha.service';
 @Component({
   selector: 'app-formulario-paciente',
   templateUrl: './formulario-paciente.component.html',
-  styleUrls: ['./formulario-paciente.component.css']
+  styleUrls: ['./formulario-paciente.component.css'],
 })
 export class FormularioPacienteComponent implements OnChanges {
-
   fechaNacimientoControl = new UntypedFormControl();
 
   @Input()
   model: Paciente;
-  titulo: string = "Datos del paciente";
+  titulo: string = 'Datos del paciente';
   error: any;
-  sexos: string[] = ["MASCULINO", "FEMENINO"];
+  sexos: string[] = ['MASCULINO', 'FEMENINO'];
   pais: string = '';
-  paises: string[] = ["MÉXICO", "OTRO"];
+  paises: string[] = ['MÉXICO', 'OTRO'];
   entidades = Object.keys(ESTADO);
   entidad: string = '';
   fecha: string = '';
@@ -33,76 +39,80 @@ export class FormularioPacienteComponent implements OnChanges {
     private service: PacientesService,
     private pipe: DatePipe,
     private fechaService: FechaService
-  ) {
-  }
-
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
-    if(this.model.fechaNacimiento){
-      this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
-      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+    this.sexo = this.model.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
+    if (this.model.fechaNacimiento) {
+      this.fecha = this.pipe.transform(
+        new Date(this.model.fechaNacimiento),
+        'MM/dd/yyyy'
+      );
+      this.fechaNacimientoControl.setValue(
+        new Date(this.model.fechaNacimiento)
+      );
     }
-  
   }
 
-
   public crear(): void {
-
-    if(!this.camposValidos()){
+    if (!this.camposValidos()) {
       return;
     }
 
-    this.service.crear(this.model).subscribe(model => {
-      this.model = model;
-      Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
-      this.botonGuardarPresionado.emit(true);
-    }, err => {
-      if (err.status === 400) {
-        this.error = err.error;
-        console.log(this.error);
+    this.service.crear(this.model).subscribe(
+      (model) => {
+        this.model = model;
+        Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
+        this.botonGuardarPresionado.emit(true);
+      },
+      (err) => {
+        if (err.status === 400) {
+          this.error = err.error;
+          console.log(this.error);
+        }
       }
-    });
+    );
   }
 
   public editar(): void {
-    if(!this.camposValidos()){
+    if (!this.camposValidos()) {
       return;
     }
 
-    this.service.editar(this.model).subscribe(concepto => {
-      console.log(concepto);
-      Swal.fire('Modificado: ', `Paciente actualizado con éxito`, "success");
-      this.botonGuardarPresionado.emit(true);
-      Swal.fire('Pagar', 'Presione el botón de pagar', "info");
-    }, err => {
-      if (err.status === 400) {
-        this.error = err.error;
-        console.log(this.error);
+    this.service.editar(this.model).subscribe(
+      (concepto) => {
+        console.log(concepto);
+
+        this.botonGuardarPresionado.emit(true);
+      },
+      (err) => {
+        if (err.status === 400) {
+          this.error = err.error;
+          console.log(this.error);
+        }
       }
-    });
+    );
   }
 
-
-  private camposValidos():boolean{
-    if(!this.model.nombre){
-      Swal.fire("Error", "Verifique el nombre", "error");
+  private camposValidos(): boolean {
+    if (!this.model.nombre) {
+      Swal.fire('Error', 'Verifique el nombre', 'error');
       return false;
     }
-    if(!this.model.apellidoPaterno){
-      Swal.fire("Error", "Verifique el apellido paterno", "error");
+    if (!this.model.apellidoPaterno) {
+      Swal.fire('Error', 'Verifique el apellido paterno', 'error');
       return false;
     }
-    if(!this.model.apellidoMaterno){
-      Swal.fire("Error", "Verifique el apellido materno", "error");
+    if (!this.model.apellidoMaterno) {
+      Swal.fire('Error', 'Verifique el apellido materno', 'error');
       return false;
     }
-    if(!this.model.fechaNacimiento){
-      Swal.fire("Error", "Verifique la fecha de nacimiento", "error");
+    if (!this.model.fechaNacimiento) {
+      Swal.fire('Error', 'Verifique la fecha de nacimiento', 'error');
       return false;
     }
-    if(!this.model.sexo){
-      Swal.fire("Error", "Verifique el sexo", "error");
+    if (!this.model.sexo) {
+      Swal.fire('Error', 'Verifique el sexo', 'error');
       return false;
     }
     return true;
@@ -111,20 +121,17 @@ export class FormularioPacienteComponent implements OnChanges {
   seleccionarFecha(fecha: HTMLInputElement): void {
     const fechaValor = new Date(this.fechaNacimientoControl.value);
     this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
-    this.model.fechaNacimiento += "T00:00:00";
+    this.model.fechaNacimiento += 'T00:00:00';
   }
 
-
   seleccionarSexo(): void {
-    this.model.sexo = this.sexo == "MASCULINO" ? 2 : 1;
+    this.model.sexo = this.sexo == 'MASCULINO' ? 2 : 1;
     if (this.datosListosParaGenerarCurp()) {
       this.generarCurp();
     }
   }
 
-
   datosListosParaGenerarCurp(): boolean {
-
     if (this.model?.nombre == '') {
       return false;
     }
@@ -146,7 +153,6 @@ export class FormularioPacienteComponent implements OnChanges {
     return true;
   }
 
-
   generarCurp(): void {
     let persona = getPersona();
     persona.nombre = this.model.nombre;
@@ -157,7 +163,8 @@ export class FormularioPacienteComponent implements OnChanges {
 
     persona.fechaNacimiento = this.fecha;
 
-    persona.estado = this.pais == 'OTRO' ? ESTADO['NO_ESPECIFICADO'] : ESTADO[this.entidad];
+    persona.estado =
+      this.pais == 'OTRO' ? ESTADO['NO_ESPECIFICADO'] : ESTADO[this.entidad];
     this.model.curp = generar(persona);
   }
 
@@ -177,10 +184,10 @@ export class FormularioPacienteComponent implements OnChanges {
     this.model.curp = this.model.curp.toUpperCase();
   }
 
-  generar(){
-    console.log("Tratando de generar");
+  generar() {
+    console.log('Tratando de generar');
     if (this.datosListosParaGenerarCurp()) {
-      console.log("Listo para generar");
+      console.log('Listo para generar');
       this.generarCurp();
     }
   }

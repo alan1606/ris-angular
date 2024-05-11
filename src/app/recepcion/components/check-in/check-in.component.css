@@ -26,8 +26,6 @@
   gap: 10px; */
 }
 .subirFoto-pagar {
-  display: grid;
-  grid-template-rows: 2;
   height: min-content;
 }
 .subirFoto-pagar button {

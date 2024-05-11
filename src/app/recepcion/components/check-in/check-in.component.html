@@ -164,6 +164,7 @@
       </div>
     </div>
   </mat-step>
+
   <mat-step [stepControl]="secondFormGroup">
     <div>
       <button mat-button matStepperPrevious>Volver</button>
@@ -183,10 +184,14 @@
         [orden]="orden"
       ></app-subir-foto-orden>
 
-      <button class="btn btn-info" (click)="mostrarQrSubirFoto()">
-        <i class="bi bi-qr-code-scan"></i>
-        Mostrar qr subir foto
-      </button>
+      <div class="d-flex">
+        <button class="btn btn-info me-3" (click)="mostrarQrSubirFoto()">
+          <i class="bi bi-qr-code-scan"></i>
+          Mostrar qr subir foto
+        </button>
+
+        <button class="btn btn-primary" matStepperNext>Siguiente -----></button>
+      </div>
     </div>
   </mat-step>
 
