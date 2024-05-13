@@ -20,7 +20,7 @@ import { AgregarEstudioComponent } from './agregar-estudio/agregar-estudio.compo
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';
-import { DataServiceService } from './services/data-service.service';
+import { DataService } from './services/data-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -36,7 +36,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
     private citaService: CitaService,
     private campaniasService: CampaniaService,
     private _formBuilder: FormBuilder,
-    private dataService: DataServiceService
+    private dataService: DataService
   ) {}
 
   ordenVentaServiceSubscription: Subscription;
@@ -70,6 +70,8 @@ export class CheckInComponent implements OnInit, OnDestroy {
   descuentos: Descuento[];
   pagoOdescuentoEliminado: boolean = true;
   estudiosList: VentaConceptos[] = [];
+  esInstitucion: boolean = false;
+  nombreInstitucion: string = null;
   ngOnInit(): void {
     this.buscarCitasHoy();
   }
@@ -125,7 +127,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   recibirPagos(event): void {
-    console.log(event);
     this.pagoRecibido = true;
     this.pagos = event;
   }
@@ -175,6 +176,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
 
   presionadoBotonGuardar(presionado) {
     this.guardarPresionado = presionado as boolean;
+    this.calcularPrecio();
   }
 
   parseHora(horaString: string): Date {
@@ -192,6 +194,11 @@ export class CheckInComponent implements OnInit, OnDestroy {
   seleccionar(cita: Cita): void {
     this.ventaConceptosService.ver(cita.ventaConceptoId).subscribe(
       (estudio) => {
+        console.log(estudio);
+        if (estudio.institucion.id !== 1) {
+          this.esInstitucion = true;
+          this.nombreInstitucion = estudio.institucion.nombre;
+        }
         this.cargarOrdenVenta(estudio.ordenVenta.id, estudio.paciente.id);
       },
       (error) => {
@@ -205,7 +212,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
       (orden) => {
         if (orden.paciente.id === pacienteId) {
           this.orden = orden;
-          console.log(orden);
           Swal.fire(
             'Guardar paciente',
             'Presione guardar paciente para poder pagar',
@@ -301,6 +307,11 @@ export class CheckInComponent implements OnInit, OnDestroy {
 
   calcularPrecio() {
     let total: number = 0;
+    if (this.esInstitucion) {
+      this.dataService.actualizarPrecio(total);
+      this.orden.totalSinDescuento = total;
+      return;
+    }
     for (let estudio of this.listaDeEstudios) {
       total += estudio.concepto.precio;
     }

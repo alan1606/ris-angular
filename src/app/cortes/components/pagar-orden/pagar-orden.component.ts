@@ -5,6 +5,7 @@ import { Pago } from 'src/app/models/pago';
 import Swal from 'sweetalert2';
 import { FormaPagoService } from '../../services/forma-pago.service';
 import { Descuento } from 'src/app/models/descuento';
+import { DataService } from 'src/app/recepcion/components/check-in/services/data-service.service';
 
 @Component({
   selector: 'app-pagar-orden',
@@ -12,14 +13,17 @@ import { Descuento } from 'src/app/models/descuento';
   styleUrls: ['./pagar-orden.component.css'],
 })
 export class PagarOrdenComponent implements OnInit {
-  @Input() orden: any;
+  @Input() public orden: any;
   @Output() public pagosEmit: EventEmitter<Pago[]> = new EventEmitter();
   @Output() public descuentosEmit: EventEmitter<Descuento[]> =
     new EventEmitter();
   @Output() public pagoOdescuentoEliminadoEmit: EventEmitter<boolean> =
     new EventEmitter();
 
-  constructor(private formaPagoService: FormaPagoService) {
+  constructor(
+    private formaPagoService: FormaPagoService,
+    private dataService: DataService
+  ) {
     this.dataSource = new MatTableDataSource(this.pagos);
     this.descuentosdataSource = new MatTableDataSource(this.descuentos);
   }
@@ -40,11 +44,13 @@ export class PagarOrdenComponent implements OnInit {
   formasPago: FormaPago[] = [];
 
   ngOnInit(): void {
-    this.total = this.orden.totalSinDescuento;
-    this.restante = this.total;
     this.pago.formaPago = this.formaPago;
     this.pago.factura = false;
 
+    this.dataService.precioData$.subscribe((data) => {
+      this.total = data;
+      this.restante = this.total;
+    });
     if (this.total === 0) {
       this.pagosEmit.emit(this.pagos);
     }

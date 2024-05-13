@@ -78,7 +78,7 @@ export class AgendarComponent implements OnInit {
 
   isUrgencia: boolean = false;
   titulo = 'Agendar cita';
-  origen:string="checkin";
+  origen: string = 'agendar';
   autocompleteControlPaciente = new UntypedFormControl();
   autocompleteControlConvenio = new UntypedFormControl();
   autocompleteControlArea = new UntypedFormControl();

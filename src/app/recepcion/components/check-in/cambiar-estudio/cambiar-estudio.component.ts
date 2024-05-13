@@ -23,7 +23,6 @@ export class CambiarEstudioComponent  {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private conceptoService: ConceptosService){
       this.area = data.estudio.concepto.area;
-      console.log(this.area);
 
       this.autocompleteControlConcepto.valueChanges.pipe(
         map(valor => typeof valor === 'string' ? valor : valor.concepto),
