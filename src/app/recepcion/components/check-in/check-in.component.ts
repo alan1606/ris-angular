@@ -68,6 +68,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
   pagoRecibido: boolean = false;
   pagos: Pago[] = [];
   descuentos: Descuento[];
+  pagoOdescuentoEliminado: boolean = true;
   estudiosList: VentaConceptos[] = [];
   ngOnInit(): void {
     this.buscarCitasHoy();
@@ -124,14 +125,17 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   recibirPagos(event): void {
+    console.log(event);
     this.pagoRecibido = true;
-    if ((event = [])) {
-      this.pagoRecibido = false;
-    }
     this.pagos = event;
   }
   recibirDescuentos(event): void {
     this.descuentos = event;
+  }
+
+  cambioPagosDescuentos(event): void {
+    console.log('Quitaron pago o descuento');
+    this.pagoRecibido = false;
   }
 
   pagar(): void {
@@ -144,14 +148,13 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.orden.pagos = this.pagos;
     this.orden.descuentos = this.descuentos;
     this.orden.estudiosList = this.listaDeEstudios;
-
     setTimeout(() => {
       this.ordenVentaServiceSubscription = this.ordenVentaService
         .venderConceptos(this.orden, this.origen)
         .subscribe(
           () => {
             Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
-            this.cerrar();
+            this.reiniciar();
           },
           (error) => {
             Swal.fire('Error', 'Ha ocurrido un error', 'error');
@@ -160,12 +163,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
           }
         );
     }, 2000);
-  }
-
-  cerrar(): void {
-    this.orden = null;
-    this.listaDeEstudios = [];
-    this.guardarPresionado = false;
   }
 
   mostrarQrSubirFoto() {
@@ -233,13 +230,14 @@ export class CheckInComponent implements OnInit, OnDestroy {
     );
   }
 
-  private reiniciar(): void {
+  reiniciar(): void {
     this.orden = null;
     this.listaDeEstudios = [];
     this.guardarPresionado = false;
     this.botonHabilitado = false;
     this.codigoPromocion = '';
     this.folio = null;
+    return;
   }
 
   cambiar(estudio: VentaConceptos): void {

@@ -32,9 +32,7 @@
     </thead>
 
     <tbody>
-      <tr
-        *ngFor="let cita of citasFiltradas"
-      >
+      <tr *ngFor="let cita of citasFiltradas">
         <td>
           {{ cita.estudio?.paciente?.nombreCompleto }}
         </td>
@@ -54,7 +52,7 @@
   </table>
 </div>
 <div *ngIf="orden?.id && orden?.paciente?.id" class="cerrar">
-  <button type="button" class="btn btn-danger" (click)="cerrar()">
+  <button type="button" class="btn btn-danger" (click)="reiniciar()">
     <i class="bi bi-x-square"></i>
   </button>
 </div>
@@ -222,6 +220,7 @@
           [orden]="orden"
           (pagosEmit)="recibirPagos($event)"
           (descuentosEmit)="recibirDescuentos($event)"
+          (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
         ></app-pagar-orden>
 
         <button

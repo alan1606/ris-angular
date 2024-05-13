@@ -16,6 +16,8 @@ export class PagarOrdenComponent implements OnInit {
   @Output() public pagosEmit: EventEmitter<Pago[]> = new EventEmitter();
   @Output() public descuentosEmit: EventEmitter<Descuento[]> =
     new EventEmitter();
+  @Output() public pagoOdescuentoEliminadoEmit: EventEmitter<boolean> =
+    new EventEmitter();
 
   constructor(private formaPagoService: FormaPagoService) {
     this.dataSource = new MatTableDataSource(this.pagos);
@@ -95,7 +97,7 @@ export class PagarOrdenComponent implements OnInit {
     this.restante += regresarCantidad.total;
     this.pagos = this.pagos.filter((pago) => pago !== regresarCantidad);
     this.dataSource.data = this.pagos;
-    this.pagosEmit.emit(this.pagos);
+    this.pagoOdescuentoEliminadoEmit.emit(true);
   }
 
   agregarDescuento(): void {
@@ -120,6 +122,9 @@ export class PagarOrdenComponent implements OnInit {
     this.descuentos.push(this.descuento);
     this.descuentosdataSource.data = this.descuentos;
     this.descuentosEmit.emit(this.descuentos);
+    if (this.restante === 0) {
+      this.pagosEmit.emit(this.pagos);
+    }
     this.descuento = new Descuento();
   }
 
@@ -127,11 +132,12 @@ export class PagarOrdenComponent implements OnInit {
     let regresarCantidad = this.descuentos.find(
       (descuento) => descuento.id === id
     );
+    this.restante += regresarCantidad.cantidad;
     this.descuentos = this.descuentos.filter(
       (descuento) => descuento !== regresarCantidad
     );
     this.descuentosdataSource.data = this.descuentos;
-    this.descuentosEmit.emit(this.descuentos);
+    this.pagoOdescuentoEliminadoEmit.emit(true);
   }
 
   // finalizarPago(): void {
