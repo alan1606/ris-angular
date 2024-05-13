@@ -395,7 +395,7 @@ export class AgendarComponent implements OnInit {
     }
 
     this.ordenVentaService
-      .venderConceptos(this.estudios, this.ordenVenta, this.origen)
+      .venderConceptos(this.ordenVenta, this.origen)
       .subscribe(
         (estudios) => {
           this.estudios = estudios;

@@ -82,7 +82,9 @@ export class PagarOrdenComponent implements OnInit {
 
     this.pagos.push(this.pago);
     this.dataSource.data = this.pagos;
-    this.pagosEmit.emit(this.pagos);
+    if (this.restante === 0) {
+      this.pagosEmit.emit(this.pagos);
+    }
     this.pago = new Pago();
     this.formaPago = new FormaPago();
     this.pago.formaPago = this.formaPago;

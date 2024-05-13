@@ -21,10 +21,10 @@ export class OrdenVentaService extends CommonService<OrdenVenta> {
     return this.http.put<OrdenVenta>(`${this.baseEndpoint}/${orden.id}`, orden, { headers: this.cabeceras });
   }
 
-  public venderConceptos(estudios: VentaConceptos[], orden: OrdenVenta, origen:string) {
-    const objetos = { estudios: estudios, orden: orden };
-    console.log(objetos);
-    return this.http.post<VentaConceptos[]>(`${this.baseEndpoint}/procesar/${origen}`, JSON.stringify(objetos),
+  public venderConceptos(orden: OrdenVenta, origen:string) {
+    // const objetos = { estudios: estudios, orden: orden };
+    // console.log(objetos);
+    return this.http.post<VentaConceptos[]>(`${this.baseEndpoint}/procesar/${origen}`, orden,
       { headers: this.cabeceras });
   }
 

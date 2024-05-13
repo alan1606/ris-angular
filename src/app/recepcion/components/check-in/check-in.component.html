@@ -32,8 +32,12 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let cita of citasFiltradas">
-        <td>{{ cita.estudio?.paciente?.nombreCompleto }}</td>
+      <tr
+        *ngFor="let cita of citasFiltradas"
+      >
+        <td>
+          {{ cita.estudio?.paciente?.nombreCompleto }}
+        </td>
         <td>{{ cita.estudio?.concepto?.concepto }}</td>
         <td>{{ cita.fechaYHora | date : "h:mm a" }}</td>
         <td>
@@ -210,20 +214,26 @@
     </div>
 
     <div class="contenedor-boton-pagar text-center" *ngIf="guardarPresionado">
-      <app-pagar-orden
-        [orden]="orden"
-        (pagosEmit)="recibirPagos($event)"
-        (descuentosEmit)="recibirDescuentos($event)"
-      ></app-pagar-orden>
-      <button
-        matStepperNext
-        class="btn btn-success mt-2 btn-lg"
-        (click)="pagar()"
-        [disabled]="botonHabilitado || !pagoRecibido"
-      >
-        <i class="bi bi-currency-dollar"></i>
-        Pagar
-      </button>
+      <div *ngIf="orden?.pagado">
+        <h1 class="text-red">Esta orden ya ha sido pagada!</h1>
+      </div>
+      <div *ngIf="!orden?.pagado">
+        <app-pagar-orden
+          [orden]="orden"
+          (pagosEmit)="recibirPagos($event)"
+          (descuentosEmit)="recibirDescuentos($event)"
+        ></app-pagar-orden>
+
+        <button
+          matStepperNext
+          class="btn btn-success mt-2 btn-lg"
+          (click)="pagar()"
+          [disabled]="botonHabilitado || !pagoRecibido"
+        >
+          <i class="bi bi-currency-dollar"></i>
+          Pagar
+        </button>
+      </div>
     </div>
   </mat-step>
 </mat-stepper>

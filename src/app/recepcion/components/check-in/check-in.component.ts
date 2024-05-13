@@ -52,7 +52,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
     thirdCtrl: ['', Validators.required],
   });
 
-  origen: string = 'chekin';
+  origen: string = 'checkin';
   botonHabilitado: boolean = false;
   autocompleteControlPaciente = new UntypedFormControl('');
   orden: OrdenVenta = null;
@@ -78,7 +78,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
       (citas) => {
         this.citas = citas;
         this.citasFiltradas = citas;
-        console.log(this.citas[0].estudio.concepto.area.nombre);
       },
       (error) => {
         console.log(error);
@@ -126,6 +125,9 @@ export class CheckInComponent implements OnInit, OnDestroy {
 
   recibirPagos(event): void {
     this.pagoRecibido = true;
+    if ((event = [])) {
+      this.pagoRecibido = false;
+    }
     this.pagos = event;
   }
   recibirDescuentos(event): void {
@@ -141,13 +143,15 @@ export class CheckInComponent implements OnInit, OnDestroy {
 
     this.orden.pagos = this.pagos;
     this.orden.descuentos = this.descuentos;
+    this.orden.estudiosList = this.listaDeEstudios;
 
     setTimeout(() => {
       this.ordenVentaServiceSubscription = this.ordenVentaService
-        .venderConceptos(this.listaDeEstudios, this.orden, this.origen)
+        .venderConceptos(this.orden, this.origen)
         .subscribe(
           () => {
             Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
+            this.cerrar();
           },
           (error) => {
             Swal.fire('Error', 'Ha ocurrido un error', 'error');
@@ -204,6 +208,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
       (orden) => {
         if (orden.paciente.id === pacienteId) {
           this.orden = orden;
+          console.log(orden);
           Swal.fire(
             'Guardar paciente',
             'Presione guardar paciente para poder pagar',
