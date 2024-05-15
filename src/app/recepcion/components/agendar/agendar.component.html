@@ -141,6 +141,7 @@
           [(ngModel)]="isUrgencia"
           name="isUrgencia"
           id="isUrgencia"
+          [disabled]="deshabilitarUrgencias"
         >
           Esta es una urgencia?
         </mat-slide-toggle>
@@ -351,13 +352,18 @@
       </div>
 
       <div *ngIf="isUrgencia">
-        <app-pagar-orden ></app-pagar-orden>
+        <app-pagar-orden
+          (pagosEmit)="recibirPagos($event)"
+          (descuentosEmit)="recibirDescuentos($event)"
+          (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
+        ></app-pagar-orden>
         <button
           type="button"
           class="btn btn-primary"
           (click)="agendar()"
-          [disabled]="botonDeshabilitar"
+          [disabled]="botonHabilitado || !pagoRecibido"
         >
+          <i class="bi bi-currency-dollar"></i>
           Pagar
         </button>
       </div>

@@ -36,6 +36,8 @@ import {
   map,
   mergeMap,
   switchMap,
+  Pago,
+  Descuento,
 } from './index';
 
 @Component({
@@ -47,7 +49,7 @@ export class AgendarComponent implements OnInit {
   total: number;
   motivo: string;
   codigoPromocion: string = '';
-  botonDeshabilitar: boolean = false;
+  botonHabilitado: boolean = false;
   formulario: FormGroup;
   instrucciones: string = '';
   private instruccionesInstitucion = '';
@@ -114,6 +116,10 @@ export class AgendarComponent implements OnInit {
   horaFinal: Date = new Date();
 
   seleccionarUrgencia: boolean = true;
+  deshabilitarUrgencias: boolean = false;
+  pagoRecibido: boolean = false;
+  pagos: Pago[] = [];
+  descuentos: Descuento[] = [];
 
   ngOnInit(): void {
     this.horaInicial.setHours(7, 0);
@@ -271,6 +277,19 @@ export class AgendarComponent implements OnInit {
       });
   }
 
+  recibirPagos(event): void {
+    this.pagoRecibido = true;
+    this.pagos = event;
+  }
+  recibirDescuentos(event): void {
+    this.descuentos = event;
+  }
+
+  cambioPagosDescuentos(event): void {
+    console.log('Quitaron pago o descuento');
+    this.pagoRecibido = false;
+  }
+
   agregarEstudio(citas: Cita[]) {
     const estudio = new VentaConceptos();
 
@@ -302,6 +321,7 @@ export class AgendarComponent implements OnInit {
     if (!this.paciente.id) {
       return;
     }
+    this.deshabilitarUrgencias = true;
     this.origen = 'urgencias';
     const estudio = new VentaConceptos();
     estudio.concepto = this.concepto;
@@ -355,7 +375,7 @@ export class AgendarComponent implements OnInit {
     this.motivo = '';
     this.campania = new Campania();
     this.codigoPromocion = '';
-    this.botonDeshabilitar = false;
+    this.botonHabilitado = false;
     this.instrucciones = '';
     this.instruccionesInstitucion = '';
 
@@ -397,6 +417,7 @@ export class AgendarComponent implements OnInit {
     this.calcularTotal();
     if (this.estudios.length === 0) {
       this.seleccionarUrgencia = true;
+      this.deshabilitarUrgencias = false;
     }
   }
 
@@ -408,14 +429,16 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
-    this.botonDeshabilitar = true;
+    this.botonHabilitado = true;
 
     setTimeout(() => {
       this.ordenVenta = new OrdenVenta();
 
       this.ordenVenta.paciente = this.paciente;
       console.log(this.ordenVenta);
-
+      this.ordenVenta.pagos = this.pagos;
+      this.ordenVenta.descuentos = this.descuentos;
+      this.ordenVenta.estudiosList = this.estudios;
       if (this.campania.id) {
         this.ordenVenta.aplicarDescuento = true;
         this.ordenVenta.codigoPromocional = this.campania.codigo;
@@ -429,6 +452,7 @@ export class AgendarComponent implements OnInit {
       estudio.institucion = this.institucion;
     }
 
+    console.log(this.origen);
     this.ordenVentaService
       .venderConceptos(this.ordenVenta, this.origen)
       .subscribe(

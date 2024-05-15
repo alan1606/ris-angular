@@ -39,7 +39,8 @@ import { FechaService } from 'src/app/services/fecha.service';
 import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
 import { InstruccionesService } from 'src/app/services/instrucciones.service';
 import { DataService } from '../services/data-service.service';
-
+import { Pago } from 'src/app/models/pago';
+import { Descuento } from 'src/app/models/descuento';
 export {
   Component,
   OnInit,
@@ -79,5 +80,7 @@ export {
   map,
   mergeMap,
   switchMap,
+  Pago,
+  Descuento
 };
 
