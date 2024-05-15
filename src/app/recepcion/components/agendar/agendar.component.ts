@@ -4,40 +4,39 @@ import {
   FormControl,
   FormGroup,
   UntypedFormControl,
-} from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
-import {
+  MatAutocompleteSelectedEvent,
+  MatDialog,
+  Campania,
+  DataService,
+  CampaniaService,
+  Area,
+  Concepto,
+  EquipoDicom,
+  Institucion,
+  OrdenVenta,
+  OrdenVentaService,
+  Paciente,
+  VentaConceptos,
+  AreasService,
+  ConceptosService,
+  EquipoDicomService,
+  InstitucionService,
+  PacientesService,
+  Swal,
+  DatePipe,
+  Cita,
+  CitaService,
+  RegistrarPacienteParcialModalComponent,
+  FechaService,
+  MostrarCitasPorDiaPensionesComponent,
+  InstruccionesService,
   catchError,
   debounceTime,
   distinctUntilChanged,
   map,
   mergeMap,
   switchMap,
-} from 'rxjs';
-import { Campania } from 'src/app/campanias/models/campania';
-import { CampaniaService } from 'src/app/campanias/services/campania.service';
-import { Area } from 'src/app/models/area';
-import { Concepto } from 'src/app/models/concepto';
-import { EquipoDicom } from 'src/app/models/equipo-dicom';
-import { Institucion } from 'src/app/models/institucion';
-import { OrdenVenta } from 'src/app/models/orden-venta';
-import { Paciente } from 'src/app/models/paciente';
-import { VentaConceptos } from 'src/app/models/venta-conceptos';
-import { AreasService } from 'src/app/services/areas.service';
-import { ConceptosService } from 'src/app/services/conceptos.service';
-import { EquipoDicomService } from 'src/app/services/equipo-dicom.service';
-import { InstitucionService } from 'src/app/services/institucion.service';
-import { OrdenVentaService } from 'src/app/services/orden-venta.service';
-import { PacientesService } from 'src/app/services/pacientes.service';
-import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common';
-import { Cita } from 'src/app/models/cita';
-import { CitaService } from 'src/app/services/cita.service';
-import { RegistrarPacienteParcialModalComponent } from '../registrar-paciente-parcial-modal/registrar-paciente-parcial-modal.component';
-import { FechaService } from 'src/app/services/fecha.service';
-import { MostrarCitasPorDiaPensionesComponent } from '../mostrar-citas-por-dia-pensiones/mostrar-citas-por-dia-pensiones.component';
-import { InstruccionesService } from 'src/app/services/instrucciones.service';
+} from './index';
 
 @Component({
   selector: 'app-agendar',
@@ -66,7 +65,8 @@ export class AgendarComponent implements OnInit {
     private citaService: CitaService,
     private fb: FormBuilder,
     private fechaService: FechaService,
-    private instruccionesService: InstruccionesService
+    private instruccionesService: InstruccionesService,
+    private dataService: DataService
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
@@ -94,7 +94,7 @@ export class AgendarComponent implements OnInit {
   citas: Cita[] = [];
   cita: Cita;
 
-  paciente: Paciente;
+  paciente: Paciente = new Paciente();
   institucion: Institucion;
   area: Area;
   concepto: Concepto;
@@ -112,6 +112,8 @@ export class AgendarComponent implements OnInit {
 
   horaInicial: Date = new Date();
   horaFinal: Date = new Date();
+
+  seleccionarUrgencia: boolean = true;
 
   ngOnInit(): void {
     this.horaInicial.setHours(7, 0);
@@ -178,12 +180,15 @@ export class AgendarComponent implements OnInit {
       });
 
     this.formulario.get('salaControl').valueChanges.subscribe((value) => {
+      console.log(value);
       this.equipoDicomService.ver(value).subscribe(
         (sala) => {
           this.equipoDicom = sala;
           this.citas = [];
+          console.log('cargandoEquipos');
           this.formulario.get('citaControl').setValue('');
-          if (this.fecha) {
+          if (this.fecha && !this.isUrgencia) {
+            console.log('entro');
             this.cargarCitas();
           }
         },
@@ -287,6 +292,27 @@ export class AgendarComponent implements OnInit {
     this.limpiarCampos();
   }
 
+  agregarEstudioUrgencias(): void {
+    if (!this.area) {
+      return;
+    }
+    if (!this.concepto) {
+      return;
+    }
+    if (!this.paciente.id) {
+      return;
+    }
+    this.origen = 'urgencias';
+    const estudio = new VentaConceptos();
+    estudio.concepto = this.concepto;
+    estudio.enWorklist = false;
+    estudio.equipoDicom = this.equipoDicom;
+    estudio.paciente = this.paciente;
+    this.estudios.push(estudio);
+    this.calcularTotal();
+    this.limpiarCampos();
+  }
+
   private apartarCita(cita: Cita) {
     if (!this.datosValidos()) {
       return;
@@ -358,10 +384,19 @@ export class AgendarComponent implements OnInit {
   quitarEstudio(i: number, j: number): void {
     this.liberarCita(this.estudios[i].citas[j]);
     this.estudios[i].citas.splice(j, 1);
+    this.calcularTotal();
     if (this.estudios[i].citas.length == 0) {
       this.estudios.splice(i, 1);
-      this.calcularTotal();
       this.mostrarInstruccionesGenerales();
+      this.seleccionarUrgencia = true;
+    }
+  }
+
+  quitarEstudioUrgencia(i: number): void {
+    this.estudios = this.estudios.filter((e) => e.id !== i);
+    this.calcularTotal();
+    if (this.estudios.length === 0) {
+      this.seleccionarUrgencia = true;
     }
   }
 
@@ -403,17 +438,6 @@ export class AgendarComponent implements OnInit {
           console.log(this.ordenVenta);
           this.reiniciarFormulario();
           Swal.fire('Procesado', 'La orden se ha procesado', 'success');
-          // .then(
-          //   () => {
-          //     const modalRef = this.dialog.open(PagarOrdenComponent, {
-          //       width: '1000px',
-          //       data: { orden: estudios[0].ordenVenta, total: this.total },
-          //     });
-          //     modalRef.afterClosed().subscribe((total) => {
-          //       this.total = total;
-          //     });
-          //   }
-          // );
         },
         (err) => {
           console.log(err);
@@ -498,11 +522,12 @@ export class AgendarComponent implements OnInit {
     this.estudios.forEach((estudio) => (total += estudio.concepto.precio));
 
     this.total = total;
+    this.dataService.actualizarPrecio(this.total);
   }
 
   public actualizarFecha(fecha: HTMLInputElement) {
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
-
+    this.seleccionarUrgencia = false;
     this.cargarCitas();
   }
 

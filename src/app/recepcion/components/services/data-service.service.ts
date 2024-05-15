@@ -8,8 +8,7 @@ export class DataService {
   constructor() {}
 
   private precioDataSubject = new BehaviorSubject<number>(0);
-
-  precioData$: Observable<any> = this.precioDataSubject.asObservable();
+  public precioData$: Observable<any> = this.precioDataSubject.asObservable();
 
   public actualizarPrecio(nuevoPrecio: number) {
     console.log('actualizando precio');

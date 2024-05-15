@@ -42,7 +42,11 @@
       </button>
 
       <div>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="mat-elevation-z8 mt-2"
+        >
           <ng-container matColumnDef="Forma">
             <th mat-header-cell *matHeaderCellDef>Forma</th>
             <td mat-cell *matCellDef="let element">
@@ -116,7 +120,7 @@
       <table
         mat-table
         [dataSource]="descuentosdataSource"
-        class="mat-elevation-z8"
+        class="mat-elevation-z8 mt-2"
       >
         <ng-container matColumnDef="Descripcion">
           <th mat-header-cell *matHeaderCellDef>Descripcion</th>

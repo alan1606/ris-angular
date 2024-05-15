@@ -5,7 +5,7 @@ import { Pago } from 'src/app/models/pago';
 import Swal from 'sweetalert2';
 import { FormaPagoService } from '../../services/forma-pago.service';
 import { Descuento } from 'src/app/models/descuento';
-import { DataService } from 'src/app/recepcion/components/check-in/services/data-service.service';
+import { DataService } from 'src/app/recepcion/components/services/data-service.service';
 
 @Component({
   selector: 'app-pagar-orden',

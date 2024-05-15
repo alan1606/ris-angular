@@ -1,13 +1,5 @@
 <div class="card text-dark bg-light">
-  <mat-slide-toggle color="primary" class="pe-3 ps-3" [(ngModel)]="isUrgencia"
-    >Esta es una urgencia?</mat-slide-toggle
-  >
-
-  <div *ngIf="isUrgencia">
-    <app-urgencia></app-urgencia>
-  </div>
-
-  <div *ngIf="!isUrgencia">
+  <div>
     <div class="card-header">{{ titulo }}</div>
     <div class="card-body main">
       <form>
@@ -101,8 +93,67 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div *ngIf="isUrgencia" class="d-flex">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Paciente"
+              [formControl]="autocompleteControlPaciente"
+              [matAutocomplete]="autocompletePaciente"
+              class="mat-input-long"
+            />
+            <mat-autocomplete
+              #autocompletePaciente="matAutocomplete"
+              [displayWith]="mostrarNombrePaciente"
+              (optionSelected)="seleccionarPaciente($event)"
+            >
+              <mat-option
+                *ngFor="let paciente of pacientesFiltrados"
+                [value]="paciente"
+              >
+                {{ paciente.nombreCompleto }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-        <div class="form-group">
+          <button
+            type="button"
+            class="btn btn-success mx-2 rounded-circle btn-add"
+            (click)="abrirModalRegistrarPacienteParcial()"
+          >
+            {{ this.paciente?.id ? "Ver" : "+" }}
+          </button>
+
+          <button
+            *ngIf="this.paciente?.id"
+            type="button"
+            class="btn btn-info mx-4 rounded-circle btn-add"
+            (click)="limpiarPaciente()"
+          >
+            {{ this.paciente?.id ? "Limpiar" : "" }}
+          </button>
+        </div>
+
+        <mat-slide-toggle
+          *ngIf="seleccionarUrgencia"
+          color="primary"
+          class="pe-3 ps-3"
+          [(ngModel)]="isUrgencia"
+          name="isUrgencia"
+          id="isUrgencia"
+        >
+          Esta es una urgencia?
+        </mat-slide-toggle>
+
+        <button
+          *ngIf="isUrgencia"
+          class="btn btn-primary"
+          (click)="agregarEstudioUrgencias()"
+        >
+          Agregar estudio
+        </button>
+
+        <div *ngIf="!isUrgencia" class="form-group">
           <mat-form-field>
             <input
               matInput
@@ -114,7 +165,7 @@
           </mat-form-field>
         </div>
 
-        <div class="form-group" *ngIf="equipoDicom">
+        <div class="form-group" *ngIf="equipoDicom && !isUrgencia">
           <mat-form-field>
             <mat-label>Seleccionar fecha</mat-label>
             <input
@@ -136,7 +187,7 @@
         <div
           class="form-group"
           [formGroup]="formulario"
-          *ngIf="citas && citas?.length > 0"
+          *ngIf="citas && citas?.length > 0 && !isUrgencia"
         >
           <mat-form-field>
             <mat-label>Hora</mat-label>
@@ -160,13 +211,13 @@
                 <th>Area</th>
                 <th>Sala</th>
                 <th>Precio</th>
-                <th>Fecha</th>
-                <th>Hora</th>
+                <th *ngIf="!isUrgencia">Fecha</th>
+                <th *ngIf="!isUrgencia">Hora</th>
                 <th>Quitar</th>
               </tr>
             </thead>
 
-            <tbody *ngIf="estudios?.length > 0">
+            <tbody *ngIf="estudios?.length > 0 && !isUrgencia">
               <ng-container *ngFor="let estudio of estudios; index as i">
                 <tr *ngFor="let cita of estudio.citas; index as j">
                   <td>{{ i + 1 }}</td>
@@ -187,6 +238,25 @@
                   </td>
                 </tr>
               </ng-container>
+            </tbody>
+
+            <tbody *ngIf="estudios?.length > 0 && isUrgencia">
+              <tr *ngFor="let estudio of estudios; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ estudio.concepto.concepto }}</td>
+                <td>{{ estudio.concepto.area.nombre }}</td>
+                <td>{{ estudio.equipoDicom.nombre }}</td>
+                <td>{{ estudio.concepto.precio }}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-md"
+                    (click)="quitarEstudioUrgencia(estudio.id)"
+                  >
+                    -
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -217,7 +287,7 @@
           </mat-form-field>
         </div>
 
-        <div class="flex">
+        <div *ngIf="!isUrgencia" class="d-flex">
           <mat-form-field>
             <input
               matInput
@@ -259,10 +329,11 @@
         </div>
 
         <div
-          class="form-group flex my-3"
+          class="form-group d-flex my-3"
           *ngIf="this.estudios?.length > 0 && this.paciente"
         >
           <button
+            *ngIf="!isUrgencia"
             type="button"
             class="btn btn-primary"
             (click)="agendar()"
@@ -273,10 +344,22 @@
         </div>
       </form>
 
-      <div class="card text-dark bg-light instrucciones">
+      <div *ngIf="!isUrgencia" class="card text-dark bg-light instrucciones">
         <div class="card-body">
           <p>{{ instrucciones }}</p>
         </div>
+      </div>
+
+      <div *ngIf="isUrgencia">
+        <app-pagar-orden ></app-pagar-orden>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="agendar()"
+          [disabled]="botonDeshabilitar"
+        >
+          Pagar
+        </button>
       </div>
     </div>
   </div>
