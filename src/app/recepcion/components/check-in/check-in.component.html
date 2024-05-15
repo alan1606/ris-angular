@@ -218,7 +218,6 @@
       </div>
       <div>
         <app-pagar-orden
-          [orden]="orden"
           (pagosEmit)="recibirPagos($event)"
           (descuentosEmit)="recibirDescuentos($event)"
           (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"

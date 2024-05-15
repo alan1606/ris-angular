@@ -46,14 +46,6 @@ import {
   styleUrls: ['./agendar.component.css'],
 })
 export class AgendarComponent implements OnInit {
-  total: number;
-  motivo: string;
-  codigoPromocion: string = '';
-  botonHabilitado: boolean = false;
-  formulario: FormGroup;
-  instrucciones: string = '';
-  private instruccionesInstitucion = '';
-
   constructor(
     private pipe: DatePipe,
     private dialog: MatDialog,
@@ -77,6 +69,14 @@ export class AgendarComponent implements OnInit {
 
     this.minDate = new Date();
   }
+
+  total: number;
+  motivo: string;
+  codigoPromocion: string = '';
+  botonHabilitado: boolean = false;
+  formulario: FormGroup;
+  instrucciones: string = '';
+  private instruccionesInstitucion = '';
 
   isUrgencia: boolean = false;
   titulo = 'Agendar cita';
@@ -186,15 +186,12 @@ export class AgendarComponent implements OnInit {
       });
 
     this.formulario.get('salaControl').valueChanges.subscribe((value) => {
-      console.log(value);
       this.equipoDicomService.ver(value).subscribe(
         (sala) => {
           this.equipoDicom = sala;
           this.citas = [];
-          console.log('cargandoEquipos');
           this.formulario.get('citaControl').setValue('');
           if (this.fecha && !this.isUrgencia) {
-            console.log('entro');
             this.cargarCitas();
           }
         },
@@ -237,16 +234,13 @@ export class AgendarComponent implements OnInit {
 
   seleccionarArea(event: MatAutocompleteSelectedEvent) {
     this.area = event.option.value as Area;
-
     event.option.deselect();
     event.option.focus();
-
     this.cargarEquiposDicom();
   }
 
   seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
     this.paciente = event.option.value as Paciente;
-
     event.option.deselect();
     event.option.focus();
   }
@@ -264,7 +258,6 @@ export class AgendarComponent implements OnInit {
 
   seleccionarEquipoDicom(event): void {
     this.equipoDicom = event.value as EquipoDicom;
-
     event.option.deselect();
     event.option.focus();
   }
@@ -277,11 +270,11 @@ export class AgendarComponent implements OnInit {
       });
   }
 
-  recibirPagos(event): void {
+  recibirPagos(event: Pago[]): void {
     this.pagoRecibido = true;
     this.pagos = event;
   }
-  recibirDescuentos(event): void {
+  recibirDescuentos(event: Descuento[]): void {
     this.descuentos = event;
   }
 
@@ -292,22 +285,17 @@ export class AgendarComponent implements OnInit {
 
   agregarEstudio(citas: Cita[]) {
     const estudio = new VentaConceptos();
-
     estudio.concepto = this.concepto;
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
     estudio.paciente = this.paciente;
     estudio.citas = citas;
-
     this.estudios.push(estudio);
 
-    console.log(estudio);
     this.calcularTotal();
     this.mostrarInstruccionesConcepto(
       this.estudios[this.estudios.length - 1].concepto
     );
-
-    //Hay que esperar para hacer esto
     this.limpiarCampos();
   }
 
@@ -412,8 +400,8 @@ export class AgendarComponent implements OnInit {
     }
   }
 
-  quitarEstudioUrgencia(i: number): void {
-    this.estudios = this.estudios.filter((e) => e.id !== i);
+  quitarEstudioUrgencia(event:VentaConceptos): void {
+    this.estudios = this.estudios.filter((e) => e!== event);
     this.calcularTotal();
     if (this.estudios.length === 0) {
       this.seleccionarUrgencia = true;
@@ -430,12 +418,9 @@ export class AgendarComponent implements OnInit {
 
   agendar() {
     this.botonHabilitado = true;
-
     setTimeout(() => {
       this.ordenVenta = new OrdenVenta();
-
       this.ordenVenta.paciente = this.paciente;
-      console.log(this.ordenVenta);
       this.ordenVenta.pagos = this.pagos;
       this.ordenVenta.descuentos = this.descuentos;
       this.ordenVenta.estudiosList = this.estudios;
@@ -451,15 +436,12 @@ export class AgendarComponent implements OnInit {
     for (let estudio of this.estudios) {
       estudio.institucion = this.institucion;
     }
-
-    console.log(this.origen);
     this.ordenVentaService
       .venderConceptos(this.ordenVenta, this.origen)
       .subscribe(
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
-          console.log(this.ordenVenta);
           this.reiniciarFormulario();
           Swal.fire('Procesado', 'La orden se ha procesado', 'success');
         },

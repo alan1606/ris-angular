@@ -252,7 +252,7 @@
                   <button
                     type="button"
                     class="btn btn-danger btn-md"
-                    (click)="quitarEstudioUrgencia(estudio.id)"
+                    (click)="quitarEstudioUrgencia(estudio)"
                   >
                     -
                   </button>
@@ -338,7 +338,7 @@
             type="button"
             class="btn btn-primary"
             (click)="agendar()"
-            [disabled]="botonDeshabilitar"
+            [disabled]="botonHabilitado"
           >
             AGENDAR
           </button>
@@ -358,10 +358,9 @@
           (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
         ></app-pagar-orden>
         <button
-          type="button"
-          class="btn btn-primary"
+          class="btn btn-success"
           (click)="agendar()"
-          [disabled]="botonHabilitado || !pagoRecibido"
+          [disabled]="!pagoRecibido"
         >
           <i class="bi bi-currency-dollar"></i>
           Pagar
