@@ -1,6 +1,6 @@
 <div class="card text-dark bg-light">
   <div>
-    <div class="card-header">{{ titulo }}</div>
+    <div class="card-header">{{ isUrgencia ? "URGENCIA" : titulo }}</div>
     <div class="card-body main">
       <form>
         <div class="form-group">
@@ -170,6 +170,7 @@
           <mat-form-field>
             <mat-label>Seleccionar fecha</mat-label>
             <input
+              class="fecha"
               [min]="minDate"
               matInput
               [matDatepicker]="picker1"
@@ -351,21 +352,24 @@
         </div>
       </div>
 
-      <div *ngIf="isUrgencia && estudios.length>=1">
+      <div *ngIf="isUrgencia && estudios.length >= 1">
         <app-pagar-orden
           (pagosEmit)="recibirPagos($event)"
           (descuentosEmit)="recibirDescuentos($event)"
           (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
         ></app-pagar-orden>
 
-        <button
-          *ngIf="pagoRecibido"
-          class="btn btn-success mt-2"
-          (click)="agendar()"
-        >
-          <i class="bi bi-currency-dollar"></i>
-          Pagar
-        </button>
+        <div class="text-center">
+          <button
+            *ngIf="pagoRecibido"
+            class="btn btn-success btn-lg mt-2"
+            (click)="agendar()"
+            [disabled]="botonHabilitado"
+          >
+            <i class="bi bi-currency-dollar"></i>
+            Pagar
+          </button>
+        </div>
       </div>
     </div>
   </div>

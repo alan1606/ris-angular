@@ -276,7 +276,6 @@ export class AgendarComponent implements OnInit {
     console.log('Event pg');
     this.pagos = event;
     this.pagoRecibido = true;
-    this.botonHabilitado = true;
     console.log('se debe habilitar el boton');
   }
   recibirDescuentos(event: Descuento[]): void {
@@ -286,7 +285,7 @@ export class AgendarComponent implements OnInit {
   cambioPagosDescuentos(event): void {
     console.log('Quitaron pago o descuento');
     this.pagoRecibido = false;
-    this.botonHabilitado = false;
+    this.botonHabilitado = true;
   }
 
   agregarEstudio(citas: Cita[]) {
@@ -369,10 +368,13 @@ export class AgendarComponent implements OnInit {
     this.motivo = '';
     this.campania = new Campania();
     this.codigoPromocion = '';
+    this.pagoRecibido = false;
     this.botonHabilitado = false;
     this.instrucciones = '';
     this.instruccionesInstitucion = '';
-
+    this.isUrgencia = false;
+    this.seleccionarUrgencia = true;
+    this.deshabilitarUrgencias = false;
     this.cargarConvenioParticularPorDefecto();
 
     this.autocompleteControlPaciente.setValue('');
@@ -424,6 +426,7 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
+    this.botonHabilitado = true;
     setTimeout(() => {
       if (!this.isUrgencia) {
         this.pagos = [];
@@ -462,6 +465,7 @@ export class AgendarComponent implements OnInit {
             'Ha ocurrido un error al procesar la venta',
             'error'
           );
+          this.reiniciarFormulario();
         }
       );
   }

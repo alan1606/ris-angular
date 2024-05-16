@@ -20,7 +20,7 @@
 }
 
 form {
-  width: 60%;
+  width: 40%;
 }
 
 mat-form-field {
@@ -36,5 +36,5 @@ mat-form-field {
 }
 
 .instrucciones {
-  width: 40%;
+  width: 60%;
 }

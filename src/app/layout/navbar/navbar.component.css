@@ -5,32 +5,32 @@
   align-items: flex-end;
 }
 
-.navbar-collapse{
+.navbar-collapse {
   font-family: Verdana;
   font-size: small;
-
 }
 
 .username {
   font-size: x-large;
 }
-.username  .bi-person-fill{
+.username .bi-person-fill {
   font-size: x-large;
   color: rgb(39, 255, 0);
 }
 
-.nombre-usuario{
+.nombre-usuario {
   color: white;
 }
-.boton-usuario{
+.boton-usuario {
   display: flex;
 }
 
-.link-perfil{
+.link-perfil {
   text-align: end;
   color: white;
   font-size: x-small;
 }
-.link-perfil:hover{
+.link-perfil:hover {
   cursor: pointer;
 }
+
