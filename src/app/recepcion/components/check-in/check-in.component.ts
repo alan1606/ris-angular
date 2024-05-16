@@ -126,11 +126,11 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.cargarOrdenVenta(ordenId, pacienteId);
   }
 
-  recibirPagos(event): void {
+  recibirPagos(event:Pago[]): void {
     this.pagoRecibido = true;
     this.pagos = event;
   }
-  recibirDescuentos(event): void {
+  recibirDescuentos(event:Descuento[]): void {
     this.descuentos = event;
   }
 

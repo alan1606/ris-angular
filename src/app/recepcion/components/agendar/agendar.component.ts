@@ -73,7 +73,6 @@ export class AgendarComponent implements OnInit {
   total: number;
   motivo: string;
   codigoPromocion: string = '';
-  botonHabilitado: boolean = false;
   formulario: FormGroup;
   instrucciones: string = '';
   private instruccionesInstitucion = '';
@@ -115,6 +114,7 @@ export class AgendarComponent implements OnInit {
   horaInicial: Date = new Date();
   horaFinal: Date = new Date();
 
+  botonHabilitado: boolean = false;
   seleccionarUrgencia: boolean = true;
   deshabilitarUrgencias: boolean = false;
   pagoRecibido: boolean = false;
@@ -207,6 +207,8 @@ export class AgendarComponent implements OnInit {
     });
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
+
+    console.log(this.pagoRecibido);
   }
 
   mostrarNombrePaciente(paciente?: Paciente): string {
@@ -271,8 +273,11 @@ export class AgendarComponent implements OnInit {
   }
 
   recibirPagos(event: Pago[]): void {
-    this.pagoRecibido = true;
+    console.log('Event pg');
     this.pagos = event;
+    this.pagoRecibido = true;
+    this.botonHabilitado = true;
+    console.log('se debe habilitar el boton');
   }
   recibirDescuentos(event: Descuento[]): void {
     this.descuentos = event;
@@ -281,6 +286,7 @@ export class AgendarComponent implements OnInit {
   cambioPagosDescuentos(event): void {
     console.log('Quitaron pago o descuento');
     this.pagoRecibido = false;
+    this.botonHabilitado = false;
   }
 
   agregarEstudio(citas: Cita[]) {
@@ -400,12 +406,13 @@ export class AgendarComponent implements OnInit {
     }
   }
 
-  quitarEstudioUrgencia(event:VentaConceptos): void {
-    this.estudios = this.estudios.filter((e) => e!== event);
+  quitarEstudioUrgencia(event: VentaConceptos): void {
+    this.estudios = this.estudios.filter((e) => e !== event);
     this.calcularTotal();
     if (this.estudios.length === 0) {
       this.seleccionarUrgencia = true;
       this.deshabilitarUrgencias = false;
+      this.pagoRecibido = false;
     }
   }
 
@@ -417,13 +424,15 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
-    this.botonHabilitado = true;
     setTimeout(() => {
+      if (!this.isUrgencia) {
+        this.pagos = [];
+        this.descuentos = [];
+      }
       this.ordenVenta = new OrdenVenta();
       this.ordenVenta.paciente = this.paciente;
       this.ordenVenta.pagos = this.pagos;
       this.ordenVenta.descuentos = this.descuentos;
-      this.ordenVenta.estudiosList = this.estudios;
       if (this.campania.id) {
         this.ordenVenta.aplicarDescuento = true;
         this.ordenVenta.codigoPromocional = this.campania.codigo;
@@ -436,6 +445,7 @@ export class AgendarComponent implements OnInit {
     for (let estudio of this.estudios) {
       estudio.institucion = this.institucion;
     }
+    this.ordenVenta.estudiosList = this.estudios;
     this.ordenVentaService
       .venderConceptos(this.ordenVenta, this.origen)
       .subscribe(

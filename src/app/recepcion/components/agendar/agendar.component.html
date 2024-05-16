@@ -351,16 +351,17 @@
         </div>
       </div>
 
-      <div *ngIf="isUrgencia">
+      <div *ngIf="isUrgencia && estudios.length>=1">
         <app-pagar-orden
           (pagosEmit)="recibirPagos($event)"
           (descuentosEmit)="recibirDescuentos($event)"
           (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
         ></app-pagar-orden>
+
         <button
-          class="btn btn-success"
+          *ngIf="pagoRecibido"
+          class="btn btn-success mt-2"
           (click)="agendar()"
-          [disabled]="!pagoRecibido"
         >
           <i class="bi bi-currency-dollar"></i>
           Pagar

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormaPago } from 'src/app/models/formaPago';
 import { Pago } from 'src/app/models/pago';
@@ -12,7 +19,7 @@ import { DataService } from 'src/app/recepcion/components/services/data-service.
   templateUrl: './pagar-orden.component.html',
   styleUrls: ['./pagar-orden.component.css'],
 })
-export class PagarOrdenComponent implements OnInit {
+export class PagarOrdenComponent implements OnInit, OnDestroy {
   @Input() public orden: any;
   @Output() public pagosEmit: EventEmitter<Pago[]> = new EventEmitter();
   @Output() public descuentosEmit: EventEmitter<Descuento[]> =
@@ -144,6 +151,12 @@ export class PagarOrdenComponent implements OnInit {
     );
     this.descuentosdataSource.data = this.descuentos;
     this.pagoOdescuentoEliminadoEmit.emit(true);
+  }
+
+  ngOnDestroy(): void {
+    console.log("Destruyendo pagar orden")
+    this.pagos = [];
+    this.descuentos = [];
   }
 
   // finalizarPago(): void {
