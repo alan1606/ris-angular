@@ -261,6 +261,8 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.botonHabilitado = false;
     this.codigoPromocion = '';
     this.folio = null;
+    this.esInstitucion = false;
+    this.nombreInstitucion = null;
     return;
   }
 

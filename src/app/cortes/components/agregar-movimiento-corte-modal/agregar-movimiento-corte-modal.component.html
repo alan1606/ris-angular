@@ -2,12 +2,14 @@
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
-      <mat-select
-        [(ngModel)]="model.tipo"
-      >
-        <mat-option *ngFor="let opcion of tipos" [value]="opcion">{{
-          opcion
-        }}</mat-option>
+      <mat-select [(ngModel)]="model.tipo">
+        <mat-option
+          *ngFor="let opcion of tipos"
+          name="tipo"
+          id="tipo"
+          [value]="opcion"
+          >{{ opcion }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
   </div>
@@ -15,14 +17,26 @@
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Descripción</mat-label>
-      <input matInput type="text" name="descripcion" id="descripcion" [(ngModel)]="model.descripcion"/>
+      <input
+        matInput
+        type="text"
+        name="descripcion"
+        id="descripcion"
+        [(ngModel)]="model.descripcion"
+      />
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Cantidad</mat-label>
-      <input matInput type="number" name="cantidad" id="cantidad" [(ngModel)]="model.cantidad"/>
+      <input
+        matInput
+        type="number"
+        name="cantidad"
+        id="cantidad"
+        [(ngModel)]="model.cantidad"
+      />
     </mat-form-field>
   </div>
   <button class="btn btn-success btn-lg" (click)="confirmarAgregar()">

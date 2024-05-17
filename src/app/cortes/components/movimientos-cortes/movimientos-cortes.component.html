@@ -1,15 +1,20 @@
 <mat-card>
   <div>
     <h1 class="me-3">
-      <span class="badge text-bg-secondary">Corte: MATUTINO</span>
+      <span class="badge text-bg-secondary">Corte: {{ turno }}</span>
     </h1>
   </div>
   <div>
     <h1 class="me-3">
-      <span class="badge text-bg-secondary">Día: 06/05/2024</span>
+      <span class="badge text-bg-secondary">Día: {{ fecha | date}}</span>
     </h1>
   </div>
-  <button mat-raised-button class="mb-2" color="primary"  (click)="agregarMovimiento()">
+  <button
+    mat-raised-button
+    class="mb-2"
+    color="primary"
+    (click)="agregarMovimiento()"
+  >
     Agregar
   </button>
 
@@ -17,7 +22,7 @@
     <ng-container matColumnDef="Movimiento">
       <th mat-header-cell *matHeaderCellDef>Movimiento</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.movimiento }}
+        {{ element.descripcion }}
       </td>
     </ng-container>
 

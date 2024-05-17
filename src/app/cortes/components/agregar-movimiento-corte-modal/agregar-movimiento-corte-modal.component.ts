@@ -21,29 +21,21 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
   model: Movimiento = new Movimiento();
 
   ngOnInit(): void {
-    let fecha = new Date().toISOString().slice(0, 10);
-    let hora = new Date().toLocaleTimeString();
-    this.corteService.obtenerCorte(fecha, 'MATUTINO').subscribe(
+    this.corteService.obtenerCorteActual().subscribe(
       (data) => {
-        this.model = data;
+        console.log(data);
+        this.model.corteTurnoId = data.id;
       },
       (error) => {
         console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-        }).then(() => {
-          this.dialogRef.close();
-        });
       }
     );
-
-    this.model.fecha = fecha + 'T' + hora;
   }
 
   confirmarAgregar(): void {
-    this.model.corteId = 1;
     console.log(this.model);
+    let fecha = new Date().toISOString().slice(0, 10);
+
     Swal.fire({
       icon: 'question',
       title: '¿Seguro que deseas añadirlo?',
@@ -52,12 +44,14 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.movimientoCortesService
-          .agregarMovimientoCorte(this.model)
+          .agregarMovimientoCorte(fecha, this.model)
           .subscribe(
             (data) => {
               Swal.fire({
                 icon: 'success',
                 title: 'Agregado',
+              }).then(() => {
+                this.dialogRef.close(data);
               });
             },
             (error) => {
@@ -66,9 +60,9 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
                 icon: 'error',
                 title: 'Error',
               });
+              this.dialogRef.close();
             }
           );
-        this.dialogRef.close();
       } else {
         console.log('no guardar');
       }

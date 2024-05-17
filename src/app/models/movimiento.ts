@@ -4,7 +4,7 @@ export class Movimiento {
   descripcion: string;
   fecha:string;
   tipo: TipoMovimiento;
-  corteId: number;
+  corteTurnoId: number;
 }
 
 export enum TipoMovimiento {
