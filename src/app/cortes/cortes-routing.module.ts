@@ -13,10 +13,6 @@ const routes: Routes = [
     canActivate: [RecepcionGuard],
   },
   {
-    path: 'pagar',
-    component: PagarOrdenComponent,
-  },
-  {
     path: 'formas-pago',
     component: FormasPagoComponent,
   },

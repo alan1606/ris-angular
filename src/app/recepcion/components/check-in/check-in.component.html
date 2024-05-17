@@ -193,12 +193,21 @@
           Mostrar qr subir foto
         </button>
 
-        <button class="btn btn-primary" matStepperNext>Siguiente -----></button>
+        <button *ngIf="!esInstitucion" class="btn btn-primary" matStepperNext>
+          Siguiente ----->
+        </button>
+        <button
+          *ngIf="esInstitucion"
+          class="btn btn-primary"
+          (click)="reiniciar()"
+        >
+          Salir >
+        </button>
       </div>
     </div>
   </mat-step>
 
-  <mat-step [stepControl]="thirdFormGroup">
+  <mat-step *ngIf="!esInstitucion" [stepControl]="thirdFormGroup">
     <div>
       <button mat-button matStepperPrevious>Volver</button>
     </div>

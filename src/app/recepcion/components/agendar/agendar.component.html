@@ -344,6 +344,18 @@
             AGENDAR
           </button>
         </div>
+        <div
+          class="text-end"
+          *ngIf="isUrgencia && estudios.length >= 1 && institucion.id != 1"
+        >
+          <button
+            class="btn btn-success btn-lg mt-2"
+            (click)="agendar()"
+            [disabled]="botonHabilitado"
+          >
+            Procesar
+          </button>
+        </div>
       </form>
 
       <div *ngIf="!isUrgencia" class="card text-dark bg-light instrucciones">
@@ -352,7 +364,7 @@
         </div>
       </div>
 
-      <div *ngIf="isUrgencia && estudios.length >= 1">
+      <div *ngIf="isUrgencia && estudios.length >= 1 && institucion.id === 1">
         <app-pagar-orden
           (pagosEmit)="recibirPagos($event)"
           (descuentosEmit)="recibirDescuentos($event)"

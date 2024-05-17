@@ -163,11 +163,17 @@ export class CheckInComponent implements OnInit, OnDestroy {
         .subscribe(
           () => {
             Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
+            if (this.esInstitucion) {
+              return;
+            }
             this.reiniciar();
           },
           (error) => {
             Swal.fire('Error', 'Ha ocurrido un error', 'error');
             console.log(error);
+            if (this.esInstitucion) {
+              return;
+            }
             this.reiniciar();
           }
         );
@@ -184,6 +190,10 @@ export class CheckInComponent implements OnInit, OnDestroy {
 
   presionadoBotonGuardar(presionado) {
     this.guardarPresionado = presionado as boolean;
+    if (this.esInstitucion) {
+      this.pagar();
+      return;
+    }
     this.calcularPrecio();
   }
 
