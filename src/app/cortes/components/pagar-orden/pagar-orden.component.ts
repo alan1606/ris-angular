@@ -20,7 +20,6 @@ import { DataService } from 'src/app/recepcion/components/services/data-service.
   styleUrls: ['./pagar-orden.component.css'],
 })
 export class PagarOrdenComponent implements OnInit, OnDestroy {
-  @Input() public orden: any;
   @Output() public pagosEmit: EventEmitter<Pago[]> = new EventEmitter();
   @Output() public descuentosEmit: EventEmitter<Descuento[]> =
     new EventEmitter();

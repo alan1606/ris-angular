@@ -362,6 +362,7 @@ export class AgendarComponent implements OnInit {
     this.seleccionarUrgencia = true;
     this.deshabilitarUrgencias = false;
     this.cargarConvenioParticularPorDefecto();
+    this.origen = 'agendar';
 
     this.autocompleteControlPaciente.setValue('');
     this.isCodigoPromocionalDisabled = false;
@@ -401,6 +402,7 @@ export class AgendarComponent implements OnInit {
       this.seleccionarUrgencia = true;
       this.deshabilitarUrgencias = false;
       this.pagoRecibido = false;
+      this.origen = 'agendar';
     }
   }
 
