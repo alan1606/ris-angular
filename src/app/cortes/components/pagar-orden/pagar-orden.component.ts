@@ -159,36 +159,4 @@ export class PagarOrdenComponent implements OnInit, OnDestroy {
     this.descuentos = [];
   }
 
-  // finalizarPago(): void {
-  //   if (this.restante === 0) {
-  //     console.log('pagando');
-  //     this.pagoOrdenService
-  //       .crearPagosPorOrdenId(this.data.orden.id, this.pagos)
-  //       .subscribe(
-  //         (data) => {
-  //           console.log('pagado');
-  //           console.log(this.pagos);
-  //           Swal.fire({
-  //             icon: 'success',
-  //             title: 'Pago completado',
-  //           }).then(() => {
-  //             const restante = 0;
-  //           });
-  //         },
-  //         (error) => {
-  //           console.log(error);
-  //           Swal.fire({
-  //             icon: 'error',
-  //             title: 'Error',
-  //           });
-  //         }
-  //       );
-  //   } else {
-  //     console.log(this.restante);
-  //     Swal.fire({
-  //       icon: 'error',
-  //       title: 'Termine de pagar',
-  //     });
-  //   }
-  // }
 }

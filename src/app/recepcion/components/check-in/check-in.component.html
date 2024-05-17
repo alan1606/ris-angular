@@ -61,7 +61,7 @@
     <ng-template matStepLabel>Datos Paciente</ng-template>
     <div class="primer-paso" *ngIf="orden?.id && orden?.paciente?.id">
       <div>
-        <h1 *ngIf="nombreInstitucion">{{nombreInstitucion}}</h1>
+        <h1 *ngIf="nombreInstitucion">{{ nombreInstitucion }}</h1>
         <div class="card text-dark bg-light">
           <div class="card-header">
             <h2>{{ orden?.paciente.nombreCompleto.toUpperCase() }}</h2>
@@ -213,10 +213,10 @@
     </div>
 
     <div class="contenedor-boton-pagar text-center" *ngIf="guardarPresionado">
-      <div *ngIf="false">
+      <div *ngIf="orden.pagado">
         <h1 class="yaPagada">Esta orden ya ha sido pagada!</h1>
       </div>
-      <div>
+      <div *ngIf="!orden.pagado">
         <app-pagar-orden
           (pagosEmit)="recibirPagos($event)"
           (descuentosEmit)="recibirDescuentos($event)"

@@ -126,11 +126,11 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.cargarOrdenVenta(ordenId, pacienteId);
   }
 
-  recibirPagos(event:Pago[]): void {
+  recibirPagos(event: Pago[]): void {
     this.pagoRecibido = true;
     this.pagos = event;
   }
-  recibirDescuentos(event:Descuento[]): void {
+  recibirDescuentos(event: Descuento[]): void {
     this.descuentos = event;
   }
 
@@ -140,6 +140,13 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   pagar(): void {
+    Swal.fire({
+      title: 'Procesando',
+      icon: 'info',
+      text: 'Espere mientras termina el proceso',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
     this.botonHabilitado = true;
 
     if (this.folio) {
@@ -150,6 +157,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.orden.descuentos = this.descuentos;
     this.orden.estudiosList = this.listaDeEstudios;
     setTimeout(() => {
+      Swal.close();
       this.ordenVentaServiceSubscription = this.ordenVentaService
         .venderConceptos(this.orden, this.origen)
         .subscribe(

@@ -76,7 +76,6 @@ export class AgendarComponent implements OnInit {
   formulario: FormGroup;
   instrucciones: string = '';
   private instruccionesInstitucion = '';
-
   isUrgencia: boolean = false;
   titulo = 'Agendar cita';
   origen: string = 'agendar';
@@ -85,7 +84,6 @@ export class AgendarComponent implements OnInit {
   autocompleteControlArea = new UntypedFormControl();
   autocompleteControlConcepto = new UntypedFormControl();
   autocompleteControlMedicoReferente = new UntypedFormControl();
-
   pacientesFiltrados: Paciente[] = [];
   conveniosFiltrados: Institucion[] = [];
   areasFiltradas: Area[] = [];
@@ -94,7 +92,6 @@ export class AgendarComponent implements OnInit {
   estudios: VentaConceptos[] = [];
   citas: Cita[] = [];
   cita: Cita;
-
   paciente: Paciente = new Paciente();
   institucion: Institucion;
   area: Area;
@@ -102,18 +99,12 @@ export class AgendarComponent implements OnInit {
   espaciosAgenda: number;
   equipoDicom: EquipoDicom;
   ordenVenta: OrdenVenta;
-
   fecha: string;
-
   campania: Campania = new Campania();
-
   isCodigoPromocionalDisabled: boolean = false;
-
   minDate: Date;
-
   horaInicial: Date = new Date();
   horaFinal: Date = new Date();
-
   botonHabilitado: boolean = false;
   seleccionarUrgencia: boolean = true;
   deshabilitarUrgencias: boolean = false;
@@ -207,8 +198,6 @@ export class AgendarComponent implements OnInit {
     });
 
     this.fecha = this.pipe.transform(new Date(), 'yyyy-MM-dd');
-
-    console.log(this.pagoRecibido);
   }
 
   mostrarNombrePaciente(paciente?: Paciente): string {
@@ -273,17 +262,14 @@ export class AgendarComponent implements OnInit {
   }
 
   recibirPagos(event: Pago[]): void {
-    console.log('Event pg');
     this.pagos = event;
     this.pagoRecibido = true;
-    console.log('se debe habilitar el boton');
   }
   recibirDescuentos(event: Descuento[]): void {
     this.descuentos = event;
   }
 
   cambioPagosDescuentos(event): void {
-    console.log('Quitaron pago o descuento');
     this.pagoRecibido = false;
     this.botonHabilitado = true;
   }
@@ -381,7 +367,7 @@ export class AgendarComponent implements OnInit {
     this.isCodigoPromocionalDisabled = false;
   }
 
-  datosValidos(): boolean {
+  private datosValidos(): boolean {
     if (this.cita == null) {
       return false;
     }
@@ -427,6 +413,13 @@ export class AgendarComponent implements OnInit {
 
   agendar() {
     this.botonHabilitado = true;
+    Swal.fire({
+      title: 'Procesando',
+      icon: 'info',
+      text: 'Espere mientras termina el proceso',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
     setTimeout(() => {
       if (!this.isUrgencia) {
         this.pagos = [];
@@ -440,7 +433,9 @@ export class AgendarComponent implements OnInit {
         this.ordenVenta.aplicarDescuento = true;
         this.ordenVenta.codigoPromocional = this.campania.codigo;
       }
+
       this.agendaNormal();
+      Swal.close();
     }, 2000);
   }
 
@@ -470,7 +465,7 @@ export class AgendarComponent implements OnInit {
       );
   }
 
-  abrirModalRegistrarPacienteParcial() {
+  public abrirModalRegistrarPacienteParcial() {
     const modalRef = this.dialog.open(RegistrarPacienteParcialModalComponent, {
       width: '1000px',
       data: { paciente: this.paciente?.id ? this.paciente : null },
@@ -539,6 +534,11 @@ export class AgendarComponent implements OnInit {
 
   private calcularTotal() {
     let total: number = 0;
+    if (this.institucion.id !== 1) {
+      this.total = total;
+      this.dataService.actualizarPrecio(this.total);
+      return;
+    }
     this.estudios.forEach((estudio) => (total += estudio.concepto.precio));
 
     this.total = total;
