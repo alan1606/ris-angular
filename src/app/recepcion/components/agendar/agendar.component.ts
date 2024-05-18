@@ -453,7 +453,9 @@ export class AgendarComponent implements OnInit {
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
-          this.mostrarModalQrImagenes();
+          if (this.isUrgencia) {
+            this.mostrarModalQrImagenes();
+          }
           this.reiniciarFormulario();
           Swal.fire('Procesado', 'La orden se ha procesado', 'success');
         },

@@ -140,6 +140,9 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   pagar(): void {
+    if (this.orden.pagado) {
+      return;
+    }
     Swal.fire({
       title: 'Procesando',
       icon: 'info',
