@@ -100,6 +100,7 @@ export class PagarOrdenComponent implements OnInit, OnDestroy {
       this.pagosEmit.emit(this.pagos);
     }
     this.pago = new Pago();
+    this.pago.factura = false;
     this.formaPago = new FormaPago();
     this.pago.formaPago = this.formaPago;
   }
