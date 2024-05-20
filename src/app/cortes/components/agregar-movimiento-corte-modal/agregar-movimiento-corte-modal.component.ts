@@ -23,7 +23,6 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
   ngOnInit(): void {
     this.corteService.obtenerCorteActual().subscribe(
       (data) => {
-        console.log(data);
         this.model.corteTurnoId = data.id;
       },
       (error) => {
@@ -50,6 +49,9 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
               Swal.fire({
                 icon: 'success',
                 title: 'Agregado',
+                showConfirmButton: false,
+                timer: 1500,
+                allowOutsideClick: false,
               }).then(() => {
                 this.dialogRef.close(data);
               });
@@ -59,6 +61,7 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
               Swal.fire({
                 icon: 'error',
                 title: 'Error',
+                showConfirmButton: false,
               });
               this.dialogRef.close();
             }

@@ -36,13 +36,15 @@ export class MovimientosCortesComponent implements OnInit {
   }
   agregarMovimiento(): void {
     const matDialog = this.dialog.open(AgregarMovimientoCorteModalComponent, {
-      width: '500px',
+      width: '1000px',
     });
     matDialog.afterClosed().subscribe(
       (data) => {
-        console.log(data);
-        this.movimientos.push(data);
-        this.dataSource.data = this.movimientos;
+        if (data) {
+          console.log(data);
+          this.movimientos.push(data);
+          this.dataSource.data = this.movimientos;
+        }
       },
       (error) => {
         console.log(error);

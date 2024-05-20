@@ -5,6 +5,7 @@ import { PagarOrdenComponent } from './components/pagar-orden/pagar-orden.compon
 import { RecepcionGuard } from '../guards/recepcion.guard';
 import { FormasPagoComponent } from './components/formas-pago/formas-pago.component';
 import { MovimientosCortesComponent } from './components/movimientos-cortes/movimientos-cortes.component';
+import { GenerarCorteComponent } from './components/generar-corte/generar-corte.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'movimientos-cortes',
     component: MovimientosCortesComponent,
+  },
+  {
+    path: 'generar',
+    component: GenerarCorteComponent,
   },
 ];
 

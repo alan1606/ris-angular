@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PagarOrdenComponent } from './components/pagar-orden/pagar-orden.component';
 import { MatOptionModule } from '@angular/material/core';
@@ -20,6 +20,8 @@ import { FormasPagoComponent } from './components/formas-pago/formas-pago.compon
 import { AgregarformasPagoModalComponent } from './components/agregarformas-pago-modal/agregarformas-pago-modal.component';
 import { MovimientosCortesComponent } from './components/movimientos-cortes/movimientos-cortes.component';
 import { AgregarMovimientoCorteModalComponent } from './components/agregar-movimiento-corte-modal/agregar-movimiento-corte-modal.component';
+import { GenerarCorteComponent } from './components/generar-corte/generar-corte.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { AgregarMovimientoCorteModalComponent } from './components/agregar-movim
     AgregarformasPagoModalComponent,
     MovimientosCortesComponent,
     AgregarMovimientoCorteModalComponent,
+    GenerarCorteComponent,
   ],
   imports: [
     CommonModule,
@@ -41,11 +44,13 @@ import { AgregarMovimientoCorteModalComponent } from './components/agregar-movim
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatOptionModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
   ],
-  exports:[PagarOrdenComponent]
+  exports: [PagarOrdenComponent],
 })
 export class CortesModule {}

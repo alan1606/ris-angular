@@ -15,15 +15,17 @@
   </div>
 
   <div>
-    <mat-form-field appearance="fill">
+    <mat-form-field class="descripcion" appearance="fill">
       <mat-label>Descripción</mat-label>
-      <input
+      <textarea
         matInput
+        placeholder="¿Que paso?"
         type="text"
         name="descripcion"
         id="descripcion"
         [(ngModel)]="model.descripcion"
-      />
+      >
+      </textarea>
     </mat-form-field>
   </div>
 
