@@ -12,7 +12,7 @@ export class CorteService {
   private url: string = `${BASE_ENDPOINT}/cortes`;
 
   obtenerCorte(fecha: string, turno: string): Observable<any> {
-    return this.httpClient.get(`${this.url}/fecha/${fecha}/turno/${turno}`);
+    return this.httpClient.get(`${this.url}/fecha/${fecha}/turno/${turno}`, { responseType: 'blob' });
   }
 
   obtenerCorteActual(): Observable<any> {

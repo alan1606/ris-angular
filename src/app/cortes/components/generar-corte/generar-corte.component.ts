@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TurnoService } from '../../services/turno.service';
 import { TurnoCorte } from 'src/app/models/turnoCorte';
 import { CorteService } from '../../services/corte.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-generar-corte',
@@ -38,10 +39,14 @@ export class GenerarCorteComponent implements OnInit {
     this.corteService
       .obtenerCorte(this.fechaString, this.turno.nombre)
       .subscribe(
-        (data) => {
-          console.log(data);
+        (data: Blob) => {
+          console.log("exitos");
+          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
         },
         (error) => {
+          Swal.fire("Error", error.error.detail, "error");
           console.log(error);
         }
       );
