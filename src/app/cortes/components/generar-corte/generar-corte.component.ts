@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class GenerarCorteComponent implements OnInit {
   public fecha: Date = new Date();
-  private fechaString;
+  private fechaString = null;
   public turnos: TurnoCorte[] = [];
   turno: TurnoCorte = null;
   constructor(
@@ -34,19 +34,33 @@ export class GenerarCorteComponent implements OnInit {
   }
 
   generarCorte() {
-    console.log(this.turno);
     this.fechaString = this.fecha.toISOString().slice(0, 10);
+
+    if (!this.turno) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Elija un turno',
+      });
+      return;
+    }
     this.corteService
       .obtenerCorte(this.fechaString, this.turno.nombre)
       .subscribe(
         (data: Blob) => {
-          console.log("exitos");
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          console.log('exitos');
+          const blob = new Blob([data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
           const url = window.URL.createObjectURL(blob);
+          Swal.fire({
+            icon: 'success',
+            title: 'Corte generado',
+            text: 'Revise sus descargas',
+          });
           window.open(url);
         },
         (error) => {
-          Swal.fire("Error", error.error.detail, "error");
+          Swal.fire('Error', error.error.detail, 'error');
           console.log(error);
         }
       );

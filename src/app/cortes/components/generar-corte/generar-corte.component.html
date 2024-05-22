@@ -1,31 +1,38 @@
-<mat-card>
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Turno</mat-label>
-      <mat-select [(ngModel)]="turno">
-        <mat-option *ngFor="let turno of turnos" [value]="turno">{{
-          turno.nombre
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<div class="fondo">
+  <div class="container">
+    <mat-card class="example-card">
+      <div class="contenedor2">
+        <mat-form-field appearance="fill">
+          <mat-label>Turno</mat-label>
+          <mat-select [(ngModel)]="turno">
+            <mat-option *ngFor="let turno of turnos" [value]="turno">{{
+              turno.nombre
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Seleccionar fecha</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker1"
-        [(ngModel)]="fecha"
-        #fechaSeleccionada
-        (dateInput)="actualizarFecha(fechaSeleccionada)"
-      />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-    <div>
-      <button mat-raised-button color="primary" (click)="generarCorte()">
-        Generar Corte
-      </button>
-    </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccionar fecha</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker1"
+            [(ngModel)]="fecha"
+            #fechaSeleccionada
+            (dateInput)="actualizarFecha(fechaSeleccionada)"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <div class="pt-4">
+          <button mat-raised-button color="primary" (click)="generarCorte()">
+            Generar Corte
+          </button>
+        </div>
+      </div>
+    </mat-card>
   </div>
-</mat-card>
+</div>
