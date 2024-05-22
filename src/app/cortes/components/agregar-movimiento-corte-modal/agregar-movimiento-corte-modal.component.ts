@@ -32,7 +32,6 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
   }
 
   confirmarAgregar(): void {
-    console.log(this.model);
     let fecha = new Date().toISOString().slice(0, 10);
 
     Swal.fire({
@@ -52,9 +51,8 @@ export class AgregarMovimientoCorteModalComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500,
                 allowOutsideClick: false,
-              }).then(() => {
-                this.dialogRef.close(data);
               });
+              this.dialogRef.close(data);
             },
             (error) => {
               console.log(error);

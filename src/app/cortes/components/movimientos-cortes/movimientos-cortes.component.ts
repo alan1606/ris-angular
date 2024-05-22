@@ -41,7 +41,6 @@ export class MovimientosCortesComponent implements OnInit {
     matDialog.afterClosed().subscribe(
       (data) => {
         if (data) {
-          console.log(data);
           this.movimientos.push(data);
           this.dataSource.data = this.movimientos;
         }
