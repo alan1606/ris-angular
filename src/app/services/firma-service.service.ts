@@ -9,6 +9,6 @@ export class FirmaService {
   constructor(private http: HttpClient) {}
 
   guardarFirma(firma): Observable<any> {
-    return this.http.post(`${BASE_ENDPOINT}/ris/firmas/save`, firma);
+    return this.http.post(`${BASE_ENDPOINT}/ris/firmas`, firma);
   }
 }
