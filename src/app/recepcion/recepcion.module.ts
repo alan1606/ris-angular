@@ -1,5 +1,5 @@
-import { NgModule, forwardRef } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { NgModule} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -39,6 +39,10 @@ import { CambiarEstudioComponent } from './components/check-in/cambiar-estudio/c
 import { AgregarEstudioComponent } from './components/check-in/agregar-estudio/agregar-estudio.component';
 import { LimboComponent } from './components/limbo/limbo.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
+import {MatStepperModule} from '@angular/material/stepper'
+import { CortesModule } from '../cortes/cortes.module';
 
 @NgModule({
     declarations: [
@@ -66,7 +70,7 @@ import { SharedModule } from '../shared/shared.module';
         MostrarCitasPorDiaPensionesComponent,
         CambiarEstudioComponent,
         AgregarEstudioComponent,
-        LimboComponent,
+        LimboComponent
         ],
     imports: [
         CommonModule,
@@ -84,7 +88,11 @@ import { SharedModule } from '../shared/shared.module';
         MatTableModule,
         QRCodeModule,
         MatPaginatorModule,
-        SharedModule
+        SharedModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        MatStepperModule,
+        CortesModule
     ],
     exports: [
         UrgenciaComponent

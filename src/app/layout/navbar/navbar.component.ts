@@ -44,12 +44,16 @@ export class NavbarComponent implements OnInit {
   isLogged: boolean = false;
   isAdmin: boolean = false;
   isReceptionist: boolean = false;
-  isReferring:boolean=false;
+  isReferring: boolean = false;
   isRadiologicPhysician: boolean = false;
   isTechnician: boolean = false;
   isInstitution: boolean = false;
 
-  constructor(private tokenService: TokenService, private router: Router, private dialog:MatDialog) {}
+  constructor(
+    private tokenService: TokenService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getLogged();
@@ -242,11 +246,17 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
+  puedeAbrirCortes(): boolean {
+    if (this.isReceptionist || this.isAdmin) {
+      return true;
+    }
+    return false;
+  }
 
-  abrirPerfilModal(){
-    this.dialog.open(PerfilModalComponent,{
-      width:"1024px",
-      data:{user:this.username}
-    })
+  abrirPerfilModal() {
+    this.dialog.open(PerfilModalComponent, {
+      width: '1024px',
+      data: { user: this.username },
+    });
   }
 }

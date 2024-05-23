@@ -7,6 +7,11 @@
     background: transparent;
   }
   
+  .container-urgencias{
+    display: grid;
+    grid-template-columns: 40% 60%;
+  }
+
   :host ::ng-deep .mat-datepicker-toggle .mat-icon-button {
     height: 100%;
     width: 100%;

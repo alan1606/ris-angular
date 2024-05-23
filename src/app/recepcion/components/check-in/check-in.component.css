@@ -3,26 +3,29 @@
   display: flex;
   height: max-content;
 }
-.buscar-qr{
-    width: 30%;
+.buscar-qr {
+  width: 30%;
 }
 .filtrar-areas {
-    width: 40%;
-    margin-left: 3%;
+  width: 40%;
+  margin-left: 3%;
 }
-
+.primer-paso {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
 .custom-mat-form-field {
   width: 400px;
 }
 
 .formularioPaciente-subirFoto {
-  display: grid;
+  width: 80%;
+  margin-left: 5%;
+  /* display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 10px; */
 }
 .subirFoto-pagar {
-  display: grid;
-  grid-template-rows: 2;
   height: min-content;
 }
 .subirFoto-pagar button {
@@ -41,17 +44,14 @@
 
 .contenedor-boton-pagar {
   padding-bottom: 30px;
+}
+
+.agregar-estudios-container {
   display: flex;
   flex-direction: column;
 }
 
-
-.agregar-estudios-container{
-  display: flex;
-  flex-direction: column;
-}
-
-.boton-agregar-container{
+.boton-agregar-container {
   display: flex;
   justify-items: flex-end;
   justify-content: flex-end;
@@ -59,7 +59,7 @@
   margin-top: 0.5rem;
 }
 
-.codigo-promocional-container{
+.codigo-promocional-container {
   display: flex;
   flex-direction: column;
   justify-items: flex-start;
@@ -68,4 +68,7 @@
   margin-top: 0.5rem;
 }
 
-
+.yaPagada {
+  font-size: x-large;
+  color: red;
+}

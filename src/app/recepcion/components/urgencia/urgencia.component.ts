@@ -2,7 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError, debounceTime, distinctUntilChanged, map, mergeMap, switchMap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
@@ -25,18 +32,20 @@ import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
 import { FechaService } from 'src/app/services/fecha.service';
 import { DatePipe } from '@angular/common';
+import { DataService } from '../services/data-service.service';
+import { Pago } from 'src/app/models/pago';
+import { Descuento } from 'src/app/models/descuento';
 
 @Component({
   selector: 'app-urgencia',
   templateUrl: './urgencia.component.html',
-  styleUrls: ['./urgencia.component.css']
+  styleUrls: ['./urgencia.component.css'],
 })
 export class UrgenciaComponent implements OnInit {
-
   total: number;
   motivo: string;
-  codigoPromocion: string = "";
-  botonDeshabilitado:boolean=false;
+  codigoPromocion: string = '';
+  botonDeshabilitado: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -49,17 +58,16 @@ export class UrgenciaComponent implements OnInit {
     private ordenVentaService: OrdenVentaService,
     private campaniasService: CampaniaService,
     private fechaService: FechaService,
-  ) { 
-  }
+    private dataService: DataService
+  ) {}
 
-  titulo = "Agendar cita";
-
+  titulo = 'Agendar urgencia';
+  origen: string = 'urgencias';
   autocompleteControlPaciente = new UntypedFormControl();
   autocompleteControlConvenio = new UntypedFormControl();
   autocompleteControlArea = new UntypedFormControl();
   autocompleteControlConcepto = new UntypedFormControl();
-  autocompleteControlMedicoReferente= new UntypedFormControl();
-
+  autocompleteControlMedicoReferente = new UntypedFormControl();
 
   pacientesFiltrados: Paciente[] = [];
   conveniosFiltrados: Institucion[] = [];
@@ -76,62 +84,85 @@ export class UrgenciaComponent implements OnInit {
   equipoDicom: EquipoDicom;
   medicoReferente: Medico;
   ordenVenta: OrdenVenta;
-
   folio: string;
+
+  pagoRecibido: boolean = false;
+  pagos: Pago[] = [];
+  descuentos: Descuento[] = [];
 
   campania: Campania = new Campania();
 
   isCodigoPromocionalDisabled: boolean = false;
 
   ngOnInit(): void {
-
     this.cargarReferenteVacio();
     this.cargarConvenioParticularPorDefecto();
 
-    this.autocompleteControlPaciente.valueChanges.pipe(
-      debounceTime(250), 
-      distinctUntilChanged(), 
-      switchMap(valor => {
-        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
-        return valor ? this.pacienteService.filtrarPorNombre(nombreCompleto) : [];
-      }),
-      catchError(error => {
-        console.error('Error en la búsqueda de pacientes:', error);
-        return [];
-      })
-    ).subscribe(pacientes => {
-      this.pacientesFiltrados = pacientes;
-    });
+    this.autocompleteControlPaciente.valueChanges
+      .pipe(
+        debounceTime(250),
+        distinctUntilChanged(),
+        switchMap((valor) => {
+          const nombreCompleto =
+            typeof valor === 'string' ? valor : valor.nombreCompleto;
+          return valor
+            ? this.pacienteService.filtrarPorNombre(nombreCompleto)
+            : [];
+        }),
+        catchError((error) => {
+          console.error('Error en la búsqueda de pacientes:', error);
+          return [];
+        })
+      )
+      .subscribe((pacientes) => {
+        this.pacientesFiltrados = pacientes;
+      });
 
-    this.autocompleteControlConvenio.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      mergeMap(valor => valor ? this.institucionService.buscarLikeNombre(valor) : [])
-    ).subscribe(instituciones => this.conveniosFiltrados = instituciones);
+    this.autocompleteControlConvenio.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
+        mergeMap((valor) =>
+          valor ? this.institucionService.buscarLikeNombre(valor) : []
+        )
+      )
+      .subscribe((instituciones) => (this.conveniosFiltrados = instituciones));
 
-    this.autocompleteControlConcepto.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.concepto),
-      mergeMap(valor => valor && this.area?.id ?  this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id) : [])
-    ).subscribe(conceptos => {
-      this.conceptosFiltrados = conceptos;
-    });
+    this.autocompleteControlConcepto.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.concepto)),
+        mergeMap((valor) =>
+          valor && this.area?.id
+            ? this.conceptoService.buscarLikeNombreEnArea(valor, this.area.id)
+            : []
+        )
+      )
+      .subscribe((conceptos) => {
+        this.conceptosFiltrados = conceptos;
+      });
 
-    this.autocompleteControlArea.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombre),
-      mergeMap(valor => valor ? this.areaService.filtrarPorNombre(valor) : [])
-    ).subscribe(areas => {
-      this.areasFiltradas = areas;
-      this.autocompleteControlConcepto.setValue("");
-      this.conceptosFiltrados = [];
-      this.concepto = null;
-    });
+    this.autocompleteControlArea.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
+        mergeMap((valor) =>
+          valor ? this.areaService.filtrarPorNombre(valor) : []
+        )
+      )
+      .subscribe((areas) => {
+        this.areasFiltradas = areas;
+        this.autocompleteControlConcepto.setValue('');
+        this.conceptosFiltrados = [];
+        this.concepto = null;
+      });
 
-    this.autocompleteControlMedicoReferente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombres),
-      mergeMap(valor => valor ? this.medicoService.filtrarReferentesPorNombre(valor) : [])
-    ).subscribe(medicos => this.medicosFiltrados = medicos);
-
+    this.autocompleteControlMedicoReferente.valueChanges
+      .pipe(
+        map((valor) => (typeof valor === 'string' ? valor : valor.nombres)),
+        mergeMap((valor) =>
+          valor ? this.medicoService.filtrarReferentesPorNombre(valor) : []
+        )
+      )
+      .subscribe((medicos) => (this.medicosFiltrados = medicos));
   }
-
 
   mostrarNombrePaciente(paciente?: Paciente): string {
     return paciente ? paciente.nombreCompleto : '';
@@ -145,21 +176,21 @@ export class UrgenciaComponent implements OnInit {
     return area ? area.nombre : '';
   }
 
-  mostrarNombreConcepto(concepto ?: Concepto): string {
+  mostrarNombreConcepto(concepto?: Concepto): string {
     return concepto ? concepto.concepto : '';
   }
 
-  mostrarMedicoReferente(medico ?: Medico): string {
+  mostrarMedicoReferente(medico?: Medico): string {
     return medico ? `${medico.nombres} ${medico.apellidos}` : '';
   }
 
-  seleccionarInstitucion(event: MatAutocompleteSelectedEvent){
+  seleccionarInstitucion(event: MatAutocompleteSelectedEvent) {
     this.institucion = event.option.value as Institucion;
     event.option.deselect();
     event.option.focus();
   }
 
-  seleccionarArea(event: MatAutocompleteSelectedEvent){
+  seleccionarArea(event: MatAutocompleteSelectedEvent) {
     this.area = event.option.value as Area;
 
     event.option.deselect();
@@ -170,7 +201,7 @@ export class UrgenciaComponent implements OnInit {
 
   seleccionarPaciente(event: MatAutocompleteSelectedEvent): void {
     this.paciente = event.option.value as Paciente;
-    console.log(this.paciente)
+    console.log(this.paciente);
     event.option.deselect();
     event.option.focus();
   }
@@ -189,39 +220,43 @@ export class UrgenciaComponent implements OnInit {
     event.option.focus();
   }
 
-  seleccionarMedicoReferente(event:Medico): void {
-    this.medicoReferente = event
+  seleccionarMedicoReferente(event: Medico): void {
+    this.medicoReferente = event;
   }
 
-
-  private cargarEquiposDicom(): void{
-    this.equipoDicomService.filtrarPorArea(this.area.id).subscribe(
-      equipos =>{
+  private cargarEquiposDicom(): void {
+    this.equipoDicomService
+      .filtrarPorArea(this.area.id)
+      .subscribe((equipos) => {
         this.equiposDicom = equipos;
-      }
-    );
+      });
   }
 
   async agregarEstudio(): Promise<void> {
     if (!this.datosValidos()) {
       return;
     }
-  
-    if (this.estudios.length > 0 && this.estudios[0].paciente.id != this.paciente.id) {
+
+    if (
+      this.estudios.length > 0 &&
+      this.estudios[0].paciente.id != this.paciente.id
+    ) {
       this.estudios = [];
       return;
     }
-  
+
     const estudio = new VentaConceptos();
-  
+
     try {
-      const concepto = await this.conceptoService.ver(this.concepto.id).toPromise();
+      const concepto = await this.conceptoService
+        .ver(this.concepto.id)
+        .toPromise();
       estudio.concepto = concepto;
     } catch (error) {
       estudio.concepto = this.concepto;
       estudio.concepto.precio = 0;
     }
-  
+
     estudio.enWorklist = false;
     estudio.equipoDicom = this.equipoDicom;
     estudio.institucion = this.institucion;
@@ -229,21 +264,19 @@ export class UrgenciaComponent implements OnInit {
     estudio.fechaAsignado = this.fechaService.formatearFecha(new Date());
 
     this.estudios.push(estudio);
-  
+
     this.calcularTotal();
-  
+
     this.limpiarCampos();
   }
-
-
 
   private limpiarCampos(): void {
     this.area = null;
     this.concepto = null;
     this.equipoDicom = null;
 
-    this.autocompleteControlArea.setValue("");
-    this.autocompleteControlConcepto.setValue("");
+    this.autocompleteControlArea.setValue('');
+    this.autocompleteControlConcepto.setValue('');
     this.folio = null;
   }
 
@@ -254,96 +287,113 @@ export class UrgenciaComponent implements OnInit {
     this.concepto = new Concepto();
     this.estudios = [];
     this.ordenVenta = new OrdenVenta();
-    this.motivo = "";
+    this.motivo = '';
     this.campania = new Campania();
     this.codigoPromocion = '';
 
     this.cargarReferenteVacio();
     this.cargarConvenioParticularPorDefecto();
 
-    this.autocompleteControlPaciente.setValue("");
+    this.autocompleteControlPaciente.setValue('');
     this.isCodigoPromocionalDisabled = false;
   }
 
-  datosValidos() : boolean {
-    if(this.paciente == null){
+  datosValidos(): boolean {
+    if (this.paciente == null) {
       return false;
     }
-    if(this.institucion == null){
+    if (this.institucion == null) {
       return false;
     }
-    if(this.area == null){
+    if (this.area == null) {
       return false;
     }
-    if(this.estudios == null){
+    if (this.estudios == null) {
       return false;
     }
-    if(this.equipoDicom == null){
+    if (this.equipoDicom == null) {
       return false;
     }
     return true;
   }
 
-  quitarEstudio(i: number): void{
-    this.estudios.splice(i,1);
+  quitarEstudio(i: number): void {
+    this.estudios.splice(i, 1);
     this.calcularTotal();
   }
 
-  agendar(){
-    this.botonDeshabilitado=true;
-
-    setTimeout(()=>{
-      this.ordenVenta = new OrdenVenta;
-    this.ordenVenta.medicoReferente = this.medicoReferente;
-
-    this.ordenVenta.motivo = this.motivo;
-
-    this.ordenVenta.paciente = this.paciente;
-    console.log("El paciente en la órden de venta es: ");
-    console.log(this.ordenVenta.paciente);
-
-    if(this.campania.id){
-      this.ordenVenta.aplicarDescuento = true;
-      this.ordenVenta.codigoPromocional = this.campania.codigo;
-    }
-
-    
-    this.total = 0;
-
-    if(this.folio){
-      this.ordenVenta.folioInstitucion = this.folio;
-      console.log(this.estudios[0].institucion);
-    }
-
-    //if(this.institucion.nombre !== 'SALUD PARRAL'){
-      this.agendaNormal();
-   //   return;
-    //}
-
-    //this.agendaSaludParral();
-    },2000);
-    
+  recibirPagos(event): void {
+    this.pagoRecibido = true;
+    this.pagos = event;
+  }
+  recibirDescuentos(event): void {
+    this.descuentos = event;
   }
 
+  cambioPagosDescuentos(event): void {
+    console.log('Quitaron pago o descuento');
+    this.pagoRecibido = false;
+  }
 
-  private agendaNormal(): void{
-    this.ordenVentaService.venderConceptos(this.estudios, this.ordenVenta).subscribe(
-      estudios => {
-        this.estudios = estudios;
-        this.ordenVenta = this.estudios[0].ordenVenta;
-        this.mostrarModalQrImagenes();
-        this.reiniciarFormulario();
-        Swal.fire("Procesado", "La orden se ha procesado", "success");
-        this.botonDeshabilitado=false;
-      },
-      err => {
-        console.log(err);
-        Swal.fire("Error", "Ha ocurrido un error al procesar la venta", "error");
-        this.botonDeshabilitado=false;
+  agendar() {
+    this.botonDeshabilitado = true;
+
+    setTimeout(() => {
+      this.ordenVenta = new OrdenVenta();
+      this.ordenVenta.medicoReferente = this.medicoReferente;
+
+      this.ordenVenta.motivo = this.motivo;
+
+      this.ordenVenta.paciente = this.paciente;
+
+      this.ordenVenta.pagos = this.pagos;
+      this.ordenVenta.descuentos = this.descuentos;
+      this.ordenVenta.estudiosList = this.estudios;
+
+      if (this.campania.id) {
+        this.ordenVenta.aplicarDescuento = true;
+        this.ordenVenta.codigoPromocional = this.campania.codigo;
       }
-    );
+
+      this.total = 0;
+
+      if (this.folio) {
+        this.ordenVenta.folioInstitucion = this.folio;
+        console.log(this.estudios[0].institucion);
+      }
+
+      //if(this.institucion.nombre !== 'SALUD PARRAL'){
+      this.agendaNormal();
+      //   return;
+      //}
+
+      //this.agendaSaludParral();
+    }, 2000);
   }
 
+  private agendaNormal(): void {
+    this.ordenVentaService
+      .venderConceptos(this.ordenVenta, this.origen)
+      .subscribe(
+        (estudios) => {
+          this.estudios = estudios;
+          this.ordenVenta = this.estudios[0].ordenVenta;
+          this.mostrarModalQrImagenes();
+          this.reiniciarFormulario();
+          Swal.fire('Procesado', 'La orden se ha procesado', 'success');
+          this.botonDeshabilitado = false;
+        },
+        (err) => {
+          console.log(err);
+          Swal.fire(
+            'Error',
+            'Ha ocurrido un error al procesar la venta',
+            'error'
+          );
+          this.botonDeshabilitado = false;
+        }
+      );
+  }
 
   /*private agendaSaludParral(): void{
     this.ordenVentaService.venderConceptosSaludParral(this.estudios, this.ordenVenta, this.folio).subscribe(
@@ -361,79 +411,84 @@ export class UrgenciaComponent implements OnInit {
     );
   }*/
 
-
-  abrirModalRegistrarPaciente(){
-    const modalRef = this.dialog.open(RegistrarPacienteComponent,
-      {
-        width: "1000px",
-        data: {paciente: this.paciente?.id ? this.paciente: null}
-      });
-
-      modalRef.afterClosed().subscribe(model =>{
-
-      });
-  }
-
-
-  private cargarReferenteVacio(): void{
-    this.medicoService.filtrarReferentesPorNombre("SIN MEDICO REFERENTE").subscribe(medicos => {
-      this.medicosFiltrados = medicos;
-      this.medicoReferente = this.medicosFiltrados[0];
-      this.autocompleteControlMedicoReferente.setValue(this.medicoReferente);
+  abrirModalRegistrarPaciente() {
+    const modalRef = this.dialog.open(RegistrarPacienteComponent, {
+      width: '1000px',
+      data: { paciente: this.paciente?.id ? this.paciente : null },
     });
+
+    modalRef.afterClosed().subscribe((model) => {});
   }
 
-  private cargarConvenioParticularPorDefecto(): void{
-    this.institucionService.listar().subscribe(
-        instituciones => {
-          this.conveniosFiltrados = instituciones.filter(institucion => institucion.nombre === "PARTICULAR");
-          this.institucion = this.conveniosFiltrados[0];
-          this.autocompleteControlConvenio.setValue(this.institucion);
+  private cargarReferenteVacio(): void {
+    this.medicoService
+      .filtrarReferentesPorNombre('SIN MEDICO REFERENTE')
+      .subscribe((medicos) => {
+        this.medicosFiltrados = medicos;
+        this.medicoReferente = this.medicosFiltrados[0];
+        this.autocompleteControlMedicoReferente.setValue(this.medicoReferente);
+      });
+  }
 
+  private cargarConvenioParticularPorDefecto(): void {
+    this.institucionService.listar().subscribe((instituciones) => {
+      this.conveniosFiltrados = instituciones.filter(
+        (institucion) => institucion.nombre === 'PARTICULAR'
+      );
+      this.institucion = this.conveniosFiltrados[0];
+      this.autocompleteControlConvenio.setValue(this.institucion);
     });
   }
 
   private mostrarModalQrImagenes() {
-    const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent,
-      {
-        width: "300px",
-        data: {orden: this.ordenVenta}
-      });
+    const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent, {
+      width: '300px',
+      data: { orden: this.ordenVenta },
+    });
 
-      modalRef.afterClosed().subscribe(something =>{console.log(something)});
+    modalRef.afterClosed().subscribe((something) => {
+      console.log(something);
+    });
   }
 
-  buscarCodigoPromocional(event: KeyboardEvent): void{
-      event.preventDefault();
-      event.stopPropagation();
+  buscarCodigoPromocional(event: KeyboardEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
 
-    if(this.codigoPromocion){
+    if (this.codigoPromocion) {
       this.campaniasService.buscarPorCodigo(this.codigoPromocion).subscribe(
-        campania => {
+        (campania) => {
           this.campania = campania;
           this.simularDescuento();
           this.isCodigoPromocionalDisabled = true;
-          Swal.fire("Aplicado", `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`, "success");
+          Swal.fire(
+            'Aplicado',
+            `Campania ${campania.nombre} aplicada con éxito: ${campania.descripcion}`,
+            'success'
+          );
         },
         () => {
-          Swal.fire("No encontrado", "No se ha podido encontrar la campaña", "error");
+          Swal.fire(
+            'No encontrado',
+            'No se ha podido encontrar la campaña',
+            'error'
+          );
         }
       );
     }
   }
 
-
-  private simularDescuento(): void{
-    for(let i=0; i<this.campania.conceptos.length; i++){
+  private simularDescuento(): void {
+    for (let i = 0; i < this.campania.conceptos.length; i++) {
       let concepto = this.campania.conceptos[i];
       this.aplicarDescuento(concepto);
     }
     this.calcularTotal();
   }
 
-  private aplicarDescuento(concepto: Concepto){
-    for(let i=0; i<this.estudios.length; i++){
-      if(this.estudios[i].concepto.id == concepto.id){
+  private aplicarDescuento(concepto: Concepto) {
+    for (let i = 0; i < this.estudios.length; i++) {
+      if (this.estudios[i].concepto.id == concepto.id) {
         this.estudios[i].concepto.precio = concepto.precioDespuesDescuento;
       }
     }
@@ -441,12 +496,10 @@ export class UrgenciaComponent implements OnInit {
 
   private calcularTotal() {
     let total: number = 0;
-    this.estudios.forEach(estudio => total += estudio.concepto.precio);
+    this.estudios.forEach((estudio) => (total += estudio.concepto.precio));
 
     this.total = total;
+
+    this.dataService.actualizarPrecio(total);
   }
-
 }
-
-
-

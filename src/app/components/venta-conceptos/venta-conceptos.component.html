@@ -75,14 +75,14 @@
   </div>
 </div>
 
-<div class="card text-dark bg-light mb-3">
+<div class="card text-dark bg-light">
   <div class="card-header">{{ titulo }}</div>
   <div class="card-body">
     <div class="alert alert-info" *ngIf="lista?.length == 0">
       No hay estudios en el sistema.
     </div>
     <div class="table-responsive">
-      <table class="table table-hover table-striped">
+      <table class="table table-hover table-borderless table-striped">
         <thead>
           <tr>
             <th>Id</th>
@@ -191,7 +191,7 @@
               "
             >
               <button
-                class="btn btn-success btn-md"
+                class="btn btn-primary btn-md"
                 *ngIf="estudio.iuid?.length > 0 || !estudio.concepto.dicom"
                 (click)="abrirEnvio(estudio)"
               >
@@ -201,7 +201,7 @@
 
             <td>
               <button
-                class="btn btn-primary btn-md"
+                class="btn btn-info"
                 (click)="abrirInformacion(estudio)"
               >
                 <i class="bi bi-person-vcard-fill"></i>

@@ -1,0 +1,26 @@
+.container-pagar-orden {
+}
+
+h1 {
+  font-size: 50px;
+}
+span {
+  font-weight: normal;
+}
+
+.container-total-restante {
+  display: flex;
+}
+
+.cantidad {
+  margin-right: 5rem;
+}
+
+table {
+  width: 70%;
+}
+
+.container-tables{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}

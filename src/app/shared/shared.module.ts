@@ -6,11 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-
-
+import { BuscadorAreasComponent } from './components/buscador-areas/buscador-areas.component';
+import { BuscadorSalaComponent } from './components/buscador-sala/buscador-sala.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [BuscadorMedicosReferentesComponent],
+  declarations: [BuscadorMedicosReferentesComponent, BuscadorAreasComponent, BuscadorSalaComponent],
   imports: [
     CommonModule,
     MatAutocompleteModule,
@@ -18,8 +19,9 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatOptionModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule
   ],
-  exports:[BuscadorMedicosReferentesComponent]
+  exports: [BuscadorMedicosReferentesComponent, BuscadorAreasComponent, BuscadorSalaComponent],
 })
-export class SharedModule { }
+export class SharedModule {}

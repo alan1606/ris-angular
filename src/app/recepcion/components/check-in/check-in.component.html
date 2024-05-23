@@ -1,6 +1,6 @@
 <div class="">
-  <div class="busqueda ms-3 mt-3">
-    <div class="col-md-auto mb-4 contenedor-busqueda">
+  <div class="busqueda ms-3 mt-2">
+    <div class="col-md-auto mb-2 contenedor-busqueda">
       <input
         type="text"
         placeholder="Escanee el qr aqui"
@@ -33,7 +33,9 @@
 
     <tbody>
       <tr *ngFor="let cita of citasFiltradas">
-        <td>{{ cita.estudio?.paciente?.nombreCompleto }}</td>
+        <td>
+          {{ cita.estudio?.paciente?.nombreCompleto }}
+        </td>
         <td>{{ cita.estudio?.concepto?.concepto }}</td>
         <td>{{ cita.fechaYHora | date : "h:mm a" }}</td>
         <td>
@@ -49,134 +51,197 @@
     </tbody>
   </table>
 </div>
+<div *ngIf="orden?.id && orden?.paciente?.id" class="cerrar">
+  <button type="button" class="btn btn-danger" (click)="reiniciar()">
+    <i class="bi bi-x-square"></i>
+  </button>
+</div>
+<mat-stepper #stepper *ngIf="orden?.id && orden?.paciente?.id">
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel>Datos Paciente</ng-template>
+    <div class="primer-paso" *ngIf="orden?.id && orden?.paciente?.id">
+      <div>
+        <h1 *ngIf="nombreInstitucion">{{ nombreInstitucion }}</h1>
+        <div class="card text-dark bg-light">
+          <div class="card-header">
+            <h2>{{ orden?.paciente.nombreCompleto.toUpperCase() }}</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped" *ngIf="orden">
+                <thead>
+                  <tr>
+                    <th>Estudio</th>
+                    <th>Sala</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Precio</th>
+                    <th>Cambiar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let estudio of listaDeEstudios">
+                    <td>{{ estudio.concepto?.concepto }}</td>
+                    <td>{{ estudio.equipoDicom?.nombre }}</td>
+                    <td>{{ estudio.fechaAsignado | date : "dd/MM/yyyy" }}</td>
+                    <td>
+                      {{ parseHora(estudio.horaAsignado) | date : "h:mm a" }}
+                    </td>
+                    <td>{{ estudio.concepto?.precio }}</td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-success"
+                        (click)="cambiar(estudio)"
+                      >
+                        Cambiar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-<div *ngIf="orden?.id && orden?.paciente?.id">
-  <div class="cerrar">
-    <button type="button" class="btn btn-danger" (click)="cerrar()">
-      <i class="bi bi-x-square"></i>
-    </button>
-  </div>
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-header">
-      <h2>{{ orden?.paciente.nombreCompleto.toUpperCase() }}</h2>
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-hover table-striped" *ngIf="orden">
-          <thead>
-            <tr>
-              <th>Estudio</th>
-              <th>Sala</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              <th>Precio</th>
-              <th>Cambiar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let estudio of listaDeEstudios">
-              <td>{{ estudio.concepto?.concepto }}</td>
-              <td>{{ estudio.equipoDicom?.nombre }}</td>
-              <td>{{ estudio.fechaAsignado | date : "dd/MM/yyyy" }}</td>
-              <td>{{ parseHora(estudio.horaAsignado) | date : "h:mm a" }}</td>
-              <td>{{ estudio.concepto?.precio }}</td>
-              <td>
+            <div *ngIf="!esInstitucion" class="agregar-estudios-container">
+              <div class="boton-agregar-container">
                 <button
                   type="button"
-                  class="btn btn-sm btn-success"
-                  (click)="cambiar(estudio)"
+                  class="btn btn-success rounded-circle btn-lg"
+                  (click)="abrirAgregarEstudio()"
                 >
-                  Cambiar
+                  +
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </div>
+            </div>
 
-      <div class="agregar-estudios-container">
-        <div class="boton-agregar-container">
-          <button
-            type="button"
-            class="btn btn-success rounded-circle btn-lg"
-            (click)="abrirAgregarEstudio()"
-          >
-            +
-          </button>
+            <div
+              class="codigo-promocional-container"
+              *ngIf="
+                this.listaDeEstudios.length > 0 &&
+                this.listaDeEstudios[0]?.institucion?.nombre == 'PARTICULAR'
+              "
+            >
+              <mat-form-field>
+                <mat-label>Código promocional</mat-label>
+                <input
+                  matInput
+                  placeholder="Código promocional"
+                  name="codigo"
+                  [(ngModel)]="codigoPromocion"
+                  (keyup.enter)="buscarCodigoPromocional($event)"
+                />
+              </mat-form-field>
+            </div>
+
+            <div
+              class="from-group"
+              *ngIf="
+                this.listaDeEstudios.length > 0 &&
+                this.listaDeEstudios[0]?.institucion?.nombre === 'PENSIONES'
+              "
+            >
+              <mat-form-field class="example-full-width">
+                <mat-label>Folio</mat-label>
+                <input
+                  matInput
+                  placeholder="Folio"
+                  name="folio"
+                  [(ngModel)]="folio"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
         </div>
       </div>
 
       <div
-        class="codigo-promocional-container"
-        *ngIf="
-          this.listaDeEstudios.length > 0 &&
-          this.listaDeEstudios[0]?.institucion?.nombre == 'PARTICULAR'
-        "
+        class="formularioPaciente-subirFoto"
+        *ngIf="orden?.id && orden?.paciente?.id"
       >
-        <mat-form-field>
-          <mat-label>Código promocional</mat-label>
-          <input
-            matInput
-            placeholder="Código promocional"
-            name="codigo"
-            [(ngModel)]="codigoPromocion"
-            (keyup.enter)="buscarCodigoPromocional($event)"
-          />
-        </mat-form-field>
-      </div>
-
-      <div
-        class="from-group"
-        *ngIf="
-          this.listaDeEstudios.length > 0 &&
-          this.listaDeEstudios[0]?.institucion?.nombre === 'PENSIONES'
-        "
-      >
-        <mat-form-field class="example-full-width">
-          <mat-label>Folio</mat-label>
-          <input
-            matInput
-            placeholder="Folio"
-            name="folio"
-            [(ngModel)]="folio"
-            required
-          />
-        </mat-form-field>
+        <app-formulario-paciente
+          [model]="orden.paciente"
+          (botonGuardarPresionado)="presionadoBotonGuardar($event)"
+        >
+        </app-formulario-paciente>
       </div>
     </div>
-  </div>
-</div>
+  </mat-step>
 
-<div
-  class="formularioPaciente-subirFoto"
-  *ngIf="orden?.id && orden?.paciente?.id"
->
-  <app-formulario-paciente
-    [model]="orden.paciente"
-    (botonGuardarPresionado)="presionadoBotonGuardar($event)"
-  >
-  </app-formulario-paciente>
+  <mat-step [stepControl]="secondFormGroup">
+    <div>
+      <button mat-button matStepperPrevious>Volver</button>
+    </div>
+    <ng-template matStepLabel>Subir foto orden</ng-template>
 
-  <div class="subirFoto-pagar">
-    <app-subir-foto-orden
-      *ngIf="orden?.id"
-      [orden]="orden"
-    ></app-subir-foto-orden>
+    <div *ngIf="!guardarPresionado">
+      <mat-card>
+        <h1>
+          Primero compruebe que los datos son correctos y presione guardar
+        </h1>
+      </mat-card>
+    </div>
+    <div *ngIf="guardarPresionado" class="subirFoto-pagar">
+      <app-subir-foto-orden
+        *ngIf="orden?.id"
+        [orden]="orden"
+      ></app-subir-foto-orden>
 
-    <button class="btn btn-info" (click)="mostrarQrSubirFoto()">
-      <i class="bi bi-qr-code-scan"></i>
-      Mostrar qr subir foto
-    </button>
-  </div>
-</div>
+      <div class="d-flex">
+        <button class="btn btn-info me-3" (click)="mostrarQrSubirFoto()">
+          <i class="bi bi-qr-code-scan"></i>
+          Mostrar qr subir foto
+        </button>
 
-<div class="contenedor-boton-pagar" *ngIf="guardarPresionado">
-  <button
-    class="btn btn-success"
-    (click)="pagar()"
-    [disabled]="botonHabilitado"
-  >
-    <i class="bi bi-currency-dollar"></i>
-    Pagar
-  </button>
-</div>
+        <button *ngIf="!esInstitucion" class="btn btn-primary" matStepperNext>
+          Siguiente ----->
+        </button>
+        <button
+          *ngIf="esInstitucion"
+          class="btn btn-primary"
+          (click)="reiniciar()"
+        >
+          Salir >
+        </button>
+      </div>
+    </div>
+  </mat-step>
+
+  <mat-step *ngIf="!esInstitucion" [stepControl]="thirdFormGroup">
+    <div>
+      <button mat-button matStepperPrevious>Volver</button>
+    </div>
+    <ng-template matStepLabel>Pagar</ng-template>
+
+    <div *ngIf="!guardarPresionado">
+      <mat-card>
+        <h1>
+          Primero compruebe que los datos son correctos y presione guardar
+        </h1>
+      </mat-card>
+    </div>
+
+    <div class="contenedor-boton-pagar text-center" *ngIf="guardarPresionado">
+      <div *ngIf="orden.pagado">
+        <h1 class="yaPagada">Esta orden ya ha sido pagada!</h1>
+      </div>
+      <div *ngIf="!orden.pagado">
+        <app-pagar-orden
+          (pagosEmit)="recibirPagos($event)"
+          (descuentosEmit)="recibirDescuentos($event)"
+          (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
+        ></app-pagar-orden>
+
+        <button
+          matStepperNext
+          class="btn btn-success mt-2 btn-lg"
+          (click)="pagar()"
+          [disabled]="botonHabilitado || !pagoRecibido"
+        >
+          <i class="bi bi-currency-dollar"></i>
+          Pagar
+        </button>
+      </div>
+    </div>
+  </mat-step>
+</mat-stepper>

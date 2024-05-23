@@ -1,5 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
@@ -12,22 +18,41 @@ import { CitaService } from 'src/app/services/cita.service';
 import { CambiarEstudioComponent } from './cambiar-estudio/cambiar-estudio.component';
 import { AgregarEstudioComponent } from './agregar-estudio/agregar-estudio.component';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
-import { Campania } from 'src/app/campanias/models/campania';
+import { Pago } from 'src/app/models/pago';
+import { Descuento } from 'src/app/models/descuento';
+import { DataService } from '../services/data-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-check-in',
   templateUrl: './check-in.component.html',
   styleUrls: ['./check-in.component.css'],
 })
-export class CheckInComponent implements OnInit {
+export class CheckInComponent implements OnInit, OnDestroy {
   constructor(
     private ventaConceptosService: VentaConceptosService,
     private ordenVentaService: OrdenVentaService,
     private dialog: MatDialog,
     private citaService: CitaService,
-    private campaniasService: CampaniaService
+    private campaniasService: CampaniaService,
+    private _formBuilder: FormBuilder,
+    private dataService: DataService
   ) {}
 
+  ordenVentaServiceSubscription: Subscription;
+
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+
+  thirdFormGroup = this._formBuilder.group({
+    thirdCtrl: ['', Validators.required],
+  });
+
+  origen: string = 'checkin';
   botonHabilitado: boolean = false;
   autocompleteControlPaciente = new UntypedFormControl('');
   orden: OrdenVenta = null;
@@ -39,8 +64,14 @@ export class CheckInComponent implements OnInit {
   codigoPromocion: string = '';
   @ViewChild('qr') textoQr: ElementRef;
   private searchTimer: any;
-  folio: string= "";
-
+  folio: string = '';
+  pagoRecibido: boolean = false;
+  pagos: Pago[] = [];
+  descuentos: Descuento[];
+  pagoOdescuentoEliminado: boolean = true;
+  estudiosList: VentaConceptos[] = [];
+  esInstitucion: boolean = false;
+  nombreInstitucion: string = null;
   ngOnInit(): void {
     this.buscarCitasHoy();
   }
@@ -50,7 +81,6 @@ export class CheckInComponent implements OnInit {
       (citas) => {
         this.citas = citas;
         this.citasFiltradas = citas;
-        console.log(this.citas[0].estudio.concepto.area.nombre);
       },
       (error) => {
         console.log(error);
@@ -66,7 +96,6 @@ export class CheckInComponent implements OnInit {
             this.busqueda.toUpperCase()
           )
         );
-    console.log(this.citasFiltradas);
   }
 
   buscarQr() {
@@ -83,7 +112,6 @@ export class CheckInComponent implements OnInit {
 
   private realizarBusqueda() {
     const cuerpoCodigo: string = this.textoQr.nativeElement.value;
-    console.log(cuerpoCodigo);
     if (cuerpoCodigo == '') {
       return;
     }
@@ -98,30 +126,61 @@ export class CheckInComponent implements OnInit {
     this.cargarOrdenVenta(ordenId, pacienteId);
   }
 
+  recibirPagos(event: Pago[]): void {
+    this.pagoRecibido = true;
+    this.pagos = event;
+  }
+  recibirDescuentos(event: Descuento[]): void {
+    this.descuentos = event;
+  }
+
+  cambioPagosDescuentos(event): void {
+    console.log('Quitaron pago o descuento');
+    this.pagoRecibido = false;
+  }
+
   pagar(): void {
+    if (this.orden.pagado) {
+      return;
+    }
+    Swal.fire({
+      title: 'Procesando',
+      icon: 'info',
+      text: 'Espere mientras termina el proceso',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
     this.botonHabilitado = true;
 
-    if(this.folio){
+    if (this.folio) {
       this.orden.folioInstitucion = this.folio;
     }
 
+    this.orden.pagos = this.pagos;
+    this.orden.descuentos = this.descuentos;
+    this.orden.estudiosList = this.listaDeEstudios;
     setTimeout(() => {
-      this.ordenVentaService.pagar(this.orden, this.listaDeEstudios).subscribe(
-        () => {
-          Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
-          this.reiniciar();
-        },
-        (error) => {
-          Swal.fire('Error', 'Ha ocurrido un error', 'error');
-          console.log(error);
-          this.reiniciar();
-        }
-      );
+      Swal.close();
+      this.ordenVentaServiceSubscription = this.ordenVentaService
+        .venderConceptos(this.orden, this.origen)
+        .subscribe(
+          () => {
+            Swal.fire('Éxito', 'Se ha procesado la orden', 'success');
+            if (this.esInstitucion) {
+              return;
+            }
+            this.reiniciar();
+          },
+          (error) => {
+            Swal.fire('Error', 'Ha ocurrido un error', 'error');
+            console.log(error);
+            if (this.esInstitucion) {
+              return;
+            }
+            this.reiniciar();
+          }
+        );
     }, 2000);
-  }
-
-  cerrar(): void {
-    this.orden = null;
   }
 
   mostrarQrSubirFoto() {
@@ -134,6 +193,11 @@ export class CheckInComponent implements OnInit {
 
   presionadoBotonGuardar(presionado) {
     this.guardarPresionado = presionado as boolean;
+    if (this.esInstitucion) {
+      this.pagar();
+      return;
+    }
+    this.calcularPrecio();
   }
 
   parseHora(horaString: string): Date {
@@ -151,6 +215,11 @@ export class CheckInComponent implements OnInit {
   seleccionar(cita: Cita): void {
     this.ventaConceptosService.ver(cita.ventaConceptoId).subscribe(
       (estudio) => {
+        console.log(estudio);
+        if (estudio.institucion.id !== 1) {
+          this.esInstitucion = true;
+          this.nombreInstitucion = estudio.institucion.nombre;
+        }
         this.cargarOrdenVenta(estudio.ordenVenta.id, estudio.paciente.id);
       },
       (error) => {
@@ -188,13 +257,16 @@ export class CheckInComponent implements OnInit {
     );
   }
 
-  private reiniciar(): void {
+  reiniciar(): void {
     this.orden = null;
     this.listaDeEstudios = [];
     this.guardarPresionado = false;
     this.botonHabilitado = false;
     this.codigoPromocion = '';
     this.folio = null;
+    this.esInstitucion = false;
+    this.nombreInstitucion = null;
+    return;
   }
 
   cambiar(estudio: VentaConceptos): void {
@@ -205,7 +277,12 @@ export class CheckInComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((nuevoConcepto) => {
       if (nuevoConcepto) {
+        this.listaDeEstudios = this.listaDeEstudios.filter(
+          (e) => e.concepto !== estudio.concepto
+        );
         estudio.concepto = nuevoConcepto;
+        this.listaDeEstudios.push(estudio);
+        this.calcularPrecio();
       }
     });
   }
@@ -217,8 +294,8 @@ export class CheckInComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((venta) => {
       if (venta) {
-        console.log(venta);
         this.listaDeEstudios.push(venta);
+        this.calcularPrecio();
       }
     });
   }
@@ -249,5 +326,25 @@ export class CheckInComponent implements OnInit {
         }
       );
     }
+  }
+
+  calcularPrecio() {
+    let total: number = 0;
+    if (this.esInstitucion) {
+      this.dataService.actualizarPrecio(total);
+      this.orden.totalSinDescuento = total;
+      return;
+    }
+    for (let estudio of this.listaDeEstudios) {
+      total += estudio.concepto.precio;
+    }
+    this.dataService.actualizarPrecio(total);
+    this.orden.totalSinDescuento = total;
+  }
+
+  ngOnDestroy(): void {
+    console.log('desruyendo');
+    this.ordenVentaServiceSubscription &&
+      this.ordenVentaServiceSubscription.unsubscribe();
   }
 }

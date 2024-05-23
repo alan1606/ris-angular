@@ -1,0 +1,19 @@
+<div class="contenedor">
+  <mat-form-field appearance="fill" class="input-areas">
+    <input
+      matInput
+      placeholder="Área"
+      [formControl]="autocompleteControlArea"
+      [matAutocomplete]="autocompleteArea"
+    />
+    <mat-autocomplete
+      #autocompleteArea="matAutocomplete"
+      [displayWith]="mostrarNombreArea"
+      (optionSelected)="seleccionarArea($event)"
+    >
+      <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+        {{ area.nombre }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

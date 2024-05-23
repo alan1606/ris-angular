@@ -1,0 +1,36 @@
+<mat-card class="text-center">
+  <mat-form-field class="example-full-width">
+    <mat-label>Nombre turno</mat-label>
+    <input matInput name="nombre" id="nombre" [(ngModel)]="model.nombre" />
+  </mat-form-field>
+  <div class="form-group" style="width: 80%" class="my-3">
+    <label for="horaInicio" class="lbl-hora pe-3">Hora Inicio: </label>
+    <input
+      [(ngModel)]="model.horaInicio"
+      type="time"
+      id="horaInicio"
+      name="horaInicio"
+      min="07:00"
+      max="20:00"
+      required
+    />
+  </div>
+  <div class="form-group" style="width: 80%" class="my-3">
+    <label for="horaFin" class="lbl-hora pe-3 pb-2">Hora Fin: </label>
+    <input
+      [(ngModel)]="model.horaFin"
+      type="time"
+      id="horaFin"
+      name="horaFin"
+      min="07:00"
+      max="20:00"
+      required
+    />
+  </div>
+  <button
+    class="btn btn-success"
+    (click)="!idTurno ? guardarTurno() : editarTurno()"
+  >
+    {{ idTurno ? "Editar" : "Guardar" }}
+  </button>
+</mat-card>

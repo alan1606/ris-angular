@@ -1,0 +1,189 @@
+<mat-card class="container-pagar-orden">
+  <div class="container-total-restante">
+    <h1 class="me-3">
+      <span class="badge text-bg-secondary">Total: {{ total }}</span>
+    </h1>
+    <h1>
+      <span class="badge text-bg-secondary">Restante: {{ restante }}</span>
+    </h1>
+  </div>
+
+  <div class="container-tables">
+    <mat-card class="text-start">
+      <div>
+        <h1>Forma de pago</h1>
+        <mat-form-field appearance="fill">
+          <mat-label>Elegir metodo</mat-label>
+          <mat-select [(ngModel)]="formaPago" name="forma" id="forma">
+            <mat-option *ngFor="let forma of formasPago" [value]="forma">{{
+              forma.forma
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="example-full-width cantidad" appearance="fill">
+        <mat-label>Cantidad</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="pago.total"
+          name="cantidad"
+          id="cantidad"
+        />
+      </mat-form-field>
+
+      <mat-slide-toggle color="primary" class="me-1" [(ngModel)]="pago.factura"
+        >Factura</mat-slide-toggle
+      >
+
+      <button mat-raised-button color="primary" (click)="agregarPago()">
+        Agregar
+      </button>
+
+      <div>
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="mat-elevation-z8 mt-2"
+        >
+          <ng-container matColumnDef="Forma">
+            <th mat-header-cell *matHeaderCellDef>Forma</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.formaPago.forma }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Cantidad">
+            <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+            <td mat-cell *matCellDef="let element">{{ element.total }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Factura">
+            <th mat-header-cell *matHeaderCellDef>Factura</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.factura ? "Si" : "No" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Quitar">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button class="btn btn-danger" (click)="quitarPago(element.id)">
+                Quitar
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card>
+
+    <mat-card class="text-start">
+      <div>
+        <h1>Descuentos</h1>
+
+        <div class="mb-5">
+          <mat-form-field appearance="fill" class="me-1">
+            <mat-label>Total Estudio</mat-label>
+            <input
+              matInput
+              type="number"
+              name="cantidad"
+              [(ngModel)]="totalParaPorcentaje"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Porcentaje descuento</mat-label>
+            <input
+              matInput
+              type="number"
+              name="cantidad"
+              [(ngModel)]="porcentaje"
+              (input)="descuentoPorcentaje()"
+            />
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Cantidad</mat-label>
+            <input
+              matInput
+              type="number"
+              name="cantidad"
+              [(ngModel)]="descuento.cantidad"
+            />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="cantidad" appearance="fill">
+          <mat-label>Descripcion</mat-label>
+          <input
+            matInput
+            type="text"
+            name="descripcion"
+            [(ngModel)]="descuento.descripcion"
+          />
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="ms-3"
+          (click)="agregarDescuento()"
+        >
+          Agregar
+        </button>
+      </div>
+
+      <table
+        mat-table
+        [dataSource]="descuentosdataSource"
+        class="mat-elevation-z8 mt-2"
+      >
+        <ng-container matColumnDef="Descripcion">
+          <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.descripcion }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Cantidad">
+          <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.cantidad }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Quitar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              class="btn btn-danger"
+              (click)="quitarDescuento(element.id)"
+            >
+              Quitar
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="descuentosdisplayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: descuentosdisplayedColumns"
+        ></tr>
+      </table>
+    </mat-card>
+  </div>
+
+  <!-- <button
+    [disabled]="restante === 0 ? false : true"
+    class="btn btn-success btn-lg mt-4"
+    (click)="finalizarPago()"
+  >
+    {{ restante === 0 ? "Finalizar Pago" : "Termine el pago" }}
+  </button> -->
+</mat-card>
