@@ -49,6 +49,9 @@ export class PagarOrdenComponent implements OnInit, OnDestroy {
   restante: number = 0;
   formasPago: FormaPago[] = [];
 
+  totalParaPorcentaje: number = null;
+  porcentaje: number = null;
+
   ngOnInit(): void {
     this.pago.formaPago = this.formaPago;
     this.pago.factura = false;
@@ -139,6 +142,8 @@ export class PagarOrdenComponent implements OnInit, OnDestroy {
       this.pagosEmit.emit(this.pagos);
     }
     this.descuento = new Descuento();
+    this.totalParaPorcentaje = null;
+    this.porcentaje = null;
   }
 
   quitarDescuento(id: number) {
@@ -153,10 +158,17 @@ export class PagarOrdenComponent implements OnInit, OnDestroy {
     this.pagoOdescuentoEliminadoEmit.emit(true);
   }
 
+  descuentoPorcentaje(): void {
+    if (!this.totalParaPorcentaje) {
+      this.totalParaPorcentaje = 0;
+    }
+    this.descuento.cantidad =
+      (this.totalParaPorcentaje * this.porcentaje) / 100;
+  }
+
   ngOnDestroy(): void {
-    console.log("Destruyendo pagar orden")
+    console.log('Destruyendo pagar orden');
     this.pagos = [];
     this.descuentos = [];
   }
-
 }

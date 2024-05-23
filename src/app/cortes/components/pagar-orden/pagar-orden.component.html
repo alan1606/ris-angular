@@ -85,6 +85,28 @@
       <div>
         <h1>Descuentos</h1>
 
+        <div class="mb-5">
+          <mat-form-field appearance="fill" class="me-1">
+            <mat-label>Total Estudio</mat-label>
+            <input
+              matInput
+              type="number"
+              name="cantidad"
+              [(ngModel)]="totalParaPorcentaje"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Porcentaje descuento</mat-label>
+            <input
+              matInput
+              type="number"
+              name="cantidad"
+              [(ngModel)]="porcentaje"
+              (input)="descuentoPorcentaje()"
+            />
+          </mat-form-field>
+        </div>
+
         <div>
           <mat-form-field appearance="fill">
             <mat-label>Cantidad</mat-label>

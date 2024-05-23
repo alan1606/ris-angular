@@ -272,7 +272,6 @@ export class AgendarComponent implements OnInit {
 
   cambioPagosDescuentos(event): void {
     this.pagoRecibido = false;
-    this.botonHabilitado = true;
   }
 
   agregarEstudio(citas: Cita[]) {
