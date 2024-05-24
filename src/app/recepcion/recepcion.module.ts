@@ -1,4 +1,4 @@
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -41,64 +41,64 @@ import { LimboComponent } from './components/limbo/limbo.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
-import {MatStepperModule} from '@angular/material/stepper'
+import { MatStepperModule } from '@angular/material/stepper';
 import { CortesModule } from '../cortes/cortes.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 
 @NgModule({
-    declarations: [
-        UrgenciaComponent,
-        QrSubirFotoOrdenModalComponent,
-        RegistrarPacienteComponent,
-        EnviarEstudiosComponent,
-        EnviarEstudioComponent,
-        SubirFotoOrdenComponent,
-        QrSubirFotoOrdenModalComponent,
-        VerAgendadosModalComponent,
-        AgendaComponent,
-        AgendarComponent,
-        RegistrarPacienteParcialModalComponent,
-        RegistroCompletoPacienteComponent,
-        ConfirmarCitaPacienteComponent,
-        ConfirmacionesCitasComponent,
-        CheckInComponent,
-        PacienteOrdenesComponent,
-        VerOrdenModalComponent,
-        ReagendarCitaModalComponent,
-        GenerarQrCheckinComponent,
-        FormularioPacienteComponent,
-        BuscarPacienteSubirFotoOrdenComponent,
-        MostrarCitasPorDiaPensionesComponent,
-        CambiarEstudioComponent,
-        AgregarEstudioComponent,
-        LimboComponent
-        ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        NgxQRCodeModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatCardModule,
-        RecepcionRoutingModule,
-        MatTableModule,
-        QRCodeModule,
-        MatPaginatorModule,
-        SharedModule,
-        MatSlideToggleModule,
-        MatButtonModule,
-        MatStepperModule,
-        CortesModule
-    ],
-    exports: [
-        UrgenciaComponent
-    ],
-    providers: [
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    UrgenciaComponent,
+    QrSubirFotoOrdenModalComponent,
+    RegistrarPacienteComponent,
+    EnviarEstudiosComponent,
+    EnviarEstudioComponent,
+    SubirFotoOrdenComponent,
+    QrSubirFotoOrdenModalComponent,
+    VerAgendadosModalComponent,
+    AgendaComponent,
+    AgendarComponent,
+    RegistrarPacienteParcialModalComponent,
+    RegistroCompletoPacienteComponent,
+    ConfirmarCitaPacienteComponent,
+    ConfirmacionesCitasComponent,
+    CheckInComponent,
+    PacienteOrdenesComponent,
+    VerOrdenModalComponent,
+    ReagendarCitaModalComponent,
+    GenerarQrCheckinComponent,
+    FormularioPacienteComponent,
+    BuscarPacienteSubirFotoOrdenComponent,
+    MostrarCitasPorDiaPensionesComponent,
+    CambiarEstudioComponent,
+    AgregarEstudioComponent,
+    LimboComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    NgxQRCodeModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCardModule,
+    RecepcionRoutingModule,
+    MatTableModule,
+    QRCodeModule,
+    MatPaginatorModule,
+    SharedModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatStepperModule,
+    CortesModule,
+    NgxPhotoEditorModule,
+  ],
+  exports: [UrgenciaComponent],
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class RecepcionModule { }
+export class RecepcionModule {}

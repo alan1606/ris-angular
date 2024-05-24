@@ -6,6 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxCroppedEvent, NgxPhotoEditorService } from 'ngx-photo-editor';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { OrdenVenta } from 'src/app/models/orden-venta';
@@ -35,8 +36,25 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
     private service: OrdenVentaService,
     private router: Router,
     private route: ActivatedRoute,
-    private multimediaService: MultimediaService
+    private multimediaService: MultimediaService,
+    private service2: NgxPhotoEditorService
   ) {}
+
+  output?: NgxCroppedEvent;
+
+  fileChangeHandler($event: any) {
+    this.service2
+      .open($event, {
+        aspectRatio: 16 / 9,
+        autoCropArea: 1,
+      })
+      .subscribe((data) => {
+        this.output = data;
+        console.log(this.output)
+        this.seleccionarFoto(this.output.file);
+      });
+    
+  }
 
   ngOnInit(): void {
     console.log('oninit');
@@ -66,7 +84,8 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
   }
 
   seleccionarFoto(event): void {
-    this.foto = event.target.files[0];
+    console.log(event)
+    this.foto = event;
     // console.info(this.foto);
     if (
       this.foto.type.indexOf('png') < 0 &&
