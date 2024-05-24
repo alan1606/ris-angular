@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./generar-corte.component.css'],
 })
 export class GenerarCorteComponent implements OnInit {
-  public fecha: Date = new Date();
+  public fecha: Date = null;
   private fechaString = null;
   public turnos: TurnoCorte[] = [];
   turno: TurnoCorte = null;
@@ -34,15 +34,16 @@ export class GenerarCorteComponent implements OnInit {
   }
 
   generarCorte() {
-    this.fechaString = this.fecha.toISOString().slice(0, 10);
-
-    if (!this.turno) {
+    if (!this.turno || !this.fecha) {
       Swal.fire({
         icon: 'info',
-        title: 'Elija un turno',
+        title: 'Complete los campos',
       });
       return;
     }
+    
+    this.fechaString = this.fecha.toISOString().slice(0, 10);
+
     this.corteService
       .obtenerCorte(this.fechaString, this.turno.nombre)
       .subscribe(
