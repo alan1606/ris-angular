@@ -6,6 +6,11 @@
 .buscar-qr {
   width: 30%;
 }
+
+.nombre-institucion{
+  font-weight: 500;
+}
+
 .filtrar-areas {
   width: 40%;
   margin-left: 3%;

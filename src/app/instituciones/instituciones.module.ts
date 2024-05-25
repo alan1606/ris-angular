@@ -14,12 +14,15 @@ import { RegistrarMedicoModalComponent } from "./components/enviar-resultados/re
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { SeleccionarInstitucionComponent } from './components/seleccionar-institucion/seleccionar-institucion.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
     PrincipalComponent,
     EnviarResultadosComponent,
-    RegistrarMedicoModalComponent
+    RegistrarMedicoModalComponent,
+    SeleccionarInstitucionComponent
     
   ],
   imports: [
@@ -35,7 +38,8 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatPaginatorModule,
     MatAutocompleteModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule
   ]
 })
 export class InstitucionesModule { }

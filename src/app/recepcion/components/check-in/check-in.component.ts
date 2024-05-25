@@ -22,6 +22,8 @@ import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';
 import { DataService } from '../services/data-service.service';
 import { Subscription } from 'rxjs';
+import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
+import { Institucion } from '../agendar';
 
 @Component({
   selector: 'app-check-in',
@@ -215,11 +217,10 @@ export class CheckInComponent implements OnInit, OnDestroy {
   seleccionar(cita: Cita): void {
     this.ventaConceptosService.ver(cita.ventaConceptoId).subscribe(
       (estudio) => {
-        console.log(estudio);
         if (estudio.institucion.id !== 1) {
           this.esInstitucion = true;
-          this.nombreInstitucion = estudio.institucion.nombre;
         }
+        this.nombreInstitucion = estudio.institucion.nombre;
         this.cargarOrdenVenta(estudio.ordenVenta.id, estudio.paciente.id);
       },
       (error) => {
@@ -243,6 +244,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
             .subscribe(
               (estudios) => {
                 this.listaDeEstudios = estudios;
+                this.nombreInstitucion = estudios[0].institucion.nombre;
               },
               (error) => console.log(error)
             );
@@ -340,6 +342,48 @@ export class CheckInComponent implements OnInit, OnDestroy {
     }
     this.dataService.actualizarPrecio(total);
     this.orden.totalSinDescuento = total;
+  }
+
+  cambiarInstitucion() {
+    const modalRef = this.dialog.open(SeleccionarInstitucionComponent, {
+      width: '500px',
+    });
+
+    modalRef.afterClosed().subscribe(
+      (data: Institucion) => {
+        if (data) {
+          console.log(data);
+          this.ordenVentaService
+            .cambiarInstitucion(this.orden.id, data.id)
+            .subscribe(
+              (data) => {
+                console.log(data);
+                for (let estudio of this.listaDeEstudios) {
+                  estudio.institucion = data;
+                }
+                console.log('paso el for');
+              },
+              (error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Error al cambiar la institución',
+                });
+                console.log(error);
+              }
+            );
+          this.nombreInstitucion = data.nombre;
+        }
+      },
+      (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al seleccionar la institución',
+        });
+        console.log(error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

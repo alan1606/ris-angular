@@ -5,6 +5,7 @@ import { BASE_ENDPOINT } from '../config/app';
 import { OrdenVenta } from '../models/orden-venta';
 import { CommonService } from './common.service';
 import { VentaConceptos } from '../models/venta-conceptos';
+import { Institucion } from '../models/institucion';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,9 @@ export class OrdenVentaService extends CommonService<OrdenVenta> {
 
   public verSiExisteOrdenPorIdYPaciente(orden: number, paciente: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseEndpoint}/validar/${orden}/paciente/${paciente}`);
+  }
+
+  public cambiarInstitucion(ordenId:number, institucionId:number):Observable<any>{
+    return this.http.put<any>(`${this.baseEndpoint}/${ordenId}/institucion/${institucionId}`,{})
   }
 }

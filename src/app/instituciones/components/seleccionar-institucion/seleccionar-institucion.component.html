@@ -1,0 +1,22 @@
+<div>
+    <mat-card>
+        <div class="contenedor">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Institución</mat-label>
+                    <input matInput [formControl]="autocompleteInstitucionControl"
+                        [matAutocomplete]="autocompletePaciente" />
+                    <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombreInstitucion"
+                        (optionSelected)="seleccionarInstitucion($event)">
+                        <mat-option *ngFor="let institucion of instituciones" [value]="institucion">
+                            {{ institucion.nombre }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <button mat-raised-button color="primary" (click)="seleccionar()">Seleccionar</button>
+        </div>
+
+    </mat-card>
+</div>

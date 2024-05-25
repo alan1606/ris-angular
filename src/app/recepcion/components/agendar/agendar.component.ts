@@ -40,6 +40,7 @@ import {
   Descuento,
 } from './index';
 import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
+import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registrar-paciente.component';
 
 @Component({
   selector: 'app-agendar',
@@ -471,17 +472,36 @@ export class AgendarComponent implements OnInit {
   }
 
   public abrirModalRegistrarPacienteParcial() {
-    const modalRef = this.dialog.open(RegistrarPacienteParcialModalComponent, {
-      width: '1000px',
-      data: { paciente: this.paciente?.id ? this.paciente : null },
-    });
+    if (!this.isUrgencia) {
+      const modalRef = this.dialog.open(
+        RegistrarPacienteParcialModalComponent,
+        {
+          width: '1000px',
+          data: { paciente: this.paciente?.id ? this.paciente : null },
+        }
+      );
 
-    modalRef.afterClosed().subscribe((paciente) => {
-      if (paciente) {
-        this.paciente = paciente;
-        this.autocompleteControlPaciente.setValue(this.paciente);
-      }
-    });
+      modalRef.afterClosed().subscribe((paciente) => {
+        if (paciente) {
+          this.paciente = paciente;
+          this.autocompleteControlPaciente.setValue(this.paciente);
+        }
+      });
+    } else if (this.isUrgencia) {
+      const modalRef = this.dialog.open(RegistrarPacienteComponent, {
+        width: '1000px',
+        data: { paciente: this.paciente?.id ? this.paciente : null },
+      });
+
+      modalRef.afterClosed().subscribe((paciente) => {
+        if (paciente) {
+          this.paciente = paciente;
+          this.autocompleteControlPaciente.setValue(this.paciente);
+        }
+      });
+    } else {
+      return;
+    }
   }
 
   private cargarConvenioParticularPorDefecto(): void {
