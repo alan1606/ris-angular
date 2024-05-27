@@ -1,0 +1,10 @@
+<div
+    style="display: flex;  flex-direction: column; justify-content: center; justify-self: center; text-align: center; font-size: x-large;">
+    <p>¿Desea hacer la devolucion</p>
+    <p style="font-weight: 500;">a {{paciente.nombreCompleto}}</p>
+    <p>${{total}}?</p>
+</div>
+<div style="display: flex; justify-content: center; justify-self: center;">
+    <button class="btn btn-outline-secondary btn-lg me-3" (click)="cerrar()">No</button>
+    <button class="btn btn-primary btn-lg" (click)="hacerDevolucion()">Si, devolver</button>
+</div>

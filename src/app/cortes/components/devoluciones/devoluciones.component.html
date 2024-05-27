@@ -1,0 +1,54 @@
+<div class="table-container">
+    <div class="mt-3 mb-3">
+        <h1>Devoluciones</h1>
+
+        <mat-card class="d-flex cuadro-busqueda dark-card">
+            <p class="position-relative pe-3" style="top: 1em;">Buscar por paciente: </p>
+            <mat-form-field class="me-3">
+                <mat-label>Nombre</mat-label>
+                <input matInput="text" [(ngModel)]="paciente" (input)="buscarPorPaciente()">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" (dateChange)="buscar(null,fecha)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </mat-card>
+
+        <table mat-table [dataSource]="devolucionesdataSource" class="mat-elevation-z8 mt-2">
+
+            <ng-container matColumnDef="Paciente">
+                <th mat-header-cell *matHeaderCellDef>Paciente</th>
+                <td mat-cell *matCellDef="let element" class="paciente">
+                    {{element.paciente.nombreCompleto}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Estudios">
+                <th mat-header-cell *matHeaderCellDef>Estudios</th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.estudios}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Total" class="me-5">
+                <th mat-header-cell *matHeaderCellDef>Total</th>
+                <td mat-cell *matCellDef="let element">
+                    ${{element.totalSinDescuento}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Devolver">
+                <th mat-header-cell *matHeaderCellDef>Devolver</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary" (click)="devolver(element)">Devolver</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="devolucionesdisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: devolucionesdisplayedColumns"></tr>
+
+        </table>
+    </div>
+</div>

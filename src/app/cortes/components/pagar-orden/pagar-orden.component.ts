@@ -137,6 +137,21 @@ export class PagarOrdenComponent implements OnInit, OnDestroy {
     this.restante = this.restante - this.descuento.cantidad;
     this.descuentos.push(this.descuento);
     this.descuentosdataSource.data = this.descuentos;
+    console.log('descuento: ', this.descuento);
+    if (this.descuento.cantidad === this.total) {
+      this.descuento.cantidad = this.descuento.cantidad - 1;
+      let forma = new FormaPago();
+      let pago = new Pago();
+      forma.id = 6;
+      forma.forma = 'EFECTIVO';
+      pago.formaPago = forma;
+      pago.formaPagoId = forma.id;
+      pago.total = 1;
+      pago.factura = false;
+      this.pagos.push(pago);
+      console.log('descuento despues del if: ', this.descuento);
+      console.log('pagos despues del if: ', this.pagos);
+    }
     this.descuentosEmit.emit(this.descuentos);
     if (this.restante === 0) {
       this.pagosEmit.emit(this.pagos);

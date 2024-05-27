@@ -21,7 +21,7 @@ import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';
 import { DataService } from '../services/data-service.service';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, map } from 'rxjs';
 import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
 import { Institucion } from '../agendar';
 
@@ -81,8 +81,32 @@ export class CheckInComponent implements OnInit, OnDestroy {
   buscarCitasHoy() {
     this.citaService.citasDeHoy().subscribe(
       (citas) => {
-        this.citas = citas;
-        this.citasFiltradas = citas;
+        let citasNoPagadas: Cita[] = [];
+        let ordenesNoPagadas: OrdenVenta[] = [];
+        const idsOrdenVenta = citas.map((cita) => cita.estudio.ordenVenta.id);
+        console.log(citas);
+        this.ordenVentaService.encontrarOrdenesPorIds(idsOrdenVenta).subscribe(
+          (data: OrdenVenta[]) => {
+            data.forEach((orden) => {
+              if (!orden.pagado) {
+                ordenesNoPagadas.push(orden);
+              }
+            });
+
+            citasNoPagadas = citas.filter((cita) =>
+              ordenesNoPagadas.some(
+                (orden) => orden.id === cita.estudio.ordenVenta.id
+              )
+            );
+
+            this.citas = citasNoPagadas;
+            this.citasFiltradas = citasNoPagadas;
+            console.log(this.citas);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       },
       (error) => {
         console.log(error);

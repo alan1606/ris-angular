@@ -22,6 +22,9 @@ import { MovimientosCortesComponent } from './components/movimientos-cortes/movi
 import { AgregarMovimientoCorteModalComponent } from './components/agregar-movimiento-corte-modal/agregar-movimiento-corte-modal.component';
 import { GenerarCorteComponent } from './components/generar-corte/generar-corte.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
+import { DevolucionModalComponent } from './components/devolucion-modal/devolucion-modal.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MovimientosCortesComponent,
     AgregarMovimientoCorteModalComponent,
     GenerarCorteComponent,
+    DevolucionesComponent,
+    DevolucionModalComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +48,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

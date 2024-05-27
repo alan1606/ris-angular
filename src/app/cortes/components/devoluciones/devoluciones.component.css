@@ -1,0 +1,18 @@
+table {
+  width: 70vw;
+}
+.paciente {
+  font-weight: 500;
+}
+.table-container {
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+}
+.cuadro-busqueda {
+  width: 30vw;
+}
+
+.dark-card {
+  background: #D5D5D5
+}
