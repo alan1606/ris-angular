@@ -415,20 +415,7 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
-    if (this.isUrgencia &&
-      this.paciente.fechaNacimiento === '1969-12-31T00:00:00' ||
-      this.paciente.fechaNacimiento === '' ||
-      this.paciente.fechaNacimiento === null ||
-      this.paciente.fechaNacimiento === undefined
-    ) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Corrija la fecha de nacimiento del paciente',
-      });
-      console.log('fecha mala');
-      return;
-    }
+
     this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',
