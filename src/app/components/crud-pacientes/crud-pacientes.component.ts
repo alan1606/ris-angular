@@ -30,8 +30,12 @@ export class CrudPacientesComponent {
 
   recibirPacienteDelBuscador(event: Paciente) {
     this.model = event;
-    this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
-    this.sexo = event.sexo == 2 ? 'MASCULINO' : 'FEMENINO';
+    if(this.model.fechaNacimiento){
+      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+    }
+    if(event.sexo){
+      this.sexo = event.sexo == 2 ? 'MASCULINO' : 'FEMENINO';
+    }
   }
 
   seleccionarFecha(fecha: HTMLInputElement): void {
@@ -124,6 +128,23 @@ export class CrudPacientesComponent {
   }
 
   private camposValidos(): boolean {
+    if(this.fechaNacimientoControl.status == 'INVALID'){
+      let partesFecha = [];
+      partesFecha = this.fechaNacimientoControl.errors['matDatepickerParse'].text.split('/');
+      if(partesFecha.length != 3){
+        Swal.fire('Error', 'La fecha debe tener /', 'error');
+        return false;
+      }
+      const dia = partesFecha[0];
+      const mes = partesFecha[1];
+      const anio = partesFecha[2];
+
+      const fechaValor = new Date(`${mes}/${dia}/${anio}`);
+      this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
+      this.model.fechaNacimiento += 'T00:00:00';
+      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+
+    }
     if (!this.model.nombre) {
       Swal.fire('Error', 'Verifique el nombre', 'error');
       return false;

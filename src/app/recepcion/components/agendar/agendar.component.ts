@@ -424,7 +424,7 @@ export class AgendarComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Corriga la fecha de nacimiento del paciente',
+        text: 'Corrija la fecha de nacimiento del paciente',
       });
       console.log('fecha mala');
       return;
