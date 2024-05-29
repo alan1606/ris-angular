@@ -57,7 +57,6 @@ export class BuscadorAreasComponent implements OnInit {
             this.area.nombre.toUpperCase()
           )
         );
-    console.log(this.citasFiltradas);
     this.citasFiltradasEmit.emit(this.citasFiltradas);
     this.areaEmit.emit(this.area);
     return;

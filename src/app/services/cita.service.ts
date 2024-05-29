@@ -80,4 +80,8 @@ export class CitaService {
   public salvameDelHastio(idCita:number):Observable<Cita>{
     return this.http.put<Cita>(`${this.baseEndpoint}/salvame-del-hastio/${idCita}`,{})
   }
+
+  public citaNoContestada(citaId:number):Observable<void>{
+    return this.http.put<void>(`${this.baseEndpoint}/no-contestado/${citaId}`,{})
+  }
 }

@@ -97,8 +97,8 @@ export class ConfirmacionesCitasComponent implements OnInit {
 
   recibirAreaFiltrada(event: Area) {
     this.areaFiltrada = event;
-    console.log("enviando area")
-    this.dataService.updateAreaData(event)
+    console.log('enviando area');
+    this.dataService.updateAreaData(event);
   }
   recibirCitasFiltradasPorSala(event: Cita[]) {
     this.citas = event;
@@ -212,7 +212,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
     let estudios: VentaConceptos[] = [];
     let estudiosIds: number[] = [];
     const orden = cita.estudio.ordenVenta;
-    console.log(cita);
     this.ventaConceptosService.encontrarPorOrdenVentaId(orden.id).subscribe(
       (estudiosResponse) => {
         estudios = estudiosResponse;
@@ -271,13 +270,18 @@ export class ConfirmacionesCitasComponent implements OnInit {
       title: titulo,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#229954',
+      cancelButtonColor: '#BDC3C7 ',
       confirmButtonText: 'Sí, confirmar',
       cancelButtonText: 'Cancelar',
+      showDenyButton: true,
+      denyButtonText: 'No contestó',
+      denyButtonColor: '#E67E22 ',
+      reverseButtons: true,
       html: mensaje,
     }).then((result) => {
       if (result.isConfirmed) {
+        console.log('confirmo');
         const mensaje =
           idsVentas.length > 1
             ? 'Se han confirmado las citas'
@@ -290,6 +294,18 @@ export class ConfirmacionesCitasComponent implements OnInit {
           },
           () => {
             Swal.fire('Error', 'Ha ocurrido un error', 'error');
+          }
+        );
+      }
+      if (result.isDenied) {
+        console.log('No contesto');
+        this.citaService.citaNoContestada(cita.id).subscribe(
+          (data) => {
+            console.log(data);
+          },
+          (error) => {
+            Swal.fire('Error', 'Ha ocurrido un error', 'error');
+            console.log(error);
           }
         );
       }

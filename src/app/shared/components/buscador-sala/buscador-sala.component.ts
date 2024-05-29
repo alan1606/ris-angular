@@ -26,28 +26,32 @@ export class BuscadorSalaComponent implements OnInit {
   equipoDicom: EquipoDicom;
   equiposDicom: EquipoDicom[] = [];
   citas: Cita[] = [];
-  
+
   ngOnInit(): void {
     this.subscription = this.dataService.areaData$.subscribe((data) => {
-      this.area = data;
-      this.cargarEquiposDicom();
+      if (data) {
+        this.area = data;
+        this.cargarEquiposDicom();
+      }
     });
 
     this.subscription = this.dataService.citasData$.subscribe((data) => {
-      console.log(data);
       this.citas = data.content;
     });
   }
 
   private cargarEquiposDicom(): void {
-    this.equipoDicomService.filtrarPorArea(this.area.id).subscribe(
-      (equipos) => {
-        this.equiposDicom = equipos;
-      },
-      (error) => {
-        console.log('no existe el id');
-      }
-    );
+    if (!this.area.id){
+      return
+    }
+      this.equipoDicomService.filtrarPorArea(this.area.id).subscribe(
+        (equipos) => {
+          this.equiposDicom = equipos;
+        },
+        (error) => {
+          console.log('no existe el id');
+        }
+      );
   }
 
   filtrarCitasPorSalaId(): void {
