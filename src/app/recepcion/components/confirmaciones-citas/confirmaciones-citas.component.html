@@ -74,7 +74,13 @@
         </thead>
 
         <tbody *ngIf="citas?.length > 0">
-          <tr *ngFor="let cita of citas">
+          <tr *ngFor="let cita of citas"
+          [ngClass]="{
+            'table-warning': cita.estado == 'NO_CONTESTADA',
+            'table-danger': cita.estado == 'AGENDADA',
+            'table-success': cita.estado == 'CONFIRMADA'
+          }"
+          >
             <td>{{ cita.estudio?.paciente?.nombreCompleto }}</td>
             <td>{{ cita.estudio?.concepto?.concepto }}</td>
             <td>{{ cita.fechaYHora | date : "dd/MM/yyyy" }}</td>
@@ -85,7 +91,7 @@
               <button
                 type="button"
                 class="btn btn-sm btn-success"
-                *ngIf="cita.estado == 'AGENDADA'"
+                *ngIf="cita.estado == 'AGENDADA' || cita.estado == 'NO_CONTESTADA'"
                 (click)="confirmar(cita)"
               >
                 Confirmar manual

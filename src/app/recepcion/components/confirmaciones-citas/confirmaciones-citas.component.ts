@@ -300,8 +300,8 @@ export class ConfirmacionesCitasComponent implements OnInit {
       if (result.isDenied) {
         console.log('No contesto');
         this.citaService.citaNoContestada(cita.id).subscribe(
-          (data) => {
-            console.log(data);
+          () => {
+            cita.estado = 'NO_CONTESTADA';
           },
           (error) => {
             Swal.fire('Error', 'Ha ocurrido un error', 'error');

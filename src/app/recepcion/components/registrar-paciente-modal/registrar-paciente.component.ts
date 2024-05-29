@@ -41,11 +41,13 @@ export class RegistrarPacienteComponent implements OnInit {
   ngOnInit(): void {
     if (this.data?.paciente?.id) {
       this.model = this.data?.paciente as Paciente;
-      this.model.sexo = 2;
-      this.sexo = 'MASCULINO';
-      this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
-      this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
-      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+      if(this.model.sexo){
+        this.sexo = this.model.sexo == 1 ? "FEMENINO" : "MASCULINO";
+      }
+      if(this.model.fechaNacimiento){
+        this.fecha = this.pipe.transform(new Date(this.model.fechaNacimiento), 'MM/dd/yyyy');
+        this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+      }
     }
 
   }
@@ -103,6 +105,10 @@ export class RegistrarPacienteComponent implements OnInit {
       this.model.fechaNacimiento += 'T00:00:00';
       this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
 
+    }
+    if(!this.model.fechaNacimiento){
+      Swal.fire("Error", "Verifique la fecha de nacimiento", "error");
+      return false;
     }
     if(!this.model.nombre){
       Swal.fire("Error", "Verifique el nombre", "error");
