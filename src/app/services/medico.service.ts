@@ -84,4 +84,8 @@ export class MedicoService {
     { headers: this.cabeceras });
   }
 
+  public obtenerRelacionEstudios(usuario:string,fechaInicio:string,fechaFin:string):Observable<any>{
+    return this.http.get(`${this.baseEndpoint}/${usuario}/relacion/${fechaInicio}/${fechaFin}`)
+  }
+
 }

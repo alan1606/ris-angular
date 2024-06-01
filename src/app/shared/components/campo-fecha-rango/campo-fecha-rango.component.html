@@ -1,0 +1,13 @@
+<mat-form-field appearance="fill">
+    <mat-label>Fecha inicio - Fecha fin</mat-label>
+    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="fin" placeholder="End date" (dateChange)="fechasSeleccionadas()">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+    <mat-error *ngIf="range.controls.fin.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+</mat-form-field>

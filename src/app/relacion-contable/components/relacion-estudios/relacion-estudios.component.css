@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+}
+
+.fondo {
+  height: 100vh;
+  background: rgb(0, 0, 0);
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(37, 37, 37, 1) 64%,
+    rgba(55, 55, 55, 1) 100%
+  );
+}
+.carta {
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 80vh;
+}
+mat-card {
+  width: 50vw;
+}
+
+.estudios-imprimir {
+  margin-top: 4%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

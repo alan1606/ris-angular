@@ -179,6 +179,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./cortes/cortes.module').then((m) => m.CortesModule),
   },
+  {
+    path: 'relacion-estudios',
+    loadChildren: () =>
+      import('./relacion-contable/relacion-contable.module').then(
+        (m) => m.RelacionContableModule
+      ),
+  },
 ];
 
 @NgModule({

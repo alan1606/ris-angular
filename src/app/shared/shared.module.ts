@@ -9,9 +9,21 @@ import { MatInputModule } from '@angular/material/input';
 import { BuscadorAreasComponent } from './components/buscador-areas/buscador-areas.component';
 import { BuscadorSalaComponent } from './components/buscador-sala/buscador-sala.component';
 import { MatSelectModule } from '@angular/material/select';
+import { CampoFechaComponent } from './components/campo-fecha/campo-fecha.component';
+import {
+  MatDateRangePicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import { CampoFechaRangoComponent } from './components/campo-fecha-rango/campo-fecha-rango.component';
 
 @NgModule({
-  declarations: [BuscadorMedicosReferentesComponent, BuscadorAreasComponent, BuscadorSalaComponent],
+  declarations: [
+    BuscadorMedicosReferentesComponent,
+    BuscadorAreasComponent,
+    BuscadorSalaComponent,
+    CampoFechaComponent,
+    CampoFechaRangoComponent,
+  ],
   imports: [
     CommonModule,
     MatAutocompleteModule,
@@ -20,8 +32,15 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatOptionModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
   ],
-  exports: [BuscadorMedicosReferentesComponent, BuscadorAreasComponent, BuscadorSalaComponent],
+  exports: [
+    BuscadorMedicosReferentesComponent,
+    BuscadorAreasComponent,
+    BuscadorSalaComponent,
+    CampoFechaComponent,
+    CampoFechaRangoComponent,
+  ],
 })
 export class SharedModule {}

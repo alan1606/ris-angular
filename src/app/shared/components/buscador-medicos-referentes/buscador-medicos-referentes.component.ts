@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Medico } from 'src/app/models/medico';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
-import { flatMap, map } from 'rxjs';
+import { flatMap, forkJoin, map, of } from 'rxjs';
 import { MedicoService } from 'src/app/services/medico.service';
 import { NuevoMedicoSoloNombreComponent } from 'src/app/components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 
@@ -17,6 +17,7 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
   @Output() medicoEnviado = new EventEmitter<Medico>();
   @Input() mostrarNuevoMedicoInput?: boolean = true;
   @Input() medicoExiste?: Medico = null;
+  @Input() esAdmin: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -43,12 +44,28 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
             ? valor
             : valor.nombres + ' ' + valor.apellidos
         ),
-        flatMap((valor) =>
-          valor ? this.medicoService.filtrarReferentesPorNombre(valor) : []
-        )
+        flatMap((valor) => {
+          if (valor) {
+            return forkJoin([
+              this.medicoService.filtrarReferentesPorNombre(valor),
+              this.medicoService.filtrarRadiologosPorNombre(valor),
+              // Agrega aquí otros servicios de búsqueda si es necesario
+            ]);
+          } else {
+            return of([[], []]); // Si no hay valor, devolvemos un observable vacío
+          }
+        })
       )
-      .subscribe((referentes) => {
-        this.medicosReferentesFiltrados = referentes;
+      .subscribe((resultados: any[]) => {
+        const referentes = resultados[0];
+        const radiologos = resultados[1];
+        // Aquí puedes hacer lo que necesites con los resultados obtenidos
+        if (this.esAdmin) {
+          this.medicosReferentesFiltrados = radiologos;
+        }
+        if (!this.esAdmin) {
+          this.medicosReferentesFiltrados = referentes;
+        }
       });
   }
 

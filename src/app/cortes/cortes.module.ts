@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CortesRoutingModule } from './cortes-routing.module';
 import { TurnosComponent } from './components/turnos/turnos.component';
 import { MatTableModule } from '@angular/material/table';
@@ -25,6 +24,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
 import { DevolucionModalComponent } from './components/devolucion-modal/devolucion-modal.component';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -56,6 +56,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatSelectModule,
     MatSlideToggleModule,
     MatDatepickerModule,
+    SharedModule,
   ],
   exports: [PagarOrdenComponent],
 })
