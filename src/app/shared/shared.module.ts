@@ -10,10 +10,7 @@ import { BuscadorAreasComponent } from './components/buscador-areas/buscador-are
 import { BuscadorSalaComponent } from './components/buscador-sala/buscador-sala.component';
 import { MatSelectModule } from '@angular/material/select';
 import { CampoFechaComponent } from './components/campo-fecha/campo-fecha.component';
-import {
-  MatDateRangePicker,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CampoFechaRangoComponent } from './components/campo-fecha-rango/campo-fecha-rango.component';
 
 @NgModule({

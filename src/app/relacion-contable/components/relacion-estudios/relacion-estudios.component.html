@@ -6,9 +6,11 @@
                 <h1>Relacion de estudios</h1>
 
                 <div class="d-felx mb-4">
-                    <app-buscador-medicos-referentes [mostrarNuevoMedicoInput]="false" [esAdmin]="esAdmin"></app-buscador-medicos-referentes>
+                    <app-buscador-medicos-referentes [mostrarNuevoMedicoInput]="false" [esAdmin]="esAdmin"
+                        (medicoEnviado)="medicoSeleccionado($event)">
+                    </app-buscador-medicos-referentes>
                     <app-campo-fecha-rango (fechas)="fechasEmitidas($event)" class="me-4"></app-campo-fecha-rango>
-                    <button mat-raised-button color="primary">Buscar</button>
+                    <button mat-raised-button color="primary" (click)="buscar()">Buscar</button>
                 </div>
 
                 <table [dataSource]="estudiosDataSource" *ngIf="estudios.length>0" mat-table
@@ -16,30 +18,25 @@
                     <ng-container matColumnDef="Area">
                         <th mat-header-cell *matHeaderCellDef>Area</th>
                         <td mat-cell *matCellDef="let element">
-                            {{ element}}
+                            {{ element.area}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="Estudio">
                         <th mat-header-cell *matHeaderCellDef>Estudio</th>
                         <td mat-cell *matCellDef="let element">
-                            {{ element}}
+                            {{ element.estudio}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="Fecha">
                         <th mat-header-cell *matHeaderCellDef>Fecha</th>
                         <td mat-cell *matCellDef="let element">
-                            {{ element}}
+                            {{ element.fecha}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="Ver estudio">
                         <th mat-header-cell *matHeaderCellDef>Ver estudio</th>
                         <td mat-cell *matCellDef="let element">
-                            {{ element}}
-                        </td>
-                    </ng-container><ng-container matColumnDef="Descripcion">
-                        <th mat-header-cell *matHeaderCellDef>Descripcion</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.descripcion }}
+                            {{ element.uid}}
                         </td>
                     </ng-container>
 
@@ -53,11 +50,13 @@
                     <div>
                         <p>Cantidad de estudios: {{estudios.length}} </p>
                         <div *ngFor="let estudio of estudios">
-                            <p>{{estudio}}</p>
+                            <p>{{estudio.area}}</p>
+                            <?php objeto ?>
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success me-4 btn-lg">Imprimir resultados</button>
+                        <button class="btn btn-success me-4 btn-lg">Imprimir
+                            resultados</button>
                     </div>
                 </div>
             </div>
