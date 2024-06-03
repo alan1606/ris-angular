@@ -252,6 +252,15 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+  puedeAbrirRelacion(): boolean {
+    if (this.username == 'scarrera') {
+      return false;
+    }
+    if (this.isRadiologicPhysician || this.isAdmin) {
+      return true;
+    }
+    return false;
+  }
 
   abrirPerfilModal() {
     this.dialog.open(PerfilModalComponent, {

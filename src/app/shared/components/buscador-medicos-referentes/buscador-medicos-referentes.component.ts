@@ -18,7 +18,7 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
   @Input() mostrarNuevoMedicoInput?: boolean = true;
   @Input() medicoExiste?: Medico = null;
   @Input() esAdmin: boolean = false;
-
+  @Input() public etiqueta: string = 'Medico Referente';
   constructor(
     private dialog: MatDialog,
     private medicoService: MedicoService

@@ -1,6 +1,6 @@
 <div class="form-group my-3">
     <mat-form-field>
-        <input matInput placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
+        <input matInput [placeholder]="etiqueta" [formControl]="autocompleteControlMedicoReferente"
             [matAutocomplete]="autocompleteReferente">
         <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
             (optionSelected)="seleccionarMedicoReferente($event)">
