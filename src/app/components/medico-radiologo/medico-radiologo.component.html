@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-lg-auto my-4">
-                <mat-form-field>
+                <mat-form-field class="input-paciente">
                     <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
                         [matAutocomplete]="autocompletePaciente">
                     <mat-autocomplete #autocompletePaciente="matAutocomplete" [displayWith]="mostrarNombrePaciente"

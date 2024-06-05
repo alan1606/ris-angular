@@ -1,7 +1,6 @@
 <mat-card>
     <div>
         <h1>Medico {{username}}</h1>
-        <h1>Relacion de estudios</h1>
 
         <div class="buscador-resultados">
             <div class="d-felx mb-4">
@@ -20,7 +19,7 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success me-4 btn-lg">Imprimir
+                        <button class="btn btn-success me-4 btn-lg" (click)="imprimir()">Imprimir
                             resultados</button>
                     </div>
                 </div>

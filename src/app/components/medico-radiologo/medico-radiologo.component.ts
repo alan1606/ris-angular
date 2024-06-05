@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { flatMap, map } from 'rxjs';
+import { debounceTime, distinctUntilChanged, flatMap, map, switchMap } from 'rxjs';
 import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -87,10 +87,21 @@ export class MedicoRadiologoComponent implements OnInit {
     });
 
 
+    // this.autocompleteControlPaciente.valueChanges.pipe(
+    //   map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
+    //   flatMap(valor => valor ? this.pacienteService.filtrarPorNombreYRadiologoId(valor, this.medico.id) : [])
+    // ).subscribe(pacientes => this.pacientesFiltrados = pacientes);
+
+
     this.autocompleteControlPaciente.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombreCompleto),
-      flatMap(valor => valor ? this.pacienteService.filtrarPorNombreYRadiologoId(valor, this.medico.id) : [])
-    ).subscribe(pacientes => this.pacientesFiltrados = pacientes);
+      debounceTime(250), 
+      distinctUntilChanged(), 
+      switchMap(valor => {
+        const nombreCompleto = typeof valor === 'string' ? valor : valor.nombreCompleto;
+        return valor ? this.pacienteService.filtrarPorNombreYRadiologoId(nombreCompleto, this.medico.id) : [];
+      })
+    ).subscribe(pacientes => {
+      this.pacientesFiltrados = pacientes;});
 
   }
 

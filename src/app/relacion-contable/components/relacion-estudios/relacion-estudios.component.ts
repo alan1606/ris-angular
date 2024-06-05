@@ -21,7 +21,7 @@ export class RelacionEstudiosComponent implements OnInit {
   fechaFinControl: string = '';
   estudios: Study[] = [];
   estudiosDataSource: MatTableDataSource<Study>;
-  esReferente: boolean = false;
+  esRadiologo: boolean = false;
   esAdmin: boolean = false;
   estudiosDisplayedColumns: string[] = [
     'Area',
@@ -33,16 +33,17 @@ export class RelacionEstudiosComponent implements OnInit {
   areas: [] = [];
   constructor(
     private tokenService: TokenService,
-    private ventaConceptosService: VentaConceptosService,
     private medicoService: MedicoService,
     private alertaService: AlertaService
   ) {
     this.estudiosDataSource = new MatTableDataSource(this.estudios);
   }
   ngOnInit(): void {
-    this.esReferente = this.tokenService.isReferring();
+    this.esRadiologo = this.tokenService.isRadiologicPhysician();
     this.esAdmin = this.tokenService.isAdmin();
-    if (this.esReferente) {
+    console.log(this.tokenService.getUsername());
+    console.log(this.esRadiologo);
+    if (this.esRadiologo) {
       this.username = this.tokenService.getUsername();
     }
   }
@@ -50,10 +51,8 @@ export class RelacionEstudiosComponent implements OnInit {
   fechasEmitidas({ inicio, fin }): void {
     this.fechaInicioControl = inicio;
     this.fechaFinControl = fin;
-    console.log(this.fechaInicioControl, this.fechaFinControl);
   }
   medicoSeleccionado(event: Medico) {
-    console.log(event);
     this.username = event.usuario;
   }
   buscar(): void {
@@ -73,9 +72,15 @@ export class RelacionEstudiosComponent implements OnInit {
       )
       .subscribe(
         (data) => {
+          if (data.length <= 0) {
+            this.alertaService.campoInvalido(
+              'No hay estudios',
+              'Seleccione otras fechas'
+            );
+          }
+          console.log(data);
           this.estudios = data;
           this.estudiosDataSource.data = this.estudios;
-          console.log(data)
           this.areas = data.reduce((contador, estudio) => {
             const area = estudio.area;
             contador[area] = (contador[area] || 0) + 1;
@@ -87,7 +92,15 @@ export class RelacionEstudiosComponent implements OnInit {
         }
       );
   }
-  ver(estudio): void {
+  ver(estudio: any): void {
     window.open(`${VIEWER}${estudio.uid}`);
+  }
+
+  imprimir(): void {
+    this.medicoService.descargarRelacionDeMedicoPDF(
+      this.username,
+      this.fechaInicioControl,
+      this.fechaFinControl
+    );
   }
 }
