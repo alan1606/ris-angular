@@ -43,6 +43,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import {MatStepperModule} from '@angular/material/stepper'
 import { CortesModule } from '../cortes/cortes.module';
+import { MandarConfirmacionesPorFechaComponent } from './components/mandar-confirmaciones-por-fecha/mandar-confirmaciones-por-fecha.component';
 
 @NgModule({
     declarations: [
@@ -70,7 +71,8 @@ import { CortesModule } from '../cortes/cortes.module';
         MostrarCitasPorDiaPensionesComponent,
         CambiarEstudioComponent,
         AgregarEstudioComponent,
-        LimboComponent
+        LimboComponent,
+        MandarConfirmacionesPorFechaComponent
         ],
     imports: [
         CommonModule,

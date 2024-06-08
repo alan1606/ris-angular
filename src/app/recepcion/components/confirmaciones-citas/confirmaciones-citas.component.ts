@@ -13,6 +13,7 @@ import { ReagendarCitaModalComponent } from '../reagendar-cita-modal/reagendar-c
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
 import { Area } from 'src/app/models/area';
 import { DataService } from 'src/app/cortes/services/data.service';
+import { MandarConfirmacionesPorFechaComponent } from '../mandar-confirmaciones-por-fecha/mandar-confirmaciones-por-fecha.component';
 
 @Component({
   selector: 'app-confirmaciones-citas',
@@ -20,17 +21,6 @@ import { DataService } from 'src/app/cortes/services/data.service';
   styleUrls: ['./confirmaciones-citas.component.css'],
 })
 export class ConfirmacionesCitasComponent implements OnInit {
-  constructor(
-    private fechaService: FechaService,
-    private citaService: CitaService,
-    private ventaConceptosService: VentaConceptosService,
-    private datePipe: DatePipe,
-    private dialog: MatDialog,
-    private dataService: DataService
-  ) {
-    this.titulo = 'Confirmaciones';
-    this.minDate = new Date();
-  }
 
   fecha: string;
   date = new FormControl(new Date());
@@ -50,6 +40,20 @@ export class ConfirmacionesCitasComponent implements OnInit {
   total = 0;
   totalSinConfirmar = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  
+  constructor(
+    private fechaService: FechaService,
+    private citaService: CitaService,
+    private ventaConceptosService: VentaConceptosService,
+    private datePipe: DatePipe,
+    private dialog: MatDialog,
+    private dataService: DataService
+  ) {
+    this.titulo = 'Confirmaciones';
+    this.minDate = new Date();
+  }
+
+  
 
   ngOnInit(): void {
     const fechaString = this.fechaService.formatearFecha(this.date.value);
@@ -136,6 +140,13 @@ export class ConfirmacionesCitasComponent implements OnInit {
         );
       }
     });
+  }
+
+  abrirMandarConfirmacionesPorFecha(){
+    const modalref= this.dialog.open(MandarConfirmacionesPorFechaComponent,{
+      width:'1000'
+    })
+
   }
 
   public paginar(event: PageEvent): void {

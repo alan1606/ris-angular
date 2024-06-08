@@ -50,6 +50,10 @@ export class CitaService {
     return this.http.post<void>(`${this.baseEndpoint}/mandar-confirmaciones-dia-siguiente`, {});
   }
 
+  public mandarConfirmacionesPorFecha(fecha:string):Observable<void>{
+    return this.http.post<void>(`${this.baseEndpoint}/mandar-confirmaciones/${fecha}`,{})
+  }
+
   public buscarPorFecha(fecha: string, page: string, size: string): Observable<any>{
     const params = new HttpParams()
     .set('page', page)

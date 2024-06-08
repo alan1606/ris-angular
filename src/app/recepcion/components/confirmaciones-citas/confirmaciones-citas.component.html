@@ -1,11 +1,17 @@
 <div class="contenedor-busqueda">
   <div class="col-md-auto">
     <button
-      class="btn btn-info btn-lg btn-block me-3"
+      class="btn btn-warning btn-lg btn-block me-3"
       (click)="mandarConfirmacionesManiania()"
     >
       Mandar confirmaciones de mañana
     </button>
+    <button
+    class="btn btn-secondary btn-lg btn-block me-3"
+    (click)="abrirMandarConfirmacionesPorFecha()"
+  >
+    Mandar confirmaciones
+  </button>
   </div>
 
   <div class="col-md-auto">
