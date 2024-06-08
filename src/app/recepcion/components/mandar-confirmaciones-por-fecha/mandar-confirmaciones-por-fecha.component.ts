@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CitaService } from '../agendar';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mandar-confirmaciones-por-fecha',
@@ -10,7 +11,8 @@ import { AlertaService } from 'src/app/shared/services/alerta.service';
 export class MandarConfirmacionesPorFechaComponent {
   constructor(
     private citaService: CitaService,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    private dialogRef: MatDialogRef<MandarConfirmacionesPorFechaComponent>
   ) {}
 
   fecha: string = '';
@@ -22,11 +24,11 @@ export class MandarConfirmacionesPorFechaComponent {
     console.log(this.fecha);
     this.citaService.mandarConfirmacionesPorFecha(this.fecha).subscribe(
       (data) => {
-        console.log(data);
+        this.alertaService.exito('Confirmaciones enviadas');
+        this.dialogRef.close();
       },
       (error) => {
         this.alertaService.error(error);
-        console.log(error);
       }
     );
   }
