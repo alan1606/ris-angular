@@ -39,8 +39,12 @@
       <div class="inner-container2" #scrollContainer>
         <div *ngFor="let mensaje of listaMensajes">
           <div class="mensaje">
-            <p class="texto-mensaje">
+            <p *ngIf="mensaje.type == 'text'" 
+            class="texto-mensaje">
               {{ mensaje.message ? mensaje.message : "a" }}
+            </p>
+            <p *ngIf="mensaje.type == 'image'">
+              <img *ngIf="mensaje.mediaId" [src]="obtenerUrlImagen(mensaje.mediaId)" alt="Image"/>
             </p>
             <p class="fecha-mensaje">
               {{ mensaje.timestamp * 1000 | date : "h:mm a - dd/MM/yyyy" }}

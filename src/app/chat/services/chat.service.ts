@@ -48,4 +48,8 @@ export class ChatService {
   getMessagesByPhoneNumber(phone: string): Observable<Message[]>{
     return this.http.get<Message[]>(this.base+"/messages/phone/"+phone);
   }
+  
+  getImage(mediaId: string): Observable<Blob> {
+    return this.http.get(`${this.base}/messages/image/${mediaId}`, { responseType: 'blob' });
+  }
 }

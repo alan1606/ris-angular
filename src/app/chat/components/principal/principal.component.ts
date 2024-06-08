@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { Message } from '@stomp/stompjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-principal',
@@ -15,7 +16,9 @@ import { Message } from '@stomp/stompjs';
 })
 export class PrincipalComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService,
+    private sanitizer: DomSanitizer
+  ) {
     this.chatService.initConnenctionSocket();
   }
   chats: string[] = [];
@@ -23,6 +26,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit {
   busqueda: string = null;
   chatsFiltrados: string[] = [];
   listaMensajes: Message[] = [];
+  imagenesUrl={};
 
   ngOnInit(): void {
     this.chatService.joinWpTopic();
@@ -67,11 +71,36 @@ export class PrincipalComponent implements OnInit, AfterViewInit {
     this.chatService.getMessagesByPhoneNumber(chat).subscribe((mensajes) => {
       this.listaMensajes = mensajes;
       console.log(this.listaMensajes);
+      this.cargarImagenes(); 
     });
   }
 
   scrollToBottom() {
     const container = this.scrollContainer.nativeElement;
     container.scrollTop = container.scrollHeight - container.clientHeight;
+  }
+
+  cargarImagenes() {
+    this.listaMensajes.forEach((mensaje: any) => {
+      if (mensaje.mediaId) {
+        this.getImage(mensaje.mediaId);
+      }
+    });
+  }
+
+  getImage(mediaId: string) {
+    this.chatService.getImage(mediaId).subscribe(
+      (data) => {
+        let objectURL = URL.createObjectURL(data);
+        this.imagenesUrl[mediaId] = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      },
+      (error) => {
+        console.error('Error fetching image:', error);
+      }
+    );
+  }
+
+  obtenerUrlImagen(mediaId: string): any {
+    return this.imagenesUrl[mediaId] || '';
   }
 }
