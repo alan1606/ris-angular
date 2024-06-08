@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { VIEWER } from 'src/app/config/app';
+import { RESULTS_URL, VIEWER } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';
 import { Study } from 'src/app/models/study';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -8,6 +8,7 @@ import { MedicoService } from 'src/app/services/medico.service';
 import { TokenService } from 'src/app/services/token.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { OrdenVentaService } from '../../../services/orden-venta.service';
 
 @Component({
   selector: 'app-relacion-estudios',
@@ -26,6 +27,7 @@ export class RelacionEstudiosComponent implements OnInit {
   estudiosDisplayedColumns: string[] = [
     'Area',
     'Estudio',
+    'Paciente',
     'Fecha',
     'Ver estudio',
   ];
@@ -34,7 +36,8 @@ export class RelacionEstudiosComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private medicoService: MedicoService,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    private ventaConceptosService: VentaConceptosService
   ) {
     this.estudiosDataSource = new MatTableDataSource(this.estudios);
   }
@@ -93,7 +96,12 @@ export class RelacionEstudiosComponent implements OnInit {
       );
   }
   ver(estudio: any): void {
-    window.open(`${VIEWER}${estudio.uid}`);
+    this.ventaConceptosService.ver(estudio.idVentaConceptos).subscribe(({ordenVenta, paciente}) =>{
+      window.open(`${RESULTS_URL}orden/${ordenVenta.id}/${paciente.id}`);
+    }
+    );
+
+  
   }
 
   imprimir(): void {
