@@ -1,142 +1,231 @@
-@import '~quill/dist/quill.bubble.css';
+@import "~quill/dist/quill.bubble.css";
 
-.medico-referente{
+.contenedor-info {
+  display: grid;
+  grid-template-columns: 60% 30%;
+  margin-top: 1%;
+}
+
+.patient-info {
+  display: grid;
+  grid-template-columns: 20% 50%;
+  color: whitesmoke;
+  font-size: large;
+  margin-left: 1%;
+}
+
+.action-buttons {
   display: flex;
-  flex-direction: row;
-}
-.input-medico{
-  width: 30%;
-}
-@media (max-width:768px){
-  .input-medico{
-    width: 60%;
-  }
-}
-.container {
-    width: 100%;
-    max-width: 900px;
-    min-width: 320px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    .title {
-      width: 100%;
-    }
-
-    .content {
-      width: 100%;
-
-      .display {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 1rem;
-
-        .logo {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          margin-bottom: 0.5rem;
-        }
-
-
-      }
-
-    }
-
-
-  }
-  .img-fluid{ 
-    width: 1024px;
-  }
-
-  .editor {
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-
-    .NgxEditor__MenuBar {
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    }
-
-    .NgxEditor {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      border: none;
-    }
-
-    .CodeMirror {
-      border: 1px solid #eee;
-      height: auto;
-      margin-bottom: 0.7rem;
-
-      pre {
-        white-space: pre !important;
-      }
-    }
-  }
-
-  .sinborde {
-    border: 0;
-    width: 80%;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 25px;
-    direction: rtl;
-  }
-
-.flex-center{
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-self: end;
 }
 
-.pdf{
+.patient-info-keys {
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  font-weight: 500;
   width: 100%;
-  height: auto;
+  height: 90%;
+  padding: 1.4rem;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  text-align: end;
 }
-
-pdf-viewer {
+.patient-info-values {
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
   width: 100%;
-  height: auto;
+  height: 90%;
+  padding: 1.5rem;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
-
-@media (min-width: 768px) {
-
-  .pdf {
-    width: 50%;
-    height: 400px;
-  }
-}
-@media (max-width: 768px) {
-
-  pdf-viewer {
-    width: 100%;
-    height: 400px;
-  }
-}
-@media (max-width: 999px) {
-
-  pdf-viewer {
-    width: 800px;
-    height: 1200px;
-  }
+.patient-info-keys p {
+  margin: 20px;
 }
 
-@media (min-width: 999px) {
-  pdf-viewer {
-    width: 1000px;
-    height: 1350px;
-  }
-
-  .pdf{
-    width: 1000px;
-    height: 1000px;
-  }
-
-  
+.patient-info-values p {
+  margin: 20px;
 }
+.action-buttons button {
+  margin: 5px;
+  width: 80%;
+  box-shadow: 1px 2px 6px #000000;
+}
+
+.report-action-buttons {
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+.report-action-buttons button {
+  box-shadow: 1px 2px 6px #000000;
+}
+
+.report-buttons button {
+  margin: 10px;
+}
+
+.action-ia-button {
+  margin: 10px;
+  border: #000000;
+}
+.container-report-ia {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+.create-report-button {
+  text-align: start;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+
+.contenedor-ia {
+  text-align: end;
+  margin-right: 2%;
+}
+
+.conclusion-ia {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+// .medico-referente{
+//   display: flex;
+//   flex-direction: row;
+// }
+// .input-medico{
+//   width: 30%;
+// }
+// @media (max-width:768px){
+//   .input-medico{
+//     width: 60%;
+//   }
+// }
+// .container {
+//     width: 100%;
+//     max-width: 900px;
+//     min-width: 320px;
+//     margin: auto;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+
+//     .title {
+//       width: 100%;
+//     }
+
+//     .content {
+//       width: 100%;
+
+//       .display {
+//         display: flex;
+//         flex-direction: column;
+//         align-items: center;
+//         margin-bottom: 1rem;
+
+//         .logo {
+//           display: flex;
+//           flex-direction: column;
+//           align-items: center;
+//           text-align: center;
+//           margin-bottom: 0.5rem;
+//         }
+
+//       }
+
+//     }
+
+//   }
+//   .img-fluid{
+//     width: 1024px;
+//   }
+
+//   .editor {
+//     border: 2px solid rgba(0, 0, 0, 0.2);
+//     border-radius: 4px;
+
+//     .NgxEditor__MenuBar {
+//       border-top-left-radius: 4px;
+//       border-top-right-radius: 4px;
+//       border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+//     }
+
+//     .NgxEditor {
+//       border-top-left-radius: 0;
+//       border-top-right-radius: 0;
+//       border: none;
+//     }
+
+//     .CodeMirror {
+//       border: 1px solid #eee;
+//       height: auto;
+//       margin-bottom: 0.7rem;
+
+//       pre {
+//         white-space: pre !important;
+//       }
+//     }
+//   }
+
+//   .sinborde {
+//     border: 0;
+//     width: 80%;
+//     font-family: Arial, Helvetica, sans-serif;
+//     font-size: 25px;
+//     direction: rtl;
+//   }
+
+// .flex-center{
+//   display: flex;
+//   justify-content: center;
+// }
+
+// .pdf{
+//   width: 100%;
+//   height: auto;
+// }
+
+// pdf-viewer {
+//   width: 100%;
+//   height: auto;
+// }
+
+// @media (min-width: 768px) {
+
+//   .pdf {
+//     width: 50%;
+//     height: 400px;
+//   }
+// }
+// @media (max-width: 768px) {
+
+//   pdf-viewer {
+//     width: 100%;
+//     height: 400px;
+//   }
+// }
+// @media (max-width: 999px) {
+
+//   pdf-viewer {
+//     width: 800px;
+//     height: 1200px;
+//   }
+// }
+
+// @media (min-width: 999px) {
+//   pdf-viewer {
+//     width: 1000px;
+//     height: 1350px;
+//   }
+
+//   .pdf{
+//     width: 1000px;
+//     height: 1000px;
+//   }
+
+// }

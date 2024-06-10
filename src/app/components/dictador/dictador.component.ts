@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DOWNLOAD_WEASIS_MAC_LINK,
@@ -16,7 +16,6 @@ import { AntecedenteEstudioService } from '../../services/antecedente-estudio.se
 import { InterpretacionService } from '../../services/interpretacion.service';
 import { MultimediaService } from '../../services/multimedia.service';
 import { VentaConceptosService } from '../../services/venta-conceptos.service';
-import Swal from 'sweetalert2';
 
 import { SendMailService } from '../../services/send-mail.service';
 declare const webkitSpeechRecognition: any;
@@ -33,7 +32,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { BuscarMedicoReferenteYCambiarComponent } from './buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 import { CLS_IMGRIGHT } from '@syncfusion/ej2-angular-richtexteditor';
 import { Medico } from 'src/app/models/medico';
-import { error } from 'console';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 

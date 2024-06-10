@@ -1,4 +1,70 @@
-<form>
+<div>
+    <div class="contenedor-info">
+        <div class="patient-info">
+            <div class="patient-info-keys">
+                <p>PACIENTE: </p>
+                <p>ESTUDIO: </p>
+                <p>PROCEDENCIA: </p>
+                <p>MEDICO: </p>
+            </div>
+            <div class="patient-info-values">
+                <p>{{estudio.paciente.nombreCompleto}}</p>
+                <p>{{estudio.concepto.concepto}}</p>
+                <p>{{estudio.institucion.nombre}}</p>
+                <p>{{estudio.ordenVenta.medicoReferente.nombres}}</p>
+
+            </div>
+        </div>
+        <div class="action-buttons ">
+            <button class="btn btn-primary btn-sm" (click)="ver(estudio)">Abrir estudio en linea</button>
+            <button class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">Abrir con weasis</button>
+            <button class="btn btn-secondary btn-sm" (click)="descargarZip(estudio)">Descargar estudio en zip</button>
+            <button class="btn btn-secondary btn-sm" (click)="descargarWeasisWindows()">Descargar Weasis para
+                windows</button>
+            <button class="btn btn-secondary btn-sm" (click)="descargarWeasisMac()">Descargar weasis para mac</button>
+        </div>
+    </div>
+
+    <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="report-action-buttons">
+        <div class="report-buttons">
+            <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir PDF</button>
+            <button class="btn btn-secondary">Formatear Conclusión</button>
+        </div>
+        <div></div>
+    </div>
+
+    <div class="container-report-ia">
+        <div>
+            <div *ngIf="mostrarSubidaExterna">
+                <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
+                <button class="btn btn-success btn-lg my-2" (click)="regresar()">Regresar</button>
+            </div>
+
+            <div *ngIf="medicoLocal && !mostrarSubidaExterna" style="margin-left: 1%;">
+                <quill-editor [styles]="{height: '350px',width:'100%', backgroundColor:'#faf8f8'}"
+                    [modules]="quillEditorModules" formControlName="textEditor">
+                </quill-editor>
+            </div>
+
+            <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="create-report-button">
+                <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-success btn-lg">Crear PDF</button>
+            </div>
+        </div>
+        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia">
+            <textarea
+                style="background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%); color:black; font-size: large;"
+                class="form-control" id="exampleFormControlTextarea1" rows="12"
+                placeholder="Genere la conclusión con IA para obtener una previsualización."></textarea>
+            <div class="contenedor-ia">
+                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary">Generar Conclusion con IA</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- <form>
     <div class="form-group my-3">
         <label for="paciente">Paciente</label>
         <input type="text" name="paciente" id="paciente" class="form-control"
@@ -23,7 +89,6 @@
         <div class="medico-referente">
             <input type="text" name="medico" id="medico" class="form-control input-medico" 
             [value]="estudio?.ordenVenta?.medicoReferente.nombres + ' ' +estudio?.ordenVenta?.medicoReferente.apellidos">
-            <!--<button class="btn btn-success" (click)="abrirMedicoReferenteYCambiar()">Cambiar</button>-->
         </div>
     </div>
 
@@ -47,43 +112,6 @@
     <h2 *ngIf="estudiosDeOrden.length > 1">
         <b style = "color: red;">Favor de interpretar todos los estudios en este reporte</b>
     </h2>
-
-    <div *ngFor="let estudio of estudiosDeOrden">
-        <div class="row my-4" *ngIf="estudio.iuid?.length>0">
-            <h3><b>{{estudio?.concepto?.concepto}}</b></h3>
-            <div class="col">
-                <button type="button" class="btn btn-primary btn-sm" (click)="ver(estudio)">
-                    Ver estudio en línea
-                </button>
-            </div>
-
-            <div class="col">
-                <button type="button" class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">
-                    Abrir estudio con weasis
-                </button>
-            </div>
-
-            <div class="col">
-                <button class="btn btn-primary btn-sm" (click)="descargarZip(estudio)">
-                    Descargar estudio en zip
-                </button>
-            </div>
-
-            <div class="col">
-                <button class="btn btn-primary btn-sm" (click)="descargarWeasisWindows()">
-                    Descargar weasis windows
-                </button>
-            </div>
-
-            <div class="col">
-                <button class="btn btn-primary btn-sm" (click)="descargarWeasisMac()">
-                    Descargar weasis mac
-                </button>
-            </div>
-        </div>
-    </div>
-
-
 
     <div class="contenedor-img-fluid" *ngIf="multimediaCargada | async ">
         <div class="form-group my-3" *ngFor="let img of multimedia">
@@ -163,4 +191,4 @@
 
 
 
-</form>
+</form> -->
