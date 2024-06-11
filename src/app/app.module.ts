@@ -56,6 +56,8 @@ import { PerfilModule } from './perfil/perfil.module';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
 import { SharedModule } from './shared/shared.module';
 import { CortesModule } from './cortes/cortes.module';
+import {MatToolbarModule} from '@angular/material/toolbar'
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -117,6 +119,8 @@ import { CortesModule } from './cortes/cortes.module';
     SharedModule,
     QuillModule.forRoot(),
     CortesModule,
+    MatToolbarModule,
+    MatExpansionModule
   ],
   providers: [
     DatePipe,

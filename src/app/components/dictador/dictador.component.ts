@@ -1,37 +1,25 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  DOWNLOAD_WEASIS_MAC_LINK,
-  DOWNLOAD_WEASIS_WINDOWS_LINK,
-  VIEWER,
-  WEASIS_VIEWER_PATH,
-  ZIP_STUDIES_PATH,
-  FILES_PATH,
-  BASE_ENDPOINT,
-} from '../../config/app';
+import {DOWNLOAD_WEASIS_MAC_LINK,DOWNLOAD_WEASIS_WINDOWS_LINK,VIEWER,WEASIS_VIEWER_PATH,ZIP_STUDIES_PATH,FILES_PATH,BASE_ENDPOINT,} from '../../config/app';
 import { Multimedia } from '../../models/multimedia';
-
 import { VentaConceptos } from '../../models/venta-conceptos';
 import { AntecedenteEstudioService } from '../../services/antecedente-estudio.service';
 import { InterpretacionService } from '../../services/interpretacion.service';
 import { MultimediaService } from '../../services/multimedia.service';
 import { VentaConceptosService } from '../../services/venta-conceptos.service';
-
 import { SendMailService } from '../../services/send-mail.service';
-declare const webkitSpeechRecognition: any;
-
 import { FormControl, FormGroup } from '@angular/forms';
-
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
-import { MedicoService } from 'src/app/services/medico.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscarMedicoReferenteYCambiarComponent } from './buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
-import { CLS_IMGRIGHT } from '@syncfusion/ej2-angular-richtexteditor';
 import { Medico } from 'src/app/models/medico';
+import { Paciente } from 'src/app/models/paciente';
+import { Concepto } from 'src/app/models/concepto';
+import { RenderImagenComponent } from 'src/app/shared/components/render-imagen/render-imagen.component';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -41,10 +29,6 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   styleUrls: ['./dictador.component.scss'],
 })
 export class DictadorComponent implements OnInit {
-  // @Input() setEvent(eventMessage: any) {
-  //   this.medicoReferenteRecibido = eventMessage;
-  //   console.log(this.medicoReferenteRecibido)
-  // }
   interpretacion: Interpretacion;
   enlacePdf: string = '';
   medicoReferenteRecibido = null;
@@ -53,14 +37,14 @@ export class DictadorComponent implements OnInit {
   multimedia: Multimedia[] = [];
   multimediaCargada: Promise<Boolean>;
   estudiosDeOrden: VentaConceptos[];
-
+  paciente: Paciente = new Paciente();
   mostrarSubidaExterna: boolean = true;
   medicoLocal: boolean = false;
-
+  idVentaConcepto: number = null;
   filesPath = FILES_PATH;
-
+  concepto: Concepto = new Concepto();
   templateForm: FormGroup;
-
+  panelOpenState = false;
   quillEditorModules = {};
 
   constructor(
@@ -74,7 +58,6 @@ export class DictadorComponent implements OnInit {
     private mailService: SendMailService,
     private ordenVentaService: OrdenVentaService,
     private tokenService: TokenService,
-    private medicoService: MedicoService
   ) {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
@@ -87,45 +70,43 @@ export class DictadorComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const idVentaConcepto: number = +params.get('idVentaConcepto');
+      this.idVentaConcepto = +params.get('idVentaConcepto');
 
-      if (!idVentaConcepto) {
+      if (!this.idVentaConcepto) {
         this.router.navigate(['/']);
       }
-      this.ventaConceptosService.ver(idVentaConcepto).subscribe(
-        (estudio) => {
-          console.log({
-            'El médico asignado al estudio es: ':
-              estudio.medicoRadiologo.usuario,
-          });
-          const usuario = this.tokenService.getUsername();
-          if (!usuario || usuario == '') {
-            this.router.navigate(['/']);
-          }
-
-          if (estudio.medicoRadiologo.usuario != usuario) {
-            this.router.navigate(['/']);
-          }
-
-          this.estudio = estudio;
-          this.cargarAntecedentesInicial();
-          this.cargarMultimedia();
-          this.cargarEstudiosDeOrden();
-          this.medicoLocal = this.estudio.medicoRadiologo.local;
-          this.mostrarSubidaExterna = !this.medicoLocal;
-
-          if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
-            this.cargarPlantillaCardio();
-          }
-
-          this.cargarInterpretacionAnterior();
-        },
-        (error) => {
-          console.log(error);
+    });
+    this.ventaConceptosService.ver(this.idVentaConcepto).subscribe(
+      (estudio) => {
+        const usuario = this.tokenService.getUsername();
+        if (!usuario || usuario == '') {
           this.router.navigate(['/']);
         }
-      );
-    });
+
+        if (estudio.medicoRadiologo.usuario != usuario) {
+          this.router.navigate(['/']);
+        }
+
+        this.estudio = estudio;
+        this.paciente = estudio.paciente;
+        this.concepto = estudio.concepto;
+        this.cargarAntecedentesInicial();
+        this.cargarMultimedia();
+        this.cargarEstudiosDeOrden();
+        this.medicoLocal = this.estudio.medicoRadiologo.local;
+        this.mostrarSubidaExterna = !this.medicoLocal;
+
+        if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
+          this.cargarPlantillaCardio();
+        }
+
+        this.cargarInterpretacionAnterior();
+      },
+      (error) => {
+        console.log(error);
+        this.router.navigate(['/']);
+      }
+    );
   }
 
   abrirMedicoReferenteYCambiar() {
@@ -188,7 +169,6 @@ export class DictadorComponent implements OnInit {
         (multimedia) => {
           this.multimedia = multimedia;
           this.multimediaCargada = Promise.resolve(true);
-          console.log(multimedia);
         },
         (error) => {
           console.log('Error al cargar multimedia');
@@ -251,12 +231,11 @@ export class DictadorComponent implements OnInit {
       }
     );
     const botonGuardar = document.getElementById('crearPDF'); // Reemplaza 'idDelBotonGuardar' con el ID real de tu botón
-    const posicionY = botonGuardar.offsetTop;
-    setTimeout(()=>{
+    const posicionY = botonGuardar?.offsetTop;
+    setTimeout(() => {
       window.scroll(0, posicionY + 100);
-    },200)
+    }, 200);
   }
-  
 
   private marcarEstudiosDeOrdenInterpretados() {
     this.estudiosDeOrden.forEach((estudio) => {
@@ -303,6 +282,7 @@ export class DictadorComponent implements OnInit {
             (estudio) =>
               estudio.medicoRadiologo.id === this.estudio.medicoRadiologo.id
           );
+          console.log(this.estudiosDeOrden)
         },
         (error) => {
           console.log(
@@ -411,5 +391,11 @@ export class DictadorComponent implements OnInit {
           console.log('Error al enviar información Pensiones');
         }
       );
+  }
+
+  abrirFoto(img:Multimedia):void{
+    this.dialog.open(RenderImagenComponent,{
+      data:img
+    })
   }
 }

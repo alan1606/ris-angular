@@ -1,53 +1,90 @@
 <div>
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <span><button mat-button (click)="ver(estudio)">Abrir estudio en
+                    linea</button></span>
+            <span><button mat-button (click)="abrirConWeasis(estudio)">Abrir con
+                    weasis</button></span>
+            <span><button mat-button (click)="abrirConWeasis(estudio)">Descargar
+                    estudio en zip</button></span>
+            <span><button mat-button (click)="abrirConWeasis(estudio)">Descargar
+                    weasis para windows</button></span>
+            <span><button mat-button (click)="abrirConWeasis(estudio)">Descargar
+                    weasis para mac</button></span>
+
+
+        </mat-toolbar-row>
+    </mat-toolbar>
     <div class="contenedor-info">
-        <div class="patient-info">
-            <div class="patient-info-keys">
-                <p>PACIENTE: </p>
-                <p>ESTUDIO: </p>
-                <p>PROCEDENCIA: </p>
-                <p>MEDICO: </p>
-            </div>
-            <div class="patient-info-values">
-                <p>{{estudio.paciente.nombreCompleto}}</p>
-                <p>{{estudio.concepto.concepto}}</p>
-                <p>{{estudio.institucion.nombre}}</p>
-                <p>{{estudio.ordenVenta.medicoReferente.nombres}}</p>
-
-            </div>
-        </div>
-        <div class="action-buttons ">
-            <button class="btn btn-primary btn-sm" (click)="ver(estudio)">Abrir estudio en linea</button>
-            <button class="btn btn-primary btn-sm" (click)="abrirConWeasis(estudio)">Abrir con weasis</button>
-            <button class="btn btn-secondary btn-sm" (click)="descargarZip(estudio)">Descargar estudio en zip</button>
-            <button class="btn btn-secondary btn-sm" (click)="descargarWeasisWindows()">Descargar Weasis para
-                windows</button>
-            <button class="btn btn-secondary btn-sm" (click)="descargarWeasisMac()">Descargar weasis para mac</button>
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="patient-info">
+                        <b>PACIENTE</b>: {{paciente.nombreCompleto}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{panelOpenState ? 'Ocultar' : 'Abrir para ver mas detalles de la orden'}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="patient-info">
+                    <p><b>ESTUDIO: </b>{{estudio?.concepto?.concepto}}</p>
+                    <p><b>PROCEDENCIA: </b>{{estudio?.institucion?.nombre}}</p>
+                    <p><b>MEDICO: </b>{{estudio?.ordenVenta?.medicoReferente.nombres}}
+                        {{estudio?.ordenVenta?.medicoReferente.apellidos}}</p>
+                    <p *ngIf="estudio?.ordenVenta?.motivo"><b>Motivo: </b> {{estudio?.ordenVenta?.motivo}}</p>
+                    <p *ngIf="antecedentes"><b>ANTECEDENTES: </b> {{antecedentes}}</p>
+                    <p *ngIf="estudio?.mensaje"><b>MENSAJE: </b> {{estudio?.mensaje}}</p>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="contenedor-info">
+        <h2 *ngIf="estudiosDeOrden?.length > 1">
+            <p style="color: red;">Favor de interpretar todos los estudios en este reporte</p>
+        </h2>
+    </div>
+    <div class="d-flex ms-3" *ngIf="multimediaCargada | async ">
+        <div *ngFor="let img of multimedia, let i = index">
+            <button class="btn btn-dark me-3" (click)="abrirFoto(img)">Foto
+                {{multimedia.length > 1
+                ? i+1:'' }} de la
+                orden
+            </button>
         </div>
     </div>
-
-    <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="report-action-buttons">
-        <div class="report-buttons">
+    <div class="report-action-buttons">
+        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="report-buttons">
             <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir PDF</button>
-            <button class="btn btn-secondary">Formatear Conclusión</button>
+            <button class="btn btn-secondary" (click)="formatearConclusion()">Formatear Conclusión</button>
         </div>
-        <div></div>
+        <div *ngIf="medicoLocal && mostrarSubidaExterna" class="report-buttons">
+            <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Usar
+                dictador</button>
+        </div>
     </div>
-
-    <div class="container-report-ia">
+    <div class="container-report-ia mb-4">
         <div>
-            <div *ngIf="mostrarSubidaExterna">
+            <div *ngIf="mostrarSubidaExterna" style="margin-left: 1%;">
                 <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
                 <button class="btn btn-success btn-lg my-2" (click)="regresar()">Regresar</button>
             </div>
 
             <div *ngIf="medicoLocal && !mostrarSubidaExterna" style="margin-left: 1%;">
-                <quill-editor [styles]="{height: '350px',width:'100%', backgroundColor:'#faf8f8'}"
-                    [modules]="quillEditorModules" formControlName="textEditor">
-                </quill-editor>
+                <form [formGroup]="templateForm">
+                    <quill-editor
+                        [styles]="{height: '350px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'verdana'}"
+                        [modules]="quillEditorModules" formControlName="textEditor">
+                    </quill-editor>
+                </form>
             </div>
 
             <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="create-report-button">
-                <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-success btn-lg">Crear PDF</button>
+                <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-primary" (click)="guardar()">Crear
+                    PDF</button>
+                <button *ngIf="enlacePdf !== ''" class="btn btn-success ms-4" style="box-shadow: 1px 2px 6px #000000;"
+                    (click)="firmar()">
+                    Firmar
+                </button>
             </div>
         </div>
         <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia">
@@ -56,139 +93,24 @@
                 class="form-control" id="exampleFormControlTextarea1" rows="12"
                 placeholder="Genere la conclusión con IA para obtener una previsualización."></textarea>
             <div class="contenedor-ia">
-                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary">Generar Conclusion con IA</button>
+                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary">Generar
+                    Conclusion con IA</button>
             </div>
         </div>
     </div>
-
+    <div class="pdf" *ngIf="enlacePdf !== ''">
+        <pdf-viewer class="pdf-generado" [src]="enlacePdf" [render-text]="true" [original-size]="false"></pdf-viewer>
+    </div>
 
 </div>
+<!-- <div *ngIf="!concepto.dicom && multimediaCargada | async ">
+    <div class="form-group my-3" *ngFor="let pdf of multimedia">
+        <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta" [render-text]="true"
+            [original-size]="false" style="width: 1100px; height: 700px">
+        </pdf-viewer>
 
-<!-- <form>
-    <div class="form-group my-3">
-        <label for="paciente">Paciente</label>
-        <input type="text" name="paciente" id="paciente" class="form-control"
-            [(ngModel)]="estudio?.paciente.nombreCompleto">
+        <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm" (click)="expandir(pdf)">
+            Expandir
+        </button>
     </div>
-
-    <div class="form-group my-3">
-        <label for="estudio">Estudio</label>
-        <input type="text" name="estudio" id="estudio" class="form-control" [(ngModel)]="estudio?.concepto.concepto">
-    </div>
-
-    <div class="form-group my-3">
-        <label for="procedencia">Procedencia</label>
-        <input type="text" name="procedencia" id="procedencia" class="form-control"
-            [(ngModel)]="estudio?.institucion.nombre">
-    </div>
-
-
-    
-    <div class="form-group my-3 " *ngIf="estudio?.ordenVenta?.medicoReferente">
-        <label for="medico">Medico</label>
-        <div class="medico-referente">
-            <input type="text" name="medico" id="medico" class="form-control input-medico" 
-            [value]="estudio?.ordenVenta?.medicoReferente.nombres + ' ' +estudio?.ordenVenta?.medicoReferente.apellidos">
-        </div>
-    </div>
-
-
-    
-    <div class="form-group my-3" *ngIf="estudio?.ordenVenta?.motivo">
-        <label for="motivo">Motivo</label>
-        <input type="text" name="motivo" id="motivo" class="form-control" [(ngModel)]="estudio?.ordenVenta.motivo">
-    </div>
-
-    <div class="form-group my-3" *ngIf="estudio?.mensaje">
-        <label for="mensaje">Mensaje</label>
-        <input type="text" name="mensaje" id="mensaje" class="form-control" [(ngModel)]="estudio.mensaje">
-    </div>
-
-    <div class="form-group my-3" *ngIf="antecedentes">
-        <label for="antecedentes">Antecedentes</label>
-        <textarea name="antecedentes" id="antecedentes" class="form-control" [(ngModel)]="antecedentes"> </textarea>
-    </div>
-
-    <h2 *ngIf="estudiosDeOrden.length > 1">
-        <b style = "color: red;">Favor de interpretar todos los estudios en este reporte</b>
-    </h2>
-
-    <div class="contenedor-img-fluid" *ngIf="multimediaCargada | async ">
-        <div class="form-group my-3" *ngFor="let img of multimedia">
-            <img *ngIf="img.tipo == 'IMAGEN'" class="img-fluid" [src]="filesPath + img.ruta">
-        </div>
-    </div>
-
-    <div *ngIf="!estudio.concepto.dicom && multimediaCargada | async ">
-        <div class="form-group my-3" *ngFor="let pdf of multimedia">
-            <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta" [render-text]="true"
-                [original-size]="false" style="width: 1100px; height: 700px">
-            </pdf-viewer>
-
-            <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm"
-                (click)="expandir(pdf)">
-                Expandir
-            </button>
-        </div>
-    </div>
-
-
-
-    <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="flex-center">
-      <button class=" btn btn-success btn-sm my-2"  (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir pdf</button>
-    </div>
-
-    <div *ngIf="medicoLocal && mostrarSubidaExterna" class="flex-center">
-      <button class="btn btn-danger btn-sm my-2" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Usar dictador</button>
-    </div>
-
-
-
-
-    <div *ngIf="medicoLocal && !mostrarSubidaExterna">
-
-      <form [formGroup]="templateForm">
-        <quill-editor
-            [styles]="{height: '400px',width:'100%', backgroundColor:'#faf8f8'}"
-            [modules]="quillEditorModules"
-            formControlName="textEditor"
-        >
-        </quill-editor>
-
-        <div>
-            <button class="btn btn-dark btn-sm my-4" (click)="formatearConclusion()">
-                Formatear conclusión
-            </button>
-    
-            <button id="crearPDF" class="btn btn-success btn-lg my-4 ms-4" (click)="guardar()">
-              Crear PDF
-            </button>
-        </div>
-        <center>
-        <div class="pdf"  *ngIf="enlacePdf !== ''">
-            
-                <pdf-viewer
-            class="pdf-generado"
-              [src]="enlacePdf" [render-text]="true" [original-size]="false"
-              
-            ></pdf-viewer>
-                        <button class="btn btn-success btn-lg my-4" (click)="firmar()">
-                            Firmar
-                        </button>
-            
-        </div>
-        </center>
-      </form>
-
-
-    </div>
-
-    <div *ngIf="mostrarSubidaExterna">
-      <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
-      <button class="btn btn-success btn-lg my-2" (click)="regresar()">Regresar</button>
-    </div>
-
-
-
-
-</form> -->
+</div> -->

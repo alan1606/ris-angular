@@ -1,42 +1,18 @@
 @import "~quill/dist/quill.bubble.css";
 
 .contenedor-info {
-  display: grid;
-  grid-template-columns: 60% 30%;
+  margin-left: 5%;
+  margin-right: 5%;
   margin-top: 1%;
 }
 
-.patient-info {
-  display: grid;
-  grid-template-columns: 20% 50%;
-  color: whitesmoke;
-  font-size: large;
-  margin-left: 1%;
-}
-
-.action-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-self: end;
-}
 
 .patient-info-keys {
-  background-image: linear-gradient(to right, #434343 0%, black 100%);
-  font-weight: 500;
   width: 100%;
-  height: 90%;
-  padding: 1.4rem;
+  height: 70%;
+  padding: 1rem;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  text-align: end;
-}
-.patient-info-values {
-  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  width: 100%;
-  height: 90%;
-  padding: 1.5rem;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
 }
 
 .patient-info-keys p {
@@ -56,8 +32,6 @@
   margin-top: 15px;
   margin-left: 10px;
   margin-bottom: 5px;
-  display: grid;
-  grid-template-columns: 60% 40%;
 }
 
 .report-action-buttons button {
@@ -93,139 +67,130 @@
   margin-right: 2%;
 }
 
-// .medico-referente{
-//   display: flex;
-//   flex-direction: row;
-// }
-// .input-medico{
-//   width: 30%;
-// }
-// @media (max-width:768px){
-//   .input-medico{
-//     width: 60%;
-//   }
-// }
-// .container {
-//     width: 100%;
-//     max-width: 900px;
-//     min-width: 320px;
-//     margin: auto;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     justify-content: center;
+.medico-referente {
+  display: flex;
+  flex-direction: row;
+}
+.input-medico {
+  width: 30%;
+}
+@media (max-width: 768px) {
+  .input-medico {
+    width: 60%;
+  }
+}
+.container {
+  width: 100%;
+  max-width: 900px;
+  min-width: 320px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-//     .title {
-//       width: 100%;
-//     }
+  .title {
+    width: 100%;
+  }
 
-//     .content {
-//       width: 100%;
+  .content {
+    width: 100%;
 
-//       .display {
-//         display: flex;
-//         flex-direction: column;
-//         align-items: center;
-//         margin-bottom: 1rem;
+    .display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1rem;
 
-//         .logo {
-//           display: flex;
-//           flex-direction: column;
-//           align-items: center;
-//           text-align: center;
-//           margin-bottom: 0.5rem;
-//         }
+      .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
 
-//       }
 
-//     }
+.editor {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 
-//   }
-//   .img-fluid{
-//     width: 1024px;
-//   }
+  .NgxEditor__MenuBar {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
 
-//   .editor {
-//     border: 2px solid rgba(0, 0, 0, 0.2);
-//     border-radius: 4px;
+  .NgxEditor {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: none;
+  }
 
-//     .NgxEditor__MenuBar {
-//       border-top-left-radius: 4px;
-//       border-top-right-radius: 4px;
-//       border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-//     }
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+    margin-bottom: 0.7rem;
 
-//     .NgxEditor {
-//       border-top-left-radius: 0;
-//       border-top-right-radius: 0;
-//       border: none;
-//     }
+    pre {
+      white-space: pre !important;
+    }
+  }
+}
 
-//     .CodeMirror {
-//       border: 1px solid #eee;
-//       height: auto;
-//       margin-bottom: 0.7rem;
+.sinborde {
+  border: 0;
+  width: 80%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  direction: rtl;
+}
 
-//       pre {
-//         white-space: pre !important;
-//       }
-//     }
-//   }
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
 
-//   .sinborde {
-//     border: 0;
-//     width: 80%;
-//     font-family: Arial, Helvetica, sans-serif;
-//     font-size: 25px;
-//     direction: rtl;
-//   }
+.pdf {
+  width: 100%;
+  height: auto;
+}
 
-// .flex-center{
-//   display: flex;
-//   justify-content: center;
-// }
+pdf-viewer {
+  width: 100%;
+  height: auto;
+}
 
-// .pdf{
-//   width: 100%;
-//   height: auto;
-// }
+@media (min-width: 768px) {
+  .pdf {
+    width: 50%;
+    height: 400px;
+  }
+}
+@media (max-width: 768px) {
+  pdf-viewer {
+    width: 100%;
+    height: 400px;
+  }
+}
+@media (max-width: 999px) {
+  pdf-viewer {
+    width: 800px;
+    height: 1200px;
+  }
+}
 
-// pdf-viewer {
-//   width: 100%;
-//   height: auto;
-// }
+@media (min-width: 999px) {
+  pdf-viewer {
+    width: 1000px;
+    height: 1350px;
+  }
 
-// @media (min-width: 768px) {
-
-//   .pdf {
-//     width: 50%;
-//     height: 400px;
-//   }
-// }
-// @media (max-width: 768px) {
-
-//   pdf-viewer {
-//     width: 100%;
-//     height: 400px;
-//   }
-// }
-// @media (max-width: 999px) {
-
-//   pdf-viewer {
-//     width: 800px;
-//     height: 1200px;
-//   }
-// }
-
-// @media (min-width: 999px) {
-//   pdf-viewer {
-//     width: 1000px;
-//     height: 1350px;
-//   }
-
-//   .pdf{
-//     width: 1000px;
-//     height: 1000px;
-//   }
-
-// }
+  .pdf {
+    width: 1000px;
+    height: 1000px;
+  }
+}

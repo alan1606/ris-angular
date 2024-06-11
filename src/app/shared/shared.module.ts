@@ -12,6 +12,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { CampoFechaComponent } from './components/campo-fecha/campo-fecha.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CampoFechaRangoComponent } from './components/campo-fecha-rango/campo-fecha-rango.component';
+import { RenderImagenComponent } from './components/render-imagen/render-imagen.component';
+import { QuillModule } from 'ngx-quill';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,7 @@ import { CampoFechaRangoComponent } from './components/campo-fecha-rango/campo-f
     BuscadorSalaComponent,
     CampoFechaComponent,
     CampoFechaRangoComponent,
+    RenderImagenComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +35,8 @@ import { CampoFechaRangoComponent } from './components/campo-fecha-rango/campo-f
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
+    QuillModule.forRoot(),
+    PdfViewerModule,
   ],
   exports: [
     BuscadorMedicosReferentesComponent,
@@ -38,6 +44,7 @@ import { CampoFechaRangoComponent } from './components/campo-fecha-rango/campo-f
     BuscadorSalaComponent,
     CampoFechaComponent,
     CampoFechaRangoComponent,
+    RenderImagenComponent,
   ],
 })
 export class SharedModule {}
