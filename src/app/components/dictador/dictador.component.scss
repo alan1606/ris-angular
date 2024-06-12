@@ -1,9 +1,7 @@
 @import "~quill/dist/quill.bubble.css";
 
+.general-container{}
 .contenedor-info {
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 1%;
 }
 
 
@@ -49,6 +47,16 @@
 .container-report-ia {
   display: grid;
   grid-template-columns: 60% 40%;
+}
+
+@media (max-width:1024px){
+  .general-container{
+    width: 100%;
+  }
+  .container-report-ia {
+    display: grid;
+    grid-template-columns: 100%;
+  }
 }
 
 .create-report-button {

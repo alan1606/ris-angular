@@ -9,6 +9,8 @@ import { TokenService } from 'src/app/services/token.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { OrdenVentaService } from '../../../services/orden-venta.service';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { OrdenVenta } from 'src/app/models/orden-venta';
 
 @Component({
   selector: 'app-relacion-estudios',
@@ -67,41 +69,51 @@ export class RelacionEstudiosComponent implements OnInit {
       this.alertaService.campoInvalido('Seleccione las fechas');
       return;
     }
-    this.medicoService
-      .obtenerRelacionEstudios(
-        this.username,
-        this.fechaInicioControl,
-        this.fechaFinControl
-      )
-      .subscribe(
-        (data) => {
-          if (data.length <= 0) {
-            this.alertaService.campoInvalido(
-              'No hay estudios',
-              'Seleccione otras fechas'
-            );
+    this.estudios=[]
+
+    let alerta = this.alertaService.info(
+      'Buscando...',
+      'espere un momento',
+      false,
+      false
+    );
+    setTimeout(() => {
+      this.medicoService
+        .obtenerRelacionEstudios(
+          this.username,
+          this.fechaInicioControl,
+          this.fechaFinControl
+        )
+        .subscribe(
+          (data) => {
+            if (data.length <= 0) {
+              this.alertaService.campoInvalido(
+                'No hay estudios',
+                'Seleccione otras fechas'
+              );
+            }
+            console.log(data);
+            this.estudios = data;
+            this.estudiosDataSource.data = this.estudios;
+            this.areas = data.reduce((contador:number, estudio:any) => {
+              const area = estudio.area;
+              contador[area] = (contador[area] || 0) + 1;
+              return contador;
+            }, {});
+            Swal.close();
+          },
+          (error) => {
+            this.alertaService.error(error);
           }
-          console.log(data);
-          this.estudios = data;
-          this.estudiosDataSource.data = this.estudios;
-          this.areas = data.reduce((contador, estudio) => {
-            const area = estudio.area;
-            contador[area] = (contador[area] || 0) + 1;
-            return contador;
-          }, {});
-        },
-        (error) => {
-          this.alertaService.error(error);
-        }
-      );
+        );
+    }, 500);
   }
   ver(estudio: any): void {
-    this.ventaConceptosService.ver(estudio.idVentaConceptos).subscribe(({ordenVenta, paciente}) =>{
-      window.open(`${RESULTS_URL}orden/${ordenVenta.id}/${paciente.id}`);
-    }
-    );
-
-  
+    this.ventaConceptosService
+      .ver(estudio.idVentaConceptos)
+      .subscribe(({ ordenVenta, paciente }) => {
+        window.open(`${RESULTS_URL}orden/${ordenVenta.id}/${paciente.id}`);
+      });
   }
 
   imprimir(): void {

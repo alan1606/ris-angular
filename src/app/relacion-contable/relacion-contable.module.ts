@@ -9,12 +9,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { RelacionContableComponent } from './components/relacion-contable/relacion-contable.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
-  declarations: [RelacionEstudiosComponent, RelacionContableComponent],
+  declarations: [RelacionEstudiosComponent],
   imports: [
     CommonModule,
     RelacionContableRoutingModule,

@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {DOWNLOAD_WEASIS_MAC_LINK,DOWNLOAD_WEASIS_WINDOWS_LINK,VIEWER,WEASIS_VIEWER_PATH,ZIP_STUDIES_PATH,FILES_PATH,BASE_ENDPOINT,} from '../../config/app';
+import {
+  DOWNLOAD_WEASIS_MAC_LINK,
+  DOWNLOAD_WEASIS_WINDOWS_LINK,
+  VIEWER,
+  WEASIS_VIEWER_PATH,
+  ZIP_STUDIES_PATH,
+  FILES_PATH,
+  BASE_ENDPOINT,
+} from '../../config/app';
 import { Multimedia } from '../../models/multimedia';
 import { VentaConceptos } from '../../models/venta-conceptos';
 import { AntecedenteEstudioService } from '../../services/antecedente-estudio.service';
@@ -20,6 +28,7 @@ import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
 import { Concepto } from 'src/app/models/concepto';
 import { RenderImagenComponent } from 'src/app/shared/components/render-imagen/render-imagen.component';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -46,7 +55,8 @@ export class DictadorComponent implements OnInit {
   templateForm: FormGroup;
   panelOpenState = false;
   quillEditorModules = {};
-
+  esMobil = window.matchMedia('(min-width:1023px)');
+  conclusion: string = '';
   constructor(
     private route: ActivatedRoute,
     private ventaConceptosService: VentaConceptosService,
@@ -58,11 +68,11 @@ export class DictadorComponent implements OnInit {
     private mailService: SendMailService,
     private ordenVentaService: OrdenVentaService,
     private tokenService: TokenService,
+    private alertaService: AlertaService
   ) {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
     });
-
     this.quillEditorModules = {
       blotFormatter: {},
     };
@@ -216,15 +226,33 @@ export class DictadorComponent implements OnInit {
   }
 
   guardar() {
+    console.log(this.conclusion)
+    if (!this.conclusion) {
+      this.alertaService.campoInvalido(
+        'Conclusión vacía',
+        'porfavor escriba la conclusión'
+      );
+      return;
+    }
     this.interpretacion = new Interpretacion();
     this.enlacePdf = '';
     this.interpretacion.estudio = this.estudio;
+    let saltoLinea = '<br><p><b>Conclusión</b></p>';
+    if (this.conclusion !== '') {
+      this.templateForm.value.textEditor += saltoLinea;
+      this.templateForm.value.textEditor += this.conclusion;
+      this.conclusion = '';
+    }
+
     this.interpretacion.interpretacion = this.templateForm.value.textEditor;
+
+    console.log(this.interpretacion.interpretacion);
 
     this.interpretacionService.crear(this.interpretacion).subscribe(
       (interpretacion) => {
         this.interpretacion = interpretacion;
         this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`;
+        this.cargarInterpretacionAnterior();
       },
       () => {
         console.log('Error creando la interpretación');
@@ -282,7 +310,6 @@ export class DictadorComponent implements OnInit {
             (estudio) =>
               estudio.medicoRadiologo.id === this.estudio.medicoRadiologo.id
           );
-          console.log(this.estudiosDeOrden)
         },
         (error) => {
           console.log(
@@ -310,9 +337,18 @@ export class DictadorComponent implements OnInit {
           interpretacionResponse.length > 0
             ? interpretacionResponse[0]
             : new Interpretacion();
-        this.templateForm
-          .get('textEditor')
-          .setValue(interpretacion?.interpretacion);
+
+        let [firstPart, secondPart] = interpretacion.interpretacion.split(
+          '<br><p><b>Conclusión</b></p>'
+        );
+        console.log(secondPart);
+
+        this.templateForm.get('textEditor').setValue(firstPart);
+        this.conclusion = secondPart
+          ? secondPart
+          : '' || !secondPart
+          ? ''
+          : secondPart;
       },
       () => {
         console.log('Error al cargar interpretación anterior');
@@ -393,9 +429,9 @@ export class DictadorComponent implements OnInit {
       );
   }
 
-  abrirFoto(img:Multimedia):void{
-    this.dialog.open(RenderImagenComponent,{
-      data:img
-    })
+  abrirFoto(img: Multimedia): void {
+    this.dialog.open(RenderImagenComponent, {
+      data: img,
+    });
   }
 }
