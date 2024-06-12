@@ -97,9 +97,8 @@ export class PrincipalComponent implements OnInit {
   }
 
   enviarResultado(orden: OrdenVenta): void {
-    this.router.navigate([`/instituciones/enviar/${orden.id}`]);
+    window.open(`/ris/instituciones/enviar/${orden.id}`, '_blank');
   }
-
 
   public paginar(event: PageEvent): void {
     this.paginaActual = event.pageIndex;
