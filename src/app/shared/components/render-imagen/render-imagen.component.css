@@ -1,4 +1,10 @@
 .img-fluid {
+
   height: 100vh;
   border-radius: 20px;
+}
+.contenedor-imagen {
+  display: flex;
+  justify-content: center;
+  justify-self: center;
 }

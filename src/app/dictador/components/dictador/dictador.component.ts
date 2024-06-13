@@ -8,14 +8,14 @@ import {
   ZIP_STUDIES_PATH,
   FILES_PATH,
   BASE_ENDPOINT,
-} from '../../config/app';
-import { Multimedia } from '../../models/multimedia';
-import { VentaConceptos } from '../../models/venta-conceptos';
-import { AntecedenteEstudioService } from '../../services/antecedente-estudio.service';
-import { InterpretacionService } from '../../services/interpretacion.service';
-import { MultimediaService } from '../../services/multimedia.service';
-import { VentaConceptosService } from '../../services/venta-conceptos.service';
-import { SendMailService } from '../../services/send-mail.service';
+} from '../../../config/app';
+import { Multimedia } from '../../../models/multimedia';
+import { VentaConceptos } from '../../../models/venta-conceptos';
+import { AntecedenteEstudioService } from '../../../services/antecedente-estudio.service';
+import { InterpretacionService } from '../../../services/interpretacion.service';
+import { MultimediaService } from '../../../services/multimedia.service';
+import { VentaConceptosService } from '../../../services/venta-conceptos.service';
+import { SendMailService } from '../../../services/send-mail.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
@@ -23,12 +23,13 @@ import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
 import { MatDialog } from '@angular/material/dialog';
-import { BuscarMedicoReferenteYCambiarComponent } from './buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
+import { BuscarMedicoReferenteYCambiarComponent } from '../buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
 import { Concepto } from 'src/app/models/concepto';
 import { RenderImagenComponent } from 'src/app/shared/components/render-imagen/render-imagen.component';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { VisorInterpretacionComponent } from '../visor-interpretacion/visor-interpretacion.component';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -168,8 +169,6 @@ export class DictadorComponent implements OnInit {
     <p><strong>El electrocardiograma es una herramienta diagnóstica que requiere la correlación clínica por parte del médico tratante</strong></p>
     `
     );
-
-    console.log(this.templateForm.value.textEditor);
   }
 
   cargarMultimedia() {
@@ -226,7 +225,6 @@ export class DictadorComponent implements OnInit {
   }
 
   guardar() {
-    console.log(this.conclusion)
     if (!this.conclusion) {
       this.alertaService.campoInvalido(
         'Conclusión vacía',
@@ -240,13 +238,11 @@ export class DictadorComponent implements OnInit {
     let saltoLinea = '<br><p><b>Conclusión</b></p>';
     if (this.conclusion !== '') {
       this.templateForm.value.textEditor += saltoLinea;
-      this.templateForm.value.textEditor += this.conclusion;
+      this.templateForm.value.textEditor += `<b>${this.conclusion}</b>`;
       this.conclusion = '';
     }
 
     this.interpretacion.interpretacion = this.templateForm.value.textEditor;
-
-    console.log(this.interpretacion.interpretacion);
 
     this.interpretacionService.crear(this.interpretacion).subscribe(
       (interpretacion) => {
@@ -338,17 +334,34 @@ export class DictadorComponent implements OnInit {
             ? interpretacionResponse[0]
             : new Interpretacion();
 
-        let [firstPart, secondPart] = interpretacion.interpretacion.split(
-          '<br><p><b>Conclusión</b></p>'
-        );
-        console.log(secondPart);
+        let patron = /Conclusión/;
 
-        this.templateForm.get('textEditor').setValue(firstPart);
-        this.conclusion = secondPart
-          ? secondPart
-          : '' || !secondPart
-          ? ''
-          : secondPart;
+        let existeConclusion = patron.test(interpretacion.interpretacion);
+
+        if (existeConclusion) {
+          console.log('1');
+          let [firstPart, secondPart] =
+            interpretacion.interpretacion.split('Conclusión');
+
+          this.templateForm.get('textEditor').setValue(firstPart);
+          this.conclusion = secondPart
+            ? secondPart
+            : '' || !secondPart
+            ? ''
+            : secondPart;
+        } else if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
+          console.log(3);
+          this.cargarPlantillaCardio();
+        } else if (interpretacion.interpretacion) {
+          console.log('2');
+          this.templateForm
+            .get('textEditor')
+            .setValue(interpretacion.interpretacion);
+        } else {
+          this.templateForm
+            .get('textEditor')
+            .setValue(interpretacion.interpretacion);
+        }
       },
       () => {
         console.log('Error al cargar interpretación anterior');
@@ -369,37 +382,27 @@ export class DictadorComponent implements OnInit {
 
   formatearConclusion(): void {
     let interpretacionHtml = this.templateForm.value.textEditor;
-
     const regex = /conclusi[oóÓn]/i;
-
     let ultimoIndice = -1;
     let desplazamiento = 0;
     let indice;
-
     while (
       (indice = interpretacionHtml.slice(desplazamiento).search(regex)) !== -1
     ) {
       ultimoIndice = indice + desplazamiento;
       desplazamiento += indice + 1;
     }
-
     if (ultimoIndice == -1) {
       console.log('No se encontraron coincidencias');
       return;
     }
-
     let textoAnterior: string = interpretacionHtml.substring(0, ultimoIndice);
     let textoPosterior: string = interpretacionHtml.substring(ultimoIndice);
-
     textoPosterior = textoPosterior.toUpperCase();
-
     textoAnterior += '<strong>';
     textoPosterior += '</strong>';
-
     let interpretacionFinal: string = textoAnterior + textoPosterior;
-
     interpretacionFinal = interpretacionFinal.replace(/&nbsp;/gi, ' ');
-
     this.templateForm.get('textEditor').setValue(interpretacionFinal);
   }
 
@@ -432,6 +435,14 @@ export class DictadorComponent implements OnInit {
   abrirFoto(img: Multimedia): void {
     this.dialog.open(RenderImagenComponent, {
       data: img,
+      width: '100vw',
+      height: '100vh',
+    });
+  }
+
+  verInterpretacion(): void {
+    this.dialog.open(VisorInterpretacionComponent, {
+      data: this.enlacePdf,
     });
   }
 }

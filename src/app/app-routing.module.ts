@@ -3,11 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
-import { DictadorComponent } from './components/dictador/dictador.component';
 import { ResultadosComponent } from './resultados/components/resultados/resultados.component';
 import { DictamenComponent } from './resultados/components/dictamen/dictamen.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
-import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { OrdenVentaComponent } from './resultados/components/orden-venta/orden-venta.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -48,8 +46,8 @@ const routes: Routes = [
     canActivate: [DictadorGuard],
   },
   {
-    path: 'dictador/:idVentaConcepto',
-    component: DictadorComponent,
+    path: 'dictador',
+    loadChildren: ()=>import('./dictador/dictador.module').then(m=>m.DictadorModule),
     canActivate: [DictadorGuard],
   },
   {
@@ -61,11 +59,6 @@ const routes: Routes = [
     path: 'worklist',
     component: WorklistComponent,
     canActivate: [VentaConceptosGuard],
-  },
-  {
-    path: 'dictador/subir-pdf/:idPacs',
-    component: SubirInterpretacionComponent,
-    canActivate: [DictadorGuard],
   },
   {
     path: 'campanias',
