@@ -101,19 +101,15 @@
             <th>Estudio</th>
             <th>Fecha</th>
             <th>Estatus</th>
-            <th>IdPacs</th>
             <th>Area</th>
-            <th>Weasis</th>
-            <th style="font-size: 10px">Desvincular</th>
-            <th>Ver</th>
-            <th>Accion</th>
-            <th>Datos</th>
+            <th>Más</th>
           </tr>
         </thead>
 
         <tbody *ngIf="lista?.length > 0">
-          <tr
-            *ngFor="let estudio of lista"
+          <ng-container *ngFor="let estudio of lista" >
+            <tr
+           
             [ngClass]="{
               'table-success': estudio.estado == 'INTERPRETADO',
               'table-danger': estudio.estado == 'PAGADO'
@@ -169,65 +165,70 @@
                 {{ estudio.estado }}
               </p>
             </td>
-            <td>{{ estudio.idPacs }}</td>
             <td>{{ estudio.equipoDicom.area.nombre }}</td>
-            <td *ngIf="estudio.concepto.dicom">
-              <button
-                class="btn btn-success btn-md"
-                *ngIf="estudio.iuid?.length > 0"
-                (click)="abrirWeasis(estudio)"
-              >
-                <i class="bi bi-eye"></i>
-              </button>
-            </td>
-            <td
-              (click)="desvincular(estudio)"
-              *ngIf="estudio.iuid?.length > 0"
-              style="font-size: 10px;"
-            >
-              <button class="btn btn-sm btn-danger" style="margin-left: 12px;">X</button>
-            </td>
-            <td *ngIf="!estudio.iuid?.length > 0"></td>
-            <td *ngIf="estudio.concepto.dicom">
-              <button
-                class="btn btn-success btn-md"
-                *ngIf="estudio.iuid?.length > 0"
-                (click)="ver(estudio)"
-              >
-                <i class="bi bi-eye"></i>
-              </button>
-              <button
-                class="btn btn-info btn-md"
-                *ngIf="!estudio.iuid?.length > 0"
-                (click)="buscarEstudioEnPacs(estudio)"
-              >
-                <i class="bi bi-search"></i>
-              </button>
-            </td>
-            <td *ngIf="!estudio.concepto.dicom"></td>
-            <td
-              *ngIf="
-                estudio.estado != 'CANCELADO' && estudio.estado != 'DEVUELTO'
-              "
-            >
-              <button
-                class="btn btn-primary btn-md"
-                *ngIf="estudio.iuid?.length > 0 || !estudio.concepto.dicom"
-                (click)="abrirEnvio(estudio)"
-              >
-                <i class="bi bi-send-fill"></i>
-              </button>
-            </td>
 
             <td>
-              <button
-                class="btn btn-info"
-                (click)="abrirInformacion(estudio)"
-              >
-                <i class="bi bi-person-vcard-fill"></i>
-              </button>
+              <button type="button" class="btn btn-sm btn-info" (click)="verMasInfo(estudio)">Ver más</button>
+            </td>
+            
+          </tr>
+
+          <tr *ngIf="estudio.verMasInfo">
+            <td colspan="8">
+              <div class="info-container" style="text-align: center;">
+                <div class="info-item">
+                  <strong>Id PACS:</strong> <span>{{ estudio.idPacs }}</span>
+                </div>
+                <div class="info-item" *ngIf="estudio.iuid?.length > 0" >
+                  <strong>Abrir con Weasis:</strong>
+                  <button class="btn btn-success btn-md" (click)="abrirWeasis(estudio)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+                <div class="info-item" *ngIf="estudio.iuid?.length > 0">
+                  <strong>Desvincular:</strong>
+                  <button class="btn btn-md btn-danger"  (click)="desvincular(estudio)">
+                    X
+                  </button>
+                </div>
+                <div class="info-item" *ngIf="estudio.concepto.dicom" >
+                  <ng-container *ngIf="estudio.iuid?.length > 0">
+                    <strong>Ver en línea:</strong>
+                    <button class="btn btn-info btn-md" (click)="ver(estudio)">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="!estudio.iuid?.length > 0">
+                    <strong>Buscar</strong>
+                    <button class="btn btn-info btn-md" *ngIf="!estudio.iuid?.length > 0" (click)="buscarEstudioEnPacs(estudio)">
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </ng-container>
+                </div>
+                <div class="info-item" *ngIf="estudio.iuid?.length > 0 || !estudio.concepto.dicom">
+                  <strong>Interpretar:</strong>
+                  <button class="btn btn-primary btn-md"  (click)="abrirEnvio(estudio)">
+                    <i class="bi bi-send-fill"></i>
+                  </button>
+                </div>
+                <div class="info-item">
+                  <strong>Datos de la orden:</strong>
+                  <button class="btn btn-info btn-md" (click)="abrirInformacion(estudio)">
+                    <i class="bi bi-person-vcard-fill"></i>
+                  </button>
+                </div>
+                <div class="info-item" *ngIf="estudio.iuid?.length > 0" >
+                  <strong>Worklist:</strong>
+                  <button class="btn btn-primary btn-md"
+                            (click)="enviar(estudio)">
+                            <i class="bi bi-list-check"></i>
+                        </button>
+                </div>
+              </div>
             </td>
           </tr>
+          </ng-container>
+          
         </tbody>
       </table>
     </div>

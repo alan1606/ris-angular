@@ -334,6 +334,11 @@ export class VentaConceptosComponent
       }
     );
   }
+
+  verMasInfo(estudio: VentaConceptos){
+    estudio.verMasInfo = !estudio.verMasInfo;
+  }
+
   verQr(estudio: VentaConceptos): void {
     let ordenVentaId = estudio.ordenVenta.id;
     let pacienteId = estudio.paciente.id;
@@ -375,6 +380,15 @@ export class VentaConceptosComponent
     const primeraModalidad = this.modalidades[0];
     this.modalidadSelect.value = primeraModalidad;
     this.modalidadSelect.valueChange.emit(primeraModalidad); // Emitir el cambio si es necesario
+  }
+  enviar(estudio: VentaConceptos): void{
+    this.service.procesarEstudioEnWorklist(estudio.id).subscribe(()=>{
+      estudio.enWorklist= true;
+      Swal.fire('Éxito', 'Procesado correctamente', "success");
+    },error =>{
+      console.log(error);
+      Swal.fire('Error', 'No se ha podido procesar la worklist', 'error');
+    });
   }
 }
 

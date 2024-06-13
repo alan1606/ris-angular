@@ -27,4 +27,5 @@ export class VentaConceptos implements Generic {
     iuid: string;
     mensaje: string;
     citas: Cita[];
+    verMasInfo: boolean = false;
 }
