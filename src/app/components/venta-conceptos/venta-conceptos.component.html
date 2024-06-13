@@ -73,6 +73,16 @@
       </mat-autocomplete>
     </mat-form-field>
   </div>
+
+  <div class="col-md-auto">
+    <mat-form-field>
+      <mat-label>Modalidad</mat-label>
+      <mat-select #modalidadSelect (selectionChange)="seleccionarModalidad($event)">
+          <mat-option *ngFor="let modalidad of modalidades" [value]="modalidad" >{{modalidad}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+  </div>
 </div>
 
 <div class="card text-dark bg-light">
@@ -93,7 +103,8 @@
             <th>Estatus</th>
             <th>IdPacs</th>
             <th>Area</th>
-            <th>IUID</th>
+            <th>Weasis</th>
+            <th style="font-size: 10px">Desvincular</th>
             <th>Ver</th>
             <th>Accion</th>
             <th>Datos</th>
@@ -160,12 +171,21 @@
             </td>
             <td>{{ estudio.idPacs }}</td>
             <td>{{ estudio.equipoDicom.area.nombre }}</td>
+            <td *ngIf="estudio.concepto.dicom">
+              <button
+                class="btn btn-success btn-md"
+                *ngIf="estudio.iuid?.length > 0"
+                (click)="abrirWeasis(estudio)"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+            </td>
             <td
               (click)="desvincular(estudio)"
               *ngIf="estudio.iuid?.length > 0"
-              style="font-size: 10px"
+              style="font-size: 10px;"
             >
-              {{ estudio.iuid }}
+              <button class="btn btn-sm btn-danger" style="margin-left: 12px;">X</button>
             </td>
             <td *ngIf="!estudio.iuid?.length > 0"></td>
             <td *ngIf="estudio.concepto.dicom">
