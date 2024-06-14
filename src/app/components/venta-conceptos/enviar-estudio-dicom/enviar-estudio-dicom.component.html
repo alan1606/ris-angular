@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Seleccionar equipo</h2>
+<mat-dialog-content>
+
+    <mat-form-field>
+        <mat-label>Ae title</mat-label>
+        <mat-select #aeTitleSelect (selectionChange)="seleccionarAeTitle($event)">
+            <mat-option *ngFor="let ae of aeTitles" [value]="ae">{{ae}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+</mat-dialog-content>

@@ -224,6 +224,13 @@
                             <i class="bi bi-list-check"></i>
                         </button>
                 </div>
+                <div class="info-item" *ngIf="estudio.iuid?.length > 0" >
+                  <strong>Send:</strong>
+                  <button class="btn btn-success btn-md"
+                            (click)="abrirEnvioDicom(estudio)">
+                            <i class="bi bi-cloud-upload-fill"></i>
+                        </button>
+                </div>
               </div>
             </td>
           </tr>

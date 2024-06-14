@@ -20,6 +20,7 @@ import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/
 import { FechaService } from 'src/app/services/fecha.service';
 import { BASE_SITE } from 'src/app/config/app';
 import { MatSelect } from '@angular/material/select';
+import { EnviarEstudioDicomComponent } from './enviar-estudio-dicom/enviar-estudio-dicom.component';
 @Component({
   selector: 'app-venta-conceptos',
   templateUrl: './venta-conceptos.component.html',
@@ -389,6 +390,15 @@ export class VentaConceptosComponent
       console.log(error);
       Swal.fire('Error', 'No se ha podido procesar la worklist', 'error');
     });
+  }
+
+  abrirEnvioDicom(estudio){
+    const modalRef = this.dialog.open(EnviarEstudioDicomComponent, {
+      width: '1000px',
+      data: { estudio: estudio },
+    });
+
+    modalRef.afterClosed().subscribe((info) => {});
   }
 }
 
