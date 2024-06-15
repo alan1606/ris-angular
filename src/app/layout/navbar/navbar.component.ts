@@ -158,13 +158,6 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
-  puedeAbrirWorklist(): boolean {
-    if (this.isAdmin || this.isTechnician) {
-      return true;
-    }
-    return false;
-  }
-
   puedeAbrirCampanias(): boolean {
     if (this.isAdmin) {
       return true;

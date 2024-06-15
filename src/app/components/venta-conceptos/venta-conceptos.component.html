@@ -217,7 +217,7 @@
                     <i class="bi bi-person-vcard-fill"></i>
                   </button>
                 </div>
-                <div class="info-item" *ngIf="estudio.iuid?.length > 0" >
+                <div class="info-item" *ngIf="estudio.iuid?.length > 0 || estudio.estado == 'PAGADO'" >
                   <strong>Worklist:</strong>
                   <button class="btn btn-primary btn-md"
                             (click)="enviar(estudio)">
