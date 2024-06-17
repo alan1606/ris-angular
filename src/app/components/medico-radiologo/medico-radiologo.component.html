@@ -19,13 +19,13 @@
 
 
             <div class="col-lg-auto my-3 ">
-            <mat-form-field appearance="fill">
-                <mat-label>Estado:</mat-label>
-                <mat-select [(value)]="estado" (selectionChange)="buscarPorEstado()">
-                    <mat-option value="INTERPRETANDO">Pendientes</mat-option>
-                    <mat-option value="INTERPRETADO">Finalizados</mat-option>
-                </mat-select>
-            </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Estado:</mat-label>
+                    <mat-select [(value)]="estado" (selectionChange)="buscarPorEstado()">
+                        <mat-option value="INTERPRETANDO">Pendientes</mat-option>
+                        <mat-option value="INTERPRETADO">Finalizados</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <div class="col-lg-auto my-4">
@@ -71,14 +71,17 @@
                         <p class="pendiente">Pendiente</p>
                     </td>
                     <td *ngIf="estudio.estado=='INTERPRETADO'">
-                        <p class="terminado" (click)="abrirDictador(estudio)">Terminado</p>
+                        <div class="estado-column">
+                            <p class="terminado">Terminado</p>
+                            <button (click)="abrirDictador(estudio)" class="btn btn-primary">Entrar al dictador</button>
+                        </div>
                     </td>
-                    <td>
+                    <td class="">
                         <button *ngIf="estudio.estado!='INTERPRETADO'" class="btn btn-primary btn-sm"
                             [routerLink]="['/dictador/', estudio.id]">
                             Interpretar
                         </button>
-                        <button *ngIf="estudio.estado=='INTERPRETADO'" class="btn btn-primary btn-sm"
+                        <button *ngIf="estudio.estado=='INTERPRETADO'" class="btn btn-dark"
                             (click)="ver(estudio)">
                             Ver
                         </button>

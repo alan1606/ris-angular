@@ -60,8 +60,6 @@ export class MedicoRadiologoComponent implements OnInit {
     if(usuario == ''){
       this.router.navigate(['/']);
     }
-
-    console.log(usuario);
     this.service.encontrarMedicoPorTokenPorUsuario(usuario).subscribe(
       ( { token } ) => {
         this.router.navigate([`/medico-radiologo/${token}`]);

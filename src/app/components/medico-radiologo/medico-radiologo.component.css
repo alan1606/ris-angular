@@ -8,3 +8,9 @@
 .input-paciente{
     width: 350px;
 }
+
+.estado-column{
+    text-align: center;
+    justify-content: center;
+    justify-self: center;
+}
