@@ -57,7 +57,7 @@
                 {{
                 img.tipo ==='IMAGEN' && multimedia.length > 1
                 ? 'Foto de la orden':'Foto de la orden' ||
-                img.tipo==='DOCUMENTO'? "Archivo del estudio del estudio":'Foto de la orden' ||
+                img.tipo==='DOCUMENTO'? "Archivo del estudio":'Foto de la orden' ||
                 img.tipo ==='IMAGEN' && multimedia.length === 1
                 ? 'Foto de la orden':'Foto de la orden'
                 }}
@@ -97,12 +97,13 @@
         </div>
         <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia">
             <b>Ahora la conclusion se debe escribir en el recuadro de abajo</b>
-            <quill-editor
-                [styles]="{height: '320px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'verdana', fontWeight:600}"
+            <quill-editor class="mayus"
+                [styles]="{height: '320px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:600,}"
                 [modules]="quillEditorModules" [(ngModel)]="conclusion">
             </quill-editor>
             <div class="contenedor-ia">
-                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary" [disabled]="btnConclusionDisabled" (click)="generarConclusion()">Generar
+                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary"
+                    [disabled]="btnConclusionDisabled" (click)="generarConclusion()">Generar
                     Conclusion con IA</button>
             </div>
         </div>

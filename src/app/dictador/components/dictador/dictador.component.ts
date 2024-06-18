@@ -248,10 +248,10 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.interpretacion = new Interpretacion();
     this.enlacePdf = '';
     this.interpretacion.estudio = this.estudio;
-    let saltoLinea = '<br><p><b>Conclusión</b></p>';
-    if (this.conclusion !== '') {
+    let saltoLinea = '<p><b>CONCLUSIÓN</b></p>';
+    if (this.conclusion) {
       this.templateForm.value.textEditor += saltoLinea;
-      this.templateForm.value.textEditor += `<b>${this.conclusion}</b>`;
+      this.templateForm.value.textEditor += `<b>${this.conclusion.toUpperCase()}</b>`;
       this.conclusion = '';
     }
 
@@ -347,14 +347,13 @@ export class DictadorComponent implements OnInit, OnDestroy {
             ? interpretacionResponse[0]
             : new Interpretacion();
 
-        let patron = /Conclusión/;
-
+        let patron = /CONCLUSI/;
         let existeConclusion = patron.test(interpretacion.interpretacion);
 
         if (existeConclusion) {
           console.log('1');
           let [firstPart, secondPart] =
-            interpretacion.interpretacion.split('Conclusión');
+            interpretacion.interpretacion.split('<p><b>CONCLUSIN</b></p>');
 
           this.templateForm.get('textEditor').setValue(firstPart);
           this.conclusion = secondPart
@@ -393,31 +392,31 @@ export class DictadorComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  formatearConclusion(): void {
-    let interpretacionHtml = this.templateForm.value.textEditor;
-    const regex = /conclusi[oóÓn]/i;
-    let ultimoIndice = -1;
-    let desplazamiento = 0;
-    let indice;
-    while (
-      (indice = interpretacionHtml.slice(desplazamiento).search(regex)) !== -1
-    ) {
-      ultimoIndice = indice + desplazamiento;
-      desplazamiento += indice + 1;
-    }
-    if (ultimoIndice == -1) {
-      console.log('No se encontraron coincidencias');
-      return;
-    }
-    let textoAnterior: string = interpretacionHtml.substring(0, ultimoIndice);
-    let textoPosterior: string = interpretacionHtml.substring(ultimoIndice);
-    textoPosterior = textoPosterior.toUpperCase();
-    textoAnterior += '<strong>';
-    textoPosterior += '</strong>';
-    let interpretacionFinal: string = textoAnterior + textoPosterior;
-    interpretacionFinal = interpretacionFinal.replace(/&nbsp;/gi, ' ');
-    this.templateForm.get('textEditor').setValue(interpretacionFinal);
-  }
+  // formatearConclusion(): void {
+  //   let interpretacionHtml = this.templateForm.value.textEditor;
+  //   const regex = /conclusi[oóÓn]/i;
+  //   let ultimoIndice = -1;
+  //   let desplazamiento = 0;
+  //   let indice;
+  //   while (
+  //     (indice = interpretacionHtml.slice(desplazamiento).search(regex)) !== -1
+  //   ) {
+  //     ultimoIndice = indice + desplazamiento;
+  //     desplazamiento += indice + 1;
+  //   }
+  //   if (ultimoIndice == -1) {
+  //     console.log('No se encontraron coincidencias');
+  //     return;
+  //   }
+  //   let textoAnterior: string = interpretacionHtml.substring(0, ultimoIndice);
+  //   let textoPosterior: string = interpretacionHtml.substring(ultimoIndice);
+  //   textoPosterior = textoPosterior.toUpperCase();
+  //   textoAnterior += '<strong>';
+  //   textoPosterior += '</strong>';
+  //   let interpretacionFinal: string = textoAnterior + textoPosterior;
+  //   interpretacionFinal = interpretacionFinal.replace(/&nbsp;/gi, ' ');
+  //   this.templateForm.get('textEditor').setValue(interpretacionFinal);
+  // }
 
   private enviarInformacionSaludParral() {
     this.ordenVentaService
@@ -468,6 +467,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     },
     () =>{
       Swal.fire("Error", "Ocurrió un error al generar la conclusión", "error");
+      this.btnConclusionDisabled = false;
     }
     );
   }
