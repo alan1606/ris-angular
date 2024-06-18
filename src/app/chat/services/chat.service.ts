@@ -31,10 +31,6 @@ export class ChatService {
     })
   }
 
-  /*sendMessage(roomId: string, chatMessage: ChatMessage) {
-    this.stompClient.send(`/app/chat/${roomId}`, {}, JSON.stringify(chatMessage))
-  }*/
-
   getMessageSubject(): Observable<Message>{
     return this.messageSubject.asObservable();
   }

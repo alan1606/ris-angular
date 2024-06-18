@@ -102,7 +102,7 @@
                 [modules]="quillEditorModules" [(ngModel)]="conclusion">
             </quill-editor>
             <div class="contenedor-ia">
-                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary">Generar
+                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary" [disabled]="btnConclusionDisabled" (click)="generarConclusion()">Generar
                     Conclusion con IA</button>
             </div>
         </div>

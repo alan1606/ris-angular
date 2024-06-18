@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DOWNLOAD_WEASIS_MAC_LINK,
@@ -30,6 +30,9 @@ import { Concepto } from 'src/app/models/concepto';
 import { RenderImagenComponent } from 'src/app/shared/components/render-imagen/render-imagen.component';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { VisorInterpretacionComponent } from '../visor-interpretacion/visor-interpretacion.component';
+import Swal from 'sweetalert2';
+import { ReportService } from '../../services/report.service';
+import { Subscription } from 'rxjs';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -38,7 +41,7 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   templateUrl: './dictador.component.html',
   styleUrls: ['./dictador.component.scss'],
 })
-export class DictadorComponent implements OnInit {
+export class DictadorComponent implements OnInit, OnDestroy {
   interpretacion: Interpretacion;
   enlacePdf: string = '';
   medicoReferenteRecibido = null;
@@ -58,6 +61,10 @@ export class DictadorComponent implements OnInit {
   quillEditorModules = {};
   esMobil = window.matchMedia('(min-width:1023px)');
   conclusion: string = '';
+  btnConclusionDisabled: boolean = false;
+  private messageSubscription: Subscription;
+
+
   constructor(
     private route: ActivatedRoute,
     private ventaConceptosService: VentaConceptosService,
@@ -69,7 +76,8 @@ export class DictadorComponent implements OnInit {
     private mailService: SendMailService,
     private ordenVentaService: OrdenVentaService,
     private tokenService: TokenService,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    private reportService: ReportService
   ) {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
@@ -77,9 +85,11 @@ export class DictadorComponent implements OnInit {
     this.quillEditorModules = {
       blotFormatter: {},
     };
+
   }
 
   ngOnInit(): void {
+
     this.route.paramMap.subscribe((params) => {
       this.idVentaConcepto = +params.get('idVentaConcepto');
 
@@ -112,12 +122,15 @@ export class DictadorComponent implements OnInit {
         }
 
         this.cargarInterpretacionAnterior();
+        this.reportService.joinTopic(this.estudio.id);
+        this.listenerConclusion();
       },
       (error) => {
         console.log(error);
         this.router.navigate(['/']);
       }
     );
+
   }
 
   abrirMedicoReferenteYCambiar() {
@@ -444,5 +457,32 @@ export class DictadorComponent implements OnInit {
     this.dialog.open(VisorInterpretacionComponent, {
       data: this.enlacePdf,
     });
+  }
+
+  generarConclusion(){
+    this.btnConclusionDisabled = true;
+    Swal.fire("La conclusión se está generando, espere un momento, por favor");
+
+    const interpretacion = this.templateForm.value.textEditor;
+    this.reportService.generateReport(interpretacion, this.estudio.id).subscribe(() =>{
+    },
+    () =>{
+      Swal.fire("Error", "Ocurrió un error al generar la conclusión", "error");
+    }
+    );
+  }
+
+  listenerConclusion(){
+    this.messageSubscription = this.reportService.getMessageSubject().subscribe((mensaje: any) => {
+      console.log("Recibida respuesta");
+      console.log(mensaje);
+      this.conclusion = mensaje.conclusion;
+     });
+  }
+
+  ngOnDestroy() {
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
   }
 }
