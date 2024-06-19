@@ -53,6 +53,7 @@ import { PerfilModule } from './perfil/perfil.module';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
 import { SharedModule } from './shared/shared.module';
 import { CortesModule } from './cortes/cortes.module';
+import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { CortesModule } from './cortes/cortes.module';
     CrudPacientesComponent,
     LandingMembresiaComponent,
     FirmarMembresiaComponent,
+    EnviarEstudioDicomComponent,
   ],
   imports: [
     BrowserModule,

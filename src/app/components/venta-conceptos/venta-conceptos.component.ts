@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { map, flatMap } from 'rxjs/operators';
-import { VIEWER } from 'src/app/config/app';
+import { VIEWER, WEASIS_VIEWER_PATH } from 'src/app/config/app';
 import { Area } from 'src/app/models/area';
 import { Paciente } from 'src/app/models/paciente';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -19,6 +19,8 @@ import { InformacionEstudioModalComponent } from '../studies/informacion-estudio
 import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
 import { BASE_SITE } from 'src/app/config/app';
+import { MatSelect } from '@angular/material/select';
+import { EnviarEstudioDicomComponent } from './enviar-estudio-dicom/enviar-estudio-dicom.component';
 @Component({
   selector: 'app-venta-conceptos',
   templateUrl: './venta-conceptos.component.html',
@@ -34,6 +36,10 @@ export class VentaConceptosComponent
   pacientesFiltrados: Paciente[] = [];
   fechaInicio = '';
   fechaFin = '';
+  modalidades: string[] = [];
+  estudiosOriginales: VentaConceptos[] = [];
+
+  @ViewChild('modalidadSelect') modalidadSelect: MatSelect;
 
   constructor(
     service: VentaConceptosService,
@@ -50,7 +56,8 @@ export class VentaConceptosComponent
 
   override ngOnInit(): void {
     this.buscarEstudiosDeHoy();
-
+    this.buscarModalidades();
+    
     this.autocompleteControl.valueChanges
       .pipe(
         map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
@@ -71,9 +78,14 @@ export class VentaConceptosComponent
       )
       .subscribe((pacientes) => (this.pacientesFiltrados = pacientes));
   }
+ 
 
   ver(estudio: VentaConceptos): void {
     window.open(`${VIEWER}${estudio.iuid}`);
+  }
+
+  abrirWeasis(estudio: VentaConceptos): void {
+    window.open(`${WEASIS_VIEWER_PATH}${estudio.iuid}`);
   }
 
   mostrarNombre(area?: Area): string {
@@ -96,6 +108,8 @@ export class VentaConceptosComponent
         // this.lista=filteredList
 
         this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+        this.estudiosOriginales = [...this.lista];
+        this.seleccionarPrimeraModalidad();
       },
       (e) => {
         if (e.status === 404) {
@@ -118,6 +132,8 @@ export class VentaConceptosComponent
       .subscribe(
         (estudios) => {
           this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+          this.estudiosOriginales = [...this.lista];
+          this.seleccionarPrimeraModalidad();
         },
         (e) => {
           if (e.status === 404) {
@@ -143,6 +159,8 @@ export class VentaConceptosComponent
       .subscribe(
         (estudios) => {
           this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+          this.estudiosOriginales = [...this.lista];
+          this.seleccionarPrimeraModalidad();
         },
         (e) => {
           if (e.status === 404) {
@@ -191,6 +209,8 @@ export class VentaConceptosComponent
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
         (estudios) => {
           this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+          this.estudiosOriginales = [...this.lista];
+          this.seleccionarPrimeraModalidad();
         },
         (e) => {
           if (e.status === 404) {
@@ -291,6 +311,16 @@ export class VentaConceptosComponent
     });
   }
 
+  seleccionarModalidad(event){
+    const modalidad = event.value as string;
+    if(modalidad === 'TODAS'){
+      this.lista = [...this.estudiosOriginales];
+    }
+    else{
+      this.filtrarPorModalidad(modalidad);
+    }
+  }
+
   actualizarEstudio(estudio: VentaConceptos) {
     this.service.editar(estudio).subscribe(
       (actualizado) => {
@@ -305,10 +335,72 @@ export class VentaConceptosComponent
       }
     );
   }
+
+  verMasInfo(estudio: VentaConceptos){
+    estudio.verMasInfo = !estudio.verMasInfo;
+  }
+
   verQr(estudio: VentaConceptos): void {
     let ordenVentaId = estudio.ordenVenta.id;
     let pacienteId = estudio.paciente.id;
     let url = `${BASE_SITE}/resultados/orden/${ordenVentaId}/${pacienteId}`;
     window.location.href = url;
   }
+
+  private  buscarModalidades() {
+    this.areasService.listar().subscribe(areas => {
+      this.modalidades = areas.map(a => a.nombre).filter( a => this.esModalidad(a));
+      this.modalidades.unshift("TODAS");
+    });
+  }
+
+  private esModalidad(nombre: string): boolean {
+    if(nombre == 'ANESTESIA'){
+      return false;
+    }
+    if(nombre == 'DIAGNOKINES'){
+      return false;
+    }
+    if(nombre == 'IMPRESION'){
+      return false;
+    }
+    if(nombre == 'PAQUETES'){
+      return false;
+    }
+    if(nombre == 'TAC COVID'){
+      return false;
+    }
+    return true;
+  }
+
+  private filtrarPorModalidad(modalidad: string) {
+    this.lista = this.estudiosOriginales.filter(estudio => estudio.concepto.area.nombre == modalidad);
+  }
+
+  private seleccionarPrimeraModalidad() {
+    const primeraModalidad = this.modalidades[0];
+    this.modalidadSelect.value = primeraModalidad;
+    this.modalidadSelect.valueChange.emit(primeraModalidad); // Emitir el cambio si es necesario
+  }
+  enviar(estudio: VentaConceptos): void{
+    this.service.procesarEstudioEnWorklist(estudio.id).subscribe(()=>{
+      estudio.enWorklist= true;
+      Swal.fire('Éxito', 'Procesado correctamente', "success");
+    },error =>{
+      console.log(error);
+      Swal.fire('Error', 'No se ha podido procesar la worklist', 'error');
+    });
+  }
+
+  abrirEnvioDicom(estudio){
+    const modalRef = this.dialog.open(EnviarEstudioDicomComponent, {
+      width: '1000px',
+      data: { estudio: estudio },
+    });
+
+    modalRef.afterClosed().subscribe((info) => {});
+  }
 }
+
+
+

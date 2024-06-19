@@ -23,3 +23,20 @@
 .confirmado{
     color:darkcyan;
 }
+.info-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+  }
+  .info-item {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .info-item strong {
+    margin-right: 10px;
+  }
