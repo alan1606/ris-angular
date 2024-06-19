@@ -84,7 +84,7 @@
             <div *ngIf="medicoLocal && !mostrarSubidaExterna" style="margin-left: 1%;">
                 <form [formGroup]="templateForm">
                     <quill-editor
-                        [styles]="{height: '350px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'verdana'}"
+                        [styles]="{height: '350px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif'}"
                         [modules]="quillEditorModules" formControlName="textEditor">
                     </quill-editor>
                 </form>
@@ -98,7 +98,7 @@
         <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia">
             <b>Ahora la conclusion se debe escribir en el recuadro de abajo</b>
             <quill-editor class="mayus"
-                [styles]="{height: '320px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:600,}"
+                [styles]="{height: '320px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:500,}"
                 [modules]="quillEditorModules" [(ngModel)]="conclusion">
             </quill-editor>
             <div class="contenedor-ia">

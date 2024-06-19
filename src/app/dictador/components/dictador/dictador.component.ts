@@ -347,20 +347,20 @@ export class DictadorComponent implements OnInit, OnDestroy {
             ? interpretacionResponse[0]
             : new Interpretacion();
 
-        let patron = /CONCLUSI/;
+        let patron = /CONCLUSIÓN/;
         let existeConclusion = patron.test(interpretacion.interpretacion);
 
         if (existeConclusion) {
           console.log('1');
           let [firstPart, secondPart] =
-            interpretacion.interpretacion.split('<p><b>CONCLUSIN</b></p>');
+            interpretacion.interpretacion.split('<p><b>CONCLUSIÓN</b></p>');
 
           this.templateForm.get('textEditor').setValue(firstPart);
           this.conclusion = secondPart
             ? secondPart
             : '' || !secondPart
-            ? ''
-            : secondPart;
+              ? ''
+              : secondPart;
         } else if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
           console.log(3);
           this.cargarPlantillaCardio();
@@ -391,32 +391,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
       '/medico-radiologo/' + this.estudio.medicoRadiologo.token,
     ]);
   }
-
-  // formatearConclusion(): void {
-  //   let interpretacionHtml = this.templateForm.value.textEditor;
-  //   const regex = /conclusi[oóÓn]/i;
-  //   let ultimoIndice = -1;
-  //   let desplazamiento = 0;
-  //   let indice;
-  //   while (
-  //     (indice = interpretacionHtml.slice(desplazamiento).search(regex)) !== -1
-  //   ) {
-  //     ultimoIndice = indice + desplazamiento;
-  //     desplazamiento += indice + 1;
-  //   }
-  //   if (ultimoIndice == -1) {
-  //     console.log('No se encontraron coincidencias');
-  //     return;
-  //   }
-  //   let textoAnterior: string = interpretacionHtml.substring(0, ultimoIndice);
-  //   let textoPosterior: string = interpretacionHtml.substring(ultimoIndice);
-  //   textoPosterior = textoPosterior.toUpperCase();
-  //   textoAnterior += '<strong>';
-  //   textoPosterior += '</strong>';
-  //   let interpretacionFinal: string = textoAnterior + textoPosterior;
-  //   interpretacionFinal = interpretacionFinal.replace(/&nbsp;/gi, ' ');
-  //   this.templateForm.get('textEditor').setValue(interpretacionFinal);
-  // }
 
   private enviarInformacionSaludParral() {
     this.ordenVentaService
@@ -458,26 +432,28 @@ export class DictadorComponent implements OnInit, OnDestroy {
     });
   }
 
-  generarConclusion(){
+  generarConclusion() {
     this.btnConclusionDisabled = true;
     Swal.fire("La conclusión se está generando, espere un momento, por favor");
 
     const interpretacion = this.templateForm.value.textEditor;
-    this.reportService.generateReport(interpretacion, this.estudio.id).subscribe(() =>{
+    this.reportService.generateReport(interpretacion, this.estudio.id).subscribe(() => {
     },
-    () =>{
-      Swal.fire("Error", "Ocurrió un error al generar la conclusión", "error");
-      this.btnConclusionDisabled = false;
-    }
+      () => {
+        Swal.fire("Error", "Ocurrió un error al generar la conclusión", "error");
+        this.btnConclusionDisabled = false;
+      }
     );
   }
 
-  listenerConclusion(){
+  listenerConclusion() {
     this.messageSubscription = this.reportService.getMessageSubject().subscribe((mensaje: any) => {
-      console.log("Recibida respuesta");
-      console.log(mensaje);
-      this.conclusion = mensaje.conclusion;
-     });
+      console.log(mensaje.conclusion)
+      let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
+      this.conclusion = secondPart
+     // this.conclusion = this.conclusion.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    });
   }
 
   ngOnDestroy() {
