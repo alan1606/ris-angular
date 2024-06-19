@@ -10,6 +10,7 @@ import { AlertaService } from '../shared/services/alerta.service';
   providedIn: 'root',
 })
 export class MedicoService {
+ 
   private baseEndpoint = BASE_ENDPOINT + '/ris/medicos';
   private cabeceras: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -112,6 +113,11 @@ export class MedicoService {
 
   public encontrarPorUsuario(usuario: string): Observable<Medico> {
     return this.http.get<Medico>(`${this.baseEndpoint}/usuario/${usuario}`);
+  }
+
+  public aceptarUsoDeIa(medicoRadiologo: Medico): Observable<void> {
+    return this.http.put<void>(`${this.baseEndpoint}/${medicoRadiologo.id}/aceptar-uso-ia`, medicoRadiologo,
+      { headers: this.cabeceras });
   }
 
   public modificarMedicoReferentePorUsuario(

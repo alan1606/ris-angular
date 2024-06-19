@@ -33,6 +33,7 @@ import { VisorInterpretacionComponent } from '../visor-interpretacion/visor-inte
 import Swal from 'sweetalert2';
 import { ReportService } from '../../services/report.service';
 import { Subscription } from 'rxjs';
+import { MedicoService } from 'src/app/services/medico.service';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -63,7 +64,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
   conclusion: string = '';
   btnConclusionDisabled: boolean = false;
   private messageSubscription: Subscription;
-
+  private medicoRadiologo: Medico;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,7 +78,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
     private ordenVentaService: OrdenVentaService,
     private tokenService: TokenService,
     private alertaService: AlertaService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private medicoService: MedicoService
   ) {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
@@ -116,6 +118,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         this.cargarEstudiosDeOrden();
         this.medicoLocal = this.estudio.medicoRadiologo.local;
         this.mostrarSubidaExterna = !this.medicoLocal;
+        this.medicoRadiologo = this.estudio.medicoRadiologo;
 
         if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
           this.cargarPlantillaCardio();
@@ -433,6 +436,12 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   generarConclusion() {
+
+    if(!this.medicoRadiologo.aceptaUsoGeneradorIa){
+      this.mostrarAvisoLegalUsoIa();
+      return;
+    }
+
     this.btnConclusionDisabled = true;
     Swal.fire("La conclusión se está generando, espere un momento, por favor");
 
@@ -444,6 +453,49 @@ export class DictadorComponent implements OnInit, OnDestroy {
         this.btnConclusionDisabled = false;
       }
     );
+  }
+
+  private mostrarAvisoLegalUsoIa() {
+    Swal.fire({
+      html: `
+        <h2>Aviso sobre el uso de IA</h2>
+        <p>El generador de conclusiones médicas basado en inteligencia artificial que utiliza la API de ChatGPT ha sido diseñado para asistir en la redacción de conclusiones médicas a partir de los hallazgos en los reportes de radiología. Sin embargo, es importante destacar que esta herramienta <strong>no debe ser considerada un sustituto de la revisión y conclusión médica profesional.</strong></p>
+        <h3>Responsabilidad del Médico:</h3>
+        <ul>
+          <li><strong>Revisión Obligatoria:</strong> El texto generado por esta herramienta debe ser revisado cuidadosamente por un médico radiólogo.</li>
+          <li><strong>Modificación y Corrección:</strong> Es imperativo que el médico modifique cualquier inexactitud en el texto generado y agregue la información necesaria para asegurar que la conclusión sea precisa y completa.</li>
+          <li><strong>Responsabilidad Profesional:</strong> La responsabilidad final por el contenido del informe radiológico recae exclusivamente en el médico que firma el documento. El uso de esta herramienta no exime al médico de su responsabilidad profesional y ética.</li>
+        </ul>
+        <h3>Limitaciones de la Herramienta:</h3>
+        <p>La herramienta está diseñada para asistir en la redacción de conclusiones, pero no puede interpretar imágenes radiológicas ni sustituir el juicio clínico y la experiencia de un profesional médico. Los resultados generados pueden contener errores o imprecisiones y deben ser validados por un médico antes de ser incluidos en el informe final.</p>
+        <h3>Consentimiento y Uso:</h3>
+        <p>Al utilizar esta herramienta, los médicos aceptan que comprenden sus limitaciones y la necesidad de realizar una revisión exhaustiva del contenido generado. El uso de esta herramienta se realiza bajo el entendimiento de que la responsabilidad final sobre el informe recae en el profesional médico.</p>
+      `,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'He leído el aviso y acepto los términos',
+      denyButtonText: 'No',
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.aceptarUsoDeIa();
+      } 
+    })
+    
+  }
+
+  private aceptarUsoDeIa() {
+    this.medicoService.aceptarUsoDeIa(this.medicoRadiologo).subscribe(() => {
+      this.medicoRadiologo.aceptaUsoGeneradorIa = true;
+      this.generarConclusion();
+    }, () =>{
+      Swal.fire("Error", "Ocurrió un error al aceptar el uso de IA", "error");
+    });
   }
 
   listenerConclusion() {
