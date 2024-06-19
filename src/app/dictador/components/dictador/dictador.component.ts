@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DOWNLOAD_WEASIS_MAC_LINK,
@@ -8,32 +8,32 @@ import {
   ZIP_STUDIES_PATH,
   FILES_PATH,
   BASE_ENDPOINT,
-} from '../../config/app';
-import { Multimedia } from '../../models/multimedia';
-
-import { VentaConceptos } from '../../models/venta-conceptos';
-import { AntecedenteEstudioService } from '../../services/antecedente-estudio.service';
-import { InterpretacionService } from '../../services/interpretacion.service';
-import { MultimediaService } from '../../services/multimedia.service';
-import { VentaConceptosService } from '../../services/venta-conceptos.service';
-import Swal from 'sweetalert2';
-
-import { SendMailService } from '../../services/send-mail.service';
-declare const webkitSpeechRecognition: any;
-
+} from '../../../config/app';
+import { Multimedia } from '../../../models/multimedia';
+import { VentaConceptos } from '../../../models/venta-conceptos';
+import { AntecedenteEstudioService } from '../../../services/antecedente-estudio.service';
+import { InterpretacionService } from '../../../services/interpretacion.service';
+import { MultimediaService } from '../../../services/multimedia.service';
+import { VentaConceptosService } from '../../../services/venta-conceptos.service';
+import { SendMailService } from '../../../services/send-mail.service';
 import { FormControl, FormGroup } from '@angular/forms';
-
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
-import { MedicoService } from 'src/app/services/medico.service';
 import { MatDialog } from '@angular/material/dialog';
-import { BuscarMedicoReferenteYCambiarComponent } from './buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
-import { CLS_IMGRIGHT } from '@syncfusion/ej2-angular-richtexteditor';
+import { BuscarMedicoReferenteYCambiarComponent } from '../buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 import { Medico } from 'src/app/models/medico';
-import { error } from 'console';
+import { Paciente } from 'src/app/models/paciente';
+import { Concepto } from 'src/app/models/concepto';
+import { RenderImagenComponent } from 'src/app/shared/components/render-imagen/render-imagen.component';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { VisorInterpretacionComponent } from '../visor-interpretacion/visor-interpretacion.component';
+import Swal from 'sweetalert2';
+import { ReportService } from '../../services/report.service';
+import { Subscription } from 'rxjs';
+import { MedicoService } from 'src/app/services/medico.service';
 
 Quill.register('modules/blotFormatter', BlotFormatter);
 
@@ -42,11 +42,7 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   templateUrl: './dictador.component.html',
   styleUrls: ['./dictador.component.scss'],
 })
-export class DictadorComponent implements OnInit {
-  // @Input() setEvent(eventMessage: any) {
-  //   this.medicoReferenteRecibido = eventMessage;
-  //   console.log(this.medicoReferenteRecibido)
-  // }
+export class DictadorComponent implements OnInit, OnDestroy {
   interpretacion: Interpretacion;
   enlacePdf: string = '';
   medicoReferenteRecibido = null;
@@ -55,15 +51,20 @@ export class DictadorComponent implements OnInit {
   multimedia: Multimedia[] = [];
   multimediaCargada: Promise<Boolean>;
   estudiosDeOrden: VentaConceptos[];
-
+  paciente: Paciente = new Paciente();
   mostrarSubidaExterna: boolean = true;
   medicoLocal: boolean = false;
-
+  idVentaConcepto: number = null;
   filesPath = FILES_PATH;
-
+  concepto: Concepto = new Concepto();
   templateForm: FormGroup;
-
+  panelOpenState = false;
   quillEditorModules = {};
+  esMobil = window.matchMedia('(min-width:1023px)');
+  conclusion: string = '';
+  btnConclusionDisabled: boolean = false;
+  private messageSubscription: Subscription;
+  private medicoRadiologo: Medico;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,58 +77,63 @@ export class DictadorComponent implements OnInit {
     private mailService: SendMailService,
     private ordenVentaService: OrdenVentaService,
     private tokenService: TokenService,
+    private alertaService: AlertaService,
+    private reportService: ReportService,
     private medicoService: MedicoService
   ) {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
     });
-
     this.quillEditorModules = {
       blotFormatter: {},
     };
+
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const idVentaConcepto: number = +params.get('idVentaConcepto');
 
-      if (!idVentaConcepto) {
+    this.route.paramMap.subscribe((params) => {
+      this.idVentaConcepto = +params.get('idVentaConcepto');
+
+      if (!this.idVentaConcepto) {
         this.router.navigate(['/']);
       }
-      this.ventaConceptosService.ver(idVentaConcepto).subscribe(
-        (estudio) => {
-          console.log({
-            'El médico asignado al estudio es: ':
-              estudio.medicoRadiologo.usuario,
-          });
-          const usuario = this.tokenService.getUsername();
-          if (!usuario || usuario == '') {
-            this.router.navigate(['/']);
-          }
-
-          if (estudio.medicoRadiologo.usuario != usuario) {
-            this.router.navigate(['/']);
-          }
-
-          this.estudio = estudio;
-          this.cargarAntecedentesInicial();
-          this.cargarMultimedia();
-          this.cargarEstudiosDeOrden();
-          this.medicoLocal = this.estudio.medicoRadiologo.local;
-          this.mostrarSubidaExterna = !this.medicoLocal;
-
-          if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
-            this.cargarPlantillaCardio();
-          }
-
-          this.cargarInterpretacionAnterior();
-        },
-        (error) => {
-          console.log(error);
+    });
+    this.ventaConceptosService.ver(this.idVentaConcepto).subscribe(
+      (estudio) => {
+        const usuario = this.tokenService.getUsername();
+        if (!usuario || usuario == '') {
           this.router.navigate(['/']);
         }
-      );
-    });
+
+        if (estudio.medicoRadiologo.usuario != usuario) {
+          this.router.navigate(['/']);
+        }
+
+        this.estudio = estudio;
+        this.paciente = estudio.paciente;
+        this.concepto = estudio.concepto;
+        this.cargarAntecedentesInicial();
+        this.cargarMultimedia();
+        this.cargarEstudiosDeOrden();
+        this.medicoLocal = this.estudio.medicoRadiologo.local;
+        this.mostrarSubidaExterna = !this.medicoLocal;
+        this.medicoRadiologo = this.estudio.medicoRadiologo;
+
+        if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
+          this.cargarPlantillaCardio();
+        }
+
+        this.cargarInterpretacionAnterior();
+        this.reportService.joinTopic(this.estudio.id);
+        this.listenerConclusion();
+      },
+      (error) => {
+        console.log(error);
+        this.router.navigate(['/']);
+      }
+    );
+
   }
 
   abrirMedicoReferenteYCambiar() {
@@ -179,8 +185,6 @@ export class DictadorComponent implements OnInit {
     <p><strong>El electrocardiograma es una herramienta diagnóstica que requiere la correlación clínica por parte del médico tratante</strong></p>
     `
     );
-
-    console.log(this.templateForm.value.textEditor);
   }
 
   cargarMultimedia() {
@@ -190,7 +194,6 @@ export class DictadorComponent implements OnInit {
         (multimedia) => {
           this.multimedia = multimedia;
           this.multimediaCargada = Promise.resolve(true);
-          console.log(multimedia);
         },
         (error) => {
           console.log('Error al cargar multimedia');
@@ -238,27 +241,41 @@ export class DictadorComponent implements OnInit {
   }
 
   guardar() {
+    if (!this.conclusion) {
+      this.alertaService.campoInvalido(
+        'Conclusión vacía',
+        'porfavor escriba la conclusión'
+      );
+      return;
+    }
     this.interpretacion = new Interpretacion();
     this.enlacePdf = '';
     this.interpretacion.estudio = this.estudio;
+    let saltoLinea = '<p><b>CONCLUSIÓN</b></p>';
+    if (this.conclusion) {
+      this.templateForm.value.textEditor += saltoLinea;
+      this.templateForm.value.textEditor += `<b>${this.conclusion.toUpperCase()}</b>`;
+      this.conclusion = '';
+    }
+
     this.interpretacion.interpretacion = this.templateForm.value.textEditor;
 
     this.interpretacionService.crear(this.interpretacion).subscribe(
       (interpretacion) => {
         this.interpretacion = interpretacion;
         this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`;
+        this.cargarInterpretacionAnterior();
       },
       () => {
         console.log('Error creando la interpretación');
       }
     );
     const botonGuardar = document.getElementById('crearPDF'); // Reemplaza 'idDelBotonGuardar' con el ID real de tu botón
-    const posicionY = botonGuardar.offsetTop;
-    setTimeout(()=>{
+    const posicionY = botonGuardar?.offsetTop;
+    setTimeout(() => {
       window.scroll(0, posicionY + 100);
-    },200)
+    }, 200);
   }
-  
 
   private marcarEstudiosDeOrdenInterpretados() {
     this.estudiosDeOrden.forEach((estudio) => {
@@ -332,9 +349,34 @@ export class DictadorComponent implements OnInit {
           interpretacionResponse.length > 0
             ? interpretacionResponse[0]
             : new Interpretacion();
-        this.templateForm
-          .get('textEditor')
-          .setValue(interpretacion?.interpretacion);
+
+        let patron = /CONCLUSIÓN/;
+        let existeConclusion = patron.test(interpretacion.interpretacion);
+
+        if (existeConclusion) {
+          console.log('1');
+          let [firstPart, secondPart] =
+            interpretacion.interpretacion.split('<p><b>CONCLUSIÓN</b></p>');
+
+          this.templateForm.get('textEditor').setValue(firstPart);
+          this.conclusion = secondPart
+            ? secondPart
+            : '' || !secondPart
+              ? ''
+              : secondPart;
+        } else if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
+          console.log(3);
+          this.cargarPlantillaCardio();
+        } else if (interpretacion.interpretacion) {
+          console.log('2');
+          this.templateForm
+            .get('textEditor')
+            .setValue(interpretacion.interpretacion);
+        } else {
+          this.templateForm
+            .get('textEditor')
+            .setValue(interpretacion.interpretacion);
+        }
       },
       () => {
         console.log('Error al cargar interpretación anterior');
@@ -351,42 +393,6 @@ export class DictadorComponent implements OnInit {
     this.router.navigate([
       '/medico-radiologo/' + this.estudio.medicoRadiologo.token,
     ]);
-  }
-
-  formatearConclusion(): void {
-    let interpretacionHtml = this.templateForm.value.textEditor;
-
-    const regex = /conclusi[oóÓn]/i;
-
-    let ultimoIndice = -1;
-    let desplazamiento = 0;
-    let indice;
-
-    while (
-      (indice = interpretacionHtml.slice(desplazamiento).search(regex)) !== -1
-    ) {
-      ultimoIndice = indice + desplazamiento;
-      desplazamiento += indice + 1;
-    }
-
-    if (ultimoIndice == -1) {
-      console.log('No se encontraron coincidencias');
-      return;
-    }
-
-    let textoAnterior: string = interpretacionHtml.substring(0, ultimoIndice);
-    let textoPosterior: string = interpretacionHtml.substring(ultimoIndice);
-
-    textoPosterior = textoPosterior.toUpperCase();
-
-    textoAnterior += '<strong>';
-    textoPosterior += '</strong>';
-
-    let interpretacionFinal: string = textoAnterior + textoPosterior;
-
-    interpretacionFinal = interpretacionFinal.replace(/&nbsp;/gi, ' ');
-
-    this.templateForm.get('textEditor').setValue(interpretacionFinal);
   }
 
   private enviarInformacionSaludParral() {
@@ -413,5 +419,98 @@ export class DictadorComponent implements OnInit {
           console.log('Error al enviar información Pensiones');
         }
       );
+  }
+
+  abrirFoto(img: Multimedia): void {
+    this.dialog.open(RenderImagenComponent, {
+      data: img,
+      width: '100vw',
+      height: '100vh',
+    });
+  }
+
+  verInterpretacion(): void {
+    this.dialog.open(VisorInterpretacionComponent, {
+      data: this.enlacePdf,
+    });
+  }
+
+  generarConclusion() {
+
+    if(!this.medicoRadiologo.aceptaUsoGeneradorIa){
+      this.mostrarAvisoLegalUsoIa();
+      return;
+    }
+
+    this.btnConclusionDisabled = true;
+    Swal.fire("La conclusión se está generando, espere un momento, por favor");
+
+    const interpretacion = this.templateForm.value.textEditor;
+    this.reportService.generateReport(interpretacion, this.estudio.id).subscribe(() => {
+    },
+      () => {
+        Swal.fire("Error", "Ocurrió un error al generar la conclusión", "error");
+        this.btnConclusionDisabled = false;
+      }
+    );
+  }
+
+  private mostrarAvisoLegalUsoIa() {
+    Swal.fire({
+      html: `
+        <h2>Aviso sobre el uso de IA</h2>
+        <p>El generador de conclusiones médicas basado en inteligencia artificial que utiliza la API de ChatGPT ha sido diseñado para asistir en la redacción de conclusiones médicas a partir de los hallazgos en los reportes de radiología. Sin embargo, es importante destacar que esta herramienta <strong>no debe ser considerada un sustituto de la revisión y conclusión médica profesional.</strong></p>
+        <h3>Responsabilidad del Médico:</h3>
+        <ul>
+          <li><strong>Revisión Obligatoria:</strong> El texto generado por esta herramienta debe ser revisado cuidadosamente por un médico radiólogo.</li>
+          <li><strong>Modificación y Corrección:</strong> Es imperativo que el médico modifique cualquier inexactitud en el texto generado y agregue la información necesaria para asegurar que la conclusión sea precisa y completa.</li>
+          <li><strong>Responsabilidad Profesional:</strong> La responsabilidad final por el contenido del informe radiológico recae exclusivamente en el médico que firma el documento. El uso de esta herramienta no exime al médico de su responsabilidad profesional y ética.</li>
+        </ul>
+        <h3>Limitaciones de la Herramienta:</h3>
+        <p>La herramienta está diseñada para asistir en la redacción de conclusiones, pero no puede interpretar imágenes radiológicas ni sustituir el juicio clínico y la experiencia de un profesional médico. Los resultados generados pueden contener errores o imprecisiones y deben ser validados por un médico antes de ser incluidos en el informe final.</p>
+        <h3>Consentimiento y Uso:</h3>
+        <p>Al utilizar esta herramienta, los médicos aceptan que comprenden sus limitaciones y la necesidad de realizar una revisión exhaustiva del contenido generado. El uso de esta herramienta se realiza bajo el entendimiento de que la responsabilidad final sobre el informe recae en el profesional médico.</p>
+      `,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'He leído el aviso y acepto los términos',
+      denyButtonText: 'No',
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.aceptarUsoDeIa();
+      } 
+    })
+    
+  }
+
+  private aceptarUsoDeIa() {
+    this.medicoService.aceptarUsoDeIa(this.medicoRadiologo).subscribe(() => {
+      this.medicoRadiologo.aceptaUsoGeneradorIa = true;
+      this.generarConclusion();
+    }, () =>{
+      Swal.fire("Error", "Ocurrió un error al aceptar el uso de IA", "error");
+    });
+  }
+
+  listenerConclusion() {
+    this.messageSubscription = this.reportService.getMessageSubject().subscribe((mensaje: any) => {
+      console.log(mensaje.conclusion)
+      let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
+      this.conclusion = secondPart
+     // this.conclusion = this.conclusion.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
   }
 }

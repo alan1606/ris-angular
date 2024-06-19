@@ -14,9 +14,7 @@ export class ChatService {
   private stompClient: any
   private messageSubject: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
 
-  constructor(private http: HttpClient) { 
-    this.initConnenctionSocket();
-  }
+  constructor(private http: HttpClient) {}
 
   initConnenctionSocket() {
     const url = 'https://ris.diagnocons.com:4300/api/whatsapp-web/wp-web-websocket';
@@ -32,10 +30,6 @@ export class ChatService {
       })
     })
   }
-
-  /*sendMessage(roomId: string, chatMessage: ChatMessage) {
-    this.stompClient.send(`/app/chat/${roomId}`, {}, JSON.stringify(chatMessage))
-  }*/
 
   getMessageSubject(): Observable<Message>{
     return this.messageSubject.asObservable();

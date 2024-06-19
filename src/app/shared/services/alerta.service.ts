@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertArrayOptions, SweetAlertResult } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +28,24 @@ export class AlertaService {
       title: 'Error',
     });
     console.log(error);
+  }
+
+  info(
+    titulo: string = '',
+    texto: string = '',
+    outsideClick: boolean = true,
+    confirmButton:boolean=true
+  ): Promise<SweetAlertResult<Awaited<any>>> {
+    return Swal.fire({
+      icon: 'info',
+      title: titulo,
+      text: texto,
+      allowOutsideClick: outsideClick,
+      showConfirmButton:confirmButton
+    });
+  }
+
+  close():void{
+    Swal.close()
   }
 }

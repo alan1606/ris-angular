@@ -45,8 +45,6 @@ export class SubirInterpretacionComponent implements OnInit {
         idPacs = params.get('idPacs');
         this.vieneDesdeInterpretacion = false;
       }
-      console.log(idPacs);
-
       if (idPacs) {
         this.service.buscarPorIdPacs(idPacs).subscribe((estudio) => {
           this.estudio = estudio;

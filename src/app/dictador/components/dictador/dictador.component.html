@@ -1,0 +1,123 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row *ngIf="esMobil.matches">
+        <span><button mat-button (click)="ver(estudio)">Abrir estudio en
+                linea</button></span>
+        <span><button mat-button (click)="abrirConWeasis(estudio)">Abrir con
+                weasis</button></span>
+        <span><button mat-button (click)="descargarZip(estudio)">Descargar
+                estudio en zip</button></span>
+        <span><button mat-button (click)="descargarWeasisWindows()">Descargar
+                weasis para windows</button></span>
+        <span><button mat-button (click)="descargarWeasisMac()">Descargar
+                weasis para mac</button></span>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row *ngIf="!esMobil.matches">
+        <span><button mat-button (click)="ver(estudio)">Abrir estudio en
+                linea</button></span>
+    </mat-toolbar-row>
+    <mat-toolbar-row *ngIf="!esMobil.matches">
+        <span><button mat-button (click)="descargarZip(estudio)">Descargar
+                estudio en zip</button></span>
+    </mat-toolbar-row>
+
+</mat-toolbar>
+<div class="general-container">
+    <div class="contenedor-info">
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="patient-info">
+                        <b>{{paciente.nombreCompleto}}</b>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{panelOpenState ? 'Ocultar' : 'Ver mas detalles de la orden'}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="patient-info">
+                    <p><b>ESTUDIO: </b>{{estudio?.concepto?.concepto}}</p>
+                    <p><b>PROCEDENCIA: </b>{{estudio?.institucion?.nombre}}</p>
+                    <p><b>MEDICO: </b>{{estudio?.ordenVenta?.medicoReferente.nombres}}
+                        {{estudio?.ordenVenta?.medicoReferente.apellidos}}</p>
+                    <p *ngIf="estudio?.ordenVenta?.motivo"><b>Motivo: </b> {{estudio?.ordenVenta?.motivo}}</p>
+                    <p *ngIf="antecedentes"><b>ANTECEDENTES: </b> {{antecedentes}}</p>
+                    <p *ngIf="estudio?.mensaje"><b>MENSAJE: </b> {{estudio?.mensaje}}</p>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="contenedor-info">
+        <h2 *ngIf="estudiosDeOrden?.length > 1">
+            <p style="color: red;">Favor de interpretar todos los estudios en este reporte</p>
+        </h2>
+    </div>
+    <div class="d-flex" *ngIf="multimediaCargada | async ">
+        <div *ngFor="let img of multimedia, let i = index">
+            <button class="btn btn-dark me-3" (click)="abrirFoto(img)">
+                {{
+                img.tipo ==='IMAGEN' && multimedia.length > 1
+                ? 'Foto de la orden':'Foto de la orden' ||
+                img.tipo==='DOCUMENTO'? "Archivo del estudio":'Foto de la orden' ||
+                img.tipo ==='IMAGEN' && multimedia.length === 1
+                ? 'Foto de la orden':'Foto de la orden'
+                }}
+            </button>
+        </div>
+    </div>
+    <div class="report-action-buttons">
+        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="report-buttons">
+            <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir PDF</button>
+            <!-- <button class="btn btn-secondary" (click)="formatearConclusion()">Formatear Conclusión</button> -->
+        </div>
+        <div *ngIf="medicoLocal && mostrarSubidaExterna" class="report-buttons">
+            <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Usar
+                dictador</button>
+        </div>
+    </div>
+    <div class="container-report-ia mb-4">
+        <div>
+            <div *ngIf="mostrarSubidaExterna" style="margin-left: 1%;">
+                <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
+                <button class="btn btn-success btn-lg my-2" (click)="regresar()">Regresar</button>
+            </div>
+
+            <div *ngIf="medicoLocal && !mostrarSubidaExterna" style="margin-left: 1%;">
+                <form [formGroup]="templateForm">
+                    <quill-editor
+                        [styles]="{height: '350px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif'}"
+                        [modules]="quillEditorModules" formControlName="textEditor">
+                    </quill-editor>
+                </form>
+            </div>
+
+            <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="create-report-button">
+
+
+            </div>
+        </div>
+        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia">
+            <b>Ahora la conclusion se debe escribir en el recuadro de abajo</b>
+            <quill-editor class="mayus"
+                [styles]="{height: '320px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:500,}"
+                [modules]="quillEditorModules" [(ngModel)]="conclusion">
+            </quill-editor>
+            <div class="contenedor-ia">
+                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary"
+                    [disabled]="btnConclusionDisabled" (click)="generarConclusion()">Generar
+                    Conclusion con IA</button>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+<div class="botones-finales">
+    <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-primary" (click)="guardar()">Crear
+        PDF</button>
+    <button *ngIf="enlacePdf !== ''" class="btn btn-dark ms-4" (click)="verInterpretacion()">Ver Reporte</button>
+
+    <button *ngIf="enlacePdf !== ''" class="btn btn-success ms-4" style="box-shadow: 1px 2px 6px #000000;"
+        (click)="firmar()">
+        Firmar
+    </button>
+</div>

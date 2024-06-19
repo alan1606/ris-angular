@@ -7,6 +7,7 @@ import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.
 import { MultimediaService } from 'src/app/services/multimedia.service';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-informacion-estudio-modal',
   templateUrl: './informacion-estudio-modal.component.html',
@@ -19,7 +20,6 @@ export class InformacionEstudioModalComponent implements OnInit {
   filesPath = FILES_PATH;
   titulo: string; 
   antecedentesJuntos: string = "";
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   public modalRef: MatDialogRef<InformacionEstudioModalComponent>,
   private multimediaService: MultimediaService,

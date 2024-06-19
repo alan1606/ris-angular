@@ -1,0 +1,13 @@
+<div class="contenedor-imagen" *ngIf="img.tipo == 'IMAGEN'">
+    <img class="img-fluid" [src]="filesPath + img.ruta">
+</div>
+
+<div *ngIf="img.tipo == 'DOCUMENTO'">
+    <pdf-viewer [src]="filesPath + img.ruta" [render-text]="true" [original-size]="false"
+        style="width: 80vw; height: 90vh">
+    </pdf-viewer>
+
+    <button *ngIf="img.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm" (click)="expandir(img)">
+        Expandir
+    </button>
+</div>

@@ -26,9 +26,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
-import { DictadorComponent } from './components/dictador/dictador.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
-import { SubirInterpretacionComponent } from './components/dictador/subir-interpretacion/subir-interpretacion.component';
 import { LoginComponent } from './components/usuarios/login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -42,7 +40,6 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { RecepcionModule } from './recepcion/recepcion.module';
 import { CrudMedicosComponent } from './components/crud-medicos/crud-medicos.component';
 import { FormularioMedicosComponent } from './components/crud-medicos/formulario-medicos/formulario-medicos.component';
-import { BuscarMedicoReferenteYCambiarComponent } from './components/dictador/buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 import { BuscadorPacientesComponent } from './components/buscador-pacientes/buscador-pacientes.component';
 import { QrFirmarPoliticasMembresiaComponent } from './components/qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
@@ -58,6 +55,7 @@ import { SharedModule } from './shared/shared.module';
 import { CortesModule } from './cortes/cortes.module';
 import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,15 +68,12 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     InformacionEstudioModalComponent,
     AntecedentesEstudioModalComponent,
     MedicoRadiologoComponent,
-    DictadorComponent,
     WorklistComponent,
-    SubirInterpretacionComponent,
     LoginComponent,
     AuthorizedComponent,
     LogoutComponent,
     CrudMedicosComponent,
     FormularioMedicosComponent,
-    BuscarMedicoReferenteYCambiarComponent,
     NuevoMedicoSoloNombreComponent,
     BuscadorPacientesComponent,
     QrFirmarPoliticasMembresiaComponent,
@@ -119,6 +114,7 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     SharedModule,
     QuillModule.forRoot(),
     CortesModule,
+
   ],
   providers: [
     DatePipe,
