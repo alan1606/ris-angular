@@ -14,8 +14,7 @@ export class SendStudyToAeService {
   constructor(private http: HttpClient) { }
 
   public enviarEstudioAAe(uid: string, ae: string): Observable<String> {
-    const dicomAe = `dicom:${ae}`;
-    const url = `${this.baseEndpoint}/${uid}/ae/${dicomAe}`;
+    const url = `${this.baseEndpoint}/${uid}/ae/${ae}`;
     return this.http.post<String>(url, {}, { headers: this.cabeceras }).pipe(
       catchError(this.handleError)
     );
