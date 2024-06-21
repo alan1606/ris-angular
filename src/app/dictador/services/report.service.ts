@@ -24,6 +24,7 @@ export class ReportService {
 
   private initConnectionSocket() {
     const url = 'https://ris.diagnocons.com:4300/api/reports/report-websocket'; // Asegúrate de que esta URL sea correcta
+    //const url = 'http://localhost:8090/api/reports/report-websocket'; // Asegúrate de que esta URL sea correcta
 
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS(url),

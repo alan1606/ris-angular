@@ -251,10 +251,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.interpretacion = new Interpretacion();
     this.enlacePdf = '';
     this.interpretacion.estudio = this.estudio;
-    let saltoLinea = '<p><b>CONCLUSIÓN</b></p>';
     if (this.conclusion) {
-      this.templateForm.value.textEditor += saltoLinea;
-      this.templateForm.value.textEditor += `<b>${this.conclusion.toUpperCase()}</b>`;
+      this.templateForm.value.textEditor += `<p class="ql-align-justify"><br></p><p><b>CONCLUSIÓN</b></p><p class="ql-align-justify"><strong>${this.eliminarP(this.conclusion).toUpperCase()}</strong></p>`;
       this.conclusion = '';
     }
 
@@ -356,7 +354,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         if (existeConclusion) {
           console.log('1');
           let [firstPart, secondPart] =
-            interpretacion.interpretacion.split('<p><b>CONCLUSIÓN</b></p>');
+            interpretacion.interpretacion.split('<p class="ql-align-justify"><br></p><p><b>CONCLUSIÓN</b></p><p class="ql-align-justify"><strong>');
 
           this.templateForm.get('textEditor').setValue(firstPart);
           this.conclusion = secondPart
@@ -364,6 +362,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
             : '' || !secondPart
               ? ''
               : secondPart;
+              this.conclusion = this.quitarStrongsFinales(this.conclusion);
         } else if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
           console.log(3);
           this.cargarPlantillaCardio();
@@ -384,6 +383,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
     );
   }
 
+  private quitarStrongsFinales(html: string): string {
+    return html.replace(/(<\/strong>)+$/i, '');
+  }
   /*descargarPdf(): void{
     window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`);
   }*/
@@ -503,8 +505,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
       console.log(mensaje.conclusion)
       let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
       this.conclusion = secondPart
-     // this.conclusion = this.conclusion.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
     });
   }
 
@@ -512,5 +512,19 @@ export class DictadorComponent implements OnInit, OnDestroy {
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe();
     }
+  }
+
+  eliminarP(html: string): string {
+    // Eliminar la etiqueta <p> inicial si existe
+    if (html.startsWith('<P>') || html.startsWith('<p>')) {
+      html = html.replace(/<p>|<P>/, '');
+    }
+  
+    // Eliminar la etiqueta </p> final si existe
+    if (html.endsWith('</P>') || html.endsWith('</p>')) {
+      html = html.replace(/<\/p>|<\/P>$/, '');
+    }
+  
+    return html;
   }
 }
