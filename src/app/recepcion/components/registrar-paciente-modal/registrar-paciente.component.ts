@@ -58,11 +58,13 @@ export class RegistrarPacienteComponent implements OnInit {
     if(!this.camposValidos()){
       return;
     }
-
-    this.service.crear(this.model).subscribe(model => {
-      this.model = model;
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
+    this.service.crear(this.model).subscribe(paciente => {
+      this.model = paciente;
       Swal.fire('Nuevo:', `Paciente creado con éxito`, 'success');
-      this.modalRef.close();
+      this.modalRef.close(paciente);
     }, err => {
       if (err.status === 400) {
         this.error = err.error;
@@ -76,10 +78,12 @@ export class RegistrarPacienteComponent implements OnInit {
     if(!this.camposValidos()){
       return;
     }
-    this.service.editar(this.model).subscribe(concepto => {
-      console.log(concepto);
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
+    this.service.editar(this.model).subscribe(paciente => {
       Swal.fire('Modificado: ', `Paciente actualizado con éxito`, "success");
-      this.modalRef.close();
+      this.modalRef.close(paciente);
     }, err => {
       if (err.status === 400) {
         this.error = err.error;

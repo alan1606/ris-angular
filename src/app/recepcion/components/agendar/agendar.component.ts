@@ -495,7 +495,10 @@ export class AgendarComponent implements OnInit {
       });
 
       modalRef.afterClosed().subscribe((paciente) => {
+        console.log(paciente)
         if (paciente) {
+      
+
           this.paciente = paciente;
           this.autocompleteControlPaciente.setValue(this.paciente);
         }

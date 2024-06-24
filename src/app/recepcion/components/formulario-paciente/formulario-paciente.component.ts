@@ -60,7 +60,9 @@ export class FormularioPacienteComponent implements OnChanges {
     if (!this.camposValidos()) {
       return;
     }
-
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
     this.service.crear(this.model).subscribe(
       (model) => {
         this.model = model;
@@ -80,7 +82,9 @@ export class FormularioPacienteComponent implements OnChanges {
     if (!this.camposValidos()) {
       return;
     }
-
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
     this.service.editar(this.model).subscribe(
       (concepto) => {
         console.log(concepto);

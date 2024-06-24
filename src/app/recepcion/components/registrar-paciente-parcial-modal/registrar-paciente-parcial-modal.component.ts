@@ -30,6 +30,9 @@ export class RegistrarPacienteParcialModalComponent implements OnInit {
   }
 
   public crear() : void{
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
     this.service.crear(this.model).subscribe(model =>{
       this.model = model;
       Swal.fire('Nuevo:' , `Paciente creado con éxito`, 'success');
@@ -43,10 +46,12 @@ export class RegistrarPacienteParcialModalComponent implements OnInit {
   }
 
   public editar() : void{
-    this.service.editar(this.model).subscribe(concepto =>{
-      console.log(concepto);
-      Swal.fire('Modificado: ' , `Paciente actualizado con éxito`, "success");
-      this.modalRef.close(this.model);
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
+    this.service.editar(this.model).subscribe(paciente =>{
+      Swal.fire('Modificado: ', `Paciente actualizado con éxito`, "success");
+      this.modalRef.close(paciente);
     }, err => {
       if(err.status === 400){
         this.error = err.error;
@@ -55,21 +60,8 @@ export class RegistrarPacienteParcialModalComponent implements OnInit {
     });
   }
 
-
   public cerrar(){
     this.modalRef.close();
   }
 
-
-  mayusculasNombre(): void{
-    this.model.nombre = this.model.nombre.toUpperCase();
-  }
-
-  mayusculasMaterno(): void{
-    this.model.apellidoMaterno = this.model.apellidoMaterno.toUpperCase();
-  }
-
-  mayusculasPaterno(): void{
-    this.model.apellidoPaterno = this.model.apellidoPaterno.toUpperCase();
-  }
 }

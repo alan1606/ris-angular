@@ -304,10 +304,10 @@
               (optionSelected)="seleccionarPaciente($event)"
             >
               <mat-option
-                *ngFor="let paciente of pacientesFiltrados"
-                [value]="paciente"
+                *ngFor="let p of pacientesFiltrados"
+                [value]="p"
               >
-                {{ paciente.nombreCompleto }}
+                {{ p.nombreCompleto }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

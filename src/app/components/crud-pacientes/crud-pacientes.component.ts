@@ -30,10 +30,12 @@ export class CrudPacientesComponent {
 
   recibirPacienteDelBuscador(event: Paciente) {
     this.model = event;
-    if(this.model.fechaNacimiento){
-      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
+    if (this.model.fechaNacimiento) {
+      this.fechaNacimientoControl.setValue(
+        new Date(this.model.fechaNacimiento)
+      );
     }
-    if(event.sexo){
+    if (event.sexo) {
       this.sexo = event.sexo == 2 ? 'MASCULINO' : 'FEMENINO';
     }
   }
@@ -94,6 +96,9 @@ export class CrudPacientesComponent {
     if (!this.camposValidos()) {
       return;
     }
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
     this.pacientesService.crear(this.model).subscribe(
       (model) => {
         this.model = model;
@@ -112,6 +117,12 @@ export class CrudPacientesComponent {
     if (!this.camposValidos()) {
       return;
     }
+    this.model.nombre = this.model.nombre.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
+    
+
+
     this.pacientesService.editar(this.model).subscribe(
       (concepto) => {
         console.log(concepto);
@@ -128,10 +139,13 @@ export class CrudPacientesComponent {
   }
 
   private camposValidos(): boolean {
-    if(this.fechaNacimientoControl.status == 'INVALID'){
+    if (this.fechaNacimientoControl.status == 'INVALID') {
       let partesFecha = [];
-      partesFecha = this.fechaNacimientoControl.errors['matDatepickerParse'].text.split('/');
-      if(partesFecha.length != 3){
+      partesFecha =
+        this.fechaNacimientoControl.errors['matDatepickerParse'].text.split(
+          '/'
+        );
+      if (partesFecha.length != 3) {
         Swal.fire('Error', 'La fecha debe tener /', 'error');
         return false;
       }
@@ -142,8 +156,9 @@ export class CrudPacientesComponent {
       const fechaValor = new Date(`${mes}/${dia}/${anio}`);
       this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
       this.model.fechaNacimiento += 'T00:00:00';
-      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
-
+      this.fechaNacimientoControl.setValue(
+        new Date(this.model.fechaNacimiento)
+      );
     }
     if (!this.model.nombre) {
       Swal.fire('Error', 'Verifique el nombre', 'error');

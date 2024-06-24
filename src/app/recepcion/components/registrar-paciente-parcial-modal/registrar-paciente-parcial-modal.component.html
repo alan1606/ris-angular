@@ -7,7 +7,7 @@
             <form>
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input required type="text" name="nombre" id="nombre" class="form-control" [(ngModel)]="model.nombre" (input)="mayusculasNombre()">
+                    <input required type="text" name="nombre" id="nombre" class="form-control" [(ngModel)]="model.nombre">
                     <div class="alert alert-danger" *ngIf="error?.nombre">
                         {{error.nombre}}
                     </div>
@@ -16,7 +16,7 @@
                 <div class="form-group my-2">
                     <label for="apellidoPaterno">Apellido paterno</label>
                     <input required type="text" name="apellidoPaterno" id="apellidoPaterno" class="form-control"
-                        [(ngModel)]="model.apellidoPaterno" (input)="mayusculasPaterno()">
+                        [(ngModel)]="model.apellidoPaterno">
                     <div class="alert alert-danger" *ngIf="error?.apellidoPaterno">
                         {{error.apellidoPaterno}}
                     </div>
@@ -25,7 +25,7 @@
                 <div class="form-group my-2">
                     <label for="apellidoMaterno">Apellido materno</label>
                     <input required type="text" name="apellidoMaterno" id="apellidoMaterno" class="form-control"
-                        [(ngModel)]="model.apellidoMaterno" (input)="mayusculasMaterno()">
+                        [(ngModel)]="model.apellidoMaterno">
                     <div class="alert alert-danger" *ngIf="error?.apellidoMaterno">
                         {{error.apellidoMaterno}}
                     </div>
