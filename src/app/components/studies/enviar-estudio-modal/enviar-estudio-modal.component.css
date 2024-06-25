@@ -1,3 +1,7 @@
 .medico-verificado{
     background-color: greenyellow;
 }
+
+mat-form-field {
+    width: 100%;
+  }

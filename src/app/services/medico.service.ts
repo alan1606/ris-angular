@@ -48,6 +48,12 @@ export class MedicoService {
     );
   }
 
+  public encontrarRadiologosParaEnvioAInterpretar(): Observable<Medico[]> {
+    return this.http.get<Medico[]>(
+      `${this.baseEndpoint}/radiologos/con-total-estudios`
+    );
+  }
+
   public encontrarMedicoPorTokenPorUsuario(
     usuario: string
   ): Observable<Medico> {

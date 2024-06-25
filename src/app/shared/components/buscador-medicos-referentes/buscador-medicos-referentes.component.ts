@@ -29,12 +29,12 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
   estudio: VentaConceptos;
 
   ngOnInit(): void {
+    console.log("");
     this.mostrarNuevoMedico = this.mostrarNuevoMedicoInput;
     if (this.medicoExiste) {
       this.autocompleteControlMedicoReferente.setValue(this.medicoExiste);
-      setInterval(() => {
-        this.medicoEnviado.emit(this.medicoExiste);
-      }, 500);
+      this.medicoEnviado.emit(this.medicoExiste);
+
     }
 
     this.autocompleteControlMedicoReferente.valueChanges
@@ -71,6 +71,7 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
 
   seleccionarMedicoReferente(event: MatAutocompleteSelectedEvent): void {
     const referente = event.option.value as Medico;
+    console.log("Emitiendo médico referente");
     this.medicoEnviado.emit(referente);
   }
 

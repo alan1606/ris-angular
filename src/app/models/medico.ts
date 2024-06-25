@@ -22,4 +22,6 @@ export class Medico implements Generic {
     empresa: string;
     validado:boolean;
     aceptaUsoGeneradorIa?: boolean;
+    especialidadParaMostrarEnContador?: string;
+	cantidadEstudiosMandadosEnElDia?: number;
 }

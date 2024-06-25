@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { flatMap, map } from 'rxjs';
 import { IMAGE_PATH } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';
@@ -22,10 +23,12 @@ import Swal from 'sweetalert2';
 })
 export class EnviarEstudioModalComponent implements OnInit {
 
+  @ViewChild('medicoRadiologoSelect') medicoRadiologoSelect: MatSelect;
+
+
   titulo: 'Enviar estudio';
 
   autocompleteControlMedicoReferente = new UntypedFormControl();
-  autocompleteControlMedicoRadiologo = new UntypedFormControl();
   autocompleteControlTecnico = new UntypedFormControl();
 
   medicosReferentesFiltrados: Medico[] = [];
@@ -54,13 +57,7 @@ export class EnviarEstudioModalComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    console.log("hola")
     this.estudio = this.data.estudio as VentaConceptos;
-
-    this.autocompleteControlMedicoRadiologo.valueChanges.pipe(
-      map(valor => typeof valor === 'string' ? valor : valor.nombres + " " + valor.apellidos),
-      flatMap(valor => valor ? this.medicoService.filtrarRadiologosPorNombre(valor) : [])
-    ).subscribe(radiologos => this.medicosRadiologosFiltrados = radiologos);
 
 
     this.autocompleteControlTecnico.valueChanges.pipe(
@@ -70,18 +67,25 @@ export class EnviarEstudioModalComponent implements OnInit {
 
     this.antecedenteEstudioService.filtrarPorVentaConceptosId(this.estudio.id).subscribe(a => a.forEach(antecedente => {
       this.antecedentesJuntos += `${antecedente.antecedente.nombre}, `;
-      console.log(antecedente.antecedente.nombre);
     }));
 
     if (!this.estudio.mensaje || this.estudio.mensaje === '') {
 
     }
 
-    console.log(this.estudio.ordenVenta.medicoReferente)
-    this.autocompleteControlMedicoRadiologo.setValue(this.estudio.medicoRadiologo);
     this.autocompleteControlMedicoReferente.setValue(this.estudio.ordenVenta.medicoReferente);
     this.autocompleteControlTecnico.setValue(this.estudio.tecnico);
-    
+    this.cargarRadiologos();
+  }
+
+  private cargarRadiologos() {
+    this.medicoService.encontrarRadiologosParaEnvioAInterpretar().subscribe(medicos => {
+      this.medicosRadiologosFiltrados = medicos;
+      console.log(this.medicosRadiologosFiltrados);
+    },
+  () =>{
+    console.error("Error cargando los médicos radiólogos");
+  })
   }
 
   cancelar() {
@@ -165,9 +169,6 @@ export class EnviarEstudioModalComponent implements OnInit {
     }
   }
 
-  mostrarNombreMedicoRadiologo(medico?: Medico): string {
-    return medico ? `${medico.nombres} ${medico.apellidos}` : '';
-  }
 
   mostrarNombreTecnico(tecnico?: Tecnico): string {
     return tecnico ? `${tecnico.nombres} ${tecnico.apellidos}` : '';
@@ -177,15 +178,12 @@ export class EnviarEstudioModalComponent implements OnInit {
     this.estudio.ordenVenta.medicoReferente = event;
   }
 
-  seleccionarMedicoRadiologo(event: MatAutocompleteSelectedEvent): void {
-    const radiologo = event.option.value as Medico;
 
-    this.estudio.medicoRadiologo = radiologo;
-
-    console.log(radiologo);
-    event.option.deselect();
-    event.option.focus();
+  seleccionarMedicoRadiologo(event){
+    const medico = event.value as Medico;
+    console.log(medico);
   }
+
 
   seleccionarTecnico(event: MatAutocompleteSelectedEvent): void {
     const tecnico = event.option.value as Tecnico;

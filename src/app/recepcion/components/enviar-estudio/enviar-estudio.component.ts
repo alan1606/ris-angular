@@ -106,7 +106,7 @@ export class EnviarEstudioComponent implements OnInit {
     this.estudio.ordenVenta.medicoReferente = event;
     this.correoMedico = event.correo
 
-    console.log(event);
+    console.log("seleccionarmedico",event);
 
     this.actualizarOrdenDeVenta(this.estudio.ordenVenta);
 
@@ -114,7 +114,7 @@ export class EnviarEstudioComponent implements OnInit {
 
   actualizarOrdenDeVenta(ordenVenta: OrdenVenta) {
     this.ordenVentaService.actualizarOrdenVenta(ordenVenta).subscribe(orden => {
-      console.log(orden);
+      console.log("actualizando en backend",orden);
     });
   }
 

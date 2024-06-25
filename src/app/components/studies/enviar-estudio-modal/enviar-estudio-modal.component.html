@@ -25,14 +25,12 @@
 
                 <div class="form-group my-3">
                     <mat-form-field>
-                        <input matInput placeholder="Medico radiólogo" [formControl]="autocompleteControlMedicoRadiologo"
-                            [matAutocomplete]="autocompleteRadiologo">
-                        <mat-autocomplete #autocompleteRadiologo="matAutocomplete" [displayWith]="mostrarNombreMedicoRadiologo"
-                            (optionSelected)="seleccionarMedicoRadiologo($event)">
-                            <mat-option *ngFor="let medicoRadiologo of medicosRadiologosFiltrados" [value]="medicoRadiologo">
-                                {{medicoRadiologo.nombres + ' ' +medicoRadiologo.apellidos}}
-                            </mat-option>
-                        </mat-autocomplete>
+                        <mat-label>Médico radiólogo</mat-label>
+                         <mat-select #medicoRadiologoSelect (selectionChange)="seleccionarMedicoRadiologo($event)">
+                          <mat-option *ngFor="let medico of medicosRadiologosFiltrados" [value]="medico" >{{
+                            (medico.especialidadParaMostrarEnContador ? medico.especialidadParaMostrarEnContador + ": ": '') +
+                            medico.nombres + " " + medico.apellidos + ": " + medico.cantidadEstudiosMandadosEnElDia}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 
