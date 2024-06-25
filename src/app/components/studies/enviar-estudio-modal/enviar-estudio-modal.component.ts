@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -54,7 +54,9 @@ export class EnviarEstudioModalComponent implements OnInit {
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
     private ventaConceptosService: VentaConceptosService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef,
+) { }
 
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
@@ -81,7 +83,12 @@ export class EnviarEstudioModalComponent implements OnInit {
   private cargarRadiologos() {
     this.medicoService.encontrarRadiologosParaEnvioAInterpretar().subscribe(medicos => {
       this.medicosRadiologosFiltrados = medicos;
-      console.log(this.medicosRadiologosFiltrados);
+      if(this.estudio.medicoRadiologo){
+        const selectedMedico = this.medicosRadiologosFiltrados.find(m => m.id === this.estudio.medicoRadiologo.id);
+        this.medicoRadiologoSelect.value = selectedMedico;
+        this.medicoRadiologoSelect.valueChange.emit(this.estudio.medicoRadiologo);
+        this.cdr.detectChanges();
+      }
     },
   () =>{
     console.error("Error cargando los médicos radiólogos");
@@ -181,7 +188,8 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   seleccionarMedicoRadiologo(event){
     const medico = event.value as Medico;
-    console.log(medico);
+    this.estudio.medicoRadiologo = medico;
+    console.log(this.estudio.medicoRadiologo);
   }
 
 
