@@ -1,5 +1,5 @@
 <div class="card text-dark bg-light mb-3">
-    <div class="card-header">Ultrasonidos de pensiones del {{fecha | date :"dd/MM/yyyy"}}</div>
+    <div class="card-header">Ultrasonidos de {{institucion.nombre}} del {{fecha | date :"dd/MM/yyyy"}}</div>
     <div class="card-body">
       <div class="alert alert-info" *ngIf="estudios?.length == 0">
         No hay estudios en el sistema.

@@ -607,8 +607,8 @@ export class AgendarComponent implements OnInit {
       .subscribe(
         (citas) => {
           this.citas = citas;
-          if (this.hayQueMostrarLimitePensionesUltrasonido()) {
-            this.mostrarCitasPensionesUltrasonido();
+          if (this.hayQueMostrarLimiteUltrasonido()) {
+            this.mostrarCitasUltrasonido();
           }
         },
         (error) => {
@@ -620,9 +620,8 @@ export class AgendarComponent implements OnInit {
       );
   }
 
-  private hayQueMostrarLimitePensionesUltrasonido(): boolean {
+  private hayQueMostrarLimiteUltrasonido(): boolean {
     if (
-      this.institucion.nombre === 'PENSIONES' &&
       this.area.nombre == 'ULTRASONIDO'
     ) {
       return true;
@@ -630,9 +629,9 @@ export class AgendarComponent implements OnInit {
     return false;
   }
 
-  private mostrarCitasPensionesUltrasonido() {
+  private mostrarCitasUltrasonido() {
     this.dialog.open(MostrarCitasPorDiaPensionesComponent, {
-      data: { dia: this.fecha, salaId: this.equipoDicom.id },
+      data: { dia: this.fecha, salaId: this.equipoDicom.id, institucionId: this.institucion.id },
     });
   }
 
