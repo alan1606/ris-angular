@@ -269,6 +269,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.interpretacion.estudiosIds = idsEstudios;
     this.interpretacionService.crear(this.interpretacion).subscribe(
       (interpretacion) => {
         this.interpretacion = interpretacion;
