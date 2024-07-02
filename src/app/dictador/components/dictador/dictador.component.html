@@ -1,52 +1,51 @@
-<mat-toolbar color="primary">
-    <mat-toolbar-row *ngIf="esMobil.matches">
-        <span><button mat-button (click)="ver(estudio)">Abrir estudio en
-                linea</button></span>
-        <span><button mat-button (click)="abrirConWeasis(estudio)">Abrir con
-                weasis</button></span>
-        <span><button mat-button (click)="descargarZip(estudio)">Descargar
-                estudio en zip</button></span>
-        <span><button mat-button (click)="descargarWeasisWindows()">Descargar
-                weasis para windows</button></span>
-        <span><button mat-button (click)="descargarWeasisMac()">Descargar
-                weasis para mac</button></span>
-    </mat-toolbar-row>
 
-    <mat-toolbar-row *ngIf="!esMobil.matches">
-        <span><button mat-button (click)="ver(estudio)">Abrir estudio en
-                linea</button></span>
-    </mat-toolbar-row>
-    <mat-toolbar-row *ngIf="!esMobil.matches">
-        <span><button mat-button (click)="descargarZip(estudio)">Descargar
-                estudio en zip</button></span>
-    </mat-toolbar-row>
-
-</mat-toolbar>
 <div class="general-container">
-    <div class="contenedor-info">
+    <div class="contenedor-info" *ngFor="let estudioActual of estudiosDeOrden; let i = index">
         <mat-accordion>
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                <mat-expansion-panel-header>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [ngClass]="{'gris': i % 2 === 0}">
+                <mat-expansion-panel-header >
                     <mat-panel-title class="patient-info">
-                        <b>{{paciente.nombreCompleto}}</b>
+                        <b>{{estudioActual.concepto.concepto}}</b>
                     </mat-panel-title>
                     <mat-panel-description>
-                        {{panelOpenState ? 'Ocultar' : 'Ver mas detalles de la orden'}}
+                        {{panelOpenState ? 'Ocultar' : 'Ver mas detalles del estudio'}}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
+                <mat-toolbar color="primary" class="mb-3">
+                    <mat-toolbar-row *ngIf="esMobil.matches">
+                        <span><button mat-button (click)="ver(estudioActual)">Abrir estudio en linea</button></span>
+                        <span><button mat-button (click)="abrirConWeasis(estudioActual)">Abrir con weasis</button></span>
+                        <span><button mat-button (click)="descargarZip(estudioActual)">Descargar estudio en zip</button></span>
+                        <span><button mat-button (click)="descargarWeasisWindows()">Descargar weasis para windows</button></span>
+                        <span><button mat-button (click)="descargarWeasisMac()">Descargar weasis para mac</button></span>
+                    </mat-toolbar-row>
+                    
+                    <mat-toolbar-row *ngIf="!esMobil.matches">
+                        <span><button mat-button (click)="ver(estudioActual)">Abrir estudio en linea</button></span>
+                    </mat-toolbar-row>
+                    <mat-toolbar-row *ngIf="!esMobil.matches">
+                        <span><button mat-button (click)="descargarZip(estudioActual)">Descargar estudio en zip</button></span>
+                    </mat-toolbar-row>
+                
+                </mat-toolbar>
+    
                 <div class="patient-info">
-                    <p><b>ESTUDIO: </b>{{estudio?.concepto?.concepto}}</p>
-                    <p><b>PROCEDENCIA: </b>{{estudio?.institucion?.nombre}}</p>
-                    <p><b>MEDICO: </b>{{estudio?.ordenVenta?.medicoReferente.nombres}}
-                        {{estudio?.ordenVenta?.medicoReferente.apellidos}}</p>
-                    <p *ngIf="estudio?.ordenVenta?.motivo"><b>Motivo: </b> {{estudio?.ordenVenta?.motivo}}</p>
+                    <p><b>ESTUDIO: </b>{{estudioActual?.concepto?.concepto}}</p>
+                    <p><b>PROCEDENCIA: </b>{{estudioActual?.institucion?.nombre}}</p>
+                    <p><b>MEDICO: </b>{{estudioActual?.ordenVenta?.medicoReferente.nombres}}
+                        {{estudioActual?.ordenVenta?.medicoReferente.apellidos}}</p>
+                    <p *ngIf="estudioActual?.ordenVenta?.motivo"><b>Motivo: </b> {{estudioActual?.ordenVenta?.motivo}}</p>
                     <p *ngIf="antecedentes"><b>ANTECEDENTES: </b> {{antecedentes}}</p>
-                    <p *ngIf="estudio?.mensaje"><b>MENSAJE: </b> {{estudio?.mensaje}}</p>
+                    <p *ngIf="estudio?.mensaje"><b>MENSAJE: </b> {{estudioActual?.mensaje}}</p>
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
     </div>
-    <div class="contenedor-info">
+    
+    
+
+
+    <div class="contenedor-info mb-3">
         <h2 *ngIf="estudiosDeOrden?.length > 1">
             <p style="color: red;">Favor de interpretar todos los estudios en este reporte</p>
         </h2>
@@ -111,6 +110,14 @@
     <div>
     </div>
 </div>
+
+  <div class="form-check mx-4 mb-3" *ngIf="estudiosDeOrden?.length > 1">
+    <input class="form-check-input " type="checkbox"  id="interpretarTodo" name="interpretarTodo" [(ngModel)]="interpretarTodosLosEstudios">
+    <label class="form-check-label" for="flexCheckChecked">
+      La interpretación es para todos los estudios
+    </label>
+  </div>
+
 <div class="botones-finales">
     <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-primary" (click)="guardar()">Crear
         PDF</button>

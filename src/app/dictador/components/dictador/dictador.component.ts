@@ -63,6 +63,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
   esMobil = window.matchMedia('(min-width:1023px)');
   conclusion: string = '';
   btnConclusionDisabled: boolean = false;
+  interpretarTodosLosEstudios: boolean = false;
   private messageSubscription: Subscription;
   private medicoRadiologo: Medico;
 
@@ -250,14 +251,25 @@ export class DictadorComponent implements OnInit, OnDestroy {
     }
     this.interpretacion = new Interpretacion();
     this.enlacePdf = '';
-    this.interpretacion.estudio = this.estudio;
     if (this.conclusion) {
       this.templateForm.value.textEditor += `<p class="ql-align-justify"><br></p><p><b>CONCLUSIÓN</b></p><p class="ql-align-justify"><strong>${this.eliminarP(this.conclusion).toUpperCase()}</strong></p>`;
       this.conclusion = '';
     }
 
     this.interpretacion.interpretacion = this.templateForm.value.textEditor;
+    //Agregar estudios ids
+    let idsEstudios: number[] = [];
+    idsEstudios.push(this.estudio.id);
 
+    if(this.interpretarTodosLosEstudios){
+      for(let estudio of this.estudiosDeOrden){
+        if(estudio.id != this.estudio.id){
+          idsEstudios.push(estudio.id)
+        }
+      }
+    }
+
+    this.interpretacion.estudiosIds = idsEstudios;
     this.interpretacionService.crear(this.interpretacion).subscribe(
       (interpretacion) => {
         this.interpretacion = interpretacion;
@@ -277,8 +289,14 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
   private marcarEstudiosDeOrdenInterpretados() {
     this.estudiosDeOrden.forEach((estudio) => {
-      estudio.estado = 'INTERPRETADO';
-      this.actualizarEstudio(estudio);
+      if(estudio.id == this.estudio.id){
+        estudio.estado = 'INTERPRETADO';
+        this.actualizarEstudio(estudio);
+      }
+      else if(this.interpretarTodosLosEstudios){
+        estudio.estado = 'INTERPRETADO';
+        this.actualizarEstudio(estudio);
+      }
     });
   }
 
@@ -320,6 +338,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
             (estudio) =>
               estudio.medicoRadiologo.id === this.estudio.medicoRadiologo.id
           );
+          if(this.estudiosDeOrden.length > 1){
+            this.interpretarTodosLosEstudios = true;
+          }
         },
         (error) => {
           console.log(
