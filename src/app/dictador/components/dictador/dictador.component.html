@@ -1,5 +1,5 @@
 <div class="general-container">
-    <h1 class="text-center pt-2" style="font-weight: 600;">PACIENTE: {{estudio.paciente.nombre + " " + estudio.paciente.apellidoPaterno + " " +estudio.paciente.apellidoPaterno}}
+    <h1 class="text-center pt-2" style="font-weight: 600;">PACIENTE: {{estudio.paciente.nombre + " " + estudio.paciente.apellidoPaterno + " " +estudio.paciente.apellidoMaterno}}
     <h1 class="text-center pt-2" style="font-weight: 600;">ESTUDIO SELECCIONADO: {{estudio.concepto.concepto}}</h1>
     </h1>
     <div class="contenedor-info" *ngFor="let estudioActual of estudiosDeOrden; let i = index">
