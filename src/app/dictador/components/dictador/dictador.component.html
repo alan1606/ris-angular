@@ -1,6 +1,7 @@
 <div class="general-container">
-    <h1 class="text-center pt-2" style="font-weight: 600;">PACIENTE: {{estudio.paciente.nombre + " " + estudio.paciente.apellidoPaterno + " " +estudio.paciente.apellidoMaterno}}
-    <h1 class="text-center pt-2" style="font-weight: 600;">ESTUDIO SELECCIONADO: {{estudio.concepto.concepto}}</h1>
+    <h1 class="text-center pt-2" style="font-weight: 500;">PACIENTE: {{estudio.paciente?.nombre + " " +
+        estudio.paciente?.apellidoPaterno + " " +estudio.paciente?.apellidoMaterno}}
+        <h1 class="text-center pt-2" style="font-weight: 500;">ESTUDIO SELECCIONADO: {{estudio.concepto?.concepto}}</h1>
     </h1>
     <div class="contenedor-info" *ngFor="let estudioActual of estudiosDeOrden; let i = index">
         <mat-accordion>
@@ -59,7 +60,7 @@
             <p style="color: red;">Favor de interpretar todos los estudios en este reporte</p>
         </h2>
     </div>
-    <div class="d-flex" *ngIf="multimediaCargada | async ">
+    <div class="d-flex ms-3" *ngIf="multimediaCargada | async ">
         <div *ngFor="let img of multimedia, let i = index">
             <button class="btn btn-dark me-3" (click)="abrirFoto(img)">
                 {{
@@ -75,7 +76,6 @@
     <div class="report-action-buttons">
         <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="report-buttons">
             <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir PDF</button>
-            <!-- <button class="btn btn-secondary" (click)="formatearConclusion()">Formatear Conclusión</button> -->
         </div>
         <div *ngIf="medicoLocal && mostrarSubidaExterna" class="report-buttons">
             <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Usar
@@ -89,11 +89,12 @@
                 <button class="btn btn-success btn-lg my-2" (click)="regresar()">Regresar</button>
             </div>
 
-            <div *ngIf="medicoLocal && !mostrarSubidaExterna" style="margin-left: 1%;">
+            <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="text-center" style="width:737px;">
+                <p style="color: red;">Porfavor realice los saltos de linea manualmente y revise el reporte</p>
                 <form [formGroup]="templateForm">
                     <quill-editor
-                        [styles]="{height: '350px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif'}"
-                        [modules]="quillEditorModules" formControlName="textEditor">
+                        [styles]="{height: 'max-content',width:'737px', backgroundColor:'#faf8f8', fontFamily:'Sans serif'}"
+                        formControlName="textEditor">
                     </quill-editor>
                 </form>
             </div>
@@ -103,11 +104,11 @@
 
             </div>
         </div>
-        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia">
-            <b>Ahora la conclusion se debe escribir en el recuadro de abajo</b>
+        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia text-center" style="width: 737px;">
+            <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
             <quill-editor class="mayus"
-                [styles]="{height: '320px',width:'100%', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:500,}"
-                [modules]="quillEditorModules" [(ngModel)]="conclusion">
+                [styles]="{height: 'max-content',width:'737px', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:500,}"
+                [(ngModel)]="conclusion">
             </quill-editor>
             <div class="contenedor-ia">
                 <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary"
@@ -128,7 +129,7 @@
     </label>
 </div>
 
-<div class="botones-finales">
+<div class="botones-finales pb-5">
     <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-primary" (click)="guardar()">Crear
         PDF</button>
     <button *ngIf="enlacePdf !== ''" class="btn btn-dark ms-4" (click)="verInterpretacion()">Ver Reporte</button>

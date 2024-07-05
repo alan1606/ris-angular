@@ -1,9 +1,5 @@
 @import "~quill/dist/quill.bubble.css";
 
-.general-container{}
-.contenedor-info {
-}
-
 .mayus{
   text-transform: uppercase;
 }
@@ -53,8 +49,8 @@
   border: #000000;
 }
 .container-report-ia {
-  display: grid;
-  grid-template-columns: 60% 40%;
+  display: flex;
+  justify-content: center;
 }
 
 @media (max-width:1024px){
@@ -62,8 +58,14 @@
     width: 100%;
   }
   .container-report-ia {
-    display: grid;
-    grid-template-columns: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .conclusion-ia{
+    margin-top: 20px;
   }
 }
 

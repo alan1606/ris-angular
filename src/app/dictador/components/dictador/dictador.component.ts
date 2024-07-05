@@ -1,14 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  DOWNLOAD_WEASIS_MAC_LINK,
-  DOWNLOAD_WEASIS_WINDOWS_LINK,
-  VIEWER,
-  WEASIS_VIEWER_PATH,
-  ZIP_STUDIES_PATH,
-  FILES_PATH,
-  BASE_ENDPOINT,
-} from '../../../config/app';
+import {DOWNLOAD_WEASIS_MAC_LINK,DOWNLOAD_WEASIS_WINDOWS_LINK,VIEWER,WEASIS_VIEWER_PATH,ZIP_STUDIES_PATH,FILES_PATH,BASE_ENDPOINT,} from '../../../config/app';
 import { Multimedia } from '../../../models/multimedia';
 import { VentaConceptos } from '../../../models/venta-conceptos';
 import { AntecedenteEstudioService } from '../../../services/antecedente-estudio.service';
@@ -59,7 +51,17 @@ export class DictadorComponent implements OnInit, OnDestroy {
   concepto: Concepto = new Concepto();
   templateForm: FormGroup;
   panelOpenState = false;
-  quillEditorModules = {};
+  quill = new Quill('#editor', {
+    modules: {
+      toolbar: true
+    },
+    theme: 'snow',
+    formats: [
+      'bold', 'italic', 'underline',
+      'link', 'image', 'code-block'
+    ]
+  });
+
   esMobil = window.matchMedia('(min-width:1023px)');
   conclusion: string = '';
   btnConclusionDisabled: boolean = false;
@@ -85,14 +87,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
     });
-    this.quillEditorModules = {
-      blotFormatter: {},
-    };
-
   }
 
   ngOnInit(): void {
-
     this.route.paramMap.subscribe((params) => {
       this.idVentaConcepto = +params.get('idVentaConcepto');
 
@@ -134,7 +131,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       }
     );
-
   }
 
   abrirMedicoReferenteYCambiar() {
@@ -148,7 +144,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
         }
         this.medicoReferenteRecibido = mensaje;
         this.recibirMensaje(mensaje);
-        // console.log(this.medicoReferenteRecibido);
       }
     );
   }
@@ -252,19 +247,21 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.interpretacion = new Interpretacion();
     this.enlacePdf = '';
     if (this.conclusion) {
-      this.templateForm.value.textEditor += `<p class="ql-align-justify"><br></p><p><b>CONCLUSIÓN</b></p><p class="ql-align-justify"><strong>${this.eliminarP(this.conclusion).toUpperCase()}</strong></p>`;
+      this.templateForm.value.textEditor += `<p class="ql-align-justify"><br></p><p><b>CONCLUSIÓN</b></p><p class="ql-align-justify"><strong>${this.eliminarP(
+        this.conclusion
+      ).toUpperCase()}</strong></p>`;
       this.conclusion = '';
     }
-
+    
     this.interpretacion.interpretacion = this.templateForm.value.textEditor;
     //Agregar estudios ids
     let idsEstudios: number[] = [];
     idsEstudios.push(this.estudio.id);
 
-    if(this.interpretarTodosLosEstudios){
-      for(let estudio of this.estudiosDeOrden){
-        if(estudio.id != this.estudio.id){
-          idsEstudios.push(estudio.id)
+    if (this.interpretarTodosLosEstudios) {
+      for (let estudio of this.estudiosDeOrden) {
+        if (estudio.id != this.estudio.id) {
+          idsEstudios.push(estudio.id);
         }
       }
     }
@@ -280,7 +277,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         console.log('Error creando la interpretación');
       }
     );
-    const botonGuardar = document.getElementById('crearPDF'); // Reemplaza 'idDelBotonGuardar' con el ID real de tu botón
+    const botonGuardar = document.getElementById('crearPDF');
     const posicionY = botonGuardar?.offsetTop;
     setTimeout(() => {
       window.scroll(0, posicionY + 100);
@@ -289,11 +286,10 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
   private marcarEstudiosDeOrdenInterpretados() {
     this.estudiosDeOrden.forEach((estudio) => {
-      if(estudio.id == this.estudio.id){
+      if (estudio.id == this.estudio.id) {
         estudio.estado = 'INTERPRETADO';
         this.actualizarEstudio(estudio);
-      }
-      else if(this.interpretarTodosLosEstudios){
+      } else if (this.interpretarTodosLosEstudios) {
         estudio.estado = 'INTERPRETADO';
         this.actualizarEstudio(estudio);
       }
@@ -338,7 +334,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
             (estudio) =>
               estudio.medicoRadiologo.id === this.estudio.medicoRadiologo.id
           );
-          if(this.estudiosDeOrden.length > 1){
+          if (this.estudiosDeOrden.length > 1) {
             this.interpretarTodosLosEstudios = true;
           }
         },
@@ -374,16 +370,17 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
         if (existeConclusion) {
           console.log('1');
-          let [firstPart, secondPart] =
-            interpretacion.interpretacion.split('<p class="ql-align-justify"><br></p><p><b>CONCLUSIÓN</b></p><p class="ql-align-justify"><strong>');
+          let [firstPart, secondPart] = interpretacion.interpretacion.split(
+            '<p class="ql-align-justify"><br></p><p><b>CONCLUSIÓN</b></p><p class="ql-align-justify"><strong>'
+          );
 
           this.templateForm.get('textEditor').setValue(firstPart);
           this.conclusion = secondPart
             ? secondPart
             : '' || !secondPart
-              ? ''
-              : secondPart;
-              this.conclusion = this.quitarStrongsFinales(this.conclusion);
+            ? ''
+            : secondPart;
+          this.conclusion = this.quitarStrongsFinales(this.conclusion);
         } else if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
           console.log(3);
           this.cargarPlantillaCardio();
@@ -407,9 +404,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
   private quitarStrongsFinales(html: string): string {
     return html.replace(/(<\/strong>)+$/i, '');
   }
-  /*descargarPdf(): void{
-    window.open(`${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`);
-  }*/
 
   regresar(): void {
     this.enviarInformacionSaludParral();
@@ -459,23 +453,28 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   generarConclusion() {
-
-    if(!this.medicoRadiologo.aceptaUsoGeneradorIa){
+    if (!this.medicoRadiologo.aceptaUsoGeneradorIa) {
       this.mostrarAvisoLegalUsoIa();
       return;
     }
 
     this.btnConclusionDisabled = true;
-    Swal.fire("La conclusión se está generando, espere un momento, por favor");
+    Swal.fire('La conclusión se está generando, espere un momento, por favor');
 
     const interpretacion = this.templateForm.value.textEditor;
-    this.reportService.generateReport(interpretacion, this.estudio.id).subscribe(() => {
-    },
-      () => {
-        Swal.fire("Error", "Ocurrió un error al generar la conclusión", "error");
-        this.btnConclusionDisabled = false;
-      }
-    );
+    this.reportService
+      .generateReport(interpretacion, this.estudio.id)
+      .subscribe(
+        () => {},
+        () => {
+          Swal.fire(
+            'Error',
+            'Ocurrió un error al generar la conclusión',
+            'error'
+          );
+          this.btnConclusionDisabled = false;
+        }
+      );
   }
 
   private mostrarAvisoLegalUsoIa() {
@@ -507,26 +506,30 @@ export class DictadorComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.isConfirmed) {
         this.aceptarUsoDeIa();
-      } 
-    })
-    
+      }
+    });
   }
 
   private aceptarUsoDeIa() {
-    this.medicoService.aceptarUsoDeIa(this.medicoRadiologo).subscribe(() => {
-      this.medicoRadiologo.aceptaUsoGeneradorIa = true;
-      this.generarConclusion();
-    }, () =>{
-      Swal.fire("Error", "Ocurrió un error al aceptar el uso de IA", "error");
-    });
+    this.medicoService.aceptarUsoDeIa(this.medicoRadiologo).subscribe(
+      () => {
+        this.medicoRadiologo.aceptaUsoGeneradorIa = true;
+        this.generarConclusion();
+      },
+      () => {
+        Swal.fire('Error', 'Ocurrió un error al aceptar el uso de IA', 'error');
+      }
+    );
   }
 
   listenerConclusion() {
-    this.messageSubscription = this.reportService.getMessageSubject().subscribe((mensaje: any) => {
-      console.log(mensaje.conclusion)
-      let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
-      this.conclusion = secondPart
-    });
+    this.messageSubscription = this.reportService
+      .getMessageSubject()
+      .subscribe((mensaje: any) => {
+        console.log(mensaje.conclusion);
+        let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
+        this.conclusion = secondPart;
+      });
   }
 
   ngOnDestroy() {
@@ -540,12 +543,12 @@ export class DictadorComponent implements OnInit, OnDestroy {
     if (html.startsWith('<P>') || html.startsWith('<p>')) {
       html = html.replace(/<p>|<P>/, '');
     }
-  
+
     // Eliminar la etiqueta </p> final si existe
     if (html.endsWith('</P>') || html.endsWith('</p>')) {
       html = html.replace(/<\/p>|<\/P>$/, '');
     }
-  
+
     return html;
   }
 }
