@@ -107,12 +107,12 @@
         </thead>
 
         <tbody *ngIf="lista?.length > 0">
-          <ng-container *ngFor="let estudio of lista" >
+          <ng-container *ngFor="let estudio of lista"  >
             <tr
-           
             [ngClass]="{
               'table-success': estudio.estado == 'INTERPRETADO',
-              'table-danger': estudio.estado == 'PAGADO'
+              'table-danger': estudio.estado == 'PAGADO',
+              'table-dark':estudio.verMasInfo
             }"
           >
             <td (click)="abrirQr(estudio)">{{ estudio.id }}</td>
@@ -168,7 +168,7 @@
             <td>{{ estudio.equipoDicom.area.nombre }}</td>
 
             <td>
-              <button type="button" class="btn btn-sm btn-info" (click)="verMasInfo(estudio)">Ver más</button>
+              <button type="button" [class]="!estudio.verMasInfo?'btn btn-sm btn-info':'btn btn-sm btn-dark'" (click)="verMasInfo(estudio)">{{!estudio.verMasInfo? 'Ver más':'Ocultar'}}</button>
             </td>
             
           </tr>
@@ -178,6 +178,9 @@
               <div class="info-container" style="text-align: center;">
                 <div class="info-item">
                   <strong>Id PACS:</strong> <span>{{ estudio.idPacs }}</span>
+                </div>
+                <div class="info-item">
+                  <strong>Id Paciente:</strong> <span>{{ estudio.paciente?.id }}</span>
                 </div>
                 <div class="info-item" *ngIf="estudio.iuid?.length > 0" >
                   <strong>Abrir con Weasis:</strong>

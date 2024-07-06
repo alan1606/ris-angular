@@ -89,11 +89,11 @@
                 <button class="btn btn-success btn-lg my-2" (click)="regresar()">Regresar</button>
             </div>
 
-            <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="text-center" style="width:737px;">
+            <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="text-center" style="width:800px;">
                 <p style="color: red;">Porfavor realice los saltos de linea manualmente y revise el reporte</p>
                 <form [formGroup]="templateForm">
                     <quill-editor
-                        [styles]="{height: 'max-content',width:'737px', backgroundColor:'#faf8f8', fontFamily:'Sans serif'}"
+                        [styles]="{height: 'max-content',width:'800px', backgroundColor:'#faf8f8', fontFamily:'Sans serif'}"
                         formControlName="textEditor">
                     </quill-editor>
                 </form>
@@ -104,10 +104,10 @@
 
             </div>
         </div>
-        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia text-center" style="width: 737px;">
+        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia text-center" style="width: 733px;">
             <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
             <quill-editor class="mayus"
-                [styles]="{height: 'max-content',width:'737px', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:500,}"
+                [styles]="{height: 'max-content',width:'733px', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:500,}"
                 [(ngModel)]="conclusion">
             </quill-editor>
             <div class="contenedor-ia">
