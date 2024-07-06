@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { PerfilRoutingModule } from './perfil-routing.module';
 import { PerfilModalComponent } from './components/perfil-modal/perfil-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyOptionModule as MatOptionModule } from '@angular/material/legacy-core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({

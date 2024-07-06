@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { map, flatMap } from 'rxjs/operators';
 import { VIEWER, WEASIS_VIEWER_PATH } from 'src/app/config/app';
 import { Area } from 'src/app/models/area';
@@ -19,7 +19,7 @@ import { InformacionEstudioModalComponent } from '../studies/informacion-estudio
 import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
 import { BASE_SITE } from 'src/app/config/app';
-import { MatSelect } from '@angular/material/select';
+import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { EnviarEstudioDicomComponent } from './enviar-estudio-dicom/enviar-estudio-dicom.component';
 @Component({
   selector: 'app-venta-conceptos',

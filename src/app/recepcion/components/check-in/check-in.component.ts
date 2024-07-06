@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, UntypedFormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';

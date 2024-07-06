@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import { FormControl } from '@angular/forms';
 import { flatMap, map, mergeMap } from 'rxjs';
 import { AreasService } from 'src/app/services/areas.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { PreciosService } from '../../services/precios.service';
 import { ConceptoPrecio } from '../../models/concepto-precio';
 import { ConceptoInstitucion } from '../../models/concepto-institucion';

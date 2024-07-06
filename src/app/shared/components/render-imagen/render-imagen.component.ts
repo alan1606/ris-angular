@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { MultimediaService } from 'src/app/services/multimedia.service';

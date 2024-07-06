@@ -8,7 +8,7 @@ import { map } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { MedicoService } from '../../../services/medico.service';
 import { Medico } from '../../../models/medico';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { OrdenVentaService } from '../../../services/orden-venta.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { PacientesService } from '../../../services/pacientes.service';

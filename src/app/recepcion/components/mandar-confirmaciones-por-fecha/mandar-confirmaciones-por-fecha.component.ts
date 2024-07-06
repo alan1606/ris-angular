@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CitaService } from '../agendar';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-mandar-confirmaciones-por-fecha',

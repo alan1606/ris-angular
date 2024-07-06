@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { FormaPago } from 'src/app/models/formaPago';
 import { Pago } from 'src/app/models/pago';
 import Swal from 'sweetalert2';

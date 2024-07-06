@@ -1,5 +1,5 @@
 import { Component, Inject, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { SendStudyToAeService } from '../../../services/send-study-to-ae.service';
 import { DicomNodesService } from 'src/app/services/dicom-nodes.service';

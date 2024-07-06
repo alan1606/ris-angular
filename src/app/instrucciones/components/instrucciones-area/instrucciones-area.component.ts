@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Area } from 'src/app/models/area';
 import { AreasService } from 'src/app/services/areas.service';
 import { InstruccionesAreaModalComponent } from '../instrucciones-area-modal/instrucciones-area-modal.component';

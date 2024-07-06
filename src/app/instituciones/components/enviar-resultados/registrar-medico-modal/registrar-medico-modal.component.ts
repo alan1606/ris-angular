@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { RegistrarPacienteComponent } from 'src/app/recepcion/components/registrar-paciente-modal/registrar-paciente.component';
 import { InstitucionService } from 'src/app/services/institucion.service';
 

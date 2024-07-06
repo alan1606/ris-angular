@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Movimiento, TipoMovimiento } from 'src/app/models/movimiento';
 import Swal from 'sweetalert2';
 import { MovimientosCortesService } from '../../services/movimientos-cortes.service';

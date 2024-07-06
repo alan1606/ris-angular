@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatSelect } from '@angular/material/select';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { flatMap, map } from 'rxjs';
 import { IMAGE_PATH } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';

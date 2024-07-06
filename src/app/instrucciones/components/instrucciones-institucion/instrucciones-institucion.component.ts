@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Institucion } from 'src/app/models/institucion';
 import { InstitucionService } from 'src/app/services/institucion.service';
 import { InstruccionesInstitucionModalComponent } from '../instrucciones-institucion-modal/instrucciones-institucion-modal.component';

@@ -5,10 +5,10 @@ import { InstruccionesConceptoComponent } from './components/instrucciones-conce
 import { InstruccionesInstitucionComponent } from './components/instrucciones-institucion/instrucciones-institucion.component';
 import { InstruccionesRoutingModule } from './instrucciones-routing.module';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { InstruccionesAreaModalComponent } from './components/instrucciones-area-modal/instrucciones-area-modal.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
 import { InstruccionesInstitucionModalComponent } from './components/instrucciones-institucion-modal/instrucciones-institucion-modal.component';
 import { InstruccionesConceptoModalComponent } from './components/instrucciones-concepto-modal/instrucciones-concepto-modal.component';
 

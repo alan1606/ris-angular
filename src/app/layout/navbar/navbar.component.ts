@@ -13,7 +13,7 @@ import { HttpParams } from '@angular/common/http';
 import { TokenService } from 'src/app/services/token.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { PerfilModalComponent } from 'src/app/perfil/components/perfil-modal/perfil-modal.component';
 
 const CHARACTERS =

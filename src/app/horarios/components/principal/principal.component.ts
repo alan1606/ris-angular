@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Medico } from 'src/app/models/medico';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { flatMap, forkJoin, map, of } from 'rxjs';
