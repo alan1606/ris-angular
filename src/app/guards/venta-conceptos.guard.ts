@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { TokenService } from '../services/token.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class VentaConceptosGuard  {
+export class VentaConceptosGuard implements CanActivate {
   constructor(
     private tokenService: TokenService){
   }
