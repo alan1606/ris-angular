@@ -1,13 +1,9 @@
 <div>
-  <div class="mt-3">
-    <mat-form-field appearance="fill" class="ms-3">
+  <div class="mt-3 ms-2 d-flex">
+    <mat-form-field appearance="fill">
       <mat-label>Rango de fechas:</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input
-          matStartDate
-          placeholder="Inicio"
-          #fechaInicio
-        />
+        <input matStartDate placeholder="Inicio" #fechaInicio />
         <input
           (dateChange)="onEndDateChange(fechaInicio, fechaFin)"
           matEndDate
@@ -18,29 +14,27 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
-  
-      <mat-form-field appearance="fill" class="ms-3">
-        <input class="buscar-paciente"
-          matInput
-          placeholder="Paciente"
-          [formControl]="autocompleteControlPaciente"
-          [matAutocomplete]="autocompletePaciente"
-        />
-        <mat-autocomplete
-          #autocompletePaciente="matAutocomplete"
-          [displayWith]="mostrarNombrePaciente"
-          (optionSelected)="seleccionarPaciente($event)"
+
+    <mat-form-field appearance="fill" class="ms-3">
+      <input
+        matInput
+        placeholder="Paciente"
+        [formControl]="autocompleteControlPaciente"
+        [matAutocomplete]="autocompletePaciente"
+      />
+      <mat-autocomplete
+        #autocompletePaciente="matAutocomplete"
+        [displayWith]="mostrarNombrePaciente"
+        (optionSelected)="seleccionarPaciente($event)"
+      >
+        <mat-option
+          *ngFor="let paciente of pacientesFiltrados"
+          [value]="paciente"
         >
-          <mat-option
-            *ngFor="let paciente of pacientesFiltrados"
-            [value]="paciente"
-          >
-            {{ paciente.nombreCompleto }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    
-  
+          {{ paciente.nombreCompleto }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
   <div class="card text-dark bg-light mb-3">
     <div class="card-header">Instituciones</div>
@@ -64,7 +58,7 @@
             <tr *ngFor="let orden of lista">
               <td>{{ orden.paciente.nombreCompleto }}</td>
               <td>{{ orden.estudios }}</td>
-              <td>{{ orden.fechaVenta | date: "dd/MM/yyyy" }}</td>
+              <td>{{ orden.fechaVenta | date : "dd/MM/yyyy" }}</td>
               <td>
                 <button
                   type="button"
@@ -89,8 +83,15 @@
       </div>
     </div>
 
-    <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
-    [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-left mx-2">
-</mat-paginator>
+    <mat-paginator
+      [length]="totalRegistros"
+      [pageSize]="totalPorPagina"
+      [pageIndex]="paginaActual"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="paginar($event)"
+      showFirstLastButtons
+      class="float-left mx-2"
+    >
+    </mat-paginator>
   </div>
 </div>

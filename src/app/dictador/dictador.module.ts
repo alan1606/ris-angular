@@ -7,14 +7,14 @@ import {MatToolbarModule} from '@angular/material/toolbar'
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SubirInterpretacionComponent } from './components/subir-interpretacion/subir-interpretacion.component';
 import { BuscarMedicoReferenteYCambiarComponent } from './components/buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { QuillModule } from 'ngx-quill';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     VisorInterpretacionComponent,

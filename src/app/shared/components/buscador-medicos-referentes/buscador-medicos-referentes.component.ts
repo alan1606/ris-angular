@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Medico } from 'src/app/models/medico';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -49,17 +49,15 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
             return forkJoin([
               this.medicoService.filtrarReferentesPorNombre(valor),
               this.medicoService.filtrarRadiologosPorNombre(valor),
-              // Agrega aquí otros servicios de búsqueda si es necesario
             ]);
           } else {
-            return of([[], []]); // Si no hay valor, devolvemos un observable vacío
+            return of([[], []]);
           }
         })
       )
       .subscribe((resultados: any[]) => {
         const referentes = resultados[0];
         const radiologos = resultados[1];
-        // Aquí puedes hacer lo que necesites con los resultados obtenidos
         if (this.esAdmin) {
           this.medicosReferentesFiltrados = radiologos;
         }
@@ -71,7 +69,6 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
 
   seleccionarMedicoReferente(event: MatAutocompleteSelectedEvent): void {
     const referente = event.option.value as Medico;
-    console.log("Emitiendo médico referente");
     this.medicoEnviado.emit(referente);
   }
 
@@ -81,9 +78,10 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
 
   nuevoMedico() {
     const dialogRef = this.dialog.open(NuevoMedicoSoloNombreComponent, {
-      data: {},
+      data: {
+      },
+      width:'500px',
     });
-
     dialogRef.afterClosed().subscribe((medico) => {
       if (medico) {
         this.estudio.ordenVenta.medicoReferente = medico;

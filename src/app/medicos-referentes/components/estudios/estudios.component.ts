@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FechaService } from 'src/app/services/fecha.service';
-import { MedicoReferenteService } from '../../services/medico-referente.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { TokenService } from 'src/app/services/token.service';
 import { Router } from '@angular/router';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Paciente } from 'src/app/models/paciente';
 import { FormControl } from '@angular/forms';
 import { map, mergeMap } from 'rxjs';

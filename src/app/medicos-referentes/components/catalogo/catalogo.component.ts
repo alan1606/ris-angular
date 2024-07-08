@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { flatMap, map, mergeMap } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { flatMap, map } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';
 import { Study } from 'src/app/models/study';
@@ -25,14 +25,14 @@ export class CatalogoComponent implements OnInit {
   ) {}
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('nombreBuscar') nombreBuscar: ElementRef=null;
+  @ViewChild('nombreBuscar') nombreBuscar: ElementRef = null;
 
   totalRegistros = 0;
   paginaActual = 0;
   totalPorPagina = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
-  lista: ConceptoPrecio[]=[];
+  lista: ConceptoPrecio[] = [];
   conceptosFiltrados: Concepto[] = [];
   areasFiltradas: Area[] = [];
   buscarPorArea: boolean = false;
@@ -63,19 +63,22 @@ export class CatalogoComponent implements OnInit {
     this.calcularRangos();
   }
 
-  public  calcularRangos(): void {
+  public calcularRangos(): void {
     //Se me ocurre que aquí puedo poner ifs para saber hacia qué service paginar
-  
-    if(this.nombreConcepto && this.nombreConcepto != "" && !this.buscarPorArea ){
+
+    if (
+      this.nombreConcepto &&
+      this.nombreConcepto != '' &&
+      !this.buscarPorArea
+    ) {
       return this.buscarPreciosPorNombre(this.nombreConcepto);
     }
-  
-    if(this.area && this.buscarPorArea){
+
+    if (this.area && this.buscarPorArea) {
       this.buscarPreciosPorArea(this.area.id);
       return;
     }
-  
-    }
+  }
 
   private buscarPreciosPorArea(areaId: number) {
     this.service
@@ -90,19 +93,31 @@ export class CatalogoComponent implements OnInit {
         this.paginator._intl.itemsPerPageLabel = 'Registros:';
       });
   }
-  private buscarPreciosPorNombre(nombreBuscar: string){
-    this.service.buscarPorNombre(nombreBuscar, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(p => {
-      this.lista = p.content;
-      this.totalRegistros = p.totalElements as number;
-      this.paginator._intl.itemsPerPageLabel = 'Registros:';
-      console.log(this.lista);
-    },
-    error =>{
-      if(error.status == 404){
-        Swal.fire('No encontrado', 'No existe el estudio ' + nombreBuscar, 'error');
-        this.nombreBuscar.nativeElement.value = "";
-      }
-    });
+  private buscarPreciosPorNombre(nombreBuscar: string) {
+    this.service
+      .buscarPorNombre(
+        nombreBuscar,
+        this.paginaActual.toString(),
+        this.totalPorPagina.toString()
+      )
+      .subscribe(
+        (p) => {
+          this.lista = p.content;
+          this.totalRegistros = p.totalElements as number;
+          this.paginator._intl.itemsPerPageLabel = 'Registros:';
+          console.log(this.lista);
+        },
+        (error) => {
+          if (error.status == 404) {
+            Swal.fire(
+              'No encontrado',
+              'No existe el estudio ' + nombreBuscar,
+              'error'
+            );
+            this.nombreBuscar.nativeElement.value = '';
+          }
+        }
+      );
   }
   seleccionarArea(event: MatAutocompleteSelectedEvent): void {
     const area = event.option.value as Area;
