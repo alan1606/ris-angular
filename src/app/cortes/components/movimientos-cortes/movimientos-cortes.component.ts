@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AgregarMovimientoCorteModalComponent } from '../agregar-movimiento-corte-modal/agregar-movimiento-corte-modal.component';
 import { CorteService } from '../../services/corte.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { Movimiento } from 'src/app/models/movimiento';
 
 @Component({

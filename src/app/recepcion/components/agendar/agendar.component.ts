@@ -415,7 +415,6 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
-
     this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',
@@ -495,10 +494,8 @@ export class AgendarComponent implements OnInit {
       });
 
       modalRef.afterClosed().subscribe((paciente) => {
-        console.log(paciente)
+        console.log(paciente);
         if (paciente) {
-      
-
           this.paciente = paciente;
           this.autocompleteControlPaciente.setValue(this.paciente);
         }
@@ -621,9 +618,7 @@ export class AgendarComponent implements OnInit {
   }
 
   private hayQueMostrarLimiteUltrasonido(): boolean {
-    if (
-      this.area.nombre == 'ULTRASONIDO'
-    ) {
+    if (this.area.nombre == 'ULTRASONIDO') {
       return true;
     }
     return false;
@@ -631,7 +626,11 @@ export class AgendarComponent implements OnInit {
 
   private mostrarCitasUltrasonido() {
     this.dialog.open(MostrarCitasPorDiaPensionesComponent, {
-      data: { dia: this.fecha, salaId: this.equipoDicom.id, institucionId: this.institucion.id },
+      data: {
+        dia: this.fecha,
+        salaId: this.equipoDicom.id,
+        institucionId: this.institucion.id,
+      },
     });
   }
 

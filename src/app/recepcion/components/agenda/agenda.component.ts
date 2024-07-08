@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Area } from 'src/app/models/area';
 import { AreaTotal } from 'src/app/models/area-total';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';

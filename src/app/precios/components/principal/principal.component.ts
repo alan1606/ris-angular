@@ -1,14 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CommonListarComponent } from 'src/app/components/common-listar.component';
 import { PreciosService } from '../../services/precios.service';
 import { Area } from 'src/app/models/area';
 import { FormControl } from '@angular/forms';
 import { AreasService } from 'src/app/services/areas.service';
 import { map, flatMap } from 'rxjs/operators';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ConceptoPrecio } from '../../models/concepto-precio';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 import { ModificarPrecioModalComponent } from '../modificar-precio-modal/modificar-precio-modal.component';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';

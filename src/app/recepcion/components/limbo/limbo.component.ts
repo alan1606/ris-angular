@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { algo } from 'crypto-js';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { Cita } from 'src/app/models/cita';

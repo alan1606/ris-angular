@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, UntypedFormControl, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
@@ -21,7 +21,7 @@ import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';
 import { DataService } from '../services/data-service.service';
-import { Subscription, forkJoin, map } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
 import { Institucion } from '../agendar';
 

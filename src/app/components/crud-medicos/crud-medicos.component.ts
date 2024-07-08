@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   catchError,
   debounceTime,
@@ -28,20 +27,6 @@ export class CrudMedicosComponent implements OnInit {
   medicosFiltradosReferente: Medico[] = [];
 
   ngOnInit(): void {
-    // this.autoCompleteControlMedicoReferente.valueChanges.pipe(
-    //   debounceTime(300),
-    //   distinctUntilChanged(),
-    //   switchMap(valor => {
-    //     const nombresMedico = typeof valor === 'string' ? valor : valor?.nombres;
-    //     return valor ? this.medicoService.filtrarRadiologosPorNombre(nombresMedico) : [];
-    //   }),
-    //   catchError(error => {
-    //     console.error('Error en la búsqueda de médicos radiólogos:', error);
-    //     return [];
-    //   })
-    // ).subscribe(medicos => {
-    //   this.medicosFiltradosReferente= medicos;
-    // });
 
     this.autoCompleteControlMedicoReferente.valueChanges
       .pipe(

@@ -1,11 +1,19 @@
-<h1 mat-dialog-title>Escanear para firmar las politicas de la membresia para: {{paciente.nombreCompleto}} </h1>
+<h1 mat-dialog-title>
+  Escanear para firmar las politicas de la membresia para:
+  {{ paciente.nombreCompleto }}
+</h1>
 <div mat-dialog-content>
-        <ngx-qrcode 
+  <!-- <ngx-qrcode 
             [elementType]="elementType" 
             [value]="value"
             cssClass="aclass"
             errorCorrectionLevel="L">
-        </ngx-qrcode>
+        </ngx-qrcode> -->
+  <qrcode
+    [qrdata]="value"
+    cssClass="aclass"
+    [errorCorrectionLevel]="'M'"
+  ></qrcode>
 
-        <button class="btn btn-primary" (click)="firmar()">Ir a firmar</button>
+  <button class="btn btn-primary" (click)="firmar()">Ir a firmar</button>
 </div>

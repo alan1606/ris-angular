@@ -8,7 +8,7 @@ import { FechaService } from 'src/app/services/fecha.service';
 import { DatePipe } from '@angular/common';
 import { MembresiaService } from 'src/app/services/membresia.service';
 import { Membresia } from 'src/app/models/membresia';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { QrFirmarPoliticasMembresiaComponent } from '../qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
 
 @Component({

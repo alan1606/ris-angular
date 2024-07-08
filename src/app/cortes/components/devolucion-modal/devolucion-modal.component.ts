@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { Paciente } from 'src/app/models/paciente';
 import { MovimientosCortesService } from '../../services/movimientos-cortes.service';

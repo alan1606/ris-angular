@@ -1,7 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialogRef } from '@angular/material/dialog';
 import { map, mergeMap } from 'rxjs';
 import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';

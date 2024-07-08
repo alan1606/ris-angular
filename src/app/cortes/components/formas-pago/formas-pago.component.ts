@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AgregarformasPagoModalComponent } from '../agregarformas-pago-modal/agregarformas-pago-modal.component';
 import { FormaPagoService } from '../../services/forma-pago.service';
 import { FormaPago } from 'src/app/models/formaPago';

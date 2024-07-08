@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { OrdenVenta } from 'src/app/models/orden-venta';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Campania } from '../../models/campania';
 import { CampaniaService } from '../../services/campania.service';
 

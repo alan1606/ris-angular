@@ -9,30 +9,30 @@ import { LayoutModule } from './layout/layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import {  MatDialogModule } from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
 import { LoginComponent } from './components/usuarios/login/login.component';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { QuillModule } from 'ngx-quill';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { ResourceInterceptor } from './interceptors/resource.interceptor';
@@ -43,7 +43,6 @@ import { FormularioMedicosComponent } from './components/crud-medicos/formulario
 import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 import { BuscadorPacientesComponent } from './components/buscador-pacientes/buscador-pacientes.component';
 import { QrFirmarPoliticasMembresiaComponent } from './components/qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
-import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { AyudaModule } from './ayuda/ayuda.module';
 import { ChatModule } from './chat/chat.module';
 import { MembresiasComponent } from './components/membresias/membresias.component';
@@ -54,7 +53,7 @@ import { FirmarMembresiaComponent } from './components/membresias/firmar-membres
 import { SharedModule } from './shared/shared.module';
 import { CortesModule } from './cortes/cortes.module';
 import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
-
+import {QRCodeModule} from 'angularx-qrcode'
 
 @NgModule({
   declarations: [
@@ -92,7 +91,6 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     BrowserAnimationsModule,
     MatAutocompleteModule,
     MatInputModule,
-    NgxQRCodeModule,
     ReactiveFormsModule,
     MatPaginatorModule,
     MatDatepickerModule,
@@ -105,7 +103,6 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     MatSelectModule,
     MatIconModule,
     MatCardModule,
-    RecepcionModule,
     MatDividerModule,
     MatFormFieldModule,
     AyudaModule,
@@ -114,7 +111,8 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     SharedModule,
     QuillModule.forRoot(),
     CortesModule,
-
+    QRCodeModule,
+    RecepcionModule
   ],
   providers: [
     DatePipe,

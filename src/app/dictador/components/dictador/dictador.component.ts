@@ -14,7 +14,7 @@ import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { BuscarMedicoReferenteYCambiarComponent } from '../buscar-medico-referente-ycambiar/buscar-medico-referente-ycambiar.component';
 import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';

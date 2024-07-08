@@ -5,7 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { OrdenVenta } from 'src/app/models/orden-venta';
@@ -33,7 +33,6 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
 
   constructor(
     private service: OrdenVentaService,
-    private router: Router,
     private route: ActivatedRoute,
     private multimediaService: MultimediaService
   ) {}
