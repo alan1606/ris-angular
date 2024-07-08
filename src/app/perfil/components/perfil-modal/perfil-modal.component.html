@@ -1,4 +1,4 @@
-<div class="perfil-container">
+<div class="perfil-container p-3">
   <div class="btn-editar-campos">
     <button
       [class]="editarCampos ? 'btn btn-info mb-2' : 'btn btn-secondary mb-2'"
@@ -20,7 +20,7 @@
 
   <div class="tarjeta">
     <div>
-      <mat-form-field  >
+      <mat-form-field>
         <mat-label>Nombres(s)</mat-label>
         <input
           matInput
@@ -28,7 +28,7 @@
           [disabled]="editarCampos"
         />
       </mat-form-field>
-      <mat-form-field  >
+      <mat-form-field>
         <mat-label>Apellido(s)</mat-label>
         <input
           matInput
@@ -36,7 +36,7 @@
           [disabled]="editarCampos"
         />
       </mat-form-field>
-      <mat-form-field  >
+      <mat-form-field>
         <mat-label>Especialidad</mat-label>
         <input
           matInput
@@ -44,7 +44,7 @@
           [disabled]="editarCampos"
         />
       </mat-form-field>
-      <mat-form-field  >
+      <mat-form-field>
         <mat-label>Telefono</mat-label>
         <input
           matInput
@@ -52,7 +52,7 @@
           [disabled]="editarCampos"
         />
       </mat-form-field>
-      <mat-form-field  >
+      <mat-form-field>
         <mat-label>direccion</mat-label>
         <input
           matInput
@@ -61,49 +61,49 @@
         />
       </mat-form-field>
     </div>
-   <div>
-    <mat-form-field  >
-      <mat-label>Correo</mat-label>
-      <input
-        matInput
-        [(ngModel)]="datosUsuario.correo"
-        [disabled]="editarCampos"
-      />
-    </mat-form-field>
-    <mat-form-field  >
-      <mat-label>Whatsapp</mat-label>
-      <input
-        matInput
-        [(ngModel)]="datosUsuario.whatsapp"
-        [disabled]="editarCampos"
-      />
-    </mat-form-field>
-    <mat-form-field >
-      <mat-label>Fecha de nacimiento: </mat-label>
-      <input
-        [disabled]="editarCampos"
-        matInput
-        [matDatepicker]="picker"
-        (dateChange)="seleccionarFecha()"
-        #fecha
-        [formControl]="fechaNacimientoControl"
-      />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field >
-      <mat-label>Sexo</mat-label>
-      <mat-select [disabled]="editarCampos" [(ngModel)]="datosUsuario.sexo">
-        <mat-option *ngFor="let sexoO of sexos" [value]="sexoO">{{
-          sexoO == "1" ? "Femenino" : "Masculino"
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Correo</mat-label>
+        <input
+          matInput
+          [(ngModel)]="datosUsuario.correo"
+          [disabled]="editarCampos"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Whatsapp</mat-label>
+        <input
+          matInput
+          [(ngModel)]="datosUsuario.whatsapp"
+          [disabled]="editarCampos"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Fecha de nacimiento: </mat-label>
+        <input
+          [disabled]="editarCampos"
+          matInput
+          [matDatepicker]="picker"
+          (dateChange)="seleccionarFecha()"
+          #fecha
+          [formControl]="fechaNacimientoControl"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Sexo</mat-label>
+        <mat-select [disabled]="editarCampos" [(ngModel)]="datosUsuario.sexo">
+          <mat-option *ngFor="let sexoO of sexos" [value]="sexoO">{{
+            sexoO == "1" ? "Femenino" : "Masculino"
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
   <div class="guardar-cambios">
     <button
