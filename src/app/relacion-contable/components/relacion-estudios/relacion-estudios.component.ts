@@ -3,14 +3,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { RESULTS_URL, VIEWER } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';
 import { Study } from 'src/app/models/study';
-import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { MedicoService } from 'src/app/services/medico.service';
 import { TokenService } from 'src/app/services/token.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
-import { OrdenVentaService } from '../../../services/orden-venta.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
-import { OrdenVenta } from 'src/app/models/orden-venta';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-relacion-estudios',
@@ -31,6 +28,9 @@ export class RelacionEstudiosComponent implements OnInit {
     'Estudio',
     'Paciente',
     'Fecha',
+    'Asignado',
+    'Finalizado',
+    'Tiempo',
     'Ver estudio',
   ];
   username: string = '';

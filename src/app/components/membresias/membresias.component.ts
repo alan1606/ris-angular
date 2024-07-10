@@ -58,6 +58,18 @@ export class MembresiasComponent {
     this.membresiaService.crear(membresia).subscribe(
       () => {
         Swal.fire('Creado', 'Membresia creada con éxito', 'success');
+
+        //Solo en caso de que se tenga que crear un nuevo paciente
+
+        if(!this.model.id){
+        //Ir a buscar el paciente en base al codigo de la membresia
+
+        }
+
+        //Abrir firma. Mejor aquí en lugar de picarle al botón, en una nueva pestaña
+
+
+        
         this.model = new Paciente();
         this.codigoMembresia = '';
       },

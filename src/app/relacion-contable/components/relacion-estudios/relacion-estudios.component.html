@@ -51,6 +51,24 @@
                     {{ element.fecha | date: "dd/MM/yyyy"}}
                 </td>
             </ng-container>
+            <ng-container matColumnDef="Asignado">
+                <th mat-header-cell *matHeaderCellDef>Asignado</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.fechaEnviadoAInterpretar | date: "dd/MM/yyyy hh:mm a"}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Finalizado">
+                <th mat-header-cell *matHeaderCellDef>Finalizado</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.fechaInterpretado | date: "dd/MM/yyyy hh:mm a"}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Tiempo">
+                <th mat-header-cell *matHeaderCellDef>Tiempo transcurrido</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.minutosTranscurridos > 60 ? element.minutosTranscurridos / 60 + " horas" : element.minutosTranscurridos + " minutos" }}
+                </td>
+            </ng-container>
             <ng-container matColumnDef="Ver estudio">
                 <th mat-header-cell *matHeaderCellDef>Ver estudio</th>
                 <td mat-cell *matCellDef="let element">
