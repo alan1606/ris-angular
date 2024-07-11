@@ -24,7 +24,14 @@
               "moment-business",
 							"ng2-pdf-viewer",
 							"pdfjs-dist/build/pdf",
-							"pdfjs-dist/web/pdf_viewer"
+							"pdfjs-dist/web/pdf_viewer",
+              "crypto-js",
+              "sweetalert2",
+              "quill-delta",
+              "qrcode",
+              "curp",
+              "sockjs-client",
+              "pdfjs-dist"
             ],
             "outputPath": "dist/ris",
             "index": "src/index.html",
@@ -42,6 +49,7 @@
               "./node_modules/quill/dist/quill.core.css",
               "./node_modules/quill/dist/quill.bubble.css",
               "./node_modules/quill/dist/quill.snow.css"
+              
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.slim.min.js",
