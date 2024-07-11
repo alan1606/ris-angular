@@ -13,8 +13,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatButtonModule } from '@angular/material/button';
-import { QuillModule } from 'ngx-quill';
 import { MatDialogModule } from '@angular/material/dialog';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -34,9 +34,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     PdfViewerModule,
     MatButtonModule,
-    QuillModule,
     MatDialogModule,
     FormsModule,
+    QuillModule
   ],
 })
 export class DictadorModule {}

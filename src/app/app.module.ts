@@ -19,7 +19,7 @@ import { DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
-import {  MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -33,7 +33,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { QuillModule } from 'ngx-quill';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { ResourceInterceptor } from './interceptors/resource.interceptor';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -53,7 +52,8 @@ import { FirmarMembresiaComponent } from './components/membresias/firmar-membres
 import { SharedModule } from './shared/shared.module';
 import { CortesModule } from './cortes/cortes.module';
 import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
-import {QRCodeModule} from 'angularx-qrcode'
+import { QRCodeModule } from 'angularx-qrcode';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -109,10 +109,10 @@ import {QRCodeModule} from 'angularx-qrcode'
     ChatModule,
     PerfilModule,
     SharedModule,
-    QuillModule.forRoot(),
     CortesModule,
     QRCodeModule,
-    RecepcionModule
+    RecepcionModule,
+    QuillModule.forRoot(),
   ],
   providers: [
     DatePipe,
