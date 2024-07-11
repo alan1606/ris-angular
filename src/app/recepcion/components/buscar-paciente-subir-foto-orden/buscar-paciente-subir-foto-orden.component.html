@@ -1,4 +1,4 @@
-<div class="busqueda">
+<div class="p-3 busqueda">
    <form>
     <mat-form-field class="custom-mat-form-field">
         <input matInput placeholder="Digite el nombre del paciente" [formControl]="autocompleteControlPaciente"
@@ -10,13 +10,12 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <button (click)="abrirModalPacienteOrdenes()" type="button" class="btn btn-success" data-mdb-ripple-init
-          [disabled]="!this.paciente">
-          <i class="bi bi-search"></i>
-        </button>
+      <button (click)="abrirModalPacienteOrdenes()" type="button" class="btn btn-success ms-3" data-mdb-ripple-init
+        [disabled]="!this.paciente">
+        <i class="bi bi-search"></i>
+       </button>
    </form> 
 </div>
-
 
 <div>
     <app-subir-foto-orden *ngIf="orden?.id" [orden]="orden"></app-subir-foto-orden>

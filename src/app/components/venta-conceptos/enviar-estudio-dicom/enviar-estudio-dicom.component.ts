@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { SendStudyToAeService } from '../../../services/send-study-to-ae.service';

@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { title } from 'process';
+import { MatDialogRef } from '@angular/material/dialog';
 import { flatMap, map } from 'rxjs';
 import { Medico } from 'src/app/models/medico';
 import { MedicoService } from 'src/app/services/medico.service';

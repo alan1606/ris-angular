@@ -19,7 +19,7 @@ import { DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import {  MatDialogModule } from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -43,7 +43,6 @@ import { FormularioMedicosComponent } from './components/crud-medicos/formulario
 import { NuevoMedicoSoloNombreComponent } from './components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 import { BuscadorPacientesComponent } from './components/buscador-pacientes/buscador-pacientes.component';
 import { QrFirmarPoliticasMembresiaComponent } from './components/qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
-import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { AyudaModule } from './ayuda/ayuda.module';
 import { ChatModule } from './chat/chat.module';
 import { MembresiasComponent } from './components/membresias/membresias.component';
@@ -54,7 +53,7 @@ import { FirmarMembresiaComponent } from './components/membresias/firmar-membres
 import { SharedModule } from './shared/shared.module';
 import { CortesModule } from './cortes/cortes.module';
 import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
-
+import {QRCodeModule} from 'angularx-qrcode'
 
 @NgModule({
   declarations: [
@@ -92,7 +91,6 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     BrowserAnimationsModule,
     MatAutocompleteModule,
     MatInputModule,
-    NgxQRCodeModule,
     ReactiveFormsModule,
     MatPaginatorModule,
     MatDatepickerModule,
@@ -105,7 +103,6 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     MatSelectModule,
     MatIconModule,
     MatCardModule,
-    RecepcionModule,
     MatDividerModule,
     MatFormFieldModule,
     AyudaModule,
@@ -114,7 +111,8 @@ import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar
     SharedModule,
     QuillModule.forRoot(),
     CortesModule,
-
+    QRCodeModule,
+    RecepcionModule
   ],
   providers: [
     DatePipe,

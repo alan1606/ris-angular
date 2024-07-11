@@ -3,10 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
-import { ResultadosComponent } from './resultados/components/resultados/resultados.component';
 import { DictamenComponent } from './resultados/components/dictamen/dictamen.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
-import { OrdenVentaComponent } from './resultados/components/orden-venta/orden-venta.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ConceptosGuard } from './guards/conceptos.guard';
@@ -22,7 +20,6 @@ import { MembresiasComponent } from './components/membresias/membresias.componen
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
-import { CortesModule } from './cortes/cortes.module';
 
 const routes: Routes = [
   {

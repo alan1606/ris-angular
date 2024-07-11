@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FechaService } from 'src/app/services/fecha.service';
-import { MedicoReferenteService } from '../../services/medico-referente.service';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { TokenService } from 'src/app/services/token.service';
 import { Router } from '@angular/router';

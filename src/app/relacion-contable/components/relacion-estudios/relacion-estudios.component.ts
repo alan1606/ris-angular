@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { RESULTS_URL, VIEWER } from 'src/app/config/app';
+import { RESULTS_URL } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';
 import { Study } from 'src/app/models/study';
 import { MedicoService } from 'src/app/services/medico.service';

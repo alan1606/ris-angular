@@ -27,7 +27,6 @@ export class QrSubirFotoOrdenModalComponent implements OnInit {
 
     this.service.ver(this.orden.id).subscribe(
       (data) => {
-        console.log(data);
         this.orden = data;
       },
       (error) => {

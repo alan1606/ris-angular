@@ -8,10 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { InstruccionesAreaModalComponent } from './components/instrucciones-area-modal/instrucciones-area-modal.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { InstruccionesInstitucionModalComponent } from './components/instrucciones-institucion-modal/instrucciones-institucion-modal.component';
 import { InstruccionesConceptoModalComponent } from './components/instrucciones-concepto-modal/instrucciones-concepto-modal.component';
-
 
 @NgModule({
   declarations: [
@@ -20,7 +19,7 @@ import { InstruccionesConceptoModalComponent } from './components/instrucciones-
     InstruccionesInstitucionComponent,
     InstruccionesAreaModalComponent,
     InstruccionesInstitucionModalComponent,
-    InstruccionesConceptoModalComponent
+    InstruccionesConceptoModalComponent,
   ],
   imports: [
     CommonModule,
@@ -28,7 +27,7 @@ import { InstruccionesConceptoModalComponent } from './components/instrucciones-
     MatFormFieldModule,
     InstruccionesRoutingModule,
     MatSelectModule,
-    MatDialogModule
-  ]
+    MatDialogModule,
+  ],
 })
-export class InstruccionesModule { }
+export class InstruccionesModule {}

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';

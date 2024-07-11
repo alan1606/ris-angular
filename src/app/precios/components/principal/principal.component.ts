@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CommonListarComponent } from 'src/app/components/common-listar.component';
 import { PreciosService } from '../../services/precios.service';
 import { Area } from 'src/app/models/area';
 import { FormControl } from '@angular/forms';

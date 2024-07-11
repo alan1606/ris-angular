@@ -46,9 +46,7 @@
             "scripts": [
               "./node_modules/jquery/dist/jquery.slim.min.js",
               "./node_modules/popper.js/dist/umd/popper.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "./node_modules/quill/dist/quill.min.js"
-            ]
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"            ]
           },
           "configurations": {
             "production": {
@@ -87,10 +85,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ris:build:production"
+              "buildTarget": "ris:build:production"
             },
             "development": {
-              "browserTarget": "ris:build:development"
+              "buildTarget": "ris:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +96,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ris:build"
+            "buildTarget": "ris:build"
           }
         },
         "test": {

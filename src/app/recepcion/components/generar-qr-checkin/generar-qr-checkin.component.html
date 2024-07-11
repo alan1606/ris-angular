@@ -1,11 +1,15 @@
 <mat-card>
-    <mat-card-header>
-        <mat-card-title>{{titulo}}</mat-card-title>
-        <mat-card-subtitle>{{mensaje}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <ngx-qrcode [elementType]="elementType" [value]="textoQr" cssClass="aclass" errorCorrectionLevel="L">
-        </ngx-qrcode>
-    </mat-card-content>
-   
+  <mat-card-header>
+    <mat-card-title>{{ titulo }}</mat-card-title>
+    <mat-card-subtitle>{{ mensaje }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- <ngx-qrcode [elementType]="elementType" [value]="textoQr" cssClass="aclass" errorCorrectionLevel="L">
+        </ngx-qrcode> -->
+    <qrcode
+      [qrdata]="textoQr"
+      cssClass="aclass"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
+  </mat-card-content>
 </mat-card>

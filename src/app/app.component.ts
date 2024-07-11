@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Event, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.pipe(filter((event: RouterEvent) => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((event:Event) => event instanceof NavigationEnd)).subscribe(() => {
       this.menu.getLogged();
     });
 

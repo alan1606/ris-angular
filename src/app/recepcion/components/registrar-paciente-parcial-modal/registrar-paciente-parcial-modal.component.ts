@@ -25,7 +25,7 @@ export class RegistrarPacienteParcialModalComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data?.paciente?.id){
-      this.model = this.data?.paciente as Paciente;
+      this.model = this.data?.Paciente;
     } 
   }
 

@@ -1,13 +1,10 @@
 <h1 mat-dialog-title>Enviar {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
 <div mat-dialog-content>
-
-
     <div class="card text-dark bg-light mb-3">
         <div class="card-header">{{titulo}}</div>
         <div class="card-body">
-            
+        
             <button class="btn btn-secondary my-2" (click)="cancelar()">Volver</button>
-
             <form>
                 <div class="form-group my-5">
                     <label for="motivo">Motivo</label>
@@ -15,14 +12,11 @@
                         placeholder={{estudio.ordenVenta.motivo}}
                     >
                 </div>
-
                 <div class="form-group my-3">
                     <label class="form-check-label" for="antecedentes">Antecedentes</label>
                     <input type="text" name="antecedentes" id="antecedentes" class="form-control" readonly
                         placeholder={{antecedentesJuntos}}>
                 </div>
-
-
                 <div class="form-group my-3">
                     <mat-form-field>
                         <mat-label>Médico radiólogo</mat-label>
@@ -33,7 +27,6 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-
                 <div class="form-group my-2" *ngIf="!estudio.concepto.dicom">
                     <div class="input-group mb-3">
 
@@ -44,30 +37,11 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="form-group my-3">
                     <img [src]="imagePath + estudio.ordenVenta.id" class="img-thumbnail rounded"
                         style="cursor: pointer;">
                 </div>
-
-                <!-- <div class="form-group my-3">
-                    <mat-form-field>
-                        <input matInput placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
-                            [matAutocomplete]="autocompleteReferente">
-                        <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
-                            (optionSelected)="seleccionarMedicoReferente($event)">
-                            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente" [class]="medicoReferente.validado?'medico-verificado':''">
-                                {{medicoReferente.nombres + ' ' +medicoReferente.apellidos}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                    <button type="button" class="btn btn-sm btn-info mx-2" (click)="nuevoMedico()">Nuevo médico</button>
-                </div> -->
-
                 <app-buscador-medicos-referentes (medicoEnviado)="seleccionarMedicoReferente($event)" [medicoExiste]="estudio.ordenVenta.medicoReferente"></app-buscador-medicos-referentes>
-
-
                 <div class="form-group my-3">
                     <mat-form-field>
                         <input matInput placeholder="Técnico" [formControl]="autocompleteControlTecnico"
@@ -80,22 +54,14 @@
                         </mat-autocomplete>
                     </mat-form-field>
                 </div>
-
-
-
-
                 <div class="form-group my-3">
                     <label for="mensaje">Mensaje</label>
                     <textarea class="form-control" id="mensaje" name ="mensaje" rows="3" [value]="estudio.mensaje" (input)="estudio.mensaje= $event.target.value;"></textarea>
                   </div>
-
             </form>
         </div>
-
     </div>
-
     <div mat-dialog-actions>
         <button mat-raised-button color="primary" (click)="enviar()">Enviar</button>
     </div>
-
 </div>

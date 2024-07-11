@@ -1,6 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {DOWNLOAD_WEASIS_MAC_LINK,DOWNLOAD_WEASIS_WINDOWS_LINK,VIEWER,WEASIS_VIEWER_PATH,ZIP_STUDIES_PATH,FILES_PATH,BASE_ENDPOINT,} from '../../../config/app';
+import {
+  DOWNLOAD_WEASIS_MAC_LINK,
+  DOWNLOAD_WEASIS_WINDOWS_LINK,
+  VIEWER,
+  WEASIS_VIEWER_PATH,
+  ZIP_STUDIES_PATH,
+  FILES_PATH,
+  BASE_ENDPOINT,
+} from '../../../config/app';
 import { Multimedia } from '../../../models/multimedia';
 import { VentaConceptos } from '../../../models/venta-conceptos';
 import { AntecedenteEstudioService } from '../../../services/antecedente-estudio.service';
@@ -10,7 +18,7 @@ import { VentaConceptosService } from '../../../services/venta-conceptos.service
 import { SendMailService } from '../../../services/send-mail.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import Quill from 'quill';
-import BlotFormatter from 'quill-blot-formatter';
+// import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -27,7 +35,7 @@ import { ReportService } from '../../services/report.service';
 import { Subscription } from 'rxjs';
 import { MedicoService } from 'src/app/services/medico.service';
 
-Quill.register('modules/blotFormatter', BlotFormatter);
+// Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-dictador',
@@ -35,6 +43,7 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   styleUrls: ['./dictador.component.scss'],
 })
 export class DictadorComponent implements OnInit, OnDestroy {
+
   interpretacion: Interpretacion;
   enlacePdf: string = '';
   medicoReferenteRecibido = null;
@@ -51,17 +60,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
   concepto: Concepto = new Concepto();
   templateForm: FormGroup;
   panelOpenState = false;
-  quill = new Quill('#editor', {
-    modules: {
-      toolbar: true
-    },
-    theme: 'snow',
-    formats: [
-      'bold', 'italic', 'underline',
-      'link', 'image', 'code-block'
-    ]
-  });
-
   esMobil = window.matchMedia('(min-width:1023px)');
   conclusion: string = '';
   btnConclusionDisabled: boolean = false;
@@ -252,7 +250,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
       ).toUpperCase()}</strong></p>`;
       this.conclusion = '';
     }
-    
+
     this.interpretacion.interpretacion = this.templateForm.value.textEditor;
     //Agregar estudios ids
     let idsEstudios: number[] = [];
@@ -526,8 +524,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.reportService
       .getMessageSubject()
       .subscribe((mensaje: any) => {
-        console.log(mensaje.conclusion);
-        let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
+        let [firstPart, secondPart] = mensaje.conclusion?.split('Conclusión:');
         this.conclusion = secondPart;
       });
   }

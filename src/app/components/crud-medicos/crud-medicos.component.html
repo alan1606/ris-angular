@@ -1,29 +1,10 @@
 <div class="contenedor-medicos ms-5 mt-3 me-5">
   <div>
     <form>
-      <!-- <mat-form-field class="custom-mat-form-field">
-        <input
-          class="custom-mat-input"
-          matInput
-          placeholder="Digite el nombre del medico referente"
-          [matAutocomplete]="autocompleteMedico"
-          [formControl]="autoCompleteControlMedicoReferente"
-        />
-        <mat-autocomplete class="mat-autocomplete"
-          #autocompleteMedico="matAutocomplete"
-          [displayWith]="mostrarNombreMedico"
-          (optionSelected)="seleccionarMedico($event)"
-        >
-          <mat-option
-            class="mat-option"
-            *ngFor="let medico of medicosFiltradosReferente"
-            [value]="medico"
-          >
-            {{ medico.nombres+ " " + medico.apellidos }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field> -->
-      <app-buscador-medicos-referentes [mostrarNuevoMedicoInput]="false" (medicoEnviado)="seleccionarMedico($event)"></app-buscador-medicos-referentes>
+      <app-buscador-medicos-referentes
+        [mostrarNuevoMedicoInput]="false"
+        (medicoEnviado)="seleccionarMedico($event)"
+      ></app-buscador-medicos-referentes>
       <button (click)="abrirModalFormularioMedico()" class="btn btn-success">
         Nuevo medico <i class="bi bi-person-plus-fill"></i>
       </button>
@@ -65,7 +46,7 @@
         </tr>
         <tr>
           <th scope="row">FECHA NACIMIENTO</th>
-          <td>{{ medico.fechaNacimiento | date: "dd/MM/yyyy"}}</td>
+          <td>{{ medico.fechaNacimiento | date : "dd/MM/yyyy" }}</td>
         </tr>
         <tr>
           <th scope="row">WHATSAPP</th>

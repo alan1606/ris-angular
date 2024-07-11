@@ -1,33 +1,34 @@
-<form [formGroup]="form" class="form">
+<div class="p-3">
+  <form [formGroup]="form" class="form">
     <div>
-        <div>
-            <mat-form-field class="custom-mat-form-field">
-                <input type="text"
-                class="custom-mat-input"
-                matInput
-                placeholder="NOMBRES"
-                formControlName="nombres"
-                autofocus
-                >
-            </mat-form-field>
-        </div>
-    
-        <div>
-            <mat-form-field class="custom-mat-form-field">
-                <input type="text"
-                class="custom-mat-input"
-                matInput
-                placeholder="APELLIDOS"
-                formControlName="apellidos"
-                >
-            </mat-form-field>
-        </div>
-    
-        
+      <div>
+        <mat-form-field class="custom-mat-form-field">
+          <input
+            type="text"
+            class="custom-mat-input"
+            matInput
+            placeholder="NOMBRES"
+            formControlName="nombres"
+            autofocus
+          />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="custom-mat-form-field">
+          <input
+            type="text"
+            class="custom-mat-input"
+            matInput
+            placeholder="APELLIDOS"
+            formControlName="apellidos"
+          />
+        </mat-form-field>
+      </div>
     </div>
+  </form>
 
-</form>
-
-<div class="crear-editar">
+  <div class="crear-editar">
     <button class="btn btn-primary" (click)="crear()">CREAR</button>
+  </div>
 </div>

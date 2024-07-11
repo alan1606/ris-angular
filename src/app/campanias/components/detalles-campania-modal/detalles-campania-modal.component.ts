@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { OrdenVenta } from 'src/app/models/orden-venta';
 import { Campania } from '../../models/campania';
 import { CampaniaService } from '../../services/campania.service';
 

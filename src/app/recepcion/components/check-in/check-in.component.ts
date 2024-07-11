@@ -21,7 +21,7 @@ import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';
 import { DataService } from '../services/data-service.service';
-import { Subscription, forkJoin, map } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
 import { Institucion } from '../agendar';
 

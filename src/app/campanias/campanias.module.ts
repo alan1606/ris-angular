@@ -39,8 +39,5 @@ import { DesuscribirComponent } from './components/desuscribir/desuscribir.compo
     MatCardModule,
     MatAutocompleteModule
   ],
-  entryComponents: [
-    DetallesCampaniaModalComponent
-  ]
 })
 export class CampaniasModule { }

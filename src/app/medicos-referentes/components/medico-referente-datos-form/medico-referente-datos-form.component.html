@@ -1,44 +1,59 @@
 <div>
   <form>
-    
     <div>
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>Nombre(s)</mat-label>
-        <input matInput [(ngModel)]="medico.nombres" name="nombres" id="nombres" class="mayus"/>
+        <input
+          matInput
+          [(ngModel)]="medico.nombres"
+          name="nombres"
+          id="nombres"
+          class="mayus"
+        />
       </mat-form-field>
     </div>
 
     <div>
       <mat-form-field class="">
         <mat-label>Apellido(s)</mat-label>
-        <input matInput  [(ngModel)]="medico.apellidos" name="apellidos" class="mayus"/>
+        <input
+          matInput
+          [(ngModel)]="medico.apellidos"
+          name="apellidos"
+          class="mayus"
+        />
       </mat-form-field>
     </div>
 
     <div>
       <mat-form-field class="">
         <mat-label>Especialidad</mat-label>
-        <input matInput  [(ngModel)]="medico.especialidad" name="especialidad" class="mayus" />
+        <input
+          matInput
+          [(ngModel)]="medico.especialidad"
+          name="especialidad"
+          class="mayus"
+        />
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="">
         <mat-label>Telefono</mat-label>
-        <input matInput  [(ngModel)]="medico.telefono" name="telefono" />
+        <input matInput [(ngModel)]="medico.telefono" name="telefono" />
       </mat-form-field>
     </div>
 
     <div>
       <mat-form-field class="">
         <mat-label>Correo electrónico</mat-label>
-        <input matInput  [(ngModel)]="medico.correo" name="correo"/>
+        <input matInput [(ngModel)]="medico.correo" name="correo" />
       </mat-form-field>
     </div>
-    
+
     <div>
       <mat-form-field class="">
         <mat-label>Direccion</mat-label>
-        <input matInput  [(ngModel)]="medico.direccion" name="direccion"/>
+        <input matInput [(ngModel)]="medico.direccion" name="direccion" />
       </mat-form-field>
     </div>
 
@@ -46,67 +61,95 @@
     <div class="form-group my-2">
       <mat-form-field appearance="fill">
         <mat-label>Fecha de nacimiento: </mat-label>
-        <input matInput [matDatepicker]="picker" (dateChange)="seleccionarFecha()" #fecha
-            [formControl]="fechaNacimientoControl">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          (dateChange)="seleccionarFecha()"
+          #fecha
+          [formControl]="fechaNacimientoControl"
+        />
         <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
+      </mat-form-field>
+    </div>
 
     <div>
       <mat-form-field class="">
         <mat-label>Whastapp</mat-label>
-        <input matInput  [(ngModel)]="medico.whatsapp"  name="whatsapp"/>
+        <input matInput [(ngModel)]="medico.whatsapp" name="whatsapp" />
       </mat-form-field>
     </div>
-
 
     <!--Sexo-->
     <div class="form-group my-2">
       <mat-form-field>
-          <mat-label>Sexo</mat-label>
-          <mat-select [(ngModel)]="sexo" name="sexo" (selectionChange)="seleccionarSexo()">
-              <mat-option *ngFor="let sexo of sexos" [value]="sexo">
-                  {{sexo}}
-              </mat-option>
-          </mat-select>
+        <mat-label>Sexo</mat-label>
+        <mat-select
+          [(ngModel)]="sexo"
+          name="sexo"
+          (selectionChange)="seleccionarSexo()"
+        >
+          <mat-option *ngFor="let sexo of sexos" [value]="sexo">
+            {{ sexo }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
-  </div>
-    
+    </div>
+
     <div>
       <mat-form-field class="">
         <mat-label>Cédula</mat-label>
-        <input matInput  [(ngModel)]="medico.cedulaFederal" name="cedulaFederal">
+        <input
+          matInput
+          [(ngModel)]="medico.cedulaFederal"
+          name="cedulaFederal"
+        />
       </mat-form-field>
     </div>
 
     <div>
       <mat-form-field class="">
         <mat-label>Cédula de especialidad</mat-label>
-        <input matInput  [(ngModel)]="medico.cedulaEstatal" name="cedulaEstatal"/>
+        <input
+          matInput
+          [(ngModel)]="medico.cedulaEstatal"
+          name="cedulaEstatal"
+        />
       </mat-form-field>
     </div>
-
 
     <div>
       <mat-form-field class="">
         <mat-label>Nombre de usuario a crear</mat-label>
-        <input matInput  [(ngModel)]="medico.usuario" name="usuario"/>
+        <input matInput [(ngModel)]="medico.usuario" name="usuario" />
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="">
         <mat-label>Defina su contraseña</mat-label>
-        <input matInput type="password"  [(ngModel)]="medico.password" name="password" />
+        <input
+          matInput
+          type="password"
+          [(ngModel)]="medico.password"
+          name="password"
+        />
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="">
         <mat-label>Confirmar contraseña</mat-label>
-        <input matInput type="password"  [(ngModel)]="password2" name="password2"/>
+        <input
+          matInput
+          type="password"
+          [(ngModel)]="password2"
+          name="password2"
+        />
       </mat-form-field>
     </div>
-    <button class="btn btn-success" (click)="registrar();">Registrar</button>
+    <button class="btn btn-success" (click)="registrar()">Registrar</button>
   </form>
 </div>

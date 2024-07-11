@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SubirFotoOrdenComponent } from '../subir-foto-orden/subir-foto-orden.component';
 import { Paciente } from 'src/app/models/paciente';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { UntypedFormControl } from '@angular/forms';
@@ -10,7 +9,6 @@ import { PacienteOrdenesComponent } from '../check-in/paciente-ordenes/paciente-
 import { MatDialog } from '@angular/material/dialog';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
-import { Study } from 'src/app/models/study';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
 @Component({
@@ -61,6 +59,7 @@ export class BuscarPacienteSubirFotoOrdenComponent implements OnInit {
   }
 
   abrirModalPacienteOrdenes(){
+    console.log(this.paciente)
     const modalRef = this.dialog.open(PacienteOrdenesComponent,
       {
         width: "1000px",
@@ -97,6 +96,7 @@ export class BuscarPacienteSubirFotoOrdenComponent implements OnInit {
   }
 
   mostrarQrSubirFoto(){
+    console.log(this.orden)
     const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent,
       {
         width: "1000px",

@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonFormComponent } from 'src/app/components/common-form.component';
 import { Area } from 'src/app/models/area';
 import { Concepto } from 'src/app/models/concepto';
 import { ConceptosService } from 'src/app/services/conceptos.service';
 import Swal from 'sweetalert2';
 import { FormControl } from '@angular/forms';
-import { flatMap, map, mergeMap } from 'rxjs';
+import {  map, mergeMap } from 'rxjs';
 import { AreasService } from 'src/app/services/areas.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PreciosService } from '../../services/precios.service';

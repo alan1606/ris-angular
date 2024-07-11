@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxQrcodeElementTypes } from '@techiediaries/ngx-qrcode';
 import { Paciente } from 'src/app/models/paciente';
 import { BASE_SITE } from 'src/app/config/app';
+
 @Component({
   selector: 'app-qr-firmar-politicas-membresia',
   templateUrl: './qr-firmar-politicas-membresia.component.html',

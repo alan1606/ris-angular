@@ -7,42 +7,44 @@ import { InstruccionesInstitucionModalComponent } from '../instrucciones-institu
 @Component({
   selector: 'app-instrucciones-institucion',
   templateUrl: './instrucciones-institucion.component.html',
-  styleUrls: ['./instrucciones-institucion.component.css']
+  styleUrls: ['./instrucciones-institucion.component.css'],
 })
 export class InstruccionesInstitucionComponent implements OnInit {
-
   instituciones: Institucion[] = [];
   institucion: Institucion;
 
   constructor(
     private institucionService: InstitucionService,
-    public dialog: MatDialog) 
-    { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.institucionService.listar().subscribe(instituciones => this.instituciones = instituciones);
+    this.institucionService
+      .listar()
+      .subscribe((instituciones) => (this.instituciones = instituciones));
   }
 
-
   openDialog(institucionId: number): void {
-    this.institucionService.ver(institucionId).subscribe(institucion => this.institucion = institucion);
+    this.institucionService
+      .ver(institucionId)
+      .subscribe((institucion) => (this.institucion = institucion));
 
     const dialogRef = this.dialog.open(InstruccionesInstitucionModalComponent, {
-      data: { institucionId }
+      data: { institucionId },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.institucion.instrucciones = result;
-        this.institucionService.editar(this.institucion).subscribe(institucion => {
-          this.institucion = institucion;
-        },
-          err => {
+        this.institucionService.editar(this.institucion).subscribe(
+          (institucion) => {
+            this.institucion = institucion;
+          },
+          (err) => {
             console.log(err);
           }
         );
       }
     });
   }
-
 }

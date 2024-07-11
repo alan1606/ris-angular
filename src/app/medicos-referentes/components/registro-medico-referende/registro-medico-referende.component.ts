@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { MedicoReferenteService } from '../../services/medico-referente.service';
-import { error } from 'console';
 import { CodigoComprobacion } from 'src/app/models/codigo-comprobacion';
 import { CodigosMedicosReferentesService } from '../../services/codigos-medicos-referentes.service';
 

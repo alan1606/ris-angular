@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PreciosRoutingModule } from './precios-routing.module';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,8 +36,5 @@ import { ConceptosFormComponent } from './components/conceptos-form/conceptos-fo
     MatButtonModule,
     MatDialogModule
     ],
-  entryComponents: [
-    ModificarPrecioModalComponent
-  ]
 })
 export class PreciosModule { }

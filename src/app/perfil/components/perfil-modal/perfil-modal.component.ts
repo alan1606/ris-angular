@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, UntypedFormControl } from '@angular/forms';
+import { FormControl,} from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Medico } from 'src/app/models/medico';
 import { FechaService } from 'src/app/services/fecha.service';

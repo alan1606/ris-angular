@@ -1,7 +1,8 @@
+
 <div class="general-container">
-    <h1 class="text-center pt-2" style="font-weight: 500;">PACIENTE: {{estudio.paciente?.nombre + " " +
-        estudio.paciente?.apellidoPaterno + " " +estudio.paciente?.apellidoMaterno}}
-        <h1 class="text-center pt-2" style="font-weight: 500;">ESTUDIO SELECCIONADO: {{estudio.concepto?.concepto}}</h1>
+    <h1 class="text-center pt-2" style="font-weight: 500;">PACIENTE: {{estudio?.paciente?.nombre + " " +
+        estudio?.paciente?.apellidoPaterno + " " +estudio?.paciente?.apellidoMaterno}}
+        <h1 class="text-center pt-2" style="font-weight: 500;">ESTUDIO SELECCIONADO: {{estudio?.concepto?.concepto}}</h1>
     </h1>
     <div class="contenedor-info" *ngFor="let estudioActual of estudiosDeOrden; let i = index">
         <mat-accordion>
@@ -51,10 +52,6 @@
             </mat-expansion-panel>
         </mat-accordion>
     </div>
-
-
-
-
     <div class="contenedor-info mb-3">
         <h2 *ngIf="estudiosDeOrden?.length > 1">
             <p style="color: red;">Favor de interpretar todos los estudios en este reporte</p>
@@ -93,7 +90,7 @@
                 <p style="color: red;">Porfavor realice los saltos de linea manualmente y revise el reporte</p>
                 <form [formGroup]="templateForm">
                     <quill-editor
-                        [styles]="{height: 'max-content',width:'800px', backgroundColor:'#faf8f8', fontFamily:'Sans serif'}"
+                        [styles]="{height: 'max-content', width: '100%', maxWidth: '800px', backgroundColor: '#faf8f8', fontFamily: 'Sans serif'}"
                         formControlName="textEditor">
                     </quill-editor>
                 </form>
@@ -106,8 +103,9 @@
         </div>
         <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia text-center" style="width: 733px;">
             <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
-            <quill-editor class="mayus"
-                [styles]="{height: 'max-content',width:'733px', backgroundColor:'#faf8f8', fontFamily:'Sans serif', fontWeight:500,}"
+            <quill-editor
+                class="mayus"
+                [styles]="{height: 'max-content', width: '100%', maxWidth: '733px', backgroundColor: '#faf8f8', fontFamily: 'Sans serif', fontWeight: 500}"
                 [(ngModel)]="conclusion">
             </quill-editor>
             <div class="contenedor-ia">
