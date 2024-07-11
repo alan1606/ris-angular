@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import {
   catchError,
@@ -31,7 +31,6 @@ import Swal from 'sweetalert2';
 import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Campania } from 'src/app/campanias/models/campania';
 import { FechaService } from 'src/app/services/fecha.service';
-import { DatePipe } from '@angular/common';
 import { DataService } from '../services/data-service.service';
 import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';

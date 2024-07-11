@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Subscription, map, mergeMap } from 'rxjs';
 import { DataService } from 'src/app/cortes/services/data.service';
 import { Area } from 'src/app/models/area';

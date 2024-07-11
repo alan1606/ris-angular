@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { OrdenVenta } from 'src/app/models/orden-venta';
 import { DevolucionesService } from 'src/app/services/devoluciones.service';
 import { DevolucionModalComponent } from '../devolucion-modal/devolucion-modal.component';

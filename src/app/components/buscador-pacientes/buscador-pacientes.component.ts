@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { Paciente } from 'src/app/models/paciente';
 import { PacientesService } from 'src/app/services/pacientes.service';

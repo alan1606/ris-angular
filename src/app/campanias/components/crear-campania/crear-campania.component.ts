@@ -5,7 +5,7 @@ import { Campania } from '../../models/campania';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CampaniaService } from '../../services/campania.service';
 import Swal from 'sweetalert2';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Area } from 'src/app/models/area';
 import { map, mergeMap } from 'rxjs';
 import { AreasService } from 'src/app/services/areas.service';
