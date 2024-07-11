@@ -18,7 +18,7 @@ import { VentaConceptosService } from '../../../services/venta-conceptos.service
 import { SendMailService } from '../../../services/send-mail.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import Quill from 'quill';
-import BlotFormatter from 'quill-blot-formatter';
+// import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -35,7 +35,7 @@ import { ReportService } from '../../services/report.service';
 import { Subscription } from 'rxjs';
 import { MedicoService } from 'src/app/services/medico.service';
 
-Quill.register('modules/blotFormatter', BlotFormatter);
+// Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-dictador',
