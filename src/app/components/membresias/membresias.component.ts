@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Paciente } from 'src/app/models/paciente';
 import { ESTADO, getPersona, GENERO, generar } from 'curp';
@@ -10,19 +9,22 @@ import { MembresiaService } from 'src/app/services/membresia.service';
 import { Membresia } from 'src/app/models/membresia';
 import { MatDialog } from '@angular/material/dialog';
 import { QrFirmarPoliticasMembresiaComponent } from '../qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { PacientesService } from 'src/app/services/pacientes.service';
 
 @Component({
   selector: 'app-membresias',
   templateUrl: './membresias.component.html',
-  styleUrls: ['./membresias.component.css']
+  styleUrls: ['./membresias.component.css'],
 })
 export class MembresiasComponent {
-
   constructor(
     private dialog: MatDialog,
     private fechaService: FechaService,
     private pipe: DatePipe,
-    private membresiaService: MembresiaService
+    private membresiaService: MembresiaService,
+    private alertaService: AlertaService,
+    private pacienteService: PacientesService
   ) {}
 
   fechaNacimientoControl = new UntypedFormControl();
@@ -37,9 +39,7 @@ export class MembresiasComponent {
   sexo: string = '';
   codigoMembresia: string = '';
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   pacienteBuscado(event: any) {
     this.model = event;
@@ -51,27 +51,44 @@ export class MembresiasComponent {
     if (!this.camposValidos()) {
       return;
     }
+    if (!this.model.id) {
+      this.pacienteService.crear(this.model).subscribe(
+        (paciente) => {
+          this.model = paciente;
+          Swal.fire({
+            title: 'Paciente guardado',
+            text: 'espere...',
+            icon: 'success',
+            timer: 4000,
+            timerProgressBar: true,
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
     let membresia: Membresia = new Membresia();
     membresia.codigoMembresia = this.codigoMembresia;
     membresia.paciente = this.model;
 
     this.membresiaService.crear(membresia).subscribe(
       () => {
-        Swal.fire('Creado', 'Membresia creada con éxito', 'success');
-
-        //Solo en caso de que se tenga que crear un nuevo paciente
-
-        if(!this.model.id){
-        //Ir a buscar el paciente en base al codigo de la membresia
-
-        }
-
-        //Abrir firma. Mejor aquí en lugar de picarle al botón, en una nueva pestaña
-
-
-        
-        this.model = new Paciente();
-        this.codigoMembresia = '';
+        Swal.fire({
+          title: 'Creado',
+          text: 'Membresia creada con éxito',
+          icon: 'success',
+          showCancelButton: false,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          timer: 4000,
+          timerProgressBar: true,
+        }).then(() => {
+          Swal.close();
+        });
       },
       (e) => {
         Swal.fire('Error', 'No se pudo crear la membresía', 'error');
@@ -180,10 +197,17 @@ export class MembresiasComponent {
     this.model.curp = this.model.curp.toUpperCase();
   }
 
-  abrirQrFirmarPoliticasMembresiaModal() {    
+  abrirQrFirmarPoliticasMembresiaModal() {
+    if (!this.model.id) {
+      this.alertaService.info(
+        'Error al guardar la firma',
+        'Primero se debe crear'
+      );
+      console.log('falta el id');
+      return;
+    }
     const dialogref = this.dialog.open(QrFirmarPoliticasMembresiaComponent, {
-      data: { paciente: this.model, membresia:this.codigoMembresia },
+      data: { paciente: this.model, membresia: this.codigoMembresia },
     });
   }
-
 }
