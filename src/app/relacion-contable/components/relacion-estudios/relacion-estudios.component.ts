@@ -123,4 +123,14 @@ export class RelacionEstudiosComponent implements OnInit {
       this.fechaFinControl
     );
   }
+  
+  getTiempoTranscurrido(minutos: number): string {
+    if (minutos > 60) {
+      const horas = Math.floor(minutos / 60);
+      const minutosRestantes = minutos % 60;
+      return `${horas} h ${minutosRestantes} minutos`;
+    } else {
+      return `${minutos} minutos`;
+    }
+  }
 }
