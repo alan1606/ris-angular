@@ -46,8 +46,6 @@ export class RelacionEstudiosComponent implements OnInit {
   ngOnInit(): void {
     this.esRadiologo = this.tokenService.isRadiologicPhysician();
     this.esAdmin = this.tokenService.isAdmin();
-    console.log(this.tokenService.getUsername());
-    console.log(this.esRadiologo);
     if (this.esRadiologo) {
       this.username = this.tokenService.getUsername();
     }
@@ -92,7 +90,7 @@ export class RelacionEstudiosComponent implements OnInit {
                 'Seleccione otras fechas'
               );
             }
-            console.log(data);
+            console.log(data)
             this.estudios = data;
             this.estudiosDataSource.data = this.estudios;
             this.areas = data.reduce((contador:number, estudio:any) => {

@@ -1,11 +1,11 @@
 .cerrar {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .formulario {
   display: flex;
   width: max-content;
-  justify-content: start;
+  justify-content: flex-start;
   font-size: 20px;
 }
 .mat-form-field{

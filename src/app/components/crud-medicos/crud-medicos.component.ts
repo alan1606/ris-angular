@@ -55,7 +55,6 @@ export class CrudMedicosComponent implements OnInit {
 
   seleccionarMedico(event: Medico): void {
     this.medico = event;
-    console.log(this.medico)
   }
 
   abrirModalFormularioMedico() {

@@ -1,14 +1,13 @@
-<div class="contenedor-medicos ms-5 mt-3 me-5">
+<div class="ms-5 mt-3 me-5">
   <div>
-    <form>
       <app-buscador-medicos-referentes
+      [etiqueta]="'Buscar medico referente por nombre'"
         [mostrarNuevoMedicoInput]="false"
         (medicoEnviado)="seleccionarMedico($event)"
       ></app-buscador-medicos-referentes>
       <button (click)="abrirModalFormularioMedico()" class="btn btn-success">
         Nuevo medico <i class="bi bi-person-plus-fill"></i>
       </button>
-    </form>
   </div>
 
   <div *ngIf="medico">

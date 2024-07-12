@@ -4,9 +4,11 @@
             [matAutocomplete]="autocompleteReferente">
         <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
             (optionSelected)="seleccionarMedicoReferente($event)">
-            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente" [class]="medicoReferente.validado?'medico-verificado':''">
-                {{medicoReferente.nombres + ' ' +medicoReferente.apellidos }} <span class="medico-validado">{{medicoReferente.validado? ' Medico Verificado' : ''}}</span>
-            </mat-option>
+            @for (medicoReferente of medicosReferentesFiltrados; track medicoReferente) {
+                <mat-option  [value]="medicoReferente" [ngStyle]="{'background-color': medicoReferente.validado ? 'greenyellow' : null }">
+                    {{medicoReferente.nombres + ' ' +medicoReferente.apellidos }} <span class="medico-validado">{{medicoReferente.validado? 'Medico Verificado' : ''}}</span>
+                </mat-option>
+            }
         </mat-autocomplete>
     </mat-form-field>
     <button *ngIf="mostrarNuevoMedico" type="button" class="btn btn-sm btn-info mx-2" (click)="nuevoMedico()">Nuevo médico</button>

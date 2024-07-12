@@ -1,6 +1,6 @@
 .cerrar {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .form {
   display: grid;
@@ -9,5 +9,5 @@
 .crear-editar {
   display: flex;
   width: max-content ;
-  justify-content: start;
+  justify-content: flex-start;
 }

@@ -36,7 +36,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatSelectModule,
     MatDatepickerModule,
     QuillModule.forRoot(),
-    PdfViewerModule,
+    PdfViewerModule
   ],
   exports: [
     BuscadorMedicosReferentesComponent,

@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { Medico } from 'src/app/models/medico';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
-import { flatMap, forkJoin, map, of } from 'rxjs';
+import { forkJoin, map, mergeMap, of } from 'rxjs';
 import { MedicoService } from 'src/app/services/medico.service';
 import { NuevoMedicoSoloNombreComponent } from 'src/app/components/studies/nuevo-medico-solo-nombre/nuevo-medico-solo-nombre.component';
 
@@ -29,12 +29,10 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
   estudio: VentaConceptos;
 
   ngOnInit(): void {
-    console.log("");
     this.mostrarNuevoMedico = this.mostrarNuevoMedicoInput;
     if (this.medicoExiste) {
       this.autocompleteControlMedicoReferente.setValue(this.medicoExiste);
       this.medicoEnviado.emit(this.medicoExiste);
-
     }
 
     this.autocompleteControlMedicoReferente.valueChanges
@@ -44,7 +42,7 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
             ? valor
             : valor.nombres + ' ' + valor.apellidos
         ),
-        flatMap((valor) => {
+        mergeMap((valor) => {
           if (valor) {
             return forkJoin([
               this.medicoService.filtrarReferentesPorNombre(valor),
@@ -78,9 +76,8 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
 
   nuevoMedico() {
     const dialogRef = this.dialog.open(NuevoMedicoSoloNombreComponent, {
-      data: {
-      },
-      width:'500px',
+      data: {},
+      width: '500px',
     });
     dialogRef.afterClosed().subscribe((medico) => {
       if (medico) {
