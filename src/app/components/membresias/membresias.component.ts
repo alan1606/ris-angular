@@ -39,8 +39,6 @@ export class MembresiasComponent {
   sexo: string = '';
   codigoMembresia: string = '';
 
-  ngOnInit(): void {}
-
   pacienteBuscado(event: any) {
     this.model = event;
     this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
@@ -51,50 +49,52 @@ export class MembresiasComponent {
     if (!this.camposValidos()) {
       return;
     }
+    //proceso si no hay paciente
     if (!this.model.id) {
-      this.pacienteService.crear(this.model).subscribe(
-        (paciente) => {
-          this.model = paciente;
-          Swal.fire({
-            title: 'Paciente guardado',
-            text: 'espere...',
-            icon: 'success',
-            timer: 4000,
-            timerProgressBar: true,
-            showCancelButton: false,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-          });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      console.log('proceso si no hay paciente');
+      Swal.fire({
+        icon: 'info',
+        title: 'No existe el paciente',
+        text: 'espere mientras se guarda...',
+        timer: 4000,
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+      }).then(() => {
+        this.pacienteService.crear(this.model).subscribe(
+          (paciente) => {
+            this.model = paciente;
+            Swal.fire({
+              icon: 'success',
+              title: 'Paciente guardado',
+              text: 'creando la membresia...',
+              timer: 4000,
+              timerProgressBar: true,
+              allowOutsideClick: false,
+              showConfirmButton: false,
+            }).then(() => {
+              this.crearMembresia();
+            });
+          },
+          (error) => {
+            console.log(error);
+            return;
+          }
+        );
+      });
+      return;
     }
-    let membresia: Membresia = new Membresia();
-    membresia.codigoMembresia = this.codigoMembresia;
-    membresia.paciente = this.model;
-
-    this.membresiaService.crear(membresia).subscribe(
-      () => {
-        Swal.fire({
-          title: 'Creado',
-          text: 'Membresia creada con éxito',
-          icon: 'success',
-          showCancelButton: false,
-          showConfirmButton: false,
-          allowOutsideClick: false,
-          timer: 4000,
-          timerProgressBar: true,
-        }).then(() => {
-          Swal.close();
-        });
-      },
-      (e) => {
-        Swal.fire('Error', 'No se pudo crear la membresía', 'error');
-        console.log(e);
-      }
-    );
+    //proceso si hay paciente
+    if (this.model.id) {
+      console.log('proceso si hay paciente');
+      this.crearMembresia();
+      return;
+    }
+    //por defecto
+    else {
+      console.log('por defecto');
+      return;
+    }
   }
 
   private camposValidos(): boolean {
@@ -195,6 +195,28 @@ export class MembresiasComponent {
 
   mayusculasCurp(): void {
     this.model.curp = this.model.curp.toUpperCase();
+  }
+
+  private crearMembresia(): void {
+    let membresia: Membresia = new Membresia();
+    membresia.codigoMembresia = this.codigoMembresia;
+    membresia.paciente = this.model;
+    this.membresiaService.crear(membresia).subscribe(
+      () => {
+        Swal.fire({
+          title: 'Creado',
+          text: 'Membresia creada con éxito',
+          icon: 'success',
+          showConfirmButton: true,
+          confirmButtonText: 'cerrar',
+          allowOutsideClick: false,
+        });
+      },
+      (error) => {
+        console.log(error);
+        return;
+      }
+    );
   }
 
   abrirQrFirmarPoliticasMembresiaModal() {
