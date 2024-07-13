@@ -13,6 +13,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ApartarDiasComponent } from './components/apartar-dias/apartar-dias.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ApartarHorasComponent } from './components/apartar-horas/apartar-horas.component';
+import { MatButtonModule } from '@angular/material/button';
+import { LimitarInstitucionPorSalaComponent } from './components/limitar-institucion-por-sala/limitar-institucion-por-sala.component';
+import { FormLimitarInstitucionPorSalaComponent } from './components/form-limitar-institucion-por-sala/form-limitar-institucion-por-sala.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,8 @@ import { ApartarHorasComponent } from './components/apartar-horas/apartar-horas.
     GenerarCitasModalComponent,
     ApartarDiasComponent,
     ApartarHorasComponent,
+    LimitarInstitucionPorSalaComponent,
+    FormLimitarInstitucionPorSalaComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +39,8 @@ import { ApartarHorasComponent } from './components/apartar-horas/apartar-horas.
     MatCardModule,
     MatDialogModule,
     MatDatepickerModule,
+    MatButtonModule,
+    MatTableModule,
   ],
 })
 export class HorariosModule {}
