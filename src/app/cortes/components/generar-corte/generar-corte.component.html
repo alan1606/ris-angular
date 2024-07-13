@@ -28,7 +28,7 @@
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
         <div class="pt-4">
-          <button mat-raised-button color="primary" (click)="generarCorte()">
+          <button [disabled]="generandoCorte" mat-raised-button color="primary" (click)="generarCorte()">
             Generar Corte
           </button>
         </div>

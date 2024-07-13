@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  padding-top: 2%;
+  height: 100vh;
+  background: rgb(2, 0, 36);
+  background: radial-gradient(
+    circle,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 103, 121, 1) 31%,
+    rgba(0, 241, 255, 1) 100%
+  );
+}
+.formulario {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

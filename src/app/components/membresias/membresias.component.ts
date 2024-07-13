@@ -118,8 +118,13 @@ export class MembresiasComponent {
       Swal.fire('Error', 'Verifique el sexo', 'error');
       return false;
     }
+    if (!this.model.telefono) {
+      Swal.fire('Error', 'Verifique el telefono', 'error');
+      return false;
+    }
     if (!this.codigoMembresia) {
       Swal.fire('Error', 'Ingrese la membresía', 'error');
+      return false;
     }
     return true;
   }

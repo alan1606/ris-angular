@@ -13,6 +13,7 @@ export class GenerarCorteComponent implements OnInit {
   public fecha: Date = null;
   private fechaString = null;
   public turnos: TurnoCorte[] = [];
+  protected generandoCorte: boolean = false;
   turno: TurnoCorte = null;
   constructor(
     private turnoService: TurnoService,
@@ -41,7 +42,8 @@ export class GenerarCorteComponent implements OnInit {
       });
       return;
     }
-    
+    this.generandoCorte = true;
+
     this.fechaString = this.fecha.toISOString().slice(0, 10);
 
     this.corteService
@@ -59,10 +61,12 @@ export class GenerarCorteComponent implements OnInit {
             text: 'Revise sus descargas',
           });
           window.open(url);
+          this.generandoCorte = false;
         },
         (error) => {
           Swal.fire('Error', error.error.detail, 'error');
           console.log(error);
+          this.generandoCorte = false;
         }
       );
   }
