@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LimitarInstitucionPorSalaComponent } from './components/limitar-institucion-por-sala/limitar-institucion-por-sala.component';
 import { FormLimitarInstitucionPorSalaComponent } from './components/form-limitar-institucion-por-sala/form-limitar-institucion-por-sala.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatButtonModule,
     MatTableModule,
+    MatSlideToggleModule,
   ],
 })
 export class HorariosModule {}

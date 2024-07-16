@@ -89,8 +89,17 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/horarios" routerLinkActive="active"
-            *ngIf="puedeAbrirHorarios()">Horarios</a>
+          <a class="nav-link dropdown-toggle" routerLinkActive="active" *ngIf="puedeAbrirHorarios()"
+            [matMenuTriggerFor]="menuHorarios" id="navbarDropdownMenuCitasLink" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Horarios</a>
+          <mat-menu #menuHorarios="matMenu">
+            <button mat-menu-item routerLink="/horarios">
+              Horarios
+            </button>
+            <button mat-menu-item routerLink="/horarios/limitar">
+              Limitar institucion
+            </button>
+          </mat-menu>
         </li>
 
         <!-- <li class="nav-item">

@@ -1,1 +1,79 @@
-<p>form-limitar-institucion-por-sala works!</p>
+<div class="p-4">
+  <div class="text-end">
+    <button class="btn btn-danger" (click)="salir()">Salir</button>
+  </div>
+  <form [formGroup]="formulario" class="d-flex flex-column" style="width: 50%">
+    <mat-form-field class="me-3">
+      <input
+        matInput
+        placeholder="Área"
+        formControlName="areaControl"
+        [matAutocomplete]="autocompleteArea"
+      />
+      <mat-autocomplete
+        #autocompleteArea="matAutocomplete"
+        [displayWith]="mostrarNombreArea"
+        (optionSelected)="seleccionarArea($event)"
+      >
+        @for (area of areasFiltradas; track $index) {
+        <mat-option [value]="area">
+          {{ area.nombre }}
+        </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="me-3">
+      <mat-label>Sala</mat-label>
+      <mat-select formControlName="salaControl">
+        @for (sala of equiposDicom; track $index) {
+        <mat-option [value]="sala.id">
+          {{ sala.nombre }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="me-3">
+      <mat-label>Institución</mat-label>
+      <input
+        matInput
+        placeholder="Institucion"
+        formControlName="institucionControl"
+        [matAutocomplete]="autocompleteInstitucion"
+      />
+      <mat-autocomplete
+        #autocompleteInstitucion="matAutocomplete"
+        [displayWith]="mostrarNombreInstitucion"
+        (optionSelected)="seleccionarInstitucion($event)"
+      >
+        @for (institucion of instituciones; track $index) {
+        <mat-option [value]="institucion">
+          {{ institucion.nombre }}
+        </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <div class="d-flex flex-column" style="width: 20%">
+    <mat-form-field>
+      <mat-label>limite diario</mat-label>
+      <input
+        matInput
+        name="limiteDiario"
+        id="limiteDiario"
+        type="number"
+        [(ngModel)]="limiteDiario"
+      />
+    </mat-form-field>
+
+    <mat-slide-toggle [(ngModel)]="activo" color="primary">
+      {{ activo ? "activado" : "desactivado" }}</mat-slide-toggle
+    >
+  </div>
+  <div class="text-end">
+    <button mat-raised-button color="primary" (click)="guardar()">
+      Crear limite
+    </button>
+  </div>
+</div>
