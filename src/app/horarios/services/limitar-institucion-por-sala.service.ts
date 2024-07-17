@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from 'src/app/config/app';
 import { LimiteInstitucionSala } from 'src/app/models/LimiteInstitucionSala';
@@ -9,8 +9,7 @@ import { LimiteInstitucionSala } from 'src/app/models/LimiteInstitucionSala';
 })
 export class LimitarInstitucionPorSalaService {
   private url: string = BASE_ENDPOINT + '/ris/limites';
-  constructor(private http: HttpClient) {}
-
+  private http = inject(HttpClient)
 
   public encontrarLimitePorId(limiteId:number):Observable<LimiteInstitucionSala>{
     return this.http.get<LimiteInstitucionSala>(`${this.url}/${limiteId}`)
@@ -19,6 +18,7 @@ export class LimitarInstitucionPorSalaService {
   public crearLimite(limite:LimiteInstitucionSala):Observable<any>{
     return this.http.post(`${this.url}`,limite)
   }
+
   public encontrarLimitesPorSala(salaId: number): Observable<LimiteInstitucionSala[]> {
     return this.http.get<LimiteInstitucionSala[]>(`${this.url}/sala/${salaId}`);
   }
@@ -30,6 +30,7 @@ export class LimitarInstitucionPorSalaService {
   public eliminarLimitePorId(limiteId: number): Observable<any> {
     return this.http.delete<any>(`${this.url}/${limiteId}`);
   }
+
   public actualizarLimite(limiteId: number, limite:LimiteInstitucionSala): Observable<any> {
     return this.http.put<any>(`${this.url}/${limiteId}`,limite);
   }

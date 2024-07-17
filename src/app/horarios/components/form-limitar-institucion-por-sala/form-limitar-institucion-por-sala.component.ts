@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -30,31 +30,27 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
     salaControl: new FormControl(),
     institucionControl: new FormControl(),
   });
-
-  areasFiltradas: Area[] = [];
-  area: Area;
-
-  equiposDicom: EquipoDicom[] = [];
-  equipoDicom: EquipoDicom;
-
-  instituciones: Institucion[];
-  institucion: Institucion;
-
-  limiteDiario: number = 0;
-  activo: boolean = false;
+  areasFiltradas = signal<Area[]>([]);
+  area = signal<Area>(new Area());
+  equiposDicom = signal<EquipoDicom[]>([]);
+  equipoDicom = signal<EquipoDicom>(null);
+  instituciones = signal<Institucion[]>([]);
+  institucion = signal<Institucion>(null);
+  limiteDiario =signal<number>(0);
+  activo: boolean = false; //nomas a este no le pude poner signal
 
   constructor(@Inject(MAT_DIALOG_DATA) public limite?: LimiteInstitucionSala) {}
 
   ngOnInit(): void {
     if (this.limite) {
-      this.formulario.get('areaControl').setValue(this.limite.sala.area);
-      this.formulario.get('salaControl').setValue(this.limite.sala);
+      this.formulario.get('areaControl').setValue(this.limite?.sala.area);
+      this.formulario.get('salaControl').setValue(this.limite?.sala);
       this.formulario
         .get('institucionControl')
-        .setValue(this.limite.institucion);
-      this.activo = this.limite.activo;
-      this.limiteDiario = this.limite.limiteDiario;
-      console.log(this.activo)
+        .setValue(this.limite?.institucion);
+      this.activo = this.limite?.activo;
+      this.limiteDiario.set(this.limite?.limiteDiario);
+      console.log(this.activo);
     }
     this.formulario
       .get('areaControl')
@@ -65,13 +61,13 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
         )
       )
       .subscribe((areas) => {
-        this.areasFiltradas = areas;
+        this.areasFiltradas.set(areas);
       });
 
     this.formulario.get('salaControl').valueChanges.subscribe((value) => {
       this.equipoDicomService.ver(value).subscribe(
         (sala) => {
-          this.equipoDicom = sala;
+          this.equipoDicom.set(sala);
         },
         (err) => console.log(err)
       );
@@ -86,7 +82,7 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
         )
       )
       .subscribe((institucion) => {
-        this.instituciones = institucion;
+        this.instituciones.set(institucion);
       });
   }
 
@@ -95,7 +91,7 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
   }
 
   seleccionarArea(event: MatAutocompleteSelectedEvent) {
-    this.area = event.option.value as Area;
+    this.area.set(event.option.value);
     event.option.deselect();
     event.option.focus();
     this.cargarEquiposDicom();
@@ -105,16 +101,16 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
   }
 
   seleccionarInstitucion(event: MatAutocompleteSelectedEvent) {
-    this.institucion = event.option.value as Institucion;
+    this.institucion.set(event.option.value);
     event.option.deselect();
     event.option.focus();
   }
 
   private cargarEquiposDicom(): void {
     this.equipoDicomService
-      .filtrarPorArea(this.area.id)
+      .filtrarPorArea(this.area().id)
       .subscribe((equipos) => {
-        this.equiposDicom = equipos;
+        this.equiposDicom.set(equipos);
       });
   }
   public salir(): void {
@@ -124,12 +120,12 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
   public guardar(): void {
     console.log(this.activo);
     let limite: LimiteInstitucionSala = new LimiteInstitucionSala();
-    limite.sala = this.equipoDicom;
+    limite.sala = this.equipoDicom();
     limite.activo = this.activo;
-    limite.limiteDiario = this.limiteDiario;
-    limite.institucion = this.institucion;
+    limite.limiteDiario = this.limiteDiario();
+    limite.institucion = this.institucion();
 
-    if (this.limite.id) {
+    if (this.limite?.id) {
       this.limiteInsitucionPorSalaService
         .actualizarLimite(this.limite.id, limite)
         .subscribe(

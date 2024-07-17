@@ -1,5 +1,5 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { FormLimitarInstitucionPorSalaComponent } from '../form-limitar-institucion-por-sala/form-limitar-institucion-por-sala.component';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
 import { FormControl, FormGroup } from '@angular/forms';

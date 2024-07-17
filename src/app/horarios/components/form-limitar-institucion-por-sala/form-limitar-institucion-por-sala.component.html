@@ -15,7 +15,7 @@
         [displayWith]="mostrarNombreArea"
         (optionSelected)="seleccionarArea($event)"
       >
-        @for (area of areasFiltradas; track $index) {
+        @for (area of areasFiltradas(); track $index) {
         <mat-option [value]="area">
           {{ area.nombre }}
         </mat-option>
@@ -26,7 +26,7 @@
     <mat-form-field class="me-3">
       <mat-label>Sala</mat-label>
       <mat-select formControlName="salaControl">
-        @for (sala of equiposDicom; track $index) {
+        @for (sala of equiposDicom(); track $index) {
         <mat-option [value]="sala.id">
           {{ sala.nombre }}
         </mat-option>
@@ -47,7 +47,7 @@
         [displayWith]="mostrarNombreInstitucion"
         (optionSelected)="seleccionarInstitucion($event)"
       >
-        @for (institucion of instituciones; track $index) {
+        @for (institucion of instituciones(); track $index) {
         <mat-option [value]="institucion">
           {{ institucion.nombre }}
         </mat-option>
@@ -63,7 +63,9 @@
         name="limiteDiario"
         id="limiteDiario"
         type="number"
-        [(ngModel)]="limiteDiario"
+        #limiteDiarioInput
+        [value]="limiteDiario()"
+        (input)="limiteDiario.set(limiteDiarioInput.value)"
       />
     </mat-form-field>
 
@@ -73,7 +75,7 @@
   </div>
   <div class="text-end">
     <button mat-raised-button color="primary" (click)="guardar()">
-      Crear limite
+      {{ limite?.id ? "Guardar cambios" : "Crear limite" }}
     </button>
   </div>
 </div>
