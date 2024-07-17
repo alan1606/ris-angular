@@ -34,4 +34,9 @@ export class LimitarInstitucionPorSalaService {
   public actualizarLimite(limiteId: number, limite:LimiteInstitucionSala): Observable<any> {
     return this.http.put<any>(`${this.url}/${limiteId}`,limite);
   }
+
+
+  public limiteSuperadoInstitucionSalaFecha(idInstitucion: number, idSala: number, fecha: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.url}/superado/sala/${idSala}/institucion/${idInstitucion}/fecha/${fecha}`);
+  }
 }

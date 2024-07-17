@@ -12,7 +12,7 @@ import { CommonService } from './common.service';
   providedIn: 'root'
 })
 export class VentaConceptosService extends CommonService<VentaConceptos> {
-
+ 
   protected override baseEndpoint = BASE_ENDPOINT + '/ris/venta-conceptos';
 
   constructor(http: HttpClient) {
@@ -105,5 +105,7 @@ export class VentaConceptosService extends CommonService<VentaConceptos> {
   public encontrarUltrasonidosEnFecha(fecha: string, salaId:number, institucionId: number): Observable<VentaConceptos[]> {
     return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/ultrasonidos/fecha/${fecha}/sala/${salaId}/institucion/${institucionId}`);
   }
+
+
 
 }

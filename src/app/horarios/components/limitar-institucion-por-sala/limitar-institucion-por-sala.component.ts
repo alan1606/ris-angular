@@ -185,7 +185,7 @@ export class LimitarInstitucionPorSalaComponent implements OnInit {
           this.dataSource = [];
           this.dataSource.push(limite);
         },
-        (error) => this.alertaService.error(error)
+        (error) => console.log("No existe el límite")
       );
   }
 }
