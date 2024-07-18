@@ -57,7 +57,7 @@ export class VentaConceptosComponent
   override ngOnInit(): void {
     this.buscarEstudiosDeHoy();
     this.buscarModalidades();
-    
+
     this.autocompleteControl.valueChanges
       .pipe(
         map((valor) => (typeof valor === 'string' ? valor : valor.nombre)),
@@ -78,7 +78,6 @@ export class VentaConceptosComponent
       )
       .subscribe((pacientes) => (this.pacientesFiltrados = pacientes));
   }
- 
 
   ver(estudio: VentaConceptos): void {
     window.open(`${VIEWER}${estudio.iuid}`);
@@ -297,6 +296,18 @@ export class VentaConceptosComponent
   }
 
   desvincular(estudio: VentaConceptos) {
+    if (estudio.estado === 'INTERPRETADO') {
+      Swal.fire({
+        icon: 'error',
+        title: 'No se puede desvincular',
+        text: `el estudio de ${estudio.paciente.nombre} ya esta interpretado.`,
+        background: 'black',
+        toast: true,
+        color: 'white',
+        confirmButtonText: 'Cerrar',
+      });
+      return;
+    }
     Swal.fire({
       title: '¿Desea desvincular el estudio?',
       showDenyButton: true,
@@ -311,12 +322,11 @@ export class VentaConceptosComponent
     });
   }
 
-  seleccionarModalidad(event){
+  seleccionarModalidad(event) {
     const modalidad = event.value as string;
-    if(modalidad === 'TODAS'){
+    if (modalidad === 'TODAS') {
       this.lista = [...this.estudiosOriginales];
-    }
-    else{
+    } else {
       this.filtrarPorModalidad(modalidad);
     }
   }
@@ -336,7 +346,7 @@ export class VentaConceptosComponent
     );
   }
 
-  verMasInfo(estudio: VentaConceptos){
+  verMasInfo(estudio: VentaConceptos) {
     estudio.verMasInfo = !estudio.verMasInfo;
   }
 
@@ -347,34 +357,38 @@ export class VentaConceptosComponent
     window.location.href = url;
   }
 
-  private  buscarModalidades() {
-    this.areasService.listar().subscribe(areas => {
-      this.modalidades = areas.map(a => a.nombre).filter( a => this.esModalidad(a));
-      this.modalidades.unshift("TODAS");
+  private buscarModalidades() {
+    this.areasService.listar().subscribe((areas) => {
+      this.modalidades = areas
+        .map((a) => a.nombre)
+        .filter((a) => this.esModalidad(a));
+      this.modalidades.unshift('TODAS');
     });
   }
 
   private esModalidad(nombre: string): boolean {
-    if(nombre == 'ANESTESIA'){
+    if (nombre == 'ANESTESIA') {
       return false;
     }
-    if(nombre == 'DIAGNOKINES'){
+    if (nombre == 'DIAGNOKINES') {
       return false;
     }
-    if(nombre == 'IMPRESION'){
+    if (nombre == 'IMPRESION') {
       return false;
     }
-    if(nombre == 'PAQUETES'){
+    if (nombre == 'PAQUETES') {
       return false;
     }
-    if(nombre == 'TAC COVID'){
+    if (nombre == 'TAC COVID') {
       return false;
     }
     return true;
   }
 
   private filtrarPorModalidad(modalidad: string) {
-    this.lista = this.estudiosOriginales.filter(estudio => estudio.concepto.area.nombre == modalidad);
+    this.lista = this.estudiosOriginales.filter(
+      (estudio) => estudio.concepto.area.nombre == modalidad
+    );
   }
 
   private seleccionarPrimeraModalidad() {
@@ -382,17 +396,20 @@ export class VentaConceptosComponent
     this.modalidadSelect.value = primeraModalidad;
     this.modalidadSelect.valueChange.emit(primeraModalidad); // Emitir el cambio si es necesario
   }
-  enviar(estudio: VentaConceptos): void{
-    this.service.procesarEstudioEnWorklist(estudio.id).subscribe(()=>{
-      estudio.enWorklist= true;
-      Swal.fire('Éxito', 'Procesado correctamente', "success");
-    },error =>{
-      console.log(error);
-      Swal.fire('Error', 'No se ha podido procesar la worklist', 'error');
-    });
+  enviar(estudio: VentaConceptos): void {
+    this.service.procesarEstudioEnWorklist(estudio.id).subscribe(
+      () => {
+        estudio.enWorklist = true;
+        Swal.fire('Éxito', 'Procesado correctamente', 'success');
+      },
+      (error) => {
+        console.log(error);
+        Swal.fire('Error', 'No se ha podido procesar la worklist', 'error');
+      }
+    );
   }
 
-  abrirEnvioDicom(estudio){
+  abrirEnvioDicom(estudio) {
     const modalRef = this.dialog.open(EnviarEstudioDicomComponent, {
       width: '1000px',
       data: { estudio: estudio },
@@ -401,6 +418,3 @@ export class VentaConceptosComponent
     modalRef.afterClosed().subscribe((info) => {});
   }
 }
-
-
-

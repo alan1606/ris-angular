@@ -1,6 +1,6 @@
 <mat-card>
 
-    <h1 mat-card-title> {{titulo}} </h1>
+    <h1 mat-card-title class="pt-3 ps-3"> {{titulo}} </h1>
     <div mat-card-content>
 
 
@@ -8,7 +8,7 @@
             <div class="card-body">
                 <form>
                     <div class="row my-4"
-                        *ngIf="(estudio.iuid==null || estudio.iuid.length==0) && estudio.concepto.dicom">
+                        *ngIf="(estudio.iuid==null || estudio.iuid.length==0) && estudio?.concepto?.dicom">
                         <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido tomado</p>
                     </div>
 
@@ -76,7 +76,7 @@
 
                         <div class="contenedor-imagenes">
                             <div class="form-group my-2"
-                                *ngIf="estudio.ordenVenta.motivo != '' && estudio.ordenVenta.motivo != null">
+                                *ngIf="estudio?.ordenVenta?.motivo != '' && estudio?.ordenVenta?.motivo != null">
                                 <label for="motivo">Motivo</label>
                                 <input type="text" name="motivo" id="motivo" class="form-control"
                                     value={{estudio.ordenVenta.motivo}} disabled>

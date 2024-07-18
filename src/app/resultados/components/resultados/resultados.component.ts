@@ -21,7 +21,7 @@ import Swal from 'sweetalert2';
 export class ResultadosComponent implements OnInit {
 
   titulo: string = '';
-  estudio: VentaConceptos;
+  estudio: VentaConceptos= new VentaConceptos();
   multimedia: Multimedia[] = [];
   filesPath = FILES_PATH;
   antecedentesJuntos: string = "";
@@ -78,7 +78,6 @@ export class ResultadosComponent implements OnInit {
       else{
         this.interpretacionExterna = Promise.resolve(false);
       }
-      console.log(multimedia);
     }
     );
   }
