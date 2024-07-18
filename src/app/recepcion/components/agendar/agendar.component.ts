@@ -66,7 +66,7 @@ export class AgendarComponent implements OnInit {
     private fechaService: FechaService,
     private instruccionesService: InstruccionesService,
     private dataService: DataService,
-    private limiteService: LimitarInstitucionPorSalaService
+    private limiteService: LimitarInstitucionPorSalaService,
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
@@ -588,6 +588,7 @@ export class AgendarComponent implements OnInit {
   public actualizarFecha(fecha: HTMLInputElement) {
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
     this.seleccionarUrgencia = false;
+
     this.cargarCitas();
   }
 

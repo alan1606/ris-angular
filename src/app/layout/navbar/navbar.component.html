@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" [ngStyle]="{'background-color': color() ? color() : '#191C21' }">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img width="45" alt="Cons logo" src="../../../assets/logoCons.png" />
@@ -171,19 +171,27 @@
       <div class="form-inline my-2 my-lg-0 boton-usuario">
         <a *ngIf="username && isLogged" class="nav-link username">
           <i class="bi bi-person-fill"></i><label class="nombre-usuario">{{ username }}</label>
-          <p *ngIf="puedeAbrirMedicosReferentes()" (click)="abrirPerfilModal()" class="link-perfil">
-            Ver Perfil<i class="bi bi-three-dots-vertical"></i>
-          </p>
+          <div class="">
+            <p *ngIf="puedeAbrirMedicosReferentes()" (click)="abrirPerfilModal()" class="link-perfil text-end">
+              Ver Perfil<i class="bi bi-three-dots-vertical"></i>
+            </p>
+            
+          </div>
         </a>
-        <button class="btn btn-outline-success my-2 my-sm-0 ms-3" (click)="onLogin()" *ngIf="!isLogged">
-          <i class="bi bi-box-arrow-in-right"></i>
-          Entrar
-        </button>
-
-        <button class="btn btn-salir btn-outline-danger my-2 my-sm-0 ms-3" (click)="onLogout()" *ngIf="isLogged">
-          <i class="bi bi-box-arrow-right"></i>
-          Salir
-        </button>
+        <div>
+          <button class="btn btn-outline-success my-2 my-sm-0 ms-3" (click)="onLogin()" *ngIf="!isLogged">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Entrar
+          </button>
+          <button class="btn btn-outline-danger my-2 my-sm-0 ms-3" (click)="onLogout()" *ngIf="isLogged">
+            <i class="bi bi-box-arrow-right"></i>
+            Salir
+          </button>
+          <div *ngIf="isLogged" class="text-end mt-1">
+              <label for="colorpick" style="color: white;" class="me-1">Color</label>
+              <input id="colorpick"  type="color" [value]="color()" (input)="cambiarColorNav($event)">
+          </div>
+        </div>
       </div>
     </div>
   </div>

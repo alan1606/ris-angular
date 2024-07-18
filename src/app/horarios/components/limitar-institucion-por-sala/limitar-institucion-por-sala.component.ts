@@ -13,6 +13,7 @@ import { LimiteInstitucionSala } from 'src/app/models/LimiteInstitucionSala';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { InstitucionService } from 'src/app/services/institucion.service';
 import { Institucion } from 'src/app/models/institucion';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-limitar-institucion-por-sala',
   templateUrl: './limitar-institucion-por-sala.component.html',
@@ -86,8 +87,14 @@ export class LimitarInstitucionPorSalaComponent implements OnInit {
   }
 
   anadirLimite(): void {
+    let datosBuscados = {
+      area: this.area?.id ? this.area : null,
+      sala: this.equipoDicom?.id ? this.equipoDicom : null,
+      institucion: this.institucion?.id ? this.institucion : null,
+    };
     const modalRef = this.dialog.open(FormLimitarInstitucionPorSalaComponent, {
       width: '1000px',
+      data:datosBuscados,
       disableClose: true,
     });
     modalRef.afterClosed().subscribe((data) => {
@@ -113,21 +120,35 @@ export class LimitarInstitucionPorSalaComponent implements OnInit {
     });
   }
 
-  public eliminarLimite(limiteId: number): void {
-    this.limitarInstitucionPorSalaService
-      .eliminarLimitePorId(limiteId)
-      .subscribe(
-        (data) => {
-          console.log(data);
-          this.alertaService.exito('Eliminado');
-          this.dataSource = this.dataSource.filter(
-            (limite) => limite.id !== limiteId
+  public eliminarLimite(limite: LimiteInstitucionSala): void {
+    Swal.fire({
+      icon: 'info',
+      title: '¿Seguro que desea desactivarlo?',
+      showCancelButton: true,
+      reverseButtons: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Desactivar',
+      confirmButtonColor: 'red',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.limitarInstitucionPorSalaService
+          .eliminarLimitePorId(limite.id)
+          .subscribe(
+            () => {
+              this.alertaService.exito('Desactivado');
+              let limiteDesactivado = this.dataSource.find(
+                (l) => l.id === limite.id
+              );
+              limiteDesactivado.activo = !limiteDesactivado.activo;
+            },
+            (error) => {
+              this.alertaService.error(error);
+            }
           );
-        },
-        (error) => {
-          this.alertaService.error(error);
-        }
-      );
+      }
+      return;
+    });
+    return;
   }
 
   mostrarNombreArea(area?: Area): string {
@@ -151,12 +172,10 @@ export class LimitarInstitucionPorSalaComponent implements OnInit {
     this.buscarPorSalaInstitucion();
   }
   salaSeleccionada(): void {
-    console.log(this.equipoDicom);
     this.limitarInstitucionPorSalaService
       .encontrarLimitesPorSala(this.equipoDicom.id)
       .subscribe(
         (data) => {
-          console.log(data);
           this.dataSource = data;
         },
         (error) => {
@@ -185,7 +204,7 @@ export class LimitarInstitucionPorSalaComponent implements OnInit {
           this.dataSource = [];
           this.dataSource.push(limite);
         },
-        (error) => console.log("No existe el límite")
+        (error) => console.log('No existe el límite')
       );
   }
 }

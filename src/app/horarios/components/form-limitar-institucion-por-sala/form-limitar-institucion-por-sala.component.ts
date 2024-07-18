@@ -12,6 +12,7 @@ import { InstitucionService } from 'src/app/services/institucion.service';
 import { LimitarInstitucionPorSalaService } from '../../services/limitar-institucion-por-sala.service';
 import { LimiteInstitucionSala } from 'src/app/models/LimiteInstitucionSala';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-limitar-institucion-por-sala',
@@ -33,25 +34,43 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
   areasFiltradas = signal<Area[]>([]);
   area = signal<Area>(new Area());
   equiposDicom = signal<EquipoDicom[]>([]);
-  equipoDicom = signal<EquipoDicom>(null);
+  equipoDicom = signal<EquipoDicom>(new EquipoDicom());
   instituciones = signal<Institucion[]>([]);
-  institucion = signal<Institucion>(null);
-  limiteDiario =signal<number>(0);
+  institucion = signal<Institucion>(new Institucion());
+  limiteDiario = signal<number>(0);
   activo: boolean = false; //nomas a este no le pude poner signal
 
-  constructor(@Inject(MAT_DIALOG_DATA) public limite?: LimiteInstitucionSala) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public limite?: any) {}
 
   ngOnInit(): void {
-    if (this.limite) {
+    //Estos primeros dos if permite poner datos en caso de que se edite un limite, el primer if entra en accion para escribir los datos
+    //en caso de que se tengan filtros en la busqueda el segundo if entra en accion y escribe los datos de la busqueda para agilizar el proceso de creacion
+    if (this.limite.id) {
       this.formulario.get('areaControl').setValue(this.limite?.sala.area);
-      this.formulario.get('salaControl').setValue(this.limite?.sala);
+      this.area.set(this.limite?.sala.area);
+      this.cargarEquiposDicom()
+      this.formulario.get('salaControl').setValue(this.limite?.sala?.id);
+      this.equipoDicom.set(this.limite?.sala);
       this.formulario
         .get('institucionControl')
         .setValue(this.limite?.institucion);
+      this.institucion.set(this.limite?.institucion);
       this.activo = this.limite?.activo;
       this.limiteDiario.set(this.limite?.limiteDiario);
-      console.log(this.activo);
     }
+    if(this.limite.area){
+      this.formulario.get('areaControl').setValue(this.limite?.area);
+      this.area.set(this.limite?.area);
+      this.cargarEquiposDicom()
+      this.formulario.get('salaControl').setValue(this.limite?.sala?.id);
+      this.equipoDicom.set(this.limite?.sala);
+      this.formulario
+        .get('institucionControl')
+        .setValue(this.limite?.institucion);
+      this.institucion.set(this.limite?.institucion);
+    }
+
+    //autocompletes de los inputs de area, sala e institucion
     this.formulario
       .get('areaControl')
       .valueChanges.pipe(
@@ -118,13 +137,14 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
   }
 
   public guardar(): void {
-    console.log(this.activo);
+    if (!this.camposValidos()) {
+      return;
+    }
     let limite: LimiteInstitucionSala = new LimiteInstitucionSala();
     limite.sala = this.equipoDicom();
     limite.activo = this.activo;
     limite.limiteDiario = this.limiteDiario();
     limite.institucion = this.institucion();
-
     if (this.limite?.id) {
       this.limiteInsitucionPorSalaService
         .actualizarLimite(this.limite.id, limite)
@@ -150,5 +170,46 @@ export class FormLimitarInstitucionPorSalaComponent implements OnInit {
       }
     );
     return;
+  }
+
+  private camposValidos(): boolean {
+    if (!this.area().id) {
+      Swal.fire({
+        icon: 'info',
+        toast: true,
+        title: 'Porfavor',
+        text: 'seleccione un área.',
+      });
+      return false;
+    }
+    if (!this.equipoDicom().id) {
+      Swal.fire({
+        icon: 'info',
+        toast: true,
+        title: 'Porfavor',
+        text: 'seleccione una sala.',
+      });
+      return false;
+    }
+
+    if (!this.institucion().id) {
+      Swal.fire({
+        icon: 'info',
+        toast: true,
+        title: 'Porfavor',
+        text: 'seleccione una institución.',
+      });
+      return false;
+    }
+    if (this.limiteDiario() === 0 || !this.limiteDiario()) {
+      Swal.fire({
+        icon: 'info',
+        toast: true,
+        title: 'Porfavor',
+        text: 'establezca un limite.',
+      });
+      return false;
+    }
+    return true;
   }
 }

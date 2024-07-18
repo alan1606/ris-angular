@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import {
   authorize_uri,
   client_id,
@@ -15,7 +15,7 @@ import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PerfilModalComponent } from 'src/app/perfil/components/perfil-modal/perfil-modal.component';
-
+import {} from '@angular/material/'
 const CHARACTERS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwkyz123456789';
 
@@ -25,6 +25,8 @@ const CHARACTERS =
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+
+  color = signal(localStorage.getItem("NavColor"))
   authorize_url = authorize_uri;
   logout_url = logour_uri;
   username: string = null;
@@ -56,6 +58,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.color())
     this.getLogged();
   }
 
@@ -255,10 +258,17 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
-  abrirPerfilModal() {
+  public abrirPerfilModal():void{
     this.dialog.open(PerfilModalComponent, {
       width: '1024px',
       data: { user: this.username },
     });
+  }
+  public():void{
+
+  }
+  cambiarColorNav=(event)=>{
+    localStorage.setItem("NavColor", event.target.value)
+    this.color.set(event.target.value)
   }
 }
