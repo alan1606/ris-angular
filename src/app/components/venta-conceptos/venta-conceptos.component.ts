@@ -305,6 +305,7 @@ export class VentaConceptosComponent
         toast: true,
         color: 'white',
         confirmButtonText: 'Cerrar',
+        position: 'bottom-end'
       });
       return;
     }
