@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 import { ReagendarCitaModalComponent } from '../reagendar-cita-modal/reagendar-cita-modal.component';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
 import { Area } from 'src/app/models/area';
-import { DataService } from 'src/app/cortes/services/data.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import { MandarConfirmacionesPorFechaComponent } from '../mandar-confirmaciones-por-fecha/mandar-confirmaciones-por-fecha.component';
 
 @Component({
@@ -21,7 +21,6 @@ import { MandarConfirmacionesPorFechaComponent } from '../mandar-confirmaciones-
   styleUrls: ['./confirmaciones-citas.component.css'],
 })
 export class ConfirmacionesCitasComponent implements OnInit {
-
   fecha: string;
   date = new FormControl(new Date());
   titulo: string;
@@ -33,14 +32,14 @@ export class ConfirmacionesCitasComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   citas: Cita[] = [];
-  citasFiltradas: Cita[] = [];
+  citasSinFiltrar: Cita[] = [];
   citasParaFiltrar: Cita[] = [];
 
   areaFiltrada: Area = null;
   total = 0;
   totalSinConfirmar = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  
+
   constructor(
     private fechaService: FechaService,
     private citaService: CitaService,
@@ -53,26 +52,19 @@ export class ConfirmacionesCitasComponent implements OnInit {
     this.minDate = new Date();
   }
 
-  
-
   ngOnInit(): void {
-    const fechaString = this.fechaService.formatearFecha(this.date.value);
+    let fechaString = this.fechaService.formatearFecha(this.date.value);
     this.fecha = fechaString;
-    this.citaService
-      .buscarPorFecha(
-        this.fecha,
-        this.paginaActual.toString(),
-        this.totalPorPagina.toString()
-      )
-      .subscribe(
+    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
         (citas) => {
           if (citas.content) {
             this.citas = citas.content as Cita[];
-            this.dataService.updateCitasData(citas);
+            this.citasSinFiltrar = this.citas;
             this.totalRegistros = citas.totalElements as number;
             this.total = this.citas.length;
             this.totalSinConfirmar = this.citas.filter(
-              (cita) => cita.estado !== 'AGENDADA'
+              (cita) =>
+                cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA'
             ).length;
           } else {
             this.citas = [];
@@ -87,30 +79,23 @@ export class ConfirmacionesCitasComponent implements OnInit {
 
   public actualizarFecha(fecha: HTMLInputElement) {
     this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
-    console.log(this.fecha);
     this.buscar();
-  }
-
-  recibirCitasFiltradasPorArea(event: Cita[]) {
-    this.citas = event;
-    this.total = this.citas.length;
-    this.totalSinConfirmar = this.citas.filter(
-      (cita) => cita.estado !== 'AGENDADA'
-    ).length;
   }
 
   recibirAreaFiltrada(event: Area) {
     this.areaFiltrada = event;
-    console.log('enviando area');
     this.dataService.updateAreaData(event);
-  }
-  recibirCitasFiltradasPorSala(event: Cita[]) {
-    this.citas = event;
+    this.citas = !event ? this.citasSinFiltrar : this.citasSinFiltrar.filter((cita) => cita.estudio.concepto.area.nombre.includes(event.nombre.toUpperCase()));
     this.total = this.citas.length;
-    this.totalSinConfirmar = this.citas.filter(
-      (cita) => cita.estado !== 'AGENDADA'
-    ).length;
+    this.totalSinConfirmar = this.citas.filter((cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA').length;
   }
+
+  salaSeleccionada(event: EquipoDicom) {
+    this.citas = !event ? this.citasSinFiltrar : this.citasSinFiltrar.filter((cita) => cita.horario.salaId === event.id);
+    this.total = this.citas.length;
+    this.totalSinConfirmar = this.citas.filter((cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA').length;
+  }
+
   public mandarConfirmacionesManiania() {
     Swal.fire({
       title: '¿Seguro?',
@@ -142,11 +127,10 @@ export class ConfirmacionesCitasComponent implements OnInit {
     });
   }
 
-  abrirMandarConfirmacionesPorFecha(){
-    const modalref= this.dialog.open(MandarConfirmacionesPorFechaComponent,{
-      width:'1000'
-    })
-
+  abrirMandarConfirmacionesPorFecha() {
+    this.dialog.open(MandarConfirmacionesPorFechaComponent, {
+      width: '500px',
+    });
   }
 
   public paginar(event: PageEvent): void {
@@ -156,23 +140,15 @@ export class ConfirmacionesCitasComponent implements OnInit {
   }
 
   private buscar() {
-    this.citaService
-      .buscarPorFecha(
-        this.fecha,
-        this.paginaActual.toString(),
-        this.totalPorPagina.toString()
-      )
-      .subscribe(
+    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
         (citas) => {
           if (citas.content) {
             this.citas = citas.content as Cita[];
+            this.citasSinFiltrar=this.citas
             this.totalRegistros = citas.totalElements as number;
-            this.dataService.updateCitasData(citas);
             this.paginator._intl.itemsPerPageLabel = 'Registros:';
             this.total = this.citas.length;
-            this.totalSinConfirmar = this.citas.filter(
-              (cita) => cita.estado !== 'AGENDADA'
-            ).length;
+            this.totalSinConfirmar = this.citas.filter((cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA').length;
           } else {
             this.citas = [];
           }
@@ -199,13 +175,10 @@ export class ConfirmacionesCitasComponent implements OnInit {
         this.citaService.cancelarCita(cita.id).subscribe(
           () => {
             Swal.fire({
-              title: 'Éxito',
-              text: 'Se ha cancelado la orden con éxito',
+              title: 'Cita cancelada',
               icon: 'success',
             });
-            this.citas = this.citas.filter(
-              (citaTemp) => citaTemp.id != cita.id
-            );
+            this.citas = this.citas.filter((citaTemp) => citaTemp.id != cita.id);
           },
           () => {
             Swal.fire({
@@ -230,18 +203,11 @@ export class ConfirmacionesCitasComponent implements OnInit {
         let mensaje: string = '';
         let instruccionesArea: string = '';
         let instruccionesConceptos: string = '';
-
         for (let estudio of estudios) {
-          const fecha = this.datePipe.transform(
-            estudio.fechaAsignado,
-            'dd/MM/yyyy'
-          );
+          const fecha = this.datePipe.transform(estudio.fechaAsignado,'dd/MM/yyyy');
           const concepto = estudio.concepto;
           mensaje += `-${concepto.area.nombre}: ${concepto.concepto} día `;
-          mensaje += `${fecha} hora ${estudio.horaAsignado.substring(
-            0,
-            5
-          )}<br>`;
+          mensaje += `${fecha} hora ${estudio.horaAsignado.substring(0,5)}<br>`;
           if (concepto.area.instrucciones) {
             instruccionesArea += concepto.area.instrucciones;
           }
@@ -254,11 +220,9 @@ export class ConfirmacionesCitasComponent implements OnInit {
         if (orden.aplicarDescuento) {
           total = orden.totalDespuesDescuento;
         }
-
         mensaje += `Total = ${total}<br>`;
         mensaje += instruccionesArea + '<br>';
         mensaje += instruccionesConceptos + '<br>';
-
         if (estudios[0].institucion?.instrucciones) {
           mensaje += estudios[0].institucion.instrucciones;
         }
@@ -292,11 +256,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
       html: mensaje,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log('confirmo');
-        const mensaje =
-          idsVentas.length > 1
-            ? 'Se han confirmado las citas'
-            : 'Se ha confirmado la cita';
+        const mensaje =idsVentas.length > 1? 'Se han confirmado las citas' : 'Se ha confirmado la cita';
         const titular = idsVentas.length > 1 ? 'Confirmadas' : 'Confirmada';
         this.citaService.confirmarCitas(idsVentas).subscribe(
           () => {
@@ -309,7 +269,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
         );
       }
       if (result.isDenied) {
-        console.log('No contesto');
         this.citaService.citaNoContestada(cita.id).subscribe(
           () => {
             cita.estado = 'NO_CONTESTADA';
@@ -327,7 +286,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
     const dialogRef = this.dialog.open(ReagendarCitaModalComponent, {
       data: { cita: cita },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const nuevaCitaId: number = result.citaId as number;
@@ -357,9 +315,6 @@ export class ConfirmacionesCitasComponent implements OnInit {
     citaModificar: Cita
   ) {
     const citaOrigenId = cita.id;
-    const mensaje = 'Se han reagendado la cita';
-    const titular = 'Reagendada';
-
     this.citaService
       .reagendar(
         citaOrigenId,
@@ -369,11 +324,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
       )
       .subscribe(
         (cita) => {
-          Swal.fire(
-            'Éxito',
-            'Se ha reagendado correctamente la cita',
-            'success'
-          );
+          Swal.fire('Éxito','Se ha reagendado correctamente la cita','success');
           this.citas = this.citas.filter((c) => c.id != citaModificar.id);
           cita.estudio = citaModificar.estudio;
           this.citas.push(cita);

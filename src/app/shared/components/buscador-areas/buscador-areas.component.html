@@ -9,11 +9,13 @@
     <mat-autocomplete
       #autocompleteArea="matAutocomplete"
       [displayWith]="mostrarNombreArea"
-      (optionSelected)="seleccionarArea($event)"
+      (optionSelected)="areaSeleccionada($event)"
     >
-      <mat-option *ngFor="let area of areasFiltradas" [value]="area">
+      @for (area of areasFiltradas; track area.id) {
+      <mat-option [value]="area">
         {{ area.nombre }}
       </mat-option>
+      }
     </mat-autocomplete>
   </mat-form-field>
 </div>

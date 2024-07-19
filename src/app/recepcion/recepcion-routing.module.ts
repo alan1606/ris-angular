@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UrgenciaComponent } from './components/urgencia/urgencia.component';
+
 import { RecepcionGuard } from '../guards/recepcion.guard';
 import { EnviarEstudiosComponent } from './components/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estudio.component';

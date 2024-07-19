@@ -12,7 +12,6 @@ import { AppComponent } from 'src/app/app.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card'
-import { UrgenciaComponent } from './components/urgencia/urgencia.component';
 import { RecepcionRoutingModule } from './recepcion-routing.module';
 import { EnviarEstudiosComponent } from './components/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estudio.component';
@@ -47,7 +46,6 @@ import {QRCodeModule} from 'angularx-qrcode'
 
 @NgModule({
     declarations: [
-        UrgenciaComponent,
         QrSubirFotoOrdenModalComponent,
         RegistrarPacienteComponent,
         EnviarEstudiosComponent,
@@ -98,7 +96,6 @@ import {QRCodeModule} from 'angularx-qrcode'
         MatFormFieldModule
     ],
     exports: [
-        UrgenciaComponent
     ],
     providers: [
     ],

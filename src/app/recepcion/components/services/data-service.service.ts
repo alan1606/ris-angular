@@ -11,7 +11,6 @@ export class DataService {
   public precioData$: Observable<any> = this.precioDataSubject.asObservable();
 
   public actualizarPrecio(nuevoPrecio: number) {
-    console.log('actualizando precio');
     this.precioDataSubject.next(nuevoPrecio);
   }
 }
