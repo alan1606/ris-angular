@@ -1,23 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap-icons/font/bootstrap-icons.css";
-@import '~quill/dist/quill.core.css';
-@import '~quill/dist/quill.snow.css';
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.snow.css";
 html,
 body {
-    height: 100%;
+  height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0, 174, 255) rgb(255, 255, 255);
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

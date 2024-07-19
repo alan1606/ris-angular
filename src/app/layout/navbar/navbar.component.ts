@@ -25,8 +25,6 @@ const CHARACTERS =
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-
-  color = signal(localStorage.getItem("NavColor"))
   authorize_url = authorize_uri;
   logout_url = logour_uri;
   username: string = null;
@@ -58,7 +56,6 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.color())
     this.getLogged();
   }
 
@@ -266,9 +263,5 @@ export class NavbarComponent implements OnInit {
   }
   public():void{
 
-  }
-  cambiarColorNav=(event)=>{
-    localStorage.setItem("NavColor", event.target.value)
-    this.color.set(event.target.value)
   }
 }

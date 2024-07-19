@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark" [ngStyle]="{'background-color': color() ? color() : '#191C21' }">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img width="45" alt="Cons logo" src="../../../assets/logoCons.png" />
@@ -31,6 +31,19 @@
             <button mat-menu-item routerLink="/recepcion/limbo">Liberar</button>
           </mat-menu>
         </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle" routerLinkActive="active" *ngIf="puedeAbrirHorarios()"
+            [matMenuTriggerFor]="menuHorarios" id="navbarDropdownMenuCitasLink" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Horarios</a>
+          <mat-menu #menuHorarios="matMenu">
+            <button mat-menu-item routerLink="/horarios">
+              Horarios
+            </button>
+            <button mat-menu-item routerLink="/horarios/limitar">
+              Limitar institucion
+            </button>
+          </mat-menu>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/recepcion/agenda" routerLinkActive="active"
@@ -48,17 +61,7 @@
         </li>
 
 
-        <li class="nav-item">
-          <a class="nav-link dropdown-toggle" routerLink="/campanias" routerLinkActive="active"
-            *ngIf="puedeAbrirCampanias()" [matMenuTriggerFor]="menuCampanias" id="navbarDropdownMenuCampaniasLink"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Campañas</a>
-
-          <mat-menu #menuCampanias="matMenu">
-            <button mat-menu-item routerLink="/wp-marketing/enviar">
-              Wp marketing
-            </button>
-          </mat-menu>
-        </li>
+        
 
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/medico-radiologo" routerLinkActive="active"
@@ -87,21 +90,6 @@
             </button>
           </mat-menu>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link dropdown-toggle" routerLinkActive="active" *ngIf="puedeAbrirHorarios()"
-            [matMenuTriggerFor]="menuHorarios" id="navbarDropdownMenuCitasLink" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Horarios</a>
-          <mat-menu #menuHorarios="matMenu">
-            <button mat-menu-item routerLink="/horarios">
-              Horarios
-            </button>
-            <button mat-menu-item routerLink="/horarios/limitar">
-              Limitar institucion
-            </button>
-          </mat-menu>
-        </li>
-
         <!-- <li class="nav-item">
           <a
             class="nav-link"
@@ -112,7 +100,6 @@
             >Urgencia</a
           >
         </li> -->
-
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/instituciones" routerLinkActive="active"
             *ngIf="puedeAbrirInstitucion()">Instituciones</a>
@@ -126,6 +113,17 @@
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/medicos" routerLinkActive="active"
             *ngIf="puedeAbrirCrudMedicos()">Medicos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle" routerLink="/campanias" routerLinkActive="active"
+            *ngIf="puedeAbrirCampanias()" [matMenuTriggerFor]="menuCampanias" id="navbarDropdownMenuCampaniasLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Campañas</a>
+
+          <mat-menu #menuCampanias="matMenu">
+            <button mat-menu-item routerLink="/wp-marketing/enviar">
+              Wp marketing
+            </button>
+          </mat-menu>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/membresias" routerLinkActive="active"
@@ -187,10 +185,6 @@
             <i class="bi bi-box-arrow-right"></i>
             Salir
           </button>
-          <div *ngIf="isLogged" class="text-end mt-1">
-              <label for="colorpick" style="color: white;" class="me-1">Color</label>
-              <input id="colorpick"  type="color" [value]="color()" (input)="cambiarColorNav($event)">
-          </div>
         </div>
       </div>
     </div>

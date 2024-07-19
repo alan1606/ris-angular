@@ -1,7 +1,9 @@
-.table-container{
+.table-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding-top: 30px;
+  justify-self: center;
+  padding: 30px;
 }
 table {
   width: 60%;

@@ -15,18 +15,22 @@ const routes: Routes = [
   {
     path: 'formas-pago',
     component: FormasPagoComponent,
+    canActivate: [RecepcionGuard],
   },
   {
     path: 'movimientos-cortes',
     component: MovimientosCortesComponent,
+    canActivate: [RecepcionGuard],
   },
   {
     path: 'generar',
     component: GenerarCorteComponent,
+    canActivate: [RecepcionGuard],
   },
   {
     path: 'devoluciones',
     component: DevolucionesComponent,
+    canActivate: [RecepcionGuard],
   },
 ];
 

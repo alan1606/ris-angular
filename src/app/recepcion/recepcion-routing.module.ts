@@ -18,11 +18,6 @@ import { LimboComponent } from './components/limbo/limbo.component';
 
 const routes: Routes = [
   {
-    path: 'urgencia',
-    component: UrgenciaComponent,
-    canActivate: [RecepcionGuard],
-  },
-  {
     path: 'enviar-estudios',
     component: EnviarEstudiosComponent,
     canActivate: [RecepcionGuard],
@@ -62,6 +57,7 @@ const routes: Routes = [
   {
     path: 'checkin',
     component: CheckInComponent,
+    canActivate: [RecepcionGuard],
   },
   {
     path: 'checkin/ver/:idPaciente',

@@ -44,7 +44,8 @@ const routes: Routes = [
   },
   {
     path: 'dictador',
-    loadChildren: ()=>import('./dictador/dictador.module').then(m=>m.DictadorModule),
+    loadChildren: () =>
+      import('./dictador/dictador.module').then((m) => m.DictadorModule),
     canActivate: [DictadorGuard],
   },
   {
@@ -159,11 +160,7 @@ const routes: Routes = [
     path: 'membresia-landing',
     component: LandingMembresiaComponent,
   },
-  {
-    path: '',
-    redirectTo: 'resultados',
-    pathMatch: 'full',
-  },
+
   {
     path: 'cortes',
     loadChildren: () =>
@@ -175,6 +172,11 @@ const routes: Routes = [
       import('./relacion-contable/relacion-contable.module').then(
         (m) => m.RelacionContableModule
       ),
+  },
+  {
+    path: '',
+    redirectTo: 'resultados',
+    pathMatch: 'full',
   },
 ];
 

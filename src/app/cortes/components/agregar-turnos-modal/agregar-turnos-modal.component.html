@@ -1,5 +1,5 @@
-<mat-card class="text-center">
-  <mat-form-field class="example-full-width">
+<mat-card class="p-2">
+  <mat-form-field>
     <mat-label>Nombre turno</mat-label>
     <input matInput name="nombre" id="nombre" [(ngModel)]="model.nombre" />
   </mat-form-field>
@@ -16,7 +16,7 @@
     />
   </div>
   <div class="form-group" style="width: 80%" class="my-3">
-    <label for="horaFin" class="lbl-hora pe-3 pb-2">Hora Fin: </label>
+    <label for="horaFin" class="lbl-hora pe-3 pb-2">Hora Fin:    </label>
     <input
       [(ngModel)]="model.horaFin"
       type="time"
@@ -27,10 +27,12 @@
       required
     />
   </div>
-  <button
-    class="btn btn-success"
-    (click)="!idTurno ? guardarTurno() : editarTurno()"
-  >
-    {{ idTurno ? "Editar" : "Guardar" }}
-  </button>
+  <div class="text-end">
+    <button
+      class="btn btn-success"
+      (click)="!idTurno ? guardarTurno() : editarTurno()"
+    >
+      {{ idTurno ? "Editar" : "Guardar" }}
+    </button>
+  </div>
 </mat-card>
