@@ -10,6 +10,5 @@ export class VisorInterpretacionComponent {
   enlace: string = '';
   constructor(@Inject(MAT_DIALOG_DATA) private data: string) {
     this.enlace = data;
-    console.log(data);
   }
 }

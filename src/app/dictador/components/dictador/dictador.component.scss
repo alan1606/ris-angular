@@ -172,47 +172,6 @@
   justify-content: center;
 }
 
-.pdf {
-  width: 100%;
-  height: auto;
-}
-
-pdf-viewer {
-  width: 100%;
-  height: auto;
-}
-
-@media (min-width: 768px) {
-  .pdf {
-    width: 50%;
-    height: 400px;
-  }
-}
-@media (max-width: 768px) {
-  pdf-viewer {
-    width: 100%;
-    height: 400px;
-  }
-}
-@media (max-width: 999px) {
-  pdf-viewer {
-    width: 800px;
-    height: 1200px;
-  }
-}
-
-@media (min-width: 999px) {
-  pdf-viewer {
-    width: 1000px;
-    height: 1350px;
-  }
-
-  .pdf {
-    width: 1000px;
-    height: 1000px;
-  }
-}
-
 .botones-finales{
   margin-left: 1%;
   margin-bottom: 20px;

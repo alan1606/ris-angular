@@ -15,11 +15,12 @@
 
     <div
       class="my-4"
-      *ngIf="
-        (estudio?.iuid || estudio.iuid?.length > 0) && estudio?.concepto?.dicom
-      "
+      *ngIf="(estudio?.iuid || estudio.iuid?.length > 0) && estudio?.concepto?.dicom"
     >
-      <button class="btn btn-primary btn-lg w-25" (click)="isMobile?abrirOhif(estudio):abrir(estudio)">
+      <button
+        class="btn btn-primary btn-lg w-25"
+        (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)"
+      >
         Ver imágenes
       </button>
     </div>
@@ -43,18 +44,22 @@
         <button class="btn btn-success btn-lg" (click)="descargarPdf()">
           Descargar
         </button>
-        <button class="btn btn-primary btn-lg" (click)="isMobile?abrirOhif(estudio):abrir(estudio)">
+        <button
+          class="btn btn-primary btn-lg"
+          (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)"
+        >
           Ver imágenes
         </button>
       </div>
-      <div class="" style="display: flex; justify-content: center; align-items: center;">
-        <pdf-viewer
+      <div>
+        <ngx-extended-pdf-viewer
           [src]="enlacePdf"
-          [render-text]="true"
-          [original-size]="false"
-          class="pdf"
-        ></pdf-viewer>
-        <!-- style="width: 1200px; height: 1200px" -->
+          [textLayer]="true"
+          [showHandToolButton]="true"
+          [filenameForDownload]="this.estudio.paciente.nombreCompleto + '.pdf'"
+        >
+          >
+        </ngx-extended-pdf-viewer>
       </div>
     </div>
 
@@ -74,13 +79,13 @@
             Ver imágenes
           </button>
         </div>
-        <pdf-viewer
-          class="pdf"
+        <ngx-extended-pdf-viewer
           [src]="filesPath + interpretacion.ruta"
-          [render-text]="true"
-          [original-size]="false"
+          [textLayer]="true"
+          [showHandToolButton]="true"
         >
-        </pdf-viewer>
+          >
+        </ngx-extended-pdf-viewer>
       </div>
     </div>
   </div>

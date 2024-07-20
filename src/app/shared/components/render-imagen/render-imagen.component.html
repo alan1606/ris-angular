@@ -3,11 +3,10 @@
 </div>
 
 <div *ngIf="img.tipo == 'DOCUMENTO'">
-    <pdf-viewer [src]="filesPath + img.ruta" [render-text]="true" [original-size]="false"
-        style="width: 80vw; height: 90vh">
-    </pdf-viewer>
-
-    <button *ngIf="img.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm" (click)="expandir(img)">
-        Expandir
-    </button>
+    <ngx-extended-pdf-viewer
+          [src]="filesPath + img.ruta"
+          [textLayer]="true"
+          [showHandToolButton]="true"
+        >
+        </ngx-extended-pdf-viewer>
 </div>

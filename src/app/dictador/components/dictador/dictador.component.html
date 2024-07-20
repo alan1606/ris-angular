@@ -81,9 +81,8 @@
     </div>
     <div class="container-report-ia mb-4">
         <div>
-            <div *ngIf="mostrarSubidaExterna" style="margin-left: 1%;">
+            <div *ngIf="mostrarSubidaExterna">
                 <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
-                <button class="btn btn-success btn-lg my-2" (click)="regresar()">Regresar</button>
             </div>
 
             <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="text-center" style="width:800px;">

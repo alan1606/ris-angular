@@ -7,14 +7,13 @@ import { Interpretacion } from '../../../models/interpretacion';
 import { BASE_ENDPOINT, FILES_PATH, VIEWER } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { MultimediaService } from 'src/app/services/multimedia.service';
-
 @Component({
   selector: 'app-dictamen',
   templateUrl: './dictamen.component.html',
   styleUrls: ['./dictamen.component.css'],
 })
 export class DictamenComponent implements OnInit {
-  estudio: VentaConceptos;
+  estudio: VentaConceptos = new VentaConceptos();
   titulo: string = '';
   interpretacion: Interpretacion;
   enlacePdf: string = '';
@@ -27,14 +26,14 @@ export class DictamenComponent implements OnInit {
     private service: VentaConceptosService,
     private interpretacionService: InterpretacionService,
     private multimediaService: MultimediaService,
-    private router: Router
-  ) {}
+    private router: Router,
+  ) {
+  }
 
   ngOnInit(): void {
     if (screen.width <= 1023) {
       this.isMobile = true;
     }
-    console.log(this.isMobile);
     this.route.paramMap.subscribe((params) => {
       const idPacs: string = params.get('idPacs');
       if (idPacs) {

@@ -11,10 +11,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { QuillModule } from 'ngx-quill';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -32,11 +32,11 @@ import { QuillModule } from 'ngx-quill';
     MatInputModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    PdfViewerModule,
     MatButtonModule,
     MatDialogModule,
     FormsModule,
-    QuillModule
+    QuillModule,
+    NgxExtendedPdfViewerModule
   ],
 })
 export class DictadorModule {}

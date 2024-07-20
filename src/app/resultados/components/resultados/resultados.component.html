@@ -93,9 +93,13 @@
                                     style="cursor: pointer;" *ngIf="foto.tipo == 'IMAGEN'">
                             </div>
                             <div class="form-group my-3" *ngFor="let pdf of multimedia">
-                                <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta"
-                                    [render-text]="true" [original-size]="false" style="width: 800px; height: 500px">
-                                </pdf-viewer>
+                                <ngx-extended-pdf-viewer
+                                    *ngIf="pdf.tipo == 'DOCUMENTO'"
+                                    [src]="filesPath + pdf.ruta"
+                                    [textLayer]="true"
+                                    [showHandToolButton]="true"
+                                >
+                                </ngx-extended-pdf-viewer>
                                 <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm"
                                     (click)="expandir(pdf)">
                                     Expandir

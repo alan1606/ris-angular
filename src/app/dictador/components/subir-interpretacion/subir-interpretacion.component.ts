@@ -57,14 +57,12 @@ export class SubirInterpretacionComponent implements OnInit {
 
   seleccionarArchivo(event): void {
     this.archivo = event.target.files[0];
-    console.info(this.archivo);
     if (this.archivo.type.indexOf('pdf') < 0) {
       Swal.fire('Error', 'Solamente puede seleccionar archivos PDF', 'error');
       return;
     }
 
     this.multimedia.ordenVenta = this.estudio.ordenVenta;
-    console.log(this.estudio.ordenVenta);
 
     this.multimediaService
       .subirInterpretacionPdf(this.multimedia, this.archivo)

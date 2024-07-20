@@ -1,1 +1,7 @@
-<pdf-viewer *ngIf="enlace !== ''" class="pdf-generado" [src]="enlace" [render-text]="true" [original-size]="false"  style="width: 70vw; height: 90vh"></pdf-viewer>
+<ngx-extended-pdf-viewer
+  [src]="enlace"
+  [textLayer]="true"
+  [showHandToolButton]="true"
+>
+  >
+</ngx-extended-pdf-viewer>

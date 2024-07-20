@@ -7,7 +7,8 @@ import { ResultadosComponent } from './components/resultados/resultados.componen
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { BuscarPorOrdenYPacienteComponent } from './components/buscar-por-orden-ypaciente/buscar-por-orden-ypaciente.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ResultadosRoutingModule,
     FormsModule,
     MatCardModule,
-    PdfViewerModule
+    NgxExtendedPdfViewerModule
   ]
 })
 export class ResultadosModule { }

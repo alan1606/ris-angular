@@ -22,7 +22,6 @@ import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio
 import { MatDialogModule } from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
@@ -54,6 +53,7 @@ import { CortesModule } from './cortes/cortes.module';
 import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { QuillModule } from 'ngx-quill';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -98,7 +98,7 @@ import { QuillModule } from 'ngx-quill';
     MatTableModule,
     MatButtonModule,
     MatDialogModule,
-    PdfViewerModule,
+    NgxExtendedPdfViewerModule,
     MatCheckboxModule,
     MatSelectModule,
     MatIconModule,

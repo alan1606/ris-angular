@@ -439,14 +439,16 @@ export class DictadorComponent implements OnInit, OnDestroy {
   abrirFoto(img: Multimedia): void {
     this.dialog.open(RenderImagenComponent, {
       data: img,
-      width: '100vw',
-      height: '100vh',
+      width: '80vw',
+      height: '80vh',
     });
   }
 
   verInterpretacion(): void {
     this.dialog.open(VisorInterpretacionComponent, {
       data: this.enlacePdf,
+      width: '80vw',
+      height: '80vh',
     });
   }
 

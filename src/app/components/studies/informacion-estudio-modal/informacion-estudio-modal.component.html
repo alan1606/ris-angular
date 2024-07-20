@@ -78,8 +78,13 @@
                 </div>
                 <hr>
                 <div class="form-group my-3" *ngFor="let pdf of multimedia">
-                    <pdf-viewer *ngIf="pdf.tipo == 'DOCUMENTO'" [src]="filesPath + pdf.ruta" [render-text]="true"
-                        [original-size]="false" style="width: 800px; height: 500px"></pdf-viewer>
+                        <ngx-extended-pdf-viewer
+                            *ngIf="pdf.tipo == 'DOCUMENTO'"
+                            [src]="filesPath + pdf.ruta"
+                            [textLayer]="true"
+                            [showHandToolButton]="true"
+                            >
+                        </ngx-extended-pdf-viewer>
 
                     <button type="button" class="btn btn-danger btn-sm mx-4" (click)="eliminar(pdf)">
                         Eliminar
