@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Message, Stomp } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BASE_ENDPOINT } from 'src/app/config/app';
