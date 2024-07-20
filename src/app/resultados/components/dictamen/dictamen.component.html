@@ -43,19 +43,19 @@
       *ngIf="interpretacion"
     >
       <div class="card-body botones-para-pdf">
-        <button class="btn btn-success btn-lg" (click)="descargarPdf()">
+        <button class="btn btn-success " (click)="descargarPdf()">
           Descargar
         </button>
         <button
           *ngIf="enlacePdf !== ''"
-          class="btn btn-dark ms-4"
+          class="btn btn-dark"
           (click)="verInterpretacion(enlacePdf)"
         >
           Ver Reporte
         </button>
 
         <button
-          class="btn btn-primary btn-lg"
+          class="btn btn-primary"
           (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)"
         >
           Ver imágenes
@@ -80,19 +80,19 @@
       <div class="" *ngFor="let interpretacion of archivos">
         <div class="card-body botones-para-pdf">
           <button
-            class="btn btn-success btn-lg"
+            class="btn btn-success"
             (click)="descargarPdfExterno(filesPath + interpretacion.ruta)"
           >
             Descargar
           </button>
           <button
             *ngIf="enlacePdf !== ''"
-            class="btn btn-dark ms-4"
+            class="btn btn-dark"
             (click)="verInterpretacion(filesPath + interpretacion.ruta)"
           >
             Ver Reporte
           </button>
-          <button class="btn btn-primary btn-lg"  (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)">
+          <button class="btn btn-primary"  (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)">
             Ver imágenes
           </button>
         </div>
