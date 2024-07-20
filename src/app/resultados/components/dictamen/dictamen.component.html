@@ -15,7 +15,9 @@
 
     <div
       class="my-4"
-      *ngIf="(estudio?.iuid || estudio.iuid?.length > 0) && estudio?.concepto?.dicom"
+      *ngIf="
+        (estudio?.iuid || estudio.iuid?.length > 0) && estudio?.concepto?.dicom
+      "
     >
       <button
         class="btn btn-primary btn-lg w-25"
@@ -45,13 +47,21 @@
           Descargar
         </button>
         <button
+          *ngIf="enlacePdf !== ''"
+          class="btn btn-dark ms-4"
+          (click)="verInterpretacion(enlacePdf)"
+        >
+          Ver Reporte
+        </button>
+
+        <button
           class="btn btn-primary btn-lg"
           (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)"
         >
           Ver imágenes
         </button>
       </div>
-      <div>
+      <!-- <div>
         <ngx-extended-pdf-viewer
           [src]="enlacePdf"
           [textLayer]="true"
@@ -60,7 +70,7 @@
         >
           >
         </ngx-extended-pdf-viewer>
-      </div>
+      </div> -->
     </div>
 
     <div
@@ -75,17 +85,24 @@
           >
             Descargar
           </button>
-          <button class="btn btn-primary btn-lg" (click)="abrir(estudio)">
+          <button
+            *ngIf="enlacePdf !== ''"
+            class="btn btn-dark ms-4"
+            (click)="verInterpretacion(filesPath + interpretacion.ruta)"
+          >
+            Ver Reporte
+          </button>
+          <button class="btn btn-primary btn-lg"  (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)">
             Ver imágenes
           </button>
         </div>
-        <ngx-extended-pdf-viewer
+        <!-- <ngx-extended-pdf-viewer
           [src]="filesPath + interpretacion.ruta"
           [textLayer]="true"
           [showHandToolButton]="true"
         >
           >
-        </ngx-extended-pdf-viewer>
+        </ngx-extended-pdf-viewer> -->
       </div>
     </div>
   </div>

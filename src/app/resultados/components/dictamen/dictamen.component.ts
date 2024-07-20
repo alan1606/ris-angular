@@ -7,6 +7,8 @@ import { Interpretacion } from '../../../models/interpretacion';
 import { BASE_ENDPOINT, FILES_PATH, VIEWER } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { MultimediaService } from 'src/app/services/multimedia.service';
+import { VisorInterpretacionComponent } from 'src/app/dictador/components/visor-interpretacion/visor-interpretacion.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-dictamen',
   templateUrl: './dictamen.component.html',
@@ -27,6 +29,7 @@ export class DictamenComponent implements OnInit {
     private interpretacionService: InterpretacionService,
     private multimediaService: MultimediaService,
     private router: Router,
+    private dialog:MatDialog
   ) {
   }
 
@@ -94,6 +97,14 @@ export class DictamenComponent implements OnInit {
 
   abrirOhif(estudio: VentaConceptos): void {
     window.open(`${VIEWER}${estudio.iuid}`);
+  }
+  verInterpretacion(enlace:string): void {
+    console.log(enlace)
+    this.dialog.open(VisorInterpretacionComponent, {
+      data: enlace,
+      width: '80vw',
+      height: '80vh',
+    });
   }
 
   @HostListener('window:resize', ['$event'])

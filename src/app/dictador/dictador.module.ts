@@ -38,5 +38,6 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     QuillModule,
     NgxExtendedPdfViewerModule
   ],
+  exports:[VisorInterpretacionComponent]
 })
 export class DictadorModule {}
