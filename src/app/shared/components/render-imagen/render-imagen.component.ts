@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { MultimediaService } from 'src/app/services/multimedia.service';
@@ -22,6 +23,7 @@ export class RenderImagenComponent {
     @Inject(MAT_DIALOG_DATA) private data: Multimedia
   ) {
     this.img = data;
+    pdfDefaultOptions.assetsFolder ='bleeding-edge'
     this.templateForm = new FormGroup({
       textEditor: new FormControl(''),
     });

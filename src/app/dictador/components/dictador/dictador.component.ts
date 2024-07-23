@@ -43,7 +43,6 @@ import { MedicoService } from 'src/app/services/medico.service';
   styleUrls: ['./dictador.component.scss'],
 })
 export class DictadorComponent implements OnInit, OnDestroy {
-
   interpretacion: Interpretacion;
   enlacePdf: string = '';
   medicoReferenteRecibido = null;
@@ -445,6 +444,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   verInterpretacion(): void {
+    if (this.mostrarSubidaExterna) {
+      this.mostrarSubidaExterna = false;
+    }
     this.dialog.open(VisorInterpretacionComponent, {
       data: this.enlacePdf,
       width: '80vw',

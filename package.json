@@ -36,7 +36,7 @@
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "jquery": "^3.6.0",
-    "ngx-extended-pdf-viewer": "21.0.0-alpha.10",
+    "ngx-extended-pdf-viewer": "21.0.0-alpha.11",
     "ngx-quill": "^25.3.2",
     "popper.js": "^1.16.1",
     "quill": "^2.0.0",

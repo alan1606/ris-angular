@@ -12,6 +12,7 @@ import { StudiesService } from 'src/app/services/studies.service';
 import { HttpClient } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'app-resultados',
@@ -38,6 +39,7 @@ export class ResultadosComponent implements OnInit {
     private http: HttpClient) { }
   
   ngOnInit(): void {
+    pdfDefaultOptions.assetsFolder ='bleeding-edge'
     this.route.paramMap.subscribe(params => {
       const idPacs: string = params.get('idPacs');
       if (idPacs) {
