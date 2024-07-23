@@ -8,6 +8,7 @@ import { MultimediaService } from '../../../services/multimedia.service';
 import { VentaConceptos } from '../../../models/venta-conceptos';
 import { SendMailService } from 'src/app/services/send-mail.service';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'app-subir-interpretacion',
@@ -38,6 +39,7 @@ export class SubirInterpretacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    pdfDefaultOptions.assetsFolder ='bleeding-edge'
     this.route.paramMap.subscribe((params) => {
       let idPacs: string = this.idPacs;
 
