@@ -11,24 +11,28 @@
                 </div>
             </div>
             <div *ngIf="archivosCargados | async">
-                <div class="form-group my-3" *ngFor="let interpretacion of archivos">
-                    <ngx-extended-pdf-viewer
-                        [src]="filesPath + interpretacion.ruta"
-                        [textLayer]="true"
-                        [showHandToolButton]="true"
-                        
-                    >
-                    </ngx-extended-pdf-viewer>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(interpretacion)">
-                        Eliminar
-                    </button>
-                    <button  type="button" class="btn btn-primary btn-sm ms-3"
-                        (click)="expandir(interpretacion)">
-                        Expandir
-                    </button>
-                </div>
+                    @for (interpretacion of archivos; track interpretacion.id) {
+                        <div>
+                            <div class="form-group my-3" >
+                                <ngx-extended-pdf-viewer
+                                    [src]="filesPath + interpretacion.ruta"
+                                    [textLayer]="true"
+                                    [showHandToolButton]="true"
+                                    
+                                >
+                                </ngx-extended-pdf-viewer>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(interpretacion)">
+                                    Eliminar
+                                </button>
+                                <button  type="button" class="btn btn-primary btn-sm ms-3"
+                                    (click)="expandir(interpretacion)">
+                                    Expandir
+                                </button>
+                            </div>
+                        </div>
+                    }
             </div>
         </form>
     </div>
