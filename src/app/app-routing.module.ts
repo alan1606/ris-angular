@@ -36,6 +36,7 @@ const routes: Routes = [
     path: 'medico-radiologo',
     component: MedicoRadiologoComponent,
     canActivate: [DictadorGuard],
+    title:"RIS"
   },
   {
     path: 'medico-radiologo/:token',

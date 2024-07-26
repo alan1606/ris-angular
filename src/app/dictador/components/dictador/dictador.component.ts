@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DOWNLOAD_WEASIS_MAC_LINK,
@@ -17,8 +17,6 @@ import { MultimediaService } from '../../../services/multimedia.service';
 import { VentaConceptosService } from '../../../services/venta-conceptos.service';
 import { SendMailService } from '../../../services/send-mail.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import Quill from 'quill';
-// import BlotFormatter from 'quill-blot-formatter';
 import { Interpretacion } from 'src/app/models/interpretacion';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -34,8 +32,6 @@ import Swal from 'sweetalert2';
 import { ReportService } from '../../services/report.service';
 import { Subscription } from 'rxjs';
 import { MedicoService } from 'src/app/services/medico.service';
-
-// Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-dictador',
@@ -65,7 +61,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
   interpretarTodosLosEstudios: boolean = false;
   private messageSubscription: Subscription;
   private medicoRadiologo: Medico;
-
+  hasUnsavedChanges: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private ventaConceptosService: VentaConceptosService,
@@ -86,7 +82,16 @@ export class DictadorComponent implements OnInit, OnDestroy {
     });
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    if (this.hasUnsavedChanges) {
+      $event.returnValue = 'Tienes cambios sin guardar. ¿Estás seguro de que deseas salir?';
+    }
+  }
+
   ngOnInit(): void {
+    this.hasUnsavedChanges=true
+    console.log(this.hasUnsavedChanges)
     this.route.paramMap.subscribe((params) => {
       this.idVentaConcepto = +params.get('idVentaConcepto');
 
@@ -464,10 +469,10 @@ export class DictadorComponent implements OnInit, OnDestroy {
     Swal.fire('La conclusión se está generando, espere un momento, por favor');
 
     const interpretacion = this.templateForm.value.textEditor;
-    this.reportService
-      .generateReport(interpretacion, this.estudio.id)
-      .subscribe(
-        () => {},
+    this.reportService.generateReport(interpretacion, this.estudio.id).subscribe(
+        () => {
+          this.btnConclusionDisabled = false;
+        },
         () => {
           Swal.fire(
             'Error',
@@ -528,7 +533,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.reportService
       .getMessageSubject()
       .subscribe((mensaje: any) => {
-        let [firstPart, secondPart] = mensaje.conclusion?.split('Conclusión:');
+        let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
         this.conclusion = secondPart;
       });
   }
@@ -540,16 +545,12 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   eliminarP(html: string): string {
-    // Eliminar la etiqueta <p> inicial si existe
     if (html.startsWith('<P>') || html.startsWith('<p>')) {
       html = html.replace(/<p>|<P>/, '');
     }
-
-    // Eliminar la etiqueta </p> final si existe
     if (html.endsWith('</P>') || html.endsWith('</p>')) {
       html = html.replace(/<\/p>|<\/P>$/, '');
     }
-
     return html;
   }
 }
