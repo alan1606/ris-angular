@@ -17,7 +17,7 @@ export class ChatService {
   constructor(private http: HttpClient) {}
 
   initConnenctionSocket() {
-    const url = 'https://ris.diagnocons.com:4300/api/whatsapp-web/wp-web-websocket';
+    const url = 'https://ris.diagnocons.com/api/whatsapp-web/wp-web-websocket';
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket)
   }
