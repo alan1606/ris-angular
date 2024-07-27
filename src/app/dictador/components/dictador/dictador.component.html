@@ -79,42 +79,34 @@
                 dictador</button>
         </div>
     </div>
-    <div class="container-report-ia mb-4">
-        <div>
-            <div *ngIf="mostrarSubidaExterna">
-                <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
-            </div>
 
-            <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="text-center" style="width:800px;">
+    <div class="container-report-ia mb-4" *ngIf="mostrarSubidaExterna">
+        <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
+    </div>
+
+    <div  *ngIf="medicoLocal && !mostrarSubidaExterna">
+        <form [formGroup]="templateForm" class="container-report-ia mb-4">
+            <div class="text-center" style="width: 50%;">
                 <p style="color: red;">Porfavor realice los saltos de linea manualmente y revise el reporte</p>
-                <form [formGroup]="templateForm">
                     <quill-editor
-                        [styles]="{height: 'max-content', width: '100%', maxWidth: '800px', backgroundColor: '#faf8f8', fontFamily: 'Sans serif'}"
+                        [styles]="{height: 'max-content', width: '100%', backgroundColor: '#faf8f8', fontFamily: 'Sans serif'}"
                         formControlName="textEditor">
                     </quill-editor>
-                </form>
             </div>
 
-            <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="create-report-button">
-
-
-            </div>
-        </div>
-        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="conclusion-ia text-center" style="width: 733px;">
-            <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
-            <quill-editor
+            <div class="conclusion-ia text-center" style="width: 50%;">
+                <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
+                <quill-editor
                 class="mayus"
-                [styles]="{height: 'max-content', width: '100%', maxWidth: '733px', backgroundColor: '#faf8f8', fontFamily: 'Sans serif', fontWeight: 500}"
-                [(ngModel)]="conclusion">
-            </quill-editor>
-            <div class="contenedor-ia">
-                <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary"
-                    [disabled]="btnConclusionDisabled" (click)="generarConclusion()">Generar
-                    Conclusion con IA</button>
+                [styles]="{height: 'max-content', width: '100%', backgroundColor: '#faf8f8', fontFamily: 'Sans serif', fontWeight: 500}" 
+                formControlName="conclusion">
+                </quill-editor>
+                <div class="contenedor-ia">
+                    <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary"[disabled]="btnConclusionDisabled" (click)="generarConclusion()">Generar Conclusion con IA</button>
+                </div>
             </div>
-        </div>
-    </div>
-    <div>
+
+    </form>
     </div>
 </div>
 
@@ -126,13 +118,8 @@
     </label>
 </div>
 
-<div class="botones-finales pb-5">
-    <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-primary" (click)="guardar()">Crear
-        PDF</button>
+<div class="botones-finales pb-5" *ngIf="medicoLocal && !mostrarSubidaExterna">
+    <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-primary" (click)="guardar()" >Crear PDF</button>
     <button *ngIf="enlacePdf !== ''" class="btn btn-dark ms-4" (click)="verInterpretacion()">Ver Reporte</button>
-
-    <button *ngIf="enlacePdf !== ''" class="btn btn-success ms-4" style="box-shadow: 1px 2px 6px #000000;"
-        (click)="firmar()">
-        Firmar
-    </button>
+    <button *ngIf="enlacePdf !== ''" class="btn btn-success ms-4" style="box-shadow: 1px 2px 6px #000000;" (click)="firmar()">Firmar</button>
 </div>
