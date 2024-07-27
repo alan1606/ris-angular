@@ -91,7 +91,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.hasUnsavedChanges=true
-    console.log(this.hasUnsavedChanges)
     this.route.paramMap.subscribe((params) => {
       this.idVentaConcepto = +params.get('idVentaConcepto');
 
@@ -536,6 +535,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
         let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
         this.conclusion = secondPart;
       });
+
+      this.messageSubscription.unsubscribe()
   }
 
   ngOnDestroy() {
