@@ -124,8 +124,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
         }
 
         this.cargarInterpretacionAnterior();
-        // this.reportService.joinTopic(this.estudio.id);
-        // this.listenerConclusion();
+        this.reportService.joinTopic(this.estudio.id);
+        this.listenerConclusion();
       },
       (error) => {
         console.log(error);
@@ -370,11 +370,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
           );
 
           this.templateForm.get('textEditor').setValue(firstPart);
-          this.templateForm.get("conclusion").setValue(secondPart
-            ? secondPart
-            : '' || !secondPart
-            ? ''
-            : secondPart)
+          this.templateForm.get("conclusion").setValue(secondPart || '');
             this.templateForm.get("conclusion").setValue(this.quitarStrongsFinales(this.templateForm.value.conclusion));
         } 
         
@@ -531,10 +527,11 @@ export class DictadorComponent implements OnInit, OnDestroy {
       .getMessageSubject()
       .subscribe((mensaje: any) => {
         let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
+        console.log("Recibido: " + secondPart);
         this.templateForm.get("conclusion").setValue(secondPart);
+      }, error => {
+        console.error({msg:"Error obteniendo conclusión", error});
       });
-
-      this.messageSubscription.unsubscribe()
   }
 
   ngOnDestroy() {

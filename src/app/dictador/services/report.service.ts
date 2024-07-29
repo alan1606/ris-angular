@@ -23,6 +23,7 @@ export class ReportService {
   }
 
   private initConnectionSocket() {
+    console.log("Iniciando conexión");
     const url = 'https://ris.diagnocons.com/api/reports/report-websocket'; // Asegúrate de que esta URL sea correcta
     //const url = 'http://localhost:8090/api/reports/report-websocket'; // Asegúrate de que esta URL sea correcta
 
@@ -37,43 +38,43 @@ export class ReportService {
     });
 
     this.stompClient.onConnect = (frame) => {
-      // console.log('Connected:');
+       console.log('Connected:');
     };
 
     this.stompClient.onStompError = (frame) => {
-      // console.error('Broker reported error: ' + frame.headers['message']);
-      // console.error('Additional details: ' + frame.body);
+       console.error('Broker reported error: ' + frame.headers['message']);
+       console.error('Additional details: ' + frame.body);
     };
 
     this.stompClient.onWebSocketClose = (evt) => {
-      // console.log(`WebSocket closed with`);
+       console.log(`WebSocket closed with`);
     };
 
     this.stompClient.activate();
   }
 
   public joinTopic(idVenta: number) {
-    // console.log(`Attempting to join topic: /topic/report/${idVenta}`);
+   console.log(`Attempting to join topic: /topic/report/${idVenta}`);
     if (this.stompClient.connected) {
       this.subscribeToTopic(idVenta);
     } else {
       this.stompClient.onConnect = (frame) => {
-        // console.log('WebSocket connected, subscribing to topic now.');
+         console.log('WebSocket connected, subscribing to topic now.');
         this.subscribeToTopic(idVenta);
       };
     }
   }
 
   private subscribeToTopic(idVenta: number) {
-    // console.log(`Subscribing to /topic/report/${idVenta}`);
+     console.log(`Subscribing to /topic/report/${idVenta}`);
     try {
       this.stompClient.subscribe(`/topic/report/${idVenta}`, (message: any) => {
-        // console.log(`Received message from topic /topic/report/${idVenta}`);
+         console.log(`Received message from topic /topic/report/${idVenta}`);
         const messageContent = JSON.parse(message.body);
         this.messageSubject.next(messageContent);
       });
     } catch (error) {
-      // console.error(`Error subscribing to topic /topic/report/${idVenta}:`, error);
+       console.error(`Error subscribing to topic /topic/report/${idVenta}:`, error);
     }
   }
 
