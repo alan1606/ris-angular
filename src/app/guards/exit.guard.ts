@@ -1,4 +1,4 @@
-import { CanDeactivateFn, GuardResult, MaybeAsync } from '@angular/router';
+import { CanDeactivateFn } from '@angular/router';
 import Swal from 'sweetalert2';
 import { DictadorComponent } from '../dictador/components/dictador/dictador.component';
 
@@ -28,6 +28,5 @@ export const ExitGuard: CanDeactivateFn<DictadorComponent> = async (
       }
     });
   }
-
   return ask;
 };

@@ -53,7 +53,10 @@ export class DictadorComponent implements OnInit, OnDestroy {
   idVentaConcepto: number = null;
   filesPath = FILES_PATH;
   concepto: Concepto = new Concepto();
-  templateForm: FormGroup;
+  templateForm: FormGroup = new FormGroup({
+    textEditor: new FormControl(''),
+    conclusion: new FormControl('')
+  });;
   panelOpenState = false;
   esMobil = window.matchMedia('(min-width:1023px)');
   btnConclusionDisabled: boolean = false;
@@ -75,22 +78,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
     private alertaService: AlertaService,
     private reportService: ReportService,
     private medicoService: MedicoService
-  ) {
-    this.templateForm = new FormGroup({
-      textEditor: new FormControl(''),
-      conclusion: new FormControl('')
-    });
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any): void {
-    if (this.hasUnsavedChanges) {
-      $event.returnValue = 'Tienes cambios sin guardar. ¿Estás seguro de que deseas salir?';
-    }
-  }
+  ) {}
 
   ngOnInit(): void {
-    // this.hasUnsavedChanges=true
     this.route.paramMap.subscribe((params) => {
       this.idVentaConcepto = +params.get('idVentaConcepto');
 
@@ -538,6 +528,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe();
     }
+    this.reportService.disconect()
   }
 
   private eliminarP(html: string): string {

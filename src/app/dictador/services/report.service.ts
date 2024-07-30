@@ -14,27 +14,18 @@ export class ReportService {
   private stompClient: Client;
   private messageSubject: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
 
-  private cabeceras: HttpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-  });
-
   constructor(private http: HttpClient) {
     this.initConnectionSocket();
   }
 
   private initConnectionSocket() {
     console.log("Iniciando conexión");
-    const url = 'https://ris.diagnocons.com/api/reports/report-websocket'; // Asegúrate de que esta URL sea correcta
-    //const url = 'http://localhost:8090/api/reports/report-websocket'; // Asegúrate de que esta URL sea correcta
+    const url = 'https://ris.diagnocons.com/api/reports/report-websocket';
+    //const url = 'http://localhost:8090/api/reports/report-websocket';
 
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS(url),
       connectHeaders: {},
-      // debug: (str) => 
-      // console.log(new Date(), str),
-      // reconnectDelay: 5000,
-      // heartbeatIncoming: 4000,
-      // heartbeatOutgoing: 4000
     });
 
     this.stompClient.onConnect = (frame) => {
@@ -84,5 +75,9 @@ export class ReportService {
 
   public generateReport(body: string, idVentaConcepto: number): Observable<string> {
     return this.http.post<string>(`${this.baseEndpoint}/${idVentaConcepto}`, body);
+  }
+
+  public disconect():void{
+    this.stompClient.deactivate()
   }
 }
