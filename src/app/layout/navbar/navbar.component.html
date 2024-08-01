@@ -45,6 +45,31 @@
           </mat-menu>
         </li>
 
+        <li class="nav-item" *ngIf="puedeAbrirCortes()">
+          <a [matMenuTriggerFor]="menu" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Cortes
+          </a>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/cortes">Turnos</button>
+            <button mat-menu-item routerLink="/cortes/formas-pago">
+              Formas de pago
+            </button>
+            <button mat-menu-item routerLink="/cortes/movimientos-cortes">
+              Movimientos cortes
+            </button>
+            <button mat-menu-item routerLink="/cortes/devoluciones">
+              Devoluciones
+            </button>
+            <button mat-menu-item routerLink="/cortes/generar">Generar corte</button>
+          </mat-menu>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/precios" routerLinkActive="active"
+            *ngIf="puedeAbrirTabulador()">Tabulador</a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/recepcion/agenda" routerLinkActive="active"
             *ngIf="puedeAbrirAgendados()">Ver agendados</a>
@@ -60,17 +85,14 @@
             *ngIf="puedeAbrirVentaConceptos()">Venta conceptos</a>
         </li>
 
-
-        
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/turnero" routerLinkActive="active"
+            *ngIf="puedeAbrirTurnero()">Turnero</a>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/medico-radiologo" routerLinkActive="active"
             *ngIf="puedeAbrirDictador()">Dictador</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/precios" routerLinkActive="active"
-            *ngIf="puedeAbrirTabulador()">Tabulador</a>
         </li>
 
         <li class="nav-item" *ngIf="puedeAbrirInstrucciones()">
@@ -90,16 +112,6 @@
             </button>
           </mat-menu>
         </li>
-        <!-- <li class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            routerLink="/recepcion/urgencia"
-            routerLinkActive="active"
-            *ngIf="puedeAbrirUrgencia()"
-            >Urgencia</a
-          >
-        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/instituciones" routerLinkActive="active"
             *ngIf="puedeAbrirInstitucion()">Instituciones</a>
@@ -141,25 +153,7 @@
           <a class="nav-link" href="#" routerLink="/medico-referente/catalogo" routerLinkActive="active"
             *ngIf="puedeAbrirMedicosReferentes()">Catalogo</a>
         </li>
-        <li class="nav-item" *ngIf="puedeAbrirCortes()">
-          <a [matMenuTriggerFor]="menu" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Cortes
-          </a>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/cortes">Turnos</button>
-            <button mat-menu-item routerLink="/cortes/formas-pago">
-              Formas de pago
-            </button>
-            <button mat-menu-item routerLink="/cortes/movimientos-cortes">
-              Movimientos cortes
-            </button>
-            <button mat-menu-item routerLink="/cortes/devoluciones">
-              Devoluciones
-            </button>
-            <button mat-menu-item routerLink="/cortes/generar">Generar corte</button>
-          </mat-menu>
-        </li>
+        
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/relacion-estudios" routerLinkActive="active"
             *ngIf="puedeAbrirRelacion()">Relacion de estudios</a>

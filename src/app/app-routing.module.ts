@@ -36,7 +36,7 @@ const routes: Routes = [
     path: 'medico-radiologo',
     component: MedicoRadiologoComponent,
     canActivate: [DictadorGuard],
-    title:"RIS"
+    title: 'RIS',
   },
   {
     path: 'medico-radiologo/:token',
@@ -173,6 +173,12 @@ const routes: Routes = [
       import('./relacion-contable/relacion-contable.module').then(
         (m) => m.RelacionContableModule
       ),
+  },
+  {
+    path: 'turnero',
+    loadChildren: () =>
+      import('./turnero/turnero.module').then((m) => m.TurneroModule),
+    canActivate: [RecepcionGuard],
   },
   {
     path: '',

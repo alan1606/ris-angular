@@ -245,6 +245,12 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+  puedeAbrirTurnero(): boolean {
+    if (this.isTechnician || this.isAdmin) {
+      return true;
+    }
+    return false;
+  }
   puedeAbrirRelacion(): boolean {
     if (this.username == 'scarrera') {
       return false;
