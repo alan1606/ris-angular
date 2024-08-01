@@ -1,1 +1,38 @@
-<p>turnero works!</p>
+<div>
+  <div style="display: flex; margin: 1%">
+    <app-buscador-areas (areaEmit)="areaSelected($event)" />
+    <app-buscador-sala (salaEmit)="sala.set($event)" />
+    <button
+      style="margin-top: 20px; margin-left: 10px"
+      mat-raised-button
+      color="primary"
+      (click)="suscribe()"
+    >
+      Agregar sala
+    </button>
+  </div>
+</div>
+
+<table [dataSource]="dataSource" mat-table class="mat-elevation-z8">
+  <ng-container matColumnDef="Area">
+    <th mat-header-cell *matHeaderCellDef>Area</th>
+    <td mat-cell *matCellDef="let element">{{ element.area }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Sala">
+    <th mat-header-cell *matHeaderCellDef>Sala</th>
+    <td mat-cell *matCellDef="let element">{{ element.sala }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Dejar de ver">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button class="btn btn-danger" (click)="quitar(element.id)">
+        Quitar
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
