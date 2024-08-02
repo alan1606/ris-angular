@@ -236,16 +236,9 @@ export class VentaConceptosComponent
       },
       (e) => {
         if (e.status === 404) {
-          const modalRef = this.dialog.open(BuscarEstudioModalComponent, {
+          this.dialog.open(BuscarEstudioModalComponent, {
             width: '1500px',
             data: { estudio: estudio },
-          });
-
-          modalRef.afterClosed().subscribe((vinculado) => {
-            console.log(vinculado);
-            if (vinculado) {
-              Swal.fire('Vinculado', 'Se ha vinculado el estudio', 'success');
-            }
           });
         }
       }
@@ -305,7 +298,7 @@ export class VentaConceptosComponent
         toast: true,
         color: 'white',
         confirmButtonText: 'Cerrar',
-        position: 'bottom-end'
+        position: 'bottom-end',
       });
       return;
     }

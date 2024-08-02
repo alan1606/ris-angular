@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { VIEWER } from 'src/app/config/app';
@@ -6,6 +6,7 @@ import { Study } from 'src/app/models/study';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { StudiesService } from 'src/app/services/studies.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -30,18 +31,22 @@ export class BuscarEstudioModalComponent implements OnInit {
   paginaActual = 0;
   totalPorPagina = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  estudioVisto = signal<boolean>(false);
+  estudioVistoId = signal<number>(null);
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public modalRef: MatDialogRef<BuscarEstudioModalComponent>,
     private studiesService: StudiesService,
-    private ventaConceptosService: VentaConceptosService
+    private ventaConceptosService: VentaConceptosService,
+    private alertaService: AlertaService
   ) {
     this.estudio = this.data.estudio as VentaConceptos;
   }
 
   ngOnInit(): void {
+    console.log('entro aqui');
     const apellidoPaterno = this.estudio.paciente.apellidoPaterno;
     const apellidoMaterno = this.estudio.paciente.apellidoMaterno;
     this.nombreBuscar = `${apellidoPaterno} ${apellidoMaterno}`;
@@ -53,15 +58,36 @@ export class BuscarEstudioModalComponent implements OnInit {
   }
 
   ver(estudio: Study): void {
+    this.estudioVisto.set(true);
+    this.estudioVistoId.set(estudio.id);
     window.open(`${VIEWER}${estudio.studyIuid}`);
   }
 
   vincular(estudio: Study): void {
+    const estudioVisto = this.estudioVisto();
+    if (!estudioVisto) {
+      Swal.fire({
+        title: 'Estudio no visto',
+        text: 'Primero visualize el estudio, despues vincule',
+        icon: 'error',
+      });
+      return;
+    }
+    if (this.estudioVistoId() !== estudio.id) {
+      Swal.fire({
+        title: 'Estudio no visualizado',
+        text: 'Este no es el estudio que usted abrio, visualizelo primero',
+        icon: 'error',
+      });
+      return;
+    }
+
     this.estudio.iuid = estudio.studyIuid;
     this.estudio.estado = 'TOMADO';
-    this.actualizarEstudio();
-    Swal.fire('Vinculado', 'Se ha vinculado el estudio', 'success');
+    this.actualizarEstudio(); // Si actualizarEstudio es asíncrona, asegurarse de await
+    this.alertaService.exito('Vinculado', 'Se ha vinculado el estudio');
     this.modalRef.close();
+    return;
   }
 
   actualizarEstudio(): void {
@@ -72,20 +98,26 @@ export class BuscarEstudioModalComponent implements OnInit {
 
   buscarEstudiosPorNombre() {
     console.log(this.nombreBuscar);
-    this.studiesService.buscarLikeNombre(this.nombreBuscar, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
-      (estudios) => {
-        this.estudios = estudios.content;
-        this.totalRegistros = estudios.totalElements as number;
-        this.paginator._intl.itemsPerPageLabel = 'Registros:';
-        console.log(estudios);
-      },
-      (error) => {
-        if ((error.status = 400)) {
-          console.log('No puedo buscar nada');
-          this.estudios = [];
+    this.studiesService
+      .buscarLikeNombre(
+        this.nombreBuscar,
+        this.paginaActual.toString(),
+        this.totalPorPagina.toString()
+      )
+      .subscribe(
+        (estudios) => {
+          this.estudios = estudios.content;
+          this.totalRegistros = estudios.totalElements as number;
+          this.paginator._intl.itemsPerPageLabel = 'Registros:';
+          console.log(estudios);
+        },
+        (error) => {
+          if ((error.status = 400)) {
+            console.log('No puedo buscar nada');
+            this.estudios = [];
+          }
         }
-      }
-    );
+      );
   }
 
   public paginar(event: PageEvent): void {
