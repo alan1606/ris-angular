@@ -68,7 +68,7 @@ export class BuscarEstudioModalComponent implements OnInit {
     if (!estudioVisto) {
       Swal.fire({
         title: 'Estudio no visto',
-        text: 'Primero visualize el estudio, despues vincule',
+        text: 'Primero visualice el estudio, después vincúlelo',
         icon: 'error',
       });
       return;
@@ -76,7 +76,7 @@ export class BuscarEstudioModalComponent implements OnInit {
     if (this.estudioVistoId() !== estudio.id) {
       Swal.fire({
         title: 'Estudio no visualizado',
-        text: 'Este no es el estudio que usted abrio, visualizelo primero',
+        text: 'Este no es el estudio que usted abrió, visualícelo primero',
         icon: 'error',
       });
       return;
