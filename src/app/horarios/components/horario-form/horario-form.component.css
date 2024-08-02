@@ -1,3 +1,11 @@
+mat-card{
+    height: 100vh;
+    color: white;
+    padding: 3%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+}
+
 .lbl-hora{
     display: block; 
     font:1rem 'Fira Sans',sans-serif;

@@ -87,7 +87,8 @@ export class PrincipalComponent implements OnInit {
   }
 
   abrirGenerarCitas(): void {
-    const dialogRef = this.dialog.open(GenerarCitasModalComponent);
+    const dialogRef = this.dialog.open(GenerarCitasModalComponent,{
+    });
 
     dialogRef.afterClosed().subscribe(({fechaInicio, fechaFin}) => {
       if(!fechaInicio || !fechaFin){

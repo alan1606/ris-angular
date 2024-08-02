@@ -1,0 +1,6 @@
+mat-card{
+    height: 100vh;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+}

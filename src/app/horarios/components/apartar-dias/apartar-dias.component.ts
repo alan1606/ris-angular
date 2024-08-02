@@ -25,7 +25,7 @@ export class ApartarDiasComponent implements OnInit {
   sala: EquipoDicom = null;
   fechaInicio: string;
   fechaFin: string;
-  aplicarATodo = true;
+  aplicarATodo = false;
 
   constructor(
     private fb: FormBuilder,

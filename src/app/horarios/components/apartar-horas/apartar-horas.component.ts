@@ -24,7 +24,7 @@ export class ApartarHorasComponent {
   sala: EquipoDicom = null;
   fechaInicio: string;
   fechaFin: string;
-  aplicarATodo = true;
+  aplicarATodo = false;
   horaInicio:string = "";
   horaFin:string = "";
 

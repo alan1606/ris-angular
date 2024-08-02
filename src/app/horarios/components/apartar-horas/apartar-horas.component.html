@@ -1,6 +1,6 @@
 <mat-card class="p-3 d-flex flex-column">
     <div class="form-group">
-        <div class="col-md-auto" style="display: flex; flex-direction: column; width: 80%;">
+        <div class="col-md-auto" style="display: flex; flex-direction: column; width: 20%;">
             <mat-form-field appearance="fill">
                 <mat-label>Fechas:</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
@@ -13,16 +13,14 @@
                 <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
 
-            <div class="form-check mt-4">
-                <input class="form-check-input" type="checkbox" value="" id="aplicarATodo" [(ngModel)]="aplicarATodo" />
-                <label class="form-check-label" for="aplicarATodo">
-                    Todo el consultorio
-                </label>
+            <div style="display: flex; margin-top: 3%; margin-bottom: 1%;">
+                <mat-checkbox  class="example-margin" [(ngModel)]="aplicarATodo"> </mat-checkbox> 
+                <h2 style="margin-top: 5px;">{{aplicarATodo ? 'Se aplicara a todas las áreas':'Marcar para todas las áreas'}}</h2>
             </div>
         </div>
 
 
-        <div class="seleccion-areas mt-3" *ngIf="!aplicarATodo">
+        <div class="seleccion-areas mt-3" *ngIf="!aplicarATodo" style="width: 25%;">
             <mat-form-field style="width: 80%">
                 <input matInput placeholder="Área" [formControl]="autocompleteControlArea"
                     [matAutocomplete]="autocomplete" />
@@ -59,7 +57,7 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <button type="button" class="btn btn-success mt-5" (click)="apartarCitas()">Aplicar</button>
+    <div style="margin-left: 18%;">
+        <button type="button" class="btn btn-success mt-5 btn-lg" (click)="apartarCitas()">Apartar horas</button>
     </div>
 </mat-card>

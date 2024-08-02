@@ -1,11 +1,10 @@
-<div class="card text-dark bg-light mb-3">
-  <div class="card-header">Registrar horario</div>
+<mat-card>
+  <div class="card-header"><h1>Registrar horario</h1></div>
   <div class="card-body">
-    <button class="btn btn-secondary my-2" routerLink="/horarios">Volver</button>
 
     <form>
       <div class="form-group">
-        <mat-form-field style="width: 80%;">
+        <mat-form-field style="width: 20%;">
           <input matInput placeholder="Área" [formControl]="autocompleteControlArea" [matAutocomplete]="autocomplete">
           <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="mostrarNombreArea"
             (optionSelected)="seleccionarArea($event)">
@@ -17,7 +16,7 @@
       </div>
 
       <div class="form-group">
-        <mat-form-field style="width: 80%;">
+        <mat-form-field style="width: 20%;">
           <mat-label>Sala</mat-label>
           <mat-select [(ngModel)]="horario.salaId" name="sala">
             <mat-option *ngFor="let sala of salas" [value]="sala.id">
@@ -27,37 +26,38 @@
         </mat-form-field>
       </div>
 
-      <mat-form-field style="width: 80%;">
-        <mat-label>Día</mat-label>
-        <mat-select  [(ngModel)]="horario.dia" name="diaSelect">
-          <mat-option *ngFor="let dia of dias" [value]="dia">
-            {{dia}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div>
+        <mat-form-field style="width: 20%;">
+          <mat-label>Día</mat-label>
+          <mat-select  [(ngModel)]="horario.dia" name="diaSelect">
+            <mat-option *ngFor="let dia of dias" [value]="dia">
+              {{dia}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
 
-      <mat-form-field style="width: 80%;">
-        <mat-label>Duración en minutos</mat-label>
-        <input matInput placeholder="1" type="number" min="1" [(ngModel)]="horario.duracionMinutos" name = "duracion">
-      </mat-form-field>
+      <div>
+        <mat-form-field style="width: 20%;">
+          <mat-label>Duración en minutos</mat-label>
+          <input matInput placeholder="1" type="number" min="1" [(ngModel)]="horario.duracionMinutos" name = "duracion">
+        </mat-form-field>
+      </div>
 
 
-      <div class="form-group" style="width: 80%;" class="my-3">
+      <div style="width: 50%; display: flex;" class="my-3">
         <label for="horaInicio" class="lbl-hora">Hora de inicio:</label>
         <input type="time" id="horaInicio" name="horaInicio" min="07:00" max="20:00" required
           [(ngModel)]="horario.horaInicio" />
-      </div>
-
-      <div class="form-group" style="width: 80%;" class="my-3">
-        <label for="horaFin" class="lbl-hora">Hora de fin:</label>
+        <label for="horaFin" class="lbl-hora ms-4">Hora de fin:</label>
         <input type="time" id="horaFin" name="horaFin" min="07:00" max="20:00" required [(ngModel)]="horario.horaFin" />
       </div>
 
 
-      <div class="form-group">
-        <button type="button" class="btn btn-primary" (click)="horario?.id ? editar() : crear()">
-          {{ horario.id ? 'Editar' : 'Crear' }}
+      <div style="margin-left: 18%; margin-top: 2%;">
+        <button type="button" class="btn btn-primary btn-lg" (click)="horario?.id ? editar() : crear()">
+          {{ horario.id ? 'Editar horario' : 'Crear horario' }}
         </button>
       </div>
 
@@ -65,4 +65,4 @@
     </form>
   </div>
 
-</div>
+</mat-card>

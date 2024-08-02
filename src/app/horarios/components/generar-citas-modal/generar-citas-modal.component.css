@@ -1,5 +1,4 @@
 label {
-    display: block;
     font:
       1rem 'Fira Sans',
       sans-serif;
@@ -11,6 +10,5 @@ label {
   }
   
   button{
-    display: block;
   }
 
