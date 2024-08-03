@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
+// import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
@@ -27,7 +27,7 @@ export class InformacionEstudioModalComponent implements OnInit {
   private antecedenteEstudioService: AntecedenteEstudioService) { }
 
   ngOnInit(): void {
-    pdfDefaultOptions.assetsFolder ='bleeding-edge'
+    // pdfDefaultOptions.assetsFolder ='bleeding-edge'
     this.estudio = this.data.estudio as VentaConceptos;
     this.titulo = `${this.estudio.institucion.nombre}: ${this.estudio.concepto.concepto} de ${this.estudio.paciente.nombreCompleto}`;
 

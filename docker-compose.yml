@@ -2,8 +2,27 @@ version: '3'
 
 services:
   web:
-    image: nginx:alpine
+    image: nginx
     ports:
     - "4200:80"
     volumes:
-    - ./dist/ris:/usr/share/nginx/html
+    - ./dist/ris:/ris
+
+#configuracion del nginx dentro del docker
+# server {
+#     listen       80;
+#     listen  [::]:80;
+#     server_name  localhost;
+
+#     location / {
+#         root   /ris;
+#         index  index.html index.htm;
+#         try_files $uri /index.html =404;
+#         include /etc/nginx/mime.types;
+#     }
+
+#         types {
+#                 application/javascript js;
+#                 text/css css;
+#         }
+# }

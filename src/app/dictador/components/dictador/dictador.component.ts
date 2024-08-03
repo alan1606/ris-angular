@@ -325,7 +325,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
               estudio.medicoRadiologo.id === this.estudio.medicoRadiologo.id
           );
           if (this.estudiosDeOrden.length > 1) {
-            this.interpretarTodosLosEstudios = true;
+            this.interpretarTodosLosEstudios = false;
           }
         },
         (error) => {
