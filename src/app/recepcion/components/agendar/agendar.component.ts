@@ -440,7 +440,6 @@ export class AgendarComponent implements OnInit {
         this.ordenVenta.aplicarDescuento = true;
         this.ordenVenta.codigoPromocional = this.campania.codigo;
       }
-
       this.agendaNormal();
       Swal.close();
     }, 2000);
@@ -457,9 +456,7 @@ export class AgendarComponent implements OnInit {
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
-          if (this.isUrgencia) {
             this.mostrarModalQrImagenes();
-          }
           this.reiniciarFormulario();
           Swal.fire('Procesado', 'La orden se ha procesado', 'success');
         },
