@@ -1,14 +1,16 @@
 // @import "~quill/dist/quill.bubble.css";
-@import "@angular/material/prebuilt-themes/purple-green.css";
+// @import "@angular/material/prebuilt-themes/purple-green.css";
 
-.general-container{
+.general-container {
   width: 100%;
+  height: 100vh;
+  background-color: #0f0f0f;
+  color: #dddfdf;
 }
 
-.mayus{
+.mayus {
   text-transform: uppercase;
 }
-
 
 .gris {
   background-color: #cccccc;
@@ -54,15 +56,14 @@
   border: #000000;
 }
 .container-report-ia {
-  
   margin-left: 1%;
   margin-right: 1%;
   display: flex;
   justify-content: center;
 }
 
-@media (max-width:1024px){
-  .general-container{
+@media (max-width: 1024px) {
+  .general-container {
     width: 100%;
   }
   .container-report-ia {
@@ -72,7 +73,7 @@
     align-items: center;
   }
 
-  .conclusion-ia{
+  .conclusion-ia {
     margin-top: 20px;
   }
 }
@@ -104,7 +105,6 @@
     width: 60%;
   }
 }
-
 
 .editor {
   border: 2px solid rgba(0, 0, 0, 0.2);
@@ -146,7 +146,7 @@
   justify-content: center;
 }
 
-.botones-finales{
+.botones-finales {
   margin-left: 1%;
   margin-bottom: 20px;
 }

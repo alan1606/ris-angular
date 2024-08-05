@@ -1,4 +1,4 @@
-<div class="card text-dark bg-light mb-3">
+<div class="card">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
         <div class="row justify-content-md-left">
@@ -16,8 +16,6 @@
                 </div>
             </div>
 
-
-
             <div class="col-lg-auto my-3 ">
                 <mat-form-field appearance="fill">
                     <mat-label>Estado:</mat-label>
@@ -28,7 +26,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-lg-auto my-4">
+            <div class="col-lg-auto my-3">
                 <mat-form-field class="input-paciente">
                     <input matInput placeholder="Paciente" [formControl]="autocompleteControlPaciente"
                         [matAutocomplete]="autocompletePaciente">
@@ -43,12 +41,12 @@
 
         </div>
 
-        <div class="alert alert-info" *ngIf="estudios?.length==0">
+        <div class="alert alert-dark" *ngIf="estudios?.length==0">
             No hay estudios en el sistema.
         </div>
 
 
-        <table class="table table-hover table-striped" *ngIf="estudios?.length>0">
+        <table class="table table-borderless" *ngIf="estudios?.length>0">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -91,7 +89,7 @@
             </tbody>
         </table>
 
-        <mat-paginator [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
+        <mat-paginator *ngIf="estudios?.length > 0" [length]="totalRegistros" [pageSize]="totalPorPagina" [pageIndex]="paginaActual"
             [pageSizeOptions]="pageSizeOptions" (page)="paginar($event)" showFirstLastButtons class="float-left mx-2">
         </mat-paginator>
 

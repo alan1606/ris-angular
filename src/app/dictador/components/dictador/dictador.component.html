@@ -1,125 +1,233 @@
-
 <div class="general-container">
-    <h1 class="text-center pt-2" style="font-weight: 500;">PACIENTE: {{estudio?.paciente?.nombre + " " +
-        estudio?.paciente?.apellidoPaterno + " " +estudio?.paciente?.apellidoMaterno}}
-        <h1 class="text-center pt-2" style="font-weight: 500;">ESTUDIO SELECCIONADO: {{estudio?.concepto?.concepto}}</h1>
+  <h1 class="text-center pt-2" style="font-weight: 500">
+    PACIENTE:
+    {{
+      estudio?.paciente?.nombre +
+        " " +
+        estudio?.paciente?.apellidoPaterno +
+        " " +
+        estudio?.paciente?.apellidoMaterno
+    }}
+    <h1 class="text-center pt-2" style="font-weight: 500">
+      ESTUDIO SELECCIONADO: {{ estudio?.concepto?.concepto }}
     </h1>
-    <div class="contenedor-info" *ngFor="let estudioActual of estudiosDeOrden; let i = index">
-        <mat-accordion>
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
-                [ngClass]="{'gris': i % 2 === 0}">
-                <mat-expansion-panel-header>
-                    <mat-panel-title class="patient-info">
-                        <b>{{estudioActual.concepto.concepto}}</b>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        {{panelOpenState ? 'Ocultar' : 'Ver mas detalles del estudio'}}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-toolbar color="primary" class="mb-3">
-                    <mat-toolbar-row *ngIf="esMobil.matches">
-                        <span><button mat-button (click)="ver(estudioActual)">Abrir estudio en linea</button></span>
-                        <span><button mat-button (click)="abrirConWeasis(estudioActual)">Abrir con
-                                weasis</button></span>
-                        <span><button mat-button (click)="descargarZip(estudioActual)">Descargar estudio en
-                                zip</button></span>
-                        <span><button mat-button (click)="descargarWeasisWindows()">Descargar weasis para
-                                windows</button></span>
-                        <span><button mat-button (click)="descargarWeasisMac()">Descargar weasis para
-                                mac</button></span>
-                    </mat-toolbar-row>
+  </h1>
+  <div
+    class="contenedor-info"
+    *ngFor="let estudioActual of estudiosDeOrden; let i = index"
+  >
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+        [ngClass]="{ gris: i % 2 === 0 }"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title class="patient-info">
+            <b>{{ estudioActual.concepto.concepto }}</b>
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ panelOpenState ? "Ocultar" : "Ver mas detalles del estudio" }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-toolbar color="primary" class="mb-3">
+          <mat-toolbar-row *ngIf="esMobil.matches">
+            <span
+              ><button mat-button (click)="ver(estudioActual)">
+                Abrir estudio en linea
+              </button></span
+            >
+            <span
+              ><button mat-button (click)="abrirConWeasis(estudioActual)">
+                Abrir con weasis
+              </button></span
+            >
+            <span
+              ><button mat-button (click)="descargarZip(estudioActual)">
+                Descargar estudio en zip
+              </button></span
+            >
+            <span
+              ><button mat-button (click)="descargarWeasisWindows()">
+                Descargar weasis para windows
+              </button></span
+            >
+            <span
+              ><button mat-button (click)="descargarWeasisMac()">
+                Descargar weasis para mac
+              </button></span
+            >
+          </mat-toolbar-row>
 
-                    <mat-toolbar-row *ngIf="!esMobil.matches">
-                        <span><button mat-button (click)="ver(estudioActual)">Abrir estudio en linea</button></span>
-                    </mat-toolbar-row>
-                    <mat-toolbar-row *ngIf="!esMobil.matches">
-                        <span><button mat-button (click)="descargarZip(estudioActual)">Descargar estudio en
-                                zip</button></span>
-                    </mat-toolbar-row>
+          <mat-toolbar-row *ngIf="!esMobil.matches">
+            <span
+              ><button mat-button (click)="ver(estudioActual)">
+                Abrir estudio en linea
+              </button></span
+            >
+          </mat-toolbar-row>
+          <mat-toolbar-row *ngIf="!esMobil.matches">
+            <span
+              ><button mat-button (click)="descargarZip(estudioActual)">
+                Descargar estudio en zip
+              </button></span
+            >
+          </mat-toolbar-row>
+        </mat-toolbar>
 
-                </mat-toolbar>
-
-                <div class="patient-info">
-                    <p><b>ESTUDIO: </b>{{estudioActual?.concepto?.concepto}}</p>
-                    <p><b>PROCEDENCIA: </b>{{estudioActual?.institucion?.nombre}}</p>
-                    <p><b>MEDICO: </b>{{estudioActual?.ordenVenta?.medicoReferente.nombres}}
-                        {{estudioActual?.ordenVenta?.medicoReferente.apellidos}}</p>
-                    <p *ngIf="estudioActual?.ordenVenta?.motivo"><b>Motivo: </b> {{estudioActual?.ordenVenta?.motivo}}
-                    </p>
-                    <p *ngIf="antecedentes"><b>ANTECEDENTES: </b> {{antecedentes}}</p>
-                    <p *ngIf="estudio?.mensaje"><b>MENSAJE: </b> {{estudioActual?.mensaje}}</p>
-                </div>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-    <div class="contenedor-info mb-3">
-        <h2 *ngIf="estudiosDeOrden?.length > 1">
-            <p style="color: red;">Favor de interpretar todos los estudios en este reporte</p>
-        </h2>
-    </div>
-    <div class="d-flex ms-3" *ngIf="multimediaCargada | async ">
-        <div *ngFor="let img of multimedia, let i = index">
-            <button class="btn btn-dark me-3" (click)="abrirFoto(img)">
-                {{
-                img.tipo ==='IMAGEN' && multimedia.length > 1
-                ? 'Foto de la orden':'Foto de la orden' ||
-                img.tipo==='DOCUMENTO'? "Archivo del estudio":'Foto de la orden' ||
-                img.tipo ==='IMAGEN' && multimedia.length === 1
-                ? 'Foto de la orden':'Foto de la orden'
-                }}
-            </button>
+        <div class="patient-info">
+          <p><b>ESTUDIO: </b>{{ estudioActual?.concepto?.concepto }}</p>
+          <p><b>PROCEDENCIA: </b>{{ estudioActual?.institucion?.nombre }}</p>
+          <p>
+            <b>MEDICO: </b
+            >{{ estudioActual?.ordenVenta?.medicoReferente.nombres }}
+            {{ estudioActual?.ordenVenta?.medicoReferente.apellidos }}
+          </p>
+          <p *ngIf="estudioActual?.ordenVenta?.motivo">
+            <b>Motivo: </b> {{ estudioActual?.ordenVenta?.motivo }}
+          </p>
+          <p *ngIf="antecedentes"><b>ANTECEDENTES: </b> {{ antecedentes }}</p>
+          <p *ngIf="estudio?.mensaje">
+            <b>MENSAJE: </b> {{ estudioActual?.mensaje }}
+          </p>
         </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="contenedor-info mb-3">
+    <h2 *ngIf="estudiosDeOrden?.length > 1">
+      <p style="color: red">
+        Favor de interpretar todos los estudios en este reporte
+      </p>
+    </h2>
+  </div>
+  <div class="d-flex ms-3" *ngIf="multimediaCargada | async">
+    <div *ngFor="let img of multimedia; let i = index">
+      <button class="btn btn-dark me-3" (click)="abrirFoto(img)">
+        {{
+          img.tipo === "IMAGEN" && multimedia.length > 1
+            ? "Foto de la orden"
+            : "Foto de la orden" || img.tipo === "DOCUMENTO"
+            ? "Archivo del estudio"
+            : "Foto de la orden" ||
+              (img.tipo === "IMAGEN" && multimedia.length === 1)
+            ? "Foto de la orden"
+            : "Foto de la orden"
+        }}
+      </button>
     </div>
-    <div class="report-action-buttons">
-        <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="report-buttons">
-            <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Subir PDF</button>
+  </div>
+  <div class="report-action-buttons">
+    <div *ngIf="medicoLocal && !mostrarSubidaExterna" class="report-buttons">
+      <button
+        class="btn btn-primary"
+        (click)="mostrarSubidaExterna = !mostrarSubidaExterna"
+      >
+        Subir PDF
+      </button>
+    </div>
+    <div *ngIf="medicoLocal && mostrarSubidaExterna" class="report-buttons">
+      <button
+        class="btn btn-primary"
+        (click)="mostrarSubidaExterna = !mostrarSubidaExterna"
+      >
+        Usar dictador
+      </button>
+    </div>
+  </div>
+
+  <div class="container-report-ia mb-4" *ngIf="mostrarSubidaExterna">
+    <app-subir-interpretacion
+      [idPacs]="this.estudio?.idPacs"
+    ></app-subir-interpretacion>
+  </div>
+
+  <div *ngIf="medicoLocal && !mostrarSubidaExterna">
+    <form [formGroup]="templateForm" class="container-report-ia mb-4">
+      <div class="text-center" style="width: 50%; background-color: #0f0f0f">
+        <p style="color: red">Porfavor revise el reporte antes de firmar</p>
+        <quill-editor
+          [styles]="{
+            height: 'max-content',
+            width: '100%',
+            backgroundColor: '#28282b',
+            fontFamily: 'Sans serif',
+            border: 0
+          }"
+          formControlName="textEditor"
+        >
+        </quill-editor>
+      </div>
+
+      <div class="conclusion-ia text-center" style="width: 50%">
+        <div style="background-color: #0f0f0f">
+          <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
+          <quill-editor
+            class="mayus"
+            [styles]="{
+              height: 'max-content',
+              width: '100%',
+              backgroundColor: '#28282b',
+              fontFamily: 'Sans serif',
+              fontWeight: 800,
+              border: 0
+            }"
+            formControlName="conclusion"
+          >
+          </quill-editor>
         </div>
-        <div *ngIf="medicoLocal && mostrarSubidaExterna" class="report-buttons">
-            <button class="btn btn-primary" (click)="mostrarSubidaExterna = !mostrarSubidaExterna">Usar
-                dictador</button>
+
+        <div class="contenedor-ia">
+          <button
+            style="box-shadow: 1px 2px 6px #000000; margin-top: 3%"
+            class="btn btn-primary"
+            [disabled]="btnConclusionDisabled"
+            (click)="generarConclusion()"
+          >
+            Generar Conclusion con IA
+          </button>
         </div>
-    </div>
-
-    <div class="container-report-ia mb-4" *ngIf="mostrarSubidaExterna">
-        <app-subir-interpretacion [idPacs]="this.estudio?.idPacs"></app-subir-interpretacion>
-    </div>
-
-    <div  *ngIf="medicoLocal && !mostrarSubidaExterna">
-        <form [formGroup]="templateForm" class="container-report-ia mb-4">
-            <div class="text-center" style="width: 50%;">
-                <p style="color: red;">Porfavor realice los saltos de linea manualmente y revise el reporte</p>
-                    <quill-editor
-                        [styles]="{height: 'max-content', width: '100%', backgroundColor: '#faf8f8', fontFamily: 'Sans serif'}"
-                        formControlName="textEditor">
-                    </quill-editor>
-            </div>
-
-            <div class="conclusion-ia text-center" style="width: 50%;">
-                <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
-                <quill-editor
-                class="mayus"
-                [styles]="{height: 'max-content', width: '100%', backgroundColor: '#faf8f8', fontFamily: 'Sans serif', fontWeight: 500}" 
-                formControlName="conclusion">
-                </quill-editor>
-                <div class="contenedor-ia">
-                    <button style="box-shadow: 1px 2px 6px #000000; margin-top: 3%;" class="btn btn-primary"[disabled]="btnConclusionDisabled" (click)="generarConclusion()">Generar Conclusion con IA</button>
-                </div>
-            </div>
-
+      </div>
     </form>
-    </div>
-</div>
-
-<div class="form-check mx-4 mb-3" *ngIf="estudiosDeOrden?.length > 1">
-    <input class="form-check-input " type="checkbox" id="interpretarTodo" name="interpretarTodo"
-        [(ngModel)]="interpretarTodosLosEstudios">
+  </div>
+  <div class="form-check mx-4 mb-3" *ngIf="estudiosDeOrden?.length > 1">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      id="interpretarTodo"
+      name="interpretarTodo"
+      [(ngModel)]="interpretarTodosLosEstudios"
+    />
     <label class="form-check-label" for="flexCheckChecked">
-        La interpretación es para todos los estudios
+      La interpretación es para todos los estudios
     </label>
-</div>
+  </div>
 
-<div class="botones-finales pb-5" *ngIf="medicoLocal && !mostrarSubidaExterna">
-    <button style="box-shadow: 1px 2px 6px #000000;" class="btn btn-primary" (click)="guardar()" >Crear PDF</button>
-    <button *ngIf="enlacePdf !== ''" class="btn btn-dark ms-4" (click)="verInterpretacion()">Ver Reporte</button>
-    <button *ngIf="enlacePdf !== ''" class="btn btn-success ms-4" style="box-shadow: 1px 2px 6px #000000;" (click)="firmar()">Firmar</button>
+  <div
+    class="botones-finales pb-5"
+    *ngIf="medicoLocal && !mostrarSubidaExterna"
+  >
+    <button
+      style="box-shadow: 1px 2px 6px #000000"
+      class="btn btn-primary"
+      (click)="guardar()"
+    >
+      Crear PDF
+    </button>
+    <button
+      *ngIf="enlacePdf !== ''"
+      class="btn btn-light ms-4"
+      (click)="verInterpretacion()"
+    >
+      Ver Reporte
+    </button>
+    <button
+      *ngIf="enlacePdf !== ''"
+      class="btn btn-success ms-4"
+      style="box-shadow: 1px 2px 6px #000000"
+      (click)="firmar()"
+    >
+      Firmar
+    </button>
+  </div>
 </div>

@@ -1,3 +1,11 @@
+/* @import "@angular/material/prebuilt-themes/purple-green.css"; */
+
+.card{
+    background-color: #28282b;
+    color: white;
+    height: 100vh;
+    border-radius: 0;
+}
 .pendiente{
     color: #fa0f0f;
 }
