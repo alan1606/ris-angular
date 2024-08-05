@@ -1,2 +1,12 @@
 table{
 }
+
+.tabla-areas{
+    position: fixed;
+    top: 12%;
+    right: 1%;
+}
+
+.tabla-estudios{
+    width: 70%;
+}

@@ -7,6 +7,7 @@ import { error } from 'console';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { TurneroSubscription } from 'src/app/models/TurneroSubscription';
 import { DataService } from 'src/app/shared/services/data.service';
+import { Study } from 'src/app/models/study';
 
 @Component({
   selector: 'app-turnero',
@@ -19,14 +20,13 @@ export class TurneroComponent implements OnInit {
   private alertaService = inject(AlertaService);
   private user = this.tokenService.getUsername();
   private dataService = inject(DataService);
-  displayedColumns: string[] = ['Area', 'Sala', 'Dejar de ver'];
-  dataSource = [
-    { area: 'Ultrasonido', sala: 'Ultrasonido dr martinez', id: 1 },
-    { area: 'Tomografia', sala: 'Tomografia', id: 2 },
-    { area: 'Resonancia magnetica', sala: 'Resonancia', id: 3 },
-  ];
-  area = signal(new Area());
-  sala = signal(new EquipoDicom());
+  subscriptionsColumns: string[] = ['Area', 'Dejar de ver'];
+  studiesColumns:string[]=['Paciente','Estudio', 'Estado', 'Tecnico']
+  subscriptionsDataSource:any[] = [{ area: 'Ultrasonido', sala: 'Ultrasonido dr martinez', id: 1 },{ area: 'Tomografia', sala: 'Tomografia', id: 2 },{ area: 'Resonancia magnetica', sala: 'Resonancia', id: 3 }];
+  studiesDataSource:any[]=[]
+  area = signal<Area>(new Area());
+  sala = signal<EquipoDicom>(new EquipoDicom());
+  estudios= signal<Study>(new Study())
   subscriptions = signal<TurneroSubscription[]>([]);
 
   ngOnInit(): void {
