@@ -1,5 +1,5 @@
-export const BASE_SITE='http://localhost:4200/ris'
-//export const BASE_SITE='https://ris.diagnocons.com/ris'
+//export const BASE_SITE='http://localhost:4200/ris'
+export const BASE_SITE='https://ris.diagnocons.com/ris'
 
 
 export const BASE_ENDPOINT = 'https://ris.diagnocons.com/api'
@@ -29,13 +29,13 @@ export const authorize_uri = BASE_SERVER_ADDRESS + 'auth?';
 export const logour_uri =  BASE_SERVER_ADDRESS + 'logout?';
 
 
-export const post_logout_redirect_uri = 'http://localhost:4200/ris/logout'; //Este
-//export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
+//export const post_logout_redirect_uri = 'http://localhost:4200/ris/logout'; //Este
+export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
 
 export const client_id = 'rispacs';
 
-export const redirect_uri = 'http://localhost:4200/ris/authorized?method=get'; //Este
-//export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
+//export const redirect_uri = 'http://localhost:4200/ris/authorized?method=get'; //Este
+export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
 
 
 export const scope = 'openid profile';

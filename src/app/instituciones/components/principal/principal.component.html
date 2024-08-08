@@ -47,6 +47,7 @@
         <table class="table table-hover table-striped">
           <thead>
             <tr>
+              <th>Etiqueta</th>
               <th>Paciente</th>
               <th>Estudios</th>
               <th>Fecha</th>
@@ -56,6 +57,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let orden of lista">
+              <td ><button mat-raised-button color="primary" (click)="abrirQr(orden)">Imprimir</button></td>
               <td>{{ orden.paciente.nombreCompleto }}</td>
               <td>{{ orden.estudios }}</td>
               <td>{{ orden.fechaVenta | date : "dd/MM/yyyy" }}</td>

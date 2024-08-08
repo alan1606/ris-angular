@@ -1,13 +1,13 @@
-// @import "~quill/dist/quill.bubble.css";
-// @import "@angular/material/prebuilt-themes/purple-green.css";
-
 .general-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: #0f0f0f;
   color: #dddfdf;
 }
+mat-toolbar{
+  background-color: #cccccc;
 
+}
 .mayus {
   text-transform: uppercase;
 }
@@ -61,6 +61,9 @@
   display: flex;
   justify-content: center;
 }
+.editor{
+  width: 50%;
+}
 
 @media (max-width: 1024px) {
   .general-container {
@@ -75,6 +78,9 @@
 
   .conclusion-ia {
     margin-top: 20px;
+  }
+  .editor{
+    width: 90%;
   }
 }
 
@@ -100,11 +106,7 @@
 .input-medico {
   width: 30%;
 }
-@media (max-width: 768px) {
-  .input-medico {
-    width: 60%;
-  }
-}
+
 
 .editor {
   border: 2px solid rgba(0, 0, 0, 0.2);

@@ -30,30 +30,30 @@
             {{ panelOpenState ? "Ocultar" : "Ver mas detalles del estudio" }}
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-toolbar color="primary" class="mb-3">
+        <mat-toolbar class="mb-3">
           <mat-toolbar-row *ngIf="esMobil.matches">
             <span
-              ><button mat-button (click)="ver(estudioActual)">
+              ><button mat-raised-button class="m-1" color="primary" (click)="ver(estudioActual)">
                 Abrir estudio en linea
               </button></span
             >
             <span
-              ><button mat-button (click)="abrirConWeasis(estudioActual)">
+              ><button mat-raised-button class="m-1" color="primary" (click)="abrirConWeasis(estudioActual)">
                 Abrir con weasis
               </button></span
             >
             <span
-              ><button mat-button (click)="descargarZip(estudioActual)">
+              ><button mat-raised-button class="m-1" color="primary" (click)="descargarZip(estudioActual)">
                 Descargar estudio en zip
               </button></span
             >
             <span
-              ><button mat-button (click)="descargarWeasisWindows()">
+              ><button mat-raised-button class="m-1" color="primary" (click)="descargarWeasisWindows()">
                 Descargar weasis para windows
               </button></span
             >
             <span
-              ><button mat-button (click)="descargarWeasisMac()">
+              ><button mat-raised-button class="m-1" color="primary" (click)="descargarWeasisMac()">
                 Descargar weasis para mac
               </button></span
             >
@@ -61,14 +61,14 @@
 
           <mat-toolbar-row *ngIf="!esMobil.matches">
             <span
-              ><button mat-button (click)="ver(estudioActual)">
+              ><button mat-raised-button class="m-1" color="primary" (click)="ver(estudioActual)">
                 Abrir estudio en linea
               </button></span
             >
           </mat-toolbar-row>
           <mat-toolbar-row *ngIf="!esMobil.matches">
             <span
-              ><button mat-button (click)="descargarZip(estudioActual)">
+              ><button mat-raised-button class="m-1" color="primary" (click)="descargarZip(estudioActual)">
                 Descargar estudio en zip
               </button></span
             >
@@ -144,7 +144,7 @@
 
   <div *ngIf="medicoLocal && !mostrarSubidaExterna">
     <form [formGroup]="templateForm" class="container-report-ia mb-4">
-      <div class="text-center" style="width: 50%; background-color: #0f0f0f">
+      <div class="text-center editor" style="background-color: #0f0f0f">
         <p style="color: red">Porfavor revise el reporte antes de firmar</p>
         <quill-editor
           [styles]="{
@@ -159,7 +159,7 @@
         </quill-editor>
       </div>
 
-      <div class="conclusion-ia text-center" style="width: 50%">
+      <div class="conclusion-ia text-center editor" >
         <div style="background-color: #0f0f0f">
           <p>Ahora la conclusion se debe escribir en el recuadro de abajo</p>
           <quill-editor

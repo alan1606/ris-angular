@@ -12,6 +12,10 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, mergeMap } from 'rxjs';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { FechaService } from 'src/app/services/fecha.service';
+import { VentaConceptos } from 'src/app/models/venta-conceptos';
+import { BASE_SITE } from 'src/app/config/app';
+import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-principal',
@@ -22,7 +26,7 @@ export class PrincipalComponent implements OnInit {
   fechaInicio = '';
   fechaFin = '';
   institucion: Institucion;
-  lista = [];
+  lista: OrdenVenta[] = [];
   NombrePaciente = '';
   totalRegistros = 0;
   paginaActual = 0;
@@ -35,13 +39,15 @@ export class PrincipalComponent implements OnInit {
   pacientesFiltrados: Paciente[] = [];
   busquedaPorPaciente = false;
   busquedaPorFechas = true;
+  url: string = null;
   constructor(
     private institucionService: InstitucionService,
     private router: Router,
     private tokenService: TokenService,
     private datePipe: DatePipe,
     private pacienteService: PacientesService,
-    private fechaService: FechaService
+    private fechaService: FechaService,
+    private service: VentaConceptosService
   ) {
     this.fechaInicio = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.fechaFin = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -167,5 +173,28 @@ export class PrincipalComponent implements OnInit {
         },
         (error) => console.log(error)
       );
+  }
+  public abrirQr(orden: OrdenVenta) {
+    this.service.encontrarPorOrdenVentaId(orden.id).subscribe(
+      (estudio) => {
+        this.service.verEtiqueta(estudio[0].id).subscribe((res) => {
+          this.url = URL.createObjectURL(res);
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    Swal.fire({
+      icon: 'info',
+      title: 'Espere',
+      text: 'buscando la etiqueta...',
+      timer: 2500,
+      timerProgressBar: true,
+      showConfirmButton:false,
+    }).then(() => {
+      window.open(this.url, '_blank');
+      Swal.close();
+    });
   }
 }
