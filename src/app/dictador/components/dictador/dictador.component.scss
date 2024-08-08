@@ -1,6 +1,6 @@
 .general-container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: #0f0f0f;
   color: white;
 }
@@ -69,6 +69,7 @@ mat-toolbar{
 @media (max-width: 1024px) {
   .general-container {
     width: 100%;
+    height: 100%;
   }
   .container-report-ia {
     display: flex;
