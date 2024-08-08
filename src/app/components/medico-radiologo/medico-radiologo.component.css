@@ -1,24 +1,27 @@
 /* @import "@angular/material/prebuilt-themes/purple-green.css"; */
 
-.card{
-    background-color: #28282b;
-    color: white;
-    height: 100vh;
-    border-radius: 0;
+.card {
+  background-color: #28282b;
+  color: white;
+  height: 100vh;
+  border-radius: 0;
 }
-.pendiente{
-    color: #fa0f0f;
+mat-paginator, mat-form-field, mat-label {
+  background-color: #c9c9c9;
 }
-
-.terminado{
-    color: #21c429;
-}
-.input-paciente{
-    width: 350px;
+.pendiente {
+  color: #fa0f0f;
 }
 
-.estado-column{
-    text-align: center;
-    justify-content: center;
-    justify-self: center;
+.terminado {
+  color: #21c429;
+}
+.input-paciente {
+  width: 350px;
+}
+
+.estado-column {
+  text-align: center;
+  justify-content: center;
+  justify-self: center;
 }
