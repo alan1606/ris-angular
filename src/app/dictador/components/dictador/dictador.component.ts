@@ -516,7 +516,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.reportService
       .getMessageSubject()
       .subscribe((mensaje: any) => {
-        let [firstPart, secondPart] = mensaje.conclusion.split('Conclusión:');
+        console.log("Listener conclusion: ", mensaje)
+        let [firstPart, secondPart] = mensaje.conclusion.split('**CONCLUSIÓN:**');
         console.log("Recibido: " + secondPart);
         this.templateForm.get("conclusion").setValue(secondPart);
       }, error => {

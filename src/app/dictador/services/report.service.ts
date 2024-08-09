@@ -61,6 +61,7 @@ export class ReportService {
     try {
       this.stompClient.subscribe(`/topic/report/${idVenta}`, (message: any) => {
          console.log(`Received message from topic /topic/report/${idVenta}`);
+         console.log("Imprimiendo conclusion en el servicio: ", message)
         const messageContent = JSON.parse(message.body);
         this.messageSubject.next(messageContent);
       });

@@ -1,5 +1,26 @@
+.root {
+  background-color: #28282b;
+  height: 100vh;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+mat-card {
+  background-color: #28282b;
+}
+
 table {
+  background-color: #28282b;
+  color: white;
   width: 80%;
+}
+th{
+  color: white;
+  font-size: large;
+  font-weight: 500;
+}
+td{
+  color: white;
 }
 .buscador-resultados {
   display: grid;
@@ -9,4 +30,7 @@ table {
   margin-top: 4%;
   display: grid;
   grid-template-columns: 50% 50%;
+  color: white;
+  font-family: sans-serif;
+
 }

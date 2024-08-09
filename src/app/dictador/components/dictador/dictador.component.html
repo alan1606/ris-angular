@@ -1,16 +1,13 @@
 <div class="general-container">
   <h1 class="text-center pt-2" style="font-weight: 500">
-    PACIENTE:
-    {{
+    PACIENTE:{{
       estudio?.paciente?.nombre +
         " " +
         estudio?.paciente?.apellidoPaterno +
         " " +
         estudio?.paciente?.apellidoMaterno
     }}
-    <h1 class="text-center pt-2" style="font-weight: 500">
-      ESTUDIO SELECCIONADO: {{ estudio?.concepto?.concepto }}
-    </h1>
+    ESTUDIO SELECCIONADO: {{ estudio?.concepto?.concepto }}
   </h1>
   <div
     class="contenedor-info"
@@ -179,17 +176,21 @@
 
   <div *ngIf="medicoLocal && !mostrarSubidaExterna">
     <form [formGroup]="templateForm" class="container-report-ia mb-4">
-      <div class="text-center editor" style="background-color: #dfdfdf; border-radius: 5px;">
-        <p style="color: red">Porfavor revise el reporte antes de firmar</p>
+      <div
+        class="text-center editor"
+        style="background-color: #dfdfdf; border-radius: 5px"
+      >
+        <p style="color: red; font-size: large">
+          Porfavor revise el reporte antes de firmar
+        </p>
         <quill-editor
           placeholder="Escriba su reporte"
           [styles]="{
-            height: 'max-content',
             width: '100%',
             backgroundColor: '#28282b',
             fontFamily: 'Sans serif',
             border: 0,
-            color:'white'
+            fontSize: 'x-large'
           }"
           formControlName="textEditor"
         >
@@ -197,18 +198,20 @@
       </div>
 
       <div class="conclusion-ia text-center editor">
-        <div style="background-color: #dfdfdf; border-radius: 5px;">
-          <p style="color: black;">Ahora la conclusion se debe escribir en el recuadro de abajo</p>
+        <div style="background-color: #dfdfdf; border-radius: 5px">
+          <p style="color: black; font-size: large">
+            Ahora la conclusion se debe escribir en el recuadro de abajo
+          </p>
           <quill-editor
             class="mayus"
             placeholder="Escriba la conclusión"
             [styles]="{
-              height: 'max-content',
               width: '100%',
               backgroundColor: '#28282b',
               fontFamily: 'Sans serif',
               fontWeight: 800,
               border: 0,
+              fontSize: 'x-large'
             }"
             formControlName="conclusion"
           >
@@ -228,6 +231,7 @@
       </div>
     </form>
   </div>
+
   <div class="form-check mx-4 mb-3" *ngIf="estudiosDeOrden?.length > 1">
     <input
       class="form-check-input"

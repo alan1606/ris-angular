@@ -6,8 +6,10 @@
   height: 100vh;
   border-radius: 0;
 }
-mat-paginator, mat-form-field, mat-label {
+mat-paginator, mat-form-field {
   background-color: #c9c9c9;
+  border-radius: 10px;
+  border: 0;
 }
 .pendiente {
   color: #fa0f0f;
