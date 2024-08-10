@@ -76,7 +76,21 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
 
   nuevoMedico() {
     const dialogRef = this.dialog.open(NuevoMedicoSoloNombreComponent, {
-      data: {},
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe((medico) => {
+      if (medico) {
+        this.estudio.ordenVenta.medicoReferente = medico;
+        this.autocompleteControlMedicoReferente.setValue(
+          this.estudio.ordenVenta.medicoReferente
+        );
+      }
+    });
+  }
+
+  editarMedico() {
+    const dialogRef = this.dialog.open(NuevoMedicoSoloNombreComponent, {
+      data: this.medicoExiste,
       width: '500px',
     });
     dialogRef.afterClosed().subscribe((medico) => {

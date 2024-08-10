@@ -27,8 +27,21 @@
       </div>
     </div>
   </form>
+  @if (medico?.id) {
+  <div>
+    <mat-form-field class="custom-mat-form-field">
+      <input
+        type="email"
+        class="custom-mat-input"
+        matInput
+        placeholder="Correo"
+        [(ngModel)]="medico.correo"
+      />
+    </mat-form-field>
+  </div>
+  }
 
   <div class="crear-editar">
-    <button class="btn btn-primary" (click)="crear()">CREAR</button>
+    <button class="btn btn-primary" (click)="!medico?.id ? crear(): editar()">{{!medico?.id ? 'CREAR':'EDITAR' }}</button>
   </div>
 </div>

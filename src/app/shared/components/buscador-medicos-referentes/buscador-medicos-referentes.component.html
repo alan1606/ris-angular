@@ -1,4 +1,4 @@
-<div class="form-group my-3">
+<div class="form-group my-1">
     <mat-form-field>
         <input matInput [placeholder]="etiqueta" [formControl]="autocompleteControlMedicoReferente"
             [matAutocomplete]="autocompleteReferente">
@@ -12,4 +12,6 @@
         </mat-autocomplete>
     </mat-form-field>
     <button *ngIf="mostrarNuevoMedico" type="button" class="btn btn-sm btn-info mx-2" (click)="nuevoMedico()">Nuevo médico</button>
+    <button *ngIf="mostrarNuevoMedico" type="button" class="btn btn-sm btn-primary mx-2" (click)="editarMedico()">Editar</button>
+
 </div>

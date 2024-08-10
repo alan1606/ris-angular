@@ -42,6 +42,9 @@
                         style="cursor: pointer;">
                 </div>
                 <app-buscador-medicos-referentes (medicoEnviado)="seleccionarMedicoReferente($event)" [medicoExiste]="estudio.ordenVenta.medicoReferente"></app-buscador-medicos-referentes>
+                @if (this.estudio.ordenVenta.medicoReferente.correo) {
+                    <p>Correo del medico: {{ this.estudio.ordenVenta.medicoReferente.correo }}</p>
+                }
                 <div class="form-group my-3">
                     <mat-form-field>
                         <input matInput placeholder="Técnico" [formControl]="autocompleteControlTecnico"
