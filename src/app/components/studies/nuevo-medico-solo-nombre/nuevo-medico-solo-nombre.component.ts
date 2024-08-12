@@ -51,7 +51,6 @@ export class NuevoMedicoSoloNombreComponent implements OnInit {
   }
 
   editar(): void {
-    console.log(this.medico);
     if (!this.datosValidos()) {
       return;
     }
@@ -75,11 +74,8 @@ export class NuevoMedicoSoloNombreComponent implements OnInit {
       Swal.fire('Error', 'Llenar nombre', 'error');
       return false;
     }
-    if (!this.form.value.apellidos) {
-      Swal.fire('Error', 'Llenar apellidos', 'error');
-      return false;
-    }
     if (this.data && !this.medico.correo) {
+      Swal.fire('Error', 'Llenar el correo', 'error');
       return false;
     }
     return true;

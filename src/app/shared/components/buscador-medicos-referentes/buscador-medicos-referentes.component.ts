@@ -26,7 +26,7 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
   mostrarNuevoMedico: boolean = true;
   autocompleteControlMedicoReferente = new UntypedFormControl();
   medicosReferentesFiltrados: Medico[] = [];
-  estudio: VentaConceptos;
+  estudio: VentaConceptos = new VentaConceptos();
 
   ngOnInit(): void {
     this.mostrarNuevoMedico = this.mostrarNuevoMedicoInput;
@@ -80,10 +80,10 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((medico) => {
       if (medico) {
-        this.estudio.ordenVenta.medicoReferente = medico;
         this.autocompleteControlMedicoReferente.setValue(
-          this.estudio.ordenVenta.medicoReferente
+          medico
         );
+        this.medicoEnviado.emit(medico);
       }
     });
   }
@@ -95,10 +95,10 @@ export class BuscadorMedicosReferentesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((medico) => {
       if (medico) {
-        this.estudio.ordenVenta.medicoReferente = medico;
         this.autocompleteControlMedicoReferente.setValue(
-          this.estudio.ordenVenta.medicoReferente
+          medico
         );
+        this.medicoEnviado.emit(medico);
       }
     });
   }

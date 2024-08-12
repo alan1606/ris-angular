@@ -216,18 +216,19 @@
             formControlName="conclusion"
           >
           </quill-editor>
+          <div class="contenedor-ia">
+            <button
+              style="box-shadow: 1px 2px 6px #000000;"
+              class="btn btn-dark"
+              [disabled]="btnConclusionDisabled"
+              (click)="generarConclusion()"
+            >
+              Generar Conclusion con IA
+            </button>
+          </div>
         </div>
 
-        <div class="contenedor-ia">
-          <button
-            style="box-shadow: 1px 2px 6px #000000; margin-top: 3%"
-            class="btn btn-primary"
-            [disabled]="btnConclusionDisabled"
-            (click)="generarConclusion()"
-          >
-            Generar Conclusion con IA
-          </button>
-        </div>
+        
       </div>
     </form>
   </div>
