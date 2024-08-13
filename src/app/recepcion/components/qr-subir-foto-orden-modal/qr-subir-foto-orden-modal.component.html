@@ -1,8 +1,10 @@
-<h1 mat-dialog-title>Si está disponible, por favor escanee y suba la foto de la orden de {{ this.orden.paciente?.nombreCompleto }}</h1>
+<h1 mat-dialog-title>Foto de la orden de {{ this.orden.paciente?.nombreCompleto }}</h1>
 <div mat-dialog-content>
   <qrcode
     [qrdata]="value"
     cssClass="aclass"
     [errorCorrectionLevel]="'M'"
   ></qrcode>
+
+  <app-subir-foto-orden [orden]="orden"/>
 </div>

@@ -544,7 +544,7 @@ export class AgendarComponent implements OnInit {
   }
   private mostrarModalQrImagenes() {
     const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent, {
-      width: '300px',
+      
       data: { orden: this.ordenVenta },
     });
 

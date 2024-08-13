@@ -1,13 +1,12 @@
-
-
-@media only screen and (max-width: 576px) {
-    .fotito{
-        width: 100%;
-    }
+.root{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-self: center;
+    align-items: center;
 }
 
-@media only screen and (min-width: 576px) {
-    .fotito{
-        width: 25%;
-    }
+input{
+    padding: 50px;
+    background-color: rgb(43, 43, 43);
 }

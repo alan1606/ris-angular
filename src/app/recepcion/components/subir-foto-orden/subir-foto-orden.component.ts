@@ -38,7 +38,6 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('oninit');
     this.route.paramMap.subscribe((params) => {
       const idOrden: number = +params.get('id');
 

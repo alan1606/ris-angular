@@ -1,28 +1,41 @@
+<div class="root">
+  <div class="card-body">
+    <form>
+      <div class="form-group my-2">
+        <div class="input-group mb-3">
+          <div
+            class="text-center"
+            style="background-color: black; color: white"
+          >
+            <p>Arrastra la foto debajo o click para seleccionar</p>
+            <input
+              (change)="seleccionarFoto($event)"
+              type="file"
+              class=""
+              id="foto"
+              value="Arrastrar o seleccionar la foto"
+            />
+          </div>
+        </div>
+      </div>
 
-<div class="card text-dark bg-light mb-3">
-    <div class="card-header">{{titulo}}</div>
-    <div class="card-body">
-        <form>
-            <div class="form-group my-2">
-                <div class="input-group mb-3">
-                    <div class="custom-file">
-                        <input (change)="seleccionarFoto($event)" type="file" class="custom-file-input" id="foto">
-                        <label class="custom-file-label" for="foto">Seleccionar foto</label>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="fotosCargadas | async">
-                <div class="form-group my-3 fotito" *ngFor="let foto of fotos">
-                    <img [src]="filesPath + foto.ruta" class="subir-imagen img-thumbnail rounded" >
-                    <div>
-                        <button type="button" class="btn btn-danger btn-lg" (click)="eliminar(foto)">
-                            Eliminar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+      <div *ngIf="fotosCargadas | async">
+        <div class="form-group my-3 fotito" *ngFor="let foto of fotos">
+          <img
+            [src]="filesPath + foto.ruta"
+            class="subir-imagen img-thumbnail rounded"
+          />
+          <div>
+            <button
+              type="button"
+              class="btn btn-danger btn-lg"
+              (click)="eliminar(foto)"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
-

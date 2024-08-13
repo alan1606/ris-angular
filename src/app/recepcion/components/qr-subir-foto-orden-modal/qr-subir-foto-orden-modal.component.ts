@@ -12,8 +12,6 @@ import { OrdenVentaService } from '../agendar';
 })
 export class QrSubirFotoOrdenModalComponent implements OnInit {
   orden: OrdenVenta;
-
-  title = 'app';
   elementType = NgxQrcodeElementTypes.URL;
   value = URL_SUBIR_FOTO;
 
