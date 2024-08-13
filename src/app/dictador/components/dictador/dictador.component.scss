@@ -104,3 +104,13 @@ button {
   margin-left: 1%;
   margin-bottom: 20px;
 }
+
+
+
+:host ::ng-deep .ql-editor {
+  color: #ffffff;
+}
+
+:host ::ng-deep .ql-editor.ql-blank::before {
+  color: #d8d8d8;
+}
