@@ -11,17 +11,15 @@
   </h1>
   <div
     class="contenedor-info"
-    *ngFor="let estudioActual of estudiosDeOrden; let i = index"
   >
     <mat-accordion>
       <mat-expansion-panel
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
-        [ngClass]="{ gris: i % 2 === 0 }"
       >
         <mat-expansion-panel-header>
           <mat-panel-title class="patient-info">
-            <b>{{ estudioActual.concepto.concepto }}</b>
+            <b>{{ estudio.concepto.concepto }}</b>
           </mat-panel-title>
           <mat-panel-description>
             {{ panelOpenState ? "Ocultar" : "Ver mas detalles del estudio" }}
@@ -34,7 +32,7 @@
                 mat-raised-button
                 class="m-1"
                 color="primary"
-                (click)="ver(estudioActual)"
+                (click)="ver(estudio)"
               >
                 Abrir estudio en linea
               </button></span
@@ -44,7 +42,7 @@
                 mat-raised-button
                 class="m-1"
                 color="primary"
-                (click)="abrirConWeasis(estudioActual)"
+                (click)="abrirConWeasis(estudio)"
               >
                 Abrir con weasis
               </button></span
@@ -54,7 +52,7 @@
                 mat-raised-button
                 class="m-1"
                 color="primary"
-                (click)="descargarZip(estudioActual)"
+                (click)="descargarZip(estudio)"
               >
                 Descargar estudio en zip
               </button></span
@@ -87,7 +85,7 @@
                 mat-raised-button
                 class="m-1"
                 color="primary"
-                (click)="ver(estudioActual)"
+                (click)="ver(estudio)"
               >
                 Abrir estudio en linea
               </button></span
@@ -99,7 +97,7 @@
                 mat-raised-button
                 class="m-1"
                 color="primary"
-                (click)="descargarZip(estudioActual)"
+                (click)="descargarZip(estudio)"
               >
                 Descargar estudio en zip
               </button></span
@@ -108,14 +106,14 @@
         </mat-toolbar>
 
         <div class="patient-info">
-          <p><b>ESTUDIO: </b>{{ estudioActual?.concepto?.concepto }}</p>
-          <p><b>PROCEDENCIA: </b>{{ estudioActual?.institucion?.nombre }}</p>
+          <p><b>ESTUDIO: </b>{{ estudio?.concepto?.concepto }}</p>
+          <p><b>PROCEDENCIA: </b>{{ estudio?.institucion?.nombre }}</p>
           <p>
             <b>MEDICO: </b
-            >{{ estudioActual?.ordenVenta?.medicoReferente.nombres }}
-            {{ estudioActual?.ordenVenta?.medicoReferente.apellidos }}
+            >{{ estudio?.ordenVenta?.medicoReferente.nombres }}
+            {{ estudio?.ordenVenta?.medicoReferente.apellidos }}
           </p>
-          <p *ngIf="estudioActual?.ordenVenta?.motivo">
+          <p *ngIf="estudio?.ordenVenta?.motivo">
             <b>Motivo: </b> {{ estudioActual?.ordenVenta?.motivo }}
           </p>
           <p *ngIf="antecedentes"><b>ANTECEDENTES: </b> {{ antecedentes }}</p>
@@ -126,13 +124,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-  <div class="contenedor-info mb-3">
-    <h2 *ngIf="estudiosDeOrden?.length > 1">
-      <p style="color: red">
-        Favor de interpretar todos los estudios en este reporte
-      </p>
-    </h2>
-  </div>
+
   <div class="d-flex ms-3" *ngIf="multimediaCargada | async">
     <div *ngFor="let img of multimedia; let i = index">
       <button class="btn btn-dark me-3" (click)="abrirFoto(img)">
@@ -233,18 +225,7 @@
     </form>
   </div>
 
-  <div class="form-check mx-4 mb-3" *ngIf="estudiosDeOrden?.length > 1">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      id="interpretarTodo"
-      name="interpretarTodo"
-      [(ngModel)]="interpretarTodosLosEstudios"
-    />
-    <label class="form-check-label" for="flexCheckChecked">
-      La interpretación es para todos los estudios
-    </label>
-  </div>
+
 
   <div
     class="botones-finales pb-5"

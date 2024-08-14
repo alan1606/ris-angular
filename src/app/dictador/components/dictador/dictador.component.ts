@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DOWNLOAD_WEASIS_MAC_LINK,
@@ -46,7 +46,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
   antecedentes: string = '';
   multimedia: Multimedia[] = [];
   multimediaCargada: Promise<Boolean>;
-  estudiosDeOrden: VentaConceptos[];
   paciente: Paciente = new Paciente();
   mostrarSubidaExterna: boolean = true;
   medicoLocal: boolean = false;
@@ -60,7 +59,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
   panelOpenState = false;
   esMobil = window.matchMedia('(min-width:1023px)');
   btnConclusionDisabled: boolean = false;
-  interpretarTodosLosEstudios: boolean = false;
   private messageSubscription: Subscription;
   private medicoRadiologo: Medico;
   hasUnsavedChanges: boolean = false;
@@ -104,7 +102,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
         this.concepto = estudio.concepto;
         this.cargarAntecedentesInicial();
         this.cargarMultimedia();
-        this.cargarEstudiosDeOrden();
         this.medicoLocal = this.estudio.medicoRadiologo.local;
         this.mostrarSubidaExterna = !this.medicoLocal;
         this.medicoRadiologo = this.estudio.medicoRadiologo;
@@ -247,14 +244,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
     let idsEstudios: number[] = [];
     idsEstudios.push(this.estudio.id);
 
-    if (this.interpretarTodosLosEstudios) {
-      for (let estudio of this.estudiosDeOrden) {
-        if (estudio.id != this.estudio.id) {
-          idsEstudios.push(estudio.id);
-        }
-      }
-    }
-
     this.interpretacion.estudiosIds = idsEstudios;
     this.interpretacionService.crear(this.interpretacion).subscribe(
       (interpretacion) => {
@@ -275,15 +264,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   private marcarEstudiosDeOrdenInterpretados() {
-    this.estudiosDeOrden.forEach((estudio) => {
-      if (estudio.id == this.estudio.id) {
-        estudio.estado = 'INTERPRETADO';
-        this.actualizarEstudio(estudio);
-      } else if (this.interpretarTodosLosEstudios) {
-        estudio.estado = 'INTERPRETADO';
-        this.actualizarEstudio(estudio);
-      }
-    });
+        this.estudio.estado = 'INTERPRETADO';
+        this.actualizarEstudio(this.estudio);
+    
   }
 
   actualizarEstudio(estudio: VentaConceptos) {
@@ -315,26 +298,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
     );
   }
 
-  cargarEstudiosDeOrden(): void {
-    this.ventaConceptosService
-      .encontrarPorOrdenVentaId(this.estudio.ordenVenta.id)
-      .subscribe(
-        (estudios) => {
-          this.estudiosDeOrden = estudios.filter(
-            (estudio) =>
-              estudio.medicoRadiologo.id === this.estudio.medicoRadiologo.id
-          );
-          if (this.estudiosDeOrden.length > 1) {
-            this.interpretarTodosLosEstudios = false;
-          }
-        },
-        (error) => {
-          console.log(
-            'Ha ocurrido un error al cargar estudios de la órden en cuestión'
-          );
-        }
-      );
-  }
 
   firmar(): void {
     this.enviarAvisoInterpretacionHechaACorreo();
