@@ -1,10 +1,14 @@
-<h1 mat-dialog-title>Foto de la orden de {{ this.orden.paciente?.nombreCompleto }}</h1>
-<div mat-dialog-content>
-  <qrcode
-    [qrdata]="value"
-    cssClass="aclass"
-    [errorCorrectionLevel]="'M'"
-  ></qrcode>
+<div class="container">
+  <h1 mat-dialog-title>
+    Foto de la orden de {{ this.orden.paciente?.nombreCompleto }}
+  </h1>
+  <div mat-dialog-content>
+    <qrcode
+      [qrdata]="value"
+      cssClass="aclass"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
 
-  <app-subir-foto-orden [orden]="orden"/>
+    <app-subir-foto-orden [orden]="orden" />
+  </div>
 </div>

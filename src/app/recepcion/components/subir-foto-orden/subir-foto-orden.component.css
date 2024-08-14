@@ -1,12 +1,14 @@
-.root{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-self: center;
-    align-items: center;
+input {
+  padding: 70px;
+  background-color: rgb(43, 43, 43);
+  border-radius: 10px;
 }
 
-input{
-    padding: 50px;
-    background-color: rgb(43, 43, 43);
+input:hover {
+  background-color: rgb(71, 71, 71);
+}
+
+.fotito{
+    display: flex;
+    width: 768px;
 }

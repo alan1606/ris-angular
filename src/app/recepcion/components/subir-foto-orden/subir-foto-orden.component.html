@@ -1,41 +1,39 @@
-<div class="root">
+<div class="">
   <div class="card-body">
-    <form>
-      <div class="form-group my-2">
-        <div class="input-group mb-3">
-          <div
-            class="text-center"
-            style="background-color: black; color: white"
-          >
-            <p>Arrastra la foto debajo o click para seleccionar</p>
-            <input
-              (change)="seleccionarFoto($event)"
-              type="file"
-              class=""
-              id="foto"
-              value="Arrastrar o seleccionar la foto"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="fotosCargadas | async">
-        <div class="form-group my-3 fotito" *ngFor="let foto of fotos">
-          <img
-            [src]="filesPath + foto.ruta"
-            class="subir-imagen img-thumbnail rounded"
+    <div class="root my-2">
+      <div class="input-group mb-3">
+        <div
+          class="text-center"
+          style="background-color: black; color: white; border-radius: 10px"
+        >
+          <p>Arrastra la foto debajo o click para seleccionar</p>
+          <input
+            (change)="seleccionarFoto($event)"
+            type="file"
+            id="foto"
+            [(ngModel)]="fotoInput"
           />
-          <div>
-            <button
-              type="button"
-              class="btn btn-danger btn-lg"
-              (click)="eliminar(foto)"
-            >
-              Eliminar
-            </button>
-          </div>
         </div>
       </div>
-    </form>
+    </div>
+
+    <div class="fotito mt-3" *ngIf="fotosCargadas | async">
+      <div class="p-2" *ngFor="let foto of fotos">
+        <img
+          [src]="filesPath + foto.ruta"
+          height="500"
+          class="rounded"
+        />
+        <div>
+          <button
+            type="button"
+            class="btn btn-danger btn-lg mt-1"
+            (click)="eliminar(foto)"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
