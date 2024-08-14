@@ -1,8 +1,4 @@
 .container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    justify-self: center;
-    text-align: center;
-    align-items: center;
 }
