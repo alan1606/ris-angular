@@ -114,11 +114,11 @@
             {{ estudio?.ordenVenta?.medicoReferente.apellidos }}
           </p>
           <p *ngIf="estudio?.ordenVenta?.motivo">
-            <b>Motivo: </b> {{ estudioActual?.ordenVenta?.motivo }}
+            <b>Motivo: </b> {{ estudio?.ordenVenta?.motivo }}
           </p>
           <p *ngIf="antecedentes"><b>ANTECEDENTES: </b> {{ antecedentes }}</p>
           <p *ngIf="estudio?.mensaje">
-            <b>MENSAJE: </b> {{ estudioActual?.mensaje }}
+            <b>MENSAJE: </b> {{ estudio?.mensaje }}
           </p>
         </div>
       </mat-expansion-panel>

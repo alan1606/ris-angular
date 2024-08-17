@@ -98,6 +98,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         }
 
         this.estudio = estudio;
+        console.log(estudio.mensaje)
         this.paciente = estudio.paciente;
         this.concepto = estudio.concepto;
         this.cargarAntecedentesInicial();

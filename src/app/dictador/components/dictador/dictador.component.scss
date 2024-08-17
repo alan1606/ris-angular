@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   background-color: #0f0f0f;
 }
 
@@ -10,7 +11,13 @@ html, body {
 }
 
 mat-toolbar {
-  background-color: #cccccc;
+  background-color: #dfdfdf;
+}
+mat-accordion {
+  background-color: #dfdfdf;
+}
+mat-expansion-panel {
+  background-color: #dfdfdf;
 }
 .mayus {
   text-transform: uppercase;
@@ -104,8 +111,6 @@ button {
   margin-left: 1%;
   margin-bottom: 20px;
 }
-
-
 
 :host ::ng-deep .ql-editor {
   color: #ffffff;
