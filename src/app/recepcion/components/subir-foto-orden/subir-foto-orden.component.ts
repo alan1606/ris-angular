@@ -3,6 +3,7 @@ import {
   Input,
   OnChanges,
   OnInit,
+  signal,
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -23,11 +24,11 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
 
   @Input()
   orden: OrdenVenta;
-  public fotoInput: File=null;
+  public fotoInput: File = null;
   private foto: File;
   private multimedia: Multimedia = new Multimedia();
   filesPath: string = FILES_PATH;
-
+  public subirFotoOrden= signal<boolean>(false)
   fotos: Multimedia[] = [];
   fotosCargadas: Promise<Boolean>;
 
@@ -44,6 +45,8 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
       if (!idOrden) {
         return;
       }
+      this.subirFotoOrden.set(true)
+      console.log(this.subirFotoOrden)
       this.service.ver(idOrden).subscribe(
         (orden) => {
           this.orden = orden;
@@ -64,10 +67,10 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
   }
 
   seleccionarFoto(event): void {
-    console.log(event)
-    if(!event.target.files[0]){
-      console.log("no se selecciono nada")
-      return
+    console.log(event);
+    if (!event.target.files[0]) {
+      console.log('no se selecciono nada');
+      return;
     }
     this.foto = event.target.files[0];
     // console.info(this.foto);
@@ -84,7 +87,7 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
       this.multimediaService.subirImagen(this.multimedia, this.foto).subscribe(
         (multimedia) => {
           this.fotos.push(multimedia);
-          this.fotoInput=null
+          this.fotoInput = null;
           Swal.fire('Éxito', 'Imagen subida exitosamente', 'success');
         },
         (e) => Swal.fire('Error', 'No se pudo subir la imagen', 'error')
@@ -113,7 +116,7 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
           (res) => {
             Swal.fire('Éxito', 'La foto ha sido eliminada', 'success');
             this.fotos = this.fotos.filter((filtrar) => filtrar.id != foto.id);
-            this.fotoInput=null
+            this.fotoInput = null;
           },
           (error) => {
             Swal.fire('Error', 'No se ha podido eliminar la foto', 'error');

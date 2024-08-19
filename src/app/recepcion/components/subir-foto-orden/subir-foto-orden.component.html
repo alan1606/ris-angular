@@ -1,4 +1,7 @@
 <div class="">
+  @if (subirFotoOrden() && orden?.paciente ) {
+    <p style="font-weight: bold; font-size: large; margin-left: 10%;">{{orden.paciente.nombreCompleto}}</p>
+  }
   <div class="card-body">
     <div class="root my-2">
       <div class="input-group mb-3">

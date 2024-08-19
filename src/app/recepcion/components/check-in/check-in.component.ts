@@ -21,7 +21,7 @@ import { CampaniaService } from 'src/app/campanias/services/campania.service';
 import { Pago } from 'src/app/models/pago';
 import { Descuento } from 'src/app/models/descuento';
 import { DataService } from '../services/data-service.service';
-import { Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
 import { Institucion } from '../agendar';
 
@@ -79,16 +79,16 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   buscarCitasHoy() {
-    console.log("hola")
     this.citaService.citasDeHoy().subscribe(
-      (citas:Cita[]) => {
+      (citas: Cita[]) => {
         let citasNoPagadas: Cita[] = [];
         let ordenesNoPagadas: OrdenVenta[] = [];
-        const raro = citas.find(c=>c.estudio?.ordenVenta?.id===undefined)
-        console.log(raro)
-        const idsOrdenVenta = citas.map((cita) => cita?.estudio?.ordenVenta?.id);
+        const idsOrdenVenta = citas.map(
+          (cita) => cita?.estudio?.ordenVenta?.id
+        );
         console.log(idsOrdenVenta);
-        this.ordenVentaService.encontrarOrdenesPorIds(idsOrdenVenta).subscribe(
+        let filtrado = idsOrdenVenta.filter((i) => i != null);
+        this.ordenVentaService.encontrarOrdenesPorIds(filtrado).subscribe(
           (data: OrdenVenta[]) => {
             data.forEach((orden) => {
               if (!orden.pagado) {
@@ -104,7 +104,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
 
             this.citas = citasNoPagadas;
             this.citasFiltradas = citasNoPagadas;
-            console.log(this.citas);
           },
           (error) => {
             console.log(error);
