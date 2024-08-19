@@ -79,12 +79,15 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   buscarCitasHoy() {
+    console.log("hola")
     this.citaService.citasDeHoy().subscribe(
-      (citas) => {
+      (citas:Cita[]) => {
         let citasNoPagadas: Cita[] = [];
         let ordenesNoPagadas: OrdenVenta[] = [];
-        const idsOrdenVenta = citas.map((cita) => cita.estudio.ordenVenta.id);
-        console.log(citas);
+        const raro = citas.find(c=>c.estudio?.ordenVenta?.id===undefined)
+        console.log(raro)
+        const idsOrdenVenta = citas.map((cita) => cita?.estudio?.ordenVenta?.id);
+        console.log(idsOrdenVenta);
         this.ordenVentaService.encontrarOrdenesPorIds(idsOrdenVenta).subscribe(
           (data: OrdenVenta[]) => {
             data.forEach((orden) => {
