@@ -21,7 +21,7 @@ export class TurneroComponent implements OnInit {
   private user = this.tokenService.getUsername();
   private dataService = inject(DataService);
   subscriptionsColumns: string[] = ['Area', 'Dejar de ver'];
-  studiesColumns:string[]=['Paciente','Estudio', 'Estado', 'Tecnico']
+  studiesColumns:string[]=['Paciente','Estudio', 'Estado']
   subscriptionsDataSource:any[] = [{ area: 'Ultrasonido', sala: 'Ultrasonido dr martinez', id: 1 },{ area: 'Tomografia', sala: 'Tomografia', id: 2 },{ area: 'Resonancia magnetica', sala: 'Resonancia', id: 3 }];
   studiesDataSource:any[]=[]
   area = signal<Area>(new Area());
@@ -32,6 +32,7 @@ export class TurneroComponent implements OnInit {
   ngOnInit(): void {
     this.turneroService.findSubscriptionsByUser(this.user).subscribe(
       (suscriptionsData) => {
+        console.log(suscriptionsData)
         this.subscriptions.set(suscriptionsData);
         if (this.subscriptions().length > 0) {
           for (let subs of this.subscriptions()) {
