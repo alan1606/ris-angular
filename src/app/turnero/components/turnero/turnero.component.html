@@ -17,18 +17,14 @@
 <div class="tabla-areas">
   <table [dataSource]="subscriptionsDataSource" mat-table class="mat-elevation-z8">
     <ng-container matColumnDef="Area">
-      <th mat-header-cell *matHeaderCellDef>Area</th>
-      <td mat-cell *matCellDef="let element">{{ element.area }} <p>{{element.sala}}</p></td>
-    </ng-container>
-    <ng-container matColumnDef="Sala">
-      <th mat-header-cell *matHeaderCellDef>Sala</th>
-      <td mat-cell *matCellDef="let element">{{ element.sala }}</td>
+      <th mat-header-cell *matHeaderCellDef>Area/Sala</th>
+      <td mat-cell *matCellDef="let element">{{ element.room.area.nombre }} <p>{{element.room.nombre}}</p></td>
     </ng-container>
     <ng-container matColumnDef="Dejar de ver">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
         <div class="text-end">
-          <button class="btn btn-danger" (click)="quitar(element.id)">
+          <button class="btn btn-danger" (click)="quitar(element.dicomRoomId)">
             Quitar
           </button>
         </div>

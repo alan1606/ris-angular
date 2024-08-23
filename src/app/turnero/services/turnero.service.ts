@@ -11,7 +11,6 @@ import { Study } from 'src/app/models/study';
 export class TurneroService {
   private axios = inject(Axios)
   private turneroUrl = BASE_ENDPOINT + '/turnero/suscripciones';
-  private wsUrl= BASE_ENDPOINT
   
   public subscribeUserToRoom(user: string, roomId: number): Observable<unknown> {
     return this.axios.post<unknown>(`${this.turneroUrl}/usuario/${user}/sala/${roomId}`, {});
@@ -22,7 +21,7 @@ export class TurneroService {
   }
 
   public unsuscribeUserOfRoom(user:string, roomId:number):Observable<unknown>{
-    return this.axios.get(`${this.turneroUrl}/usuario/${user}/sala/${roomId}`)
+    return this.axios.delete(`${this.turneroUrl}/usuario/${user}/sala/${roomId}`)
   }
 
   public getStudiesForArea():Observable<Study[]>{

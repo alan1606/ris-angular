@@ -22,7 +22,7 @@ export class TurneroSocketService {
   private initConnectionSocket() {
     console.log('Iniciando conexión');
     //const url = 'https://ris.diagnocons.com/api/reports/report-websocket';
-    const url = 'http://localhost:8002/shifts-websocket';
+    const url = 'http://172.17.207.221:8002/shifts-websocket';
 
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS(url),

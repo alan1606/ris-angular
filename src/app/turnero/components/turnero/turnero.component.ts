@@ -21,19 +21,24 @@ export class TurneroComponent implements OnInit {
   private user = this.tokenService.getUsername();
   private dataService = inject(DataService);
   subscriptionsColumns: string[] = ['Area', 'Dejar de ver'];
-  studiesColumns:string[]=['Paciente','Estudio', 'Estado']
-  subscriptionsDataSource:any[] = [{ area: 'Ultrasonido', sala: 'Ultrasonido dr martinez', id: 1 },{ area: 'Tomografia', sala: 'Tomografia', id: 2 },{ area: 'Resonancia magnetica', sala: 'Resonancia', id: 3 }];
-  studiesDataSource:any[]=[]
+  studiesColumns: string[] = ['Paciente', 'Estudio', 'Estado'];
+  subscriptionsDataSource: any[] = [];
+  studiesDataSource: any[] = [];
   area = signal<Area>(new Area());
   sala = signal<EquipoDicom>(new EquipoDicom());
-  estudios= signal<Study>(new Study())
+  estudios = signal<Study>(new Study());
   subscriptions = signal<TurneroSubscription[]>([]);
 
   ngOnInit(): void {
+    this.searchSubscriptions()
+  }
+
+  public searchSubscriptions(): void {
     this.turneroService.findSubscriptionsByUser(this.user).subscribe(
-      (suscriptionsData) => {
-        console.log(suscriptionsData)
-        this.subscriptions.set(suscriptionsData);
+      (subscriptionsData) => {
+        this.subscriptions.set(subscriptionsData);
+        console.log(this.subscriptions());
+        this.subscriptionsDataSource = this.subscriptions();
         if (this.subscriptions().length > 0) {
           for (let subs of this.subscriptions()) {
             this.turneroService.subscribeUserToRoom(
@@ -55,17 +60,27 @@ export class TurneroComponent implements OnInit {
   }
 
   public suscribe(): void {
-    return;
-    this.turneroService.subscribeUserToRoom(this.user, this.sala().id);
+    this.turneroService
+      .subscribeUserToRoom(this.user, this.sala().id)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          this.searchSubscriptions()
+        },
+        (error) => {
+          this.alertaService.error(error);
+        }
+      );
   }
 
   public quitar(salaId: number): void {
-    console.log(salaId);
-    console.log(this.user);
-    return;
     this.turneroService.unsuscribeUserOfRoom(this.user, salaId).subscribe(
       () => {
         this.alertaService.exito('Desuscripcion', 'realizada con exito!!!');
+        this.subscriptions.set(
+          this.subscriptions().filter((a) => a.id != salaId)
+        );
+        this.subscriptionsDataSource = this.subscriptions();
       },
       (error) => {
         this.alertaService.error(error);
