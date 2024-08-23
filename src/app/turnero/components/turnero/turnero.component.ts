@@ -39,14 +39,7 @@ export class TurneroComponent implements OnInit {
         this.subscriptions.set(subscriptionsData);
         console.log(this.subscriptions());
         this.subscriptionsDataSource = this.subscriptions();
-        if (this.subscriptions().length > 0) {
-          for (let subs of this.subscriptions()) {
-            this.turneroService.subscribeUserToRoom(
-              this.user,
-              subs.dicomRoomId
-            );
-          }
-        }
+        
       },
       (error) => {
         this.alertaService.error(error);
