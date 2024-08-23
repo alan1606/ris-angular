@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { Area } from 'src/app/models/area';
 import { EquipoDicom } from 'src/app/models/equipo-dicom';
 import { TurneroService } from '../../services/turnero.service';
@@ -8,6 +14,7 @@ import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { TurneroSubscription } from 'src/app/models/TurneroSubscription';
 import { DataService } from 'src/app/shared/services/data.service';
 import { Study } from 'src/app/models/study';
+import { TurneroSocketService } from '../../services/turnero-socket.service';
 
 @Component({
   selector: 'app-turnero',
@@ -16,10 +23,12 @@ import { Study } from 'src/app/models/study';
 })
 export class TurneroComponent implements OnInit {
   private turneroService = inject(TurneroService);
+  private turneroSocketService = inject(TurneroSocketService);
   private tokenService = inject(TokenService);
   private alertaService = inject(AlertaService);
   private user = this.tokenService.getUsername();
   private dataService = inject(DataService);
+
   subscriptionsColumns: string[] = ['Area', 'Dejar de ver'];
   studiesColumns: string[] = ['Paciente', 'Estudio', 'Estado'];
   subscriptionsDataSource: any[] = [];
@@ -30,7 +39,7 @@ export class TurneroComponent implements OnInit {
   subscriptions = signal<TurneroSubscription[]>([]);
 
   ngOnInit(): void {
-    this.searchSubscriptions()
+    this.searchSubscriptions();
   }
 
   public searchSubscriptions(): void {
@@ -39,7 +48,6 @@ export class TurneroComponent implements OnInit {
         this.subscriptions.set(subscriptionsData);
         console.log(this.subscriptions());
         this.subscriptionsDataSource = this.subscriptions();
-        
       },
       (error) => {
         this.alertaService.error(error);
@@ -52,13 +60,13 @@ export class TurneroComponent implements OnInit {
     this.dataService.updateAreaData(this.area());
   }
 
-  public suscribe(): void {
+  public subscribe(): void {
     this.turneroService
       .subscribeUserToRoom(this.user, this.sala().id)
       .subscribe(
         (data) => {
           console.log(data);
-          this.searchSubscriptions()
+          this.searchSubscriptions();
         },
         (error) => {
           this.alertaService.error(error);
@@ -70,10 +78,7 @@ export class TurneroComponent implements OnInit {
     this.turneroService.unsuscribeUserOfRoom(this.user, salaId).subscribe(
       () => {
         this.alertaService.exito('Desuscripcion', 'realizada con exito!!!');
-        this.subscriptions.set(
-          this.subscriptions().filter((a) => a.id != salaId)
-        );
-        this.subscriptionsDataSource = this.subscriptions();
+        this.searchSubscriptions();
       },
       (error) => {
         this.alertaService.error(error);

@@ -2,13 +2,17 @@ import { inject, Injectable } from '@angular/core';
 import { TokenService } from 'src/app/services/token.service';
 import SockJS from 'sockjs-client';
 import { Client, Message } from '@stomp/stompjs';
-import { BehaviorSubject, Observable } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs';
+import { BASE_ENDPOINT } from 'src/app/config/app';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 @Injectable({
   providedIn: 'root',
 })
 export class TurneroSocketService {
+  notificationSound = new Audio('../../../assets/messanger.mp3');
+
   private tokenService = inject(TokenService);
+  private alertaService = inject(AlertaService);
   private stompClient: Client;
   private messageSubject: BehaviorSubject<Message> =
     new BehaviorSubject<Message>(null);
@@ -16,8 +20,11 @@ export class TurneroSocketService {
   constructor() {
     this.initConnectionSocket();
   }
+  public repoducir(): void {
+    this.notificationSound.play();
+  }
 
-  public suscribeUser(): void {}
+  public init(): void {}
 
   private initConnectionSocket() {
     console.log('Iniciando conexión');
@@ -31,6 +38,7 @@ export class TurneroSocketService {
 
     this.stompClient.onConnect = (frame) => {
       console.log('Connected:');
+      this.joinTopic();
     };
 
     this.stompClient.onStompError = (frame) => {
@@ -40,32 +48,40 @@ export class TurneroSocketService {
 
     this.stompClient.onWebSocketClose = (evt) => {
       console.log(`WebSocket closed with`);
-      this.disconect()
+      this.disconect();
     };
 
     this.stompClient.activate();
   }
 
-  public joinTopic(idVenta: number) {
+  public joinTopic() {
     console.log(`Attempting to join topic: /topic/user/${this.username}`);
     if (this.stompClient.connected) {
-      this.subscribeToTopic(idVenta);
+      this.subscribeToTopic();
     } else {
       this.stompClient.onConnect = (frame) => {
         console.log('WebSocket connected, subscribing to topic now.');
-        this.subscribeToTopic(idVenta);
+        this.subscribeToTopic();
       };
     }
   }
 
-  private subscribeToTopic(idVenta: number) {
+  private subscribeToTopic() {
     console.log(`Subscribing to /topic/user/${this.username}`);
     try {
-      this.stompClient.subscribe(`/topic/user/${this.username}`, (message: any) => {
-        console.log(`Received message from topic /topic/user/${this.username}`);
-        const messageContent = JSON.parse(message.body);
-        this.messageSubject.next(messageContent);
-      });
+      this.stompClient.subscribe(
+        `/topic/user/${this.username}`,
+        (message: any) => {
+          console.log(
+            `Received message from topic /topic/user/${this.username}`
+          );
+          this.alertaService.pacientArrived();
+          const content = JSON.parse(message.body);
+          this.messageSubject.next(content);
+          console.log(content);
+          this.alertaService.pacientArrived(content.patientName, content.roomName, content.study);
+        }
+      );
     } catch (error) {
       console.error(
         `Error subscribing to topic /topic/user/${this.username}:`,
@@ -76,6 +92,6 @@ export class TurneroSocketService {
 
   public disconect(): void {
     this.stompClient.deactivate();
-    console.log("socket desconectado")
+    console.log('socket desconectado');
   }
 }

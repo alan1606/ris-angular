@@ -12,11 +12,13 @@ import { TurneroSocketService } from './turnero/services/turnero-socket.service'
 export class AppComponent implements OnInit {
   @ViewChild('menu') menu: NavbarComponent;
   private turneroSocketService = inject(TurneroSocketService);
+
   constructor(private router: Router) {
-    this.turneroSocketService.suscribeUser();
+    this.turneroSocketService.init();
   }
 
   ngOnInit(): void {
+
     this.router.events
       .pipe(filter((event: Event) => event instanceof NavigationEnd))
       .subscribe(() => {
