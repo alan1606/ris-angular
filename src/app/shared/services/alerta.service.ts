@@ -57,6 +57,10 @@ export class AlertaService {
     });
   }
 
+  public patientTaken():void{
+
+  }
+
   public close(): void {
     Swal.close();
   }

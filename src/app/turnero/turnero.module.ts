@@ -6,9 +6,10 @@ import { TurneroComponent } from './components/turnero/turnero.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [TurneroComponent],
-  imports: [CommonModule, TurneroRoutingModule, SharedModule, MatButtonModule, MatTableModule],
+  imports: [CommonModule, TurneroRoutingModule, SharedModule, MatButtonModule, MatTableModule, MatExpansionModule],
 })
 export class TurneroModule {}

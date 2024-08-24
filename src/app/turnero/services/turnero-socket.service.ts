@@ -2,21 +2,23 @@ import { inject, Injectable } from '@angular/core';
 import { TokenService } from 'src/app/services/token.service';
 import SockJS from 'sockjs-client';
 import { Client, Message } from '@stomp/stompjs';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { BASE_ENDPOINT } from 'src/app/config/app';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 @Injectable({
   providedIn: 'root',
 })
 export class TurneroSocketService {
-  notificationSound = new Audio('../../../assets/messanger.mp3');
+  public notificationSound = new Audio('../../../assets/messanger.mp3');
 
   private tokenService = inject(TokenService);
   private alertaService = inject(AlertaService);
+
   private stompClient: Client;
-  private messageSubject: BehaviorSubject<Message> =
-    new BehaviorSubject<Message>(null);
+  private messageSubject: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
   private username = this.tokenService.getUsername();
+  public nuevoEvento$: Observable<any> = this.messageSubject.asObservable();
+
   constructor() {
     this.initConnectionSocket();
   }
@@ -28,7 +30,7 @@ export class TurneroSocketService {
 
   private initConnectionSocket() {
     console.log('Iniciando conexión');
-    //const url = 'https://ris.diagnocons.com/api/reports/report-websocket';
+    //const url = 'https://ris.diagnocons.com/api/turnero/shifts-websocket';
     const url = 'http://172.17.207.221:8002/shifts-websocket';
 
     this.stompClient = new Client({
@@ -65,7 +67,6 @@ export class TurneroSocketService {
       };
     }
   }
-
   private subscribeToTopic() {
     console.log(`Subscribing to /topic/user/${this.username}`);
     try {
@@ -75,11 +76,19 @@ export class TurneroSocketService {
           console.log(
             `Received message from topic /topic/user/${this.username}`
           );
-          this.alertaService.pacientArrived();
           const content = JSON.parse(message.body);
           this.messageSubject.next(content);
           console.log(content);
-          this.alertaService.pacientArrived(content.patientName, content.roomName, content.study);
+          if(content.user && content.dicomRoomId && content.studyId){
+            console.log("estudio procesado")
+          }
+          if (!content.user) {
+            this.alertaService.pacientArrived(
+              content.patientName,
+              content.roomName,
+              content.study
+            );
+          }
         }
       );
     } catch (error) {
