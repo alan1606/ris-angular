@@ -15,16 +15,16 @@ export class TurneroService {
   private takeStudyUrl = BASE_ENDPOINT + '/turnero/tomar';
 
   
-  public subscribeUserToRoom(user: string, roomId: number): Observable<unknown> {
-    return this.axios.post<unknown>(`${this.subscriptionsUrl}/usuario/${user}/sala/${roomId}`, {});
+  public subscribeUserToRoom(user: string, roomId: number): Observable<void> {
+    return this.axios.post<void>(`${this.subscriptionsUrl}/usuario/${user}/sala/${roomId}`, {});
   }
   
   public findSubscriptionsByUser(user:string):Observable<TurneroSubscription[]>{
     return this.axios.get<TurneroSubscription[]>(`${this.subscriptionsUrl}/usuario/${user}`)
   }
 
-  public unsuscribeUserOfRoom(user:string, roomId:number):Observable<unknown>{
-    return this.axios.delete(`${this.subscriptionsUrl}/usuario/${user}/sala/${roomId}`)
+  public unsuscribeUserOfRoom(user:string, roomId:number):Observable<void>{
+    return this.axios.delete<void>(`${this.subscriptionsUrl}/usuario/${user}/sala/${roomId}`)
   }
 
   public getStudiesForArea():Observable<Study[]>{

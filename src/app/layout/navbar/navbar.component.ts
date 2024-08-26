@@ -25,6 +25,7 @@ const CHARACTERS =
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  showFiller = false;
   authorize_url = authorize_uri;
   logout_url = logour_uri;
   username: string = null;

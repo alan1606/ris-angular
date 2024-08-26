@@ -3,6 +3,7 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { TurneroSocketService } from './turnero/services/turnero-socket.service';
+import { TokenService } from './services/token.service';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +12,19 @@ import { TurneroSocketService } from './turnero/services/turnero-socket.service'
 })
 export class AppComponent implements OnInit {
   @ViewChild('menu') menu: NavbarComponent;
-  private turneroSocketService = inject(TurneroSocketService);
+  private tokenService = inject(TokenService);
 
-  constructor(private router: Router) {
-    this.turneroSocketService.init();
+  constructor(
+    private router: Router,
+    private turneroSocketService: TurneroSocketService
+  ) {
+    let isLogged: boolean = this.tokenService.isLogged();
+    if (isLogged) {
+      this.turneroSocketService.initConnectionSocket();
+    }
   }
 
   ngOnInit(): void {
-
     this.router.events
       .pipe(filter((event: Event) => event instanceof NavigationEnd))
       .subscribe(() => {

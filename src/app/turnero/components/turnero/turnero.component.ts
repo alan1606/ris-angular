@@ -18,27 +18,28 @@ export class TurneroComponent implements OnInit {
   private turneroSocketService = inject(TurneroSocketService);
   private tokenService = inject(TokenService);
   private alertaService = inject(AlertaService);
+
   private user = this.tokenService.getUsername();
   private dataService = inject(DataService);
-  // subscriptionsColumns: string[] = ['Area', 'Dejar de ver'];
+
   public studiesColumns: string[] = [
     'Paciente',
     'Estudio',
+    'Llegada',
+    'Cita',
     'Estado',
-    'Tecnico',
-    'Hora llegada',
-    'Hora cita',
     'Tomar',
   ];
   public expandedPanel: number | null = null;
 
+  public subscriptions = signal<TurneroSubscription[]>([]);
   public subscriptionsDataSource: any[] = [];
+
+  public estudios: any = [];
   public studiesDataSource: any[] = [];
 
   public area = signal<Area>(new Area());
   public sala = signal<EquipoDicom>(new EquipoDicom());
-  public estudios: any = [];
-  public subscriptions = signal<TurneroSubscription[]>([]);
 
   ngOnInit(): void {
     this.searchSubscriptions();
@@ -49,8 +50,8 @@ export class TurneroComponent implements OnInit {
     this.turneroService.findSubscriptionsByUser(this.user).subscribe(
       (subscriptionsData) => {
         this.subscriptions.set(subscriptionsData);
-        console.log(this.subscriptions());
         this.subscriptionsDataSource = this.subscriptions();
+        console.log(this.subscriptions())
       },
       (error) => {
         this.alertaService.error(error);
@@ -58,13 +59,17 @@ export class TurneroComponent implements OnInit {
     );
   }
 
-  public searchStudiesByRoomId(subscription): void {
-    this.expandedPanel = subscription.id? subscription.id : this.expandedPanel;
-    this.turneroService.workListByRoomId(subscription.dicomRoomId).subscribe(
+  public searchStudiesByRoomId(subscription: TurneroSubscription): void {
+    console.log("buscando estudios")
+    let roomId = subscription?.dicomRoomId;
+    this.expandedPanel = roomId
+      ? roomId
+      : this.expandedPanel;
+    this.turneroService.workListByRoomId(roomId).subscribe(
       (data) => {
         this.estudios = data;
         this.studiesDataSource = this.estudios;
-        console.log(this.estudios)
+        console.log(this.estudios);
       },
       (error) => {
         this.alertaService.error(error);
@@ -89,7 +94,11 @@ export class TurneroComponent implements OnInit {
   private studyTakenListener(): void {
     this.turneroSocketService.nuevoEvento$.subscribe(
       (data) => {
-        this.searchStudiesByRoomId(data);
+        if (data?.dicomRoomId === this.expandedPanel) {
+          this.searchStudiesByRoomId(data);
+          return;
+        }
+        return;
       },
       (error) => {
         this.alertaService.error(error);
@@ -106,8 +115,7 @@ export class TurneroComponent implements OnInit {
     this.turneroService
       .subscribeUserToRoom(this.user, this.sala().id)
       .subscribe(
-        (data) => {
-          console.log(data);
+        () => {
           this.searchSubscriptions();
         },
         (error) => {
@@ -116,7 +124,7 @@ export class TurneroComponent implements OnInit {
       );
   }
 
-  public quitar(salaId: number): void {
+  public unsubscribe(salaId: number): void {
     this.turneroService.unsuscribeUserOfRoom(this.user, salaId).subscribe(
       () => {
         this.alertaService.exito('Desuscripcion', 'realizada con exito!!!');

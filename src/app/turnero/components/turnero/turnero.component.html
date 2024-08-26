@@ -1,34 +1,56 @@
-<div>
-  <div style="display: flex; margin: 1%">
-    <app-buscador-areas (areaEmit)="areaSelected($event)" />
-    <app-buscador-sala (salaEmit)="sala.set($event)" />
-    <button
-      style="margin-top: 20px; margin-left: 10px"
-      mat-raised-button
-      color="primary"
-      (click)="subscribe()"
-    >
-      Agregar sala
-    </button>
+<div class="root">
+  <div>
+    <div style="display: flex">
+      <app-buscador-areas (areaEmit)="areaSelected($event)" />
+      <app-buscador-sala (salaEmit)="sala.set($event)" />
+      <button
+        style="margin-top: 20px; margin-left: 10px"
+        mat-raised-button
+        color="primary"
+        (click)="subscribe()"
+      >
+        Agregar sala
+      </button>
+    </div>
   </div>
-</div>
 
-@for (subscription of subscriptionsDataSource; track subscription.id) {
+  @for (subscription of subscriptionsDataSource; track subscription.id) {
   <div class="mb-3">
     <mat-accordion [multi]="false">
-      <mat-expansion-panel hideToggle (opened)="searchStudiesByRoomId(subscription)" [expanded]="expandedPanel === subscription.id? true:false">
+      <mat-expansion-panel
+        hideToggle
+        (opened)="
+          expandedPanel === subscription.dicomRoomId
+            ? null
+            : searchStudiesByRoomId(subscription)
+        "
+        [expanded]="expandedPanel === subscription.dicomRoomId ? true : false"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ subscription.room.area.nombre + " / " + subscription.room.nombre }}
+            {{
+              subscription.room.area.nombre + " / " + subscription.room.nombre
+            }}
           </mat-panel-title>
-          <mat-panel-description>{{expandedPanel === subscription.id ?'Click para ocultar':'Click para ver'}}</mat-panel-description>
-          <button class="btn btn-danger" (click)="quitar(subscription.dicomRoomId)">
+          <mat-panel-description>{{
+            expandedPanel === subscription.dicomRoomId
+              ? "Click para ocultar"
+              : "Click para ver"
+          }}</mat-panel-description>
+          <button
+            class="btn btn-danger"
+            (click)="unsubscribe(subscription.dicomRoomId)"
+          >
             Dejar de ver
           </button>
         </mat-expansion-panel-header>
 
         <div class="tabla-estudios">
-          <table [dataSource]="studiesDataSource" mat-table class="mat-elevation-z8">
+          <table
+            [dataSource]="studiesDataSource"
+            mat-table
+            class="mat-elevation-z8"
+          >
             <ng-container matColumnDef="Paciente">
               <th mat-header-cell *matHeaderCellDef>Paciente</th>
               <td mat-cell *matCellDef="let element">{{ element.patient }}</td>
@@ -37,29 +59,44 @@
               <th mat-header-cell *matHeaderCellDef>Estudio</th>
               <td mat-cell *matCellDef="let element">{{ element.study }}</td>
             </ng-container>
+           
+            <ng-container matColumnDef="Llegada">
+              <th mat-header-cell *matHeaderCellDef>Llegada</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.arrived | date : "hh:mm a" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Cita">
+              <th mat-header-cell *matHeaderCellDef>Cita</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.assigned | date : "hh:mm a" }}
+              </td>
+            </ng-container>
             <ng-container matColumnDef="Estado">
               <th mat-header-cell *matHeaderCellDef>Estado</th>
-              <td mat-cell *matCellDef="let element">{{ element.status==="WAITING"?'ESPERANDO':element.status==='PROCESSING'?'PROCESANDO':'FINALIZADO' }}</td>
-            </ng-container>
-            <ng-container matColumnDef="Tecnico">
-              <th mat-header-cell *matHeaderCellDef>Tecnico</th>
-              <td mat-cell *matCellDef="let element">{{ element.user }}</td>
-            </ng-container>
-            <ng-container matColumnDef="Hora llegada">
-              <th mat-header-cell *matHeaderCellDef>Hora llegada</th>
-              <td mat-cell *matCellDef="let element">{{ element.arrived | date: "hh:mm a" }}</td>
-            </ng-container>
-            <ng-container matColumnDef="Hora cita">
-              <th mat-header-cell *matHeaderCellDef>Hora cita</th>
-              <td mat-cell *matCellDef="let element">{{ element.assigned | date: "hh:mm a" }}</td>
+              <td mat-cell *matCellDef="let element">
+                {{
+                  element.status === "WAITING"
+                    ? "ESPERANDO"
+                    : element.status === "PROCESSING"
+                    ? "PROCESANDO"
+                    : "FINALIZADO"
+                }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="Tomar">
-              <th mat-header-cell *matHeaderCellDef></th>
+              <th mat-header-cell *matHeaderCellDef>Tecnico</th>
               <td mat-cell *matCellDef="let element">
                 @if (!element.user) {
-                  <button mat-raised-button color="primary" (click)="takeStudy(element.studyId)">
-                    Tomar
-                  </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="takeStudy(element.studyId)"
+                >
+                  Tomar
+                </button>
+                } @if(element.user){
+                {{ element.user }}
                 }
               </td>
             </ng-container>
@@ -68,11 +105,12 @@
           </table>
         </div>
         @if (studiesDataSource.length <= 0) {
-          <div>
-            <h1>Cargando estudios...</h1>
-          </div>
+        <div>
+          <h1>No hay estudios aún</h1>
+        </div>
         }
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-}
+  }
+</div>

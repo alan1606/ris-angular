@@ -1,23 +1,48 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark telefono">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img width="45" alt="Cons logo" src="../../../assets/img-landing-membresia/diagnocons.webp" />
+      <img
+        width="45"
+        alt="Cons logo"
+        src="../../../assets/img-landing-membresia/diagnocons.webp"
+      />
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/chat" routerLinkActive="active" *ngIf="puedeAbrirPacientes()"><i
-              class="bi bi-chat-dots-fill"></i></a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/chat"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirPacientes()"
+            ><i class="bi bi-chat-dots-fill"></i
+          ></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link dropdown-toggle" routerLinkActive="active" *ngIf="puedeAbrirAgendarCitas()"
-            [matMenuTriggerFor]="menuCitas" id="navbarDropdownMenuCitasLink" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Citas</a>
+          <a
+            class="nav-link dropdown-toggle"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirAgendarCitas()"
+            [matMenuTriggerFor]="menuCitas"
+            id="navbarDropdownMenuCitasLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >Citas</a
+          >
           <mat-menu #menuCitas="matMenu">
             <button mat-menu-item routerLink="/recepcion/agendar">
               Agendar
@@ -32,13 +57,19 @@
           </mat-menu>
         </li>
         <li class="nav-item">
-          <a class="nav-link dropdown-toggle" routerLinkActive="active" *ngIf="puedeAbrirHorarios()"
-            [matMenuTriggerFor]="menuHorarios" id="navbarDropdownMenuCitasLink" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Horarios</a>
+          <a
+            class="nav-link dropdown-toggle"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirHorarios()"
+            [matMenuTriggerFor]="menuHorarios"
+            id="navbarDropdownMenuCitasLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >Horarios</a
+          >
           <mat-menu #menuHorarios="matMenu">
-            <button mat-menu-item routerLink="/horarios">
-              Horarios
-            </button>
+            <button mat-menu-item routerLink="/horarios">Horarios</button>
             <button mat-menu-item routerLink="/horarios/limitar">
               Limitar institucion
             </button>
@@ -46,8 +77,14 @@
         </li>
 
         <li class="nav-item" *ngIf="puedeAbrirCortes()">
-          <a [matMenuTriggerFor]="menu" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a
+            [matMenuTriggerFor]="menu"
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             Cortes
           </a>
           <mat-menu #menu="matMenu">
@@ -61,43 +98,87 @@
             <button mat-menu-item routerLink="/cortes/devoluciones">
               Devoluciones
             </button>
-            <button mat-menu-item routerLink="/cortes/generar">Generar corte</button>
+            <button mat-menu-item routerLink="/cortes/generar">
+              Generar corte
+            </button>
           </mat-menu>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/precios" routerLinkActive="active"
-            *ngIf="puedeAbrirTabulador()">Tabulador</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/precios"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirTabulador()"
+            >Tabulador</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/agenda" routerLinkActive="active"
-            *ngIf="puedeAbrirAgendados()">Ver agendados</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/recepcion/agenda"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirAgendados()"
+            >Ver agendados</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/enviar-estudios" routerLinkActive="active"
-            *ngIf="puedeAbrirEnvioDeEstudios()">Enviar estudios</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/recepcion/enviar-estudios"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirEnvioDeEstudios()"
+            >Enviar estudios</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/venta-conceptos" routerLinkActive="active"
-            *ngIf="puedeAbrirVentaConceptos()">Venta conceptos</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/venta-conceptos"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirVentaConceptos()"
+            >Venta conceptos</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/turnero" routerLinkActive="active"
-            *ngIf="puedeAbrirTurnero()">Turnero</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/turnero"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirTurnero()"
+            >Turnero</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/medico-radiologo" routerLinkActive="active"
-            *ngIf="puedeAbrirDictador()">Dictador</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/medico-radiologo"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirDictador()"
+            >Dictador</a
+          >
         </li>
 
         <li class="nav-item" *ngIf="puedeAbrirInstrucciones()">
-          <a [matMenuTriggerFor]="menu" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a
+            [matMenuTriggerFor]="menu"
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             Instrucciones
           </a>
           <mat-menu #menu="matMenu">
@@ -113,23 +194,50 @@
           </mat-menu>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/instituciones" routerLinkActive="active"
-            *ngIf="puedeAbrirInstitucion()">Instituciones</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/instituciones"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirInstitucion()"
+            >Instituciones</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/recepcion/buscar-paciente-subir-foto-orden"
-            routerLinkActive="active" *ngIf="puedeAbrirSubirFotoOrden()">Foto orden <i class="bi bi-upload"></i></a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/recepcion/buscar-paciente-subir-foto-orden"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirSubirFotoOrden()"
+            >Foto orden <i class="bi bi-upload"></i
+          ></a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/medicos" routerLinkActive="active"
-            *ngIf="puedeAbrirCrudMedicos()">Medicos</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/medicos"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirCrudMedicos()"
+            >Medicos</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link dropdown-toggle" routerLink="/campanias" routerLinkActive="active"
-            *ngIf="puedeAbrirCampanias()" [matMenuTriggerFor]="menuCampanias" id="navbarDropdownMenuCampaniasLink"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Campañas</a>
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="/campanias"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirCampanias()"
+            [matMenuTriggerFor]="menuCampanias"
+            id="navbarDropdownMenuCampaniasLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >Campañas</a
+          >
 
           <mat-menu #menuCampanias="matMenu">
             <button mat-menu-item routerLink="/wp-marketing/enviar">
@@ -138,48 +246,373 @@
           </mat-menu>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/membresias" routerLinkActive="active"
-            *ngIf="puedeAbrirMembresias()">Membresias</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/membresias"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirMembresias()"
+            >Membresias</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/pacientes" routerLinkActive="active"
-            *ngIf="puedeAbrirPacientes()">Pacientes</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/pacientes"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirPacientes()"
+            >Pacientes</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/medico-referente/estudios" routerLinkActive="active"
-            *ngIf="puedeAbrirMedicosReferentes()">Estudios</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/medico-referente/estudios"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirMedicosReferentes()"
+            >Estudios</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/medico-referente/catalogo" routerLinkActive="active"
-            *ngIf="puedeAbrirMedicosReferentes()">Catalogo</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/medico-referente/catalogo"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirMedicosReferentes()"
+            >Catalogo</a
+          >
         </li>
-        
+
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/relacion-estudios" routerLinkActive="active"
-            *ngIf="puedeAbrirRelacion()">Relacion de estudios</a>
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/relacion-estudios"
+            routerLinkActive="active"
+            *ngIf="puedeAbrirRelacion()"
+            >Relacion de estudios</a
+          >
         </li>
       </ul>
 
       <div class="form-inline my-2 my-lg-0 boton-usuario">
         <a *ngIf="username && isLogged" class="nav-link username">
-          <i class="bi bi-person-fill"></i><label class="nombre-usuario">{{ username }}</label>
+          <i class="bi bi-person-fill"></i
+          ><label class="nombre-usuario">{{ username }}</label>
           <div class="">
-            <p *ngIf="puedeAbrirMedicosReferentes()" (click)="abrirPerfilModal()" class="link-perfil text-end">
+            <p
+              *ngIf="puedeAbrirMedicosReferentes()"
+              (click)="abrirPerfilModal()"
+              class="link-perfil text-end"
+            >
               Ver Perfil<i class="bi bi-three-dots-vertical"></i>
             </p>
-            
           </div>
         </a>
         <div>
-          <button class="btn btn-outline-success my-2 my-sm-0 ms-3" (click)="onLogin()" *ngIf="!isLogged">
+          <button
+            class="btn btn-outline-success my-2 my-sm-0 ms-3"
+            (click)="onLogin()"
+            *ngIf="!isLogged"
+          >
             <i class="bi bi-box-arrow-in-right"></i>
             Entrar
           </button>
-          <button class="btn btn-outline-danger my-2 my-sm-0 ms-3" (click)="onLogout()" *ngIf="isLogged">
+          <button
+            class="btn btn-outline-danger my-2 my-sm-0 ms-3"
+            (click)="onLogout()"
+            *ngIf="isLogged"
+          >
             <i class="bi bi-box-arrow-right"></i>
             Salir
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav class="nav navbar-dark bg-dark computadora">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img
+        width="45"
+        alt="Cons logo"
+        src="../../../assets/img-landing-membresia/diagnocons.webp"
+      />
+    </a>
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/chat"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirPacientes()"
+      ><i class="bi bi-chat-dots-fill"></i
+    ></a>
+
+    <a
+      class="navbar-brand dropdown-toggle"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirAgendarCitas()"
+      [matMenuTriggerFor]="menuCitas"
+      id="navbarDropdownMenuCitasLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      >Citas</a
+    >
+    <mat-menu #menuCitas="matMenu">
+      <button mat-menu-item routerLink="/recepcion/agendar">Agendar</button>
+      <button mat-menu-item routerLink="/recepcion/confirmaciones">
+        Confirmaciones
+      </button>
+      <button mat-menu-item routerLink="/recepcion/checkin">Check in</button>
+      <button mat-menu-item routerLink="/recepcion/limbo">Liberar</button>
+    </mat-menu>
+
+    <a
+      class="navbar-brand dropdown-toggle"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirHorarios()"
+      [matMenuTriggerFor]="menuHorarios"
+      id="navbarDropdownMenuCitasLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      >Horarios</a
+    >
+    <mat-menu #menuHorarios="matMenu">
+      <button mat-menu-item routerLink="/horarios">Horarios</button>
+      <button mat-menu-item routerLink="/horarios/limitar">
+        Limitar institucion
+      </button>
+    </mat-menu>
+
+    <a
+      *ngIf="puedeAbrirCortes()"
+      [matMenuTriggerFor]="menu"
+      class="navbar-brand dropdown-toggle"
+      id="navbarDropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Cortes
+    </a>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/cortes">Turnos</button>
+      <button mat-menu-item routerLink="/cortes/formas-pago">
+        Formas de pago
+      </button>
+      <button mat-menu-item routerLink="/cortes/movimientos-cortes">
+        Movimientos cortes
+      </button>
+      <button mat-menu-item routerLink="/cortes/devoluciones">
+        Devoluciones
+      </button>
+      <button mat-menu-item routerLink="/cortes/generar">Generar corte</button>
+    </mat-menu>
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/precios"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirTabulador()"
+      >Tabulador</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/recepcion/agenda"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirAgendados()"
+      >Ver agendados</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/recepcion/enviar-estudios"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirEnvioDeEstudios()"
+      >Enviar estudios</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/venta-conceptos"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirVentaConceptos()"
+      >Venta conceptos</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/turnero"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirTurnero()"
+      >Turnero</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/medico-radiologo"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirDictador()"
+      >Dictador</a
+    >
+
+    <a
+      *ngIf="puedeAbrirInstrucciones()"
+      [matMenuTriggerFor]="menu"
+      class="navbar-brand dropdown-toggle"
+      id="navbarDropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Instrucciones
+    </a>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/instrucciones/concepto">
+        Conceptos
+      </button>
+      <button mat-menu-item routerLink="/instrucciones/institucion">
+        Instituciones
+      </button>
+      <button mat-menu-item routerLink="/instrucciones/area">Areas</button>
+    </mat-menu>
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/instituciones"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirInstitucion()"
+      >Instituciones</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/recepcion/buscar-paciente-subir-foto-orden"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirSubirFotoOrden()"
+      >Foto orden <i class="bi bi-upload"></i
+    ></a>
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/medicos"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirCrudMedicos()"
+      >Medicos</a
+    >
+
+    <a
+      class="navbar-brand dropdown-toggle"
+      routerLink="/campanias"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirCampanias()"
+      [matMenuTriggerFor]="menuCampanias"
+      id="navbarDropdownMenuCampaniasLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      >Campañas</a
+    >
+
+    <mat-menu #menuCampanias="matMenu">
+      <button mat-menu-item routerLink="/wp-marketing/enviar">
+        Wp marketing
+      </button>
+    </mat-menu>
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/membresias"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirMembresias()"
+      >Membresias</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/pacientes"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirPacientes()"
+      >Pacientes</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/medico-referente/estudios"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirMedicosReferentes()"
+      >Estudios</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/medico-referente/catalogo"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirMedicosReferentes()"
+      >Catalogo</a
+    >
+
+    <a
+      class="navbar-brand"
+      href="#"
+      routerLink="/relacion-estudios"
+      routerLinkActive="active"
+      *ngIf="puedeAbrirRelacion()"
+      >Relacion de estudios</a
+    >
+
+    <div class="form-inline my-2 my-lg-0 boton-usuario">
+      <a *ngIf="username && isLogged" class="navbar-brand username">
+        <i class="bi bi-person-fill"></i
+        ><label class="nombre-usuario">{{ username }}</label>
+        <div class="">
+          <p
+            *ngIf="puedeAbrirMedicosReferentes()"
+            (click)="abrirPerfilModal()"
+            class="link-perfil text-end"
+          >
+            Ver Perfil<i class="bi bi-three-dots-vertical"></i>
+          </p>
+        </div>
+      </a>
+      <div>
+        <button
+          class="btn btn-outline-success my-2 my-sm-0 ms-3"
+          (click)="onLogin()"
+          *ngIf="!isLogged"
+        >
+          <i class="bi bi-box-arrow-in-right"></i>
+          Entrar
+        </button>
+        <button
+          class="btn btn-outline-danger my-2 my-sm-0 ms-3"
+          (click)="onLogout()"
+          *ngIf="isLogged"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+          Salir
+        </button>
       </div>
     </div>
   </div>

@@ -3,7 +3,6 @@ import { TokenService } from 'src/app/services/token.service';
 import SockJS from 'sockjs-client';
 import { Client, Message } from '@stomp/stompjs';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { BASE_ENDPOINT } from 'src/app/config/app';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,6 @@ export class TurneroSocketService {
   public nuevoEvento$: Observable<any> = this.messageSubject.asObservable();
 
   constructor() {
-    this.initConnectionSocket();
   }
   public repoducir(): void {
     this.notificationSound.play();
@@ -28,7 +26,7 @@ export class TurneroSocketService {
 
   public init(): void {}
 
-  private initConnectionSocket() {
+  public initConnectionSocket() {
     console.log('Iniciando conexión');
     //const url = 'https://ris.diagnocons.com/api/turnero/shifts-websocket';
     const url = 'http://172.17.207.221:8002/shifts-websocket';
@@ -77,11 +75,8 @@ export class TurneroSocketService {
             `Received message from topic /topic/user/${this.username}`
           );
           const content = JSON.parse(message.body);
+          console.log(content)
           this.messageSubject.next(content);
-          console.log(content);
-          if(content.user && content.dicomRoomId && content.studyId){
-            console.log("estudio procesado")
-          }
           if (!content.user) {
             this.alertaService.pacientArrived(
               content.patientName,
