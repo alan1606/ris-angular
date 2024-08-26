@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { secret_pkce } from '../config/app';
 import { Observable, of } from 'rxjs';
+import { TurneroSocketService } from '../turnero/services/turnero-socket.service';
 
 const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKEN = 'refresh_token';
@@ -11,7 +12,6 @@ const CODE_VERIFIER = 'code_verifier';
   providedIn: 'root'
 })
 export class TokenService {
-
   constructor() { }
 
   setTokens(accessToken: string, refresToken: string): void{

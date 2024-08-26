@@ -49,8 +49,13 @@ export class AlertaService {
     Swal.fire({
       icon: 'info',
       title:  `${nombre} en sala de espera`,
-      text: `${sala}`,
       footer:`${study}`,
+      html:`
+      <p>${sala}</p>
+      <audio autoplay style="display:none;">
+      <source src="../../../assets/ponten4.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+      </audio>`,
       toast: true,
       position: 'bottom-right',
       showConfirmButton: false,
