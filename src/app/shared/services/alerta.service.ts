@@ -53,7 +53,7 @@ export class AlertaService {
       html:`
       <p>${sala}</p>
       <audio autoplay style="display:none;">
-      <source src="../../../assets/ponten4.mp3" type="audio/mpeg">
+      <source src="../../../assets/messanger.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
       </audio>`,
       toast: true,

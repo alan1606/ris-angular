@@ -14,29 +14,35 @@ export class TurneroSocketService {
   private alertaService = inject(AlertaService);
 
   private stompClient: Client;
-  private messageSubject: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
+  private messageSubject: BehaviorSubject<Message> =
+    new BehaviorSubject<Message>(null);
   private username = this.tokenService.getUsername();
-  private tecnico = this.tokenService.isTechnician() || this.tokenService.isAdmin();
+  private tecnico =
+    this.tokenService.isTechnician() || this.tokenService.isAdmin();
 
   public nuevoEvento$: Observable<any> = this.messageSubject.asObservable();
 
-  constructor() {
-  }
+  constructor() {}
   public repoducir(): void {
     this.notificationSound.play();
   }
 
-  public init(): void {}
-
-  public initConnectionSocket() {
-    if(this.username==="" || !this.username){
-      return
+  public initConnectionSocket(
+    username: string = null,
+    tecnico: boolean = false
+  ) {
+    if (username && tecnico) {
+      this.username = username;
+      this.tecnico = tecnico;
+    }
+    if (!this.username) {
+      return;
     }
 
-    if(!this.tecnico){
-      return
+    if (!this.tecnico) {
+      return;
     }
-    
+
     console.log('Iniciando conexión');
     //const url = 'https://ris.diagnocons.com/api/turnero/shifts-websocket';
     const url = 'http://172.17.207.221:8002/shifts-websocket';
@@ -85,7 +91,7 @@ export class TurneroSocketService {
             `Received message from topic /topic/user/${this.username}`
           );
           const content = JSON.parse(message.body);
-          console.log(content)
+          console.log(content);
           this.messageSubject.next(content);
           if (!content.user) {
             this.alertaService.pacientArrived(

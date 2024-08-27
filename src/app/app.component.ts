@@ -4,6 +4,8 @@ import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { TurneroSocketService } from './turnero/services/turnero-socket.service';
 import { TokenService } from './services/token.service';
+import { interval } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,7 @@ import { TokenService } from './services/token.service';
 export class AppComponent implements OnInit {
   @ViewChild('menu') menu: NavbarComponent;
   private tokenService = inject(TokenService);
-
+  private logged: boolean = this.tokenService.isLogged();
   constructor(
     private router: Router,
     private turneroSocketService: TurneroSocketService
@@ -26,7 +28,23 @@ export class AppComponent implements OnInit {
         this.menu.getLogged();
       });
 
-          this.turneroSocketService.initConnectionSocket()
-
+    interval(1000)
+      .pipe(takeWhile(() => !this.logged))
+      .subscribe(() => {
+        this.logged = this.tokenService.isLogged();
+        console.log('conectando', this.logged);
+        if (this.logged) {
+          let tecnico =
+            this.tokenService.isTechnician() || this.tokenService.isAdmin();
+          this.turneroSocketService.initConnectionSocket(
+            this.tokenService.getUsername(),
+            tecnico
+          );
+        }
+      });
+    if (this.logged) {
+      console.log("logged")
+      this.turneroSocketService.initConnectionSocket();
+    }
   }
 }
