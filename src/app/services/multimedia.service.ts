@@ -33,6 +33,10 @@ export class MultimediaService extends CommonService<Multimedia>{
     return this.http.get<Multimedia[]>(`${this.baseEndpoint}/orden-venta/${id}`);
   }
 
+  public buscarPorVentaConceptoId(id: number): Observable<Multimedia[]>{
+    return this.http.get<Multimedia[]>(`${this.baseEndpoint}/venta-conceptos/${id}`);
+  }
+
   public verDocumento(multimedia: Multimedia)  {
     return this.http.get(`${FILES_PATH}/${multimedia.ruta}`, { responseType: 'blob', observe: 'response'}).pipe(
      map((res: any) => {

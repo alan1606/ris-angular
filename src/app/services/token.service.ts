@@ -61,6 +61,10 @@ export class TokenService {
     return this.isRole('MEDICO_REFERENTE')
   }
 
+  isTurnero():boolean{
+    return this.isRole('TURNERO')
+  }
+
   private isRole(role: string) : boolean{
     if(!this.isLogged()){
       return false;

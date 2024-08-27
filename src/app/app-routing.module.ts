@@ -20,6 +20,7 @@ import { MembresiasComponent } from './components/membresias/membresias.componen
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
+import { TurneroGuard } from './guards/turnero.guard';
 
 const routes: Routes = [
   {
@@ -178,7 +179,7 @@ const routes: Routes = [
     path: 'turnero',
     loadChildren: () =>
       import('./turnero/turnero.module').then((m) => m.TurneroModule),
-    canActivate: [VentaConceptosGuard],
+    canActivate: [TurneroGuard],
   },
   {
     path: '',

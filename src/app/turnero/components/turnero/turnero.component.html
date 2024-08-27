@@ -79,11 +79,30 @@
                   element.status === "WAITING"
                     ? "ESPERANDO"
                     : element.status === "PROCESSING"
-                    ? "PROCESANDO"
+                    ? "TOMANDO"
                     : "FINALIZADO"
                 }}
               </td>
             </ng-container>
+           
+           <ng-container matColumnDef="Asociados">
+              <th mat-header-cell *matHeaderCellDef>E. asociados</th>
+              <td mat-cell *matCellDef="let element">{{ element.studiesAssociated ? element.studiesAssociated : ""}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Foto">
+              <th mat-header-cell *matHeaderCellDef>Orden</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  mat-raised-button
+                  color="secondary"
+                  (click)="verFotoOrden(element.studyId)"
+                >
+                  Ver foto
+                </button>
+              </td>
+            </ng-container>
+
             <ng-container matColumnDef="Tomar">
               <th mat-header-cell *matHeaderCellDef>Técnico</th>
               <td mat-cell *matCellDef="let element">

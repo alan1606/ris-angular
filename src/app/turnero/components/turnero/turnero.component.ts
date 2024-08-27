@@ -7,6 +7,9 @@ import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { TurneroSubscription } from 'src/app/models/TurneroSubscription';
 import { DataService } from 'src/app/shared/services/data.service';
 import { TurneroSocketService } from '../../services/turnero-socket.service';
+import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { VerFotoOrdenComponent } from '../ver-foto-orden/ver-foto-orden.component';
 
 @Component({
   selector: 'app-turnero',
@@ -14,6 +17,9 @@ import { TurneroSocketService } from '../../services/turnero-socket.service';
   styleUrl: './turnero.component.css',
 })
 export class TurneroComponent implements OnInit {
+
+  readonly dialog = inject(MatDialog);
+
   private turneroService = inject(TurneroService);
   private turneroSocketService = inject(TurneroSocketService);
   private tokenService = inject(TokenService);
@@ -28,7 +34,9 @@ export class TurneroComponent implements OnInit {
     'Llegada',
     'Cita',
     'Estado',
-    'Tomar',
+    'Asociados',
+    'Foto',
+    'Tomar'
   ];
   public expandedPanel: number | null = null;
 
@@ -78,17 +86,35 @@ export class TurneroComponent implements OnInit {
   }
 
   public takeStudy(studyId: number): void {
-    this.turneroService.takeStudy(studyId, this.user).subscribe(
-      (data) => {
-        console.log(data);
-        let takenStudy = this.estudios.find((e) => e.studyId === studyId);
-        takenStudy.status = 'PROCESSING';
-        this.studiesDataSource = this.estudios;
+    
+    Swal.fire({
+      title: '¿Desea pasar al paciente?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No',
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
       },
-      (error) => {
-        this.alertaService.error(error);
-      }
-    );
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.turneroService.takeStudy(studyId, this.user).subscribe(
+          (data) => {
+            console.log(data);
+            let takenStudy = this.estudios.find((e) => e.studyId === studyId);
+            takenStudy.status = 'PROCESSING';
+            this.studiesDataSource = this.estudios;
+          },
+          (error) => {
+            this.alertaService.error(error);
+          }
+        );
+      } 
+    })
+  
   }
 
   private studyTakenListener(): void {
@@ -124,15 +150,40 @@ export class TurneroComponent implements OnInit {
       );
   }
 
+  verFotoOrden(idEstudio: number): void{
+    const dialogRef = this.dialog.open(VerFotoOrdenComponent, {
+      data: {idEstudio},
+    });
+
+  }
+
   public unsubscribe(salaId: number): void {
-    this.turneroService.unsuscribeUserOfRoom(this.user, salaId).subscribe(
-      () => {
-        this.alertaService.exito('Desuscripcion', 'realizada con exito!!!');
-        this.searchSubscriptions();
+
+    Swal.fire({
+      title: '¿Seguro que quiere dejar de ver estudios de esta sala?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No',
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
       },
-      (error) => {
-        this.alertaService.error(error);
-      }
-    );
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.turneroService.unsuscribeUserOfRoom(this.user, salaId).subscribe(
+          () => {
+            this.alertaService.exito('Desuscripcion', 'realizada con exito!!!');
+            this.searchSubscriptions();
+          },
+          (error) => {
+            this.alertaService.error(error);
+          }
+        );
+      } 
+    })
+    
   }
 }

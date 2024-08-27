@@ -4,6 +4,7 @@ import SockJS from 'sockjs-client';
 import { Client, Message } from '@stomp/stompjs';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { turneroSocket } from 'src/app/config/app';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,6 +22,8 @@ export class TurneroSocketService {
     this.tokenService.isTechnician() || this.tokenService.isAdmin();
 
   public nuevoEvento$: Observable<any> = this.messageSubject.asObservable();
+
+  private url: string = turneroSocket;
 
   constructor() {}
   public repoducir(): void {
@@ -44,11 +47,10 @@ export class TurneroSocketService {
     }
 
     console.log('Iniciando conexión');
-    //const url = 'https://ris.diagnocons.com/api/turnero/shifts-websocket';
-    const url = 'http://172.17.207.221:8002/shifts-websocket';
+
 
     this.stompClient = new Client({
-      webSocketFactory: () => new SockJS(url),
+      webSocketFactory: () => new SockJS(this.url),
       connectHeaders: {},
     });
 

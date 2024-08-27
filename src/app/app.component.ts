@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
         console.log('conectando', this.logged);
         if (this.logged) {
           let tecnico =
-            this.tokenService.isTechnician() || this.tokenService.isAdmin();
+            this.tokenService.isTurnero() || this.tokenService.isAdmin();
           this.turneroSocketService.initConnectionSocket(
             this.tokenService.getUsername(),
             tecnico

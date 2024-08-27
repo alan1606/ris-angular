@@ -1,0 +1,18 @@
+
+
+@media only screen and (max-width: 576px) {
+    .fotito{
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .fotito{
+        width: 25%;
+    }
+}
+
+.nofoto{
+    color: red;
+    margin: 1rem;
+}
