@@ -17,12 +17,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private turneroSocketService: TurneroSocketService
-  ) {
-    let isLogged: boolean = this.tokenService.isLogged();
-    if (isLogged) {
-      this.turneroSocketService.initConnectionSocket();
-    }
-  }
+  ) {}
 
   ngOnInit(): void {
     this.router.events
@@ -31,22 +26,7 @@ export class AppComponent implements OnInit {
         this.menu.getLogged();
       });
 
-    if ('caches' in window) {
-      caches.keys().then(function (keyList) {
-        return Promise.all(
-          keyList.map(function (key) {
-            return caches.delete(key);
-          })
-        );
-      });
-    }
+          this.turneroSocketService.initConnectionSocket()
 
-    if (window.navigator && navigator.serviceWorker) {
-      navigator.serviceWorker.getRegistrations().then(function (registrations) {
-        for (let registration of registrations) {
-          registration.unregister();
-        }
-      });
-    }
   }
 }

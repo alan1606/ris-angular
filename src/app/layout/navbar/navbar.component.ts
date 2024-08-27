@@ -247,7 +247,7 @@ export class NavbarComponent implements OnInit {
     return false;
   }
   puedeAbrirTurnero(): boolean {
-    if (this.isTechnician || this.isAdmin) {
+    if (this.isAdmin || this.isTechnician) {
       return true;
     }
     return false;
@@ -267,8 +267,5 @@ export class NavbarComponent implements OnInit {
       width: '1024px',
       data: { user: this.username },
     });
-  }
-  public():void{
-
   }
 }

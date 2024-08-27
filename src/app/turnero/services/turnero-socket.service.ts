@@ -16,6 +16,8 @@ export class TurneroSocketService {
   private stompClient: Client;
   private messageSubject: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
   private username = this.tokenService.getUsername();
+  private tecnico = this.tokenService.isTechnician() || this.tokenService.isAdmin();
+
   public nuevoEvento$: Observable<any> = this.messageSubject.asObservable();
 
   constructor() {
@@ -27,6 +29,14 @@ export class TurneroSocketService {
   public init(): void {}
 
   public initConnectionSocket() {
+    if(this.username==="" || !this.username){
+      return
+    }
+
+    if(!this.tecnico){
+      return
+    }
+    
     console.log('Iniciando conexión');
     //const url = 'https://ris.diagnocons.com/api/turnero/shifts-websocket';
     const url = 'http://172.17.207.221:8002/shifts-websocket';

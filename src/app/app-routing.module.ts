@@ -178,7 +178,7 @@ const routes: Routes = [
     path: 'turnero',
     loadChildren: () =>
       import('./turnero/turnero.module').then((m) => m.TurneroModule),
-    canActivate: [RecepcionGuard],
+    canActivate: [VentaConceptosGuard],
   },
   {
     path: '',
