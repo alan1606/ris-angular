@@ -5,6 +5,16 @@
   padding: 1%;
 }
 
-.tabla-estudios {
-  width: 90%;
+table, td{
+  font-size: smaller;
 }
+
+.tomando{
+  background-color: purple;
+  color: white;
+}
+
+.finalizado{
+background-color: greenyellow;
+}
+

@@ -22,7 +22,7 @@
         (opened)="
           expandedPanel === subscription.dicomRoomId
             ? null
-            : searchStudiesByRoomId(subscription)
+            : searchStudiesByRoomId(subscription.dicomRoomId)
         "
         [expanded]="expandedPanel === subscription.dicomRoomId ? true : false"
       >
@@ -45,7 +45,7 @@
           </button>
         </mat-expansion-panel-header>
 
-        <div class="tabla-estudios">
+        <div class="">
           <table
             [dataSource]="studiesDataSource"
             mat-table
@@ -59,7 +59,7 @@
               <th mat-header-cell *matHeaderCellDef>Estudio</th>
               <td mat-cell *matCellDef="let element">{{ element.study }}</td>
             </ng-container>
-           
+
             <ng-container matColumnDef="Llegada">
               <th mat-header-cell *matHeaderCellDef>Llegada</th>
               <td mat-cell *matCellDef="let element">
@@ -74,7 +74,14 @@
             </ng-container>
             <ng-container matColumnDef="Estado">
               <th mat-header-cell *matHeaderCellDef>Estado</th>
-              <td mat-cell *matCellDef="let element">
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [ngClass]="{
+                  'tomando': element.status == 'PROCESSING',
+                  'finalizado': element.status == 'FINISHED',
+                }"
+              >
                 {{
                   element.status === "WAITING"
                     ? "ESPERANDO"
@@ -84,21 +91,23 @@
                 }}
               </td>
             </ng-container>
-           
-           <ng-container matColumnDef="Asociados">
+
+            <ng-container matColumnDef="Asociados">
               <th mat-header-cell *matHeaderCellDef>E. asociados</th>
-              <td mat-cell *matCellDef="let element">{{ element.studiesAssociated ? element.studiesAssociated : ""}}</td>
+              <td mat-cell *matCellDef="let element">
+                {{ element.studiesAssociated ? element.studiesAssociated : "" }}
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="Foto">
               <th mat-header-cell *matHeaderCellDef>Orden</th>
               <td mat-cell *matCellDef="let element">
                 <button
-                  mat-raised-button
-                  color="secondary"
+                  class="btn btn-dark btn-sm"
+                  color="accent"
                   (click)="verFotoOrden(element.studyId)"
                 >
-                  Ver foto
+                  Foto
                 </button>
               </td>
             </ng-container>

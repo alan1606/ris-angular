@@ -17,7 +17,6 @@ import { VerFotoOrdenComponent } from '../ver-foto-orden/ver-foto-orden.componen
   styleUrl: './turnero.component.css',
 })
 export class TurneroComponent implements OnInit {
-
   readonly dialog = inject(MatDialog);
 
   private turneroService = inject(TurneroService);
@@ -36,7 +35,7 @@ export class TurneroComponent implements OnInit {
     'Estado',
     'Asociados',
     'Foto',
-    'Tomar'
+    'Tomar',
   ];
   public expandedPanel: number | null = null;
 
@@ -52,6 +51,12 @@ export class TurneroComponent implements OnInit {
   ngOnInit(): void {
     this.searchSubscriptions();
     this.studyTakenListener();
+    let lastRoom = parseInt(localStorage.getItem('roomId'));
+    console.log(lastRoom);
+    if (lastRoom) {
+      this.expandedPanel = lastRoom;
+      this.searchStudiesByRoomId(lastRoom);
+    }
   }
 
   public searchSubscriptions(): void {
@@ -59,7 +64,7 @@ export class TurneroComponent implements OnInit {
       (subscriptionsData) => {
         this.subscriptions.set(subscriptionsData);
         this.subscriptionsDataSource = this.subscriptions();
-        console.log(this.subscriptions())
+        console.log(this.subscriptions());
       },
       (error) => {
         this.alertaService.error(error);
@@ -67,12 +72,11 @@ export class TurneroComponent implements OnInit {
     );
   }
 
-  public searchStudiesByRoomId(subscription: TurneroSubscription): void {
-    console.log("buscando estudios")
-    let roomId = subscription?.dicomRoomId;
-    this.expandedPanel = roomId
-      ? roomId
-      : this.expandedPanel;
+  public searchStudiesByRoomId(dicomRoomId: number): void {
+    console.log('buscando estudios');
+    let roomId = dicomRoomId;
+    this.expandedPanel = roomId ? roomId : this.expandedPanel;
+    localStorage.setItem('roomId', roomId.toString());
     this.turneroService.workListByRoomId(roomId).subscribe(
       (data) => {
         this.estudios = data;
@@ -86,7 +90,6 @@ export class TurneroComponent implements OnInit {
   }
 
   public takeStudy(studyId: number): void {
-    
     Swal.fire({
       title: '¿Desea pasar al paciente?',
       showDenyButton: true,
@@ -112,9 +115,8 @@ export class TurneroComponent implements OnInit {
             this.alertaService.error(error);
           }
         );
-      } 
-    })
-  
+      }
+    });
   }
 
   private studyTakenListener(): void {
@@ -150,15 +152,14 @@ export class TurneroComponent implements OnInit {
       );
   }
 
-  verFotoOrden(idEstudio: number): void{
+  public verFotoOrden(idEstudio: number): void {
     const dialogRef = this.dialog.open(VerFotoOrdenComponent, {
-      data: {idEstudio},
+      data: { idEstudio },
     });
-
   }
 
-  public unsubscribe(salaId: number): void {
 
+  public unsubscribe(salaId: number): void {
     Swal.fire({
       title: '¿Seguro que quiere dejar de ver estudios de esta sala?',
       showDenyButton: true,
@@ -182,8 +183,7 @@ export class TurneroComponent implements OnInit {
             this.alertaService.error(error);
           }
         );
-      } 
-    })
-    
+      }
+    });
   }
 }

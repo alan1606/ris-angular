@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { MultimediaService } from 'src/app/services/multimedia.service';
-import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 
 @Component({
   selector: 'app-ver-foto-orden',
