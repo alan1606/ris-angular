@@ -1,1 +1,144 @@
-<p>turnero works!</p>
+<div class="root">
+  <div>
+    <div style="display: flex">
+      <app-buscador-areas (areaEmit)="areaSelected($event)" />
+      <app-buscador-sala (salaEmit)="sala.set($event)" />
+      <button
+        style="margin-top: 20px; margin-left: 10px"
+        mat-raised-button
+        color="primary"
+        (click)="subscribe()"
+      >
+        Agregar sala
+      </button>
+    </div>
+  </div>
+
+  @for (subscription of subscriptionsDataSource; track subscription.id) {
+  <div class="mb-3">
+    <mat-accordion [multi]="false">
+      <mat-expansion-panel
+        hideToggle
+        (opened)="
+          expandedPanel === subscription.dicomRoomId
+            ? null
+            : searchStudiesByRoomId(subscription.dicomRoomId)
+        "
+        [expanded]="expandedPanel === subscription.dicomRoomId ? true : false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{
+              subscription.room.area.nombre + " / " + subscription.room.nombre
+            }}
+          </mat-panel-title>
+          <mat-panel-description>{{
+            expandedPanel === subscription.dicomRoomId
+              ? "Click para ocultar"
+              : "Click para ver"
+          }}</mat-panel-description>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="unsubscribe(subscription.dicomRoomId)"
+          >
+            Dejar de ver
+          </button>
+        </mat-expansion-panel-header>
+
+        <div class="">
+          <table
+            [dataSource]="studiesDataSource"
+            mat-table
+            class="mat-elevation-z8"
+          >
+            <ng-container matColumnDef="Paciente">
+              <th mat-header-cell *matHeaderCellDef>Paciente</th>
+              <td mat-cell *matCellDef="let element">{{ element.patient }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Estudio">
+              <th mat-header-cell *matHeaderCellDef>Estudio</th>
+              <td mat-cell *matCellDef="let element">{{ element.study }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Llegada">
+              <th mat-header-cell *matHeaderCellDef>Llegada</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.arrived | date : "hh:mm a" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Cita">
+              <th mat-header-cell *matHeaderCellDef>Cita</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.assigned | date : "hh:mm a" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Estado">
+              <th mat-header-cell *matHeaderCellDef>Estado</th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [ngClass]="{
+                  'tomando': element.status == 'PROCESSING',
+                  'finalizado': element.status == 'FINISHED',
+                }"
+              >
+                {{
+                  element.status === "WAITING"
+                    ? "ESPERANDO"
+                    : element.status === "PROCESSING"
+                    ? "TOMANDO"
+                    : "FINALIZADO"
+                }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Asociados">
+              <th mat-header-cell *matHeaderCellDef>E. asociados</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.studiesAssociated ? element.studiesAssociated : "" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Foto">
+              <th mat-header-cell *matHeaderCellDef>Orden</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  class="btn btn-dark btn-sm"
+                  color="accent"
+                  (click)="verFotoOrden(element.studyId)"
+                >
+                  Foto
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Tomar">
+              <th mat-header-cell *matHeaderCellDef>Técnico</th>
+              <td mat-cell *matCellDef="let element">
+                @if (!element.user) {
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="takeStudy(element.studyId)"
+                >
+                  Tomar
+                </button>
+                } @if(element.user){
+                {{ element.user }}
+                }
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="studiesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: studiesColumns"></tr>
+          </table>
+        </div>
+        @if (studiesDataSource.length <= 0) {
+        <div>
+          <h1>No hay estudios aún</h1>
+        </div>
+        }
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  }
+</div>

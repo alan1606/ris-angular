@@ -6,7 +6,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
 @NgModule({
   declarations: [NavbarComponent],
   exports: [NavbarComponent],
@@ -17,6 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatMenuModule,
     MatIconModule,
+    MatButtonModule,
+    MatSidenavModule
   ],
 })
 export class LayoutModule {}

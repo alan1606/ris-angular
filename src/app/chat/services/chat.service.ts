@@ -18,6 +18,8 @@ export class ChatService {
 
   initConnenctionSocket() {
     const url = 'https://ris.diagnocons.com/api/whatsapp-web/wp-web-websocket';
+    //const url = 'http://localhost:8013/wp-web-websocket';
+
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket)
   }

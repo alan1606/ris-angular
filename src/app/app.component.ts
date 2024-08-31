@@ -1,50 +1,50 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Event, NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './layout/navbar/navbar.component';
+import { TurneroSocketService } from './turnero/services/turnero-socket.service';
+import { TokenService } from './services/token.service';
+import { interval } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-
-  title = 'ris';
-
   @ViewChild('menu') menu: NavbarComponent;
-
+  private tokenService = inject(TokenService);
+  private logged: boolean = this.tokenService.isLogged();
   constructor(
-    private router: Router
-  ) {
-
-  }
+    private router: Router,
+    private turneroSocketService: TurneroSocketService
+  ) {}
 
   ngOnInit(): void {
-    this.router.events.pipe(filter((event:Event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.menu.getLogged();
-    });
+    this.router.events
+      .pipe(filter((event: Event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.menu.getLogged();
+      });
 
-    if ('caches' in window) {
-      caches.keys()
-        .then(function (keyList) {
-          return Promise.all(keyList.map(function (key) {
-            return caches.delete(key);
-          }));
-        })
-    }
-
-
-    if (window.navigator && navigator.serviceWorker) {
-      navigator.serviceWorker.getRegistrations()
-        .then(function (registrations) {
-          for (let registration of registrations) {
-            registration.unregister();
-          }
-        });
+    interval(1000)
+      .pipe(takeWhile(() => !this.logged))
+      .subscribe(() => {
+        this.logged = this.tokenService.isLogged();
+        console.log('conectando', this.logged);
+        if (this.logged) {
+          let tecnico =
+            this.tokenService.isTurnero() || this.tokenService.isAdmin();
+          this.turneroSocketService.initConnectionSocket(
+            this.tokenService.getUsername(),
+            tecnico
+          );
+        }
+      });
+    if (this.logged) {
+      console.log("logged")
+      this.turneroSocketService.initConnectionSocket();
     }
   }
-
-
-
 }

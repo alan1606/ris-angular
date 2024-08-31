@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import Swal, { SweetAlertArrayOptions, SweetAlertResult } from 'sweetalert2';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AlertaService {
-  constructor() {}
+  constructor() {
+  }
 
-  exito(title: string = '', text: string = ''): void {
+  public exito(title: string = '', text: string = ''): void {
     Swal.fire({
       icon: 'success',
       title: title,
@@ -15,14 +15,14 @@ export class AlertaService {
     });
   }
 
-  campoInvalido(titulo: string, texto: string = ''): void {
+  public campoInvalido(titulo: string, texto: string = ''): void {
     Swal.fire({
       icon: 'info',
       title: titulo,
       text: texto,
     });
   }
-  error(error): void {
+  public error(error): void {
     Swal.fire({
       icon: 'error',
       title: 'Error',
@@ -30,22 +30,43 @@ export class AlertaService {
     console.log(error);
   }
 
-  info(
+  public info(
     titulo: string = '',
     texto: string = '',
     outsideClick: boolean = true,
-    confirmButton:boolean=true
+    confirmButton: boolean = true
   ): Promise<SweetAlertResult<Awaited<any>>> {
     return Swal.fire({
       icon: 'info',
       title: titulo,
       text: texto,
       allowOutsideClick: outsideClick,
-      showConfirmButton:confirmButton
+      showConfirmButton: confirmButton,
     });
   }
 
-  close():void{
-    Swal.close()
+  public pacientArrived(nombre: string = '', sala:string = '', study:string = ''): void {
+    Swal.fire({
+      icon: 'info',
+      title:  `${nombre} en sala de espera`,
+      footer:`${study}`,
+      html:`
+      <p>${sala}</p>
+      <audio autoplay style="display:none;">
+      <source src="../../../assets/messanger.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+      </audio>`,
+      toast: true,
+      position: 'bottom-right',
+      showConfirmButton: false,
+    });
+  }
+
+  public patientTaken():void{
+
+  }
+
+  public close(): void {
+    Swal.close();
   }
 }

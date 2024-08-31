@@ -1,0 +1,22 @@
+
+
+/* @media (max-width: 576px) {
+    .fotito{
+        width: 90%;
+        height: 90%;
+
+    }
+} */
+.fotito{
+    height: 80vh;
+}
+/* @media (min-width: 576px) {
+    .fotito{
+        height: 50%;
+    }
+} */
+
+.nofoto{
+    color: red;
+    margin: 1rem;
+}

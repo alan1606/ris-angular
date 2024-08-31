@@ -25,6 +25,7 @@ const CHARACTERS =
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  showFiller = false;
   authorize_url = authorize_uri;
   logout_url = logour_uri;
   username: string = null;
@@ -48,6 +49,7 @@ export class NavbarComponent implements OnInit {
   isRadiologicPhysician: boolean = false;
   isTechnician: boolean = false;
   isInstitution: boolean = false;
+  isTurnero: boolean = false;
 
   constructor(
     private tokenService: TokenService,
@@ -85,6 +87,7 @@ export class NavbarComponent implements OnInit {
     this.isTechnician = this.tokenService.isTechnician();
     this.isInstitution = this.tokenService.isInstitution();
     this.isReferring = this.tokenService.isReferring();
+    this.isTurnero = this.tokenService.isTurnero();
 
     this.username = this.tokenService.getUsername();
     if (this.isLogged && this.isTokensExipred()) {
@@ -245,6 +248,12 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+  puedeAbrirTurnero(): boolean {
+    if (this.isAdmin || this.isTurnero) {
+      return true;
+    }
+    return false;
+  }
   puedeAbrirRelacion(): boolean {
     if (this.username == 'scarrera') {
       return false;
@@ -260,8 +269,5 @@ export class NavbarComponent implements OnInit {
       width: '1024px',
       data: { user: this.username },
     });
-  }
-  public():void{
-
   }
 }

@@ -1,0 +1,11 @@
+<div *ngIf="fotosCargadas | async">
+  <div *ngIf="hasFotos(); else noFotoTemplate">
+    <div class="my-3" *ngFor="let foto of fotos">
+      <img [src]="filesPath + foto.ruta" class="rounded fotito" />
+    </div>
+  </div>
+</div>
+
+<ng-template #noFotoTemplate>
+  <p class="nofoto">No se ha subido foto</p>
+</ng-template>

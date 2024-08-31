@@ -20,6 +20,7 @@ import { MembresiasComponent } from './components/membresias/membresias.componen
 import { CrudPacientesComponent } from './components/crud-pacientes/crud-pacientes.component';
 import { LandingMembresiaComponent } from './components/landing-membresia/landing-membresia.component';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
+import { TurneroGuard } from './guards/turnero.guard';
 
 const routes: Routes = [
   {
@@ -36,7 +37,7 @@ const routes: Routes = [
     path: 'medico-radiologo',
     component: MedicoRadiologoComponent,
     canActivate: [DictadorGuard],
-    title:"RIS"
+    title: 'RIS',
   },
   {
     path: 'medico-radiologo/:token',
@@ -173,6 +174,12 @@ const routes: Routes = [
       import('./relacion-contable/relacion-contable.module').then(
         (m) => m.RelacionContableModule
       ),
+  },
+  {
+    path: 'turnero',
+    loadChildren: () =>
+      import('./turnero/turnero.module').then((m) => m.TurneroModule),
+    canActivate: [TurneroGuard],
   },
   {
     path: '',
