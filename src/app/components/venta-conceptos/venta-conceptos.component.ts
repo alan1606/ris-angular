@@ -348,7 +348,8 @@ export class VentaConceptosComponent
     let ordenVentaId = estudio.ordenVenta.id;
     let pacienteId = estudio.paciente.id;
     let url = `${BASE_SITE}/resultados/orden/${ordenVentaId}/${pacienteId}`;
-    window.location.href = url;
+    // window.location.href = url;
+    window.open(url);
   }
 
   private buscarModalidades() {

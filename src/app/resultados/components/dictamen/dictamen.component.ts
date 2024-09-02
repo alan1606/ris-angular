@@ -9,6 +9,7 @@ import { Multimedia } from 'src/app/models/multimedia';
 import { MultimediaService } from 'src/app/services/multimedia.service';
 import { VisorInterpretacionComponent } from 'src/app/dictador/components/visor-interpretacion/visor-interpretacion.component';
 import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-dictamen',
   templateUrl: './dictamen.component.html',
@@ -23,15 +24,15 @@ export class DictamenComponent implements OnInit {
   archivos: Multimedia[] = [];
   filesPath: string = FILES_PATH;
   isMobile = false;
+  viewerURL: string = `${VIEWER}`;
   constructor(
     private route: ActivatedRoute,
     private service: VentaConceptosService,
     private interpretacionService: InterpretacionService,
     private multimediaService: MultimediaService,
     private router: Router,
-    private dialog:MatDialog
-  ) {
-  }
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     if (screen.width <= 1023) {
@@ -96,10 +97,13 @@ export class DictamenComponent implements OnInit {
   }
 
   abrirOhif(estudio: VentaConceptos): void {
-    window.open(`${VIEWER}${estudio.iuid}`);
+    if (this.isMobile && estudio.concepto.area.nombre === 'MASTOGRAFIA') {
+      this.viewerURL = 'https://viewerv2.diagnocons.com/viewer/';
+    }
+    window.open(`${this.viewerURL}${estudio.iuid}`);
   }
-  verInterpretacion(enlace:string): void {
-    console.log(enlace)
+  verInterpretacion(enlace: string): void {
+    console.log(enlace);
     this.dialog.open(VisorInterpretacionComponent, {
       data: enlace,
       width: '80vw',
@@ -109,7 +113,7 @@ export class DictamenComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    if (screen.width <= 1023) {
+    if (screen.width <= 999) {
       this.isMobile = true;
       return;
     }

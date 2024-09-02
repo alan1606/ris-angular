@@ -79,6 +79,7 @@ export class TurneroComponent implements OnInit {
     localStorage.setItem('roomId', roomId.toString());
     this.turneroService.workListByRoomId(roomId).subscribe(
       (data) => {
+        console.log('esta es la data pendejo', data);
         this.estudios = data;
         this.studiesDataSource = this.estudios;
         console.log(this.estudios);
@@ -122,8 +123,10 @@ export class TurneroComponent implements OnInit {
   private studyTakenListener(): void {
     this.turneroSocketService.nuevoEvento$.subscribe(
       (data) => {
+        console.log('me la pelas pendejo', data);
         if (data?.dicomRoomId === this.expandedPanel) {
-          this.searchStudiesByRoomId(data);
+          console.log('Antes de buscar estudios', data);
+          this.searchStudiesByRoomId(data.dicomRoomId);
           return;
         }
         return;
@@ -157,7 +160,6 @@ export class TurneroComponent implements OnInit {
       data: { idEstudio },
     });
   }
-
 
   public unsubscribe(salaId: number): void {
     Swal.fire({
