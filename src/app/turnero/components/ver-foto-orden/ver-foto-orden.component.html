@@ -1,8 +1,15 @@
 <div *ngIf="fotosCargadas | async">
-  <div *ngIf="hasFotos(); else noFotoTemplate">
-    <div class="my-3" *ngFor="let foto of fotos">
-      <img [src]="filesPath + foto.ruta" class="rounded fotito" />
+  <div class="si" *ngIf="hasFotos(); else noFotoTemplate">
+    @for (foto of fotos; track foto; let i = $index ) {
+    <div class="sexo">
+      <img
+        [src]="filesPath + foto.ruta"
+        [style.transform]="rotation[i]"
+        class="fotito"
+      />
+      <button class="btn-rotate btn btn-primary" (click)="rotateImage(i)">Rotar <i class="bi bi-arrow-repeat"></i></button>
     </div>
+    }
   </div>
 </div>
 

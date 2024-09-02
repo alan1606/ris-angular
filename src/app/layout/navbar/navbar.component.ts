@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   authorize_uri,
   client_id,
@@ -15,7 +15,7 @@ import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PerfilModalComponent } from 'src/app/perfil/components/perfil-modal/perfil-modal.component';
-import {} from '@angular/material/'
+import {} from '@angular/material/';
 const CHARACTERS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwkyz123456789';
 
@@ -264,7 +264,7 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
-  public abrirPerfilModal():void{
+  public abrirPerfilModal(): void {
     this.dialog.open(PerfilModalComponent, {
       width: '1024px',
       data: { user: this.username },
