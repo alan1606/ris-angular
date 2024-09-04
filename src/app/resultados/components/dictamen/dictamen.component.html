@@ -27,6 +27,34 @@
       </button>
     </div>
 
+    @if(noDicomStudies.length>0){
+    <div>
+      <p>
+        Documentos del estudio
+      </p>
+      @for (document of noDicomStudies; track $index) {
+      <div class="card text-dark bg-light mb-3 contenedor-pdf-boton">
+        <div class="card-body botones-para-pdf">
+          <button
+            class="btn btn-success"
+            (click)="descargarPdfExterno(filesPath + document.ruta)"
+          >
+            Descargar
+          </button>
+          <button
+            class="btn btn-dark"
+            (click)="verInterpretacion(filesPath + document.ruta)"
+          >
+            Ver estudio
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- @if(estudio.concepto=) -->
+
     <div
       class="row my-4"
       *ngIf="(archivosCargados | async) == false && interpretacion == null"
@@ -43,7 +71,7 @@
       *ngIf="interpretacion"
     >
       <div class="card-body botones-para-pdf">
-        <button class="btn btn-success " (click)="descargarPdf()">
+        <button class="btn btn-success" (click)="descargarPdf()">
           Descargar
         </button>
         <button
@@ -81,7 +109,10 @@
           >
             Ver Reporte
           </button>
-          <button class="btn btn-primary"  (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)">
+          <button
+            class="btn btn-primary"
+            (click)="isMobile ? abrirOhif(estudio) : abrir(estudio)"
+          >
             Ver imágenes
           </button>
         </div>

@@ -1,30 +1,26 @@
-.botones-imagenes {
-  display: flex;
-  flex-direction: column;
-}
-.botones-imagenes .col {
-  margin-bottom: 1rem;
-}
-.fotos {
-  height: 75vh;
-}
-.contenedor-imagenes {
-  display: flex;
-  justify-content: center;
-  justify-self: center;
+.contenedor-img-botones {
+  display: grid;
+  grid-template-columns: 20% 80%;
 }
 
 .contenedor-botones {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  justify-self: center;
+
+  width: 100%;
 }
 
-.contenedor-img-botones {
-  display: grid;
-  grid-template-columns: 20% 80%;
+.contenedor-imagenes {
+  display: flex;
+  flex-direction: row;
 }
+.fotos {
+  width: 512px;
+}
+
+
+
+
 button {
   width: 100%;
 }

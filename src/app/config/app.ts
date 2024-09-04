@@ -1,21 +1,21 @@
-export const BASE_SITE='http://localhost:4200/ris'
-//export const BASE_SITE='https://ris.diagnocons.com/ris'
+//export const BASE_SITE='http://localhost:4200/ris'
+export const BASE_SITE='https://ris.diagnocons.com/ris'
 
 
 export const BASE_ENDPOINT = 'https://ris.diagnocons.com/api'
 //export const BASE_ENDPOINT = 'http://172.17.207.221:8090/api'
 
-export const post_logout_redirect_uri = 'http://localhost:4200/ris/logout'; //Este
-//export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
+//export const post_logout_redirect_uri = 'http://localhost:4200/ris/logout'; //Este
+export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
 
 
 
-export const redirect_uri = 'http://localhost:4200/ris/authorized?method=get'; //Este
-//export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
+//export const redirect_uri = 'http://localhost:4200/ris/authorized?method=get'; //Este
+export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
 
 
-//export const turneroSocket = 'https://ris.diagnocons.com/api/turnero/shifts-websocket'
-export const turneroSocket =  'http://172.17.200.235:8002/shifts-websocket';
+export const turneroSocket = 'https://ris.diagnocons.com/api/turnero/shifts-websocket'
+//export const turneroSocket =  'http://172.17.200.235:8002/shifts-websocket';
 
 
 

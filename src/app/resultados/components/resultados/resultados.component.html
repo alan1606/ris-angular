@@ -1,113 +1,128 @@
 <mat-card>
-    <h1 mat-card-title class="pt-3 ps-3"> {{titulo}} </h1>
-    <div mat-card-content>
+  <h1 mat-card-title class="pt-3 ps-3">{{ titulo }}</h1>
+  <div mat-card-content>
+    <div class="text-dark bg-light mb-3">
+      <div class="">
+        <form>
+          <div class="row my-4">
+            @if ((estudio.iuid == null || estudio.iuid.length == 0) &&
+            estudio?.concepto?.dicom) {
+            <p style="font-size: x-large; color: #ff0000">
+              El estudio aún no ha sido tomado
+            </p>
+            } @else {
+            <p style="font-size: x-large; color: #ff0000">
+              El estudio aún no ha sido interpretado
+            </p>
+            }
+          </div>
 
+          <div class="contenedor-img-botones">
+            @if (estudio.iuid?.length > 0) {
+            <div class="contenedor-botones">
+              <div class="my-2">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-lg"
+                  (click)="ver(estudio)"
+                >
+                  Ver estudio en línea
+                </button>
+              </div>
 
-        <div class="card text-dark bg-light mb-3">
-            <div class="card-body">
-                <form>
-                    <div class="row my-4"
-                        *ngIf="(estudio.iuid==null || estudio.iuid.length==0) && estudio?.concepto?.dicom">
-                        <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido tomado</p>
-                    </div>
+              <div
+                *ngIf="
+                  (interpretacionExterna | async) == true ||
+                  interpretacion != null
+                "
+              >
+                <div class="my-2">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-lg"
+                    (click)="verInterpretacion(estudio)"
+                  >
+                    Ver interpretacion
+                  </button>
+                </div>
+              </div>
 
+              <div class="mt-3 mb-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  (click)="abrirConWeasis(estudio)"
+                >
+                  Abrir estudio con weasis
+                </button>
+              </div>
 
-                    <div class="row my-4" *ngIf="(interpretacionExterna | async) == false && interpretacion == null ">
-                        <p style='font-size: x-large;  color: #FF0000;'>El estudio aún no ha sido interpretado</p>
-                    </div>
+              <div class="my-2">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  (click)="descargarZip(estudio)"
+                >
+                  Descargar estudio en zip
+                </button>
+              </div>
 
+              <div class="my-2">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  (click)="descargarWeasisWindows()"
+                >
+                  Descargar weasis windows
+                </button>
+              </div>
 
-                    <div class="contenedor-img-botones">
-                        <div class="contenedor-botones" *ngIf="estudio.iuid?.length>0">
-                            <div class="my-2">
-                                <button type="button" class="btn btn-primary btn-lg" (click)="ver(estudio)">
-                                    Ver estudio en línea
-                                </button>
-                            </div>
+              <div class="my-2">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  (click)="descargarWeasisMac()"
+                >
+                  Descargar weasis mac
+                </button>
+              </div>
 
-                            <div *ngIf="(interpretacionExterna | async) == true || interpretacion != null">
-                                <div class="my-2">
-                                    <button type="button" class="btn btn-primary btn-lg"
-                                        (click)="verInterpretacion(estudio)">
-                                        Ver interpretacion
-                                    </button>
-                                </div>
-                            </div>
+              <div
+                class="my-2"
+                *ngIf="
+                  estudio.iuid &&
+                  (estudio.equipoDicom.modalidad === 'DX' ||
+                    estudio.equipoDicom.modalidad === 'CR' ||
+                    estudio.equipoDicom.modalidad === 'OT')
+                "
+              >
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="descargarImagenes(estudio.iuid)"
+                >
+                  Descargar imágenes
+                </button>
+              </div>
 
-                            <div class="mt-3 mb-2">
-                                <button type="button" class="btn btn-secondary  btn-sm"
-                                    (click)="abrirConWeasis(estudio)">
-                                    Abrir estudio con weasis
-                                </button>
-                            </div>
-
-                            <div class="my-2">
-                                <button class="btn btn-secondary  btn-sm" (click)="descargarZip(estudio)">
-                                    Descargar estudio en zip
-                                </button>
-                            </div>
-
-                            <div class="my-2">
-                                <button class="btn btn-secondary  btn-sm" (click)="descargarWeasisWindows()">
-                                    Descargar weasis windows
-                                </button>
-                            </div>
-
-                            <div class="my-2">
-                                <button class="btn btn-secondary  btn-sm" (click)="descargarWeasisMac()">
-                                    Descargar weasis mac
-                                </button>
-                            </div>
-
-                            <div class="my-2" *ngIf="estudio.iuid &&
-                        (estudio.equipoDicom.modalidad === 'DX' || 
-                        estudio.equipoDicom.modalidad === 'CR' || 
-                        estudio.equipoDicom.modalidad === 'OT' )">
-                                <button type="button" class="btn btn-primary" (click)="descargarImagenes(estudio.iuid)">
-                                    Descargar imágenes
-                                </button>
-                            </div>
-
-                            <div class="my-2">
-                                <button class="btn btn-info" routerLink="/ayuda">¿Necesitas ayuda?</button>
-                            </div>
-                        </div>
-
-                        <div class="contenedor-imagenes">
-                            <div class="form-group my-2"
-                                *ngIf="estudio?.ordenVenta?.motivo != '' && estudio?.ordenVenta?.motivo != null">
-                                <label for="motivo">Motivo</label>
-                                <input type="text" name="motivo" id="motivo" class="form-control"
-                                    value={{estudio.ordenVenta.motivo}} disabled>
-                            </div>
-
-                            <div class="form-group my-2" *ngIf="antecedentesJuntos != '' && antecedentesJuntos != null">
-                                <label class="form-check-label" for="antecedentes">Antecedentes</label>
-                                <input type="text" name="antecedentes" id="antecedentes" class="form-control"
-                                    value={{antecedentesJuntos}} disabled>
-                            </div>
-
-                            <div class="form-group my-2 " *ngFor="let foto of multimedia">
-                                <img [src]="filesPath + foto.ruta" class="img-thumbnail rounded fotos"
-                                    style="cursor: pointer;" *ngIf="foto.tipo == 'IMAGEN'">
-                            </div>
-                            <div class="form-group my-3" *ngFor="let pdf of multimedia">
-                                <ngx-extended-pdf-viewer
-                                    *ngIf="pdf.tipo == 'DOCUMENTO'"
-                                    [src]="filesPath + pdf.ruta"
-                                    [textLayer]="true"
-                                    [showHandToolButton]="true"
-                                >
-                                </ngx-extended-pdf-viewer>
-                                <button *ngIf="pdf.tipo == 'DOCUMENTO'" type="button" class="btn btn-primary btn-sm"
-                                    (click)="expandir(pdf)">
-                                    Expandir
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+              <div class="my-2">
+                <button class="btn btn-info" routerLink="/ayuda">
+                  ¿Necesitas ayuda?
+                </button>
+              </div>
             </div>
-        </div>
+            }
+
+            <div class="contenedor-imagenes">
+              @for (foto of multimedia; track $index) { @if
+              (foto.tipo==='IMAGEN') {
+              <img
+                [src]="filesPath + foto.ruta"
+                class="img-thumbnail rounded fotos"
+                style="cursor: pointer"
+              />
+              } }
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </mat-card>

@@ -25,6 +25,7 @@ export class DictamenComponent implements OnInit {
   filesPath: string = FILES_PATH;
   isMobile = false;
   viewerURL: string = `${VIEWER}`;
+  noDicomStudies: Multimedia[] = [];
   constructor(
     private route: ActivatedRoute,
     private service: VentaConceptosService,
@@ -46,6 +47,10 @@ export class DictamenComponent implements OnInit {
           this.titulo = `${this.estudio.institucion.nombre}: ${this.estudio.concepto.concepto} de ${this.estudio.paciente.nombreCompleto}`;
           this.cargarInterpretacion();
           this.cargarInterpretacionesPdf();
+
+          if (!estudio.concepto.dicom) {
+            this.getNoDicomStudiesDocuments();
+          }
         });
       }
     });
@@ -58,6 +63,7 @@ export class DictamenComponent implements OnInit {
         if (interpretacion.length > 0) {
           this.interpretacion = interpretacion[0];
           this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`;
+          console.log('sexo', interpretacion);
         }
       });
   }
@@ -72,11 +78,35 @@ export class DictamenComponent implements OnInit {
     window.open(enlace);
   }
 
+  getNoDicomStudiesDocuments(): void {
+    console.log("Getting no dicom documents")
+    this.multimediaService
+      .buscarPorOrdenVentaId(this.estudio.ordenVenta.id)
+      .subscribe((multimedia) => {
+        this.noDicomStudies = multimedia.filter(
+          (doc) => doc.tipo === 'DOCUMENTO'
+        );
+        console.log(this.noDicomStudies)
+      });
+  }
+
   cargarInterpretacionesPdf(): void {
     this.multimediaService
       .buscarPorOrdenVentaId(this.estudio.ordenVenta.id)
       .subscribe(
         (multimedia) => {
+          // if (this.estudio.concepto.area.id === 120) {
+          //   console.log("entro el if")
+          //   this.archivos = multimedia.filter(
+          //     (foto) => foto.tipo == 'DOCUMENTO'
+          //   );
+          //   if (this.archivos.length > 0) {
+          //     this.archivosCargados = Promise.resolve(true);
+          //   } else {
+          //     this.archivosCargados = Promise.resolve(false);
+          //   }
+          //   console.log(this.archivos);
+          // }
           this.archivos = multimedia.filter(
             (foto) => foto.tipo == 'INTERPRETACION'
           );
@@ -107,7 +137,7 @@ export class DictamenComponent implements OnInit {
     this.dialog.open(VisorInterpretacionComponent, {
       data: enlace,
       width: '80vw',
-      height: '80vh',
+      height: '90vh',
     });
   }
 
