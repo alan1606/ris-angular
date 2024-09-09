@@ -7,13 +7,27 @@
   width: 30%;
 }
 
-.nombre-institucion{
+.nombre-institucion {
   font-weight: 500;
 }
 
 .filtrar-areas {
   width: 40%;
   margin-left: 3%;
+}
+
+.checkin-table {
+  margin-left: 10%;
+  width: 80vw;
+  font-size: larger;
+}
+
+.checkin-table th {
+  font-weight: 500;
+  font-size: larger;
+}
+.checkin-table td {
+  border: none;
 }
 .primer-paso {
   display: grid;

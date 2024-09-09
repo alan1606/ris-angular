@@ -1,193 +1,281 @@
-<div class="">
-  <div class="busqueda ms-3 mt-2">
-    <div class="col-md-auto mb-2 contenedor-busqueda">
-      <input type="text" placeholder="Escanee el qr aqui" class="form-control buscar-qr" id="qr" (input)="buscarQr()"
-        #qr />
-      <input type="text" class="form-control filtrar-areas" placeholder="Areas" [(ngModel)]="busqueda"
-        (input)="filtrarAreas()" />
+<div style="background-color: rgb(34, 34, 34); min-height: 100vh">
+  <div class="">
+    <div class="busqueda ms-3 pt-2">
+      <div class="col-md-auto mb-2 contenedor-busqueda">
+        <input
+          type="text"
+          placeholder="Escanee el qr aqui"
+          class="form-control buscar-qr"
+          id="qr"
+          (input)="buscarQr()"
+          #qr
+        />
+        <input
+          type="text"
+          class="form-control filtrar-areas"
+          placeholder="Areas"
+          [(ngModel)]="busqueda"
+          (input)="filtrarAreas()"
+        />
+      </div>
     </div>
   </div>
-</div>
 
-<div class="table-responsive mt-4" *ngIf="!orden?.id && citas?.length > 0">
-  <table class="table table-hover table-striped">
-    <thead>
-      <tr>
-        <th>Paciente</th>
-        <th>Estudio</th>
-        <th>Hora</th>
-        <th>Seleccionar</th>
-      </tr>
-    </thead>
+  @if (!orden?.id && citas?.length > 0) {
+  <div class="table-responsive mt-4">
+    <table class="table table-dark table-hover checkin-table">
+      <thead>
+        <tr>
+          <th>Paciente</th>
+          <th>Estudio</th>
+          <th>Hora</th>
+          <th></th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <tr *ngFor="let cita of citasFiltradas">
-        <td>
-          {{ cita.estudio?.paciente?.nombreCompleto }}
-        </td>
-        <td>{{ cita.estudio?.concepto?.concepto }}</td>
-        <td>{{ cita.fechaYHora | date : "h:mm a" }}</td>
-        <td>
-          <button type="button" class="btn btn-sm btn-primary" (click)="seleccionar(cita)">
-            Seleccionar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div *ngIf="orden?.id && orden?.paciente?.id" class="cerrar">
-  <button type="button" class="btn btn-danger" (click)="reiniciar()">
-    <i class="bi bi-x-square"></i>
-  </button>
-</div>
-<mat-stepper #stepper *ngIf="orden?.id && orden?.paciente?.id">
-  <mat-step [stepControl]="firstFormGroup">
-    <ng-template matStepLabel>Datos Paciente</ng-template>
-    <div class="primer-paso" *ngIf="orden?.id && orden?.paciente?.id">
-      <div>
-
-        <div class="card text-dark bg-light">
-          <div class="card-header">
-            <p>{{ orden?.paciente.nombreCompleto.toUpperCase() }}</p>
-            <div *ngIf="nombreInstitucion" class="d-flex mb-2">
-              <p class="position-relative me-3 nombre-institucion" style="top: 0.5em;">INSTITUCIÓN: {{ nombreInstitucion
-                }}</p>
-            </div>
-            <button class="btn btn-success btn-sm" (click)="cambiarInstitucion()">Cambiar Institución</button>
-
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover table-striped" *ngIf="orden">
-                <thead>
-                  <tr>
-                    <th>Estudio</th>
-                    <th>Sala</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Precio</th>
-                    <th>Cambiar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let estudio of listaDeEstudios">
-                    <td>{{ estudio.concepto?.concepto }}</td>
-                    <td>{{ estudio.equipoDicom?.nombre }}</td>
-                    <td>{{ estudio.fechaAsignado | date : "dd/MM/yyyy" }}</td>
-                    <td>
-                      {{ parseHora(estudio.horaAsignado) | date : "h:mm a" }}
-                    </td>
-                    <td>{{ estudio.concepto?.precio }}</td>
-                    <td>
-                      <button type="button" class="btn btn-sm btn-success" (click)="cambiar(estudio)">
-                        Cambiar
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div *ngIf="!esInstitucion" class="agregar-estudios-container">
-              <div class="boton-agregar-container">
-                <button type="button" class="btn btn-success rounded-circle btn-lg" (click)="abrirAgregarEstudio()">
-                  +
+      <tbody>
+        @for (cita of citasFiltradas; track $index) {
+        <tr>
+          <td>
+            {{ cita.estudio?.paciente?.nombreCompleto }}
+          </td>
+          <td>{{ cita.estudio?.concepto?.concepto }}</td>
+          <td>{{ cita.fechaYHora | date : "h:mm a" }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="seleccionar(cita)"
+            >
+              Seleccionar
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+  <div class="m-4">
+    @if (orden?.id && orden?.paciente?.id) {
+    <div class="cerrar mb-3">
+      <button type="button" class="btn btn-danger" (click)="reiniciar()">
+        <i class="bi bi-x-square"></i>
+      </button>
+    </div>
+    }
+    <mat-stepper #stepper *ngIf="orden?.id && orden?.paciente?.id">
+      <mat-step [stepControl]="firstFormGroup">
+        <ng-template matStepLabel>Datos Paciente</ng-template>
+        <div class="primer-paso" *ngIf="orden?.id && orden?.paciente?.id">
+          <div>
+            <div class="card text-dark bg-light">
+              <div class="card-header">
+                <p>{{ orden?.paciente.nombreCompleto.toUpperCase() }}</p>
+                <div *ngIf="nombreInstitucion" class="d-flex mb-2">
+                  <p
+                    class="position-relative me-3 nombre-institucion"
+                    style="top: 0.5em"
+                  >
+                    INSTITUCIÓN: {{ nombreInstitucion }}
+                  </p>
+                </div>
+                <button
+                  class="btn btn-success btn-sm"
+                  (click)="cambiarInstitucion()"
+                >
+                  Cambiar Institución
                 </button>
               </div>
-            </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped" *ngIf="orden">
+                    <thead>
+                      <tr>
+                        <th>Estudio</th>
+                        <th>Sala</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Precio</th>
+                        <th>Cambiar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let estudio of listaDeEstudios">
+                        <td>{{ estudio.concepto?.concepto }}</td>
+                        <td>{{ estudio.equipoDicom?.nombre }}</td>
+                        <td>
+                          {{ estudio.fechaAsignado | date : "dd/MM/yyyy" }}
+                        </td>
+                        <td>
+                          {{
+                            parseHora(estudio.horaAsignado) | date : "h:mm a"
+                          }}
+                        </td>
+                        <td>{{ estudio.concepto?.precio }}</td>
+                        <td>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-success"
+                            (click)="cambiar(estudio)"
+                          >
+                            Cambiar
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-            <div class="codigo-promocional-container" *ngIf="
-                this.listaDeEstudios.length > 0 &&
-                this.listaDeEstudios[0]?.institucion?.nombre == 'PARTICULAR'
-              ">
-              <mat-form-field>
-                <mat-label>Código promocional</mat-label>
-                <input matInput placeholder="Código promocional" name="codigo" [(ngModel)]="codigoPromocion"
-                  (keyup.enter)="buscarCodigoPromocional($event)" />
-              </mat-form-field>
-            </div>
+                <div *ngIf="!esInstitucion" class="agregar-estudios-container">
+                  <div class="boton-agregar-container">
+                    <button
+                      type="button"
+                      class="btn btn-success rounded-circle btn-lg"
+                      (click)="abrirAgregarEstudio()"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
 
-            <div class="from-group" *ngIf="
-                this.listaDeEstudios.length > 0 &&
-                this.listaDeEstudios[0]?.institucion?.nombre === 'PENSIONES'
-              ">
-              <mat-form-field class="example-full-width">
-                <mat-label>Folio</mat-label>
-                <input matInput placeholder="Folio" name="folio" [(ngModel)]="folio" required />
-              </mat-form-field>
+                <div
+                  class="codigo-promocional-container"
+                  *ngIf="
+                    this.listaDeEstudios.length > 0 &&
+                    this.listaDeEstudios[0]?.institucion?.nombre == 'PARTICULAR'
+                  "
+                >
+                  <mat-form-field>
+                    <mat-label>Código promocional</mat-label>
+                    <input
+                      matInput
+                      placeholder="Código promocional"
+                      name="codigo"
+                      [(ngModel)]="codigoPromocion"
+                      (keyup.enter)="buscarCodigoPromocional($event)"
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div
+                  class="from-group"
+                  *ngIf="
+                    this.listaDeEstudios.length > 0 &&
+                    this.listaDeEstudios[0]?.institucion?.nombre === 'PENSIONES'
+                  "
+                >
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Folio</mat-label>
+                    <input
+                      matInput
+                      placeholder="Folio"
+                      name="folio"
+                      [(ngModel)]="folio"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
           </div>
+
+          <div
+            class="formularioPaciente-subirFoto"
+            *ngIf="orden?.id && orden?.paciente?.id"
+          >
+            <app-formulario-paciente
+              [model]="orden.paciente"
+              (botonGuardarPresionado)="presionadoBotonGuardar($event)"
+            >
+            </app-formulario-paciente>
+          </div>
         </div>
-      </div>
+      </mat-step>
 
-      <div class="formularioPaciente-subirFoto" *ngIf="orden?.id && orden?.paciente?.id">
-        <app-formulario-paciente [model]="orden.paciente" (botonGuardarPresionado)="presionadoBotonGuardar($event)">
-        </app-formulario-paciente>
-      </div>
-    </div>
-  </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <div>
+          <button mat-button matStepperPrevious>Volver</button>
+        </div>
+        <ng-template matStepLabel>Subir foto orden</ng-template>
 
-  <mat-step [stepControl]="secondFormGroup">
-    <div>
-      <button mat-button matStepperPrevious>Volver</button>
-    </div>
-    <ng-template matStepLabel>Subir foto orden</ng-template>
+        <div *ngIf="!guardarPresionado">
+          <mat-card>
+            <h1>
+              Primero compruebe que los datos son correctos y presione guardar
+            </h1>
+          </mat-card>
+        </div>
+        <div *ngIf="guardarPresionado" class="subirFoto-pagar">
+          <app-subir-foto-orden
+            *ngIf="orden?.id"
+            [orden]="orden"
+          ></app-subir-foto-orden>
 
-    <div *ngIf="!guardarPresionado">
-      <mat-card>
-        <h1>
-          Primero compruebe que los datos son correctos y presione guardar
-        </h1>
-      </mat-card>
-    </div>
-    <div *ngIf="guardarPresionado" class="subirFoto-pagar">
-      <app-subir-foto-orden *ngIf="orden?.id" [orden]="orden"></app-subir-foto-orden>
+          <div class="d-flex">
+            <button class="btn btn-info me-3" (click)="mostrarQrSubirFoto()">
+              <i class="bi bi-qr-code-scan"></i>
+              Mostrar qr subir foto
+            </button>
 
-      <div class="d-flex">
-        <button class="btn btn-info me-3" (click)="mostrarQrSubirFoto()">
-          <i class="bi bi-qr-code-scan"></i>
-          Mostrar qr subir foto
-        </button>
+            <button
+              *ngIf="!esInstitucion"
+              class="btn btn-primary"
+              matStepperNext
+            >
+              Siguiente ----->
+            </button>
+            <button
+              *ngIf="esInstitucion"
+              class="btn btn-primary"
+              (click)="reiniciar()"
+            >
+              Salir >
+            </button>
+          </div>
+        </div>
+      </mat-step>
 
-        <button *ngIf="!esInstitucion" class="btn btn-primary" matStepperNext>
-          Siguiente ----->
-        </button>
-        <button *ngIf="esInstitucion" class="btn btn-primary" (click)="reiniciar()">
-          Salir >
-        </button>
-      </div>
-    </div>
-  </mat-step>
+      <mat-step *ngIf="!esInstitucion" [stepControl]="thirdFormGroup">
+        <div>
+          <button mat-button matStepperPrevious>Volver</button>
+        </div>
+        <ng-template matStepLabel>Pagar</ng-template>
 
-  <mat-step *ngIf="!esInstitucion" [stepControl]="thirdFormGroup">
-    <div>
-      <button mat-button matStepperPrevious>Volver</button>
-    </div>
-    <ng-template matStepLabel>Pagar</ng-template>
+        <div *ngIf="!guardarPresionado">
+          <mat-card>
+            <h1>
+              Primero compruebe que los datos son correctos y presione guardar
+            </h1>
+          </mat-card>
+        </div>
 
-    <div *ngIf="!guardarPresionado">
-      <mat-card>
-        <h1>
-          Primero compruebe que los datos son correctos y presione guardar
-        </h1>
-      </mat-card>
-    </div>
+        <div
+          class="contenedor-boton-pagar text-center"
+          *ngIf="guardarPresionado"
+        >
+          <div *ngIf="orden.pagado">
+            <h1 class="yaPagada">Esta orden ya ha sido pagada!</h1>
+          </div>
+          <div *ngIf="!orden.pagado">
+            <app-pagar-orden
+              (pagosEmit)="recibirPagos($event)"
+              (descuentosEmit)="recibirDescuentos($event)"
+              (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
+            ></app-pagar-orden>
 
-    <div class="contenedor-boton-pagar text-center" *ngIf="guardarPresionado">
-      <div *ngIf="orden.pagado">
-        <h1 class="yaPagada">Esta orden ya ha sido pagada!</h1>
-      </div>
-      <div *ngIf="!orden.pagado">
-        <app-pagar-orden (pagosEmit)="recibirPagos($event)" (descuentosEmit)="recibirDescuentos($event)"
-          (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"></app-pagar-orden>
-
-        <button matStepperNext class="btn btn-success mt-2 btn-lg" (click)="pagar()"
-          [disabled]="botonHabilitado || !pagoRecibido">
-          <i class="bi bi-currency-dollar"></i>
-          Pagar
-        </button>
-      </div>
-    </div>
-  </mat-step>
-</mat-stepper>
+            <button
+              matStepperNext
+              class="btn btn-success mt-2 btn-lg"
+              (click)="pagar()"
+              [disabled]="botonHabilitado || !pagoRecibido"
+            >
+              <i class="bi bi-currency-dollar"></i>
+              Pagar
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>

@@ -1,47 +1,49 @@
 <mat-card class="text-center">
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Tipo</mat-label>
-      <mat-select [(ngModel)]="model.tipo">
-        <mat-option
-          *ngFor="let opcion of tipos"
-          name="tipo"
-          id="tipo"
-          [value]="opcion"
-          >{{ opcion }}</mat-option
+  <div class="m-3">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo</mat-label>
+        <mat-select [(ngModel)]="model.tipo">
+          <mat-option
+            *ngFor="let opcion of tipos"
+            name="tipo"
+            id="tipo"
+            [value]="opcion"
+            >{{ opcion }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="descripcion" appearance="fill">
+        <mat-label>Descripción</mat-label>
+        <textarea
+          matInput
+          placeholder="¿Que paso?"
+          type="text"
+          name="descripcion"
+          id="descripcion"
+          [(ngModel)]="model.descripcion"
         >
-      </mat-select>
-    </mat-form-field>
-  </div>
+        </textarea>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <mat-form-field class="descripcion" appearance="fill">
-      <mat-label>Descripción</mat-label>
-      <textarea
-        matInput
-        placeholder="¿Que paso?"
-        type="text"
-        name="descripcion"
-        id="descripcion"
-        [(ngModel)]="model.descripcion"
-      >
-      </textarea>
-    </mat-form-field>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Cantidad</mat-label>
+        <input
+          matInput
+          type="number"
+          name="cantidad"
+          id="cantidad"
+          [(ngModel)]="model.cantidad"
+        />
+      </mat-form-field>
+    </div>
+    <button class="btn btn-success btn-lg" (click)="confirmarAgregar()">
+      Añadir
+    </button>
   </div>
-
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Cantidad</mat-label>
-      <input
-        matInput
-        type="number"
-        name="cantidad"
-        id="cantidad"
-        [(ngModel)]="model.cantidad"
-      />
-    </mat-form-field>
-  </div>
-  <button class="btn btn-success btn-lg" (click)="confirmarAgregar()">
-    Añadir
-  </button>
 </mat-card>

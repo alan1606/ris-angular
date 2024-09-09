@@ -86,8 +86,12 @@ export class CheckInComponent implements OnInit, OnDestroy {
         const idsOrdenVenta = citas.map(
           (cita) => cita?.estudio?.ordenVenta?.id
         );
-        console.log(idsOrdenVenta);
+        console.log('ids citas');
+        console.log('ids originales', idsOrdenVenta);
+
         let filtrado = idsOrdenVenta.filter((i) => i != null);
+        console.log('ids limpios', filtrado);
+
         this.ordenVentaService.encontrarOrdenesPorIds(filtrado).subscribe(
           (data: OrdenVenta[]) => {
             data.forEach((orden) => {

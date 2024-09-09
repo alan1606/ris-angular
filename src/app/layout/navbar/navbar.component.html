@@ -336,7 +336,10 @@
 </nav>
 
 <nav class="nav navbar-dark bg-dark computadora">
-  <div class="container-fluid" style="display: grid; grid-template-columns: 90% 10%;">
+  <div
+    class="container-fluid"
+    style="display: grid; grid-template-columns: 90% 10%"
+  >
     <div>
       <a class="navbar-brand" href="#">
         <img
@@ -345,7 +348,7 @@
           src="../../../assets/img-landing-membresia/diagnocons.webp"
         />
       </a>
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -354,7 +357,7 @@
         *ngIf="puedeAbrirPacientes()"
         ><i class="bi bi-chat-dots-fill"></i
       ></a>
-  
+
       <a
         class="navbar-brand dropdown-toggle"
         routerLinkActive="active"
@@ -374,7 +377,7 @@
         <button mat-menu-item routerLink="/recepcion/checkin">Check in</button>
         <button mat-menu-item routerLink="/recepcion/limbo">Liberar</button>
       </mat-menu>
-  
+
       <a
         class="navbar-brand dropdown-toggle"
         routerLinkActive="active"
@@ -392,10 +395,10 @@
           Limitar institucion
         </button>
       </mat-menu>
-  
+
       <a
         *ngIf="puedeAbrirCortes()"
-        [matMenuTriggerFor]="menu"
+        [matMenuTriggerFor]="menu1"
         class="navbar-brand dropdown-toggle"
         id="navbarDropdownMenuLink"
         data-toggle="dropdown"
@@ -404,7 +407,7 @@
       >
         Cortes
       </a>
-      <mat-menu #menu="matMenu">
+      <mat-menu #menu1="matMenu">
         <button mat-menu-item routerLink="/cortes">Turnos</button>
         <button mat-menu-item routerLink="/cortes/formas-pago">
           Formas de pago
@@ -415,9 +418,11 @@
         <button mat-menu-item routerLink="/cortes/devoluciones">
           Devoluciones
         </button>
-        <button mat-menu-item routerLink="/cortes/generar">Generar corte</button>
+        <button mat-menu-item routerLink="/cortes/generar">
+          Generar corte
+        </button>
       </mat-menu>
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -426,7 +431,7 @@
         *ngIf="puedeAbrirTabulador()"
         >Tabulador</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -435,7 +440,7 @@
         *ngIf="puedeAbrirAgendados()"
         >Ver agendados</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -444,7 +449,7 @@
         *ngIf="puedeAbrirEnvioDeEstudios()"
         >Enviar estudios</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -453,7 +458,7 @@
         *ngIf="puedeAbrirVentaConceptos()"
         >Venta conceptos</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -462,7 +467,7 @@
         *ngIf="puedeAbrirTurnero()"
         >Turnero</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -471,10 +476,10 @@
         *ngIf="puedeAbrirDictador()"
         >Dictador</a
       >
-  
+
       <a
         *ngIf="puedeAbrirInstrucciones()"
-        [matMenuTriggerFor]="menu"
+        [matMenuTriggerFor]="menu2"
         class="navbar-brand dropdown-toggle"
         id="navbarDropdownMenuLink"
         data-toggle="dropdown"
@@ -483,7 +488,7 @@
       >
         Instrucciones
       </a>
-      <mat-menu #menu="matMenu">
+      <mat-menu #menu2="matMenu">
         <button mat-menu-item routerLink="/instrucciones/concepto">
           Conceptos
         </button>
@@ -500,7 +505,7 @@
         *ngIf="puedeAbrirInstitucion()"
         >Instituciones</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -509,7 +514,7 @@
         *ngIf="puedeAbrirSubirFotoOrden()"
         >Foto orden <i class="bi bi-upload"></i
       ></a>
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -518,7 +523,7 @@
         *ngIf="puedeAbrirCrudMedicos()"
         >Medicos</a
       >
-  
+
       <a
         class="navbar-brand dropdown-toggle"
         routerLink="/campanias"
@@ -531,13 +536,13 @@
         aria-expanded="false"
         >Campañas</a
       >
-  
+
       <mat-menu #menuCampanias="matMenu">
         <button mat-menu-item routerLink="/wp-marketing/enviar">
           Wp marketing
         </button>
       </mat-menu>
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -546,7 +551,7 @@
         *ngIf="puedeAbrirMembresias()"
         >Membresias</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -555,7 +560,7 @@
         *ngIf="puedeAbrirPacientes()"
         >Pacientes</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -564,7 +569,7 @@
         *ngIf="puedeAbrirMedicosReferentes()"
         >Estudios</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -573,7 +578,7 @@
         *ngIf="puedeAbrirMedicosReferentes()"
         >Catalogo</a
       >
-  
+
       <a
         class="navbar-brand"
         href="#"
@@ -582,8 +587,6 @@
         *ngIf="puedeAbrirRelacion()"
         >Relacion de estudios</a
       >
-  
-      
     </div>
 
     <div class="d-flex">
@@ -602,21 +605,21 @@
       </a>
       <div class="mt-2">
         <button
-        class="btn btn-success btn-sm my-2 my-sm-0 ms-3"
-        (click)="onLogin()"
-        *ngIf="!isLogged"
-      >
-        <i class="bi bi-box-arrow-in-right"></i>
-        Entrar
-      </button>
-      <button
-        class="btn btn-danger btn-sm  my-2 my-sm-0 ms-3"
-        (click)="onLogout()"
-        *ngIf="isLogged"
-      >
-        <i class="bi bi-box-arrow-right"></i>
-        Salir
-      </button>
+          class="btn btn-success btn-sm my-2 my-sm-0 ms-3"
+          (click)="onLogin()"
+          *ngIf="!isLogged"
+        >
+          <i class="bi bi-box-arrow-in-right"></i>
+          Entrar
+        </button>
+        <button
+          class="btn btn-danger btn-sm my-2 my-sm-0 ms-3"
+          (click)="onLogout()"
+          *ngIf="isLogged"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+          Salir
+        </button>
       </div>
     </div>
   </div>
