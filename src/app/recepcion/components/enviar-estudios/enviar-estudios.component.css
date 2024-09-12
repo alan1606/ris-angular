@@ -1,7 +1,12 @@
-.pendiente{
-    color: #fa0f0f;
+.pendiente {
+  color: #fa0f0f;
 }
 
-.terminado{
-    color: #21c429;
+.selected {
+  background-color: #212529;
+  color: white;
+}
+
+.terminado {
+  color: #21c429;
 }

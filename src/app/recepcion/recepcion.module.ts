@@ -1,4 +1,4 @@
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -11,7 +11,7 @@ import { RegistrarPacienteComponent } from './components/registrar-paciente-moda
 import { AppComponent } from 'src/app/app.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatCardModule} from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
 import { RecepcionRoutingModule } from './recepcion-routing.module';
 import { EnviarEstudiosComponent } from './components/enviar-estudios/enviar-estudios.component';
 import { EnviarEstudioComponent } from './components/enviar-estudio/enviar-estudio.component';
@@ -39,66 +39,64 @@ import { LimboComponent } from './components/limbo/limbo.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
-import {MatStepperModule} from '@angular/material/stepper'
+import { MatStepperModule } from '@angular/material/stepper';
 import { CortesModule } from '../cortes/cortes.module';
 import { MandarConfirmacionesPorFechaComponent } from './components/mandar-confirmaciones-por-fecha/mandar-confirmaciones-por-fecha.component';
-import {QRCodeModule} from 'angularx-qrcode'
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
-    declarations: [
-        QrSubirFotoOrdenModalComponent,
-        RegistrarPacienteComponent,
-        EnviarEstudiosComponent,
-        EnviarEstudioComponent,
-        SubirFotoOrdenComponent,
-        QrSubirFotoOrdenModalComponent,
-        VerAgendadosModalComponent,
-        AgendaComponent,
-        AgendarComponent,
-        RegistrarPacienteParcialModalComponent,
-        RegistroCompletoPacienteComponent,
-        ConfirmarCitaPacienteComponent,
-        ConfirmacionesCitasComponent,
-        CheckInComponent,
-        PacienteOrdenesComponent,
-        VerOrdenModalComponent,
-        ReagendarCitaModalComponent,
-        GenerarQrCheckinComponent,
-        FormularioPacienteComponent,
-        BuscarPacienteSubirFotoOrdenComponent,
-        MostrarCitasPorDiaPensionesComponent,
-        CambiarEstudioComponent,
-        AgregarEstudioComponent,
-        LimboComponent,
-        MandarConfirmacionesPorFechaComponent
-        ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatCardModule,
-        RecepcionRoutingModule,
-        MatTableModule,
-        QRCodeModule,
-        MatPaginatorModule,
-        SharedModule,
-        MatSlideToggleModule,
-        MatButtonModule,
-        MatStepperModule,
-        CortesModule,
-        QRCodeModule,
-        MatFormFieldModule
-    ],
-    exports: [
-    ],
-    providers: [
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    QrSubirFotoOrdenModalComponent,
+    RegistrarPacienteComponent,
+    EnviarEstudiosComponent,
+    EnviarEstudioComponent,
+    SubirFotoOrdenComponent,
+    QrSubirFotoOrdenModalComponent,
+    VerAgendadosModalComponent,
+    AgendaComponent,
+    AgendarComponent,
+    RegistrarPacienteParcialModalComponent,
+    RegistroCompletoPacienteComponent,
+    ConfirmarCitaPacienteComponent,
+    ConfirmacionesCitasComponent,
+    CheckInComponent,
+    PacienteOrdenesComponent,
+    VerOrdenModalComponent,
+    ReagendarCitaModalComponent,
+    GenerarQrCheckinComponent,
+    FormularioPacienteComponent,
+    BuscarPacienteSubirFotoOrdenComponent,
+    MostrarCitasPorDiaPensionesComponent,
+    CambiarEstudioComponent,
+    AgregarEstudioComponent,
+    LimboComponent,
+    MandarConfirmacionesPorFechaComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCardModule,
+    RecepcionRoutingModule,
+    MatTableModule,
+    QRCodeModule,
+    MatPaginatorModule,
+    SharedModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatStepperModule,
+    CortesModule,
+    QRCodeModule,
+    MatFormFieldModule,
+  ],
+  exports: [],
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class RecepcionModule { }
+export class RecepcionModule {}

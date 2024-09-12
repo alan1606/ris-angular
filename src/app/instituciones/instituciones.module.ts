@@ -8,9 +8,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule,ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EnviarResultadosComponent } from './components/enviar-resultados/enviar-resultados.component';
-import { RegistrarMedicoModalComponent } from "./components/enviar-resultados/registrar-medico-modal/registrar-medico-modal.component";
+import { RegistrarMedicoModalComponent } from './components/enviar-resultados/registrar-medico-modal/registrar-medico-modal.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
@@ -22,8 +22,7 @@ import { MatCardModule } from '@angular/material/card';
     PrincipalComponent,
     EnviarResultadosComponent,
     RegistrarMedicoModalComponent,
-    SeleccionarInstitucionComponent
-    
+    SeleccionarInstitucionComponent,
   ],
   imports: [
     CommonModule,
@@ -39,7 +38,8 @@ import { MatCardModule } from '@angular/material/card';
     MatPaginatorModule,
     MatAutocompleteModule,
     MatSelectModule,
-    MatCardModule
-  ]
+    MatCardModule,
+  ],
+  exports: [EnviarResultadosComponent],
 })
-export class InstitucionesModule { }
+export class InstitucionesModule {}

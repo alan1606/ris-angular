@@ -1,26 +1,26 @@
-.enviar-resultado{
+.enviar-resultado {
   display: flex;
   flex-direction: column;
-
+  background-color: #212529;
+  min-width: 100%;
 }
 
-.campos-medico{
-    display: flex;
-    flex-direction: column;
+.campos-medico {
+  display: flex;
+  flex-direction: column;
 }
 
+@media (min-width: 601px) {
+  mat-form-field {
+    width: 50%;
+  }
+  .enviar-resultado {
+    width: 50%;
+  }
+}
 
-@media (min-width:601px) {
-    mat-form-field {
-      width: 50%;
-    }
-    .enviar-resultado{
-      width: 50%;
-    }
+@media (max-width: 600px) {
+  mat-form-field {
+    width: 100%;
   }
-  
-  @media (max-width:600px) {
-    mat-form-field {
-      width: 100%;
-    }
-  }
+}

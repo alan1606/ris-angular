@@ -16,6 +16,8 @@ import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { BASE_SITE } from 'src/app/config/app';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
+import { EnviarResultadosComponent } from '../enviar-resultados/enviar-resultados.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-principal',
@@ -47,7 +49,8 @@ export class PrincipalComponent implements OnInit {
     private datePipe: DatePipe,
     private pacienteService: PacientesService,
     private fechaService: FechaService,
-    private service: VentaConceptosService
+    private service: VentaConceptosService,
+    private dialog: MatDialog
   ) {
     this.fechaInicio = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.fechaFin = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -106,7 +109,11 @@ export class PrincipalComponent implements OnInit {
   }
 
   enviarResultado(orden: OrdenVenta): void {
-    window.open(`/ris/instituciones/enviar/${orden.id}`, '_blank');
+    // window.open(`/ris/instituciones/enviar/${orden.id}`, '_blank');
+    this.dialog.open(EnviarResultadosComponent, {
+      data: orden,
+      width: '800px',
+    });
   }
 
   public paginar(event: PageEvent): void {
@@ -191,7 +198,7 @@ export class PrincipalComponent implements OnInit {
       text: 'buscando la etiqueta...',
       timer: 2500,
       timerProgressBar: true,
-      showConfirmButton:false,
+      showConfirmButton: false,
     }).then(() => {
       window.open(this.url, '_blank');
       Swal.close();

@@ -1,85 +1,101 @@
-<div class="card text-dark bg-light mb-3">
-    <div class="card-header">{{titulo}}</div>
-    <div class="card-body">
-        <button class="btn btn-secondary my-2" routerLink="/recepcion/enviar-estudios">Volver</button>
+<div class="root">
+  <div style="position: absolute; right: 0%; z-index: 100">
+    <button class="btn" (click)="dialogRef.close()">
+      <i style="color: white" class="bi bi-x-lg"></i>
+    </button>
+  </div>
+  <h2 style="color: white" mat-dialog-title>{{ titulo }}</h2>
+  <mat-dialog-content class="mat-typography">
+    <h3>PACIENTE</h3>
+    <p>{{ estudio.paciente.nombreCompleto }}</p>
+    <!-- <input
+            type="text"
+            name="paciente"
+            id="paciente"
+            class="form-control"
+            [(ngModel)]="estudio.paciente.nombreCompleto"
+          /> -->
 
-        <form>
-            <div class="form-group">
-                <div class="form-group my-3">
-                    <label for="paciente">Paciente</label>
-                    <input type="text" name="paciente" id="paciente" class="form-control"
-                        [(ngModel)]="estudio.paciente.nombreCompleto">
-                </div>
+    <h3>ESTUDIO</h3>
+    <p>{{ estudio.concepto.concepto }}</p>
+    <!-- <input
+            type="text"
+            name="estudio"
+            id="estudio"
+            class="form-control"
+            [(ngModel)]="estudio.concepto.concepto"
+          />
+        </div> -->
 
-                <div class="form-group my-3">
-                    <label for="estudio">Estudio</label>
-                    <input type="text" name="estudio" id="estudio" class="form-control"
-                        [(ngModel)]="estudio.concepto.concepto">
-                </div>
+    <h3>PROCEDENCIA</h3>
+    <p>{{ estudio.institucion.nombre }}</p>
 
-                <div class="form-group my-3">
-                    <label for="procedencia">Procedencia</label>
-                    <input type="text" name="procedencia" id="procedencia" class="form-control"
-                        [(ngModel)]="estudio.institucion.nombre">
-                </div>
+    <!-- <input
+            type="text"
+            name="procedencia"
+            id="procedencia"
+            class="form-control"
+            [(ngModel)]="estudio.institucion.nombre"
+          />
+        </div> -->
+    <h3>CAMBIAR MEDICO</h3>
+    <app-buscador-medicos-referentes
+      [mostrarNuevoMedicoInput]="false"
+      (medicoEnviado)="seleccionarMedicoReferente($event)"
+      [medicoExiste]="estudio.ordenVenta.medicoReferente"
+    ></app-buscador-medicos-referentes>
 
-                <!-- <div class="form-group my-3">
-                    <mat-form-field>
-                        <input matInput  placeholder="Medico referente" [formControl]="autocompleteControlMedicoReferente"
-                            [matAutocomplete]="autocompleteReferente">
-                        <mat-autocomplete #autocompleteReferente="matAutocomplete" [displayWith]="mostrarNombreMedicoReferente"
-                            (optionSelected)="seleccionarMedicoReferente($event)">
-                            <mat-option *ngFor="let medicoReferente of medicosReferentesFiltrados" [value]="medicoReferente">
-                                {{medicoReferente.nombres + ' ' +medicoReferente.apellidos}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div> -->
-                <app-buscador-medicos-referentes [mostrarNuevoMedicoInput]="false" (medicoEnviado)="seleccionarMedicoReferente($event)" [medicoExiste]="estudio.ordenVenta.medicoReferente"></app-buscador-medicos-referentes>
+    <h3>CORREO MÉDICO REFERENTE</h3>
+    <p>{{ correoMedico }}</p>
+    <!-- <input
+            type="email"
+            name="correo"
+            id="correo"
+            class="form-control"
+            [(ngModel)]="correoMedico"
+          /> -->
 
+    <h3>CORREO PACIENTE</h3>
+    <p>{{ correoPaciente }}</p>
+    <!-- <input
+            type="email"
+            name="correoPaciente"
+            id="correoPaciente"
+            class="form-control"
+            [(ngModel)]="correoPaciente"
+          /> -->
 
-                <div class="form-group my-3" >
-                    <label for="correo">Correo médico referente</label>
-                    <input type="email" name="correo" id="correo" class="form-control"
-                        [(ngModel)]="correoMedico">
-                </div>
-                
+    <h3>WHATSAPP PACIENTE</h3>
+    <p>{{ whatsappPaciente }}</p>
+    <!-- <input
+            type="text"
+            name="whatsappPaciente"
+            id="whatsappPaciente"
+            class="form-control"
+            [(ngModel)]="whatsappPaciente"
+          /> -->
 
-                <div class="form-group my-3" >
-                    <label for="correoPaciente">Correo paciente</label>
-                    <input type="email" name="correoPaciente" id="correoPaciente" class="form-control"
-                        [(ngModel)]="correoPaciente">
-                </div>
+    <h3>MENSAJE</h3>
+    <p>{{ mensaje }}</p>
+    <!-- <input
+            type="text"
+            name="mensaje"
+            id="mensaje"
+            class="form-control"
+            [(ngModel)]="mensaje"
+          /> -->
+  </mat-dialog-content>
 
-                <div class="form-group my-3" >
-                    <label for="correoPaciente">Whatsapp paciente</label>
-                    <input type="text" name="whatsappPaciente" id="whatsappPaciente" class="form-control"
-                        [(ngModel)]="whatsappPaciente">
-                </div>
-
-                <div class="form-group my-3" >
-                    <label for="mensaje">Mensaje</label>
-                    <input type="text" name="mensaje" id="mensaje" class="form-control" [(ngModel)]="mensaje">
-                </div>
-
-
-                <div class="botonera">
-                    <div class="form-group">
-                        <button type="button" class="btn btn-primary" (click)="enviarCorreo()">
-                            Enviar
-                        </button>
-                    </div>
-    
-                    <div class="form-group mx-3">
-                        <button type="button" class="btn btn-primary" (click)="enviarWhatsapp()">
-                            Enviar whatsapp
-                        </button>
-                    </div>
-                </div>
-               
-                
-            </div>
-        </form>
-    </div>
-
+  <mat-dialog-actions align="end">
+    <button type="button" class="btn btn-primary" (click)="enviarCorreo()">
+      <i class="bi bi-envelope-at-fill"></i> Enviar correos
+    </button>
+    <button
+      type="button"
+      class="btn btn-success mx-3"
+      (click)="enviarWhatsapp()"
+    >
+      <i class="bi bi-send-fill"></i> Whatsapp a paciente
+    </button>
+  </mat-dialog-actions>
 </div>

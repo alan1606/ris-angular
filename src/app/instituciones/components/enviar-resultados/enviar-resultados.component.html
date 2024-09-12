@@ -1,16 +1,19 @@
 <div class="p-3 enviar-resultado">
+  <h1 style="color: white">Introduce el correo al que deseas enviar</h1>
   <div class="campos-medico">
-    <mat-form-field>
+    <mat-form-field style="width: 768px">
       <mat-label>Correo</mat-label>
       <input required matInput type="email" [(ngModel)]="correo" />
     </mat-form-field>
   </div>
 
-  <button
-    class="btn btn-primary"
-    (click)="enviarResultados()"
-    [disabled]="deshabilitado"
-  >
-    Enviar resultados
-  </button>
+  <div>
+    <button
+      class="btn btn-primary"
+      (click)="enviarResultados()"
+      [disabled]="deshabilitado"
+    >
+      Enviar resultados
+    </button>
+  </div>
 </div>

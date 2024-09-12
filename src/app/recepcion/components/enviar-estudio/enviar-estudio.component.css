@@ -1,7 +1,21 @@
-mat-form-field {
-    width: 100%;
-  }
+.root {
+  background-color: #212529;
+  color: white;
+  position: relative;
+}
 
-.botonera{
+
+
+h3 {
+  font-weight: 500;
+  color: white;
+}
+p {
+  color: white;
+}
+
+.botonera {
   display: flex;
+  justify-content: end;
+  justify-self: end;
 }
