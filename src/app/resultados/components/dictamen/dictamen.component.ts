@@ -43,6 +43,7 @@ export class DictamenComponent implements OnInit {
       const idPacs: string = params.get('idPacs');
       if (idPacs) {
         this.service.buscarPorIdPacs(idPacs).subscribe((estudio) => {
+          console.log(estudio);
           this.estudio = estudio;
           this.titulo = `${this.estudio.institucion.nombre}: ${this.estudio.concepto.concepto} de ${this.estudio.paciente.nombreCompleto}`;
           this.cargarInterpretacion();
@@ -79,14 +80,14 @@ export class DictamenComponent implements OnInit {
   }
 
   getNoDicomStudiesDocuments(): void {
-    console.log("Getting no dicom documents")
+    console.log('Getting no dicom documents');
     this.multimediaService
       .buscarPorOrdenVentaId(this.estudio.ordenVenta.id)
       .subscribe((multimedia) => {
         this.noDicomStudies = multimedia.filter(
           (doc) => doc.tipo === 'DOCUMENTO'
         );
-        console.log(this.noDicomStudies)
+        console.log(this.noDicomStudies);
       });
   }
 
@@ -127,11 +128,16 @@ export class DictamenComponent implements OnInit {
   }
 
   abrirOhif(estudio: VentaConceptos): void {
-    if (this.isMobile && estudio.concepto.area.nombre === 'MASTOGRAFIA') {
+    enum Estudios {
+      MASTOGRAFIA = 'MASTOGRAFIA',
+      ULTRASONIDO = 'ULTRASONIDO',
+    }
+    if (this.isMobile && estudio.concepto.area.nombre===Estudios.MASTOGRAFIA || estudio.concepto.area.nombre===Estudios.ULTRASONIDO ) {
       this.viewerURL = 'https://viewerv2.diagnocons.com/viewer/';
     }
     window.open(`${this.viewerURL}${estudio.iuid}`);
   }
+
   verInterpretacion(enlace: string): void {
     console.log(enlace);
     this.dialog.open(VisorInterpretacionComponent, {
