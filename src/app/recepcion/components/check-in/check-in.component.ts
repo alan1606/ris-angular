@@ -319,6 +319,41 @@ export class CheckInComponent implements OnInit, OnDestroy {
     });
   }
 
+  eliminar(estudio: VentaConceptos): void {
+
+    Swal.fire({
+      title: '¿Seguro que desea eliminar el estudio?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No',
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+      },
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        return;
+      } 
+
+      //Si ya estaba agendado tiene id
+      if(estudio.id){
+        estudio.estado = "CANCELADO";
+        estudio.concepto.concepto = "CANCELADO";
+        estudio.concepto.precio = 0;
+        console.log(estudio);
+        return;
+      }
+
+      this.listaDeEstudios = this.listaDeEstudios.filter(e => e != estudio);
+
+    })
+
+
+  }
+
   abrirAgregarEstudio(): void {
     const dialogRef = this.dialog.open(AgregarEstudioComponent, {
       width: '600px',
