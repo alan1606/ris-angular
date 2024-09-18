@@ -156,7 +156,7 @@ export class TurneroComponent implements OnInit {
   }
 
   public verFotoOrden(idEstudio: number): void {
-    const dialogRef = this.dialog.open(VerFotoOrdenComponent, {
+    this.dialog.open(VerFotoOrdenComponent, {
       data: { idEstudio },
     });
   }

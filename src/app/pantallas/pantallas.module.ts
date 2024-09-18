@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { EditarPantallasComponent } from './components/editar-pantallas/editar-pantallas.component';
 import { PantallasComponent } from './components/pantallas/pantallas.component';
 import { VerPantallasComponent } from './components/ver-pantallas/ver-pantallas.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { VerPantallasComponent } from './components/ver-pantallas/ver-pantallas.
     SharedModule,
     MatFormFieldModule,
     MatInputModule,
+    FormsModule,
   ],
 })
 export class PantallasModule {}
