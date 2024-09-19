@@ -41,7 +41,6 @@ import {
 } from './index';
 import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-subir-foto-orden-modal.component';
 import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registrar-paciente.component';
-import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import { LimitarInstitucionPorSalaService } from 'src/app/horarios/services/limitar-institucion-por-sala.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -66,7 +65,7 @@ export class AgendarComponent implements OnInit {
     private fechaService: FechaService,
     private instruccionesService: InstruccionesService,
     private dataService: DataService,
-    private limiteService: LimitarInstitucionPorSalaService,
+    private limiteService: LimitarInstitucionPorSalaService
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
@@ -117,6 +116,7 @@ export class AgendarComponent implements OnInit {
   pagoRecibido: boolean = false;
   pagos: Pago[] = [];
   descuentos: Descuento[] = [];
+  date: FormControl = new FormControl(new Date());
 
   ngOnInit(): void {
     this.horaInicial.setHours(7, 0);
@@ -456,7 +456,7 @@ export class AgendarComponent implements OnInit {
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
-            this.mostrarModalQrImagenes();
+          this.mostrarModalQrImagenes();
           this.reiniciarFormulario();
           Swal.fire('Procesado', 'La orden se ha procesado', 'success');
         },
@@ -544,7 +544,6 @@ export class AgendarComponent implements OnInit {
   }
   private mostrarModalQrImagenes() {
     const modalRef = this.dialog.open(QrSubirFotoOrdenModalComponent, {
-      
       data: { orden: this.ordenVenta },
     });
 
@@ -597,19 +596,23 @@ export class AgendarComponent implements OnInit {
     ) {
       this.concepto.espaciosAgenda = this.espaciosAgenda;
     }
-  
+
     if (this.hayQueMostrarLimiteUltrasonido()) {
       this.mostrarCitasUltrasonido();
     }
-  
+
     // Aquí esperamos la respuesta de limiteInstitucionSuperado antes de continuar
     const limiteSuperado = await this.limiteInstitucionSuperado();
     if (limiteSuperado) {
-      Swal.fire("Límite", "No es posible agendar más estudios en la institución", "error");
+      Swal.fire(
+        'Límite',
+        'No es posible agendar más estudios en la institución',
+        'error'
+      );
       return;
       // No quiero que se ejecute el código que viene del citaService
     }
-  
+
     this.citaService
       .obtenerDisponiblesPorSalaYFechaEspacios(
         this.equipoDicom.id,
@@ -632,11 +635,15 @@ export class AgendarComponent implements OnInit {
   private async limiteInstitucionSuperado(): Promise<boolean> {
     try {
       const superado = await firstValueFrom(
-        this.limiteService.limiteSuperadoInstitucionSalaFecha(this.institucion.id, this.equipoDicom.id, this.fecha)
+        this.limiteService.limiteSuperadoInstitucionSalaFecha(
+          this.institucion.id,
+          this.equipoDicom.id,
+          this.fecha
+        )
       );
       return superado;
     } catch (error) {
-      console.error("Ocurrió un error encontrando el límite", error);
+      console.error('Ocurrió un error encontrando el límite', error);
       return false;
     }
   }
