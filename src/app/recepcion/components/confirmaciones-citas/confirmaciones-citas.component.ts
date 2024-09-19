@@ -85,7 +85,7 @@ export class ConfirmacionesCitasComponent implements OnInit {
   recibirAreaFiltrada(event: Area) {
     this.areaFiltrada = event;
     this.dataService.updateAreaData(event);
-    this.citas = !event ? this.citasSinFiltrar : this.citasSinFiltrar.filter((cita) => cita.estudio.concepto.area.nombre.includes(event.nombre.toUpperCase()));
+    this.citas = !event ? this.citasSinFiltrar : this.citasSinFiltrar.filter((cita) => cita?.estudio?.concepto?.area?.nombre.includes(event.nombre.toUpperCase()));
     this.total = this.citas.length;
     this.totalSinConfirmar = this.citas.filter((cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA').length;
   }
