@@ -102,7 +102,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
 
             citasNoPagadas = citas.filter((cita) =>
               ordenesNoPagadas.some(
-                (orden) => orden.id === cita.estudio.ordenVenta.id
+                (orden) => orden.id === cita.estudio?.ordenVenta.id
               )
             );
 
@@ -124,7 +124,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.citasFiltradas = !this.busqueda
       ? this.citas
       : this.citas.filter((cita) =>
-          cita.estudio.concepto.area.nombre.includes(
+          cita.estudio?.concepto.area.nombre.includes(
             this.busqueda.toUpperCase()
           )
         );
