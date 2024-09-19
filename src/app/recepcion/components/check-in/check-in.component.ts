@@ -74,6 +74,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
   estudiosList: VentaConceptos[] = [];
   esInstitucion: boolean = false;
   nombreInstitucion: string = null;
+  private citaSeleccionada: Cita = null;
   ngOnInit(): void {
     this.buscarCitasHoy();
   }
@@ -201,6 +202,9 @@ export class CheckInComponent implements OnInit, OnDestroy {
             if (this.esInstitucion) {
               return;
             }
+            this.citasFiltradas = this.citasFiltradas.filter(
+              (cita) => cita.id !== this.citaSeleccionada.id
+            );
             this.reiniciar();
           },
           (error) => {
@@ -245,6 +249,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   seleccionar(cita: Cita): void {
+    this.citaSeleccionada = cita;
     this.ventaConceptosService.ver(cita.ventaConceptoId).subscribe(
       (estudio) => {
         if (estudio.institucion.id !== 1) {
@@ -298,6 +303,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.folio = null;
     this.esInstitucion = false;
     this.nombreInstitucion = null;
+    this.citaSeleccionada = null;
     return;
   }
 
@@ -320,7 +326,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   eliminar(estudio: VentaConceptos): void {
-
     Swal.fire({
       title: '¿Seguro que desea eliminar el estudio?',
       showDenyButton: true,
@@ -336,22 +341,19 @@ export class CheckInComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (!result.isConfirmed) {
         return;
-      } 
+      }
 
       //Si ya estaba agendado tiene id
-      if(estudio.id){
-        estudio.estado = "CANCELADO";
-        estudio.concepto.concepto = "CANCELADO";
+      if (estudio.id) {
+        estudio.estado = 'CANCELADO';
+        estudio.concepto.concepto = 'CANCELADO';
         estudio.concepto.precio = 0;
         console.log(estudio);
         return;
       }
 
-      this.listaDeEstudios = this.listaDeEstudios.filter(e => e != estudio);
-
-    })
-
-
+      this.listaDeEstudios = this.listaDeEstudios.filter((e) => e != estudio);
+    });
   }
 
   abrirAgregarEstudio(): void {
