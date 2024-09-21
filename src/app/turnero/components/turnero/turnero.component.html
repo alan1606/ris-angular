@@ -77,7 +77,7 @@
               >
                 @if (areDatesEqual(element.arrived, element.assigned)) {
                 URGENCIAS }@else {
-                {{ element.arrived | date : "hh:mm a" }}
+                {{ element.assigned | date : "hh:mm a" }}
                 }
               </td>
             </ng-container>

@@ -18,15 +18,12 @@ import { VerFotoOrdenComponent } from '../ver-foto-orden/ver-foto-orden.componen
 })
 export class TurneroComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-
   private turneroService = inject(TurneroService);
   private turneroSocketService = inject(TurneroSocketService);
   private tokenService = inject(TokenService);
   private alertaService = inject(AlertaService);
-
   private user = this.tokenService.getUsername();
   private dataService = inject(DataService);
-
   public studiesColumns: string[] = [
     'Paciente',
     'Estudio',
@@ -38,13 +35,10 @@ export class TurneroComponent implements OnInit {
     'Tomar',
   ];
   public expandedPanel: number | null = null;
-
   public subscriptions = signal<TurneroSubscription[]>([]);
   public subscriptionsDataSource: any[] = [];
-
   public estudios: any = [];
   public studiesDataSource: any[] = [];
-
   public area = signal<Area>(new Area());
   public sala = signal<EquipoDicom>(new EquipoDicom());
 
@@ -123,7 +117,7 @@ export class TurneroComponent implements OnInit {
   private studyTakenListener(): void {
     this.turneroSocketService.nuevoEvento$.subscribe(
       (data) => {
-        console.log('me la pelas pendejo', data);
+        console.log('data del evento', data);
         if (data?.dicomRoomId === this.expandedPanel) {
           console.log('Antes de buscar estudios', data);
           this.searchStudiesByRoomId(data.dicomRoomId);
