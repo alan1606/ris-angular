@@ -161,6 +161,21 @@ export class TurneroComponent implements OnInit {
     });
   }
 
+  areDatesEqual(arrived: string, assigned: string): boolean {
+    const formatDate = (dateStr: string) => {
+      const date = new Date(dateStr);
+      const hour = date.getHours().toString().padStart(2, '0');
+      const minute = date.getMinutes().toString().padStart(2, '0');
+      return `${hour}:${minute}`;
+    };
+    return formatDate(arrived) === formatDate(assigned);
+  }
+  associatedDivided(estudios: string): string[] {
+    let esutidosDivididos: string[] = [];
+    esutidosDivididos = estudios.split(',');
+    return esutidosDivididos;
+  }
+
   public unsubscribe(salaId: number): void {
     Swal.fire({
       title: '¿Seguro que quiere dejar de ver estudios de esta sala?',
