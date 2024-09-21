@@ -17,6 +17,7 @@ export class PantallasService {
   };
 
   public addRoomToScreens(sala: DicomRoom): Observable<any> {
+    console.log(sala)
     return this.http.put<any>(`${this.url}/salas`, sala);
   }
 }
