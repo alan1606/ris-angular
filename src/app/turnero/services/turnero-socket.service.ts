@@ -95,7 +95,7 @@ export class TurneroSocketService {
           const content = JSON.parse(message.body);
           console.log(content);
           this.messageSubject.next(content);
-          if (!content.user) {
+          if (!content.user && !content.userFinisher) {
             this.alertaService.pacientArrived(
               content.patientName,
               content.roomName,

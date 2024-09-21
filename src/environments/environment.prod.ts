@@ -5,4 +5,5 @@ export const environment = {
   post_logout_redirect_uri: 'https://ris.diagnocons.com/ris/logout',
   redirect_uri: 'https://ris.diagnocons.com/ris/authorized?method=get',
   turneroSocket: 'https://ris.diagnocons.com/api/turnero/shifts-websocket',
+  chatSocket: 'https://ris.diagnocons.com/api/whatsapp-web/wp-web-websocket',
 };

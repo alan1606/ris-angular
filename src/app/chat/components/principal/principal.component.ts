@@ -40,11 +40,11 @@ export class PrincipalComponent implements OnInit, AfterViewInit {
   listenerMessage() {
     this.chatService.getMessageSubject().subscribe((mensaje: any) => {
       //Si recibido.phone == chatSeleccionado, meter mensaje nuevo, si no, mover lista de chats
-      if (mensaje.phoneNumber == this.chatSeleccionado) {
+      if (mensaje?.phoneNumber == this.chatSeleccionado) {
         this.listaMensajes.push(mensaje);
       } else {
-        this.chats = this.chats.filter((chat) => chat != mensaje.phoneNumber);
-        this.chats = [mensaje.phoneNumber, ...this.chats];
+        this.chats = this.chats.filter((chat) => chat != mensaje?.phoneNumber);
+        this.chats = [mensaje?.phoneNumber, ...this.chats];
       }
     });
   }

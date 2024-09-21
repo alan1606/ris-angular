@@ -3,7 +3,7 @@ import { Message, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { BASE_ENDPOINT } from 'src/app/config/app';
+import { BASE_ENDPOINT, chatSocket } from 'src/app/config/app';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class ChatService {
   constructor(private http: HttpClient) {}
 
   initConnenctionSocket() {
-    const url = 'https://ris.diagnocons.com/api/whatsapp-web/wp-web-websocket';
+    const url = chatSocket;
     //const url = 'http://localhost:8013/wp-web-websocket';
 
     const socket = new SockJS(url);
