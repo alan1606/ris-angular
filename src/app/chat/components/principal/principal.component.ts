@@ -16,7 +16,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PrincipalComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  constructor(private chatService: ChatService,
+  constructor(
+    private chatService: ChatService,
     private sanitizer: DomSanitizer
   ) {
     this.chatService.initConnenctionSocket();
@@ -26,12 +27,12 @@ export class PrincipalComponent implements OnInit, AfterViewInit {
   busqueda: string = null;
   chatsFiltrados: string[] = [];
   listaMensajes: Message[] = [];
-  imagenesUrl={};
+  imagenesUrl = {};
 
   ngOnInit(): void {
-    this.chatService.joinWpTopic();
-    this.listenerMessage();
+    // this.chatService.joinTopic();
     this.buscarChats();
+    this.listenerMessage();
   }
   ngAfterViewInit() {
     this.scrollToBottom();
@@ -71,7 +72,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit {
     this.chatService.getMessagesByPhoneNumber(chat).subscribe((mensajes) => {
       this.listaMensajes = mensajes;
       console.log(this.listaMensajes);
-      this.cargarImagenes(); 
+      this.cargarImagenes();
     });
   }
 
@@ -92,7 +93,8 @@ export class PrincipalComponent implements OnInit, AfterViewInit {
     this.chatService.getImage(mediaId).subscribe(
       (data) => {
         let objectURL = URL.createObjectURL(data);
-        this.imagenesUrl[mediaId] = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        this.imagenesUrl[mediaId] =
+          this.sanitizer.bypassSecurityTrustUrl(objectURL);
       },
       (error) => {
         console.error('Error fetching image:', error);

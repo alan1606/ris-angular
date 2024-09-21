@@ -10,22 +10,17 @@ import { turneroSocket } from 'src/app/config/app';
 })
 export class TurneroSocketService {
   public notificationSound = new Audio('../../../assets/messanger.mp3');
-
   private tokenService = inject(TokenService);
   private alertaService = inject(AlertaService);
-
   private stompClient: Client;
   private messageSubject: BehaviorSubject<Message> =
     new BehaviorSubject<Message>(null);
   private username = this.tokenService.getUsername();
   private tecnico =
     this.tokenService.isTechnician() || this.tokenService.isAdmin();
-
   public nuevoEvento$: Observable<any> = this.messageSubject.asObservable();
-
   private url: string = turneroSocket;
 
-  constructor() {}
   public repoducir(): void {
     this.notificationSound.play();
   }
@@ -46,7 +41,7 @@ export class TurneroSocketService {
       return;
     }
 
-    console.log('Iniciando conexión');
+    console.log('Iniciando conexión turnero socket service');
 
 
     this.stompClient = new Client({
@@ -55,7 +50,7 @@ export class TurneroSocketService {
     });
 
     this.stompClient.onConnect = (frame) => {
-      console.log('Connected:');
+      console.log('Connected: Turnero socket service');
       this.joinTopic();
     };
 
@@ -65,7 +60,7 @@ export class TurneroSocketService {
     };
 
     this.stompClient.onWebSocketClose = (evt) => {
-      console.log(`WebSocket closed with`);
+      console.log(`Turnero socket service closed with`);
       this.disconect();
     };
 
@@ -78,7 +73,7 @@ export class TurneroSocketService {
       this.subscribeToTopic();
     } else {
       this.stompClient.onConnect = (frame) => {
-        console.log('WebSocket connected, subscribing to topic now.');
+        console.log('Turnero socket connected, subscribing to topic now.');
         this.subscribeToTopic();
       };
     }
@@ -114,6 +109,6 @@ export class TurneroSocketService {
 
   public disconect(): void {
     this.stompClient.deactivate();
-    console.log('socket desconectado');
+    console.log('turnero socket desconectado');
   }
 }
