@@ -98,10 +98,11 @@
                         <th>Hora</th>
                         <th>Precio</th>
                         <th>Cambiar</th>
+                        <th>Eliminar</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let estudio of listaDeEstudios">
+                      <tr *ngFor="let estudio of listaDeEstudios" [ngClass] = "estudio.estado == 'CANCELADO' ? 'table-danger': ''">
                         <td>{{ estudio.concepto?.concepto }}</td>
                         <td>{{ estudio.equipoDicom?.nombre }}</td>
                         <td>
@@ -120,6 +121,15 @@
                             (click)="cambiar(estudio)"
                           >
                             Cambiar
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            (click)="eliminar(estudio)"
+                          >
+                            X
                           </button>
                         </td>
                       </tr>

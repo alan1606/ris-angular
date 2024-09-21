@@ -68,8 +68,17 @@
             </ng-container>
             <ng-container matColumnDef="Cita">
               <th mat-header-cell *matHeaderCellDef>Cita</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.assigned | date : "hh:mm a" }}
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [ngClass]="{
+                'urgencia':areDatesEqual(element.arrived, element.assigned),
+              }"
+              >
+                @if (areDatesEqual(element.arrived, element.assigned)) {
+                URGENCIAS }@else {
+                {{ element.arrived | date : "hh:mm a" }}
+                }
               </td>
             </ng-container>
             <ng-container matColumnDef="Estado">
@@ -82,20 +91,37 @@
                   'finalizado': element.status == 'FINISHED',
                 }"
               >
-                {{
+                @if (element.status==="WAITING") { ESPERANDO } @if
+                (element.status==="PROCESSING") { TOMANDO } @if
+                (element.status==="FINISHED") {
+                <span>
+                  FINALIZADO
+                  <p>{{ element.finished | date : "hh:mm a" }}</p>
+                </span>
+                }
+                <!-- {{
                   element.status === "WAITING"
                     ? "ESPERANDO"
                     : element.status === "PROCESSING"
                     ? "TOMANDO"
                     : "FINALIZADO"
-                }}
+                }} -->
               </td>
             </ng-container>
 
             <ng-container matColumnDef="Asociados">
-              <th mat-header-cell *matHeaderCellDef>E. asociados</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.studiesAssociated ? element.studiesAssociated : "" }}
+              <th mat-header-cell *matHeaderCellDef>Estudios asociados</th>
+              <td mat-cell *matCellDef="let element" style="font-size: x-small">
+                <!-- {{ element.studiesAssociated ? element.studiesAssociated : "" }} -->
+                <!-- {{
+                  element.studiesAssociated
+                    ? associatedDivided(element.studiesAssociated)
+                    : null
+                }} -->
+                @if (element.studiesAssociated) { @for (cto of
+                associatedDivided(element.studiesAssociated); track $index) {
+                <p>{{ cto }}</p>
+                } }
               </td>
             </ng-container>
 
@@ -115,7 +141,7 @@
             <ng-container matColumnDef="Tomar">
               <th mat-header-cell *matHeaderCellDef>Técnico</th>
               <td mat-cell *matCellDef="let element">
-                @if (!element.user) {
+                @if (!element.userTaking && !element.userFinisher) {
                 <button
                   mat-raised-button
                   color="primary"
@@ -123,8 +149,11 @@
                 >
                   Tomar
                 </button>
-                } @if(element.user){
-                {{ element.user }}
+                } @if(element.userTaking && !element.userFinisher){
+                {{ element.userTaking }}
+                }
+                @if(element.userFinisher){
+                  {{element.userFinisher}}
                 }
               </td>
             </ng-container>

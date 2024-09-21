@@ -1,22 +1,16 @@
 import { environment } from "@envs/environment";
 
-//export const BASE_SITE='http://localhost:4200/ris'
 export const BASE_SITE=environment.BASE_SITE
 
 export const BASE_ENDPOINT = environment.BASE_ENDPOINT
-//export const BASE_ENDPOINT = 'http://172.17.207.221:8090/api'
 
 export const post_logout_redirect_uri = environment.post_logout_redirect_uri
-//export const post_logout_redirect_uri = 'https://ris.diagnocons.com/ris/logout'
 
 export const redirect_uri = environment.redirect_uri
-//export const redirect_uri = 'https://ris.diagnocons.com/ris/authorized?method=get'; //Este
 
-//export const turneroSocket = 'https://ris.diagnocons.com/api/turnero/shifts-websocket'
 export const turneroSocket =  environment.turneroSocket
 
-
-
+export const chatSocket = environment.chatSocket
 
 export const VIEWER = 'https://ris.diagnocons.com/viewer?StudyInstanceUIDs=';
 export const ZIP_STUDIES_PATH = 'https://ris.diagnocons.com/dcm4chee-arc/aets/DCM4CHEE/rs/studies';
@@ -32,15 +26,11 @@ export const RESULTS_URL = 'https://ris.diagnocons.com/ris/resultados/';
 export const DIRECCION_CORREO_CONS = 'diagnocons@gmail.com';
 export const URL_SUBIR_FOTO = 'https://ris.diagnocons.com/ris/recepcion/subir-foto-orden/';
 
-
 const BASE_SERVER_ADDRESS = 'https://auth.diagnocons.com/realms/diagnocons/protocol/openid-connect/';
-
 
 export const authorize_uri = BASE_SERVER_ADDRESS + 'auth?';
 export const logour_uri =  BASE_SERVER_ADDRESS + 'logout?';
 export const client_id = 'rispacs';
-
-
 
 export const scope = 'openid profile';
 export const response_type = 'code';
