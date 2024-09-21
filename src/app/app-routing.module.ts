@@ -182,6 +182,11 @@ const routes: Routes = [
     canActivate: [TurneroGuard],
   },
   {
+    path: 'pantallas',
+    loadChildren: () =>
+      import('./pantallas/pantallas.module').then((m) => m.PantallasModule),
+  },
+  {
     path: '',
     redirectTo: 'resultados',
     pathMatch: 'full',
