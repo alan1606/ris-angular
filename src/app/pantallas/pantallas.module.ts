@@ -9,7 +9,9 @@ import { EditarPantallasComponent } from './components/editar-pantallas/editar-p
 import { PantallasComponent } from './components/pantallas/pantallas.component';
 import { VerPantallasComponent } from './components/ver-pantallas/ver-pantallas.component';
 import { FormsModule } from '@angular/forms';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     EditarPantallasComponent,
@@ -24,6 +26,10 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    MatTableModule,
+    MatButtonModule,
+    MatCheckboxModule
+
   ],
 })
 export class PantallasModule {}

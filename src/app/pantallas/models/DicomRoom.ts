@@ -1,10 +1,11 @@
 export class DicomRoom {
   id: number;
   displayName: string;
-  enable: boolean;
+  enabled: boolean;
 
-  constructor(id, name) {
+  constructor(id: number, name: string, enable = true) {
     this.id = id;
     this.displayName = name;
+    this.enabled = enable;
   }
 }

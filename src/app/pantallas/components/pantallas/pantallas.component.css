@@ -1,0 +1,17 @@
+.tabla-container {
+    display: table;
+    margin: 0 auto;
+  }
+  
+.tabla {
+    width: 65%; 
+    margin: 2% auto; 
+}
+  
+
+.botones{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 2% 0 0 0;
+}
