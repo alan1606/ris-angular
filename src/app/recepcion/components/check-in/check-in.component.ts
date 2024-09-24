@@ -24,6 +24,7 @@ import { DataService } from '../services/data-service.service';
 import { Subscription } from 'rxjs';
 import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
 import { Institucion } from '../agendar';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-check-in',
@@ -31,6 +32,8 @@ import { Institucion } from '../agendar';
   styleUrls: ['./check-in.component.css'],
 })
 export class CheckInComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper') private stepper: MatStepper;
+
   constructor(
     private ventaConceptosService: VentaConceptosService,
     private ordenVentaService: OrdenVentaService,
@@ -227,8 +230,27 @@ export class CheckInComponent implements OnInit, OnDestroy {
     modalRef.afterClosed().subscribe();
   }
 
-  presionadoBotonGuardar(presionado) {
-    this.guardarPresionado = presionado as boolean;
+  presionadoBotonGuardar(presionado: boolean) {
+    // let [patientYear] = this.orden.paciente.fechaNacimiento.split('-');
+    // let actualYear: number = new Date().getFullYear();
+    // let patientAge: number = actualYear - parseInt(patientYear);
+    // console.log(patientAge);
+    // if (patientAge >= 100) {
+    //   this.alertaService.info(
+    //     'Mayor de 100 años',
+    //     'El paciente tiene mas de 100 años y puede provocar errores en los equipos',
+    //     false,
+    //     true,
+    //     'Volver'
+    //   );
+    //   return;
+    // }
+
+    if (!presionado) return;
+
+    this.guardarPresionado = presionado;
+    this.stepper.next();
+
     if (this.esInstitucion) {
       this.pagar();
       return;

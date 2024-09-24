@@ -13,7 +13,7 @@ import { DatePipe } from '@angular/common';
 import { ESTADO, getPersona, GENERO, generar } from 'curp';
 import { UntypedFormControl } from '@angular/forms';
 import { FechaService } from 'src/app/services/fecha.service';
-
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 @Component({
   selector: 'app-formulario-paciente',
   templateUrl: './formulario-paciente.component.html',
@@ -21,7 +21,6 @@ import { FechaService } from 'src/app/services/fecha.service';
 })
 export class FormularioPacienteComponent implements OnChanges {
   fechaNacimientoControl = new UntypedFormControl();
-
   @Input()
   model: Paciente;
   titulo: string = 'Datos del paciente';
@@ -38,11 +37,12 @@ export class FormularioPacienteComponent implements OnChanges {
   constructor(
     private service: PacientesService,
     private pipe: DatePipe,
-    private fechaService: FechaService
+    private fechaService: FechaService,
+    private alertaService: AlertaService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.model.sexo){
+    if (this.model.sexo) {
       this.sexo = this.model.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
     }
     if (this.model.fechaNacimiento) {
@@ -61,8 +61,12 @@ export class FormularioPacienteComponent implements OnChanges {
       return;
     }
     this.model.nombre = this.model.nombre.trim().toUpperCase();
-    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
-    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno
+      .trim()
+      .toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno
+      .trim()
+      .toUpperCase();
     this.service.crear(this.model).subscribe(
       (model) => {
         this.model = model;
@@ -83,29 +87,58 @@ export class FormularioPacienteComponent implements OnChanges {
       return;
     }
     this.model.nombre = this.model.nombre.trim().toUpperCase();
-    this.model.apellidoPaterno = this.model.apellidoPaterno.trim().toUpperCase();
-    this.model.apellidoMaterno = this.model.apellidoMaterno.trim().toUpperCase();
+    this.model.apellidoPaterno = this.model.apellidoPaterno
+      .trim()
+      .toUpperCase();
+    this.model.apellidoMaterno = this.model.apellidoMaterno
+      .trim()
+      .toUpperCase();
     this.service.editar(this.model).subscribe(
       (concepto) => {
         console.log(concepto);
+        let [patientYear] = this.model.fechaNacimiento.split('-');
+        let actualYear: number = new Date().getFullYear();
+        let patientAge: number = actualYear - parseInt(patientYear);
+        console.log(patientAge);
 
-        this.botonGuardarPresionado.emit(true);
+        if (patientAge >= 120) {
+          this.alertaService.info(
+            'Mayor de 120 años',
+            'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
+            false,
+            true,
+            'Volver'
+          );
+          return this.botonGuardarPresionado.emit(false);
+        }
+        if (patientAge < 0) {
+          this.alertaService.info(
+            'Menor de 0 años',
+            'El paciente aun no nace no se pude proseguir',
+            false,
+            true,
+            'Volver'
+          );
+          return this.botonGuardarPresionado.emit(false);
+        }
+        return this.botonGuardarPresionado.emit(true);
       },
       (err) => {
         if (err.status === 400) {
-          this.error = err.error;
-          console.log(this.error);
+          this.alertaService.error(this.error);
         }
       }
     );
   }
 
   private camposValidos(): boolean {
-
-    if(this.fechaNacimientoControl.status == 'INVALID'){
+    if (this.fechaNacimientoControl.status == 'INVALID') {
       let partesFecha = [];
-      partesFecha = this.fechaNacimientoControl.errors['matDatepickerParse'].text.split('/');
-      if(partesFecha.length != 3){
+      partesFecha =
+        this.fechaNacimientoControl.errors['matDatepickerParse'].text.split(
+          '/'
+        );
+      if (partesFecha.length != 3) {
         Swal.fire('Error', 'La fecha debe tener /', 'error');
         return false;
       }
@@ -116,8 +149,9 @@ export class FormularioPacienteComponent implements OnChanges {
       const fechaValor = new Date(`${mes}/${dia}/${anio}`);
       this.model.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
       this.model.fechaNacimiento += 'T00:00:00';
-      this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
-
+      this.fechaNacimientoControl.setValue(
+        new Date(this.model.fechaNacimiento)
+      );
     }
     if (!this.model.nombre) {
       Swal.fire('Error', 'Verifique el nombre', 'error');

@@ -43,6 +43,7 @@ import { QrSubirFotoOrdenModalComponent } from '../qr-subir-foto-orden-modal/qr-
 import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registrar-paciente.component';
 import { LimitarInstitucionPorSalaService } from 'src/app/horarios/services/limitar-institucion-por-sala.service';
 import { firstValueFrom } from 'rxjs';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 
 @Component({
   selector: 'app-agendar',
@@ -65,7 +66,8 @@ export class AgendarComponent implements OnInit {
     private fechaService: FechaService,
     private instruccionesService: InstruccionesService,
     private dataService: DataService,
-    private limiteService: LimitarInstitucionPorSalaService
+    private limiteService: LimitarInstitucionPorSalaService,
+    private alertaService: AlertaService
   ) {
     this.formulario = this.fb.group({
       salaControl: new FormControl(''),
@@ -419,6 +421,32 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
+    let [patientYear] = this.paciente.fechaNacimiento.split('-');
+    let actualYear: number = new Date().getFullYear();
+    let patientAge: number = actualYear - parseInt(patientYear);
+    console.log(patientAge);
+
+    if (this.isUrgencia && patientAge >= 120) {
+      this.alertaService.info(
+        'Mayor de 120 años',
+        'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
+        false,
+        true,
+        'Volver'
+      );
+      return;
+    }
+    if (this.isUrgencia && patientAge < 0) {
+      this.alertaService.info(
+        'Menor de 0 años',
+        'El paciente aun no nace no se pude proseguir',
+        false,
+        true,
+        'Volver'
+      );
+      return;
+    }
+
     this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',

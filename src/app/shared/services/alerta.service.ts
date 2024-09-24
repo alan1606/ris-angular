@@ -35,7 +35,8 @@ export class AlertaService {
     titulo: string = '',
     texto: string = '',
     outsideClick: boolean = true,
-    confirmButton: boolean = true
+    confirmButton: boolean = true,
+    confirmButtonText: string = 'OK'
   ): Promise<SweetAlertResult<Awaited<any>>> {
     return Swal.fire({
       icon: 'info',
@@ -43,6 +44,7 @@ export class AlertaService {
       text: texto,
       allowOutsideClick: outsideClick,
       showConfirmButton: confirmButton,
+      confirmButtonText: confirmButtonText,
     });
   }
 
