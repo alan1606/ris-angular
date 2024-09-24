@@ -106,6 +106,13 @@ export class VentaConceptosService extends CommonService<VentaConceptos> {
     return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/ultrasonidos/fecha/${fecha}/sala/${salaId}/institucion/${institucionId}`);
   }
 
+  public encontrarPorIds(ids: number[]): Observable<VentaConceptos[]> {
+    let params = new HttpParams();
+    ids.forEach(id => {
+      params = params.append('ids', id.toString());
+    });
 
+    return this.http.get<VentaConceptos[]>(`${this.baseEndpoint}/ids`, { params });
+  }
 
 }

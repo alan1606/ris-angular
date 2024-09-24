@@ -12,15 +12,16 @@ import { AreasService } from 'src/app/services/areas.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
-import { CommonListarComponent } from '../common-listar.component';
-import { BuscarEstudioModalComponent } from '../studies/buscar-estudio-modal/buscar-estudio-modal.component';
-import { EnviarEstudioModalComponent } from '../studies/enviar-estudio-modal/enviar-estudio-modal.component';
-import { InformacionEstudioModalComponent } from '../studies/informacion-estudio-modal/informacion-estudio-modal.component';
+
 import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
 import { BASE_SITE } from 'src/app/config/app';
 import { MatSelect } from '@angular/material/select';
 import { EnviarEstudioDicomComponent } from './enviar-estudio-dicom/enviar-estudio-dicom.component';
+import { CommonListarComponent } from 'src/app/components/common-listar.component';
+import { BuscarEstudioModalComponent } from 'src/app/components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
+import { EnviarEstudioModalComponent } from 'src/app/components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
+import { InformacionEstudioModalComponent } from 'src/app/components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
 @Component({
   selector: 'app-venta-conceptos',
   templateUrl: './venta-conceptos.component.html',

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConceptosComponent } from './components/conceptos/conceptos.component';
-import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { DictamenComponent } from './resultados/components/dictamen/dictamen.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
@@ -27,11 +26,6 @@ const routes: Routes = [
     path: 'conceptos',
     component: ConceptosComponent,
     canActivate: [ConceptosGuard],
-  },
-  {
-    path: 'venta-conceptos',
-    component: VentaConceptosComponent,
-    canActivate: [VentaConceptosGuard],
   },
   {
     path: 'medico-radiologo',
@@ -64,6 +58,12 @@ const routes: Routes = [
     path: 'campanias',
     loadChildren: () =>
       import('./campanias/campanias.module').then((m) => m.CampaniasModule),
+  },
+  {
+    path: 'venta-conceptos',
+    loadChildren: () =>
+      import('./venta-conceptos/venta-conceptos.module').then((m) => m.VentaConceptosModule),
+    canActivate: [VentaConceptosGuard],
   },
   {
     path: 'precios',

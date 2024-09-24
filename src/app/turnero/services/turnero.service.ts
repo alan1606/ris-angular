@@ -13,7 +13,7 @@ export class TurneroService {
   private subscriptionsUrl = BASE_ENDPOINT + '/turnero/suscripciones';
   private worklistsUrl = BASE_ENDPOINT + '/turnero/lista-trabajo';
   private takeStudyUrl = BASE_ENDPOINT + '/turnero/tomar';
-
+  private studiesIdsUrl = BASE_ENDPOINT + '/turnero/estudios';
   
   public subscribeUserToRoom(user: string, roomId: number): Observable<void> {
     return this.axios.post<void>(`${this.subscriptionsUrl}/usuario/${user}/sala/${roomId}`, {});
@@ -37,5 +37,9 @@ export class TurneroService {
 
   public takeStudy(studyId:number, user:string):Observable<any>{
     return this.axios.post<any>(`${this.takeStudyUrl}/${studyId}/usuario/${user}`, {})
+  }
+
+  public findStudiesIdsWhereUserProcessingEqualsUserInToken(): Observable<number[]>{
+    return this.axios.get<number[]>(this.studiesIdsUrl);
   }
 }

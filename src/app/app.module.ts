@@ -8,7 +8,6 @@ import { ConceptosComponent } from './components/conceptos/conceptos.component';
 import { LayoutModule } from './layout/layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PacientesFormComponent } from './components/pacientes/pacientes-form.component';
-import { VentaConceptosComponent } from './components/venta-conceptos/venta-conceptos.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,7 +21,6 @@ import { BuscarEstudioModalComponent } from './components/studies/buscar-estudio
 import { MatDialogModule } from '@angular/material/dialog';
 import { EnviarEstudioModalComponent } from './components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from './components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
-import { AntecedentesEstudioModalComponent } from './components/venta-conceptos/antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MedicoRadiologoComponent } from './components/medico-radiologo/medico-radiologo.component';
 import { WorklistComponent } from './components/worklist/worklist.component';
@@ -50,10 +48,10 @@ import { PerfilModule } from './perfil/perfil.module';
 import { FirmarMembresiaComponent } from './components/membresias/firmar-membresia/firmar-membresia.component';
 import { SharedModule } from './shared/shared.module';
 import { CortesModule } from './cortes/cortes.module';
-import { EnviarEstudioDicomComponent } from './components/venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { QuillModule } from 'ngx-quill';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { VentaConceptosModule } from './venta-conceptos/venta-conceptos.module';
 
 @NgModule({
   declarations: [
@@ -61,11 +59,9 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     PacientesComponent,
     ConceptosComponent,
     PacientesFormComponent,
-    VentaConceptosComponent,
     BuscarEstudioModalComponent,
     EnviarEstudioModalComponent,
     InformacionEstudioModalComponent,
-    AntecedentesEstudioModalComponent,
     MedicoRadiologoComponent,
     WorklistComponent,
     LoginComponent,
@@ -80,7 +76,6 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     CrudPacientesComponent,
     LandingMembresiaComponent,
     FirmarMembresiaComponent,
-    EnviarEstudioDicomComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,6 +107,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     CortesModule,
     QRCodeModule,
     RecepcionModule,
+    VentaConceptosModule,
     QuillModule.forRoot(),
   ],
   providers: [
