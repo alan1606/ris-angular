@@ -141,7 +141,9 @@
           <a
             class="nav-link"
             href="#"
-            routerLink="/venta-conceptos"
+            [routerLink]="
+              isReceptionist ? '/venta-conceptos/secreto' : '/venta-conceptos'
+            "
             routerLinkActive="active"
             *ngIf="puedeAbrirVentaConceptos()"
             >Venta conceptos</a
@@ -453,7 +455,9 @@
       <a
         class="navbar-brand"
         href="#"
-        routerLink="/venta-conceptos"
+        [routerLink]="
+          isReceptionist ? '/venta-conceptos/secreto' : '/venta-conceptos'
+        "
         routerLinkActive="active"
         *ngIf="puedeAbrirVentaConceptos()"
         >Venta conceptos</a
