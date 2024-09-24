@@ -22,9 +22,11 @@ export class AlertaService {
     });
   }
   public error(error): void {
+    const message = error.error?.detail || 'Ha ocurrido un error inesperado';
     Swal.fire({
       icon: 'error',
       title: 'Error',
+      text: message,
     });
     console.log(error);
   }

@@ -21,11 +21,12 @@ import { switchMap } from 'rxjs';
   selector: 'app-wl-personal',
   standalone: false,
   templateUrl: './wl-personal.component.html',
-  styleUrl: './wl-personal.component.css'
+  styleUrl: './wl-personal.component.css',
 })
-export class WlPersonalComponent 
-extends CommonListarComponent<VentaConceptos, VentaConceptosService>
-implements OnInit{
+export class WlPersonalComponent
+  extends CommonListarComponent<VentaConceptos, VentaConceptosService>
+  implements OnInit
+{
   modalidades: string[] = [];
   estudiosOriginales: VentaConceptos[] = [];
 
@@ -43,19 +44,19 @@ implements OnInit{
   }
 
   override ngOnInit(): void {
-    this.buscarModalidades();
-    this.buscarWlPersonal();
+    this.recargarDatos();
   }
 
   private buscarWlPersonal(): void {
-    this.turneroService.findStudiesIdsWhereUserProcessingEqualsUserInToken().pipe(
-      switchMap(ids => this.service.encontrarPorIds(ids))
-    ).subscribe(estudios => {
-      this.lista = estudios;
-      this.estudiosOriginales = [ ...estudios ];
-    });
+    this.turneroService
+      .findStudiesIdsWhereUserProcessingEqualsUserInToken()
+      .pipe(switchMap((ids) => this.service.encontrarPorIds(ids)))
+      .subscribe((estudios) => {
+        this.lista = estudios;
+        this.estudiosOriginales = [...estudios];
+      });
   }
-  
+
   ver(estudio: VentaConceptos): void {
     window.open(`${VIEWER}${estudio.iuid}`);
   }
@@ -71,7 +72,6 @@ implements OnInit{
   mostrarNombrePaciente(paciente?: Paciente): string {
     return paciente ? paciente.nombreCompleto : '';
   }
-
 
   buscarEstudioEnPacs(estudio: VentaConceptos): void {
     this.service.buscarEnPacs(estudio.id).subscribe(
@@ -236,7 +236,6 @@ implements OnInit{
     );
   }
 
-
   enviar(estudio: VentaConceptos): void {
     this.service.procesarEstudioEnWorklist(estudio.id).subscribe(
       () => {
@@ -257,5 +256,10 @@ implements OnInit{
     });
 
     modalRef.afterClosed().subscribe((info) => {});
+  }
+
+  public recargarDatos(): void {
+    this.buscarModalidades();
+    this.buscarWlPersonal();
   }
 }
