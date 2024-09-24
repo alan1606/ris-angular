@@ -1,17 +1,32 @@
 <div>
   <div class="container">
+    @if (!data) {
     <app-buscador-areas
       class="area ms-4 me-4"
       (areaEmit)="recibirArea($event)"
     />
     <app-buscador-sala class="me-4" (salaEmit)="recibirSala($event)" />
+    }
 
     <mat-form-field appearance="fill">
-      <input matInput placeholder="Nombre a mostrar" [(ngModel)]="displayName" />
+      <input
+        matInput
+        placeholder="Nombre a mostrar"
+        [(ngModel)]="displayName"
+      />
     </mat-form-field>
+
+    @if (data) {
+    <mat-checkbox class="example-margin" [(ngModel)]="data.enabled"
+      >¿Mostrar en pantalla?</mat-checkbox
+    >
+
+    }
+
+
     <div class="text-end">
-      <button class="btn btn-success btn-lg" (click)="agregarSala()">
-        Agregar
+      <button class="btn btn-success btn-lg" (click)=" data?guardarCambios(): agregarSala()">
+        {{data?"Guardar":"Agregar"}}
       </button>
     </div>
   </div>
