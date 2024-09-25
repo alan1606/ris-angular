@@ -106,6 +106,11 @@ export class LimboComponent implements OnInit {
       return;
     });
   }
+
+  nel(){
+    Swal.fire("Nel", "Nel", "error");
+  }
+
   private cargarEquiposDicom(): void {
     this.equipoDicomService
       .filtrarPorArea(this.area.id)

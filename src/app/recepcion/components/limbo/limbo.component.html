@@ -51,6 +51,7 @@
         <thead>
           <tr>
             <th>Hora</th>
+            <th>Estado</th>
             <th>Liberar</th>
           </tr>
         </thead>
@@ -61,9 +62,18 @@
               {{ estudio.fechaYHora | date : "h:mm a" }}
             </td>
             <td>
-              <button
+              {{ estudio.estado == "NO_DISPONIBLE" ? "LIMBO" : estudio.estado }}
+            </td>
+            <td>
+              <button *ngIf="estudio.estado == 'NO_DISPONIBLE'"
                 class="btn btn-danger"
                 (click)="liberarEstudioDelLimbo(estudio.id)"
+              >
+                Liberar
+              </button>
+              <button *ngIf="estudio.estado != 'NO_DISPONIBLE'"
+                class="btn btn-danger"
+                (click)="nel()"
               >
                 Liberar
               </button>
