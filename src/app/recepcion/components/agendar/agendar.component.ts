@@ -421,32 +421,32 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
-    let [patientYear] = this.paciente.fechaNacimiento.split('-');
-    let actualYear: number = new Date().getFullYear();
-    let patientAge: number = actualYear - parseInt(patientYear);
-    console.log(patientAge);
-
-    if (this.isUrgencia && patientAge >= 120) {
-      this.alertaService.info(
-        'Mayor de 120 años',
-        'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
-        false,
-        true,
-        'Volver'
-      );
-      return;
+    console.log(this.paciente.fechaNacimiento);
+    if (this.isUrgencia) {
+      let [patientYear] = this.paciente.fechaNacimiento.split('-');
+      let actualYear: number = new Date().getFullYear();
+      let patientAge: number = actualYear - parseInt(patientYear);
+      if (patientAge >= 120) {
+        this.alertaService.info(
+          'Mayor de 120 años',
+          'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
+          false,
+          true,
+          'Volver'
+        );
+        return;
+      }
+      if (patientAge < 0) {
+        this.alertaService.info(
+          'Menor de 0 años',
+          'El paciente aun no nace no se pude proseguir',
+          false,
+          true,
+          'Volver'
+        );
+        return;
+      }
     }
-    if (this.isUrgencia && patientAge < 0) {
-      this.alertaService.info(
-        'Menor de 0 años',
-        'El paciente aun no nace no se pude proseguir',
-        false,
-        true,
-        'Volver'
-      );
-      return;
-    }
-
     this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',

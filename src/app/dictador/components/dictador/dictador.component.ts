@@ -54,8 +54,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
   concepto: Concepto = new Concepto();
   templateForm: FormGroup = new FormGroup({
     textEditor: new FormControl(''),
-    conclusion: new FormControl('')
-  });;
+    conclusion: new FormControl(''),
+  });
   panelOpenState = false;
   esMobil = window.matchMedia('(min-width:1023px)');
   btnConclusionDisabled: boolean = false;
@@ -98,7 +98,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         }
 
         this.estudio = estudio;
-        console.log(estudio.mensaje)
+        console.log(estudio.mensaje);
         this.paciente = estudio.paciente;
         this.concepto = estudio.concepto;
         this.cargarAntecedentesInicial();
@@ -226,7 +226,10 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   guardar() {
-    if (!this.templateForm.value.conclusion || this.templateForm.value.conclusion==='') {
+    if (
+      !this.templateForm.value.conclusion ||
+      this.templateForm.value.conclusion === ''
+    ) {
       this.alertaService.campoInvalido(
         'Conclusión vacía',
         'porfavor escriba la conclusión'
@@ -238,10 +241,12 @@ export class DictadorComponent implements OnInit, OnDestroy {
 
     // this.templateForm.value.textEditor += `<br><b>CONCLUSIÓN</b><p class="ql-align-justify"><strong>${this.eliminarP(this.templateForm.value.conclusion
     //   ).toUpperCase()}</strong></p>`;
-      // this.templateForm.get("conclusion").setValue('');
-    
-    this.interpretacion.interpretacion = this.templateForm.value.textEditor+= `<br><b>CONCLUSIÓN</b><p class="ql-align-justify"><strong>${this.eliminarP(this.templateForm.value.conclusion
-    ).toUpperCase()}</strong></p>`;
+    // this.templateForm.get("conclusion").setValue('');
+
+    this.interpretacion.interpretacion =
+      this.templateForm.value.textEditor += `<br><b>CONCLUSIÓN</b><p class="ql-align-justify"><strong>${this.eliminarP(
+        this.templateForm.value.conclusion
+      ).toUpperCase()}</strong></p>`;
     let idsEstudios: number[] = [];
     idsEstudios.push(this.estudio.id);
 
@@ -251,7 +256,7 @@ export class DictadorComponent implements OnInit, OnDestroy {
         this.interpretacion = interpretacion;
         this.enlacePdf = `${BASE_ENDPOINT}/ris/interpretaciones/estudio/${this.estudio.id}/pdf`;
         this.cargarInterpretacionAnterior();
-        this.templateForm.reset()
+        this.templateForm.reset();
       },
       () => {
         console.log('Error creando la interpretación');
@@ -265,9 +270,8 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   private marcarEstudiosDeOrdenInterpretados() {
-        this.estudio.estado = 'INTERPRETADO';
-        this.actualizarEstudio(this.estudio);
-    
+    this.estudio.estado = 'INTERPRETADO';
+    this.actualizarEstudio(this.estudio);
   }
 
   actualizarEstudio(estudio: VentaConceptos) {
@@ -299,7 +303,6 @@ export class DictadorComponent implements OnInit, OnDestroy {
     );
   }
 
-
   firmar(): void {
     this.enviarAvisoInterpretacionHechaACorreo();
     this.marcarEstudiosDeOrdenInterpretados();
@@ -324,21 +327,19 @@ export class DictadorComponent implements OnInit, OnDestroy {
           );
 
           this.templateForm.get('textEditor').setValue(firstPart);
-          this.templateForm.get("conclusion").setValue(secondPart || '');
-            this.templateForm.get("conclusion").setValue(this.quitarStrongsFinales(this.templateForm.value.conclusion));
-        } 
-        
-        else if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
+          this.templateForm.get('conclusion').setValue(secondPart || '');
+          this.templateForm
+            .get('conclusion')
+            .setValue(
+              this.quitarStrongsFinales(this.templateForm.value.conclusion)
+            );
+        } else if (this.estudio.concepto.area.nombre == 'CARDIOLOGIA') {
           this.cargarPlantillaCardio();
-        } 
-        
-        else if (interpretacion.interpretacion) {
+        } else if (interpretacion.interpretacion) {
           this.templateForm
             .get('textEditor')
             .setValue(interpretacion.interpretacion);
-        } 
-        
-        else {
+        } else {
           this.templateForm
             .get('textEditor')
             .setValue(interpretacion.interpretacion);
@@ -416,7 +417,9 @@ export class DictadorComponent implements OnInit, OnDestroy {
     Swal.fire('La conclusión se está generando, espere un momento, por favor');
 
     const interpretacion = this.templateForm.value.textEditor;
-    this.reportService.generateReport(interpretacion, this.estudio.id).subscribe(
+    this.reportService
+      .generateReport(interpretacion, this.estudio.id)
+      .subscribe(
         () => {
           this.btnConclusionDisabled = false;
         },
@@ -477,23 +480,25 @@ export class DictadorComponent implements OnInit, OnDestroy {
   }
 
   private listenerConclusion() {
-    this.messageSubscription = this.reportService
-      .getMessageSubject()
-      .subscribe((mensaje: any) => {
-        console.log("Listener conclusion: ", mensaje)
-        let [firstPart, secondPart] = mensaje.conclusion.split('**CONCLUSIÓN:**');
-        console.log("Recibido: " + secondPart);
-        this.templateForm.get("conclusion").setValue(secondPart);
-      }, error => {
-        console.error({msg:"Error obteniendo conclusión", error});
-      });
+    this.messageSubscription = this.reportService.getMessageSubject().subscribe(
+      (mensaje: any) => {
+        console.log('Listener conclusion: ', mensaje);
+        let [firstPart, secondPart] =
+          mensaje.conclusion.split('**CONCLUSIÓN:**');
+        const conclusion = secondPart ? secondPart : mensaje.conclusion;
+        this.templateForm.get('conclusion').setValue(conclusion);
+      },
+      (error) => {
+        console.error({ msg: 'Error obteniendo conclusión', error });
+      }
+    );
   }
 
   ngOnDestroy() {
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe();
     }
-    this.reportService.disconect()
+    this.reportService.disconect();
   }
 
   private eliminarP(html: string): string {
