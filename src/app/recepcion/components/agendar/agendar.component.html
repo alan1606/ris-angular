@@ -1,5 +1,8 @@
-<div style="height: 100vh;" class="card text-black bg-light mb-3">
+<div style="height: 100vh" class="card text-black bg-light mb-3">
   <div>
+    <app-count-down-watch
+      style="position: fixed; z-index: 1; bottom: 5%; right: 5%"
+    />
     <div class="card-header">{{ isUrgencia ? "URGENCIA" : titulo }}</div>
     <div class="card-body main">
       <form>
@@ -303,10 +306,7 @@
               [displayWith]="mostrarNombrePaciente"
               (optionSelected)="seleccionarPaciente($event)"
             >
-              <mat-option
-                *ngFor="let p of pacientesFiltrados"
-                [value]="p"
-              >
+              <mat-option *ngFor="let p of pacientesFiltrados" [value]="p">
                 {{ p.nombreCompleto }}
               </mat-option>
             </mat-autocomplete>
@@ -359,8 +359,16 @@
       </form>
 
       <div *ngIf="!isUrgencia" class="text-black bg-light instrucciones">
-        <div class="card-body" style="width: 80%;">
-          <p style="font-family:sans-serif; font-size: large; letter-spacing: 2px;">{{ instrucciones }}</p>
+        <div class="card-body" style="width: 80%">
+          <p
+            style="
+              font-family: sans-serif;
+              font-size: large;
+              letter-spacing: 2px;
+            "
+          >
+            {{ instrucciones }}
+          </p>
         </div>
       </div>
 

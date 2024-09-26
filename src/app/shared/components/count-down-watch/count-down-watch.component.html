@@ -1,0 +1,12 @@
+<div class="root">
+  @if (timeLeft>0) {
+  <div style="text-align: center">
+    <h1 style="margin-top: 10%; font-size: xx-large">
+      {{ formatTime(timeLeft) }}
+    </h1>
+    <p style="margin-top: 8%">Duracion de la sesion</p>
+  </div>
+  }@else {
+  <h1 style="margin-top: 20%; font-size: xx-large">Sesion terminada</h1>
+  }
+</div>

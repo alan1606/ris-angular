@@ -1,0 +1,10 @@
+.root {
+  background-color: #333333;
+  width: 150px;
+  height: 100px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  border-radius: 20px;
+}

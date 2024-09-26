@@ -1,78 +1,77 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { secret_pkce } from '../config/app';
-import { Observable, of } from 'rxjs';
-import { TurneroSocketService } from '../turnero/services/turnero-socket.service';
 
 const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKEN = 'refresh_token';
 const CODE_VERIFIER = 'code_verifier';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
-  constructor() { }
+  constructor() {}
 
-  setTokens(accessToken: string, refresToken: string): void{
+  setTokens(accessToken: string, refresToken: string): void {
     localStorage.setItem(ACCESS_TOKEN, accessToken);
     localStorage.setItem(REFRESH_TOKEN, refresToken);
   }
 
-  getAccessToken(): string | null{
+  getAccessToken(): string | null {
     return localStorage.getItem(ACCESS_TOKEN);
   }
 
-  getRefreshToken(): string | null{
+  getRefreshToken(): string | null {
     return localStorage.getItem(REFRESH_TOKEN);
   }
 
-  logOut(): void{
+  logOut(): void {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
   }
 
-  isLogged(): boolean{
-    let result: boolean = localStorage.getItem(ACCESS_TOKEN) != null && localStorage.getItem(REFRESH_TOKEN) != null;
+  isLogged(): boolean {
+    let result: boolean =
+      localStorage.getItem(ACCESS_TOKEN) != null &&
+      localStorage.getItem(REFRESH_TOKEN) != null;
     return result;
   }
 
-
-  isAdmin():  boolean{
-   return this.isRole('ADMIN');
+  isAdmin(): boolean {
+    return this.isRole('ADMIN');
   }
 
-  isReceptionist(): boolean{
+  isReceptionist(): boolean {
     return this.isRole('RECEPCIONISTA');
   }
 
-  isRadiologicPhysician(): boolean{
+  isRadiologicPhysician(): boolean {
     return this.isRole('MEDICO_RADIOLOGO');
   }
 
-  isTechnician(): boolean{
+  isTechnician(): boolean {
     return this.isRole('TECNICO');
   }
 
-  isInstitution(): boolean{
-    return this.isRole("INSTITUCION");
+  isInstitution(): boolean {
+    return this.isRole('INSTITUCION');
   }
-  isReferring():boolean{
-    return this.isRole('MEDICO_REFERENTE')
-  }
-
-  isTurnero():boolean{
-    return this.isRole('TURNERO')
+  isReferring(): boolean {
+    return this.isRole('MEDICO_REFERENTE');
   }
 
-  private isRole(role: string) : boolean{
-    if(!this.isLogged()){
+  isTurnero(): boolean {
+    return this.isRole('TURNERO');
+  }
+
+  private isRole(role: string): boolean {
+    if (!this.isLogged()) {
       return false;
     }
 
     const token = this.getAccessToken();
 
-    if(!token){
+    if (!token) {
       return false;
     }
 
@@ -81,7 +80,7 @@ export class TokenService {
     const payloadDecoded = atob(payload);
     const values = JSON.parse(payloadDecoded);
     const roles = values.resource_access.rispacs.roles;
-    if(roles.indexOf(role) < 0){
+    if (roles.indexOf(role) < 0) {
       return false;
     }
 
@@ -89,13 +88,13 @@ export class TokenService {
   }
 
   getUsername(): string {
-    if(!this.isLogged()){
+    if (!this.isLogged()) {
       return '';
     }
 
     const token = this.getAccessToken();
 
-    if(!token){
+    if (!token) {
       return '';
     }
 
@@ -108,30 +107,26 @@ export class TokenService {
     return username;
   }
 
-
-  setVerifier(codeVerifier: string): void{
-    if(localStorage.getItem(CODE_VERIFIER)){
+  setVerifier(codeVerifier: string): void {
+    if (localStorage.getItem(CODE_VERIFIER)) {
       this.deleteVerifier();
     }
     const encrypted = CryptoJS.AES.encrypt(codeVerifier, secret_pkce);
     localStorage.setItem(CODE_VERIFIER, encrypted.toString());
   }
 
-
-  getVerifier(): string{
+  getVerifier(): string {
     const encrypted = localStorage.getItem(CODE_VERIFIER);
-    const decrypted = CryptoJS.AES.decrypt(encrypted, secret_pkce).toString(CryptoJS.enc.Utf8);
+    const decrypted = CryptoJS.AES.decrypt(encrypted, secret_pkce).toString(
+      CryptoJS.enc.Utf8
+    );
     return decrypted;
   }
 
-  deleteVerifier(): void{
+  deleteVerifier(): void {
     localStorage.removeItem(CODE_VERIFIER);
   }
 
-
-
-
-  
   isAccessTokenExpired(): boolean {
     const accessToken = this.getAccessToken();
     if (!accessToken) {
@@ -176,10 +171,12 @@ export class TokenService {
       const payloadDecoded = atob(payloadBase64);
       return JSON.parse(payloadDecoded);
     } catch (error) {
-      console.error("Error decoding token payload:", error);
+      console.error('Error decoding token payload:', error);
       return null;
     }
   }
 
-
+  public decode(token: string): any {
+    return this.decodeTokenPayload(token);
+  }
 }

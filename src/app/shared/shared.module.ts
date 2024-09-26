@@ -15,6 +15,7 @@ import { CampoFechaRangoComponent } from './components/campo-fecha-rango/campo-f
 import { RenderImagenComponent } from './components/render-imagen/render-imagen.component';
 import { QuillModule } from 'ngx-quill';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { CountDownWatchComponent } from './components/count-down-watch/count-down-watch.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     CampoFechaComponent,
     CampoFechaRangoComponent,
     RenderImagenComponent,
+    CountDownWatchComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatSelectModule,
     MatDatepickerModule,
     QuillModule.forRoot(),
-    NgxExtendedPdfViewerModule
+    NgxExtendedPdfViewerModule,
   ],
   exports: [
     BuscadorMedicosReferentesComponent,
@@ -45,6 +47,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     CampoFechaComponent,
     CampoFechaRangoComponent,
     RenderImagenComponent,
+    CountDownWatchComponent,
   ],
 })
 export class SharedModule {}

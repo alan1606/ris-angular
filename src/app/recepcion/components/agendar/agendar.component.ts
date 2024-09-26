@@ -110,8 +110,6 @@ export class AgendarComponent implements OnInit {
   campania: Campania = new Campania();
   isCodigoPromocionalDisabled: boolean = false;
   minDate: Date;
-  horaInicial: Date = new Date();
-  horaFinal: Date = new Date();
   botonHabilitado: boolean = false;
   seleccionarUrgencia: boolean = true;
   deshabilitarUrgencias: boolean = false;
@@ -121,11 +119,6 @@ export class AgendarComponent implements OnInit {
   date: FormControl = new FormControl(new Date());
 
   ngOnInit(): void {
-    this.horaInicial.setHours(7, 0);
-    this.horaFinal.setHours(18, 0);
-
-    this.espaciosAgenda;
-
     this.cargarConvenioParticularPorDefecto();
 
     this.autocompleteControlPaciente.valueChanges
@@ -184,19 +177,25 @@ export class AgendarComponent implements OnInit {
         this.concepto = null;
       });
 
-    this.formulario.get('salaControl').valueChanges.subscribe((value) => {
-      this.equipoDicomService.ver(value).subscribe(
-        (sala) => {
-          this.equipoDicom = sala;
-          this.citas = [];
-          this.formulario.get('citaControl').setValue('');
-          if (this.fecha && !this.isUrgencia) {
-            this.cargarCitas();
-          }
-        },
-        (err) => console.log(err)
-      );
-    });
+    this.formulario
+      .get('salaControl')
+      .valueChanges.subscribe((value: number) => {
+        console.log(value);
+        if (!value) {
+          return;
+        }
+        this.equipoDicomService.ver(value).subscribe(
+          (sala) => {
+            this.equipoDicom = sala;
+            this.citas = [];
+            this.formulario.get('citaControl').setValue('');
+            if (this.fecha && !this.isUrgencia) {
+              this.cargarCitas();
+            }
+          },
+          (err) => console.log(err)
+        );
+      });
 
     this.formulario.get('citaControl').valueChanges.subscribe((value) => {
       if (value) {
@@ -729,7 +728,7 @@ export class AgendarComponent implements OnInit {
 
     this.instruccionesService.buscarPorConcepto(concepto.id).subscribe(
       (inst) => {
-        concepto.instrucciones = inst.instrucciones;
+        concepto.instrucciones = inst?.instrucciones;
         this.mostrarInstruccionesGenerales();
       },
       (err) => {
