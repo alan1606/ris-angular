@@ -43,12 +43,11 @@
 </div>
 
 <div class="card text-dark bg-light mb-3">
-  <div class="card-header">{{ titulo }}</div>
   <div class="card-body">
-    <div class="alert alert-info" *ngIf="citas?.length == 0">
-      No hay estudios en el sistema.
-    </div>
-    <div class="table-responsive" *ngIf="citas?.length > 0">
+    @if (citas?.length == 0) {
+    <div class="alert alert-info">No hay estudios en el sistema.</div>
+    } @if (citas?.length > 0) {
+    <div class="table-responsive">
       <table class="table table-hover table-striped">
         <thead>
           <tr>
@@ -65,8 +64,8 @@
         </thead>
 
         <tbody *ngIf="citas?.length > 0">
+          @for (cita of citas; track $index) {
           <tr
-            *ngFor="let cita of citas"
             [ngClass]="{
               'table-warning': cita.estado == 'NO_CONTESTADA',
               'table-danger': cita.estado == 'AGENDADA',
@@ -110,6 +109,7 @@
               </button>
             </td>
           </tr>
+          }
         </tbody>
       </table>
       <mat-paginator
@@ -123,5 +123,6 @@
       >
       </mat-paginator>
     </div>
+    }
   </div>
 </div>

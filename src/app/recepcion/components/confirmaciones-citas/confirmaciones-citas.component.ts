@@ -55,7 +55,13 @@ export class ConfirmacionesCitasComponent implements OnInit {
   ngOnInit(): void {
     let fechaString = this.fechaService.formatearFecha(this.date.value);
     this.fecha = fechaString;
-    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
+    this.citaService
+      .buscarPorFecha(
+        this.fecha,
+        this.paginaActual.toString(),
+        this.totalPorPagina.toString()
+      )
+      .subscribe(
         (citas) => {
           if (citas.content) {
             this.citas = citas.content as Cita[];
@@ -85,15 +91,27 @@ export class ConfirmacionesCitasComponent implements OnInit {
   recibirAreaFiltrada(event: Area) {
     this.areaFiltrada = event;
     this.dataService.updateAreaData(event);
-    this.citas = !event ? this.citasSinFiltrar : this.citasSinFiltrar.filter((cita) => cita?.estudio?.concepto?.area?.nombre.includes(event.nombre.toUpperCase()));
+    this.citas = !event
+      ? this.citasSinFiltrar
+      : this.citasSinFiltrar.filter((cita) =>
+          cita?.estudio?.concepto?.area?.nombre.includes(
+            event.nombre.toUpperCase()
+          )
+        );
     this.total = this.citas.length;
-    this.totalSinConfirmar = this.citas.filter((cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA').length;
+    this.totalSinConfirmar = this.citas.filter(
+      (cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA'
+    ).length;
   }
 
   salaSeleccionada(event: EquipoDicom) {
-    this.citas = !event ? this.citasSinFiltrar : this.citasSinFiltrar.filter((cita) => cita.horario.salaId === event.id);
+    this.citas = !event
+      ? this.citasSinFiltrar
+      : this.citasSinFiltrar.filter((cita) => cita.horario.salaId === event.id);
     this.total = this.citas.length;
-    this.totalSinConfirmar = this.citas.filter((cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA').length;
+    this.totalSinConfirmar = this.citas.filter(
+      (cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA'
+    ).length;
   }
 
   public mandarConfirmacionesManiania() {
@@ -140,15 +158,24 @@ export class ConfirmacionesCitasComponent implements OnInit {
   }
 
   private buscar() {
-    this.citaService.buscarPorFecha(this.fecha, this.paginaActual.toString(), this.totalPorPagina.toString()).subscribe(
+    this.citaService
+      .buscarPorFecha(
+        this.fecha,
+        this.paginaActual.toString(),
+        this.totalPorPagina.toString()
+      )
+      .subscribe(
         (citas) => {
           if (citas.content) {
             this.citas = citas.content as Cita[];
-            this.citasSinFiltrar=this.citas
+            this.citasSinFiltrar = this.citas;
             this.totalRegistros = citas.totalElements as number;
             this.paginator._intl.itemsPerPageLabel = 'Registros:';
             this.total = this.citas.length;
-            this.totalSinConfirmar = this.citas.filter((cita) => cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA').length;
+            this.totalSinConfirmar = this.citas.filter(
+              (cita) =>
+                cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA'
+            ).length;
           } else {
             this.citas = [];
           }
@@ -178,7 +205,9 @@ export class ConfirmacionesCitasComponent implements OnInit {
               title: 'Cita cancelada',
               icon: 'success',
             });
-            this.citas = this.citas.filter((citaTemp) => citaTemp.id != cita.id);
+            this.citas = this.citas.filter(
+              (citaTemp) => citaTemp.id != cita.id
+            );
           },
           () => {
             Swal.fire({
@@ -204,10 +233,16 @@ export class ConfirmacionesCitasComponent implements OnInit {
         let instruccionesArea: string = '';
         let instruccionesConceptos: string = '';
         for (let estudio of estudios) {
-          const fecha = this.datePipe.transform(estudio.fechaAsignado,'dd/MM/yyyy');
+          const fecha = this.datePipe.transform(
+            estudio.fechaAsignado,
+            'dd/MM/yyyy'
+          );
           const concepto = estudio.concepto;
           mensaje += `-${concepto.area.nombre}: ${concepto.concepto} día `;
-          mensaje += `${fecha} hora ${estudio.horaAsignado.substring(0,5)}<br>`;
+          mensaje += `${fecha} hora ${estudio.horaAsignado.substring(
+            0,
+            5
+          )}<br>`;
           if (concepto.area.instrucciones) {
             instruccionesArea += concepto.area.instrucciones;
           }
@@ -256,7 +291,10 @@ export class ConfirmacionesCitasComponent implements OnInit {
       html: mensaje,
     }).then((result) => {
       if (result.isConfirmed) {
-        const mensaje =idsVentas.length > 1? 'Se han confirmado las citas' : 'Se ha confirmado la cita';
+        const mensaje =
+          idsVentas.length > 1
+            ? 'Se han confirmado las citas'
+            : 'Se ha confirmado la cita';
         const titular = idsVentas.length > 1 ? 'Confirmadas' : 'Confirmada';
         this.citaService.confirmarCitas(idsVentas).subscribe(
           () => {
@@ -324,7 +362,11 @@ export class ConfirmacionesCitasComponent implements OnInit {
       )
       .subscribe(
         (cita) => {
-          Swal.fire('Éxito','Se ha reagendado correctamente la cita','success');
+          Swal.fire(
+            'Éxito',
+            'Se ha reagendado correctamente la cita',
+            'success'
+          );
           this.citas = this.citas.filter((c) => c.id != citaModificar.id);
           cita.estudio = citaModificar.estudio;
           this.citas.push(cita);
