@@ -25,6 +25,8 @@ import { Subscription } from 'rxjs';
 import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
 import { Institucion } from '../agendar';
 import { MatStepper } from '@angular/material/stepper';
+import { TurneroSocketService } from 'src/app/turnero/services/turnero-socket.service';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 
 @Component({
   selector: 'app-check-in',
@@ -41,7 +43,9 @@ export class CheckInComponent implements OnInit, OnDestroy {
     private citaService: CitaService,
     private campaniasService: CampaniaService,
     private _formBuilder: FormBuilder,
-    private dataService: DataService
+    private dataService: DataService,
+    private turneroSocketService: TurneroSocketService,
+    private alertaService: AlertaService
   ) {}
 
   ordenVentaServiceSubscription: Subscription;
@@ -79,39 +83,67 @@ export class CheckInComponent implements OnInit, OnDestroy {
   nombreInstitucion: string = null;
   private citaSeleccionada: Cita = null;
   ngOnInit(): void {
-    this.buscarCitasHoy();
+    this.studyTakenListener();
   }
 
-  buscarCitasHoy() {
-    this.citaService.citasDeHoy().subscribe(
-      (citas: Cita[]) => {
-        let citasNoPagadas: Cita[] = [];
-        let ordenesNoPagadas: OrdenVenta[] = [];
-        const idsOrdenVenta = citas.map(
-          (cita) => cita?.estudio?.ordenVenta?.id
-        );
-        console.log('ids citas');
-        console.log('ids originales', idsOrdenVenta);
-
-        let filtrado = idsOrdenVenta.filter((i) => i != null);
-        console.log('ids limpios', filtrado);
-
-        this.ordenVentaService.encontrarOrdenesPorIds(filtrado).subscribe(
-          (data: OrdenVenta[]) => {
-            data.forEach((orden) => {
-              if (!orden.pagado) {
-                ordenesNoPagadas.push(orden);
-              }
-            });
-
-            citasNoPagadas = citas.filter((cita) =>
-              ordenesNoPagadas.some(
-                (orden) => orden.id === cita.estudio?.ordenVenta.id
-              )
+  private studyTakenListener(): void {
+    this.turneroSocketService.nuevoEvento$.subscribe(
+      () => {
+        console.log('evento en checkin');
+        this.citaService.citasDeHoy().subscribe(
+          (citas: Cita[]) => {
+            let citasNoPagadas: Cita[] = [];
+            let ordenesNoPagadas: OrdenVenta[] = [];
+            const idsOrdenVenta = citas.map(
+              (cita) => cita?.estudio?.ordenVenta?.id
             );
+            let filtrado = idsOrdenVenta.filter((i) => i != null);
+            console.log('ids sin filtrar', idsOrdenVenta);
+            console.log('ids limpios', filtrado);
 
-            this.citas = citasNoPagadas;
-            this.citasFiltradas = citasNoPagadas;
+            this.ordenVentaService.encontrarOrdenesPorIds(filtrado).subscribe(
+              (data: OrdenVenta[]) => {
+                data.forEach((orden) => {
+                  if (!orden.pagado) {
+                    ordenesNoPagadas.push(orden);
+                  }
+                });
+
+                citasNoPagadas = citas.filter((cita) =>
+                  ordenesNoPagadas.some(
+                    (orden) => orden.id === cita.estudio?.ordenVenta.id
+                  )
+                );
+
+                this.citas = citasNoPagadas;
+                this.citasFiltradas = citasNoPagadas;
+                if (this.citaSeleccionada?.id) {
+                  let existe: Cita = this.citasFiltradas.find(
+                    (cita) => cita.id === this.citaSeleccionada.id
+                  );
+                  if (existe?.id) {
+                    console.log('existe cita seleccionada: ', existe);
+                    return;
+                  }
+                  Swal.fire({
+                    icon: 'info',
+                    title: 'No existe',
+                    text: 'La cita seleccionada ya ha sido pagada',
+                    showCancelButton: false,
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                  }).then(() => {
+                    this.reiniciar();
+                    Swal.close();
+                  });
+                }
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
           },
           (error) => {
             console.log(error);
@@ -119,10 +151,52 @@ export class CheckInComponent implements OnInit, OnDestroy {
         );
       },
       (error) => {
-        console.log(error);
+        this.alertaService.error(error);
       }
     );
   }
+
+  // buscarCitasHoy() {
+  //   this.citaService.citasDeHoy().subscribe(
+  //     (citas: Cita[]) => {
+  //       let citasNoPagadas: Cita[] = [];
+  //       let ordenesNoPagadas: OrdenVenta[] = [];
+  //       const idsOrdenVenta = citas.map(
+  //         (cita) => cita?.estudio?.ordenVenta?.id
+  //       );
+  //       console.log('ids citas');
+  //       console.log('ids originales', idsOrdenVenta);
+
+  //       let filtrado = idsOrdenVenta.filter((i) => i != null);
+  //       console.log('ids limpios', filtrado);
+
+  //       this.ordenVentaService.encontrarOrdenesPorIds(filtrado).subscribe(
+  //         (data: OrdenVenta[]) => {
+  //           data.forEach((orden) => {
+  //             if (!orden.pagado) {
+  //               ordenesNoPagadas.push(orden);
+  //             }
+  //           });
+
+  //           citasNoPagadas = citas.filter((cita) =>
+  //             ordenesNoPagadas.some(
+  //               (orden) => orden.id === cita.estudio?.ordenVenta.id
+  //             )
+  //           );
+
+  //           this.citas = citasNoPagadas;
+  //           this.citasFiltradas = citasNoPagadas;
+  //         },
+  //         (error) => {
+  //           console.log(error);
+  //         }
+  //       );
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   filtrarAreas() {
     this.citasFiltradas = !this.busqueda
@@ -211,7 +285,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
             this.reiniciar();
           },
           (error) => {
-            Swal.fire('Error', 'Ha ocurrido un error', 'error');
+            this.alertaService.error(error);
             console.log(error);
             if (this.esInstitucion) {
               return;
@@ -231,21 +305,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   presionadoBotonGuardar(presionado: boolean) {
-    // let [patientYear] = this.orden.paciente.fechaNacimiento.split('-');
-    // let actualYear: number = new Date().getFullYear();
-    // let patientAge: number = actualYear - parseInt(patientYear);
-    // console.log(patientAge);
-    // if (patientAge >= 100) {
-    //   this.alertaService.info(
-    //     'Mayor de 100 años',
-    //     'El paciente tiene mas de 100 años y puede provocar errores en los equipos',
-    //     false,
-    //     true,
-    //     'Volver'
-    //   );
-    //   return;
-    // }
-
     if (!presionado) return;
 
     this.guardarPresionado = presionado;
