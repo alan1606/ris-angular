@@ -4,9 +4,18 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, filter, retry, switchMap, take, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  filter,
+  retry,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -15,7 +24,9 @@ import Swal from 'sweetalert2';
 @Injectable()
 export class ResourceInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
 
   constructor(
     private tokenService: TokenService,
@@ -23,18 +34,19 @@ export class ResourceInterceptor implements HttpInterceptor {
     private router: Router
   ) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token =  this.tokenService.getAccessToken();
-    if(token !=null){
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const token = this.tokenService.getAccessToken();
+    if (token != null) {
       request = this.addToken(request, token);
     }
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-
         if (err instanceof HttpErrorResponse && err.status === 401) {
           return this.handle401Error(request, next);
-        }
-        else {
+        } else {
           return this.handleGenericError(err);
         }
       })
@@ -50,16 +62,18 @@ export class ResourceInterceptor implements HttpInterceptor {
       if (!refreshToken || this.tokenService.isRefreshTokenExpired()) {
         // Si no hay un refresh token o el refresh token también ha expirado,
         // redirigimos al usuario a la página de cierre de sesión.
+        let expirationDate = new Date();
+        localStorage.setItem('expiroToken', expirationDate.toString());
         this.tokenService.logOut();
         this.router.navigate(['/']);
-        return throwError("Token expirado. Usuario desconectado.");
+        return throwError('Token expirado. Usuario desconectado.');
       }
-  
+
       // Si llegamos aquí, significa que el refresh token aún es válido,
       // así que intentamos actualizar el token de acceso.
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
-      console.log("refrescando token");
+      console.log('refrescando token');
 
       return this.authService.refreshToken().pipe(
         retry(3),
@@ -74,17 +88,16 @@ export class ResourceInterceptor implements HttpInterceptor {
           console.log(err);
           //this.tokenService.logOut();
           //this.router.navigate(['/']);
-          return throwError("Error al actualizar el token");
+          return throwError('Error al actualizar el token');
         })
       );
-  
     } else {
       // Si el token de acceso no ha expirado o ya estamos actualizando el token,
       // continuamos con la solicitud original con el token actual.
       return this.refreshTokenSubject.pipe(
-        filter(token => token != null),
+        filter((token) => token != null),
         take(1),
-        switchMap(jwt => {
+        switchMap((jwt) => {
           return next.handle(this.addToken(request, jwt));
         })
       );
@@ -94,22 +107,24 @@ export class ResourceInterceptor implements HttpInterceptor {
   private addToken(request: HttpRequest<any>, token: string) {
     return request.clone({
       setHeaders: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
-
 
   private handleGenericError(error: HttpErrorResponse) {
     // Manejar cualquier otro error aquí de manera genérica
     // Puedes redirigir a una página de error, mostrar un mensaje, etc.
     console.error('Error occurred:', error);
-    if(error.status == 503){
-      Swal.fire("Error", "El servicio no se encuentra disponible actualmente, inténtelo más tarde", "warning");
+    if (error.status == 503) {
+      Swal.fire(
+        'Error',
+        'El servicio no se encuentra disponible actualmente, inténtelo más tarde',
+        'warning'
+      );
     }
     // Por ejemplo, redirigir a una página de error
     // this.router.navigate(['/error']);
     return throwError(error);
   }
-
 }
