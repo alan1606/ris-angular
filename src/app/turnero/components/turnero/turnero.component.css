@@ -4,23 +4,35 @@
   min-width: 100vw;
   padding: 1%;
 }
+mat-accordion {
+  background-color: rgb(34, 34, 34);
+}
+table {
+  background-color: #212529;
+  color: white;
+}
 
-table, td{
+table,
+td {
   font-size: smaller;
+  color: white;
 }
-
-.tomando{
-  background-color: purple;
+table,
+th {
   color: white;
 }
 
-.finalizado{
-background-color: greenyellow;
-}
-
-.urgencia{
-  background-color: red;
+.tomando {
+  background-color: rgb(128, 0, 128);
   color: white;
-
 }
 
+.finalizado {
+  background-color: rgba(172, 255, 47, 0.850);
+  color: black;
+}
+
+.urgencia {
+  background-color: rgba(255, 0, 0, 0.850);
+  color: white;
+}

@@ -16,8 +16,9 @@
 
   @for (subscription of subscriptionsDataSource; track subscription.id) {
   <div class="mb-3">
-    <mat-accordion [multi]="false">
+    <mat-accordion [multi]="false" style="background-color: rgb(34, 34, 34)">
       <mat-expansion-panel
+        style="background-color: rgb(34, 34, 34); color: white"
         hideToggle
         (opened)="
           expandedPanel === subscription.dicomRoomId
@@ -27,12 +28,12 @@
         [expanded]="expandedPanel === subscription.dicomRoomId ? true : false"
       >
         <mat-expansion-panel-header>
-          <mat-panel-title>
+          <mat-panel-title style="color: white">
             {{
               subscription.room.area.nombre + " / " + subscription.room.nombre
             }}
           </mat-panel-title>
-          <mat-panel-description>{{
+          <mat-panel-description style="color: white">{{
             expandedPanel === subscription.dicomRoomId
               ? "Click para ocultar"
               : "Click para ver"
@@ -129,7 +130,7 @@
               <th mat-header-cell *matHeaderCellDef>Orden</th>
               <td mat-cell *matCellDef="let element">
                 <button
-                  class="btn btn-dark btn-sm"
+                  class="btn btn-light btn-sm"
                   color="accent"
                   (click)="verFotoOrden(element.studyId)"
                 >
@@ -151,9 +152,8 @@
                 </button>
                 } @if(element.userTaking && !element.userFinisher){
                 {{ element.userTaking }}
-                }
-                @if(element.userFinisher){
-                  {{element.userFinisher}}
+                } @if(element.userFinisher){
+                {{ element.userFinisher }}
                 }
               </td>
             </ng-container>
