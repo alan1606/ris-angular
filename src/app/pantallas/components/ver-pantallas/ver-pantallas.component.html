@@ -1,3 +1,26 @@
 <!-- @for (item of studiesDataSource; track $index) {
     <p>{{item.patient}}</p>
 } -->
+
+<div class="root">
+  <div
+    class="section-container"
+    [ngStyle]="{
+      'grid-template-columns': 'repeat(' + turnos.length + ', 1fr)'
+    }"
+  >
+    @for (sala of turnos; track $index; ) {
+    <div class="section">
+      <h1 class="sala" style="font-weight: bold">{{ sala.displayName }}</h1>
+      @for (turno of sala.turnos; track $index) {
+      <div class="turno" style="margin-top: 10%;">
+        <h2 style="margin-top: 10%">{{ turno.idToDisplay }}</h2>
+      </div>
+      }
+    </div>
+    }
+  </div>
+  <div class="pasar-container">
+    si
+  </div>
+</div>

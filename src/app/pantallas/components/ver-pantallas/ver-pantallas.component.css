@@ -1,0 +1,49 @@
+.root {
+  background-image: url("../../../../assets/sexo.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-color: black; */
+  width: 100vw;
+  height: 100vh;
+}
+.section-container {
+  display: grid;
+  text-align: center;
+  height: 80%;
+}
+.section{
+}
+.pasar-container {
+  display: grid;
+  text-align: center;
+  height: 20%;
+  background-color: #BAE300;
+}
+
+.sala {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2) inset,
+    -3px -8px 5px rgba(0, 0, 0, 0.2) inset; /* Cambia los valores para ajustar la sombra */
+  padding: 5px;
+  width: 100%;
+}
+
+.turno {
+  background-color: #545454;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Cambia los valores para ajustar la sombra */
+  padding: 5px;
+  width: 90%;
+}
+.turno,
+h2 {
+  color: white;
+  font-weight: 300;
+}
+.pasar {
+  background-color: #545454;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Cambia los valores para ajustar la sombra */
+  padding: 5px;
+  width: 90%;
+}

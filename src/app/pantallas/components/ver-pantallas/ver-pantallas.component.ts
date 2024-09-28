@@ -8,7 +8,9 @@ import { DicomRoom } from '../../models/DicomRoom';
 import { TurneroEvent } from 'src/app/turnero/models/TurneroEvent';
 import { from } from 'rxjs';
 import { concatMap, toArray } from 'rxjs/operators';
-
+import { PantallasService } from '../../services/pantallas.service';
+import { Turno } from '../../models/Turno';
+import { Pantalla } from '../../models/Pantalla';
 
 @Component({
   selector: 'app-ver-pantallas',
@@ -17,45 +19,62 @@ import { concatMap, toArray } from 'rxjs/operators';
 })
 export class VerPantallasComponent implements OnInit {
   private alertaService = inject(AlertaService);
-
+  private pantallasService = inject(PantallasService);
   private turneroService = inject(TurneroService);
   private turneroSocketService = inject(TurneroSocketService);
   private tokenService = inject(TokenService);
   private user = this.tokenService.getUsername();
-  public subscriptionsDataSource;
   public subscriptions = signal<TurneroSubscription[]>([]);
   public estudios: any[] = [];
-  public studiesDataSource: any[] = [];
+  public salas: DicomRoom[] = [];
+  public turnos: Pantalla[] = [];
 
-  constructor() {}
+  // event = {
+  //   dicomRoomId: 7,
+  //   idToDisplay: 'MRI1-3',
+  //   studyId: 64777,
+  //   user: 'dany',
+  // };
+
   ngOnInit(): void {
-    this.turneroService.findSubscriptionsByUser(this.user).subscribe(
-      (subscriptionsData) => {
-        this.subscriptions.set(subscriptionsData);
-        this.subscriptionsDataSource = this.subscriptions();
-        console.log(this.subscriptions());
-        let salasIds = [];
-        for (let i of this.subscriptions()) {
-          salasIds.push(i.id);
+    this.studyTakenListener();
+
+    this.pantallasService.findAllEnabled().subscribe(
+      (data) => {
+        this.salas = data;
+        this.turnos = this.salas as Pantalla[];
+        const turnosGuardados = localStorage.getItem('Turnos');
+        if (turnosGuardados) {
+          this.turnos = JSON.parse(turnosGuardados) as Pantalla[];
         }
-        from(salasIds)
-        .pipe(
-          concatMap((id) => this.turneroService.workListByRoomId(id)),
-          toArray()
-        )
-        .subscribe(
-          (resultList) => {
-            console.log(resultList); // Array con todos los resultados
-          },
-          (error) => {
-            this.alertaService.error(error);
-          }
-        );
       },
-      (error) => {
-        this.alertaService.error(error);
-      }
+      (error) => console.log(error)
     );
   }
 
+  private studyTakenListener(): void {
+    this.turneroSocketService.nuevoEvento$.subscribe((data: Turno) => {
+      if (data?.idToDisplay) {
+        console.log('Data en el evento de pantallas', data);
+        //ejemplo: data.idToDisplay="RMI1-7"
+        let salaP = this.turnos.find((sala) => sala.id === data.dicomRoomId);
+        if (salaP) {
+          console.log(salaP);
+          if (!salaP.turnos) {
+            salaP.turnos = [];
+          }
+          salaP.turnos.push(data);
+        }
+        localStorage.setItem('Turnos', JSON.stringify(this.turnos));
+      }
+    });
+  }
+
+  // public turnoParaSala(displayId: string, sala: string): boolean {
+  //   let [turno] = displayId.split('-');
+  //   if (turno === sala) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }
