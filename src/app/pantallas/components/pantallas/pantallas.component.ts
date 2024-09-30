@@ -14,46 +14,56 @@ export class PantallasComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private pantallasService = inject(PantallasService);
-
   public displayedColumns: string[] = ['Area', 'Editar'];
   public dataSource: DicomRoom[] = [];
 
-  constructor() {}
   ngOnInit(): void {
+    this.searchEnabledRooms();
+  }
+
+  public searchEnabledRooms(): void {
     this.pantallasService.findAllEnabled().subscribe(
       (data) => {
         console.log(data);
-        // this.dataSource.push(data);
         this.dataSource = data;
       },
       (error) => console.log(error)
     );
   }
-  agregarSalaModule(): void {
-    this.dialog.open(EditarPantallasComponent, {});
+  public agregarSalaModule(): void {
+    const matDialog = this.dialog.open(EditarPantallasComponent, {
+      width: '350px',
+    });
+    matDialog.afterClosed().subscribe(() => {
+      this.searchEnabledRooms();
+    });
   }
 
-  editarSalaModal(dicomRomm: DicomRoom): void {
+  public editarSalaModal(dicomRomm: DicomRoom): void {
     const matDialog = this.dialog.open(EditarPantallasComponent, {
+      width: '250px',
       data: dicomRomm,
     });
-    matDialog.afterClosed().subscribe(nuevaSala => {
+    matDialog.afterClosed().subscribe((nuevaSala: DicomRoom) => {
+      if (!nuevaSala.enabled) {
+        this.dataSource = this.dataSource.filter(
+          (sala) => sala.id !== nuevaSala.id
+        );
+        return;
+      }
+
       if (nuevaSala) {
-        // Encuentra el índice del objeto a actualizar
-        const index = this.dataSource.findIndex(d => d.id === dicomRomm.id);
-        
+        const index = this.dataSource.findIndex((d) => d.id === dicomRomm.id);
+
         if (index !== -1) {
-          // Actualiza el objeto existente en lugar de añadir uno nuevo
           this.dataSource[index] = nuevaSala;
         }
-        
-        // Reasigna la dataSource para forzar la detección de cambios en la vista
         this.dataSource = [...this.dataSource];
       }
     });
   }
 
-  ver(): void {
+  public ver(): void {
     this.router.navigate(['/pantallas/ver']);
   }
 }

@@ -1,5 +1,8 @@
 .root {
-  background-image: url("../../../../assets/sexo.jpg");
+  background-image: url("https://ris.diagnocons.com/estudios/pantallas/pantalla.webp");
+
+  /* background-image: url("../../../../assets/sexo.jpg"); */
+
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;

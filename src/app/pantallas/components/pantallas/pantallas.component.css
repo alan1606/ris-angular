@@ -1,17 +1,34 @@
-.tabla-container {
-    display: table;
-    margin: 0 auto;
-  }
-  
-.tabla {
-    width: 65%; 
-    margin: 2% auto; 
+.root {
+  background-image: linear-gradient(60deg, #29323c, #485563);
+  min-height: 100vh;
+  min-width: 100vw;
 }
-  
+table {
+  background-color: #212529;
+  color: white;
+}
+.tabla-container {
+  display: table;
+  margin: 0 auto;
+}
 
-.botones{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin: 2% 0 0 0;
+.tabla {
+  width: 50%;
+  margin: 2% auto;
+}
+
+td {
+  font-size: large;
+  color: white;
+}
+th {
+  font-size: x-large;
+  color: white;
+}
+
+.botones {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-top: 20px;
 }

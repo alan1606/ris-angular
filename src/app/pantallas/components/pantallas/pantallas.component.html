@@ -1,4 +1,4 @@
-<div>
+<div class="root">
   <div class="botones">
     <button class="btn btn-primary" (click)="agregarSalaModule()">
       Agregar sala a pantallas
@@ -10,13 +10,15 @@
   <div class="tabla">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="Area">
-        <th mat-header-cell *matHeaderCellDef>Area</th>
-        <td mat-cell *matCellDef="let element">{{ element.displayName }}</td>
+        <th mat-header-cell *matHeaderCellDef>AREA</th>
+        <td mat-cell *matCellDef="let element" style="text-align: center">
+          {{ element.displayName }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="Editar">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let element" style="text-align: center">
           <button
             mat-raised-button
             color="primary"

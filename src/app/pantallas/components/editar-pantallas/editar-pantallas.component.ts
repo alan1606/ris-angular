@@ -11,16 +11,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './editar-pantallas.component.html',
   styleUrl: './editar-pantallas.component.css',
 })
-
 export class EditarPantallasComponent implements OnInit {
   private dataService = inject(DataService);
   private pantallasService = inject(PantallasService);
   public area: Area = null;
   public salas: EquipoDicom = null;
   public displayName: string = '';
-  
 
-  constructor(private dialogRef:MatDialogRef<EditarPantallasComponent> ,@Inject(MAT_DIALOG_DATA) public data: DicomRoom = null) {}
+  constructor(
+    private dialogRef: MatDialogRef<EditarPantallasComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DicomRoom = null
+  ) {}
 
   ngOnInit(): void {
     if (this.data) {
@@ -34,6 +35,7 @@ export class EditarPantallasComponent implements OnInit {
     this.pantallasService.addRoomToScreens(nuevaSala).subscribe(
       (data) => {
         console.log(data);
+        this.dialogRef.close();
       },
       (error) => console.log(error)
     );
@@ -49,7 +51,7 @@ export class EditarPantallasComponent implements OnInit {
     this.pantallasService.addRoomToScreens(nuevaSala).subscribe(
       (data) => {
         console.log(data);
-        this.dialogRef.close(nuevaSala)
+        this.dialogRef.close(nuevaSala);
       },
       (error) => console.log(error)
     );
