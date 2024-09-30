@@ -2,7 +2,6 @@
   background-image: url("../../../../assets/sexo.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-color: black; */
   width: 100vw;
   height: 100vh;
 }
@@ -11,31 +10,35 @@
   text-align: center;
   height: 80%;
 }
-.section{
-  height: 500px;
+.section {
   z-index: 100;
+  border-left: 2px solid rgb(255, 255, 255);
+  border-right: 2px solid rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .pasar-container {
   display: grid;
   text-align: center;
   height: 20%;
-  background-color: #BAE300;
+  background-color: #bae300;
 }
 
 .sala {
-  background-color: rgb(255, 255, 255);
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2) inset,
-    -3px -8px 5px rgba(0, 0, 0, 0.2) inset; /* Cambia los valores para ajustar la sombra */
+  background-color: whitesmoke;
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2), 4px 4px 5px rgba(0, 0, 0, 0.2);
   padding: 5px;
-  width: 100%;
+  width: 98%;
+  height: 50px;
 }
 
 .turno {
   background-color: #545454;
   border-radius: 5px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Cambia los valores para ajustar la sombra */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   padding: 5px;
-  width: 90%;
+  width: 98%;
 }
 .turno,
 h2 {
@@ -45,7 +48,7 @@ h2 {
 .pasar {
   background-color: #545454;
   border-radius: 5px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Cambia los valores para ajustar la sombra */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   padding: 5px;
   width: 90%;
 }
