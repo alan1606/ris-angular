@@ -73,7 +73,6 @@ export class TurneroComponent implements OnInit {
     localStorage.setItem('roomId', roomId.toString());
     this.turneroService.workListByRoomId(roomId).subscribe(
       (data) => {
-        console.log('esta es la data pendejo', data);
         this.estudios = data;
         this.studiesDataSource = this.estudios;
         console.log(this.estudios);

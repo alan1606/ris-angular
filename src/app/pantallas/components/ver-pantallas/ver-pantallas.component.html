@@ -13,14 +13,43 @@
     <div class="section">
       <h1 class="sala" style="font-weight: bold">{{ sala.displayName }}</h1>
       @for (turno of sala.turnos; track $index) {
-      <div class="turno" style="margin-top: 10%;">
+      <div class="turno" style="margin-top: 10%">
         <h2 style="margin-top: 10%">{{ turno.idToDisplay }}</h2>
       </div>
       }
     </div>
     }
   </div>
-  <div class="pasar-container">
-    si
+  <div
+    class="pasar-container"
+    [ngStyle]="{
+      'grid-template-columns': 'repeat(' + turnos.length + ', 1fr)'
+    }"
+  >
+    @for (p of pasar; track $index) {
+    <div>
+      @for (turno of p.turnos; track $index) { @if (turno) {
+      <div>
+        <h1
+          style="
+            font-weight: bold;
+            font-size: 32px;
+            color: black;
+            padding-top: 10%;
+          "
+        >
+          PASAR
+        </h1>
+        <div class="turno" style="margin-top: 20%">
+          <h2 style="margin-top: 10%; font-size: 28px">
+            {{ turno.idToDisplay }}
+          </h2>
+        </div>
+      </div>
+      }@else {
+      <div></div>
+      } }
+    </div>
+    }
   </div>
 </div>

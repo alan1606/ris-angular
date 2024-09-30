@@ -12,6 +12,8 @@
   height: 80%;
 }
 .section{
+  height: 500px;
+  z-index: 100;
 }
 .pasar-container {
   display: grid;

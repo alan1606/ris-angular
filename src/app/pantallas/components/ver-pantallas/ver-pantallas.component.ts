@@ -5,12 +5,9 @@ import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { TurneroSocketService } from 'src/app/turnero/services/turnero-socket.service';
 import { TurneroService } from 'src/app/turnero/services/turnero.service';
 import { DicomRoom } from '../../models/DicomRoom';
-import { TurneroEvent } from 'src/app/turnero/models/TurneroEvent';
-import { from } from 'rxjs';
-import { concatMap, toArray } from 'rxjs/operators';
 import { PantallasService } from '../../services/pantallas.service';
-import { Turno } from '../../models/Turno';
 import { Pantalla } from '../../models/Pantalla';
+import { da } from 'date-fns/locale';
 
 @Component({
   selector: 'app-ver-pantallas',
@@ -28,53 +25,76 @@ export class VerPantallasComponent implements OnInit {
   public estudios: any[] = [];
   public salas: DicomRoom[] = [];
   public turnos: Pantalla[] = [];
-
-  // event = {
-  //   dicomRoomId: 7,
-  //   idToDisplay: 'MRI1-3',
-  //   studyId: 64777,
-  //   user: 'dany',
-  // };
+  public pasar: Pantalla[] = [];
 
   ngOnInit(): void {
-    this.studyTakenListener();
-
     this.pantallasService.findAllEnabled().subscribe(
       (data) => {
         this.salas = data;
         this.turnos = this.salas as Pantalla[];
+        this.pasar = this.salas as Pantalla[];
         const turnosGuardados = localStorage.getItem('Turnos');
+        const pasarGuardados = localStorage.getItem('Pasar');
+
         if (turnosGuardados) {
           this.turnos = JSON.parse(turnosGuardados) as Pantalla[];
         }
+        if (pasarGuardados) {
+          this.pasar = JSON.parse(pasarGuardados) as Pantalla[];
+        }
+
+        // this.pasar.forEach((p) => {
+        //   p.turnos.forEach((pturno) => {
+        //     this.turnos.forEach((t) => {
+        //       t.turnos = t.turnos.filter(
+        //         (l) => l.idToDisplay !== pturno.idToDisplay
+        //       );
+        //     });
+        //   });
+        // });
       },
       (error) => console.log(error)
     );
+
+    this.studyTakenListener();
   }
 
   private studyTakenListener(): void {
-    this.turneroSocketService.nuevoEvento$.subscribe((data: Turno) => {
+    this.turneroSocketService.nuevoEvento$.subscribe((data: any) => {
       if (data?.idToDisplay) {
         console.log('Data en el evento de pantallas', data);
-        //ejemplo: data.idToDisplay="RMI1-7"
-        let salaP = this.turnos.find((sala) => sala.id === data.dicomRoomId);
-        if (salaP) {
-          console.log(salaP);
-          if (!salaP.turnos) {
-            salaP.turnos = [];
-          }
-          salaP.turnos.push(data);
+        if (data?.idToDisplay && !data.arrivedTime) {
+          console.log('entro el if pasar');
+          this.showTurnToPass(data);
+          return;
         }
-        localStorage.setItem('Turnos', JSON.stringify(this.turnos));
+
+        console.log('entro hacia turnos');
+        this.addTurn(data);
+        return;
       }
     });
   }
 
-  // public turnoParaSala(displayId: string, sala: string): boolean {
-  //   let [turno] = displayId.split('-');
-  //   if (turno === sala) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  private addTurn(data: any): void {
+    let salaPantalla = this.turnos.find((sala) => sala.id === data.dicomRoomId);
+    if (salaPantalla) {
+      if (!salaPantalla.turnos) {
+        salaPantalla.turnos = [];
+      }
+      salaPantalla.turnos.unshift(data);
+      localStorage.setItem('Turnos', JSON.stringify(this.turnos));
+    }
+  }
+
+  private showTurnToPass(data: any): void {
+    let pasarPantalla = this.pasar.find((sala) => sala.id === data.dicomRoomId);
+    if (pasarPantalla) {
+      if (!pasarPantalla.turnos) {
+        pasarPantalla.turnos = [];
+      }
+      pasarPantalla.turnos[0] = data;
+      localStorage.setItem('Pasar', JSON.stringify(this.pasar));
+    }
+  }
 }

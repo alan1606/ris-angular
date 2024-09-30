@@ -43,7 +43,6 @@ export class TurneroSocketService {
 
     console.log('Iniciando conexión turnero socket service');
 
-
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS(this.url),
       connectHeaders: {},

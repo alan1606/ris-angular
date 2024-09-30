@@ -16,12 +16,18 @@ export class AppComponent implements OnInit {
   @ViewChild('menu') menu: NavbarComponent;
   private tokenService = inject(TokenService);
   private logged: boolean = this.tokenService.isLogged();
+  public isVerPantallas: boolean = false;
   constructor(
     private router: Router,
     private turneroSocketService: TurneroSocketService
   ) {}
 
   ngOnInit(): void {
+    const url = document.location.pathname;
+    if (url === '/ris/pantallas/ver') {
+      this.isVerPantallas = true;
+    }
+    console.log('url si: ', url);
     this.router.events
       .pipe(filter((event: Event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -43,7 +49,7 @@ export class AppComponent implements OnInit {
         }
       });
     if (this.logged) {
-      console.log("logged")
+      console.log('logged');
       this.turneroSocketService.initConnectionSocket();
     }
   }

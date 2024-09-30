@@ -53,6 +53,10 @@ export class AlertaService {
     sala: string = '',
     study: string = ''
   ): void {
+    const url = window.location.pathname;
+    if (url === '/ris/pantallas/ver') {
+      return;
+    }
     Swal.fire({
       icon: 'info',
       title: `${nombre} en sala de espera`,
