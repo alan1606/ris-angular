@@ -18,8 +18,27 @@ export class VerPantallasComponent implements OnInit {
   public salas: DicomRoom[] = [];
   public waitingTurns: Pantalla[] = [];
   public pasar: Pantalla[] = [];
+  public indexes: number[] = [];
 
   ngOnInit(): void {
+    let hoy = new Date().getDate();
+    let fechaPantallas = parseInt(localStorage.getItem('fechaPantallas'));
+    console.log(hoy);
+    if (!fechaPantallas) {
+      localStorage.setItem('fechaPantallas', hoy.toString());
+    }
+    if (fechaPantallas) {
+      console.log(
+        'entro a ver si la fecha de hoy es iguala la fecha de los items guardados en pantallas'
+      );
+      if (hoy !== fechaPantallas) {
+        localStorage.removeItem('Turnos');
+        localStorage.removeItem('Pasar');
+        localStorage.setItem('fechaPantallas', hoy.toString());
+        console.log('elimino todo');
+      }
+    }
+
     this.pantallasService.findAllEnabled().subscribe(
       (data) => {
         this.salas = data;
@@ -55,6 +74,22 @@ export class VerPantallasComponent implements OnInit {
         console.log('entro hacia turnos');
         this.addTurn(data);
         return;
+      }
+    });
+  }
+
+  public eliminarTurnoManual(turno: any): void {
+    this.waitingTurns.forEach((t) => {
+      if (Array.isArray(t.turnos)) {
+        t.turnos = t.turnos.filter((l) => l.idToDisplay !== turno.idToDisplay);
+      }
+    });
+  }
+
+  public eliminarPasarManual(turno: any): void {
+    this.pasar.forEach((t) => {
+      if (Array.isArray(t.turnos)) {
+        t.turnos = t.turnos.filter((l) => l.idToDisplay !== turno.idToDisplay);
       }
     });
   }

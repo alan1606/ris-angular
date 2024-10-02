@@ -8,14 +8,44 @@
     @for (sala of waitingTurns; track $index; ) {
     <div class="section">
       <h1 class="sala" style="font-weight: bold">{{ sala.displayName }}</h1>
-      @for (turno of sala.turnos; track $index) {
-      <div class="turno" style="margin-top: 10%">
-        <h2 style="margin-top: 10%">{{ turno.idToDisplay }}</h2>
-      </div>
-      }
+      @for (turno of sala.turnos; track $index) { 
+       @if (sala.turnos.length>2) {
+        @if ($index>0) {
+
+          <div
+            class="turno"
+            style="margin-top: 10%"
+            (click)="eliminarTurnoManual(turno)"
+          >
+            <h2 style="margin-top: 10%">
+              {{ turno.idToDisplay }}
+            </h2>
+          </div>
+
+          } 
+
+       }
+       @else {
+        <div
+            class="turno"
+            style="margin-top: 10%"
+            (click)="eliminarTurnoManual(turno)"
+          >
+            <h2 style="margin-top: 10%">
+              {{ turno.idToDisplay }}
+            </h2>
+          </div>
+       }
+
+    }
     </div>
+
     }
   </div>
+
+
+
+
   <div
     class="pasar-container"
     [ngStyle]="{
@@ -36,8 +66,12 @@
         >
           PASAR
         </h1>
-        <div class="turno" style="margin-top: 20%">
-          <h2 style="margin-top: 10%; font-size: 24px;">
+        <div
+          class="turno"
+          style="margin-top: 20%"
+          (click)="eliminarPasarManual(turno)"
+        >
+          <h2 style="margin-top: 10%; font-size: 24px">
             {{ turno.idToDisplay }}
           </h2>
         </div>
