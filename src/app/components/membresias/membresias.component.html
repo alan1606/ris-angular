@@ -31,7 +31,6 @@
       width="8%"
     />
   </div>
-
   <mat-card style="width: 50%">
     <div class="p-4">
       <form class="formulario">
@@ -168,6 +167,19 @@
           </mat-form-field>
           <div class="my-2 text-end">
             <div>
+              @if (!codigoMembresia) {
+              <button
+                [disabled]="generandoCodigo() ? true : false"
+                mat-raised-button
+                color="primary"
+                class="me-2"
+                (click)="generarCodigoMembresia()"
+              >
+                {{
+                  generandoCodigo() ? "Generando" : "Generar Codigo Membresia"
+                }}
+              </button>
+              } @if (!guardado()) {
               <button
                 mat-raised-button
                 color="primary"
@@ -176,16 +188,30 @@
               >
                 {{ model?.id ? "Guardar" : "Crear" }}
               </button>
+              }
             </div>
+            @if (codigoMembresia && model.nombre && guardado() && !descargar())
+            {
             <button
               class="mt-2"
-              *ngIf="codigoMembresia && model.nombre"
               mat-raised-button
               color="primary"
               (click)="abrirQrFirmarPoliticasMembresiaModal()"
             >
               Firmar membresia
             </button>
+            } @if (descargar()) {
+            <div>
+              <button
+                mat-raised-button
+                color="primary"
+                class="me-2"
+                (click)="descargarMembresia()"
+              >
+                Descargar Membresia
+              </button>
+            </div>
+            }
           </div>
         </div>
       </form>

@@ -2,15 +2,15 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { Paciente } from 'src/app/models/paciente';
 import SignaturePad from 'signature_pad';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FirmaService } from 'src/app/services/firma-service.service';
-import { error } from 'console';
 import Swal from 'sweetalert2';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-firmar-membresia',
@@ -19,22 +19,35 @@ import Swal from 'sweetalert2';
 })
 export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
   constructor(
-    private route: ActivatedRoute,
-    private firmaService: FirmaService
+    private firmaService: FirmaService,
+    @Inject(MAT_DIALOG_DATA) private datos: any,
+    private dialogRef: MatDialogRef<FirmarMembresiaComponent>
   ) {}
 
   @ViewChild('signaturePad', { static: true }) signaturePadElement: ElementRef;
-  model: Paciente = new Paciente();
-  codigoMembresia: string = '';
-  idURL: number = 0;
+  public model: Paciente = new Paciente();
+  public codigoMembresia: string = '';
+  private idURL: number = 0;
   private signaturePad: any;
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.idURL = parseInt(params.get('idPaciente'));
-      this.model.nombreCompleto = params.get('nombrePaciente');
-      this.codigoMembresia = params.get('codigoMembresia');
-    });
+    // this.route.paramMap.subscribe((params) => {
+    //   if (params.get('idPaciente')) {
+    //     this.idURL = parseInt(params.get('idPaciente'));
+    //     this.model.nombreCompleto = params.get('nombrePaciente');
+    //     this.codigoMembresia = params.get('codigoMembresia');
+    //   }
+    // });
+    if (this.datos) {
+      this.idURL = this.datos.model.id;
+      this.model = this.datos.model;
+      this.codigoMembresia = this.datos.codigoMembresia;
+    } else {
+      console.error(
+        'Error al intentar firmar, ya que los datos no se encontraron'
+      );
+      this.dialogRef.close();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -49,19 +62,26 @@ export class FirmarMembresiaComponent implements OnInit, AfterViewInit {
 
   saveSignature(): void {
     const firma = this.signaturePad.toDataURL();
-    let firmabackend={
-      idPaciente:this.idURL,
-      firma:firma
-    }
+    let firmabackend = {
+      idPaciente: this.idURL,
+      firma: firma,
+    };
     this.firmaService.guardarFirma(firmabackend).subscribe(
       (data) => {
-        console.log(data);
         Swal.fire({ title: 'Firma guardada correctamente', icon: 'success' });
+        this.dialogRef.close(data);
       },
       (error) => {
         console.log(error);
-        Swal.fire({ title: 'Error al guardar la firma, intente despues', icon: 'warning' });
+        Swal.fire({
+          title: 'Error al guardar la firma, intente despues',
+          icon: 'warning',
+        });
       }
     );
+  }
+
+  salir(): void {
+    this.dialogRef.close();
   }
 }

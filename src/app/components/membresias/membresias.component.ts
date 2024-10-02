@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Paciente } from 'src/app/models/paciente';
 import { ESTADO, getPersona, GENERO, generar } from 'curp';
 import { UntypedFormControl } from '@angular/forms';
@@ -8,9 +8,10 @@ import { DatePipe } from '@angular/common';
 import { MembresiaService } from 'src/app/services/membresia.service';
 import { Membresia } from 'src/app/models/membresia';
 import { MatDialog } from '@angular/material/dialog';
-import { QrFirmarPoliticasMembresiaComponent } from '../qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
+// import { QrFirmarPoliticasMembresiaComponent } from '../qr-firmar-politicas-membresia/qr-firmar-politicas-membresia.component';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
+import { FirmarMembresiaComponent } from './firmar-membresia/firmar-membresia.component';
 
 @Component({
   selector: 'app-membresias',
@@ -38,11 +39,18 @@ export class MembresiasComponent {
   fecha: string = '';
   sexo: string = '';
   codigoMembresia: string = '';
+  public guardado = signal<boolean>(false);
+  public descargar = signal<boolean>(false);
+  public generandoCodigo = signal<boolean>(false);
 
   pacienteBuscado(event: any) {
     this.model = event;
     this.fechaNacimientoControl.setValue(new Date(this.model.fechaNacimiento));
     this.sexo = event.sexo == 2 ? 'MASCULINO' : 'FEMENINO';
+    this.guardado.set(false);
+    this.descargar.set(false);
+    this.codigoMembresia = '';
+    this.generandoCodigo.set(false);
   }
 
   public crear(): void {
@@ -89,9 +97,7 @@ export class MembresiasComponent {
       console.log('proceso si hay paciente');
       this.crearMembresia();
       return;
-    }
-    //por defecto
-    else {
+    } else {
       console.log('por defecto');
       return;
     }
@@ -216,6 +222,7 @@ export class MembresiasComponent {
           confirmButtonText: 'cerrar',
           allowOutsideClick: false,
         });
+        this.guardado.set(true);
       },
       (error) => {
         console.log(error);
@@ -233,8 +240,45 @@ export class MembresiasComponent {
       console.log('falta el id');
       return;
     }
-    const dialogref = this.dialog.open(QrFirmarPoliticasMembresiaComponent, {
-      data: { paciente: this.model, membresia: this.codigoMembresia },
+    let datos = {
+      model: this.model,
+      codigoMembresia: this.codigoMembresia,
+    };
+    const dialogRef = this.dialog.open(FirmarMembresiaComponent, {
+      width: '95vw',
+      data: datos,
+      disableClose: true,
     });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.descargar.set(true);
+      }
+    });
+    // const dialogref = this.dialog.open(QrFirmarPoliticasMembresiaComponent, {
+    //   data: { paciente: this.model, membresia: this.codigoMembresia },
+    // });
+  }
+
+  public generarCodigoMembresia(): void {
+    this.generandoCodigo.set(true);
+    this.membresiaService.generateCode().subscribe(
+      (data) => {
+        console.log(data);
+        // this.membresiaManual.set(true);
+        this.codigoMembresia = data[0];
+        this.generandoCodigo.set(false);
+      },
+      (error) => {
+        this.alertaService.error(error);
+      }
+    );
+  }
+  public descargarMembresia(): void {
+    if (!this.model.nombreCompleto) {
+      return;
+    }
+    let limpio = this.model.nombreCompleto.replace(/ /g, '-');
+    let url = `https://diagnocons.com/v1/libs/pdf2/examples/memberRis.php?frontal=https://diagnocons.com/v1/ldContent/uploads/8387a21afc077f597d5bc6b5874c2495.jpeg&tracera=https://diagnocons.com/v1/ldContent/uploads/0a63d25b7a9fa9afc792f4c3142fbb2c.jpeg&cantidad=1&uuid=${this.codigoMembresia}&nameMember=${limpio}`;
+    window.open(url);
   }
 }

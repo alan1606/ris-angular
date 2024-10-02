@@ -5,16 +5,25 @@ import { Membresia } from '../models/membresia';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MembresiaService {
-  private baseEndpoint = BASE_ENDPOINT +  '/ris/membresias';
-  private cabeceras: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private baseEndpoint = BASE_ENDPOINT + '/ris/membresias';
+  private cabeceras: HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  public crear(membresia: Membresia): Observable<Membresia>{
-    return this.http.post<Membresia>(`${this.baseEndpoint}`, membresia,
-    { headers: this.cabeceras });
+  public crear(membresia: Membresia): Observable<Membresia> {
+    return this.http.post<Membresia>(`${this.baseEndpoint}`, membresia, {
+      headers: this.cabeceras,
+    });
+  }
+
+  public generateCode(): Observable<string[]> {
+    return this.http.get<string[]>(
+      'https://ris.diagnocons.com/api/campanias/membresias/codigos?cantidad=1'
+    );
   }
 }

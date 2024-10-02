@@ -1,8 +1,8 @@
-.container{
-    text-align: center;
+.container {
+  text-align: center;
+  position: relative;
 }
-canvas{
-    border: solid;
-    border-radius: 10px;
-
+canvas {
+  border: solid;
+  border-radius: 10px;
 }

@@ -1,4 +1,7 @@
 <div class="container mt-2">
+  <div style="position: absolute; top: 3%; right: 3%">
+    <button class="btn btn-danger" (click)="salir()">Salir</button>
+  </div>
   <div class="">
     <h1>Beneficiario: {{ model.nombreCompleto }}</h1>
 
@@ -9,7 +12,11 @@
     <div>
       <canvas #signaturePad width="1366" height="700"></canvas>
     </div>
-    <button class="btn btn-dark btn-lg" (click)="clearSignature()">Limpiar</button>
-    <button class="btn btn-success ms-3 btn-lg" (click)="saveSignature()">Guardar</button>
+    <button class="btn btn-dark btn-lg" (click)="clearSignature()">
+      Limpiar
+    </button>
+    <button class="btn btn-success ms-3 btn-lg" (click)="saveSignature()">
+      Guardar
+    </button>
   </div>
 </div>
