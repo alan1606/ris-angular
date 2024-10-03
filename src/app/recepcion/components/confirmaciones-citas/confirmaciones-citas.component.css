@@ -1,7 +1,43 @@
+.root {
+  background-color: rgb(34, 34, 34);
+  min-height: 100vh;
+}
+
 .contenedor-busqueda {
   padding-top: 2rem;
   padding-left: 2rem;
   padding-bottom: 1rem;
   display: flex;
   align-content: center;
+  color: whitesmoke;
+  position: relative;
+}
+
+.dark-table {
+  background-color: #212529;
+  color: white;
+}
+
+.dark-table td {
+  font-size: small;
+  color: whitesmoke;
+}
+.dark-table th {
+  font-size: large;
+  color: whitesmoke;
+}
+
+.no-contestada {
+  /* background-color: #0a3038; */
+  background-color: #1a1a40;
+}
+
+.agendada {
+  background-color: #4c0027;
+}
+
+.confirmada {
+  /* background-color: #738118; */
+  background-color: #1e5128;
+  color: black;
 }

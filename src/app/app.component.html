@@ -1,5 +1,7 @@
 @if (!isVerPantallas) {
 <app-navbar #menu />
+}@else {
+<app-navbar #menu style="display: none" />
 }
 <div>
   <router-outlet></router-outlet>

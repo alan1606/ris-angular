@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -28,8 +28,8 @@ export class ConfirmacionesCitasComponent implements OnInit {
 
   totalRegistros = 0;
   paginaActual = 0;
-  totalPorPagina = 100;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+  totalPorPagina = 200;
+  pageSizeOptions: number[] = [5, 10, 25, 100, 200];
 
   citas: Cita[] = [];
   citasSinFiltrar: Cita[] = [];
@@ -38,6 +38,20 @@ export class ConfirmacionesCitasComponent implements OnInit {
   areaFiltrada: Area = null;
   total = 0;
   totalSinConfirmar = 0;
+  public darkMode = signal<boolean>(true);
+  public studiesColumns: string[] = [
+    'Institucion',
+    'Paciente',
+    'Estudio',
+    'Fecha',
+    'Hora',
+    'Agendo',
+    'Estado',
+    'Confirmar',
+    'Reagendar',
+    'Cancelar',
+  ];
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -51,8 +65,24 @@ export class ConfirmacionesCitasComponent implements OnInit {
     this.titulo = 'Confirmaciones';
     this.minDate = new Date();
   }
+  public cambiarModo(valor: boolean): void {
+    this.darkMode.set(valor);
+    localStorage.setItem('darkMode', valor.toString());
+  }
+  onChange(event: any): void {
+    const esModoObscuro = event.target.value === 'true';
+    this.cambiarModo(esModoObscuro);
+  }
 
   ngOnInit(): void {
+    let dark = localStorage.getItem('darkMode');
+
+    if (dark) {
+      console.log("Tema en ls")
+      let value = dark === 'true' ? true : false;
+      this.darkMode.set(value);
+    }
+
     let fechaString = this.fechaService.formatearFecha(this.date.value);
     this.fecha = fechaString;
     this.citaService
@@ -72,6 +102,16 @@ export class ConfirmacionesCitasComponent implements OnInit {
               (cita) =>
                 cita.estado !== 'AGENDADA' && cita.estado !== 'NO_CONTESTADA'
             ).length;
+            this.citas.forEach((cita) => {
+              this.ventaConceptosService
+                .ver(cita.estudio.id)
+                .subscribe((venta) => {
+                  cita.institucion =
+                    venta.institucion.id === 1
+                      ? null
+                      : venta.institucion.nombre;
+                });
+            });
           } else {
             this.citas = [];
           }

@@ -1,128 +1,255 @@
-<div class="contenedor-busqueda">
-  <div class="col-md-auto">
-    <button
-      class="btn btn-warning btn-lg btn-block me-3"
-      (click)="mandarConfirmacionesManiania()"
-    >
-      Mandar confirmaciones de mañana
-    </button>
-    <button
-      class="btn btn-secondary btn-lg btn-block me-3"
-      (click)="abrirMandarConfirmacionesPorFecha()"
-    >
-      Mandar confirmaciones
-    </button>
-  </div>
-
-  <div class="col-md-auto">
-    <mat-form-field appearance="fill" class="me-3">
-      <mat-label>Seleccionar fecha</mat-label>
-      <input
-        [min]="minDate"
-        matInput
-        [matDatepicker]="picker1"
-        [formControl]="date"
-        #fechaSeleccionada
-        (dateInput)="actualizarFecha(fechaSeleccionada)"
-      />
-      <mat-hint>DD/MM/AAAA</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-  </div>
-  <app-buscador-areas
-    (areaEmit)="recibirAreaFiltrada($event)"
-  ></app-buscador-areas>
-  <app-buscador-sala (salaEmit)="salaSeleccionada($event)"></app-buscador-sala>
-  <div class="d-flex">
-    <div class="p-3 h3">{{ total != 0 ? "Total: " + total : "" }}</div>
-    <div class="p-3 h3">
-      {{ totalSinConfirmar != 0 ? "Confirmados: " + totalSinConfirmar : "" }}
+<div class="root">
+  <div class="contenedor-busqueda">
+    <div style="position: absolute; top: 2%; right: 2%">
+      <select class="form-select" aria-label="Default select example" (change)="onChange($event)">
+        <option [selected]="darkMode()">Modo {{darkMode() ? 'Obscuro' : 'Claro'}}</option>
+        <option [value]="false"><i class="bi bi-brightness-high"></i>Modo Claro</option>
+        <option [value]="true"> <i class="bi bi-moon-stars"></i>Modo Obscuro</option>
+      </select>
     </div>
-  </div>
-</div>
-
-<div class="card text-dark bg-light mb-3">
-  <div class="card-body">
-    @if (citas?.length == 0) {
-    <div class="alert alert-info">No hay estudios en el sistema.</div>
-    } @if (citas?.length > 0) {
-    <div class="table-responsive">
-      <table class="table table-hover table-striped">
-        <thead>
-          <tr>
-            <th>Paciente</th>
-            <th>Estudio</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Agendó</th>
-            <th>Estado</th>
-            <th>Confirmar</th>
-            <th>Reagendar</th>
-            <th>Cancelar</th>
-          </tr>
-        </thead>
-
-        <tbody *ngIf="citas?.length > 0">
-          @for (cita of citas; track $index) {
-          <tr
-            [ngClass]="{
-              'table-warning': cita.estado == 'NO_CONTESTADA',
-              'table-danger': cita.estado == 'AGENDADA',
-              'table-success': cita.estado == 'CONFIRMADA'
-            }"
-          >
-            <td>{{ cita.estudio?.paciente?.nombreCompleto }}</td>
-            <td>{{ cita.estudio?.concepto?.concepto }}</td>
-            <td>{{ cita.fechaYHora | date : "dd/MM/yyyy" }}</td>
-            <td>{{ cita.fechaYHora | date : "h:mm a" }}</td>
-            <td>{{ cita.estudio?.ordenVenta?.usuarioAgendo }}</td>
-            <td>{{ cita.estado }}</td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-sm btn-success"
-                *ngIf="
-                  cita.estado == 'AGENDADA' || cita.estado == 'NO_CONTESTADA'
-                "
-                (click)="confirmar(cita)"
-              >
-                Confirmar manual
-              </button>
-            </td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-sm btn-primary"
-                (click)="reagendar(cita)"
-              >
-                Reagendar
-              </button>
-            </td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-sm btn-danger"
-                (click)="cancelarCita(cita)"
-              >
-                Cancelar
-              </button>
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
-      <mat-paginator
-        [length]="totalRegistros"
-        [pageSize]="totalPorPagina"
-        [pageIndex]="paginaActual"
-        [pageSizeOptions]="pageSizeOptions"
-        (page)="paginar($event)"
-        showFirstLastButtons
-        class="float-left mx-2"
+    <div class="col-md-auto">
+      <button
+        class="btn btn-warning btn-lg btn-block me-3"
+        (click)="mandarConfirmacionesManiania()"
       >
-      </mat-paginator>
+        Mandar confirmaciones de mañana
+      </button>
+      <button
+        class="btn btn-secondary btn-lg btn-block me-3"
+        (click)="abrirMandarConfirmacionesPorFecha()"
+      >
+        Mandar confirmaciones
+      </button>
     </div>
-    }
+
+    <div class="col-md-auto">
+      <mat-form-field appearance="fill" class="me-3">
+        <mat-label>Seleccionar fecha</mat-label>
+        <input
+          [min]="minDate"
+          matInput
+          [matDatepicker]="picker1"
+          [formControl]="date"
+          #fechaSeleccionada
+          (dateInput)="actualizarFecha(fechaSeleccionada)"
+        />
+        <mat-hint>DD/MM/AAAA</mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <app-buscador-areas
+      (areaEmit)="recibirAreaFiltrada($event)"
+    ></app-buscador-areas>
+    <app-buscador-sala
+      (salaEmit)="salaSeleccionada($event)"
+    ></app-buscador-sala>
+    <div class="d-flex">
+      <div class="p-3 h3">{{ total != 0 ? "Total: " + total : "" }}</div>
+      <div class="p-3 h3">
+        {{ totalSinConfirmar != 0 ? "Confirmados: " + totalSinConfirmar : "" }}
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="">
+      @if (citas?.length == 0) {
+      <div class="alert alert-info">No hay estudios en el sistema.</div>
+      } @if (citas?.length > 0) { 
+        @if (!darkMode()) {
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Institucion</th>
+              <th>Paciente</th>
+              <th>Estudio</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Agendó</th>
+              <th>Estado</th>
+              <th>Confirmar</th>
+              <th>Reagendar</th>
+              <th>Cancelar</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="citas?.length > 0">
+            @for (cita of citas; track $index) {
+            <tr
+              [ngClass]="{
+                'table-warning': cita.estado == 'NO_CONTESTADA',
+                'table-danger': cita.estado == 'AGENDADA',
+                'table-success': cita.estado == 'CONFIRMADA'
+              }"
+            >
+              <td>{{ cita?.institucion }}</td>
+              <td>{{ cita.estudio?.paciente?.nombreCompleto }}</td>
+              <td>{{ cita.estudio?.concepto?.concepto }}</td>
+              <td>{{ cita.fechaYHora | date : "dd/MM/yyyy" }}</td>
+              <td>{{ cita.fechaYHora | date : "h:mm a" }}</td>
+              <td>{{ cita.estudio?.ordenVenta?.usuarioAgendo }}</td>
+              <td>{{ cita.estado }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-success"
+                  *ngIf="
+                    cita.estado == 'AGENDADA' || cita.estado == 'NO_CONTESTADA'
+                  "
+                  (click)="confirmar(cita)"
+                >
+                  Confirmar manual
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  (click)="reagendar(cita)"
+                >
+                  Reagendar
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  (click)="cancelarCita(cita)"
+                >
+                  Cancelar
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+
+        <mat-paginator
+          [length]="totalRegistros"
+          [pageSize]="totalPorPagina"
+          [pageIndex]="paginaActual"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="paginar($event)"
+          showFirstLastButtons
+          class="float-left mx-2"
+        >
+        </mat-paginator>
+      </div>
+      }@else {
+      <table [dataSource]="citas" mat-table class="mat-elevation-z8 dark-table">
+        <ng-container matColumnDef="Institucion">
+          <th mat-header-cell *matHeaderCellDef>Institucion</th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="{'background-color':element?.institucion ? '#0d56df':''}">{{ element?.institucion }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Paciente" >
+          <th mat-header-cell *matHeaderCellDef>Paciente</th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{
+            'no-contestada': element.estado == 'NO_CONTESTADA',
+            'agendada': element.estado == 'AGENDADA',
+            'confirmada': element.estado == 'CONFIRMADA'
+          }">
+            {{ element.estudio?.paciente?.nombreCompleto }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Estudio">
+          <th mat-header-cell *matHeaderCellDef>Estudio</th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{
+            'no-contestada': element.estado == 'NO_CONTESTADA',
+            'agendada': element.estado == 'AGENDADA',
+            'confirmada': element.estado == 'CONFIRMADA'
+          }">
+            {{ element.estudio?.concepto?.concepto }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Fecha">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{
+            'no-contestada': element.estado == 'NO_CONTESTADA',
+            'agendada': element.estado == 'AGENDADA',
+            'confirmada': element.estado == 'CONFIRMADA'
+          }">
+            {{ element.fechaYHora | date : "dd/MM/yyyy" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Hora">
+          <th mat-header-cell *matHeaderCellDef>Hora</th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{
+            'no-contestada': element.estado == 'NO_CONTESTADA',
+            'agendada': element.estado == 'AGENDADA',
+            'confirmada': element.estado == 'CONFIRMADA'
+          }">
+            {{ element.fechaYHora | date : "h:mm a" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Agendo">
+          <th mat-header-cell *matHeaderCellDef>Agendó</th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{
+            'no-contestada': element.estado == 'NO_CONTESTADA',
+            'agendada': element.estado == 'AGENDADA',
+            'confirmada': element.estado == 'CONFIRMADA'
+          }">
+            {{ element.estudio?.ordenVenta?.usuarioAgendo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{
+            'no-contestada': element.estado == 'NO_CONTESTADA',
+            'agendada': element.estado == 'AGENDADA',
+            'confirmada': element.estado == 'CONFIRMADA'
+          }">{{ element.estado }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Confirmar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" >
+            <button
+              type="button"
+              class="btn btn-sm btn-success"
+              *ngIf="
+                element.estado == 'AGENDADA' ||
+                element.estado == 'NO_CONTESTADA'
+              "
+              (click)="confirmar(element)"
+            >
+              Confirmar manual
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Reagendar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              (click)="reagendar(element)"
+            >
+              Reagendar
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Cancelar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              (click)="cancelarCita(element)"
+            >
+              Cancelar
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="studiesColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: studiesColumns"></tr>
+      </table>
+      } }
+    </div>
   </div>
 </div>
