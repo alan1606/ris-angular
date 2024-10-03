@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { FirmarMembresiaComponent } from './firmar-membresia/firmar-membresia.component';
+import { BASE_ENDPOINT } from 'src/app/config/app';
 
 @Component({
   selector: 'app-membresias',
@@ -42,6 +43,7 @@ export class MembresiasComponent {
   public guardado = signal<boolean>(false);
   public descargar = signal<boolean>(false);
   public generandoCodigo = signal<boolean>(false);
+  private urlFirma = BASE_ENDPOINT + '/ris/multimedia/archivo/';
 
   pacienteBuscado(event: any) {
     this.model = event;
@@ -251,6 +253,9 @@ export class MembresiasComponent {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
+        console.log(data);
+        let nombreArchivo = `${data?.idPaciente}-firma.png`;
+        this.urlFirma = this.urlFirma + nombreArchivo;
         this.descargar.set(true);
       }
     });
@@ -278,7 +283,7 @@ export class MembresiasComponent {
       return;
     }
     let limpio = this.model.nombreCompleto.replace(/ /g, '-');
-    let url = `https://diagnocons.com/v1/libs/pdf2/examples/memberRis.php?frontal=https://diagnocons.com/v1/ldContent/uploads/8387a21afc077f597d5bc6b5874c2495.jpeg&tracera=https://diagnocons.com/v1/ldContent/uploads/0a63d25b7a9fa9afc792f4c3142fbb2c.jpeg&cantidad=1&uuid=${this.codigoMembresia}&nameMember=${limpio}`;
+    let url = `https://diagnocons.com/v1/libs/pdf2/examples/memberRis.php?frontal=https://diagnocons.com/v1/ldContent/uploads/8387a21afc077f597d5bc6b5874c2495.jpeg&tracera=https://diagnocons.com/v1/ldContent/uploads/0a63d25b7a9fa9afc792f4c3142fbb2c.jpeg&cantidad=1&uuid=${this.codigoMembresia}&nameMember=${limpio}&firma=${this.urlFirma}`;
     window.open(url);
   }
 }
