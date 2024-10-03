@@ -113,4 +113,13 @@ export class CampaniaService {
     return this.http.put<void>(`${this.baseEndpoint}/desuscribir`, persona,
     { headers: this.cabeceras });
   }
+
+  obtenerCampaniasActivasPorConceptos(conceptos: number[]): Observable<Campania[]> {
+    let params = new HttpParams();
+    conceptos.forEach(concepto => {
+      params = params.append('conceptos', concepto.toString());
+    });
+
+    return this.http.get<Campania[]>(`${this.baseEndpoint}/activas/conceptos`, { params });
+  }
 }

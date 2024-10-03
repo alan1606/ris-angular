@@ -250,9 +250,44 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   pagar(): void {
+    //Tal vez se le pueda dar pagar dos veces. La primera para que muestre lo de las campañas 
+    //Si no aplica paga de una vez, si aplica espera a que llenes y luego paga
     if (this.orden.pagado) {
       return;
     }
+
+    if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada){
+      this.orden.idCanal = this.canalSeleccionado.id;
+      this.procesarVenta();
+      return;
+    }
+
+    //Hacer petición para saber si hay promoción para esos estudios
+    this.campaniasService.obtenerCampaniasActivasPorConceptos(this.listaDeEstudios.map(e => e.concepto.id)).subscribe(campanias => {
+
+      if(campanias.length > 0){
+
+        this.hayQueSeleccionarCampania = true;
+
+        //Darle a seleccionar la campaña entre las campañas encontradas
+        this.campaniasEncontradas = campanias;
+
+      }
+      else {
+        this.procesarVenta();
+      }
+
+    }, err => {
+      console.error(err);
+      this.procesarVenta();
+    });
+
+    
+  }
+
+
+  private procesarVenta(){
+    this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',
       icon: 'info',
@@ -260,7 +295,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
       showConfirmButton: false,
       allowOutsideClick: false,
     });
-    this.botonHabilitado = true;
+
 
     if (this.folio) {
       this.orden.folioInstitucion = this.folio;
@@ -269,6 +304,8 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.orden.pagos = this.pagos;
     this.orden.descuentos = this.descuentos;
     this.orden.estudiosList = this.listaDeEstudios;
+
+
     setTimeout(() => {
       Swal.close();
       this.ordenVentaServiceSubscription = this.ordenVentaService

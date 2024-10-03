@@ -23,4 +23,5 @@ export class OrdenVenta implements Generic {
   pagos: Pago[];
   descuentos?: Descuento[];
   estudiosList?: VentaConceptos[];
+  idCanal?: number;
 }
