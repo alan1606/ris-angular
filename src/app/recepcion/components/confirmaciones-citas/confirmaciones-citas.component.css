@@ -15,8 +15,11 @@
     align-content: center;
     color: whitesmoke;
   }
-  .mode{
-    top: 2%;
+  .areas-salas {
+    display: flex;
+  }
+  .mode {
+    top: 5%;
   }
 }
 
@@ -31,7 +34,7 @@
   .areas-salas {
     display: flex;
   }
-  .mode{
+  .mode {
     top: 15%;
   }
 }
