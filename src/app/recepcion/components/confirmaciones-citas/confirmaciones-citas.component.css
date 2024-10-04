@@ -1,16 +1,39 @@
 .root {
   background-color: rgb(34, 34, 34);
+  height: 100vh;
+  width: 100vw;
   min-height: 100vh;
+  max-width: 100vw;
 }
 
-.contenedor-busqueda {
-  padding-top: 2rem;
-  padding-left: 2rem;
-  padding-bottom: 1rem;
-  display: flex;
-  align-content: center;
-  color: whitesmoke;
-  position: relative;
+@media (min-width: 1369px) {
+  .contenedor-busqueda {
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 1rem;
+    display: flex;
+    align-content: center;
+    color: whitesmoke;
+  }
+  .mode{
+    top: 2%;
+  }
+}
+
+@media (max-width: 1368px) {
+  .contenedor-busqueda {
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 1rem;
+    align-content: center;
+    color: whitesmoke;
+  }
+  .areas-salas {
+    display: flex;
+  }
+  .mode{
+    top: 15%;
+  }
 }
 
 .dark-table {

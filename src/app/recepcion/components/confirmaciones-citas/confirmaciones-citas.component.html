@@ -1,10 +1,20 @@
 <div class="root">
   <div class="contenedor-busqueda">
-    <div style="position: absolute; top: 2%; right: 2%">
-      <select class="form-select" aria-label="Default select example" (change)="onChange($event)">
-        <option [selected]="darkMode()">Modo {{darkMode() ? 'Obscuro' : 'Claro'}}</option>
-        <option [value]="false"><i class="bi bi-brightness-high"></i>Modo Claro</option>
-        <option [value]="true"> <i class="bi bi-moon-stars"></i>Modo Obscuro</option>
+    <div style="position: absolute; right: 2%" class="mode">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        (change)="onChange($event)"
+      >
+        <option [selected]="darkMode()">
+          Modo {{ darkMode() ? "Obscuro" : "Claro" }}
+        </option>
+        <option [value]="false">
+          <i class="bi bi-brightness-high"></i>Modo Claro
+        </option>
+        <option [value]="true">
+          <i class="bi bi-moon-stars"></i>Modo Obscuro
+        </option>
       </select>
     </div>
     <div class="col-md-auto">
@@ -41,12 +51,14 @@
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
     </div>
-    <app-buscador-areas
-      (areaEmit)="recibirAreaFiltrada($event)"
-    ></app-buscador-areas>
-    <app-buscador-sala
-      (salaEmit)="salaSeleccionada($event)"
-    ></app-buscador-sala>
+    <div class="areas-salas">
+      <app-buscador-areas
+        (areaEmit)="recibirAreaFiltrada($event)"
+      ></app-buscador-areas>
+      <app-buscador-sala
+        (salaEmit)="salaSeleccionada($event)"
+      ></app-buscador-sala>
+    </div>
     <div class="d-flex">
       <div class="p-3 h3">{{ total != 0 ? "Total: " + total : "" }}</div>
       <div class="p-3 h3">
@@ -59,8 +71,7 @@
     <div class="">
       @if (citas?.length == 0) {
       <div class="alert alert-info">No hay estudios en el sistema.</div>
-      } @if (citas?.length > 0) { 
-        @if (!darkMode()) {
+      } @if (citas?.length > 0) { @if (!darkMode()) {
       <div class="table-responsive">
         <table class="table table-hover table-striped">
           <thead>
@@ -144,70 +155,104 @@
       <table [dataSource]="citas" mat-table class="mat-elevation-z8 dark-table">
         <ng-container matColumnDef="Institucion">
           <th mat-header-cell *matHeaderCellDef>Institucion</th>
-          <td mat-cell *matCellDef="let element" [ngStyle]="{'background-color':element?.institucion ? '#0d56df':''}">{{ element?.institucion }}</td>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngStyle]="{
+              'background-color': element?.institucion ? '#0d56df' : ''
+            }"
+          >
+            {{ element?.institucion }}
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="Paciente" >
+        <ng-container matColumnDef="Paciente">
           <th mat-header-cell *matHeaderCellDef>Paciente</th>
-          <td mat-cell *matCellDef="let element" [ngClass]="{
-            'no-contestada': element.estado == 'NO_CONTESTADA',
-            'agendada': element.estado == 'AGENDADA',
-            'confirmada': element.estado == 'CONFIRMADA'
-          }">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{
+              'no-contestada': element.estado == 'NO_CONTESTADA',
+              agendada: element.estado == 'AGENDADA',
+              confirmada: element.estado == 'CONFIRMADA'
+            }"
+          >
             {{ element.estudio?.paciente?.nombreCompleto }}
           </td>
         </ng-container>
         <ng-container matColumnDef="Estudio">
           <th mat-header-cell *matHeaderCellDef>Estudio</th>
-          <td mat-cell *matCellDef="let element" [ngClass]="{
-            'no-contestada': element.estado == 'NO_CONTESTADA',
-            'agendada': element.estado == 'AGENDADA',
-            'confirmada': element.estado == 'CONFIRMADA'
-          }">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{
+              'no-contestada': element.estado == 'NO_CONTESTADA',
+              agendada: element.estado == 'AGENDADA',
+              confirmada: element.estado == 'CONFIRMADA'
+            }"
+          >
             {{ element.estudio?.concepto?.concepto }}
           </td>
         </ng-container>
         <ng-container matColumnDef="Fecha">
           <th mat-header-cell *matHeaderCellDef>Fecha</th>
-          <td mat-cell *matCellDef="let element" [ngClass]="{
-            'no-contestada': element.estado == 'NO_CONTESTADA',
-            'agendada': element.estado == 'AGENDADA',
-            'confirmada': element.estado == 'CONFIRMADA'
-          }">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{
+              'no-contestada': element.estado == 'NO_CONTESTADA',
+              agendada: element.estado == 'AGENDADA',
+              confirmada: element.estado == 'CONFIRMADA'
+            }"
+          >
             {{ element.fechaYHora | date : "dd/MM/yyyy" }}
           </td>
         </ng-container>
         <ng-container matColumnDef="Hora">
           <th mat-header-cell *matHeaderCellDef>Hora</th>
-          <td mat-cell *matCellDef="let element" [ngClass]="{
-            'no-contestada': element.estado == 'NO_CONTESTADA',
-            'agendada': element.estado == 'AGENDADA',
-            'confirmada': element.estado == 'CONFIRMADA'
-          }">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{
+              'no-contestada': element.estado == 'NO_CONTESTADA',
+              agendada: element.estado == 'AGENDADA',
+              confirmada: element.estado == 'CONFIRMADA'
+            }"
+          >
             {{ element.fechaYHora | date : "h:mm a" }}
           </td>
         </ng-container>
         <ng-container matColumnDef="Agendo">
           <th mat-header-cell *matHeaderCellDef>Agendó</th>
-          <td mat-cell *matCellDef="let element" [ngClass]="{
-            'no-contestada': element.estado == 'NO_CONTESTADA',
-            'agendada': element.estado == 'AGENDADA',
-            'confirmada': element.estado == 'CONFIRMADA'
-          }">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{
+              'no-contestada': element.estado == 'NO_CONTESTADA',
+              agendada: element.estado == 'AGENDADA',
+              confirmada: element.estado == 'CONFIRMADA'
+            }"
+          >
             {{ element.estudio?.ordenVenta?.usuarioAgendo }}
           </td>
         </ng-container>
         <ng-container matColumnDef="Estado">
           <th mat-header-cell *matHeaderCellDef>Estado</th>
-          <td mat-cell *matCellDef="let element" [ngClass]="{
-            'no-contestada': element.estado == 'NO_CONTESTADA',
-            'agendada': element.estado == 'AGENDADA',
-            'confirmada': element.estado == 'CONFIRMADA'
-          }">{{ element.estado }}</td>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{
+              'no-contestada': element.estado == 'NO_CONTESTADA',
+              agendada: element.estado == 'AGENDADA',
+              confirmada: element.estado == 'CONFIRMADA'
+            }"
+          >
+            {{ element.estado }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="Confirmar">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element" >
+          <td mat-cell *matCellDef="let element">
             <button
               type="button"
               class="btn btn-sm btn-success"
