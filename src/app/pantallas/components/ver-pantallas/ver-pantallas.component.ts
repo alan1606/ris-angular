@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { TurneroSubscription } from 'src/app/models/TurneroSubscription';
 import { TurneroSocketService } from 'src/app/turnero/services/turnero-socket.service';
 import { DicomRoom } from '../../models/DicomRoom';
@@ -13,6 +19,7 @@ import { Pantalla } from '../../models/Pantalla';
 export class VerPantallasComponent implements OnInit {
   private pantallasService = inject(PantallasService);
   private turneroSocketService = inject(TurneroSocketService);
+  private cdr = inject(ChangeDetectorRef);
   public subscriptions = signal<TurneroSubscription[]>([]);
   public estudios: any[] = [];
   public salas: DicomRoom[] = [];
@@ -49,6 +56,7 @@ export class VerPantallasComponent implements OnInit {
 
         if (turnosGuardados) {
           this.waitingTurns = JSON.parse(turnosGuardados) as Pantalla[];
+          console.log(this.waitingTurns);
         }
         if (pasarGuardados) {
           this.pasar = JSON.parse(pasarGuardados) as Pantalla[];
@@ -104,6 +112,7 @@ export class VerPantallasComponent implements OnInit {
       }
       salaPantalla.turnos.unshift(data);
       localStorage.setItem('Turnos', JSON.stringify(this.waitingTurns));
+      this.cdr.detectChanges();
     }
   }
 
@@ -125,5 +134,6 @@ export class VerPantallasComponent implements OnInit {
       }
     });
     localStorage.setItem('Turnos', JSON.stringify(this.waitingTurns));
+    this.cdr.detectChanges();
   }
 }

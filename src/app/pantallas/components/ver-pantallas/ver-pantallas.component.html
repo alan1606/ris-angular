@@ -8,43 +8,31 @@
     @for (sala of waitingTurns; track $index; ) {
     <div class="section">
       <h1 class="sala" style="font-weight: bold">{{ sala.displayName }}</h1>
-      @for (turno of sala.turnos; track $index) { 
-       @if (sala.turnos.length>2) {
-        @if ($index>0) {
-
-          <div
-            class="turno"
-            style="margin-top: 10%"
-            (click)="eliminarTurnoManual(turno)"
-          >
-            <h2 style="margin-top: 10%">
-              {{ turno.idToDisplay }}
-            </h2>
-          </div>
-
-          } 
-
-       }
-       @else {
-        <div
-            class="turno"
-            style="margin-top: 10%"
-            (click)="eliminarTurnoManual(turno)"
-          >
-            <h2 style="margin-top: 10%">
-              {{ turno.idToDisplay }}
-            </h2>
-          </div>
-       }
-
-    }
+      @for (turno of sala.turnos; track $turno; let cuenta=$count; let i=$index) { @if (sala.turnos.length>=6) {
+      @if (i>0) {
+      <div
+        class="turno"
+        style="margin-top: 10%"
+        (click)="eliminarTurnoManual(turno)"
+      >
+        <h2 style="margin-top: 10%">
+          {{ turno.idToDisplay }}
+        </h2>
+      </div>
+      } }@else {
+      <div
+        class="turno"
+        style="margin-top: 10%"
+        (click)="eliminarTurnoManual(turno)"
+      >
+        <h2 style="margin-top: 10%">
+          {{ turno.idToDisplay }}
+        </h2>
+      </div>
+      } }
     </div>
-
     }
   </div>
-
-
-
 
   <div
     class="pasar-container"
