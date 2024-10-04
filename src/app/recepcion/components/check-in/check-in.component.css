@@ -91,3 +91,11 @@
   font-size: x-large;
   color: red;
 }
+
+.flex {
+  display: flex;
+}
+
+.column{
+  flex-direction: column;
+}
