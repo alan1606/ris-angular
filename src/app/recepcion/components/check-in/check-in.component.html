@@ -268,11 +268,34 @@
             <h1 class="yaPagada">Esta orden ya ha sido pagada!</h1>
           </div>
           <div *ngIf="!orden.pagado">
-            <app-pagar-orden
+            <app-pagar-orden *ngIf="!hayQueSeleccionarCampania"
               (pagosEmit)="recibirPagos($event)"
               (descuentosEmit)="recibirDescuentos($event)"
               (pagoOdescuentoEliminadoEmit)="cambioPagosDescuentos($event)"
             ></app-pagar-orden>
+
+            <div *ngIf="hayQueSeleccionarCampania && !this.campaniaSeleccionada">
+              <mat-form-field>
+                <mat-label>Seleccione una campaña</mat-label>
+                <mat-select [(ngModel)]="campaniaSeleccionada" 
+                name = "campaniaSelector"
+                class = "flex column">
+                  @for (campania of campaniasEncontradas; track campania) {
+                    <mat-option [value]="campania">{{campania.nombre}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="hayQueSeleccionarCampania && this.campaniaSeleccionada">
+              <mat-radio-group [(ngModel)]="canalSeleccionado" aria-label="Pregunte al cliente cómo supo de la promoción" 
+              name="canalSelector"
+              class = "flex column">
+                @for (canal of campaniaSeleccionada.canales; track canal) {
+                  <mat-radio-button [value]="canal">{{canal.nombre}}</mat-radio-button>
+                }
+              </mat-radio-group>
+            </div>
 
             <button
               matStepperNext

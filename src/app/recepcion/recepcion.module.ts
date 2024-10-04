@@ -43,6 +43,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { CortesModule } from '../cortes/cortes.module';
 import { MandarConfirmacionesPorFechaComponent } from './components/mandar-confirmaciones-por-fecha/mandar-confirmaciones-por-fecha.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import {MatRadioModule} from '@angular/material/radio'; 
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     CortesModule,
     QRCodeModule,
     MatFormFieldModule,
+    MatRadioModule
   ],
   exports: [],
   providers: [],

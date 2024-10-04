@@ -5,6 +5,7 @@ import { Campania } from '../models/campania';
 import { BASE_ENDPOINT } from 'src/app/config/app';
 import { CampaniaOrden } from '../models/campaniaOrden';
 import { Persona } from '../models/persona';
+import { OrdenVenta } from 'src/app/models/orden-venta';
 
 @Injectable({
   providedIn: 'root'
@@ -88,8 +89,8 @@ export class CampaniaService {
     return this.http.get<Campania>(`${this.baseEndpoint}/codigo/${codigo}`);
   }
 
-  public registrarCampaniaOrden(campaniaOrden: CampaniaOrden): Observable<CampaniaOrden> {
-    return this.http.post<CampaniaOrden>(`${this.baseEndpoint}/canjear`, campaniaOrden,
+  public registrarCampaniaOrden(orden: OrdenVenta): Observable<CampaniaOrden> {
+    return this.http.post<CampaniaOrden>(`${this.baseEndpoint}/canjear`, orden,
       { headers: this.cabeceras });
   }
 

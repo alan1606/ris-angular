@@ -23,10 +23,11 @@ import { Descuento } from 'src/app/models/descuento';
 import { DataService } from '../services/data-service.service';
 import { Subscription } from 'rxjs';
 import { SeleccionarInstitucionComponent } from 'src/app/instituciones/components/seleccionar-institucion/seleccionar-institucion.component';
-import { Institucion } from '../agendar';
+import { Campania, Institucion } from '../agendar';
 import { MatStepper } from '@angular/material/stepper';
 import { TurneroSocketService } from 'src/app/turnero/services/turnero-socket.service';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { Canal } from 'src/app/models/canal';
 
 @Component({
   selector: 'app-check-in',
@@ -82,8 +83,16 @@ export class CheckInComponent implements OnInit, OnDestroy {
   esInstitucion: boolean = false;
   nombreInstitucion: string = null;
   private citaSeleccionada: Cita = null;
+  hayQueSeleccionarCampania: boolean = false;
+  campaniaSeleccionada: Campania;
+  canalSeleccionado: Canal;
+  campaniasEncontradas: Campania[] = [];
+
   ngOnInit(): void {
     this.studyTakenListener();
+    this.hayQueSeleccionarCampania = false;
+    this.campaniaSeleccionada = null;
+    this.canalSeleccionado = null;
   }
 
   private studyTakenListener(): void {
@@ -256,10 +265,16 @@ export class CheckInComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada){
-      this.orden.idCanal = this.canalSeleccionado.id;
+    if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
+      this.canjearPromocion();
       this.procesarVenta();
       return;
+    }
+
+
+    if(this.hayQueSeleccionarCampania && (!this.campaniaSeleccionada || !this.canalSeleccionado) ){
+      this.alertaService.campoInvalido("Pregunte al paciente", "Por favor, preguntar al paciente de qué canal supo de la promoción");
+      return
     }
 
     //Hacer petición para saber si hay promoción para esos estudios
@@ -272,6 +287,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
         //Darle a seleccionar la campaña entre las campañas encontradas
         this.campaniasEncontradas = campanias;
 
+        this.alertaService.campoInvalido("Seleccionar promoción", "Favor de seleccionar la promoción a aplicar");
       }
       else {
         this.procesarVenta();
@@ -283,6 +299,16 @@ export class CheckInComponent implements OnInit, OnDestroy {
     });
 
     
+  }
+
+  private canjearPromocion() {
+    this.orden.idCanal = this.canalSeleccionado.id;
+    this.orden.codigoPromocional = this.campaniaSeleccionada.codigo;
+    this.campaniasService.registrarCampaniaOrden(this.orden).subscribe(campaniaOrdenRetornada =>{
+      console.log("Campaña canjeada con éxito ", campaniaOrdenRetornada);
+    }, error =>{
+      console.error("Error al canjear campaña ", error);
+    });
   }
 
 
@@ -422,6 +448,10 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.esInstitucion = false;
     this.nombreInstitucion = null;
     this.citaSeleccionada = null;
+    this.hayQueSeleccionarCampania = false;
+    this.campaniaSeleccionada = null;
+    this.canalSeleccionado= null;
+    this.campaniasEncontradas= [];
     return;
   }
 

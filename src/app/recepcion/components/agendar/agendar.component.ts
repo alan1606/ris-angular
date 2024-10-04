@@ -44,6 +44,7 @@ import { RegistrarPacienteComponent } from '../registrar-paciente-modal/registra
 import { LimitarInstitucionPorSalaService } from 'src/app/horarios/services/limitar-institucion-por-sala.service';
 import { firstValueFrom } from 'rxjs';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
+import { Canal } from 'src/app/models/canal';
 
 @Component({
   selector: 'app-agendar',
@@ -118,8 +119,17 @@ export class AgendarComponent implements OnInit {
   descuentos: Descuento[] = [];
   date: FormControl = new FormControl(new Date());
 
+  hayQueSeleccionarCampania: boolean = false;
+  campaniaSeleccionada: Campania;
+  canalSeleccionado: Canal;
+  campaniasEncontradas: Campania[] = [];
+
   ngOnInit(): void {
     this.cargarConvenioParticularPorDefecto();
+
+    this.hayQueSeleccionarCampania = false;
+    this.campaniaSeleccionada = null;
+    this.canalSeleccionado = null;
 
     this.autocompleteControlPaciente.valueChanges
       .pipe(
@@ -445,7 +455,44 @@ export class AgendarComponent implements OnInit {
         );
         return;
       }
+
+      if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
+        this.procesarVenta();
+        return;
+      }
+  
+  
+      if(this.hayQueSeleccionarCampania && (!this.campaniaSeleccionada || !this.canalSeleccionado) ){
+        this.alertaService.campoInvalido("Pregunte al paciente", "Por favor, preguntar al paciente de qué canal supo de la promoción");
+        return
+      }
+  
+      //Hacer petición para saber si hay promoción para esos estudios
+      this.campaniasService.obtenerCampaniasActivasPorConceptos(this.estudios.map(e => e.concepto.id)).subscribe(campanias => {
+  
+        if(campanias.length > 0){
+  
+          this.hayQueSeleccionarCampania = true;
+  
+          //Darle a seleccionar la campaña entre las campañas encontradas
+          this.campaniasEncontradas = campanias;
+          this.alertaService.campoInvalido("Seleccionar promoción", "Favor de seleccionar la promoción a aplicar");
+        }
+        else {
+          this.procesarVenta();
+        }
+  
+      }, err => {
+        console.error(err);
+        this.procesarVenta();
+      });
+    }else{
+      this.procesarVenta();
     }
+  }
+
+
+  private procesarVenta(){
     this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',
@@ -483,6 +530,9 @@ export class AgendarComponent implements OnInit {
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
+          if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
+            this.canjearPromocion({...this.ordenVenta});
+          }
           this.mostrarModalQrImagenes();
           this.reiniciarFormulario();
           Swal.fire('Procesado', 'La orden se ha procesado', 'success');
@@ -765,5 +815,25 @@ export class AgendarComponent implements OnInit {
           ? this.instrucciones + '; ' + this.instruccionesInstitucion
           : this.instruccionesInstitucion;
     }
+  }
+
+  private canjearPromocion(orden: OrdenVenta) {
+    orden.idCanal = this.canalSeleccionado.id;
+    orden.codigoPromocional = this.campaniaSeleccionada.codigo;
+    console.log("canjeando orden ", orden);
+    this.campaniasService.registrarCampaniaOrden(orden).subscribe(campaniaOrdenRetornada =>{
+      console.log("Campaña canjeada con éxito ", campaniaOrdenRetornada);
+      this.limpiarCuestionCampañas();
+    }, error =>{
+      console.error("Error al canjear campaña ", error);
+      this.limpiarCuestionCampañas();
+    });
+  }
+
+  private limpiarCuestionCampañas(){
+    this.hayQueSeleccionarCampania = false;
+    this.campaniaSeleccionada = null;
+    this.canalSeleccionado= null;
+    this.campaniasEncontradas= [];
   }
 }

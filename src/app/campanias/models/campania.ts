@@ -1,3 +1,4 @@
+import { Canal } from "src/app/models/canal";
 import { Concepto } from "src/app/models/concepto";
 
 export class Campania {
@@ -13,4 +14,5 @@ export class Campania {
     ordenes: number[];
     conceptos: Concepto[];
     limiteCanjeos: number;
+    canales?: Canal[];
 }
