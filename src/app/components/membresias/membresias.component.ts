@@ -283,7 +283,13 @@ export class MembresiasComponent {
       return;
     }
     let limpio = this.model.nombreCompleto.replace(/ /g, '-');
-    let url = `https://diagnocons.com/v1/libs/pdf2/examples/memberRis.php?frontal=https://diagnocons.com/v1/ldContent/uploads/8387a21afc077f597d5bc6b5874c2495.jpeg&tracera=https://diagnocons.com/v1/ldContent/uploads/0a63d25b7a9fa9afc792f4c3142fbb2c.jpeg&cantidad=1&uuid=${this.codigoMembresia}&nameMember=${limpio}&firma=${this.urlFirma}`;
+    let url = `https://diagnocons.com/v1/libs/pdf2/examples/memberRis.php?frontal=https://diagnocons.com/v1/ldContent/uploads/8387a21afc077f597d5bc6b5874c2495.jpeg&tracera=https://diagnocons.com/v1/ldContent/uploads/0a63d25b7a9fa9afc792f4c3142fbb2c.jpeg&cantidad=1&uuid=${this.codigoMembresia}&nameMember=${limpio}&firma=${this.urlFirma}&idPatient=${this.model.id}`;
+    window.open(url);
+  }
+  public descargarContrato(): void {
+    let limpio = this.model.nombreCompleto.replace(/ /g, '%20');
+    let url = `https://diagnocons.com/v1/libs/pdf2/examples/contratoA.php?firma=${this.urlFirma}&nameMember=${limpio}&idPatient=${this.model.id}`;
+
     window.open(url);
   }
 }
