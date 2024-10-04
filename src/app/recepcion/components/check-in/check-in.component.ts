@@ -265,6 +265,11 @@ export class CheckInComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if(this.esInstitucion){
+      this.procesarVenta();
+      return;
+    }
+
     if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
       this.canjearPromocion();
       this.procesarVenta();

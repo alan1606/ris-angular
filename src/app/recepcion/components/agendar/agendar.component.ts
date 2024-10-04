@@ -456,6 +456,11 @@ export class AgendarComponent implements OnInit {
         return;
       }
 
+      if(this.institucion.nombre != "PARTICULAR"){
+        this.procesarVenta();
+        return;
+      }
+
       if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
         this.procesarVenta();
         return;
