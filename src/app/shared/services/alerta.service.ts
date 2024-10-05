@@ -72,6 +72,21 @@ export class AlertaService {
     });
   }
 
+  public passPatient(): void {
+    Swal.fire({
+      icon: 'info',
+      title: 'hola',
+      html: `
+      <audio autoplay style="display:none;">
+      <source src="../../../assets/messanger.mp3" type="audio/mpeg">
+      </audio>`,
+      toast: true,
+      position: 'bottom-right',
+      showConfirmButton: false,
+      showCancelButton: false,
+    });
+  }
+
   public patientTaken(): void {}
 
   public close(): void {

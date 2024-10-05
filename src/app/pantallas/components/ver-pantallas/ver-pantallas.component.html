@@ -1,3 +1,6 @@
+<!-- <audio autoplay controls>
+  <source src="../../../../assets/ponten4.mp3" type="audio/mpeg" /></audio
+> -->
 <div class="root">
   <div
     class="section-container"
@@ -8,8 +11,8 @@
     @for (sala of waitingTurns; track $index; ) {
     <div class="section">
       <h1 class="sala" style="font-weight: bold">{{ sala.displayName }}</h1>
-      @for (turno of sala.turnos; track $turno; let cuenta=$count; let i=$index) { @if (sala.turnos.length>=6) {
-      @if (i>0) {
+      @for (turno of sala.turnos; track $turno; let cuenta=$count; let i=$index)
+      { @if (sala.turnos.length>=6) { @if (i>0) {
       <div
         class="turno"
         style="margin-top: 10%"
@@ -55,7 +58,7 @@
           PASAR
         </h1>
         <div
-          class="turno"
+          class="turno pasar"
           style="margin-top: 20%"
           (click)="eliminarPasarManual(turno)"
         >

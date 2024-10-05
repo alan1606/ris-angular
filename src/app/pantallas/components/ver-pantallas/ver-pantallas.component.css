@@ -49,3 +49,43 @@ h2 {
   color: white;
   font-weight: 300;
 }
+
+.pasar {
+  animation: intercalarBoxShadow 10s ease-in-out 1;
+}
+
+@keyframes intercalarBoxShadow {
+  0% {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  10% {
+    box-shadow: 0 0 30px rgb(98, 0, 255);
+  }
+  20% {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  30% {
+    box-shadow: 0 0 30px rgb(98, 0, 255);
+  }
+  40% {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgb(98, 0, 255);
+  }
+  60% {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 30px rgb(98, 0, 255);
+  }
+  80% {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  90% {
+    box-shadow: 0 0 30px rgb(98, 0, 255);
+  }
+  100% {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+}

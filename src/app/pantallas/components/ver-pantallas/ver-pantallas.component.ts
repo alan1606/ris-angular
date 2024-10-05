@@ -10,6 +10,8 @@ import { TurneroSocketService } from 'src/app/turnero/services/turnero-socket.se
 import { DicomRoom } from '../../models/DicomRoom';
 import { PantallasService } from '../../services/pantallas.service';
 import { Pantalla } from '../../models/Pantalla';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ver-pantallas',
@@ -19,6 +21,7 @@ import { Pantalla } from '../../models/Pantalla';
 export class VerPantallasComponent implements OnInit {
   private pantallasService = inject(PantallasService);
   private turneroSocketService = inject(TurneroSocketService);
+  private alertaService = inject(AlertaService);
   private cdr = inject(ChangeDetectorRef);
   public subscriptions = signal<TurneroSubscription[]>([]);
   public estudios: any[] = [];
@@ -28,6 +31,18 @@ export class VerPantallasComponent implements OnInit {
   public indexes: number[] = [];
 
   ngOnInit(): void {
+    Swal.fire({
+      icon: 'info',
+      html: `
+      <audio autoplay style="display:none;">
+      <source src="../../../../assets/ponten4.mp3" type="audio/mpeg">
+      </audio>`,
+      toast: true,
+      position: 'bottom-right',
+      showConfirmButton: false,
+      showCancelButton: false,
+      width:'0px'
+    });
     let hoy = new Date().getDate();
     let fechaPantallas = parseInt(localStorage.getItem('fechaPantallas'));
     console.log(hoy);
@@ -124,6 +139,18 @@ export class VerPantallasComponent implements OnInit {
       }
       pasarPantalla.turnos[0] = data;
       localStorage.setItem('Pasar', JSON.stringify(this.pasar));
+      Swal.fire({
+        icon: 'info',
+        html: `
+        <audio autoplay style="display:none;">
+        <source src="../../../../assets/ponten4.mp3" type="audio/mpeg">
+        </audio>`,
+        toast: true,
+        position: 'bottom-right',
+        showConfirmButton: false,
+        showCancelButton: false,
+        width: '0px',
+      });
     }
   }
 
