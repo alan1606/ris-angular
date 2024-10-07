@@ -136,8 +136,8 @@ export class CheckInComponent implements OnInit, OnDestroy {
                   }
                   Swal.fire({
                     icon: 'info',
-                    title: 'No existe',
-                    text: 'La cita seleccionada ya ha sido pagada',
+                    title: 'Cita pagada',
+                    text: 'La cita seleccionada ya ha sido pagada.',
                     showCancelButton: false,
                     showConfirmButton: true,
                     confirmButtonText: 'OK',
@@ -259,65 +259,80 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   pagar(): void {
-    //Tal vez se le pueda dar pagar dos veces. La primera para que muestre lo de las campañas 
+    //Tal vez se le pueda dar pagar dos veces. La primera para que muestre lo de las campañas
     //Si no aplica paga de una vez, si aplica espera a que llenes y luego paga
     if (this.orden.pagado) {
       return;
     }
 
-    if(this.esInstitucion){
+    if (this.esInstitucion) {
       this.procesarVenta();
       return;
     }
 
-    if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
+    if (
+      this.hayQueSeleccionarCampania &&
+      this.campaniaSeleccionada &&
+      this.canalSeleccionado
+    ) {
       this.canjearPromocion();
       this.procesarVenta();
       return;
     }
 
-
-    if(this.hayQueSeleccionarCampania && (!this.campaniaSeleccionada || !this.canalSeleccionado) ){
-      this.alertaService.campoInvalido("Pregunte al paciente", "Por favor, preguntar al paciente de qué canal supo de la promoción");
-      return
+    if (
+      this.hayQueSeleccionarCampania &&
+      (!this.campaniaSeleccionada || !this.canalSeleccionado)
+    ) {
+      this.alertaService.campoInvalido(
+        'Pregunte al paciente',
+        'Por favor, preguntar al paciente de qué canal supo de la promoción'
+      );
+      return;
     }
 
     //Hacer petición para saber si hay promoción para esos estudios
-    this.campaniasService.obtenerCampaniasActivasPorConceptos(this.listaDeEstudios.map(e => e.concepto.id)).subscribe(campanias => {
+    this.campaniasService
+      .obtenerCampaniasActivasPorConceptos(
+        this.listaDeEstudios.map((e) => e.concepto.id)
+      )
+      .subscribe(
+        (campanias) => {
+          if (campanias.length > 0) {
+            this.hayQueSeleccionarCampania = true;
 
-      if(campanias.length > 0){
+            //Darle a seleccionar la campaña entre las campañas encontradas
+            this.campaniasEncontradas = campanias;
 
-        this.hayQueSeleccionarCampania = true;
-
-        //Darle a seleccionar la campaña entre las campañas encontradas
-        this.campaniasEncontradas = campanias;
-
-        this.alertaService.campoInvalido("Seleccionar promoción", "Favor de seleccionar la promoción a aplicar");
-      }
-      else {
-        this.procesarVenta();
-      }
-
-    }, err => {
-      console.error(err);
-      this.procesarVenta();
-    });
-
-    
+            this.alertaService.campoInvalido(
+              'Seleccionar promoción',
+              'Favor de seleccionar la promoción a aplicar'
+            );
+          } else {
+            this.procesarVenta();
+          }
+        },
+        (err) => {
+          console.error(err);
+          this.procesarVenta();
+        }
+      );
   }
 
   private canjearPromocion() {
     this.orden.idCanal = this.canalSeleccionado.id;
     this.orden.codigoPromocional = this.campaniaSeleccionada.codigo;
-    this.campaniasService.registrarCampaniaOrden(this.orden).subscribe(campaniaOrdenRetornada =>{
-      console.log("Campaña canjeada con éxito ", campaniaOrdenRetornada);
-    }, error =>{
-      console.error("Error al canjear campaña ", error);
-    });
+    this.campaniasService.registrarCampaniaOrden(this.orden).subscribe(
+      (campaniaOrdenRetornada) => {
+        console.log('Campaña canjeada con éxito ', campaniaOrdenRetornada);
+      },
+      (error) => {
+        console.error('Error al canjear campaña ', error);
+      }
+    );
   }
 
-
-  private procesarVenta(){
+  private procesarVenta() {
     this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',
@@ -327,7 +342,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
       allowOutsideClick: false,
     });
 
-
     if (this.folio) {
       this.orden.folioInstitucion = this.folio;
     }
@@ -335,7 +349,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.orden.pagos = this.pagos;
     this.orden.descuentos = this.descuentos;
     this.orden.estudiosList = this.listaDeEstudios;
-
 
     setTimeout(() => {
       Swal.close();
@@ -379,7 +392,6 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.stepper.next();
 
     if (this.esInstitucion) {
-      this.pagar();
       return;
     }
     this.calcularPrecio();
@@ -455,8 +467,8 @@ export class CheckInComponent implements OnInit, OnDestroy {
     this.citaSeleccionada = null;
     this.hayQueSeleccionarCampania = false;
     this.campaniaSeleccionada = null;
-    this.canalSeleccionado= null;
-    this.campaniasEncontradas= [];
+    this.canalSeleccionado = null;
+    this.campaniasEncontradas = [];
     return;
   }
 
