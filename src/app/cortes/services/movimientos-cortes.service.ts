@@ -28,8 +28,8 @@ export class MovimientosCortesService {
 
   crearDevolucion(orden: OrdenVenta): Observable<any> {
     return this.httpClient.post(
-      `${BASE_ENDPOINT}/cortes/movimientos/devolucion`,
-      orden
+      `${BASE_ENDPOINT}/ris/ordenes-venta/${orden.id}/devolucion`,
+      null
     );
   }
 }
