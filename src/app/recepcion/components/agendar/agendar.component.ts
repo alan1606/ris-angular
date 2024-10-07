@@ -254,14 +254,28 @@ export class AgendarComponent implements OnInit {
   }
 
   seleccionarConcepto(event: MatAutocompleteSelectedEvent): void {
-    this.concepto = event.option.value as Concepto;
+    let c = event.option.value as Concepto;
+    if (!this.isUrgencia && this.estudios.length >= 0) {
+      for (let e of this.estudios) {
+        if (e.concepto.id === c.id) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Estudio duplicado',
+            text: 'En lugar de seleccionar nuevamente el estudio, asigne más espacios al original.',
+          });
+          this.autocompleteControlConcepto.setValue(null);
+          console.log('Entro el if y deberia hacer return');
+          return;
+        }
+      }
+    }
+    console.log('Seleccionando concepto');
+    this.concepto = c;
 
     this.conceptoService.ver(this.concepto.id).subscribe((concepto) => {
       this.concepto = concepto;
       this.espaciosAgenda = concepto.espaciosAgenda;
     });
-    event.option.deselect();
-    event.option.focus();
   }
 
   seleccionarEquipoDicom(event): void {
@@ -456,48 +470,62 @@ export class AgendarComponent implements OnInit {
         return;
       }
 
-      if(this.institucion.nombre != "PARTICULAR"){
+      if (this.institucion.nombre != 'PARTICULAR') {
         this.procesarVenta();
         return;
       }
 
-      if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
+      if (
+        this.hayQueSeleccionarCampania &&
+        this.campaniaSeleccionada &&
+        this.canalSeleccionado
+      ) {
         this.procesarVenta();
         return;
       }
-  
-  
-      if(this.hayQueSeleccionarCampania && (!this.campaniaSeleccionada || !this.canalSeleccionado) ){
-        this.alertaService.campoInvalido("Pregunte al paciente", "Por favor, preguntar al paciente de qué canal supo de la promoción");
-        return
+
+      if (
+        this.hayQueSeleccionarCampania &&
+        (!this.campaniaSeleccionada || !this.canalSeleccionado)
+      ) {
+        this.alertaService.campoInvalido(
+          'Pregunte al paciente',
+          'Por favor, preguntar al paciente de qué canal supo de la promoción'
+        );
+        return;
       }
-  
+
       //Hacer petición para saber si hay promoción para esos estudios
-      this.campaniasService.obtenerCampaniasActivasPorConceptos(this.estudios.map(e => e.concepto.id)).subscribe(campanias => {
-  
-        if(campanias.length > 0){
-  
-          this.hayQueSeleccionarCampania = true;
-  
-          //Darle a seleccionar la campaña entre las campañas encontradas
-          this.campaniasEncontradas = campanias;
-          this.alertaService.campoInvalido("Seleccionar promoción", "Favor de seleccionar la promoción a aplicar");
-        }
-        else {
-          this.procesarVenta();
-        }
-  
-      }, err => {
-        console.error(err);
-        this.procesarVenta();
-      });
-    }else{
+      this.campaniasService
+        .obtenerCampaniasActivasPorConceptos(
+          this.estudios.map((e) => e.concepto.id)
+        )
+        .subscribe(
+          (campanias) => {
+            if (campanias.length > 0) {
+              this.hayQueSeleccionarCampania = true;
+
+              //Darle a seleccionar la campaña entre las campañas encontradas
+              this.campaniasEncontradas = campanias;
+              this.alertaService.campoInvalido(
+                'Seleccionar promoción',
+                'Favor de seleccionar la promoción a aplicar'
+              );
+            } else {
+              this.procesarVenta();
+            }
+          },
+          (err) => {
+            console.error(err);
+            this.procesarVenta();
+          }
+        );
+    } else {
       this.procesarVenta();
     }
   }
 
-
-  private procesarVenta(){
+  private procesarVenta() {
     this.botonHabilitado = true;
     Swal.fire({
       title: 'Procesando',
@@ -535,8 +563,12 @@ export class AgendarComponent implements OnInit {
         (estudios) => {
           this.estudios = estudios;
           this.ordenVenta = this.estudios[0].ordenVenta;
-          if(this.hayQueSeleccionarCampania && this.campaniaSeleccionada && this.canalSeleccionado){
-            this.canjearPromocion({...this.ordenVenta});
+          if (
+            this.hayQueSeleccionarCampania &&
+            this.campaniaSeleccionada &&
+            this.canalSeleccionado
+          ) {
+            this.canjearPromocion({ ...this.ordenVenta });
           }
           this.mostrarModalQrImagenes();
           this.reiniciarFormulario();
@@ -663,10 +695,30 @@ export class AgendarComponent implements OnInit {
     this.dataService.actualizarPrecio(this.total);
   }
 
-  public actualizarFecha(fecha: HTMLInputElement) {
-    this.fecha = this.fechaService.alistarFechaParaBackend(fecha.value);
-    this.seleccionarUrgencia = false;
+  public actualizarFecha(fecha: HTMLInputElement): void {
+    let fechaBackend = this.fechaService.alistarFechaParaBackend(fecha.value);
+    let fechaDiferente = false;
 
+    this.estudios[0].citas.forEach((cita) => {
+      let [f] = cita.fechaYHora.split('T');
+      if (fechaBackend !== f) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Estudios en diferentes fechas',
+          text: 'Solo se pueden agendar estudios con las mismas fechas.',
+        });
+        fechaDiferente = true;
+        return;
+      }
+    });
+
+    if (fechaDiferente) {
+      this.date = new FormControl(new Date());
+      return;
+    }
+
+    this.fecha = fechaBackend;
+    this.seleccionarUrgencia = false;
     this.cargarCitas();
   }
 
@@ -825,20 +877,23 @@ export class AgendarComponent implements OnInit {
   private canjearPromocion(orden: OrdenVenta) {
     orden.idCanal = this.canalSeleccionado.id;
     orden.codigoPromocional = this.campaniaSeleccionada.codigo;
-    console.log("canjeando orden ", orden);
-    this.campaniasService.registrarCampaniaOrden(orden).subscribe(campaniaOrdenRetornada =>{
-      console.log("Campaña canjeada con éxito ", campaniaOrdenRetornada);
-      this.limpiarCuestionCampañas();
-    }, error =>{
-      console.error("Error al canjear campaña ", error);
-      this.limpiarCuestionCampañas();
-    });
+    console.log('canjeando orden ', orden);
+    this.campaniasService.registrarCampaniaOrden(orden).subscribe(
+      (campaniaOrdenRetornada) => {
+        console.log('Campaña canjeada con éxito ', campaniaOrdenRetornada);
+        this.limpiarCuestionCampañas();
+      },
+      (error) => {
+        console.error('Error al canjear campaña ', error);
+        this.limpiarCuestionCampañas();
+      }
+    );
   }
 
-  private limpiarCuestionCampañas(){
+  private limpiarCuestionCampañas() {
     this.hayQueSeleccionarCampania = false;
     this.campaniaSeleccionada = null;
-    this.canalSeleccionado= null;
-    this.campaniasEncontradas= [];
+    this.canalSeleccionado = null;
+    this.campaniasEncontradas = [];
   }
 }

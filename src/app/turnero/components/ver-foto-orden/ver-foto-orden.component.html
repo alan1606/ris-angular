@@ -1,7 +1,7 @@
 <div *ngIf="fotosCargadas | async">
   <div class="si" *ngIf="hasFotos(); else noFotoTemplate">
     @for (foto of fotos; track foto; let i = $index ) {
-    <div class="sexo">
+    <div class="foto-container">
       <img
         [src]="filesPath + foto.ruta"
         [style.transform]="rotation[i]"
