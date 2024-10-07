@@ -699,22 +699,23 @@ export class AgendarComponent implements OnInit {
     let fechaBackend = this.fechaService.alistarFechaParaBackend(fecha.value);
     let fechaDiferente = false;
 
-    this.estudios[0].citas.forEach((cita) => {
-      let [f] = cita.fechaYHora.split('T');
-      if (fechaBackend !== f) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Estudios en diferentes fechas',
-          text: 'Solo se pueden agendar estudios con las mismas fechas.',
-        });
-        fechaDiferente = true;
+    if(this.estudios.length > 0){
+      this.estudios[0].citas.forEach((cita) => {
+        let [f] = cita.fechaYHora.split('T');
+        if (fechaBackend !== f) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Estudios en diferentes fechas',
+            text: 'Solo se pueden agendar estudios con las mismas fechas.',
+          });
+          fechaDiferente = true;
+          return;
+        }
+      });
+      if (fechaDiferente) {
+        this.date = new FormControl(new Date());
         return;
       }
-    });
-
-    if (fechaDiferente) {
-      this.date = new FormControl(new Date());
-      return;
     }
 
     this.fecha = fechaBackend;
