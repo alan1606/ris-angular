@@ -12,7 +12,6 @@ import { AreasService } from 'src/app/services/areas.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
-
 import { AntecedentesEstudioModalComponent } from './antecedentes-estudio-modal/antecedentes-estudio-modal.component';
 import { FechaService } from 'src/app/services/fecha.service';
 import { BASE_SITE } from 'src/app/config/app';
@@ -22,6 +21,7 @@ import { CommonListarComponent } from 'src/app/components/common-listar.componen
 import { BuscarEstudioModalComponent } from 'src/app/components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { EnviarEstudioModalComponent } from 'src/app/components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from 'src/app/components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
+
 @Component({
   selector: 'app-venta-conceptos',
   templateUrl: './venta-conceptos.component.html',
@@ -96,18 +96,18 @@ export class VentaConceptosComponent
     return paciente ? paciente.nombreCompleto : '';
   }
 
-  buscarEstudiosDeHoy(): any {
+  filtrarEstados(estudios:VentaConceptos[]):VentaConceptos[]{
+    enum Estados {
+      CANCELADO = 'CANCELADO',
+      DEVOLUCION = 'DEVOLUCIÓN',
+    }
+    return estudios.filter((a) => a.estado !== Estados.CANCELADO && a.estado !== Estados.DEVOLUCION );
+  }
+
+  buscarEstudiosDeHoy(): void {
     this.service.filtrarDiaDeHoy().subscribe(
       (estudios) => {
-        // const filteredList = [];
-        // for (let estudio of estudios) {
-        //   if (estudio.estado.toUpperCase() !== 'CANCELADO') {
-        //     filteredList.push(estudio);
-        //   }
-        // }
-        // this.lista=filteredList
-
-        this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+        this.lista = this.filtrarEstados(estudios)
         this.estudiosOriginales = [...this.lista];
         this.seleccionarPrimeraModalidad();
       },
@@ -131,7 +131,7 @@ export class VentaConceptosComponent
       .filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id)
       .subscribe(
         (estudios) => {
-          this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+          this.lista = this.filtrarEstados(estudios)
           this.estudiosOriginales = [...this.lista];
           this.seleccionarPrimeraModalidad();
         },
@@ -158,7 +158,7 @@ export class VentaConceptosComponent
       .filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id)
       .subscribe(
         (estudios) => {
-          this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+          this.lista = this.filtrarEstados(estudios)
           this.estudiosOriginales = [...this.lista];
           this.seleccionarPrimeraModalidad();
         },
@@ -203,12 +203,10 @@ export class VentaConceptosComponent
         fechaInicio.value
       );
       this.fechaFin = this.fechaService.alistarFechaParaBackend(fechaFin.value);
-
-      // console.log(this.fechaInicio + ' ' + this.fechaFin);
       this.lista = [];
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
         (estudios) => {
-          this.lista = estudios.filter((a) => a.estado !== 'CANCELADO');
+          this.lista = this.filtrarEstados(estudios)
           this.estudiosOriginales = [...this.lista];
           this.seleccionarPrimeraModalidad();
         },
