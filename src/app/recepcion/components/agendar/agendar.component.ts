@@ -210,6 +210,7 @@ export class AgendarComponent implements OnInit {
     this.formulario.get('citaControl').valueChanges.subscribe((value) => {
       if (value) {
         this.cita = value;
+        this.concepto.espaciosAgenda = this.espaciosAgenda;
         this.apartarCita(this.cita);
       }
     });
@@ -346,10 +347,12 @@ export class AgendarComponent implements OnInit {
     if (!this.datosValidos()) {
       return;
     }
+    console.log('Espacios seleccionados: ', this.concepto.espaciosAgenda);
     this.citaService
       .apartarCitaEspacios(cita.id, this.concepto.espaciosAgenda)
       .subscribe(
         (citas) => {
+          console.log('Espacios apartados: ', citas);
           this.agregarEstudio(citas);
           //tengo que hacer esto por todas las citas
           this.citas = this.citas.filter((cita) => cita.id != this.cita.id);
@@ -699,7 +702,7 @@ export class AgendarComponent implements OnInit {
     let fechaBackend = this.fechaService.alistarFechaParaBackend(fecha.value);
     let fechaDiferente = false;
 
-    if(this.estudios.length > 0){
+    if (this.estudios.length > 0) {
       this.estudios[0].citas.forEach((cita) => {
         let [f] = cita.fechaYHora.split('T');
         if (fechaBackend !== f) {
