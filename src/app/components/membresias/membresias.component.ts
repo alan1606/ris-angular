@@ -292,4 +292,11 @@ export class MembresiasComponent {
 
     window.open(url);
   }
+  public abrirWhatsappMember(){
+    if (!this.model.telefono) {
+      return;
+    }
+    let url = `https://wa.me/52${this.model.telefono}?text=Hola ${this.model.nombreCompleto} te haz afiliado de manera exitosa, te adjuntare tu membresia digital en PDF`;
+    window.open(url);
+  }
 }
