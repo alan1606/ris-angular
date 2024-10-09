@@ -31,6 +31,15 @@ export class AlertaService {
     console.log(error);
   }
 
+  public infoError(error): void {
+    const message = error.error?.detail || 'Ha ocurrido un error inesperado';
+    Swal.fire({
+      icon: 'info',
+      text: message,
+    });
+    console.log(error);
+  }
+
   public info(
     titulo: string = '',
     texto: string = '',

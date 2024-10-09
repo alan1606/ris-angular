@@ -160,52 +160,10 @@ export class CheckInComponent implements OnInit, OnDestroy {
         );
       },
       (error) => {
-        this.alertaService.error(error);
+        this.alertaService.infoError(error);
       }
     );
   }
-
-  // buscarCitasHoy() {
-  //   this.citaService.citasDeHoy().subscribe(
-  //     (citas: Cita[]) => {
-  //       let citasNoPagadas: Cita[] = [];
-  //       let ordenesNoPagadas: OrdenVenta[] = [];
-  //       const idsOrdenVenta = citas.map(
-  //         (cita) => cita?.estudio?.ordenVenta?.id
-  //       );
-  //       console.log('ids citas');
-  //       console.log('ids originales', idsOrdenVenta);
-
-  //       let filtrado = idsOrdenVenta.filter((i) => i != null);
-  //       console.log('ids limpios', filtrado);
-
-  //       this.ordenVentaService.encontrarOrdenesPorIds(filtrado).subscribe(
-  //         (data: OrdenVenta[]) => {
-  //           data.forEach((orden) => {
-  //             if (!orden.pagado) {
-  //               ordenesNoPagadas.push(orden);
-  //             }
-  //           });
-
-  //           citasNoPagadas = citas.filter((cita) =>
-  //             ordenesNoPagadas.some(
-  //               (orden) => orden.id === cita.estudio?.ordenVenta.id
-  //             )
-  //           );
-
-  //           this.citas = citasNoPagadas;
-  //           this.citasFiltradas = citasNoPagadas;
-  //         },
-  //         (error) => {
-  //           console.log(error);
-  //         }
-  //       );
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
 
   filtrarAreas() {
     this.citasFiltradas = !this.busqueda
@@ -218,12 +176,10 @@ export class CheckInComponent implements OnInit, OnDestroy {
   }
 
   buscarQr() {
-    // Limpiar el temporizador existente si existe
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
     }
 
-    // Establecer un nuevo temporizador para ejecutar la búsqueda después de un retraso de 1000 ms (1 segundo)
     this.searchTimer = setTimeout(() => {
       this.realizarBusqueda();
     }, 1000);
@@ -366,7 +322,7 @@ export class CheckInComponent implements OnInit, OnDestroy {
             this.reiniciar();
           },
           (error) => {
-            this.alertaService.error(error);
+            this.alertaService.infoError(error);
             console.log(error);
             if (this.esInstitucion) {
               return;
