@@ -8,7 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { BuscarPorOrdenYPacienteComponent } from './components/buscar-por-orden-ypaciente/buscar-por-orden-ypaciente.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { MatButtonModule } from '@angular/material/button';
 
+LOAD_WASM().subscribe();
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     ResultadosRoutingModule,
     FormsModule,
     MatCardModule,
-    NgxExtendedPdfViewerModule
-  ]
+    NgxExtendedPdfViewerModule,
+    NgxScannerQrcodeModule,
+    MatButtonModule,
+  ],
 })
-export class ResultadosModule { }
+export class ResultadosModule {}

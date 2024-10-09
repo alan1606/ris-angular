@@ -92,6 +92,9 @@ importers:
       ngx-quill:
         specifier: ^25.3.2
         version: 25.3.2(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.8))(quill@2.0.2)(rxjs@7.5.7)
+      ngx-scanner-qrcode:
+        specifier: ^1.6.9
+        version: 1.6.9(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.8))(rxjs@7.5.7))(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.8))
       popper.js:
         specifier: ^1.16.1
         version: 1.16.1
@@ -3315,6 +3318,12 @@ packages:
       '@angular/core': ^17.0.0
       quill: ^2.0.0
       rxjs: ^7.0.0
+
+  ngx-scanner-qrcode@1.6.9:
+    resolution: {integrity: sha512-tI9ls/DQfroWODi9ttx2C42iCrvdRKafgw2tFQWe3JO6DxyeDPbW4kFHcLh9erqO4z5MA9IaVvpFn9gDz5WCiA==}
+    peerDependencies:
+      '@angular/common': ^16.0.0 || ^17.0.0 || ^18.0.0
+      '@angular/core': ^16.0.0 || ^17.0.0 || ^18.0.0
 
   nice-napi@1.0.2:
     resolution: {integrity: sha512-px/KnJAJZf5RuBGcfD+Sp2pAKq0ytz8j+1NehvgIGFkvtvFrDM3T8E4x/JJODXK9WZow8RRGrbA9QQ3hs+pDhA==}
@@ -8516,6 +8525,12 @@ snapshots:
       '@angular/core': 17.3.12(rxjs@7.5.7)(zone.js@0.14.8)
       quill: 2.0.2
       rxjs: 7.5.7
+      tslib: 2.6.3
+
+  ngx-scanner-qrcode@1.6.9(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.8))(rxjs@7.5.7))(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.8)):
+    dependencies:
+      '@angular/common': 17.3.12(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.8))(rxjs@7.5.7)
+      '@angular/core': 17.3.12(rxjs@7.5.7)(zone.js@0.14.8)
       tslib: 2.6.3
 
   nice-napi@1.0.2:

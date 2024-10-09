@@ -1,14 +1,54 @@
-<div class="container-fluid ">
-    <form class="card">
-        <div class="form-group my-3 mx-3">
-          <label for="orden">Orden</label>
-          <input type="text" class="form-control" id="orden" name="orden" placeholder="Ingrese su número de orden" [(ngModel)]="orden">
-        </div>
-        <div class="form-group my-3 mx-3">
-            <label for="paciente">Paciente</label>
-            <input type="text" class="form-control" id="paciente" name="paciente" placeholder="Ingrese su número de paciente" [(ngModel)]="paciente">
-          </div>
-        <button type="submit" class="btn btn-primary mt-3" (click)="validar()">Consultar</button>
-      </form>
+<div class="container-fluid">
+  <form class="card">
+    <div class="form-group my-3 mx-3">
+      <label for="orden">Orden</label>
+      <input
+        type="text"
+        class="form-control"
+        id="orden"
+        name="orden"
+        placeholder="Ingrese su número de orden"
+        [(ngModel)]="orden"
+      />
+    </div>
+    <div class="form-group my-3 mx-3">
+      <label for="paciente">Paciente</label>
+      <input
+        type="text"
+        class="form-control"
+        id="paciente"
+        name="paciente"
+        placeholder="Ingrese su número de paciente"
+        [(ngModel)]="paciente"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3" (click)="validar()">
+      Consultar
+    </button>
+  </form>
 </div>
 
+<div class="scanner-container">
+  <div style="width: 300px; height: 300px; position: relative">
+    <ngx-scanner-qrcode
+      #action="scanner"
+      (event)="obtener($event)"
+    ></ngx-scanner-qrcode>
+    @if (action.isLoading) {
+    <p>⌛ Cargando...</p>
+    }
+
+    <div style="display: flex; justify-content: center; justify-self: center">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="action.isStart ? action.stop() : action.start()"
+      >
+        @if (!action.isStart) {
+        <i class="bi bi-qr-code-scan"></i>
+        }
+        {{ action.isStart ? "Apagar" : "Usar scanner" }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,71 +1,80 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-buscar-por-orden-ypaciente',
   templateUrl: './buscar-por-orden-ypaciente.component.html',
-  styleUrls: ['./buscar-por-orden-ypaciente.component.css']
+  styleUrls: ['./buscar-por-orden-ypaciente.component.css'],
 })
 export class BuscarPorOrdenYPacienteComponent {
+  @ViewChild('action') action: any;
 
   orden: string;
   paciente: string;
 
-  constructor(
-    private service: OrdenVentaService,
-    private router: Router
-  ){  
-    this.orden = "";
-    this.paciente = "";
+  constructor(private service: OrdenVentaService, private router: Router) {
+    this.orden = '';
+    this.paciente = '';
   }
 
-  validar(): void{
-    if(!this.datosValidos()){
-      Swal.fire("Error", "Verifique los datos","error");
+  obtener(event: any) {
+    this.action.stop();
+    console.log(event[0].value);
+    window.open(event[0].value, 'blank');
+  }
+
+  validar(): void {
+    if (!this.datosValidos()) {
+      Swal.fire('Error', 'Verifique los datos', 'error');
       this.limpiar();
       return;
     }
-    this.service.verSiExisteOrdenPorIdYPaciente(+this.orden,+this.paciente).subscribe(valido =>{
-      console.log(valido);
-      if(valido){
-        this.router.navigate([`/resultados/orden/${this.orden}/${this.paciente}`]);
-      }
-      else{
-        Swal.fire("Error", "No se han encontrado los resultados", "error");
-        this.limpiar();
-      }
-    }, error =>{
-      Swal.fire("Error", "No se han encontrado los resultados", "error");
-      this.limpiar();
-    });
+    this.service
+      .verSiExisteOrdenPorIdYPaciente(+this.orden, +this.paciente)
+      .subscribe(
+        (valido) => {
+          console.log(valido);
+          if (valido) {
+            this.router.navigate([
+              `/resultados/orden/${this.orden}/${this.paciente}`,
+            ]);
+          } else {
+            Swal.fire('Error', 'No se han encontrado los resultados', 'error');
+            this.limpiar();
+          }
+        },
+        (error) => {
+          Swal.fire('Error', 'No se han encontrado los resultados', 'error');
+          this.limpiar();
+        }
+      );
   }
 
-  private datosValidos(): boolean{
+  private datosValidos(): boolean {
     console.log(this.orden, this.paciente);
-    if(!this.orden){
+    if (!this.orden) {
       return false;
     }
-    if(!this.paciente){
+    if (!this.paciente) {
       return false;
     }
-    if(this.noEsNumero(this.orden)){
+    if (this.noEsNumero(this.orden)) {
       return false;
     }
-    if(this.noEsNumero(this.paciente)){
+    if (this.noEsNumero(this.paciente)) {
       return false;
     }
     return true;
   }
 
-  private noEsNumero(cadena: string): boolean{
+  private noEsNumero(cadena: string): boolean {
     return !cadena.match(/^[0-9]+$/);
   }
 
-  private limpiar(): void{
-    this.orden = "";
-    this.paciente = "";
+  private limpiar(): void {
+    this.orden = '';
+    this.paciente = '';
   }
 }

@@ -38,6 +38,7 @@
     "jquery": "^3.6.0",
     "ngx-extended-pdf-viewer": "21.0.0-alpha.11",
     "ngx-quill": "^25.3.2",
+    "ngx-scanner-qrcode": "^1.6.9",
     "popper.js": "^1.16.1",
     "quill": "^2.0.0",
     "rxjs": "~7.5.0",
