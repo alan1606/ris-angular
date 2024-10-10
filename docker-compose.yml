@@ -1,28 +1,13 @@
+#El base href del index.html debe ser =/ris
+
 version: '3'
 
 services:
   web:
     image: nginx
+    container_name: risA
     ports:
     - "4200:80"
     volumes:
-    - ./dist/ris:/ris
-
-#configuracion del nginx dentro del docker
-# server {
-#     listen       80;
-#     listen  [::]:80;
-#     server_name  localhost;
-
-#     location / {
-#         root   /ris;
-#         index  index.html index.htm;
-#         try_files $uri /index.html =404;
-#         include /etc/nginx/mime.types;
-#     }
-
-#         types {
-#                 application/javascript js;
-#                 text/css css;
-#         }
-# }
+    - ./dist/ris:/usr/share/nginx/html
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf
