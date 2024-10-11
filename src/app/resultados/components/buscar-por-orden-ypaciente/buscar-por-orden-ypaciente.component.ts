@@ -1,5 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxScannerQrcodeComponent } from 'ngx-scanner-qrcode';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import Swal from 'sweetalert2';
 
@@ -8,8 +9,8 @@ import Swal from 'sweetalert2';
   templateUrl: './buscar-por-orden-ypaciente.component.html',
   styleUrls: ['./buscar-por-orden-ypaciente.component.css'],
 })
-export class BuscarPorOrdenYPacienteComponent {
-  @ViewChild('action') action: any;
+export class BuscarPorOrdenYPacienteComponent implements OnInit {
+  @ViewChild('action', { static: true }) action?: NgxScannerQrcodeComponent;
 
   orden: string;
   paciente: string;
@@ -17,6 +18,34 @@ export class BuscarPorOrdenYPacienteComponent {
   constructor(private service: OrdenVentaService, private router: Router) {
     this.orden = '';
     this.paciente = '';
+  }
+  ngOnInit(): void {
+    this.action?.start();
+
+    this.action?.devices.asObservable().subscribe(
+      (devices) => {
+        console.log('Dispositivos de cámara detectados:', devices);
+
+        if (devices && devices.length > 0) {
+          // Buscar la cámara trasera
+          const device =
+            devices.find((f) =>
+              /back|trás|rear|traseira|environment|ambiente/gi.test(f.label)
+            ) ?? devices.pop();
+
+          if (device) {
+            console.log('Cámara seleccionada:', device.label);
+            // Reproducir el dispositivo seleccionado
+            this.action?.playDevice(device.deviceId);
+          } else {
+            console.error('No se encontró ninguna cámara trasera.');
+          }
+        } else {
+          console.error('No se detectaron dispositivos de cámara.');
+        }
+      },
+      (error) => console.log(error)
+    );
   }
 
   obtener(event: any) {
