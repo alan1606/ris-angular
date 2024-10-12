@@ -22,14 +22,16 @@ import { AntecedentesEstudioModalComponent } from './venta-conceptos/antecedente
 import { EnviarEstudioDicomComponent } from './venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
 import { VentaConceptosComponent } from './venta-conceptos/venta-conceptos.component';
 import { WlPersonalComponent } from './wl-personal/wl-personal.component';
-
+import { SubirArchivoEstudioComponent } from './subir-archivo-estudio/subir-archivo-estudio.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
-  declarations: [    
+  declarations: [
     AntecedentesEstudioModalComponent,
     EnviarEstudioDicomComponent,
     VentaConceptosComponent,
-    WlPersonalComponent
+    WlPersonalComponent,
+    SubirArchivoEstudioComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ import { WlPersonalComponent } from './wl-personal/wl-personal.component';
     MatStepperModule,
     QRCodeModule,
     MatFormFieldModule,
-  ]
+    NgxExtendedPdfViewerModule,
+  ],
 })
-export class VentaConceptosModule { }
+export class VentaConceptosModule {}

@@ -16,6 +16,7 @@ import { AntecedentesEstudioModalComponent } from '../venta-conceptos/antecedent
 import { EnviarEstudioDicomComponent } from '../venta-conceptos/enviar-estudio-dicom/enviar-estudio-dicom.component';
 import { TurneroService } from 'src/app/turnero/services/turnero.service';
 import { switchMap } from 'rxjs';
+import { SubirArchivoEstudioComponent } from '../subir-archivo-estudio/subir-archivo-estudio.component';
 
 @Component({
   selector: 'app-wl-personal',
@@ -261,5 +262,12 @@ export class WlPersonalComponent
   public recargarDatos(): void {
     this.buscarModalidades();
     this.buscarWlPersonal();
+  }
+
+  subirArchivoEstudio(estudio): void {
+    this.dialog.open(SubirArchivoEstudioComponent, {
+      width: '1000px',
+      data: estudio,
+    });
   }
 }

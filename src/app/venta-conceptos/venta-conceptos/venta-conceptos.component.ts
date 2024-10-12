@@ -1,5 +1,12 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  Inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +28,8 @@ import { CommonListarComponent } from 'src/app/components/common-listar.componen
 import { BuscarEstudioModalComponent } from 'src/app/components/studies/buscar-estudio-modal/buscar-estudio-modal.component';
 import { EnviarEstudioModalComponent } from 'src/app/components/studies/enviar-estudio-modal/enviar-estudio-modal.component';
 import { InformacionEstudioModalComponent } from 'src/app/components/studies/informacion-estudio-modal/informacion-estudio-modal.component';
+import { SubirArchivoEstudioComponent } from '../subir-archivo-estudio/subir-archivo-estudio.component';
+import { MultimediaService } from 'src/app/services/multimedia.service';
 
 @Component({
   selector: 'app-venta-conceptos',
@@ -39,6 +48,8 @@ export class VentaConceptosComponent
   fechaFin = '';
   modalidades: string[] = [];
   estudiosOriginales: VentaConceptos[] = [];
+  private multimediaService = inject(MultimediaService);
+  public noDicomHayMultimedia = signal<boolean>(false);
 
   @ViewChild('modalidadSelect') modalidadSelect: MatSelect;
 
@@ -96,18 +107,20 @@ export class VentaConceptosComponent
     return paciente ? paciente.nombreCompleto : '';
   }
 
-  filtrarEstados(estudios:VentaConceptos[]):VentaConceptos[]{
+  filtrarEstados(estudios: VentaConceptos[]): VentaConceptos[] {
     enum Estados {
       CANCELADO = 'CANCELADO',
       DEVOLUCION = 'DEVOLUCIÓN',
     }
-    return estudios.filter((a) => a.estado !== Estados.CANCELADO && a.estado !== Estados.DEVOLUCION );
+    return estudios.filter(
+      (a) => a.estado !== Estados.CANCELADO && a.estado !== Estados.DEVOLUCION
+    );
   }
 
   buscarEstudiosDeHoy(): void {
     this.service.filtrarDiaDeHoy().subscribe(
       (estudios) => {
-        this.lista = this.filtrarEstados(estudios)
+        this.lista = this.filtrarEstados(estudios);
         this.estudiosOriginales = [...this.lista];
         this.seleccionarPrimeraModalidad();
       },
@@ -131,7 +144,7 @@ export class VentaConceptosComponent
       .filtrarRangoYArea(this.fechaInicio, this.fechaFin, area.id)
       .subscribe(
         (estudios) => {
-          this.lista = this.filtrarEstados(estudios)
+          this.lista = this.filtrarEstados(estudios);
           this.estudiosOriginales = [...this.lista];
           this.seleccionarPrimeraModalidad();
         },
@@ -158,7 +171,7 @@ export class VentaConceptosComponent
       .filtrarRangoYPaciente(this.fechaInicio, this.fechaFin, paciente.id)
       .subscribe(
         (estudios) => {
-          this.lista = this.filtrarEstados(estudios)
+          this.lista = this.filtrarEstados(estudios);
           this.estudiosOriginales = [...this.lista];
           this.seleccionarPrimeraModalidad();
         },
@@ -206,7 +219,7 @@ export class VentaConceptosComponent
       this.lista = [];
       this.service.filtrarRango(this.fechaInicio, this.fechaFin).subscribe(
         (estudios) => {
-          this.lista = this.filtrarEstados(estudios)
+          this.lista = this.filtrarEstados(estudios);
           this.estudiosOriginales = [...this.lista];
           this.seleccionarPrimeraModalidad();
         },
@@ -410,5 +423,12 @@ export class VentaConceptosComponent
     });
 
     modalRef.afterClosed().subscribe((info) => {});
+  }
+
+  subirArchivoEstudio(estudio): void {
+    this.dialog.open(SubirArchivoEstudioComponent, {
+      width: '1000px',
+      data: estudio,
+    });
   }
 }

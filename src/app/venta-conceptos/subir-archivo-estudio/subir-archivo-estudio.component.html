@@ -1,0 +1,57 @@
+<div style="min-height: 500px; position: relative; margin: 1%;">
+  <div>
+    <div *ngIf="archivoSelecto?.tipo == 'DOCUMENTO'">
+      <ngx-extended-pdf-viewer
+        [src]="filesPath + archivoSelecto.ruta"
+        [textLayer]="true"
+        [showHandToolButton]="true"
+        [height]="'500px'"
+      >
+      </ngx-extended-pdf-viewer>
+    </div>
+  </div>
+  <div>
+    @for (arc of m; track $index) { @if (arc.tipo==="DOCUMENTO") {
+    <div class="button-container" [ngStyle]="{'background-color': archivoSelecto?.id===arc?.id ? '#212529' : null }">
+      <button
+        type="button"
+        class="btn btn-dark btn-sm mx-4"
+        (click)="verPdf(arc)"
+      >
+        {{archivoSelecto?.id===arc.id? 'Cerrar':'Ver pdf'}}
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger btn-sm mx-4"
+        (click)="eliminar(arc)"
+      >
+        Eliminar
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary btn-sm mx-4"
+        (click)="expandir(arc)"
+      >
+        Expandir
+      </button>
+    </div>
+    <hr />
+    }}
+  </div>
+  <button
+    style="position: absolute; left: 3%; bottom: 2%"
+    mat-raised-button
+    color="primary"
+    (click)="triggerInput()"
+  >
+    <i class="bi bi-upload"></i> Subir archivo
+  </button>
+  <input
+    hidden
+    #hiddenInput
+    (change)="seleccionarPdf($event)"
+    type="file"
+    id="inputGroupFile01"
+  />
+</div>

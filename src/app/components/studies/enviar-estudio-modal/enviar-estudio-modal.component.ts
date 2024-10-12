@@ -6,12 +6,10 @@ import { MatSelect } from '@angular/material/select';
 import { flatMap, map } from 'rxjs';
 import { IMAGE_PATH } from 'src/app/config/app';
 import { Medico } from 'src/app/models/medico';
-import { Multimedia } from 'src/app/models/multimedia';
 import { Tecnico } from 'src/app/models/tecnico';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { AntecedenteEstudioService } from 'src/app/services/antecedente-estudio.service';
 import { MedicoService } from 'src/app/services/medico.service';
-import { MultimediaService } from 'src/app/services/multimedia.service';
 import { TecnicoService } from 'src/app/services/tecnico.service';
 import { VentaConceptosService } from 'src/app/services/venta-conceptos.service';
 import Swal from 'sweetalert2';
@@ -44,13 +42,10 @@ export class EnviarEstudioModalComponent implements OnInit {
 
   private contadorSiPulsado: number = 0;
 
-  private pdf: File;
-  private multimedia: Multimedia = new Multimedia();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public modalRef: MatDialogRef<EnviarEstudioModalComponent>,
     private antecedenteEstudioService: AntecedenteEstudioService,
-    private multimediaService: MultimediaService,
     private tecnicoService: TecnicoService,
     private medicoService: MedicoService,
     private ventaConceptosService: VentaConceptosService,
@@ -158,24 +153,6 @@ export class EnviarEstudioModalComponent implements OnInit {
       }
     );
   }
-
-  seleccionarPdf(event): void {
-    this.pdf = event.target.files[0];
-    console.info(this.pdf);
-    if (this.pdf.type.indexOf('pdf') < 0) {
-      Swal.fire('Error', 'Solamente puede seleccionar un archivo pdf', 'error');
-    }
-    else {
-      this.multimedia.ordenVenta = this.estudio.ordenVenta;
-
-      this.multimediaService.subirPdf(this.multimedia, this.pdf).subscribe(multimedia =>
-        Swal.fire('Subido', 'PDF subido exitosamente', 'success'),
-        e =>
-          Swal.fire('Error', 'No se pudo subir el PDF', 'error'),
-      );
-    }
-  }
-
 
   mostrarNombreTecnico(tecnico?: Tecnico): string {
     return tecnico ? `${tecnico.nombres} ${tecnico.apellidos}` : '';

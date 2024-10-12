@@ -1,20 +1,19 @@
-<h1 mat-dialog-title>Enviar {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
-<div mat-dialog-content>
-    <div class="card text-dark bg-light mb-3">
-        <div class="card-header">{{titulo}}</div>
+<div style="position: relative;">
+    <button class="btn btn-secondary" style="position: absolute; top: 1%; right: 3%; z-index: 100;" (click)="cancelar()">Volver</button>
+    <h1 mat-dialog-title>Enviar {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
+    <div mat-dialog-content>
+    <div class="card text-dark bg-light mb-1">
         <div class="card-body">
-        
-            <button class="btn btn-secondary my-2" (click)="cancelar()">Volver</button>
             <form>
-                <div class="form-group my-5">
+                <div class="form-group">
                     <label for="motivo">Motivo</label>
-                    <input type="text" name="motivo" id="motivo" class="form-control" readonly
+                    <input type="text" name="motivo" id="motivo" class="form-control" readonly disabled
                         placeholder={{estudio.ordenVenta.motivo}}
                     >
                 </div>
-                <div class="form-group my-3">
+                <div class="form-group my-1">
                     <label class="form-check-label" for="antecedentes">Antecedentes</label>
-                    <input type="text" name="antecedentes" id="antecedentes" class="form-control" readonly
+                    <input type="text" name="antecedentes" id="antecedentes" class="form-control" readonly disabled
                         placeholder={{antecedentesJuntos}}>
                 </div>
                 <div class="form-group my-3">
@@ -27,26 +26,19 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="form-group my-2" *ngIf="!estudio.concepto.dicom">
-                    <div class="input-group mb-3">
-
-                        <div class="custom-file">
-                            <input (change)="seleccionarPdf($event)" type="file" class="custom-file-input"
-                                id="inputGroupFile01">
-                            <label class="custom-file-label" for="inputGroupFile01">Seleccionar pdf</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group my-3">
-                    <img [src]="imagePath + estudio.ordenVenta.id" class="img-thumbnail rounded"
+                
+                <div class="form-group my-1">
+                    <img [src]="imagePath + estudio.ordenVenta.id" class="img-thumbnail rounded" alt=""
                         style="cursor: pointer;">
                 </div>
+
                 <app-buscador-medicos-referentes (medicoEnviado)="seleccionarMedicoReferente($event)" [medicoExiste]="estudio.ordenVenta.medicoReferente"></app-buscador-medicos-referentes>
                 @if (this.estudio.ordenVenta.medicoReferente.correo) {
                     <p>Correo del medico: {{ this.estudio.ordenVenta.medicoReferente.correo }}</p>
                 }
-                <div class="form-group my-3">
+                <div class="form-group my-1">
                     <mat-form-field>
+                        <mat-label>Técnico</mat-label>
                         <input matInput placeholder="Técnico" [formControl]="autocompleteControlTecnico"
                             [matAutocomplete]="autocompleteTecnico">
                         <mat-autocomplete #autocompleteTecnico="matAutocomplete" [displayWith]="mostrarNombreTecnico"
@@ -57,7 +49,7 @@
                         </mat-autocomplete>
                     </mat-form-field>
                 </div>
-                <div class="form-group my-3">
+                <div class="form-group my-1">
                     <label for="mensaje">Mensaje</label>
                     <textarea class="form-control" id="mensaje" name ="mensaje" rows="3" [value]="estudio.mensaje" (input)="estudio.mensaje= $event.target.value;"></textarea>
                   </div>
@@ -66,5 +58,6 @@
     </div>
     <div mat-dialog-actions>
         <button mat-raised-button color="primary" (click)="enviar()">Enviar</button>
+    </div>
     </div>
 </div>

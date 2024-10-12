@@ -207,6 +207,15 @@
                       <i class="bi bi-search"></i>
                     </button>
                   </ng-container>
+                  
+                </div>
+                <div class="info-item" *ngIf="!estudio.concepto.dicom">
+                  <ng-container >
+                    <strong>Subir archivo</strong>
+                      <button class="btn btn-dark btn-md" (click)="subirArchivoEstudio(estudio)">
+                        <i class="bi bi-upload"></i>
+                    </button>
+                  </ng-container>
                 </div>
                 <div class="info-item" *ngIf="estudio.iuid?.length > 0 || !estudio.concepto.dicom">
                   <strong>Interpretar:</strong>
