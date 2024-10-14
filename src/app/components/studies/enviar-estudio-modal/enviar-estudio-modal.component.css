@@ -1,7 +1,13 @@
-.medico-verificado{
-    background-color: greenyellow;
+.root {
+  background-color: rgb(34, 34, 34);
+  color: whitesmoke;
+  position: relative;
+}
+
+.medico-verificado {
+  background-color: greenyellow;
 }
 
 mat-form-field {
-    width: 100%;
-  }
+  width: 100%;
+}

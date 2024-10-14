@@ -30,6 +30,7 @@ export class SubirArchivoEstudioComponent implements OnInit {
         (data) => {
           if (data) {
             this.m = data;
+            console.log(this.m)
           }
         },
         (e) => {

@@ -1,5 +1,15 @@
-.button-container{
-    display: flex;
-    justify-content: center;
-    justify-self: center;
+.root {
+  background-color: rgb(34, 34, 34);
+}
+
+.container {
+  min-height: 500px;
+  position: relative;
+  margin: 1%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  justify-self: center;
 }

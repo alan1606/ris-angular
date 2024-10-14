@@ -56,7 +56,7 @@ export class EnviarEstudioModalComponent implements OnInit {
   ngOnInit(): void {
     this.estudio = this.data.estudio as VentaConceptos;
 
-
+    console.log("estudio", this.estudio)
     this.autocompleteControlTecnico.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombres + " " + valor.apellidos),
       flatMap(valor => valor ? this.tecnicoService.filtrarPorNombre(valor) : [])

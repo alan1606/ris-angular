@@ -1,8 +1,8 @@
-<div style="position: relative;">
+<div class="root">
     <button class="btn btn-secondary" style="position: absolute; top: 1%; right: 3%; z-index: 100;" (click)="cancelar()">Volver</button>
-    <h1 mat-dialog-title>Enviar {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
+    <h1 class="display-4" style="margin: 2%;">Enviar {{estudio.concepto.concepto}} de {{estudio.paciente.nombreCompleto}}</h1>
     <div mat-dialog-content>
-    <div class="card text-dark bg-light mb-1">
+    <div class="card text-light bg-dark mb-1">
         <div class="card-body">
             <form>
                 <div class="form-group">
@@ -16,7 +16,7 @@
                     <input type="text" name="antecedentes" id="antecedentes" class="form-control" readonly disabled
                         placeholder={{antecedentesJuntos}}>
                 </div>
-                <div class="form-group my-3">
+                <div class="form-group my-2">
                     <mat-form-field>
                         <mat-label>Médico radiólogo</mat-label>
                          <mat-select #medicoRadiologoSelect (selectionChange)="seleccionarMedicoRadiologo($event)">
@@ -28,7 +28,7 @@
                 </div>
                 
                 <div class="form-group my-1">
-                    <img [src]="imagePath + estudio.ordenVenta.id" class="img-thumbnail rounded" alt=""
+                    <img [src]="imagePath + estudio.ordenVenta.id" class="img-thumbnail rounded" alt="."
                         style="cursor: pointer;">
                 </div>
 
