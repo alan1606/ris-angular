@@ -30,22 +30,42 @@ export class VerPantallasComponent implements OnInit {
   public pasar: Pantalla[] = [];
   public indexes: number[] = [];
 
+  synth: SpeechSynthesis = window.speechSynthesis;
+  voices: SpeechSynthesisVoice[] = [];
+  utterance = new SpeechSynthesisUtterance();
+
+  constructor() {
+    this.synth.onvoiceschanged = () => {
+      this.voices = this.synth.getVoices();
+      console.log(this.voices); // Verificar las voces disponibles en la consola
+      if (this.voices.length > 0) {
+        if (this.voices[1]) {
+          this.utterance.voice = this.voices[1]; // Asignar la voz
+        } else {
+          console.warn('La voz en el índice no existe.');
+        }
+      } else {
+        console.error('No se encontraron voces disponibles.');
+      }
+    };
+  }
+
   ngOnInit(): void {
     Swal.fire({
       icon: 'info',
       html: `
       <audio autoplay style="display:none;">
-      <source src="../../../../assets/ponten4.mp3" type="audio/mpeg">
+      <source src="../../../../assets/popup.mp3" type="audio/mpeg">
       </audio>`,
       toast: true,
       position: 'bottom-right',
       showConfirmButton: false,
       showCancelButton: false,
-      width:'0px'
+      width: '0px',
     });
+
     let hoy = new Date().getDate();
     let fechaPantallas = parseInt(localStorage.getItem('fechaPantallas'));
-    console.log(hoy);
     if (!fechaPantallas) {
       localStorage.setItem('fechaPantallas', hoy.toString());
     }
@@ -143,7 +163,7 @@ export class VerPantallasComponent implements OnInit {
         icon: 'info',
         html: `
         <audio autoplay style="display:none;">
-        <source src="../../../../assets/ponten4.mp3" type="audio/mpeg">
+        <source src="../../../../assets/popup.mp3" type="audio/mpeg">
         </audio>`,
         toast: true,
         position: 'bottom-right',
@@ -151,6 +171,8 @@ export class VerPantallasComponent implements OnInit {
         showCancelButton: false,
         width: '0px',
       });
+      this.hablar(`Turno ${data.idToDisplay} favor de pasar por la puerta.`);
+      this.hablar(`Turno ${data.idToDisplay} favor de pasar por la puerta.`);
     }
   }
 
@@ -162,5 +184,10 @@ export class VerPantallasComponent implements OnInit {
     });
     localStorage.setItem('Turnos', JSON.stringify(this.waitingTurns));
     this.cdr.detectChanges();
+  }
+
+  private hablar(texto: string) {
+    this.utterance = new SpeechSynthesisUtterance(texto);
+    this.synth.speak(this.utterance);
   }
 }

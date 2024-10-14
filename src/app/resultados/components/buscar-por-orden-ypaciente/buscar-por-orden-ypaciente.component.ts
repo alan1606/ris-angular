@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxScannerQrcodeComponent } from 'ngx-scanner-qrcode';
+import { Subscription } from 'rxjs';
 import { OrdenVentaService } from 'src/app/services/orden-venta.service';
 import Swal from 'sweetalert2';
 
@@ -9,20 +10,22 @@ import Swal from 'sweetalert2';
   templateUrl: './buscar-por-orden-ypaciente.component.html',
   styleUrls: ['./buscar-por-orden-ypaciente.component.css'],
 })
-export class BuscarPorOrdenYPacienteComponent implements OnInit {
+export class BuscarPorOrdenYPacienteComponent implements OnInit, OnDestroy {
   @ViewChild('action', { static: true }) action?: NgxScannerQrcodeComponent;
 
   orden: string;
   paciente: string;
+  sub$: Subscription;
 
   constructor(private service: OrdenVentaService, private router: Router) {
     this.orden = '';
     this.paciente = '';
   }
+
   ngOnInit(): void {
     this.action?.start();
 
-    this.action?.devices.asObservable().subscribe(
+    this.sub$ = this.action?.devices.asObservable().subscribe(
       (devices) => {
         console.log('Dispositivos de cámara detectados:', devices);
 
@@ -105,5 +108,29 @@ export class BuscarPorOrdenYPacienteComponent implements OnInit {
   private limpiar(): void {
     this.orden = '';
     this.paciente = '';
+  }
+
+  stopAllCameras() {
+    const mediaStreams = navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        stream.getTracks().forEach((track) => {
+          if (track.enabled && track.kind === 'video') {
+            track.stop();
+          }
+        });
+      })
+      .catch((error) =>
+        console.error('Error al acceder a las cámaras:', error)
+      );
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub$) {
+      this.sub$.unsubscribe();
+    }
+
+    this.stopAllCameras();
+    console.log('Destruyendo scanner');
   }
 }
