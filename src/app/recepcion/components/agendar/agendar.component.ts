@@ -447,32 +447,51 @@ export class AgendarComponent implements OnInit {
   }
 
   agendar() {
-    console.log(this.paciente.fechaNacimiento);
+    console.log('Fecha de nacimiento: ', this.paciente.fechaNacimiento);
     if (this.isUrgencia) {
-      let [patientYear] = this.paciente.fechaNacimiento.split('-');
-      let actualYear: number = new Date().getFullYear();
-      let patientAge: number = actualYear - parseInt(patientYear);
-      if (patientAge >= 120) {
+      if (this.paciente.fechaNacimiento) {
+        let patientYear = '';
+        try {
+          let [p] = this.paciente.fechaNacimiento.split('-');
+          patientYear = p;
+        } catch (error) {
+          console.log("Error en el catch")
+          this.alertaService.info(
+            'No se puede comprobar la edad',
+            'Verifique la fecha de nacimiento del paciente'
+          );
+          return;
+        }
+        let actualYear: number = new Date().getFullYear();
+        let patientAge: number = actualYear - parseInt(patientYear);
+        if (patientAge >= 120) {
+          this.alertaService.info(
+            'Mayor de 120 años',
+            'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
+            false,
+            true,
+            'Volver'
+          );
+          return;
+        }
+        if (patientAge < 0) {
+          this.alertaService.info(
+            'Menor de 0 años',
+            'El paciente aun no nace no se pude proseguir',
+            false,
+            true,
+            'Volver'
+          );
+          return;
+        }
+      } else {
         this.alertaService.info(
-          'Mayor de 120 años',
-          'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
-          false,
-          true,
-          'Volver'
+          'El paciente no tiene fecha de nacimiento',
+          'Porfavor corriga la fecha de nacimiento del paciente'
         );
         return;
       }
-      if (patientAge < 0) {
-        this.alertaService.info(
-          'Menor de 0 años',
-          'El paciente aun no nace no se pude proseguir',
-          false,
-          true,
-          'Volver'
-        );
-        return;
-      }
-
+      
       if (this.institucion.nombre != 'PARTICULAR') {
         this.procesarVenta();
         return;
