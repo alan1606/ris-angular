@@ -20,7 +20,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./subir-foto-orden.component.css'],
 })
 export class SubirFotoOrdenComponent implements OnChanges, OnInit {
-  titulo: string;
 
   @Input()
   orden: OrdenVenta;
@@ -50,7 +49,6 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
       this.service.ver(idOrden).subscribe(
         (orden) => {
           this.orden = orden;
-          this.titulo = `Subir foto de orden de ${this.orden.paciente.nombreCompleto}`;
           this.cargarFotos();
         },
         (error) => console.log(error)
@@ -61,8 +59,6 @@ export class SubirFotoOrdenComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     // console.log("on init");
     // console.log(this.orden);
-    this.titulo = `Subir foto de orden de ${this.orden.paciente.nombreCompleto}`;
-    // console.log(this.titulo);
     this.cargarFotos();
   }
 

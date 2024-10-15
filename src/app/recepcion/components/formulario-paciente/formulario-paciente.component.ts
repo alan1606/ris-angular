@@ -96,30 +96,47 @@ export class FormularioPacienteComponent implements OnChanges {
     this.service.editar(this.model).subscribe(
       (concepto) => {
         console.log(concepto);
-        let [patientYear] = this.model.fechaNacimiento.split('-');
-        let actualYear: number = new Date().getFullYear();
-        let patientAge: number = actualYear - parseInt(patientYear);
-        console.log(patientAge);
-
-        if (patientAge >= 120) {
+        if (this.model.fechaNacimiento) {
+          let patientYear = '';
+          try {
+            let [p] = this.model.fechaNacimiento.split('-');
+            patientYear = p;
+          } catch (error) {
+            console.log("Error en el catch")
+            this.alertaService.info(
+              'No se puede comprobar la edad',
+              'Verifique la fecha de nacimiento del paciente'
+            );
+            return;
+          }
+          let actualYear: number = new Date().getFullYear();
+          let patientAge: number = actualYear - parseInt(patientYear);
+          if (patientAge >= 120) {
+            this.alertaService.info(
+              'Mayor de 120 años',
+              'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
+              false,
+              true,
+              'Volver'
+            );
+            return;
+          }
+          if (patientAge < 0) {
+            this.alertaService.info(
+              'Menor de 0 años',
+              'El paciente aun no nace no se pude proseguir',
+              false,
+              true,
+              'Volver'
+            );
+            return;
+          }
+        } else {
           this.alertaService.info(
-            'Mayor de 120 años',
-            'El paciente tiene mas de 120 años y puede provocar errores en los equipos',
-            false,
-            true,
-            'Volver'
+            'El paciente no tiene fecha de nacimiento',
+            'Porfavor corriga la fecha de nacimiento del paciente'
           );
-          return this.botonGuardarPresionado.emit(false);
-        }
-        if (patientAge < 0) {
-          this.alertaService.info(
-            'Menor de 0 años',
-            'El paciente aun no nace no se pude proseguir',
-            false,
-            true,
-            'Volver'
-          );
-          return this.botonGuardarPresionado.emit(false);
+          return;
         }
         return this.botonGuardarPresionado.emit(true);
       },
@@ -154,23 +171,23 @@ export class FormularioPacienteComponent implements OnChanges {
       );
     }
     if (!this.model.nombre) {
-      Swal.fire('Error', 'Verifique el nombre', 'error');
+      Swal.fire('Aviso', 'Verifique el nombre', 'info');
       return false;
     }
     if (!this.model.apellidoPaterno) {
-      Swal.fire('Error', 'Verifique el apellido paterno', 'error');
+      Swal.fire('Aviso', 'Verifique el apellido paterno', 'info');
       return false;
     }
     if (!this.model.apellidoMaterno) {
-      Swal.fire('Error', 'Verifique el apellido materno', 'error');
+      Swal.fire('Aviso', 'Verifique el apellido materno', 'info');
       return false;
     }
     if (!this.model.fechaNacimiento) {
-      Swal.fire('Error', 'Verifique la fecha de nacimiento', 'error');
+      Swal.fire('Aviso', 'Verifique la fecha de nacimiento', 'info');
       return false;
     }
     if (!this.model.sexo) {
-      Swal.fire('Error', 'Verifique el sexo', 'error');
+      Swal.fire('Aviso', 'Verifique el sexo', 'info');
       return false;
     }
     return true;
