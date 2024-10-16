@@ -1,4 +1,11 @@
-import { Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
@@ -15,11 +22,12 @@ export class SubirArchivoEstudioComponent implements OnInit {
   @ViewChild('hiddenInput') hiddenInput: any;
   private multimediaService = inject(MultimediaService);
   public filesPath = FILES_PATH;
-  private pdf: File;
+  private archivo: File;
   private multimedia: Multimedia = new Multimedia();
   public m: Multimedia[] = [];
   public modalRef = inject(MatDialogRef<SubirArchivoEstudioComponent>);
   public archivoSelecto: Multimedia = null;
+  public loading = signal<boolean>(false);
 
   constructor(@Inject(MAT_DIALOG_DATA) public estudio: VentaConceptos) {}
 
@@ -30,7 +38,7 @@ export class SubirArchivoEstudioComponent implements OnInit {
         (data) => {
           if (data) {
             this.m = data;
-            console.log(this.m)
+            console.log(this.m);
           }
         },
         (e) => {
@@ -40,21 +48,51 @@ export class SubirArchivoEstudioComponent implements OnInit {
       );
   }
 
-  public seleccionarPdf(event): void {
-    this.pdf = event.target.files[0];
-    console.info(this.pdf);
-    if (this.pdf.type.indexOf('pdf') < 0) {
-      Swal.fire('Error', 'Solamente puede seleccionar un archivo pdf', 'error');
-    } else {
-      this.multimedia.ordenVenta = this.estudio.ordenVenta;
-      this.multimediaService.subirPdf(this.multimedia, this.pdf).subscribe(
-        (data) => {
-          this.m.push(data);
-          Swal.fire('Subido', 'PDF subido exitosamente', 'success');
-        },
-        () => Swal.fire('Error', 'No se pudo subir el PDF', 'error')
-      );
+  public seleccionarArchivo(event: any): void {
+    if (event.target.files[0]) {
+      this.archivo = event.target.files[0];
+      console.info(this.archivo);
+      if (this.archivo.type === 'application/pdf') {
+        this.loading.set(true);
+        console.log('Esto es un pdf');
+        this.multimedia.ordenVenta = this.estudio.ordenVenta;
+        this.multimediaService
+          .subirPdf(this.multimedia, this.archivo)
+          .subscribe(
+            (data) => {
+              this.m.push(data);
+              this.loading.set(false);
+              Swal.fire('Subido', 'PDF subido exitosamente', 'success');
+            },
+            () => Swal.fire('Error', 'No se pudo subir el PDF', 'error')
+          );
+      }
+      // if (this.archivo.type === 'application/x-zip-compressed') {
+      // this.loading.set(true);
+      //   console.log('Esto es un zip');
+      //   let idOrdenVenta: number = this.estudio.ordenVenta.id;
+      //   console.log(this.archivo)
+      //   this.multimediaService.subirZip(idOrdenVenta, this.archivo).subscribe(
+      //     (data) => {
+      //       console.log(data);
+      //       this.loading.set(false);
+      //     },
+      //     (error) => {
+      //       console.log(error);
+      //     }
+      //   );
+      // }
+      else {
+        console.log('archivo extraño');
+        Swal.fire({
+          icon: 'info',
+          title: '¡¡¡Aviso!!!',
+          text: 'Solamente se pueden subir archivos pdf.',
+        });
+        return;
+      }
     }
+    return;
   }
   public eliminar(archivo: Multimedia) {
     Swal.fire({
@@ -90,10 +128,10 @@ export class SubirArchivoEstudioComponent implements OnInit {
   }
   public verPdf(archivo: Multimedia): void {
     console.log(archivo);
-    if(this.archivoSelecto?.id){
-      if(this.archivoSelecto.id===archivo.id){
+    if (this.archivoSelecto?.id) {
+      if (this.archivoSelecto.id === archivo.id) {
         this.archivoSelecto = null;
-        return
+        return;
       }
     }
     this.archivoSelecto = null;

@@ -1,6 +1,15 @@
 <div class="root">
   <div class="container">
-    <div>
+    <div style="text-align: center;">
+      @if(loading()){
+        <div class="loading-container">
+          <div class="spinner-container">
+            <div class="spinner"></div>
+          </div>
+          <p style=" color:whitesmoke">Subiendo archivo...</p>
+        </div>
+      }
+
       <div *ngIf="archivoSelecto?.tipo == 'DOCUMENTO'">
         <ngx-extended-pdf-viewer
           [src]="filesPath + archivoSelecto.ruta"
@@ -52,7 +61,7 @@
     <input
       hidden
       #hiddenInput
-      (change)="seleccionarPdf($event)"
+      (change)="seleccionarArchivo($event)"
       type="file"
       id="inputGroupFile01"
     />

@@ -2,6 +2,33 @@
   background-color: rgb(34, 34, 34);
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  z-index: 1010;
+}
+
+.spinner {
+  border: 8px solid rgba(0, 0, 0, 0.300);
+  border-top: 8px solid rgb(235, 235, 235); /* Color del spinner */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 .container {
   min-height: 500px;
   position: relative;
