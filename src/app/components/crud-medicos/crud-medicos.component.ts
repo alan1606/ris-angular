@@ -21,10 +21,11 @@ export class CrudMedicosComponent implements OnInit {
     private medicoService: MedicoService,
     private dialog: MatDialog
   ) {}
-  autoCompleteControlMedicoReferente = new UntypedFormControl('');
-  medico: Medico = null;
-  medicosFiltradosRadiologo: Medico[] = [];
-  medicosFiltradosReferente: Medico[] = [];
+  public autoCompleteControlMedicoReferente = new UntypedFormControl('');
+  public medico: Medico = null;
+  public medicosFiltradosRadiologo: Medico[] = [];
+  public medicosFiltradosReferente: Medico[] = [];
+  public verificado:boolean = true
 
   ngOnInit(): void {
 
@@ -82,5 +83,8 @@ export class CrudMedicosComponent implements OnInit {
 
     });
 
+  }
+  recibirDatosUsuario(event:any){
+    console.log(event)
   }
 }

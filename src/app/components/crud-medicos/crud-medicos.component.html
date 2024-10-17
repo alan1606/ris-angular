@@ -10,79 +10,97 @@
       </button>
   </div>
 
-  <div *ngIf="medico">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">NOMBRES</th>
-          <td>{{ medico.nombres }}</td>
-        </tr>
-        <tr>
-          <th scope="row">APELLIDOS</th>
-          <td>{{ medico.apellidos }}</td>
-        </tr>
-        <tr>
-          <th scope="row">ESPECIALIDAD</th>
-          <td>{{ medico.especialidad }}</td>
-        </tr>
-        <tr>
-          <th scope="row">TELEFONO</th>
-          <td>{{ medico.telefono }}</td>
-        </tr>
-        <tr>
-          <th scope="row">CORREO</th>
-          <td>{{ medico.correo }}</td>
-        </tr>
-        <tr>
-          <th scope="row">DIRECCION</th>
-          <td>{{ medico.direccion }}</td>
-        </tr>
-        <tr>
-          <th scope="row">FECHA NACIMIENTO</th>
-          <td>{{ medico.fechaNacimiento | date : "dd/MM/yyyy" }}</td>
-        </tr>
-        <tr>
-          <th scope="row">WHATSAPP</th>
-          <td>{{ medico.whatsapp }}</td>
-        </tr>
-        <tr>
-          <th scope="row">RADIOLOGO</th>
-          <td>{{ medico.radiologo == true ? "SI" : "NO" }}</td>
-        </tr>
+  <mat-tab-group animationDuration="1500ms">
+    <mat-tab label="Verificar medico">
+      <app-medico-referente-datos-form
+      *ngIf="verificado"
+      (datosUsuario)="recibirDatosUsuario($event)"
+      [model]="medico"
+    ></app-medico-referente-datos-form>
+    </mat-tab>
+    <mat-tab label="Medico expres">
+      <div>
+        <div *ngIf="medico">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">NOMBRES</th>
+                <td>{{ medico.nombres }}</td>
+              </tr>
+              <tr>
+                <th scope="row">APELLIDOS</th>
+                <td>{{ medico.apellidos }}</td>
+              </tr>
+              <tr>
+                <th scope="row">ESPECIALIDAD</th>
+                <td>{{ medico.especialidad }}</td>
+              </tr>
+              <tr>
+                <th scope="row">TELEFONO</th>
+                <td>{{ medico.telefono }}</td>
+              </tr>
+              <tr>
+                <th scope="row">CORREO</th>
+                <td>{{ medico.correo }}</td>
+              </tr>
+              <tr>
+                <th scope="row">DIRECCION</th>
+                <td>{{ medico.direccion }}</td>
+              </tr>
+              <tr>
+                <th scope="row">FECHA NACIMIENTO</th>
+                <td>{{ medico.fechaNacimiento | date : "dd/MM/yyyy" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">WHATSAPP</th>
+                <td>{{ medico.whatsapp }}</td>
+              </tr>
+              <tr>
+                <th scope="row">RADIOLOGO</th>
+                <td>{{ medico.radiologo == true ? "SI" : "NO" }}</td>
+              </tr>
+      
+              <tr>
+                <th scope="row">SEXO</th>
+                <td>{{ medico.sexo == 1 ? "FEMENINO" : "MASCULINO" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">CEDULA FEDERAL</th>
+                <td>{{ medico.cedulaFederal }}</td>
+              </tr>
+              <tr>
+                <th scope="row">CEDULA ESTATAL</th>
+                <td>{{ medico.cedulaEstatal }}</td>
+              </tr>
+              <tr>
+                <th scope="row">EMPRESA</th>
+                <td>{{ medico.empresa }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+        <div *ngIf="medico">
+          <button
+            class="btn btn-primary"
+            (click)="abrirModalFormularioEditarMedico(medico)"
+          >
+            <i class="bi bi-pencil-square"></i> Editar a
+            {{ medico.nombres + " " + medico.apellidos }}
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 
-        <tr>
-          <th scope="row">SEXO</th>
-          <td>{{ medico.sexo == 1 ? "FEMENINO" : "MASCULINO" }}</td>
-        </tr>
-        <tr>
-          <th scope="row">CEDULA FEDERAL</th>
-          <td>{{ medico.cedulaFederal }}</td>
-        </tr>
-        <tr>
-          <th scope="row">CEDULA ESTATAL</th>
-          <td>{{ medico.cedulaEstatal }}</td>
-        </tr>
-        <tr>
-          <th scope="row">EMPRESA</th>
-          <td>{{ medico.empresa }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
-  <div *ngIf="medico">
-    <button
-      class="btn btn-primary"
-      (click)="abrirModalFormularioEditarMedico(medico)"
-    >
-      <i class="bi bi-pencil-square"></i> Editar a
-      {{ medico.nombres + " " + medico.apellidos }}
-    </button>
-  </div>
-</div>
+
+
+
+  

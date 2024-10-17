@@ -37,5 +37,8 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatSelectModule,
   ],
+  exports:[
+    MedicoReferenteDatosFormComponent
+  ]
 })
 export class MedicosReferentesModule {}

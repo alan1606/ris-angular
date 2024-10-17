@@ -52,7 +52,8 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { QuillModule } from 'ngx-quill';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { VentaConceptosModule } from './venta-conceptos/venta-conceptos.module';
-
+import { MatTabsModule} from '@angular/material/tabs'
+import { MedicosReferentesModule } from './medicos-referentes/medicos-referentes.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -108,6 +109,8 @@ import { VentaConceptosModule } from './venta-conceptos/venta-conceptos.module';
     QRCodeModule,
     RecepcionModule,
     VentaConceptosModule,
+    MatTabsModule,
+    MedicosReferentesModule,
     QuillModule.forRoot(),
   ],
   providers: [
