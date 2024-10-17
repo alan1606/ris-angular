@@ -10,24 +10,24 @@ import { TurneroSocketService } from 'src/app/turnero/services/turnero-socket.se
 import { DicomRoom } from '../../models/DicomRoom';
 import { PantallasService } from '../../services/pantallas.service';
 import { Pantalla } from '../../models/Pantalla';
-import { AlertaService } from 'src/app/shared/services/alerta.service';
-import Swal from 'sweetalert2';
+import { Pasar } from '../../models/Pasar';
+import { Turno } from '../../models/Turno';
 
 @Component({
   selector: 'app-ver-pantallas',
   templateUrl: './ver-pantallas.component.html',
   styleUrl: './ver-pantallas.component.css',
 })
+
 export class VerPantallasComponent implements OnInit {
   private pantallasService = inject(PantallasService);
   private turneroSocketService = inject(TurneroSocketService);
-  private alertaService = inject(AlertaService);
   private cdr = inject(ChangeDetectorRef);
   public subscriptions = signal<TurneroSubscription[]>([]);
   public estudios: any[] = [];
   public salas: DicomRoom[] = [];
   public waitingTurns: Pantalla[] = [];
-  public pasar: Pantalla[] = [];
+  public pasar: Pasar[] = [];
   public indexes: number[] = [];
 
   synth: SpeechSynthesis = window.speechSynthesis;
@@ -37,10 +37,10 @@ export class VerPantallasComponent implements OnInit {
   constructor() {
     this.synth.onvoiceschanged = () => {
       this.voices = this.synth.getVoices();
-      console.log(this.voices); // Verificar las voces disponibles en la consola
+      console.log(this.voices);
       if (this.voices.length > 0) {
-        if (this.voices[1]) {
-          this.utterance.voice = this.voices[1]; // Asignar la voz
+        if (this.voices[0]) {
+          this.utterance.voice = this.voices[0];
         } else {
           console.warn('La voz en el índice no existe.');
         }
@@ -51,23 +51,10 @@ export class VerPantallasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    Swal.fire({
-      icon: 'info',
-      html: `
-      <audio autoplay style="display:none;">
-      <source src="../../../../assets/popup.mp3" type="audio/mpeg">
-      </audio>`,
-      toast: true,
-      position: 'bottom-right',
-      showConfirmButton: false,
-      showCancelButton: false,
-      width: '0px',
-    });
-
     let hoy = new Date().getDate();
     let fechaPantallas = parseInt(localStorage.getItem('fechaPantallas'));
     if (!fechaPantallas) {
-      localStorage.setItem('fechaPantallas', hoy.toString());
+      localStorage.setItem('fechaPantallas: ', hoy.toString());
     }
     if (fechaPantallas) {
       console.log(
@@ -77,7 +64,7 @@ export class VerPantallasComponent implements OnInit {
         localStorage.removeItem('Turnos');
         localStorage.removeItem('Pasar');
         localStorage.setItem('fechaPantallas', hoy.toString());
-        console.log('elimino todo');
+        console.log('Eliminando el localstorage');
       }
     }
 
@@ -85,7 +72,7 @@ export class VerPantallasComponent implements OnInit {
       (data) => {
         this.salas = data;
         this.waitingTurns = this.salas as Pantalla[];
-        this.pasar = this.salas as Pantalla[];
+        this.pasar = this.salas as Pasar[];
         const turnosGuardados = localStorage.getItem('Turnos');
         const pasarGuardados = localStorage.getItem('Pasar');
 
@@ -94,12 +81,11 @@ export class VerPantallasComponent implements OnInit {
           console.log(this.waitingTurns);
         }
         if (pasarGuardados) {
-          this.pasar = JSON.parse(pasarGuardados) as Pantalla[];
+          this.pasar = JSON.parse(pasarGuardados) as Pasar[];
         }
       },
       (error) => console.log(error)
     );
-
     this.studyTakenListener();
   }
 
@@ -109,11 +95,10 @@ export class VerPantallasComponent implements OnInit {
         console.log('Data en el evento de pantallas', data);
         if (data?.idToDisplay && !data.arrivedTime) {
           console.log('entro el if pasar');
-          this.showTurnToPass(data);
           this.deletePassingStudies(data);
+          this.showTurnToPass(data);
           return;
         }
-
         console.log('entro hacia turnos');
         this.addTurn(data);
         return;
@@ -129,10 +114,10 @@ export class VerPantallasComponent implements OnInit {
     });
   }
 
-  public eliminarPasarManual(turno: any): void {
-    this.pasar.forEach((t) => {
-      if (Array.isArray(t.turnos)) {
-        t.turnos = t.turnos.filter((l) => l.idToDisplay !== turno.idToDisplay);
+  public eliminarPasarManual(turno: Turno): void {
+    this.pasar.forEach((p) => {
+      if (p?.turno?.idToDisplay === turno.idToDisplay) {
+        p.turno = null;
       }
     });
   }
@@ -154,24 +139,11 @@ export class VerPantallasComponent implements OnInit {
   private showTurnToPass(data: any): void {
     let pasarPantalla = this.pasar.find((sala) => sala.id === data.dicomRoomId);
     if (pasarPantalla) {
-      if (!pasarPantalla.turnos) {
-        pasarPantalla.turnos = [];
+      if (!pasarPantalla.turno) {
+        pasarPantalla.turno = null;
       }
-      pasarPantalla.turnos[0] = data;
+      pasarPantalla.turno = data;
       localStorage.setItem('Pasar', JSON.stringify(this.pasar));
-      Swal.fire({
-        icon: 'info',
-        html: `
-        <audio autoplay style="display:none;">
-        <source src="../../../../assets/popup.mp3" type="audio/mpeg">
-        </audio>`,
-        toast: true,
-        position: 'bottom-right',
-        showConfirmButton: false,
-        showCancelButton: false,
-        width: '0px',
-      });
-      this.hablar(`Turno ${data.idToDisplay} favor de pasar por la puerta.`);
       this.hablar(`Turno ${data.idToDisplay} favor de pasar por la puerta.`);
     }
   }
