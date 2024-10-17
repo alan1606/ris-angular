@@ -37,12 +37,13 @@ export class MultimediaService extends CommonService<Multimedia> {
     );
   }
 
-  public subirZip(idOrdenVenta: number, archivo: File): Observable<any> {
+  public subirZip(idOrdenVenta: number, zip: File): Observable<any> {
     const formData = new FormData();
-    formData.append('documento', archivo);
-    return this.http.post<any>(
-      `${this.baseEndpoint}/documento/orden-venta/${idOrdenVenta}`,
-      formData
+    formData.append('documento', zip);
+    return this.http.post<string>(
+      `${this.baseEndpoint}/zip/orden-venta/${idOrdenVenta}`,
+      formData,
+      { responseType: 'text' as 'json' }
     );
   }
 

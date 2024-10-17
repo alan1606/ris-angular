@@ -1,16 +1,15 @@
 <div class="root">
   <div class="container">
-    <div style="text-align: center;">
+    <div style="text-align: center">
       @if(loading()){
-        <div class="loading-container">
-          <div class="spinner-container">
-            <div class="spinner"></div>
-          </div>
-          <p style=" color:whitesmoke">Subiendo archivo...</p>
+      <div class="loading-container">
+        <div class="spinner-container">
+          <div class="spinner"></div>
         </div>
-      }
-
-      <div *ngIf="archivoSelecto?.tipo == 'DOCUMENTO'">
+        <p style="color: whitesmoke">Subiendo archivo...</p>
+      </div>
+      } @if (archivoSelecto?.tipo ==='DOCUMENTO') {
+      <div>
         <ngx-extended-pdf-viewer
           [src]="filesPath + archivoSelecto.ruta"
           [textLayer]="true"
@@ -20,35 +19,59 @@
         >
         </ngx-extended-pdf-viewer>
       </div>
+      }
     </div>
     <div>
       @for (arc of m; track $index) { @if (arc.tipo==="DOCUMENTO") {
-      <div class="button-container" [ngStyle]="{'background-color': archivoSelecto?.id===arc?.id ? '#212529' : null }">
-        <button
-          type="button"
-          class="btn btn-light btn-sm mx-4"
-          (click)="verPdf(arc)"
-        >
-          {{archivoSelecto?.id===arc.id? 'Cerrar':'Ver pdf'}}
+      <div
+        class="button-container"
+        [ngStyle]="{
+          'background-color': archivoSelecto?.id === arc?.id ? '#212529' : null
+        }"
+      >
+        <button type="button" class="btn btn-light mx-4" (click)="verPdf(arc)">
+          {{ archivoSelecto?.id === arc.id ? "Cerrar" : "Ver pdf" }}
         </button>
         <button
           type="button"
-          class="btn btn-danger btn-sm mx-4"
+          class="btn btn-danger mx-4"
           (click)="eliminar(arc)"
         >
           Eliminar
         </button>
-  
+
         <button
           type="button"
-          class="btn btn-primary btn-sm mx-4"
+          class="btn btn-primary mx-4"
           (click)="expandir(arc)"
         >
           Expandir
         </button>
       </div>
       <hr />
-      }}
+      } @if (arc.tipo==='ZIP') {
+      <div
+        class="button-container"
+        [ngStyle]="{
+          'background-color': archivoSelecto?.id === arc?.id ? '#212529' : null
+        }"
+      >
+        <button
+          type="button"
+          class="btn btn-light mx-4"
+          (click)="descargarZip(arc)"
+        >
+          Descargar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger mx-4"
+          (click)="eliminar(arc)"
+        >
+          Eliminar
+        </button>
+      </div>
+      } }
     </div>
     <button
       style="position: absolute; left: 3%; bottom: 2%"
@@ -65,5 +88,5 @@
       type="file"
       id="inputGroupFile01"
     />
-  </div>  
+  </div>
 </div>

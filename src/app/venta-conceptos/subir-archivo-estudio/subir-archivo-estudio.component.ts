@@ -11,6 +11,7 @@ import { FILES_PATH } from 'src/app/config/app';
 import { Multimedia } from 'src/app/models/multimedia';
 import { VentaConceptos } from 'src/app/models/venta-conceptos';
 import { MultimediaService } from 'src/app/services/multimedia.service';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -29,9 +30,16 @@ export class SubirArchivoEstudioComponent implements OnInit {
   public archivoSelecto: Multimedia = null;
   public loading = signal<boolean>(false);
 
-  constructor(@Inject(MAT_DIALOG_DATA) public estudio: VentaConceptos) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public estudio: VentaConceptos,
+    private alertaService: AlertaService
+  ) {}
 
   ngOnInit(): void {
+    this.buscarMultimedia();
+  }
+
+  private buscarMultimedia(): void {
     this.multimediaService
       .buscarPorOrdenVentaId(this.estudio.ordenVenta.id)
       .subscribe(
@@ -49,7 +57,7 @@ export class SubirArchivoEstudioComponent implements OnInit {
   }
 
   public seleccionarArchivo(event: any): void {
-    if (event.target.files[0]) {
+    if (event.target.files && event.target.files.length > 0) {
       this.archivo = event.target.files[0];
       console.info(this.archivo);
       if (this.archivo.type === 'application/pdf') {
@@ -64,25 +72,32 @@ export class SubirArchivoEstudioComponent implements OnInit {
               this.loading.set(false);
               Swal.fire('Subido', 'PDF subido exitosamente', 'success');
             },
-            () => Swal.fire('Error', 'No se pudo subir el PDF', 'error')
+            () => Swal.fire('Error', 'No se pudo subir el PDF', 'info')
           );
       }
-      // if (this.archivo.type === 'application/x-zip-compressed') {
-      // this.loading.set(true);
-      //   console.log('Esto es un zip');
-      //   let idOrdenVenta: number = this.estudio.ordenVenta.id;
-      //   console.log(this.archivo)
-      //   this.multimediaService.subirZip(idOrdenVenta, this.archivo).subscribe(
-      //     (data) => {
-      //       console.log(data);
-      //       this.loading.set(false);
-      //     },
-      //     (error) => {
-      //       console.log(error);
-      //     }
-      //   );
-      // }
-      else {
+      if (
+        this.archivo.type === 'application/x-zip-compressed' ||
+        this.archivo.type === 'application/zip'
+      ) {
+        console.log('Esto es un zip');
+        this.loading.set(true);
+        let idOrdenVenta: number = this.estudio.ordenVenta.id;
+        this.multimediaService.subirZip(idOrdenVenta, this.archivo).subscribe(
+          (data) => {
+            console.log(data);
+            this.buscarMultimedia();
+            this.loading.set(false);
+          },
+          (error) => {
+            console.log(error);
+            this.alertaService.info(
+              'A ocurrido un problema',
+              'No se ha podido subir el archivo'
+            );
+            this.loading.set(false);
+          }
+        );
+      } else {
         console.log('archivo extraño');
         Swal.fire({
           icon: 'info',
@@ -116,14 +131,18 @@ export class SubirArchivoEstudioComponent implements OnInit {
     });
   }
 
-  public expandir(archivo: Multimedia) {
+  public expandir(archivo: Multimedia): void {
     this.multimediaService.verDocumento(archivo).subscribe((res) => {
       const fileURL = URL.createObjectURL(res);
       window.open(fileURL, '_blank');
     });
   }
 
-  public triggerInput() {
+  public descargarZip(archivo: Multimedia): void {
+    window.open(this.filesPath + archivo.ruta, 'blank');
+  }
+
+  public triggerInput(): void {
     this.hiddenInput.nativeElement.click();
   }
   public verPdf(archivo: Multimedia): void {
