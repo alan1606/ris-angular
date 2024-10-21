@@ -1,24 +1,23 @@
-<div class="ms-5 mt-3 me-5">
+<div class="ms-1 mt-3 me-1">
   <div>
-      <app-buscador-medicos-referentes
+    <app-buscador-medicos-referentes
       [etiqueta]="'Buscar medico referente por nombre'"
-        [mostrarNuevoMedicoInput]="false"
-        (medicoEnviado)="seleccionarMedico($event)"
-      ></app-buscador-medicos-referentes>
-      <button (click)="abrirModalFormularioMedico()" class="btn btn-success">
-        Nuevo medico <i class="bi bi-person-plus-fill"></i>
-      </button>
+      [mostrarNuevoMedicoInput]="false"
+      (medicoEnviado)="seleccionarMedico($event)"
+    ></app-buscador-medicos-referentes>
+    <button (click)="abrirModalFormularioMedico()" class="btn btn-success">
+      Nuevo médico <i class="bi bi-person-plus-fill"></i>
+    </button>
   </div>
 
-  <mat-tab-group animationDuration="1500ms">
+  <mat-tab-group #tabGroup animationDuration="1500ms">
     <mat-tab label="Verificar medico">
       <app-medico-referente-datos-form
-      *ngIf="verificado"
-      (datosUsuario)="recibirDatosUsuario($event)"
-      [model]="medico"
-    ></app-medico-referente-datos-form>
+        *ngIf="verificado"
+        (datosUsuario)="recibirDatosUsuario($event)"
+      ></app-medico-referente-datos-form>
     </mat-tab>
-    <mat-tab label="Medico expres">
+    <mat-tab label="Ver datos">
       <div>
         <div *ngIf="medico">
           <table class="table table-striped">
@@ -65,7 +64,7 @@
                 <th scope="row">RADIOLOGO</th>
                 <td>{{ medico.radiologo == true ? "SI" : "NO" }}</td>
               </tr>
-      
+
               <tr>
                 <th scope="row">SEXO</th>
                 <td>{{ medico.sexo == 1 ? "FEMENINO" : "MASCULINO" }}</td>
@@ -85,10 +84,18 @@
             </tbody>
           </table>
         </div>
-      
+
+        @if (!medico?.id) {
+        <div class="text-center">
+          <p class="display-3">
+            Busque y seleccione un médico para ver sus datos.
+          </p>
+        </div>
+        }
+
         <div *ngIf="medico">
           <button
-            class="btn btn-primary"
+            class="btn btn-primary m-5"
             (click)="abrirModalFormularioEditarMedico(medico)"
           >
             <i class="bi bi-pencil-square"></i> Editar a
@@ -98,9 +105,4 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-
-
-
-
-
-  
+</div>

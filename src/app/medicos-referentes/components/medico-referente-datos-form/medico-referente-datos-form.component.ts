@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Medico } from 'src/app/models/medico';
@@ -26,7 +25,6 @@ export class MedicoReferenteDatosFormComponent implements OnInit {
   constructor(
     private medicoService: MedicoService,
     private fechaService: FechaService,
-    private pipe: DatePipe
   ) {
     this.medico = new Medico();
   }
@@ -56,7 +54,6 @@ export class MedicoReferenteDatosFormComponent implements OnInit {
       this.medicoService
         .filtrarReferentesPorWhatsapp(this.whatsapp)
         .subscribe((medico) => {
-          //Asignar el médico
           this.medico = medico;
           if (this.medico?.sexo) {
             this.sexo = this.medico.sexo == 1 ? 'FEMENINO' : 'MASCULINO';
@@ -70,7 +67,7 @@ export class MedicoReferenteDatosFormComponent implements OnInit {
     }
   }
 
-  registrar() {
+  public registrar() {
     if (!this.datosValidos()) {
       return;
     }
@@ -98,13 +95,13 @@ export class MedicoReferenteDatosFormComponent implements OnInit {
     return true;
   }
 
-  seleccionarFecha(): void {
+  public seleccionarFecha(): void {
     const fechaValor = new Date(this.fechaNacimientoControl.value);
     this.medico.fechaNacimiento = this.fechaService.formatearFecha(fechaValor);
     this.medico.fechaNacimiento += 'T00:00:00';
   }
 
-  seleccionarSexo(): void {
+  public seleccionarSexo(): void {
     this.medico.sexo = this.sexo == 'MASCULINO' ? 2 : 1;
   }
 }

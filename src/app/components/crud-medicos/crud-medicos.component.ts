@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -10,6 +10,7 @@ import {
 import { Medico } from 'src/app/models/medico';
 import { MedicoService } from 'src/app/services/medico.service';
 import { FormularioMedicosComponent } from './formulario-medicos/formulario-medicos.component';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-crud-medicos',
@@ -26,6 +27,7 @@ export class CrudMedicosComponent implements OnInit {
   public medicosFiltradosRadiologo: Medico[] = [];
   public medicosFiltradosReferente: Medico[] = [];
   public verificado:boolean = true
+  @ViewChild('tabGroup') tabGroup: MatTabGroup;
 
   ngOnInit(): void {
 
@@ -50,12 +52,18 @@ export class CrudMedicosComponent implements OnInit {
       });
   }
 
+
+  cambiarTab(index: number) {
+    this.tabGroup.selectedIndex = index;
+  }
+
   mostrarNombreMedico(medico: Medico): string {
     return medico && medico.nombres ? medico.nombres : '';
   }
 
   seleccionarMedico(event: Medico): void {
     this.medico = event;
+    this.cambiarTab(1)
   }
 
   abrirModalFormularioMedico() {
